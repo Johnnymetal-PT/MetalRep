@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherited" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.pg.jasmin.intergation</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='storno']" position="after">
+                <block title="Credenciais ERP" id="jas_credentials">
+                    <setting id="jas_credencials_settings" help="Credenciais ERP" title="credenciais para sincronização c/ ERP.">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="jas_company" string="Empresa" class="col-lg-4" />
+                                <field name="jas_company" />
+                            </div>
+                            <div class="row mt16">
+                                <label for="jas_username" string="Utilizador" class="col-lg-4" />
+                                <field name="jas_username" />
+                            </div>
+                            <div class="row mt16">
+                                <label for="jas_password" string="Password" class="col-lg-4" />
+                                <field name="jas_password"  password="True"/>
+                            </div>
+                            <div class="row mt16">
+                                <label for="jas_tenant_key" string="Chave (xxxxxx)" class="col-lg-4" />
+                                <field name="jas_tenant_key"/>
+                            </div>
+                            <div class="row mt16">
+                                <label for="jas_org_key" string="Chave organização (xxxxxx-xxxx)" class="col-lg-4" />
+                                <field name="jas_org_key"/>
+                            </div>
+                            <div class="row mt16">
+                                <label for="jas_ft" string="Fatura" class="col-lg-4" />
+                                <field name="jas_ft"/>
+                            </div>
+                            <div class="row mt16">
+                                <label for="jas_fs" string="Fatura simplificada" class="col-lg-4" />
+                                <field name="jas_fs"/>
+                            </div>
+                            <div class="row mt16">
+                                <label for="jas_fr" string="Fatura/recibo" class="col-lg-4" />
+                                <field name="jas_fr"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="product_template_pages_maisondoree">
+        <t t-call="web.html_container">
+<t t-set="style">
+    <![CDATA[
+        <style type="text/css">
+        html, body, * {
+            font-family: "Satoshi Variable", sans-serif !important;
+        }
+
+        .optima-title {
+            font-family: "Optima", serif !important;
+        }
+
+            table.no-border-table,
+            table.no-border-table * {
+                border: none !important;
+                border-width: 0px !important;
+            }
+        </style>
+    ]]>
+</t>
+<t t-raw="style"/>
+            <t t-foreach="docs" t-as="product">
+                <!-- Full Page Wrapper -->
+                <div style="width: 100vw; height: 100vh; display: table; table-layout: fixed; page-break-after: always; border-style: none !important; border: 0px !important;">
+
+                    <!-- Left Side: Product Details -->
+                    <div style="display: table-cell; width: 50%; padding: 30px; vertical-align: top; box-sizing: border-box;">
+                        
+                        <!-- Product Name Styling -->
+                        <h2 class="optima-title" style="margin-bottom: 40px; margin-top: 20px; margin-left: 20px;">
+                            <t t-set="product_name" t-value="product.name or ''"/>
+                            <t t-set="name_words" t-value="product_name.split(' ', 1)"/>
+                            
+                            <!-- First word in bold, followed by a line break -->
+                            <t t-if="name_words">
+                                <span style="font-size: 40px; font-weight: bold; display: block; letter-spacing: 3px;">
+                                    <t t-esc="name_words[0]"/>
+                                </span>
+
+                                <!-- Rest of the name on the next line -->
+                                <t t-if="name_words or length > 1">
+                                    <span style="font-size: 28x; font-weight: lighter; display: block;">
+                                        <t t-esc="product_name[len(name_words[0]):].strip()"/>
+                                    </span>
+                                </t>
+                            </t>
+                        </h2>
+
+                        <!-- Product Image -->
+                        <img t-if="product.image_1920" 
+                             t-att-src="'data:image/png;base64,' + product.image_1920.decode('utf-8')"
+                             style="width:85%; height: auto;"/>
+
+                        <!-- Dimensions Styling -->
+                        <p style="font-size: 20px; margin-left:20px;">
+                            <strong>Dimensions: </strong> <t t-esc="product.x_studio_dimenses or 'N/A'"/><span> cm</span>
+                        </p>
+
+                        <!-- Additional Images -->
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <t t-foreach="product.product_template_image_ids" t-as="image">
+                                <img t-att-src="'data:image/png;base64,' + image.image_1920.decode('utf-8')"
+                                     style="height: auto; width:95%;"/>
+                            </t>
+                        </div>
+                     </div>
+                    <!-- Right Side: Pricing & Images -->
+                    <div style="display: table-cell; width: 50%; padding: 30px; vertical-align: top;text-align:right; border-collapse: collapse !important; border-style: none !important; border: 0px !important; margin-right: 20px;">
+                        
+                        <!-- Static Image -->
+                        <div style="text-align: right;">
+                            <img src="/web/image/12318"
+                                 style="max-width: 80%; height: auto; margin-bottom: 20px; margin-right:20px;"/>
+                        </div>
+
+<!-- Pricing Table (Dynamic Attributes with price_extra ≠ 0) -->
+<!-- Define attrs_raw once -->
+<t t-set="attrs_raw" t-value="env['product.template.attribute.value'].search([('product_tmpl_id','=',product.id), ('price_extra','!=',0)])"/>
+
+<!-- Build unique names list -->
+<t t-set="names" t-value="[]"/>
+<t t-foreach="attrs_raw" t-as="attr">
+    <t t-if="not names or attr.name not in names">
+        <t t-set="names" t-value="names + [attr.name]"/>
+    </t>
+</t>
+<table class="table no-border-table" style="width: 100%; margin-top: 60px; border-collapse: collapse; padding-right:20px;">
+    <tr>
+        <t t-if="product.x_studio_preo_com and product.x_studio_preo_com != 0">
+            <th style="padding: 10px; text-align: center;">COM</th>
+        </t>
+        <t t-foreach="names" t-as="name">
+            <th style="padding: 10px; text-align: center;">
+                <t t-esc="name"/>
+            </th>
+        </t>
+    </tr>
+    <tr>
+<!-- Conditionally show Maison Dorée COM price -->
+<t t-if="product.x_studio_preo_com and product.x_studio_preo_com != 0">
+    <t t-set="price_md_com" t-value="((product.x_studio_preo_com / 2.0) * 2.55) * 3.85"/>
+    <td style="padding: 10px; text-align: center; white-space: nowrap;">
+        <t t-esc="'{:,} SR'.format(int(price_md_com)).replace(',', ' ')"/>
+    </td>
+</t>
+
+<!-- Attribute prices for Maison Dorée -->
+<t t-foreach="names" t-as="name">
+    <t t-set="total_extra" t-value="sum([attr.price_extra for attr in attrs_raw if attr.name == name])"/>
+    <t t-set="final_price_md" t-value="(((product.list_price + total_extra) / 2) * 2.55) * 3.85"/>
+    <td style="padding: 10px; text-align: center; white-space: nowrap;">
+        <t t-esc="'{:,} SR'.format(int(final_price_md)).replace(',', ' ')"/>
+    </td>
+</t>
+
+    </tr>
+</table>
+
+
+<t t-if="product.x_studio_metragens_cm and product.x_studio_metragens_cm != 0">
+    <p style="margin-bottom: 20px; font-size: 20px; margin-top: 192px; margin-right:20px;">
+        <strong>Fabric Qty/Un: </strong>
+        <t t-esc="product.x_studio_metragens_cm"/>
+        <span> mts plain fabric with 140cm width</span>
+    </p>
+</t>
+<t t-else="">
+    <!-- Spacer to preserve layout if Fabric Qty/Un is not shown -->
+    <div style="margin-bottom: 55px; margin-top: 317px;"></div>
+</t>
+
+                        <!-- Volume Table (No Borders) -->
+                        <table class="table no-border-table" style="margin-top: 130px; width: 100%; border-collapse: collapse !important; border-style: none !important;  border: 0px !important; margin-right:20px;">
+                            <tr style=" border-collapse: collapse !important; border-style: none !important; border: 0px !important;">
+                                <td style="width: 25%; text-align: center; border-collapse: collapse !important; border-style: none !important; border: 0px !important;">
+                                    <img src="/web/image/11353"
+                                         style="max-width: 60px; height: auto; padding-top: 5px;"/>
+                                </td>
+                                <td style="width: 35%; text-align: center; font-size: 16px; border-collapse: collapse !important; border-style: none !important; border: 0px !important; margin-right:-10px;">
+                                    <strong>Nr. Vols: </strong> 
+                                    <span style="margin-top: 2px; border: 0px !important;">
+                                    <t t-esc="int(product.x_studio_volumes) if product.x_studio_volumes else 'N/A'"/>
+                                    </span>
+                                    <br/><br/>
+                                    <!-- Ensure volume fields are filtered & formatted -->
+                                    <t t-set="volume_fields" t-value="[ 
+                                        product.x_studio_volume or 0.00, 
+                                        product.x_studio_volume_1 or 0.00, 
+                                        product.x_studio_volume_2 or 0.00, 
+                                        product.x_studio_volume_3 or 0.00, 
+                                        product.x_studio_volume_4 or 0.00, 
+                                        product.x_studio_volume_5 or 0.00
+                                    ]"/>
+                                    <t t-esc="' / '.join(['{:.2f}'.format(float(v)) for v in volume_fields if v > 0]) or 'N/A'"/>
+                                </td>
+                                <td style="width: 20%; text-align: center; font-size: 16px; border-collapse: collapse !important; border-style: none !important; border: 0px !important;">
+                                    <strong>Total m³</strong><br/><br/>
+                                    <t t-set="cubicagem" t-value="product.x_studio_cubicagem or 0.00"/>
+                                    <t t-esc="'{:.2f}'.format(float(cubicagem)).replace('.', ',')"/>
+                                </td>
+                                <td style="width: 20%; text-align: center; font-size: 16px; border-collapse: collapse !important; border-style: none !important; border: 0px !important;">
+                                    <t t-set="total_ft3" t-value="(float(cubicagem) * 35.3147) if cubicagem > 0 else 0.00"/>
+                                    <t t-set="formatted_ft3" t-value="'{:.2f}'.format(float(total_ft3)).replace('.', ',')"/>
+                                    <strong>Total ft³</strong><br/><br/>
+                                    <t t-esc="formatted_ft3"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Disclaimer -->
+                        <p style="text-align: right; font-size: 14px; margin-top: 30px; margin-right:20px;">
+                            Custom sizes and materials are available under quote.<br/>
+                            Retail Prices. VAT excluded. Prices in SAR. Ex-Works, Riyadh, KSA.<br/>
+                            www.casamagna.eu
+                        </p>
+                    </div>
+
+                </div> <!-- END SINGLE PRODUCT PAGE -->
+            </t>
+        </t>
+    </template>
+</odoo>

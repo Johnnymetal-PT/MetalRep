@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
+        <!-- Insert after the Quantity column in the header -->
+        <xpath expr="//table/thead/tr[1]/th[3]" position="after">
+            <th class="text-end"><span>Número de Série</span></th>
+        </xpath>
+
+        <!-- Insert after the Quantity column in the table body -->
+        <xpath expr="//table//tbody//tr[1]//td[3]" position="after">
+            <td class="text-end">
+                <!-- Ensure serial_number exists before displaying -->
+                <span t-field="line.serial_number" t-if="line.serial_number"/>
+            </td>
+        </xpath>
+    </template>
+</odoo>

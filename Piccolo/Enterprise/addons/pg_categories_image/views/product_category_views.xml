@@ -1,0 +1,23 @@
+<!-- pg_categories_image/views/product_category_views.xml -->
+<odoo>
+    <!-- Define the view modification -->
+    <record id="view_product_category_form_images" model="ir.ui.view">
+        <field name="name">product.category.form.images</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <group>
+                    <div style="display: flex;">
+                        <div style="margin-right: 10px;">
+                            <field name="cat_image_1" widget="image" style="width: 100px !important;height: 100px !important;"/>
+                        </div>
+                        <div>
+                            <field name="cat_image_2" widget="image" style="width: 100px !important;height: 100px !important;"/>
+                        </div>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

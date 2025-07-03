@@ -1,0 +1,21 @@
+<odoo>
+  <record id="view_order_form_inherit_pg_mto" model="ir.ui.view">
+    <field name="name">sale.order.form.inherit.pg_mto</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//div[@name='button_box']" position="inside">
+        <button class="oe_stat_button" name="action_view_internal_transfers" type="object"
+                icon="fa-exchange" groups="stock.group_stock_user">
+          <div class="o_field_widget o_stat_info">
+            <span class="o_stat_value">
+              <field name="internal_transfer_ids" widget="statinfo" readonly="1"/>
+            </span>
+            <span class="o_stat_text">Transferências Internas</span>
+          </div>
+        </button>
+      </xpath>
+    </field>
+  </record>
+</odoo>
+

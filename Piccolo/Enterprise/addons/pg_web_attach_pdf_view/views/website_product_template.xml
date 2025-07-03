@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="product_accordion_template" inherit_id="website_sale.product">
+        <!-- Add the accordion structure before the product full description -->
+        <xpath expr="//div[@id='product_full_description']" position="before">
+            <div id="product_accordion" class="oe_website_sale container py-4" style="margin-bottom: 5%; width: 40%; margin-left: 10%;">
+                <!-- Accordion headers and contents -->
+                <div class="accordion" id="accordionExample">
+                    <!-- Custom Attributes -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCustomAttributes">
+                            <button class="accordion-button collapsed" type="button" data-target="#collapseCustomAttributes">
+                                Detalhes Técnicos
+                            </button>
+                        </h2>
+                        <div id="collapseCustomAttributes" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <table class="table table-bordered">
+                                    <!--<thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>-->
+                                    <tbody>
+                                        <t t-foreach="product.custom_attribute_ids" t-as="custom_attr">
+                                            <tr>
+                                                <td t-esc="custom_attr.name"/>
+                                                <td t-esc="custom_attr.description"/>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Documents -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingDocuments">
+                            <button class="accordion-button collapsed" type="button" data-target="#collapseDocuments">
+                                Documentos
+                            </button>
+                        </h2>
+                        <div id="collapseDocuments" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <t t-set="document_groups" t-value="product._get_document_groups()"/>
+                                <t t-if="document_groups">
+                                    <t t-foreach="document_groups.items()" t-as="group">
+                                        <t t-if="group[1]">
+                                            <div>
+                                                <h6 class="group-header" t-att-data-group="'group' + str(group[0].replace(' ', '_'))">
+                                                    <t t-esc="group[0]"/>
+                                                </h6>
+                                                <div t-att-id="'group' + str(group[0].replace(' ', '_'))" class="group-content">
+                                                    <t t-foreach="group[1]" t-as="attachment">
+                                                        <t t-set="att_desc" t-value="product._get_attachment_description(attachment.id)"/>
+                                                        <div class="attachment-item">
+<a t-att-href="'/web/content/' + str(attachment.id)" link="doc_parts" class="attachment-link" target="_blank" t-att-title="attachment.name + ' (click to open in a new tab)'">
+    <i class="fa fa-download"></i>
+    <t t-set="doc_parts" t-value="attachment.name.rpartition(' » ')"/>
+    <span class="hidden-partition" t-att-data-partition="attachment.name" style="display:none;"></span>
+    <span class="visible-name" t-esc="doc_parts[2]"/>
+</a>
+                                                        </div>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                                                                <!-- Product Attributes and Variants -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingAttributes">
+                            <button class="accordion-button collapsed" type="button" data-target="#collapseAttributes">
+                                Todas as Variantes do Produto
+                            </button>
+                        </h2>
+                        <div id="collapseAttributes" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <table class="table table-bordered">
+                                    <!--<thead>
+                                        <tr>
+                                            <th>Atributo</th>
+                                            <th>Variantes</th>
+                                        </tr>
+                                    </thead>-->
+                                    <tbody>
+                                        <t t-foreach="product.attribute_line_ids" t-as="line">
+                                            <tr>
+                                                <td t-esc="line.attribute_id.name"/>
+                                                <td>
+                                                    <t t-set="total" t-value="len(line.value_ids)"/>
+                                                    <t t-set="index" t-value="0"/>
+                                                    <t t-foreach="line.value_ids" t-as="value">
+                                                        <t t-esc="value.name"/>
+                                                        <t t-if="index + 1 &lt; total"> | </t>
+                                                        <t t-set="index" t-value="index + 1"/>
+                                                    </t>
+                                                </td>  
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- JavaScript for toggling accordion items and carousel auto-switch -->
+            <script type="text/javascript">
+                document.addEventListener('DOMContentLoaded', function() {
+                    const accordionButtons = document.querySelectorAll('.accordion-button');
+                    accordionButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            const target = document.querySelector(this.getAttribute('data-target'));
+                            if (target.classList.contains('show')) {
+                                target.classList.remove('show');
+                                target.style.display = 'none';
+                            } else {
+                                document.querySelectorAll('.accordion-collapse').forEach(collapse => {
+                                    collapse.classList.remove('show');
+                                    collapse.style.display = 'none';
+                                });
+                                target.classList.add('show');
+                                target.style.display = 'block';
+                            }
+                        });
+                    });
+
+                    function toggleDocuments(element) {
+                        var group = element.getAttribute('data-group');
+                        var content = document.getElementById(group);
+                        if (content.style.display === "none") {
+                            content.style.display = "block";
+                            element.classList.add('active');
+                        } else {
+                            content.style.display = "none";
+                            element.classList.remove('active');
+                        }
+                    }
+
+                    // Function to get variant name without additional text
+                    function getVariantName(text) {
+                        const match = text.match(/^[^\+]+/);
+                        return match ? match[0].trim() : text.trim();
+                    }
+
+                    // Function to alert the text content of the span associated with all checked radio buttons and selected options
+                    function alertActiveVariants() {
+                        const checkedRadioButtons = document.querySelectorAll('input[type="radio"]:checked');
+                        const selectedOptions = document.querySelectorAll('select.js_variant_change option:checked');
+                        let spanTexts = [];
+
+                        checkedRadioButtons.forEach(radioButton => {
+                            const span = radioButton.closest('div.form-check').querySelector('span[data-oe-xpath][data-oe-model="product.template.attribute.value"]');
+                            if (span) {
+                                const spanText = getVariantName(span.innerHTML.trim());
+                                spanTexts.push(spanText);
+                            }
+                        });
+
+                        selectedOptions.forEach(option => {
+                            const spanText = getVariantName(option.textContent.trim());
+                            spanTexts.push(spanText);
+                        });
+
+                        handleAttachments(spanTexts);
+                    }
+
+                    // Function to show or hide attachment links based on spanTexts
+    function handleAttachments(spanTexts) {
+        const attachments = document.querySelectorAll('.attachment-item a.attachment-link');
+        attachments.forEach(attachment => {
+            const partitionData = attachment.querySelector('.hidden-partition').getAttribute('data-partition');
+            const attachmentParts = partitionData.split(' » ');
+
+            console.log("Partition Data: ", partitionData); // Debugging line to see partition data
+            console.log("Attachment Parts: ", attachmentParts); // Debugging line to see attachment parts
+
+            let showAttachment = false;
+
+            if (attachmentParts.length === 1 || attachmentParts.length === 2) {
+                // If there's only one part or two parts (main category and document name), always show the document
+                showAttachment = true;
+            } else {
+                // Check if all parts (except the last one) are included in the active attributes
+                const attributesToCheck = attachmentParts.slice(1, -1).map(part => part.trim());
+                showAttachment = attributesToCheck.every(attribute => spanTexts.includes(attribute));
+            }
+
+            console.log("Show Attachment: ", showAttachment); // Debugging line to see if the document should be shown
+
+            attachment.closest('.attachment-item').style.display = showAttachment ? '' : 'none';
+        });
+    }
+
+    // Function to get variant name without additional text
+    function getVariantName(text) {
+        const match = text.match(/^[^\+]+/);
+        return match ? match[0].trim() : text.trim();
+    }
+
+    // Function to alert the text content of the span associated with all checked radio buttons and selected options
+    function alertActiveVariants() {
+        const checkedRadioButtons = document.querySelectorAll('input[type="radio"]:checked');
+        const selectedOptions = document.querySelectorAll('select.js_variant_change option:checked');
+        let spanTexts = [];
+
+        checkedRadioButtons.forEach(radioButton => {
+            const span = radioButton.closest('div.form-check').querySelector('span[data-oe-xpath][data-oe-model="product.template.attribute.value"]');
+            if (span) {
+                const spanText = getVariantName(span.innerHTML.trim());
+                spanTexts.push(spanText);
+            }
+        });
+
+        selectedOptions.forEach(option => {
+            const spanText = getVariantName(option.textContent.trim());
+            spanTexts.push(spanText);
+        });
+
+        console.log("Active Variants: ", spanTexts); // Debugging line to see active variants
+
+        handleAttachments(spanTexts);
+    }
+
+    // Initial check and handle attachments on page load
+    alertActiveVariants();
+
+    // Select all radio buttons and select elements with the specified class
+    const radioButtons = document.querySelectorAll('input[type="radio"].js_variant_change');
+    const selectElements = document.querySelectorAll('select.js_variant_change');
+
+    // Add change event listener to each radio button and select element
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', function() {
+            alertActiveVariants();
+        });
+    });
+
+    selectElements.forEach(select => {
+        select.addEventListener('change', function() {
+            alertActiveVariants();
+        });
+    });
+                    <!--// Auto-switch carousel every 3 seconds
+                    let carouselInterval;
+
+                    function switchCarouselImage() {
+                        const zoomFlyout = document.querySelector('.zoomodoo-flyout');
+                        if (!zoomFlyout) {
+                            const activeItem = document.querySelector('#o-carousel-product .carousel-item.active');
+                            const nextItem = activeItem.nextElementSibling || document.querySelector('#o-carousel-product .carousel-item:first-child');
+                            activeItem.classList.remove('active');
+                            nextItem.classList.add('active');
+
+                            const activeIndicator = document.querySelector('.carousel-indicators .active');
+                            const nextIndicator = activeIndicator.nextElementSibling || document.querySelector('.carousel-indicators li:first-child');
+                            activeIndicator.classList.remove('active');
+                            nextIndicator.classList.add('active');
+                        }
+                    }
+
+                    function startCarousel() {
+                        if (!carouselInterval) {
+                            carouselInterval = setInterval(switchCarouselImage, 3000);
+                        }
+                    }
+
+                    function stopCarousel() {
+                        clearInterval(carouselInterval);
+                        carouselInterval = null;
+                    }
+
+                    startCarousel();
+
+                    // Check for the presence of the zoomodoo-flyout div periodically
+                    setInterval(() => {
+                        const zoomFlyout = document.querySelector('.zoomodoo-flyout');
+                        if (zoomFlyout) {
+                            stopCarousel();
+                        } else {
+                            startCarousel();
+                        }
+                    }, 500);-->
+                });
+            </script>
+        </xpath>
+    </template>
+</odoo>
+

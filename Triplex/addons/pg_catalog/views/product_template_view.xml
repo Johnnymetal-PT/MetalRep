@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Modify List View to Add Print Button -->
+    <record id="view_product_template_tree" model="ir.ui.view">
+        <field name="name">product.template.tree.pg.catalog</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/header" position="inside">
+                <button name="action_print_catalog"
+                        type="object"
+                        string="Print Catalog PDF"
+                        class="oe_highlight"
+                        icon="fa-print"/>
+		<button name="action_print_catalog_255"
+			type="object"
+			string="Print Catalog 255"
+                        class="oe_highlight"
+                        icon="fa-print"/>
+
+		<button name="action_print_catalog_usa"
+			type="object"
+			string="Print Catalog USA"
+                        class="oe_highlight"
+                        icon="fa-print"/>
+                        
+		<button name="action_print_catalog_maisondoree"
+			type="object"
+			string="Print Catalog MAISON DORÉE"
+                        class="oe_highlight"
+                        icon="fa-print"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

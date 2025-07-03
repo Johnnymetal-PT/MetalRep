@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+        <!-- Extend product template form view -->
+        <record id="view_product_template_form_consumption_table" model="ir.ui.view">
+            <field name="name">product.template.form.consumption.table</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name="consumption_table" string="Aproveitamento de Tecido">
+                        <group>
+                            <table class="table table-bordered" style="width:350%;">
+                                <thead>
+                                    <tr>
+                                        <th>1</th>
+                                        <th>2</th>
+                                        <th>3</th>
+                                        <th>4</th>
+                                        <th>5</th>
+                                        <th>6</th>
+                                        <th>7</th>
+                                        <th>8</th>
+                                        <th>9</th>
+                                        <th>10</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><field name="price_1"/></td>
+                                        <td><field name="price_2"/></td>
+                                        <td><field name="price_3"/></td>
+                                        <td><field name="price_4"/></td>
+                                        <td><field name="price_5"/></td>
+                                        <td><field name="price_6"/></td>
+                                        <td><field name="price_7"/></td>
+                                        <td><field name="price_8"/></td>
+                                        <td><field name="price_9"/></td>
+                                        <td><field name="price_10"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

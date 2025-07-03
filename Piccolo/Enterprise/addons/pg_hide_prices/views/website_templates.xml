@@ -1,0 +1,20 @@
+<odoo>
+   <template id="hide_price_template" inherit_id="website_sale.product_price">
+       <!-- Target the span with oe_price class -->
+       <xpath expr="//span[@class='oe_price']" position="attributes">
+           <attribute name="t-attf-class">
+               oe_price #{' hidden' if not request.env.user.has_group('base.group_user') else ''}
+           </attribute>
+       </xpath>
+   </template>
+   
+      <template id="hide_cta_wrapper_template" inherit_id="website_sale.product">
+       <!-- Target the o_wsale_cta_wrapper div and add a hidden class for non-logged-in users -->
+       <xpath expr="//div[@id='o_wsale_cta_wrapper']" position="attributes">
+           <attribute name="t-attf-class">
+               d-flex flex-wrap align-items-center #{' hidden' if not request.env.user.has_group('base.group_user') else ''}
+           </attribute>
+       </xpath>
+   </template>
+</odoo>
+

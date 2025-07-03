@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sh_sale_order_report_document" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//table/thead/tr[1]/th[3]" position="after">
+            <t t-if="doc.sh_show_multi_disc == True" groups="sh_multi_discount.group_sale_multi_discount_security">
+                <th class="text-end">Discount Unit Price</th>
+            </t>
+        </xpath>
+        <xpath expr="//table/thead/tr[1]/th[4]" position="after">
+            <t t-if="doc.sh_show_multi_disc == True" groups="sh_multi_discount.group_sale_multi_discount_security">
+                <th class="text-end">Discount Amount</th>
+                <th class="text-end">Discounted Total Amount</th>
+            </t>
+        </xpath>
+        <xpath expr="//table//tbody//tr[1]//td[3]" position="after">
+            <t t-if="doc.sh_show_multi_disc == True" groups="sh_multi_discount.group_sale_multi_discount_security">
+                <td class="text-end">
+                    <span t-field="line.sh_discount_price_unit" />
+                </td>
+            </t>
+        </xpath>
+        <xpath expr="//table//tbody//tr[1]//td[4]" position="after">
+            <t t-if="doc.sh_show_multi_disc == True" groups="sh_multi_discount.group_sale_multi_discount_security">
+                <td class="text-end">
+                    <span t-field="line.sh_discount_amount" />
+                </td>
+            </t>
+            <t t-if="doc.sh_show_multi_disc == True" groups="sh_multi_discount.group_sale_multi_discount_security">
+                <td class="text-end">
+                    <span t-field="line.sh_discounted_total_amount" />
+                </td>
+            </t>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,62 @@
+<odoo>
+    <data>
+        <!-- Inherit the form view of product.attribute to add the 'unavailable_value_view_type' field -->
+        <record id="product_attr_value_view_form" model="ir.ui.view">
+            <field name="name">product.attr.form.inherit</field>
+            <field name="model">product.attribute</field>
+            <field name="inherit_id" ref="product.product_attribute_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='display_type']" position="after">
+                    <field name="unavailable_value_view_type" widget="radio" options="{'horizontal': True}"/>
+                    <!-- Adds a new field 'unavailable_value_view_type' after 'display_type' -->
+                    <!-- The field is rendered as a radio button with horizontal layout -->
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit the form view of product.product to add the 'hide_on_website' field -->
+        <record model="ir.ui.view" id="product_normal_form_view">
+            <field name="name">product.product.website.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='barcode']" position="after">
+                    <field name="hide_on_website"/>
+                    <!-- Adds the 'hide_on_website' field after the 'barcode' field -->
+                    <!-- This field is used to indicate whether the product should be hidden on the website -->
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit the easy edit form view of product.product to include the 'hide_on_website' field -->
+        <record model="ir.ui.view" id="product_variant_easy_edit_view">
+            <field name="name">product.product.website.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='default_code']/../.." position="before">
+                    <div>
+                        <label for="hide_on_website"/>
+                        <field name="hide_on_website"/>
+                        <!-- Adds a label and the 'hide_on_website' field before the 'default_code' field's container -->
+                        <!-- This allows for easy toggling of the visibility of the product on the website from the product form view -->
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit the tree view of product.product to show the 'hide_on_website' field -->
+        <record model="ir.ui.view" id="product_product_tree_view_inherit">
+            <field name="name">product.product.website.tree</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='uom_id']" position="after">
+                    <field name="hide_on_website" optional="show"/>
+                    <!-- Adds the 'hide_on_website' field after 'uom_id' in the tree view -->
+                    <!-- This field is marked as optional and can be shown or hidden based on user preference -->
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

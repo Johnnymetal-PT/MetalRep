@@ -1,0 +1,13 @@
+<odoo>
+    <!-- View inheritance for product form to add product variant description -->
+    <record id="product_varint_form_inherit_view" model="ir.ui.view">
+        <field name="name">product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="website_sale.product_product_view_form_easy_inherit_website_sale"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='barcode']" position="after">
+                <field name="product_variant_desc"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

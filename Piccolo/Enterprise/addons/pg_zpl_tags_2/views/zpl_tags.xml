@@ -1,0 +1,16 @@
+<odoo>
+    <record id="stock_picking_form_view" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">         
+            <xpath expr="//header//button[@name='action_cancel']" position="before">
+                <button name="action_open_zpl_wizard"
+                        string="Print ZPL Pequena"
+                        type="object"
+                        class="btn-primary"
+                        icon="fa-print"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

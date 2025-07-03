@@ -1,0 +1,17 @@
+<odoo>
+    <record id="view_partner_form_inherit_qr" model="ir.ui.view">
+        <field name="name">res.partner.form.qr</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <button name="action_open_qr_scanner"
+                        type="object"
+                        string="Scan vCard"
+                        class="oe_highlight"
+                        icon="fa-qrcode"/>
+            </field>
+        </field>
+    </record>
+</odoo>
+

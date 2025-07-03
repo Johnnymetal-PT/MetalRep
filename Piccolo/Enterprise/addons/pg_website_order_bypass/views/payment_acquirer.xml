@@ -1,0 +1,12 @@
+<!-- views/payment_method.xml -->
+<odoo>
+    <record id="payment_method_pay_later" model="payment.method">
+        <field name="name">Pay Later</field>
+        <!-- <field name="provider">transfer</field> Adjust or remove if not applicable -->
+        <!--<field name="state">enabled</field>-->
+        <!-- Reference a valid view ID from the available list -->
+        <field name="view_template_id" ref="payment.payment_method_form"/>
+        <field name="registration_view_template_id" ref="payment.payment_method_form"/>
+    </record>
+</odoo>
+

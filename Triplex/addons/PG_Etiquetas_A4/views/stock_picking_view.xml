@@ -1,0 +1,16 @@
+<odoo>
+    <record id="view_picking_form_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <!-- Add two buttons inside the header -->
+            <xpath expr="//header" position="inside">
+                <button name="action_print_a4_report" type="object" string="Print A4 Report" class="btn btn-primary"/>
+                <button name="action_print_a4_report_mythica" type="object" string="Print A4 Mythica" class="btn btn-secondary"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+
+

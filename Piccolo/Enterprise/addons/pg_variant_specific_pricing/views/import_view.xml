@@ -1,0 +1,30 @@
+<odoo>
+    <record id="view_product_template_form_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.import.pricelist.button</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_import_pricelist" type="object" string="Import Pricelist" class="btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Wizard Form to Upload the Excel File -->
+    <record id="pricelist_import_wizard_form" model="ir.ui.view">
+        <field name="name">pricelist.import.wizard.form</field>
+        <field name="model">pricelist.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Pricelist">
+                <group>
+                    <field name="file" filename="filename"/>
+                </group>
+                <footer>
+                    <button string="Import" type="object" name="import_pricelist" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
+

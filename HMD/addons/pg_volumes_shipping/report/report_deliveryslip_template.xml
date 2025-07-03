@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit the stock.report_delivery_document report template -->
+    <template id="report_delivery_document_inherit" inherit_id="stock.report_delivery_document">
+        <!-- Add new column headers for Volume, Weight, Volume Qty, and Peso Cada Volume -->
+        <xpath expr="//table[@name='stock_move_table']/thead/tr" position="inside">
+            <th style="text-align:center;"><strong>Volume (m³)</strong></th>
+            <th style="text-align:center;"><strong>Peso (Kg)</strong></th>
+            <th style="text-align:center;"><strong>Volumes</strong></th>
+            <th style="text-align:center;"><strong>Peso Cada Volume (Kg)</strong></th>
+        </xpath>
+
+        <!-- Add the fields for volume, weight, volume_qty, and peso_cada_volume to the stock move lines in the tbody -->
+        <xpath expr="//table[@name='stock_move_table']/tbody/tr" position="inside">
+            <td class="text-end">
+                <span t-field="move.product_volume_by_qty"/>
+            </td>
+            <td class="text-end">
+                <span t-field="move.product_weight_by_qty"/>
+            </td>
+            <td class="text-end">
+                <span t-field="move.product_volume_qty_by_qty"/>
+            </td>
+            <td class="text-end">
+                <span t-field="move.product_id.product_tmpl_id.peso_cada_volume"/>
+            </td>
+        </xpath>
+
+        <!-- Small table with the final results of the weight, volume, volume qty, and peso cada volume -->
+        <xpath expr="//table[@name='stock_move_table']/tbody/tr" position="after">
+            <t t-set="lines" t-value="o.move_ids.filtered(lambda x: x.product_uom_qty)"/>
+            <t t-set="total_volume" t-value="sum(lines.mapped('product_volume_by_qty'))"/>
+            <t t-set="total_weight" t-value="sum(lines.mapped('product_weight_by_qty'))"/>
+            <t t-set="total_volume_qty_t" t-value="sum(lines.mapped('product_volume_qty_by_qty'))"/>
+            <t t-set="total_peso_cada_volume" t-value="'/'.join([str(p) for p in lines.mapped('product_id.product_tmpl_id.peso_cada_volume') if p])"/>
+
+            <div class="total_calculations">
+                <h3>Cálculos Finais</h3>
+                <table class="table table-sm" style="border:2px solid black; text-align: center;">
+                    <tr>
+                        <th style="width: 30%; white-space: nowrap;">Volume (m³):</th>
+                        <td>
+                            <span t-esc="total_volume or 0" style="text-align: left; margin-left:0px; margin-right:400px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="width: 30%; white-space: nowrap;">Peso (Kg):</th>
+                        <td>
+                            <span t-esc="total_weight or 0" style="text-align: left; margin-left:0px; margin-right:400px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="width: 30%; white-space: nowrap;">Total Volumes:</th>
+                        <td>
+                            <span t-esc="total_volume_qty_t or 0" style="text-align: left; margin-left:0px; margin-right:400px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="width: 30%; white-space: nowrap;">Peso Cada Volume (Kg):</th>
+                        <td>
+                            <span t-esc="total_peso_cada_volume or '0.0'" style="text-align: left; margin-left:0px; margin-right:400px;"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </xpath>
+
+        <!-- For deliveries that are completed (done state), add new columns -->
+        <xpath expr="//table[@name='stock_move_line_table']/thead/tr" position="inside">
+            <th style="text-align:center;"><strong>Volume (m³)</strong></th>
+            <th style="text-align:center;"><strong>Peso (Kg)</strong></th>
+            <th style="text-align:center;"><strong>Volumes</strong></th>
+            <th style="text-align:center;"><strong>Peso Cada Volume (Kg)</strong></th>
+        </xpath>
+    </template>
+
+    <template id="report_delivery_has_serial_move_line_inherit" inherit_id="stock.stock_report_delivery_aggregated_move_lines">
+        <!-- Add volume, weight, volume_qty, and peso_cada_volume fields for each stock move line in the tbody -->
+        <xpath expr="//tr" position="inside">
+            <!-- Looping over product_volume_by_qty -->
+            <td class="text-start">
+                <t t-foreach="aggregated_lines[line].get('product_volume_by_qty_list', [])" t-as="product_volume_by_qty">
+                    <span t-esc="product_volume_by_qty" t-options="{'widget': 'float', 'decimal_precision': 'Product Unit of Measure'}"/>
+                </t>
+            </td>
+
+            <!-- Looping over product_weight_by_qty -->
+            <td class="text-start">
+                <t t-foreach="aggregated_lines[line].get('product_weight_by_qty_list', [])" t-as="product_weight_by_qty">
+                    <span t-esc="product_weight_by_qty" t-options="{'widget': 'float', 'decimal_precision': 'Product Unit of Measure'}"/>
+                </t>
+            </td>
+
+            <!-- Looping over product_volume_qty_by_qty -->
+            <td class="text-start">
+                <t t-foreach="aggregated_lines[line].get('product_volume_qty_by_qty_list', [])" t-as="product_volume_qty_by_qty">
+                    <span t-esc="product_volume_qty_by_qty" t-options="{'widget': 'float', 'decimal_precision': 'Product Unit of Measure'}"/>
+                </t>
+            </td>
+
+            <!-- Looping over peso_cada_volume -->
+            <td class="text-start">
+                <t t-foreach="aggregated_lines[line].get('peso_cada_volume_list', [])" t-as="peso_cada_volume">
+                    <span t-esc="peso_cada_volume or '0.0'"/>
+                </t>
+            </td>
+        </xpath>
+
+        <!-- Small table with the final results of the weight, volume, volume qty, and peso cada volume -->
+        <xpath expr="//tr" position="after">
+            <t t-set="lines" t-value="o.move_ids.filtered(lambda x: x.product_uom_qty)"/>
+            <t t-set="total_volume" t-value="sum(lines.mapped('product_volume_by_qty'))"/>
+            <t t-set="total_weight" t-value="sum(lines.mapped('product_weight_by_qty'))"/>
+            <t t-set="total_volume_qty_t" t-value="sum(lines.mapped('product_volume_qty_by_qty'))"/>
+            <t t-set="total_peso_cada_volume" t-value="'/'.join([str(p) for p in lines.mapped('product_id.product_tmpl_id.peso_cada_volume') if p])"/>
+
+            <div class="total_calculations">
+                <h3>Cálculos Finais</h3>
+                <table class="table table-sm" style="border:2px solid black; text-align: center;">
+                    <tr>
+                        <th>Volume:</th>
+                        <td>
+                            <span t-esc="'%s m³' % total_volume or '0.0'" style="text-align: left; margin-left:0px; margin-right:400px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Peso:</th>
+                        <td>
+                            <span t-esc="'%s Kg' % total_weight or '0.0'" style="text-align: left; margin-left:0px; margin-right:400px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Volumes:</th>
+                        <td>
+                            <span t-esc="total_volume_qty_t or '0'" style="text-align: left; margin-left:0px; margin-right:400px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Peso Cada Volume:</th>
+                        <td>
+                            <span t-esc="total_peso_cada_volume or '0.0'" style="text-align: left; margin-left:0px; margin-right:400px;"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </xpath>
+    </template>
+</odoo>
+

@@ -1,0 +1,39 @@
+<odoo>
+    <!-- Wizard Form View -->
+    <record id="view_ptav_price_import_wizard" model="ir.ui.view">
+        <field name="name">ptav.price.import.wizard.form</field>
+        <field name="model">ptav.price.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import PTAV Price Extra">
+                <group>
+                    <field name="file" filename="filename"/>
+                    <field name="filename"/>
+                </group>
+                <footer>
+                    <button string="Import" type="object" name="action_import" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Server Action: trigger import wizard -->
+<record id="action_import_price_extra" model="ir.actions.server">
+    <field name="name">Import Price Extra</field>
+    <field name="model_id" ref="product.model_product_template_attribute_value"/>
+    <field name="binding_model_id" ref="product.model_product_template_attribute_value"/>
+    <field name="binding_view_types">list</field>
+    <field name="state">code</field>
+    <field name="code">
+        action = {
+            "type": "ir.actions.act_window",
+            "res_model": "ptav.price.import.wizard",
+            "view_mode": "form",
+            "target": "new",
+            "name": "Import Price Extra"
+        }
+    </field>
+</record>
+
+</odoo>
+

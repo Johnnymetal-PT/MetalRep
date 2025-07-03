@@ -1,0 +1,14 @@
+<odoo>
+    <record id="pg_partner_ledger_report_extension" model="account.report">
+        <field name="name">Partner Ledger Days Overdue Extension</field>
+        <field name="column_ids" eval="[(4, ref('pg_account_reports.pg_partner_ledger_days_overdue_column'))]"/>
+    </record>
+
+    <record id="pg_partner_ledger_days_overdue_column" model="account.report.column">
+        <field name="name">Days Overdue</field>
+        <field name="expression_label">days_overdue</field>
+        <field name="figure_type">integer</field>
+        <field name="sortable" eval="True"/>
+    </record>
+</odoo>
+

@@ -1,0 +1,13 @@
+<odoo>
+    <record id="ir_rule_attachment_public" model="ir.rule">
+        <field name="name">Public Access to Product Attachments</field>
+        <field name="model_id" ref="base.model_ir_attachment"/>
+        <field name="domain_force">[('res_model', 'in', ['product.template', 'product.product'])]</field>
+        <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>
+

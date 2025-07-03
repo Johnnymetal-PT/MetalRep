@@ -1,0 +1,27 @@
+<odoo>
+    <record model="ir.ui.view" id="mass_update_variant_cost_wizard_form_view">
+        <field name="name">mass.update.variant.cost.form.view</field>
+        <field name="model">mass.update.variant.cost.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="cost" required="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="update_product_cost" string="Update" type="object"
+                            class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_mass_update_variant_cost_wizard">
+        <field name="name">Mass Update</field>
+        <field name="res_model">mass.update.variant.cost.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

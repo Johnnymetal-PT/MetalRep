@@ -1,0 +1,15 @@
+<odoo>
+    <record id="view_pricelist_form_inherit" model="ir.ui.view">
+        <field name="name">pricelist.form.inherit</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.pricelist.form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group[@name='pricelist_settings']" position="after">
+                <group>
+                    <field name="x_studio_255" widget="boolean_button"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

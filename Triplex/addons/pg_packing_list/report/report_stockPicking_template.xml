@@ -1,0 +1,55 @@
+<odoo>
+    <data>
+        <template id="report_stock_picking_custom_inherit" inherit_id="stock.report_picking">
+            <xpath expr="//table/thead/tr" position="inside">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;"><strong>Dimensions (cm)/Unit</strong></th>
+                        <th style="text-align:center;"><strong>vol</strong></th>
+                        <th style="text-align:center;"><strong>Volume CBM</strong></th>
+                        <th style="text-align:center;"><strong>Net Weight</strong></th>
+                        <th style="text-align:center;"><strong>Gross Weight</strong></th>
+                        <th style="text-align:center;"><strong>HS CODE</strong></th>
+                    </tr>
+                </thead>
+            </xpath>
+
+            <xpath expr="//table/tbody" position="inside">
+                <t t-foreach="o.move_line_ids_without_package.sorted(lambda ml: (ml.location_id.complete_name, ml.location_dest_id.complete_name))" t-as="ml">
+                    <tr>
+                        <td class="text-center"><span t-field="ml.x_studio_descricao_m"/></td>
+                        <td class="text-center"><span t-field="ml.vol"/></td>
+                        <td class="text-center"><span t-field="ml.volume_cbm" t-options="{'widget': 'float', 'precision': 3}"/></td>
+                        <td class="text-center"><span t-field="ml.netWeight" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                        <td class="text-center"><span t-field="ml.grossWeight" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                        <td class="text-center"><span t-field="ml.x_studio_hs_code"/></td>
+                    </tr>
+                </t>           
+            </xpath>
+
+            <xpath expr="//table" position="after">
+                <div class="mt16">
+                    <h3>Total Calculations</h3>
+                    <table class="table table-sm" style="border:2px solid black; text-align: center;">
+                        <tr>
+                            <th>Total Packages Qty:</th>
+                            <td><span t-esc="sum(o.move_line_ids_without_package.mapped('vol'))"/></td>
+                        </tr>
+                        <tr>
+                            <th>Total Volume CBM:</th>
+                            <td><span t-esc="sum(o.move_line_ids_without_package.mapped('volume_cbm'))" t-options="{'widget': 'float', 'precision': 3}"/></td>
+                        </tr>
+                        <tr>
+                            <th>Total Net Weight:</th>
+                            <td><span t-esc="sum(o.move_line_ids_without_package.mapped('netWeight'))"/></td>
+                        </tr>
+                        <tr>
+                            <th>Total Gross Weight:</th>
+                            <td><span t-esc="sum(o.move_line_ids_without_package.mapped('grossWeight'))"/></td>
+                        </tr>
+                    </table>
+                </div>
+            </xpath>
+        </template>        
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_inherit_manufactured_product" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.manufactured.product</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_dest_id']" position="after">
+                <field name="manufactured_product_id"/>
+                <field name="manufacturing_origin"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

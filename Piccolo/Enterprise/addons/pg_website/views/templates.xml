@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="homepage_test" name="HomePage Customization" inherit_id="website.homepage">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <section class="s_three_columns pt32 pb32 o_colored_level o_cc o_cc1" data-vcss="001" data-snippet="s_three_columns" data-name="Columns" style="position: relative; background-image: none;">
+                <div class="o_we_shape o_web_editor_Airy_05_001 o_we_animated"/>
+                <div class="container">
+                    <div class="row d-flex align-items-stretch">
+                        <t t-set="todas_category" t-value="request.env['product.public.category'].search([('name', '=', 'Todas')], limit=1)"/>
+                        <t t-if="todas_category">
+                            <t t-set="child_categories" t-value="todas_category.child_id"/>
+                            <t t-foreach="child_categories" t-as="category">
+                                <!-- Fetch the corresponding product.category record -->
+                                <t t-set="product_category" t-value="request.env['product.category'].search([('name', '=', category.name)], limit=1)"/>
+                                <div class="col-lg-4 s_col_no_bgcolor pt0 pb64 o_anim_fade_in o_animate o_visible" style="">
+                                    <div class="card text-bg-white h-100">
+                                        <a t-att-href="'/shop/category/' + str(category.id)" data-bs-original-title="" title="">
+                                            <div class="img-container">
+                                                <t t-if="product_category.cat_image_1">
+                                                    <img t-att-src="'/web/image/product.category/' + str(product_category.id) + '/cat_image_1'" alt="" class="custom-category-image primary-image" loading="eager"/>
+                                                    <t t-if="product_category.cat_image_2">
+                                                        <img t-att-src="'/web/image/product.category/' + str(product_category.id) + '/cat_image_2'" alt="" class="custom-category-image secondary-image" loading="eager"/>
+                                                    </t>
+                                                </t>
+                                                <t t-else="">
+                                                    <img t-att-src="'/web/image/placeholder.jpg'" alt="" class="custom-category-image primary-image" loading="eager"/>
+                                                </t>
+                                            </div>
+                                        </a>
+                                        <div class="card-body">
+                                            <h3 class="card-title o_default_snippet_text"><t t-esc="category.name"/></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </xpath>
+    </template>
+
+    <!--
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Product Image Hover Assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/pg_website/static/src/js/product_image_hover.js"></script>
+            <link rel="stylesheet" type="text/css" href="/pg_website/static/src/css/custom_homepage.css"/>
+        </xpath>
+    </template>
+-->
+
+    <template id="product_template_inherit" inherit_id="website_sale.products_item">
+        <xpath expr="//a[contains(@class, 'oe_product_image_link')]" position="inside">
+            <xpath expr=".//span" position="inside">
+                <xpath expr=".//img" position="replace">
+                    <div class="image-container_shop">
+                        <!--<t t-if="product.id">-->
+                            <img t-att-src="'/web/image/product.template/' + str(product.id) + '/image_1920'" alt="First Extra Media Image" class="img img-fluid h-100 w-100 main-image"/>
+                            <t t-if="product.extra_image_ids and len(product.extra_image_ids) > 0">
+                                <img t-att-src="'data:image/png;base64,' + product.extra_image_ids[0].image_base64" alt="First Extra Media Image" class="img img-fluid h-100 w-100 extra-image"/>
+                            </t>
+                        <!--</t>
+                        <t t-if="not product.image_1920">
+                            <img src="/web/image/placeholder.jpg" alt="Default Image" class="default-image"/>
+                        </t>-->
+                    </div>
+                </xpath>
+            </xpath>
+        </xpath>
+    </template>
+
+</odoo>
