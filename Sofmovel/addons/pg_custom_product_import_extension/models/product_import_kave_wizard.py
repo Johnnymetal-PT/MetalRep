@@ -200,7 +200,7 @@ class ProductImportKaveWizard(models.TransientModel):
                 _logger.error(f"Missing 'Code' for row: {row}")
                 continue  # Skip this row if 'Code' is missing
             
-            # Search for an existing product template, including archived ones
+            # Search for an existing product template with the Kave tag
             product_template = self.env['product.template'].search(
                 [('x_studio_referncia_interna', '=', code_value), ('product_tag_ids', 'in', [kave_tag.id])],
                 limit=1
@@ -211,6 +211,28 @@ class ProductImportKaveWizard(models.TransientModel):
                     [('x_studio_cdigo_de_barras', '=', row['EAN Code']), ('product_tag_ids', 'in', [kave_tag.id])],
                     limit=1
                 )
+
+            # Check for an active product without the Kave tag and use it if found
+            if not product_template:
+                product_without_tag = self.env['product.template'].search([
+                    ('x_studio_referncia_interna', '=', code_value),
+                    ('active', '=', True),
+                    ('product_tag_ids', 'not in', [kave_tag.id])
+                ], limit=1)
+
+                if not product_without_tag:
+                    product_without_tag = self.env['product.template'].search([
+                        ('x_studio_cdigo_de_barras', '=', row['EAN Code']),
+                        ('active', '=', True),
+                        ('product_tag_ids', 'not in', [kave_tag.id])
+                    ], limit=1)
+
+                if product_without_tag:
+                    _logger.info(
+                        f"Found active product without Kave tag: {product_without_tag.name}. Adding tag and updating." )
+                    product_without_tag.sudo().write({'product_tag_ids': [(4, kave_tag.id)]})
+                    self.env.cr.commit()
+                    product_template = product_without_tag
 
             # If no active product is found, search for archived products
             if not product_template:
