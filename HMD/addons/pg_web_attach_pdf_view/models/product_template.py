@@ -10,21 +10,21 @@ class ProductTemplate(models.Model):
         string='Documentos'
     )
     all_category_names = fields.Char(compute='_compute_all_category_names')
-
+    
     def _get_document_groups(self):
         self.ensure_one()
         groups = {
             'FICHA TÉCNICA': [],
-            'CERTIFICADO DE CONFORMIDADE': [],
+            'CARACTERÍSTICAS TÉCNICAS': [],
             '3D': [],
             'OUTROS': []
         }
         for doc in self.attachment_ids:
             if '3D' in doc.name:
                 groups['3D'].append(doc)
-            elif 'CERTIFICADO' in doc.name:
-                groups['CERTIFICADO DE CONFORMIDADE'].append(doc)
-            elif 'FICHA' in doc.name:
+            elif 'CARACTERISTICAS_TECNICAS' in doc.name:
+                groups['CARACTERÍSTICAS TÉCNICAS'].append(doc)
+            elif 'FICHA_TECNICA' in doc.name:
                 groups['FICHA TÉCNICA'].append(doc)
             else:
                 groups['OUTROS'].append(doc)

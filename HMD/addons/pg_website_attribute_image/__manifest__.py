@@ -5,12 +5,12 @@
     'name': 'PG Website Product Attribute Image',
     'summary': 'Adding images to attribute values. (website attribute image | product image)',
     'description': 'Adding images to attribute values',
-    'version': '17.0.1.0',
+    #'version': '1.0.0',
     'category': 'Website',
     'author': 'Visionee',
     'license': 'OPL-1',
     'depends': [
-        'website_sale', 'stock', 'sale_product_configurator',
+        'website_sale', 'stock', 'sale',
     ],
     'data': [
         'templates/shop_product.xml',
@@ -18,7 +18,7 @@
     ],
     'assets': {
         #'web.assets_frontend': [
-        #    'pg_website_attribute_image/static/src/**/*',
+        #    'pg_website_attribute_image/static/src/xml/attribute_radio_button_toggle.xml',
         #],
         'web.assets_backend': [
             'pg_website_attribute_image/static/src/xml/product.xml',

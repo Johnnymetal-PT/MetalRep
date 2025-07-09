@@ -1,13 +1,15 @@
 # Part of Odoo. See COPYRIGHT & LICENSE files for full copyright and licensing details.
 import logging
 import threading
+
 from odoo import SUPERUSER_ID, api, fields, models, registry
 from odoo.tools.misc import clean_context, split_every
 
 _logger = logging.getLogger(__name__)
 
-class AccountMoveeSend(models.TransientModel):
+class AccountMoveeSend(models.AbstractModel):
     _inherit = "account.move.send"
+    _abstract = True
 
     email_to = fields.Char(string="Email CC")
 

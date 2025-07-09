@@ -1,7 +1,7 @@
 # Part of Odoo. See COPYRIGHT & LICENSE files for full copyright and licensing details.
 {
-    "name": "Email Cc",
-    "version": "17.0.1.0.0",
+    "name": "pg_email_cc",
+    "version": "2.0",
     "author": "Techultra Solutions Private Limited",
     'company': 'TechUltra Solutions Private Limited',
     'website': "https://www.techultrasolutions.com/",

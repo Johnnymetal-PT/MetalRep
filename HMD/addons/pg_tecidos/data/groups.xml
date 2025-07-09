@@ -1,0 +1,22 @@
+<odoo>
+    <!-- Parent group (selector) -->
+    <record id="group_user_type_selector" model="res.groups">
+        <field name="name">User Access Selector</field>
+        <field name="category_id" ref="base.module_category_user_type"/>
+    </record>
+
+    <!-- Mutually exclusive group A -->
+    <record id="group_basic_user" model="res.groups">
+        <field name="name">Basic User</field>
+        <field name="category_id" ref="base.module_category_user_type"/>
+        <field name="implied_ids" eval="[(4, ref('group_user_type_selector'))]"/>
+    </record>
+
+    <!-- Mutually exclusive group B -->
+    <record id="group_power_user" model="res.groups">
+        <field name="name">Power User</field>
+        <field name="category_id" ref="base.module_category_user_type"/>
+        <field name="implied_ids" eval="[(4, ref('group_user_type_selector'))]"/>
+    </record>
+</odoo>
+

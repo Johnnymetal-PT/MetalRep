@@ -1,4 +1,3 @@
-/*
 odoo.define('pg_attach_pdf_view.attachment_preview', function (require) {
     "use strict";
 
@@ -30,4 +29,3 @@ odoo.define('pg_attach_pdf_view.attachment_preview', function (require) {
 
     return publicWidget.registry.AttachmentPreview;
 });
-*/

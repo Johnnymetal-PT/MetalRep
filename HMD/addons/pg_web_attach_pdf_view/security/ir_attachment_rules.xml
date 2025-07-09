@@ -11,5 +11,15 @@
             <field name="perm_create" eval="0"/>
             <field name="perm_unlink" eval="0"/>
         </record>
+        <record id="rule_ir_attachment_product_template_public" model="ir.rule">
+            <field name="name">Product Template Attachments for Public</field>
+            <field name="model_id" ref="base.model_ir_attachment"/>
+            <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+            <field name="domain_force">['|', ('res_model', '=', 'product.template'), ('res_model', '=', 'product.product')]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
     </data>
 </odoo>

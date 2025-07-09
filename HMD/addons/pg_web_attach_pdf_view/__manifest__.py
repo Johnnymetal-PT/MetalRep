@@ -16,7 +16,8 @@
     ],
     'assets': {
         'web.assets_frontend': [
-            'pg_attach_pdf_view/static/src/js/attachment_preview.js',
+            #'pg_attach_pdf_view/static/src/js/attachment_preview.js',
+            'pg_web_attach_pdf_view/static/src/css/styles.css',
         ],
     },
     'installable': True,
