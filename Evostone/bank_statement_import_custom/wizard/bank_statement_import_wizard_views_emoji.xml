@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Bank Statement Import Wizard Form View -->
+    <record id="view_bank_statement_import_wizard_form" model="ir.ui.view">
+        <field name="name">bank.statement.import.wizard.form</field>
+        <field name="model">bank.statement.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Bank Statement">
+                <header>
+                    <!-- Barra de progresso -->
+                    <field name="state" widget="statusbar" statusbar_visible="upload,preview,mapping,processing,done"/>
+                </header>
+                <sheet>
+                    <!-- Indicador de progresso simplificado -->
+                    <group invisible="progress_percentage == 0" col="1">
+                        <div style="margin-bottom: 20px;">
+                            <field name="progress_percentage" widget="progressbar" nolabel="1"/>
+                            <div style="text-align: center; margin-top: 5px; color: #666;">
+                                <field name="progress_message" nolabel="1" readonly="1"/>
+                            </div>
+                        </div>
+                    </group>
+
+                    <!-- Estado: Upload -->
+                    <group invisible="state != 'upload'" col="1">
+                        <div>
+                            <h2>📤 Importação de Extrato Bancário</h2>
+                        </div>
+                        <group col="2">
+                            <group>
+                                <field name="bank_type" widget="radio" options="{'horizontal': true}"/>
+                            </group>
+                        </group>
+                        <group col="2">
+                            <group>
+                                <field name="data_file" filename="file_name"/>
+                                <field name="file_name" invisible="1"/>
+                            </group>
+                        </group>
+                        <separator string="ℹ️ Informações"/>
+                        <group col="1">
+                            <field name="message" nolabel="1" readonly="1" 
+                                   style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;"/>
+                        </group>
+                        <group col="2">
+                            <group string="⚙️ Opções de Importação">
+                                <field name="check_duplicates" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                    </group>
+
+                    <!-- Estado: Preview -->
+                    <group invisible="state != 'preview'" col="1">
+                        <div>
+                            <h2>👁️ Preview dos Dados</h2>
+                        </div>
+                        
+                        <!-- Opções de visualização -->
+                        <group col="2">
+                            <group>
+                                <field name="total_lines_count" readonly="1"/>
+                                <field name="show_all_preview" widget="boolean_toggle"/>
+                            </group>
+                            <group invisible="duplicate_count == 0">
+                                <field name="duplicate_count" readonly="1" style="color: #ff6b6b; font-weight: bold;"/>
+                                <field name="duplicate_action" widget="radio"/>
+                            </group>
+                        </group>
+                        
+                        <!-- Preview dos dados -->
+                        <separator string="📊 Dados do Arquivo"/>
+                        <group col="1">
+                            <field name="preview_data" nolabel="1" readonly="1" 
+                                   widget="text"
+                                   style="font-family: monospace; background: #f8f9fa; min-height: 400px;"/>
+                        </group>
+                        
+                        <!-- Detalhes de duplicatas -->
+                        <group invisible="duplicate_count == 0" col="1">
+                            <separator string="⚠️ Duplicatas Detectadas"/>
+                            <field name="duplicate_details" nolabel="1" readonly="1"
+                                   style="background: #fff3cd; padding: 10px; border-radius: 5px; border-left: 4px solid #ffc107;"/>
+                        </group>
+                    </group>
+
+                    <!-- Estado: Mapeamento -->
+                    <group invisible="state != 'mapping'" col="1">
+                        <div>
+                            <h2>🔄 Mapeamento de Campos</h2>
+                        </div>
+                        <group col="2">
+                            <group string="📝 Configuração de Colunas">
+                                <field name="date_column"/>
+                                <field name="description_column"/>
+                                <field name="amount_column"/>
+                            </group>
+                        </group>
+                        <group invisible="not enable_field_mapping" col="1">
+                            <separator string="🛠️ Mapeamento Avançado (JSON)"/>
+                            <field name="field_mapping" nolabel="1" widget="text" style="font-family: monospace;"/>
+                        </group>
+                    </group>
+
+                    <!-- Estado: Processando -->
+                    <group invisible="state != 'processing'" col="1">
+                        <div>
+                            <h2>⚙️ Processando Importação...</h2>
+                        </div>
+                        <div style="text-align: center; padding: 40px;">
+                            <div style="margin-top: 20px;">
+                                <h4>Por favor aguarde...</h4>
+                                <p style="color: #666;">
+                                    <field name="progress_message" nolabel="1" readonly="1"/>
+                                </p>
+                                <field name="progress_percentage" widget="progressbar" nolabel="1"/>
+                            </div>
+                        </div>
+                    </group>
+
+                    <!-- Estado: Concluído -->
+                    <group invisible="state != 'done'" col="1">
+                        <div>
+                            <h2>✅ Importação Concluída</h2>
+                        </div>
+                        
+                        <!-- Resumo HTML -->
+                        <div>
+                            <field name="import_summary" nolabel="1" readonly="1"/>
+                        </div>
+                        
+                        <!-- Estatísticas detalhadas -->
+                        <group col="2">
+                            <group string="📈 Estatísticas Detalhadas">
+                                <field name="lines_processed" readonly="1"/>
+                                <field name="lines_imported" readonly="1" style="color: #28a745; font-weight: bold;"/>
+                                <field name="lines_skipped" readonly="1" style="color: #ffc107;"/>
+                                <field name="lines_error" readonly="1" style="color: #dc3545;"/>
+                            </group>
+                        </group>
+                        
+                        <!-- Log de importação -->
+                        <group col="1">
+                            <separator string="📋 Log de Importação (Últimas 100 linhas)"/>
+                            <field name="import_log" nolabel="1" readonly="1" 
+                                   widget="text"
+                                   style="font-family: monospace; background: #f8f9fa; min-height: 200px;"/>
+                        </group>
+                    </group>
+
+                    <!-- Campos ocultos para armazenamento -->
+                    <group invisible="1">
+                        <field name="processed_data"/>
+                        <field name="is_processing"/>
+                        <field name="progress_percentage"/>
+                        <field name="preview_lines_count"/>
+                        <field name="enable_field_mapping"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <!-- Botões do estado Upload -->
+                    <button string="📊 Analisar Arquivo" 
+                            name="action_analyze_file"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'upload' or not data_file or not bank_type"/>
+                    <button string="❌ Cancelar" 
+                            name="action_cancel"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'upload'"/>
+                    
+                    <!-- Botões do estado Preview -->
+                    <button string="📥 Importar Agora" 
+                            name="action_import"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'preview'"/>
+                    <button string="🔧 Configurar Mapeamento" 
+                            name="action_configure_mapping"
+                            type="object"
+                            class="btn-info"
+                            invisible="state != 'preview' or bank_type == 'bim' or bank_type == 'bci' or bank_type == 'card'"/>
+                    <button string="🔙 Voltar" 
+                            name="action_back_to_upload"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'preview'"/>
+                    
+                    <!-- Botões do estado Mapeamento -->
+                    <button string="📥 Importar com Mapeamento" 
+                            name="action_import"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'mapping'"/>
+                    <button string="🔙 Voltar ao Preview" 
+                            name="action_back_to_preview"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'mapping'"/>
+                    
+                    <!-- Botões do estado Concluído -->
+                    <button string="📊 Ir para Contabilidade" 
+                            name="action_go_to_accounting"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'done'"/>
+                    <button string="📤 Nova Importação" 
+                            name="action_back_to_upload"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'done'"/>
+                    <button string="✅ Fechar" 
+                            name="action_cancel"
+                            type="object"
+                            class="btn-success"
+                            invisible="state != 'done'"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open the wizard -->
+    <record id="action_bank_statement_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import Bank Statement</field>
+        <field name="res_model">bank.statement.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_bank_statement_import_wizard_form"/>
+    </record>
+</odoo>

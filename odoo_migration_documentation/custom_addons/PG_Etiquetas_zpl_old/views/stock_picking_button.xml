@@ -1,0 +1,41 @@
+<odoo>
+    <record id="view_picking_form_inherit_print_button" model="ir.ui.view">
+        <field name="name">stock.picking.form.print.labels</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_print_zpl_entrega"
+                        type="object"
+                        string="Imprimir Entregas"
+                        class="btn-primary"/>                    
+            </xpath>
+        </field>
+    </record>  
+    
+    
+    <record id="view_picking_form_inherit_zpl" model="ir.ui.view">
+        <field name="name">stock.picking.form.zpl.button</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//header" position="inside">
+            <button name="action_print_zpl_tecido"
+                    type="object"
+                    string="Imprimir Tecidos"
+                    class="btn-secondary"/>
+          </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_form_inherit_last_label_printed" model="ir.ui.view">
+        <field name="name">stock.picking.form.last.label.printed</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='scheduled_date']" position="after">
+                <field name="last_label_printed_at" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

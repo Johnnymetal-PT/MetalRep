@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit Product Template Form View -->
+    <record id="view_product_template_form_inherit_transformation" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.transformation</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Add transformation fields before internal_notes -->
+            <xpath expr="//group[@name='internal_notes']" position="before">
+                <group name="transformation_group" string="Transformação">
+                    <group>
+                        <field name="product_form"/>
+                        <field name="can_be_transformed" invisible="product_form == 'none'"/>
+                    </group>
+                    <group>
+                        <div class="alert alert-info" role="alert" invisible="not can_be_transformed">
+                            <strong>Regras de Transformação:</strong>
+                            <ul>
+                                <li>Bloco pode ser transformado em Placa</li>
+                                <li>Placa pode ser transformada em Banda</li>
+                                <li>Banda pode ser transformada em Ladrilhos</li>
+                                <li>Ladrilhos é produto final (não pode ser transformado)</li>
+                            </ul>
+                        </div>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Product Product Form View -->
+    <record id="view_product_product_form_inherit_transformation" model="ir.ui.view">
+        <field name="name">product.product.form.inherit.transformation</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <notebook>
+                    <page string="Transformação" name="transformation" invisible="not use_variant_price">
+                        <group>
+                            <group string="Configuração de Transformação (Variante)">
+                                <field name="product_form"/>
+                                <field name="can_be_transformed"/>
+                            </group>
+                            <group>
+                                <field name="use_variant_price" invisible="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Search View for Products with Transformation -->
+    <record id="view_product_template_search_transformation" model="ir.ui.view">
+        <field name="name">product.template.search.transformation</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='filter_to_sell']" position="after">
+                <separator/>
+                <filter string="Pode ser Transformado" name="can_transform" domain="[('can_be_transformed', '=', True)]"/>
+                <filter string="Nenhum" name="none" domain="[('product_form', '=', 'none')]"/>
+                <filter string="Blocos" name="blocks" domain="[('product_form', '=', 'block')]"/>
+                <filter string="Placas" name="slabs" domain="[('product_form', '=', 'slab')]"/>
+                <filter string="Bandas" name="strips" domain="[('product_form', '=', 'strip')]"/>
+                <filter string="Ladrilhos" name="tiles" domain="[('product_form', '=', 'tiles')]"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter string="Forma do Produto" name="group_product_form" context="{'group_by': 'product_form'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

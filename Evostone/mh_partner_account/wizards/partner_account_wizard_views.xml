@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ================================================================
+             WIZARD DE CONFIRMAÇÃO PARA CRIAR CONTAS
+             ================================================================ -->
+
+        <record id="view_partner_account_confirm_wizard_form" model="ir.ui.view">
+            <field name="name">partner.account.confirm.wizard.form</field>
+            <field name="model">partner.account.confirm.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Criar Conta de Parceiro">
+                    <field name="partner_id" invisible="1"/>
+                    <field name="is_customer" invisible="1"/>
+                    <field name="is_supplier" invisible="1"/>
+
+                    <div class="alert alert-info" role="alert">
+                        <p class="mb-0">
+                            <strong>Deseja criar a conta contabilística para o parceiro
+                            <field name="partner_name" readonly="1" nolabel="1" class="oe_inline"/>?</strong>
+                        </p>
+                        <p class="mb-0 mt-2">
+                            <field name="message" readonly="1" nolabel="1"/>
+                        </p>
+                    </div>
+
+                    <footer>
+                        <button name="action_confirm"
+                                string="Sim, Criar"
+                                type="object"
+                                class="btn-primary"/>
+                        <button name="action_cancel"
+                                string="Não"
+                                type="object"
+                                class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Ação para abrir o wizard -->
+        <record id="action_partner_account_confirm_wizard" model="ir.actions.act_window">
+            <field name="name">Criar Conta de Parceiro</field>
+            <field name="res_model">partner.account.confirm.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

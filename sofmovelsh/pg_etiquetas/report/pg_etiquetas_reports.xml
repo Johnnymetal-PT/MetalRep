@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--
+    Cinco relatórios, os mesmos que a V17 tinha em Studio, agora em código: um por
+    origem de impressão. Em Studio viviam como `studio_customization.studio_report_docume_<uuid>`
+    e o módulo chamava-os por esse UUID — recriar o relatório em Studio partia o
+    módulo. Aqui têm XML ids estáveis.
+-->
+
+<!-- A5, a partir do artigo -->
+<record id="action_report_pg_etiqueta_a5_template" model="ir.actions.report">
+    <field name="name">Etiqueta A5</field>
+    <field name="model">product.template</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">pg_etiquetas.report_pg_etiqueta_a5_template</field>
+    <field name="report_file">pg_etiquetas.report_pg_etiqueta_a5_template</field>
+    <field name="print_report_name">'Etiqueta A5 - %s' % object.name</field>
+    <field name="binding_model_id" ref="product.model_product_template"/>
+    <field name="binding_type">report</field>
+</record>
+
+<!-- A5, a partir da variante -->
+<record id="action_report_pg_etiqueta_a5_variant" model="ir.actions.report">
+    <field name="name">Etiqueta A5</field>
+    <field name="model">product.product</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">pg_etiquetas.report_pg_etiqueta_a5_variant</field>
+    <field name="report_file">pg_etiquetas.report_pg_etiqueta_a5_variant</field>
+    <field name="print_report_name">'Etiqueta A5 - %s' % object.display_name</field>
+    <field name="binding_model_id" ref="product.model_product_product"/>
+    <field name="binding_type">report</field>
+</record>
+
+<!--
+    A5 e 5x8 a partir da recepção. O modelo é `stock.move` e não `stock.picking`
+    porque cada etiqueta corresponde a uma peça recebida, e é do movimento que vem
+    o tecido. Sem `binding_model_id`: chegam-se pelos botões da recepção, não pelo
+    menu de imprimir do movimento.
+-->
+<record id="action_report_pg_etiqueta_a5_move" model="ir.actions.report">
+    <field name="name">Etiqueta A5 (recepção)</field>
+    <field name="model">stock.move</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">pg_etiquetas.report_pg_etiqueta_a5_move</field>
+    <field name="report_file">pg_etiquetas.report_pg_etiqueta_a5_move</field>
+</record>
+
+<record id="action_report_pg_etiqueta_5x8" model="ir.actions.report">
+    <field name="name">Etiqueta 5x8 (recepção)</field>
+    <field name="model">stock.move</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">pg_etiquetas.report_pg_etiqueta_5x8</field>
+    <field name="report_file">pg_etiquetas.report_pg_etiqueta_5x8</field>
+</record>
+
+<!--
+    ZPL: relatório de texto, para impressora térmica.
+
+    O encaminhamento para a impressora **não** está aqui: faz-se ligando este
+    relatório ao dispositivo IoT certo de cada loja, no campo "IoT Devices" do
+    relatório (menu Configuração > Técnico > Relatórios, com o módulo `iot`
+    instalado). É configuração de base, não código, porque a impressora é diferente
+    em cada loja e muda quando se troca de equipamento.
+
+    Na V17 este relatório estava ligado às DUAS Zebras ao mesmo tempo — a de Braga
+    e a do Seixal — o que é a causa provável de "imprimi e não saiu nada" e dos
+    reinícios da caixa IoT (tarefa 6571). Ligar a uma só por loja, ou deixar o
+    standard perguntar qual.
+-->
+<record id="action_report_pg_etiqueta_zpl" model="ir.actions.report">
+    <field name="name">Etiqueta ZPL (recepção)</field>
+    <field name="model">stock.move</field>
+    <field name="report_type">qweb-text</field>
+    <field name="report_name">pg_etiquetas.report_pg_etiqueta_zpl</field>
+    <field name="report_file">pg_etiquetas.report_pg_etiqueta_zpl</field>
+</record>
+
+</odoo>

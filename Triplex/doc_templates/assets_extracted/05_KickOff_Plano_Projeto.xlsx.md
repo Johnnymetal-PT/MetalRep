@@ -1,0 +1,16 @@
+# Extracted: 05_KickOff_Plano_Projeto.xlsx
+
+# xl/worksheets/sheet1.xml
+A1: ODOO — PLANO DE PROJETO / SCOPE & PHASING
+A5: 2
+A6: 3
+A8: 5
+A9: 6
+A10: 7
+A11: 8
+A12: 9
+A15: 12
+A16: 13
+
+# xl/worksheets/sheet2.xml
+A1: ODOO — INFORMAÇÃO GERAL DO PROJETO

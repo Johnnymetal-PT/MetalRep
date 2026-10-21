@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="employee_report_template" model="ir.ui.view">
+        <field name="name">employee_report_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.employee_report_template">
+    <t t-set="data" t-value="env['employee.report.wizard'].get_employee_data()"/>
+    <div class="page">
+
+      <div class="mt16">
+        <a type="button" class="btn btn-primary" t-attf-href="/employee_report/export_xls">
+           Exportar Excel
+        </a>
+      </div>
+
+      <h2>Relatório de Funcionários</h2>
+
+      <style>
+        /* Bordas e alinhamento */
+        .o_main_table th,
+        .o_main_table td {
+            border: 1px solid #939090 !important;
+            padding: 5px;
+            vertical-align: middle; 
+        }
+        .o_main_table thead th {
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+        }
+        .o_main_table tbody td:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+        .o_main_table tbody td:nth-child(even) {
+            background-color: #ffffff;
+        }
+      </style>
+
+      <table class="table table-sm o_main_table" style="font-size: 13px; border-collapse: collapse; width:200%;">
+        <thead>
+          <tr>
+            <th>Nome Completo</th>
+            <th>Tipo doc.identificação</th>
+            <th>Nº identificação</th>
+            <th>Nuit</th>
+            <th>Nº beneficiário</th>
+            <th>Nacionalidade</th>
+            <th>Naturalidade</th>
+            <th>Género</th>
+            <th>Ocupação</th>
+            <th>Categoria ocupacional</th>
+            <th>Habilitações literárias</th>
+            <th>Tipo contrato</th>
+            <th>Data de Nascimento</th>
+            <th>Data de admissão</th>
+            <th>Data da última promoção</th>
+            <th>Situação Profissional</th>
+            <th>Remuneração base</th>
+            <th>Pagamento a.regulares</th>
+            <th>Outros P.adicionais</th>
+            <th>Horas N. remuneradas</th>
+            <th>Horas Ex. remuneradas</th>
+            <th>Nº Dias não remuneradas por mês</th>
+            <th>Regime de Duração do trabalho</th>
+            <th>Periodo N. de trabalho semanal</th>
+          </tr>
+        </thead>
+        <tbody> 
+          <t t-foreach="data" t-as="emp">
+            <tr>
+        
+              <td style="text-align: left;"><t t-esc="emp['name']"/></td>
+
+              <td style="text-align: center;">
+                <t t-if="emp['identification']">
+                    B.I
+                </t>
+              </td>
+
+
+
+              <td style="text-align: center;"><t t-esc="emp['identification']"/></td>
+              <td style="text-align: center;"><t t-esc="emp['nuit']"/></td>
+              <td style="text-align: center;"><t t-esc="emp['ssnid']"/></td>
+              <td style="text-align: center;"><t t-esc="emp['country']"/></td>
+              <td style="text-align: center;"><t t-esc="emp['place_of_birth']"/></td>
+              <td style="text-align: center;">
+                <t t-esc="'Feminino' if emp['gender'] == 'male' else 'Masculino'"/>
+            </td>
+              <td style="text-align: center;"><t t-esc="emp['job']"/></td>
+              <td style="text-align: center;"><t t-esc="emp['categorias_profissionais']"/></td>
+              <td style="text-align: center;"><t t-esc="emp['study_school']"/></td>
+               <td style="text-align: center;"><t t-esc="emp['contract_type_id']"/></td>
+              <td style="text-align: center;"><t t-esc="emp['birthday']"/></td>
+              <td style="text-align: center;"><t t-esc="emp['first_contract_date']"/></td>
+              <td style="text-align: center;"><t t-esc="emp['data_promocao']"/></td>
+              <td style="text-align: center;"><t t-esc="emp['situacao_profissional']"/></td>
+             <td style="text-align: center">    <t t-esc="'{:,.2f}'.format(emp['base_wage']).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
+            </td>
+            <td style="text-align: center;"><t t-esc="emp['pagamento_regulares']"/></td>
+            <td style="text-align: center;"><t t-esc="emp['outros_padicionais']"/></td>
+            <td style="text-align: center;"><t t-esc="emp['horas_n_remuneradas']"/></td>
+            <td style="text-align: center;"><t t-esc="emp['horas_ex_remuneradas']"/></td>
+            <td style="text-align: center;"><t t-esc="emp['n_dias_no_remuneradas_por_ms']"/></td>
+            <td style="text-align: center;"><t t-esc="emp['regime_de_durao_do_trabalho']"/></td>
+            <td style="text-align: center;"><t t-esc="emp['periodo_n_de_trabalho_semanal']"/></td>
+            </tr>
+          </t>
+        </tbody>
+      </table>
+
+    </div>
+  </t>
+        </field>
+    </record>
+
+</odoo>

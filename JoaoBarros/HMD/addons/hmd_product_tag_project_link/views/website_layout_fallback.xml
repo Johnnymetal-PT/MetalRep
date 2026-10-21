@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="hmd_product_tag_project_link_layout_fallback" inherit_id="website.layout" priority="99">
+        <xpath expr="//body" position="inside">
+            <script type="text/javascript">
+                (function () {
+                    window.__hmdTagLinkInlineLoaded = true;
+                    function normalizeUrl(rawUrl) {
+                        var value = (rawUrl || '').trim();
+                        if (!value) {
+                            return '';
+                        }
+                        if (value.indexOf('/') === 0 || value.indexOf('http://') === 0 || value.indexOf('https://') === 0) {
+                            return value;
+                        }
+                        return '/' + value;
+                    }
+
+                    function getProductTemplateId() {
+                        var input = document.querySelector('#product_details input.product_template_id');
+                        if (input &amp;&amp; input.value) {
+                            return parseInt(input.value, 10) || 0;
+                        }
+                        var match = (window.location.pathname || '').match(/-(\d+)(?:\/)?$/);
+                        return match ? (parseInt(match[1], 10) || 0) : 0;
+                    }
+
+                    function markTags(urlByName) {
+                        var selectors = [
+                            '#product_details .badge',
+                            '#product_details .o_tag_badge',
+                            '#product_details .text-nowrap'
+                        ].join(', ');
+
+                        document.querySelectorAll(selectors).forEach(function (el) {
+                            if (!el || el.closest('a')) {
+                                return;
+                            }
+                            var text = (el.textContent || '').trim();
+                            var url = urlByName[text];
+                            if (!url) {
+                                return;
+                            }
+                            el.dataset.hmdProjectUrl = url;
+                            el.style.cursor = 'pointer';
+                            el.style.pointerEvents = 'auto';
+                            el.setAttribute('role', 'link');
+                            if (!el.hasAttribute('tabindex')) {
+                                el.setAttribute('tabindex', '0');
+                            }
+                            if (!el.dataset.hmdProjectBound) {
+                                el.dataset.hmdProjectBound = '1';
+                                el.addEventListener('click', function (ev) {
+                                    var directUrl = this.dataset.hmdProjectUrl;
+                                    if (!directUrl) {
+                                        return;
+                                    }
+                                    ev.preventDefault();
+                                    ev.stopPropagation();
+                                    window.location.href = directUrl;
+                                }, true);
+                                el.addEventListener('keydown', function (ev) {
+                                    if (ev.key !== 'Enter' &amp;&amp; ev.key !== ' ') {
+                                        return;
+                                    }
+                                    var directUrl = this.dataset.hmdProjectUrl;
+                                    if (!directUrl) {
+                                        return;
+                                    }
+                                    ev.preventDefault();
+                                    ev.stopPropagation();
+                                    window.location.href = directUrl;
+                                }, true);
+                            }
+                        });
+                    }
+
+                    function bindClickOnce() {
+                        if (window.__hmdProjectTagInlineBound) {
+                            return;
+                        }
+                        window.__hmdProjectTagInlineBound = true;
+
+                        document.addEventListener('click', function (ev) {
+                            var baseTarget = ev.target instanceof Element ? ev.target : (ev.target &amp;&amp; ev.target.parentElement);
+                            if (!baseTarget) {
+                                return;
+                            }
+                            var target = baseTarget.closest('[data-hmd-project-url]');
+                            if (!target) {
+                                return;
+                            }
+                            var url = target.dataset.hmdProjectUrl;
+                            if (!url) {
+                                return;
+                            }
+                            ev.preventDefault();
+                            ev.stopPropagation();
+                            window.location.href = url;
+                        }, true);
+                    }
+
+                    function startObserver(urlByName) {
+                        var root = document.getElementById('wrap') || document.body;
+                        if (!root) {
+                            return;
+                        }
+                        var ticking = false;
+                        var reapply = function () {
+                            if (ticking) {
+                                return;
+                            }
+                            ticking = true;
+                            window.requestAnimationFrame(function () {
+                                markTags(urlByName);
+                                ticking = false;
+                            });
+                        };
+                        new MutationObserver(reapply).observe(root, {childList: true, subtree: true});
+                        for (var i = 1; i &lt;= 15; i++) {
+                            setTimeout(reapply, i * 300);
+                        }
+                    }
+
+                    function init() {
+                        var productTemplateId = getProductTemplateId();
+                        if (!productTemplateId) {
+                            return;
+                        }
+                        bindClickOnce();
+
+                        fetch('/hmd/product_tag_project_urls/' + productTemplateId, {
+                            credentials: 'same-origin',
+                            headers: {Accept: 'application/json'}
+                        }).then(function (response) {
+                            if (!response.ok) {
+                                return {};
+                            }
+                            return response.json();
+                        }).then(function (payload) {
+                            var mapping = {};
+                            var tagUrls = (payload &amp;&amp; payload.tag_urls) || {};
+                            Object.keys(tagUrls).forEach(function (tagName) {
+                                var url = normalizeUrl(tagUrls[tagName]);
+                                if (url) {
+                                    mapping[tagName] = url;
+                                }
+                            });
+                            if (!Object.keys(mapping).length) {
+                                return;
+                            }
+                            markTags(mapping);
+                            startObserver(mapping);
+                        }).catch(function () {
+                            // Fail silently; this is a non-blocking enhancement.
+                        });
+                    }
+
+                    document.addEventListener('DOMContentLoaded', init);
+                })();
+            </script>
+        </xpath>
+    </template>
+</odoo>

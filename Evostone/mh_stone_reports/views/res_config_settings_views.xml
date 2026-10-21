@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_stock" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.mh.stone</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='stock']" position="inside">
+                <block title="Zebra Print Server" name="zebra_print_server">
+                    <setting string="Print Server URL" help="URL publica do Zebra Print Server (ngrok). Preenchido automaticamente pelo print agent.">
+                        <field name="zebra_print_server_url" placeholder="https://xxxxx.ngrok-free.app"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

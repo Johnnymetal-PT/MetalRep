@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Informação Multibanco: Entidade / Referência / Valor Multibanco -->
+    <template id="mb_payment_info">
+        <!-- o for invoices and doc for sales orders -->
+        <t t-set="o" t-value="o or doc" />
+        <t t-set="mb_info" t-value="o.get_multibanco_report_info()" />
+        <t t-set="mb_entity" t-value="mb_info[0]" />
+        <t t-set="mb_reference" t-value="mb_info[1]" />
+        <t t-set="mb_amount" t-value="mb_info[2]" />
+        <t t-set="mb_date" t-value="mb_info[3]" />
+        <!--<t t-set="mb_date" t-value="'12-12-2021'"/>-->
+        <div t-if="mb_entity and mb_reference and mb_amount" class="multibanco">
+            <div class="mb-payment">
+                <div class="mb-logo" />
+                <div class="mb-data">
+                    <div>
+                        <span class="mb-data-label">Entity:</span>
+                        <span class="mb-data-field" t-esc="mb_entity" />
+                    </div>
+                    <div>
+                        <span class="mb-data-label">Reference:</span>
+                        <span class="mb-data-field" t-esc="mb_reference" />
+                    </div>
+                    <div>
+                        <span class="mb-data-label">Amount:</span>
+                        <span
+                            class="mb-data-field"
+                            t-esc="mb_amount"
+                            t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="mb-limit" t-if="mb_date">
+                Due Date: <span t-esc="mb_date" />
+            </div>
+        </div>
+    </template>
+</odoo>

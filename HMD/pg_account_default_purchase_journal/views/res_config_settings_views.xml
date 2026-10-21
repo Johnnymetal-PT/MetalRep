@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_pg_purchase_journal" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.pg.default.purchase.journal</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='account_vendor_bills']" position="inside">
+                <setting id="pg_default_purchase_journal"
+                         string="Diário por defeito"
+                         help="Diário pré-selecionado ao criar faturas de fornecedor (incluindo a partir de pedidos de compra). Se vazio, mantém-se o comportamento standard do Odoo.">
+                    <field name="pg_default_purchase_journal_id"
+                           options="{'no_create': True, 'no_open': True}"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

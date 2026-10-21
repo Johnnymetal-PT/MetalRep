@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_attribute_value_form_inherit_price_extra" model="ir.ui.view">
+        <field name="name">product.attribute.value.form.inherit.price_extra</field>
+        <field name="model">product.template.attribute.value</field>
+        <field name="inherit_id" ref="product.product_template_attribute_value_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='image']" position="after">
+                <separator string="Cálculo Automático do Preço Extra" colspan="4"/>
+                <field name="preco_por_m2"/>
+                <field name="m2_da_peca"/>
+                <!--<field name="metragem_yards"/>-->
+                <field name="valor_do_corte"/>
+                <field name="margem"/>
+                <field name="margem_geral"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

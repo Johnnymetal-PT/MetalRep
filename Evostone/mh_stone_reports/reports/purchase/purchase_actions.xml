@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--
+            Ordem de Compra (purchase.order)
+
+            Template em: purchase_reports.xml
+        -->
+
+        <record id="action_report_purchaseorder" model="ir.actions.report">
+            <field name="name">Ordem de Compra</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_purchaseorder</field>
+            <field name="report_file">mh_stone_reports.report_purchaseorder</field>
+            <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="mh_stone_reports.paperformat_stone_cotacao"/>
+            <field name="print_report_name">"Ordem de Compra _ " + object.name + " [" + str(object.partner_id.name) + "]"</field>
+            <field name="attachment_use" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

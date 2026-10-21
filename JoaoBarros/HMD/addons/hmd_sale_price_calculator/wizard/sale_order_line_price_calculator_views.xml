@@ -1,0 +1,23 @@
+<odoo>
+    <record id="view_sale_order_line_price_calculator" model="ir.ui.view">
+        <field name="name">sale.order.line.price.calculator.form</field>
+        <field name="model">sale.order.line.price.calculator</field>
+        <field name="arch" type="xml">
+            <form string="Price Calculator">
+                <group>
+                    <field name="sale_line_id" invisible="1"/>
+                    <field name="cost_price"/>
+                    <field name="margin_type"/>
+                    <field name="margin_value"/>
+                    <field name="margin_amount" readonly="1"/>
+                    <field name="computed_price" readonly="1"/>
+                    <field name="observation" placeholder="Add your observations here..."/>
+                </group>
+                <footer>
+                    <button name="action_apply" string="Apply" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

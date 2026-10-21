@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Stock Valuation Layer List View Extension -->
+    <record id="view_stock_valuation_layer_list_inherit_pcmp" model="ir.ui.view">
+        <field name="name">stock.valuation.layer.list.inherit.pcmp</field>
+        <field name="model">stock.valuation.layer</field>
+        <field name="inherit_id" ref="stock_account.stock_valuation_layer_tree"/>
+        <field name="arch" type="xml">
+            <field name="description" position="after">
+                <field name="base_lot_name" optional="show"/>
+                <field name="is_pcmp_adjustment" optional="hide"/>
+                <field name="import_document_id" optional="hide"/>
+                <field name="is_provisional" optional="hide"/>
+                <field name="provisional_updated_date" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Stock Valuation Layer Form View Extension -->
+    <record id="view_stock_valuation_layer_form_inherit_pcmp" model="ir.ui.view">
+        <field name="name">stock.valuation.layer.form.inherit.pcmp</field>
+        <field name="model">stock.valuation.layer</field>
+        <field name="inherit_id" ref="stock_account.stock_valuation_layer_form"/>
+        <field name="arch" type="xml">
+            <group position="inside">
+                <group string="PCMP Info" invisible="not is_pcmp_adjustment and not import_document_id">
+                    <field name="is_pcmp_adjustment"/>
+                    <field name="is_import_adjustment"/>
+                    <field name="import_document_id" invisible="not import_document_id"/>
+                    <field name="landed_cost_amount" invisible="landed_cost_amount == 0"/>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

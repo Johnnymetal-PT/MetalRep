@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="m_multi_category" name="Megamenu Multi Category">
+        <div t-attf-class="as-multi-category as_m_category_grid container-fluid py-4 as-mm-multiple-shop-section {{mm_style}}">
+            <div class="row">
+                <div class="col-lg-3 border-end as-col">
+                    <ul class="nav flex-column mm-main-categories">
+                        <t t-foreach="category_1" t-as="d">
+                            <li class="nav-item">
+                                <a class="nav-link fw-medium" t-attf-href="/shop/category/{{slug(d.sudo())}}"><t t-esc="d.sudo().name"/></a>
+                            </li>
+                        </t>
+                    </ul>
+                </div>
+                <div class="col-lg-6 as-col">
+                    <div class="row g-3">
+                        <t t-foreach="category_2" t-as="d">
+                            <div t-attf-class="col-lg-4">
+                                <div class="as-mm-cat-card">
+                                    <div class="as-mm-cat-card-media">
+                                        <a t-attf-href="/shop/category/{{slug(d.sudo())}}">
+                                            <img t-att-src="request.website.image_url(d,'image_1024')"/>
+                                        </a>
+                                    </div>
+                                    <div class="as-mm-cat-title">
+                                        <span>
+                                            <a t-attf-href="/shop/category/{{slug(d.sudo())}}">
+                                                <t t-esc="d.sudo().name"/>
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <div class="as-mm-sub-cat">
+                                        <ul>
+                                            <t t-foreach="category_2[d]" t-as="sub">
+                                                <li>
+                                                    <a t-attf-href="/shop/category/{{slug(sub.sudo())}}">
+                                                        <t t-esc="sub.name"/>
+                                                    </a>
+                                                </li>
+                                            </t>
+                                            <li t-if="category_2[d]" class="as-mm-view-all">
+                                                <a t-attf-href="/shop/category/{{ slug(d.sudo()) }}">
+                                                    View All
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+                <div class="col-lg-3 as-col">
+                    <div class="card border-0 shadow-sm mm-card-category">
+                        <t t-foreach="category_3" t-as="d">
+                            <div class="mm-cateogry-card-3">
+                                <img t-att-src="request.website.image_url(d,'image_1024')" class="card-img-top"/>
+                                <div class="card-body d-flex align-items-center">
+                                    <div class="card-text">
+                                        <h6 class="card-title mb-0"><t t-esc="d.sudo().name"/></h6>
+                                        <p class="m-0"><t t-esc="len(d.product_tmpl_ids)"/> Products</p>
+                                    </div>
+                                    <div class="card-btn ms-auto">
+                                        <a href="#"><i class="fa fa-chevron-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

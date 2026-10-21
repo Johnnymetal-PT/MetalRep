@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_crm_lead_form_pg_prototipo" model="ir.ui.view">
+        <field name="name">crm.lead.form.pg.prototipo</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Fora do cabecalho, de proposito. No cabecalho o botao ficava
+                 encostado ao "Ganho", ao "Perdido" e ao "Converter em oportunidade"
+                 — accoes de venda que se carregam todos os dias e que nao se querem
+                 confundir com esta, que cria registos. A cliente pediu-o por essas
+                 palavras: "e possivel colocar o botao mais afastado dos principais?".
+                 Na caixa de botoes fica visivel a um clique, e noutra zona do ecra. -->
+            <!-- `base.group_no_one` so fica activo com o modo programador ligado, por
+                 isso o botao nao aparece a quem usa o CRM no dia a dia. Foi a condicao
+                 que a cliente pos na reuniao de 30/09 para os modulos passarem a
+                 producao: o circuito vai para la pronto, mas so se abre a quem o souber
+                 abrir, ate a Essani dizer que esta pronto para os comerciais. Tirar
+                 este `groups` e o unico passo necessario para o publicar. -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="%(action_pg_prototipo_criar)d" type="action"
+                        class="oe_stat_button" icon="fa-cube"
+                        groups="base.group_no_one"
+                        title="Criar um protótipo a partir desta oportunidade">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Criar</span>
+                        <span class="o_stat_text">protótipo</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="mh_saft.SaftReport">
+        <div class="o_action o_saft_report">
+            <Layout display="{ controlPanel: {} }">
+                <t t-set-slot="control-panel-always-buttons">
+                    <button t-on-click="onClickExport" type="button"
+                            class="btn btn-primary" title="Exportar Vendas AT">
+                        Exportar
+                    </button>
+                    <select id="mh_saft_format" class="form-select border-1 w-auto">
+                        <option value="xlsx">xlsx</option>
+                        <option value="csv">csv</option>
+                        <option value="xml">xml (SAF-T)</option>
+                    </select>
+                </t>
+                <t t-set-slot="layout-actions">
+                    <form class="d-flex flex-row gap-3 align-items-center">
+                        <div class="input-group w-auto">
+                            <div class="input-group-text fw-bold">Ano</div>
+                            <select class="form-select border-0" t-on-change="onChangeYear">
+                                <t t-foreach="state.years" t-as="y" t-key="y">
+                                    <option t-att-value="y" t-att-selected="state.year === y" t-esc="y"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="input-group w-auto">
+                            <div class="input-group-text fw-bold">Mês</div>
+                            <select class="form-select border-0" t-on-change="onChangeMonth">
+                                <t t-foreach="state.months" t-as="m" t-key="m.value">
+                                    <option t-att-value="m.value"
+                                            t-att-selected="state.month === m.value"
+                                            t-out="m.label"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="input-group w-auto">
+                            <div class="input-group-text fw-bold">Tipo</div>
+                            <select class="form-select border-0" t-on-change="onChangeType">
+                                <option value="">— Todos —</option>
+                                <option value="FT">FT — Factura</option>
+                                <option value="ND">ND — Nota de Débito</option>
+                                <option value="NC">NC — Nota de Crédito</option>
+                            </select>
+                        </div>
+                        <span class="text-muted small ms-auto" t-if="state.totalLines">
+                            <t t-esc="state.totalDocs"/> docs ·
+                            <t t-esc="state.totalLines"/> linhas ·
+                            total <t t-esc="state.grandTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})"/> MT
+                        </span>
+                    </form>
+                </t>
+                <div>
+                    <t t-out="state.html"/>
+                </div>
+            </Layout>
+        </div>
+    </t>
+</templates>

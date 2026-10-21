@@ -1,0 +1,226 @@
+<odoo>
+    <record id="view_hiper_sync_vendor_list" model="ir.ui.view">
+        <field name="name">hiper.sync.vendor.list</field>
+        <field name="model">hiper.sync.vendor</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="source_kind"/>
+                <field name="sync_active"/>
+                <field name="last_sync_at"/>
+                <field name="last_sync_status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hiper_sync_vendor_form" model="ir.ui.view">
+        <field name="name">hiper.sync.vendor.form</field>
+        <field name="model">hiper.sync.vendor</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_validate_configuration" string="Validate" type="object" class="btn-secondary"/>
+                    <button name="action_fetch_preview" string="Fetch Preview" type="object" class="btn-secondary"/>
+                    <button name="action_run_sync" string="Run Sync" type="object" class="btn-primary"/>
+                    <button name="action_run_full_sync" string="Run All Suppliers" type="object" class="btn-secondary"/>
+                    <button name="action_use_external_feed_mode" string="Use External CSV" type="object" class="btn-secondary"/>
+                    <button name="action_trigger_remote_crawler" string="Trigger Remote Crawl" type="object" class="btn-secondary"/>
+                    <button name="action_refresh_remote_crawler" string="Refresh Remote Result" type="object" class="btn-secondary"/>
+                    <field name="last_sync_status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="source_kind"/>
+                            <field name="sync_active"/>
+                            <field name="supplier_partner_id"/>
+                            <field name="product_default_active"/>
+                            <field name="ignore_out_of_stock_products"/>
+                            <field name="publish_to_website"/>
+                        </group>
+                        <group>
+                            <field name="default_categ_id"/>
+                            <field name="default_public_categ_id"/>
+                            <field name="translate_enabled"/>
+                            <field name="translate_provider"/>
+                            <field name="translate_api_key" password="True"/>
+                            <field name="translate_ai_model"/>
+                            <field name="translate_source_lang"/>
+                            <field name="translate_target_lang"/>
+                            <field name="translate_protected_terms" widget="text"/>
+                            <field name="pg_adapter_mode"/>
+                            <field name="last_sync_at" readonly="1"/>
+                            <field name="last_sync_message" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="HTTP/API">
+                            <group>
+                                <field name="feed_url"/>
+                                <field name="api_url_template"/>
+                                <field name="username"/>
+                                <field name="password" password="True"/>
+                                <field name="api_key" password="True"/>
+                                <field name="username_id"/>
+                                <field name="request_call_type"/>
+                                <field name="delimiter"/>
+                            </group>
+                        </page>
+                        <page string="PG Translate Discovery">
+                            <group>
+                                <group>
+                                    <field name="pg_translate_discovery_query"/>
+                                    <field name="pg_translate_discovery_mode"/>
+                                    <field name="pg_translate_discovery_preset"/>
+                                    <button
+                                        name="action_pg_discover_protected_terms"
+                                        string="Discover Protected Terms"
+                                        type="object"
+                                        class="btn-secondary"
+                                    />
+                                </group>
+                                <group>
+                                    <field name="pg_translate_discovery_status" readonly="1"/>
+                                    <field name="pg_translate_discovery_last_run_at" readonly="1"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="pg_translate_discovery_log" widget="text" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="FTP">
+                            <group>
+                                <field name="ftp_host"/>
+                                <field name="ftp_port"/>
+                                <field name="ftp_user"/>
+                                <field name="ftp_password" password="True"/>
+                                <field name="remote_filename"/>
+                            </group>
+                        </page>
+                        <page string="Crawler">
+                            <group>
+                                <field name="crawler_workdir"/>
+                                <field name="crawler_command"/>
+                                <field name="crawler_output_path"/>
+                                <field name="crawler_env_text"/>
+                                <field name="extra_config_json"/>
+                            </group>
+                        </page>
+                        <page string="PG Generic">
+                            <group>
+                                <field name="pg_adapter_mode"/>
+                                <field name="pg_mapping_json" widget="text"/>
+                            </group>
+                        </page>
+                        <page string="Remote Crawler">
+                            <group>
+                                <group>
+                                    <field name="remote_crawler_source_url"/>
+                                    <field name="pg_remote_crawler_adapter_key"/>
+                                    <field name="pg_remote_crawler_login_url"/>
+                                    <field name="pg_remote_crawler_login_username"/>
+                                    <field name="pg_remote_crawler_login_password" password="True"/>
+                                    <field name="pg_remote_crawler_force_tienda_view"/>
+                                    <field name="pg_remote_crawler_trigger_time" placeholder="01:30"/>
+                                    <field name="pg_remote_crawler_max_age_minutes"/>
+                                    <field name="pg_remote_crawler_stale_timeout_minutes"/>
+                                    <field name="remote_crawler_trigger_url"/>
+                                    <field name="remote_crawler_status_url"/>
+                                    <label for="remote_crawler_auth_token" groups="base.group_system"/>
+                                    <div class="o_row" groups="base.group_system">
+                                        <field name="remote_crawler_auth_token" widget="CopyClipboardChar" class="oe_inline"/>
+                                        <button
+                                            name="action_pg_regenerate_remote_crawler_token"
+                                            type="object"
+                                            string="Regenerate Token"
+                                            class="oe_highlight oe_inline"
+                                        />
+                                    </div>
+                                    <field name="remote_crawler_payload_json"/>
+                                    <field name="remote_crawler_auto_refresh"/>
+                                </group>
+                                <group>
+                                    <field name="remote_crawler_job_id" readonly="1"/>
+                                    <field name="remote_crawler_job_status" readonly="1"/>
+                                    <field name="pg_remote_crawler_visited_pages" readonly="1"/>
+                                    <field name="pg_remote_crawler_discovered_products" readonly="1"/>
+                                    <field name="pg_remote_crawler_progress_note" readonly="1"/>
+                                    <field name="remote_crawler_result_url" readonly="1"/>
+                                    <field name="remote_crawler_last_requested_at" readonly="1"/>
+                                    <field name="remote_crawler_last_checked_at" readonly="1"/>
+                                    <field name="pg_remote_crawler_result_ready_at" readonly="1"/>
+                                    <field name="pg_remote_crawler_last_scheduled_trigger_at" readonly="1"/>
+                                    <field name="remote_crawler_last_error" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Category Maps">
+                            <field name="category_map_ids">
+                                <list editable="bottom">
+                                    <field name="kind"/>
+                                    <field name="origin_name"/>
+                                    <field name="target_categ_id"/>
+                                    <field name="target_public_categ_id"/>
+                                    <field name="shipping_cost"/>
+                                    <field name="margin_percent"/>
+                                    <field name="extra_margin_percent"/>
+                                    <field name="origin_discount_percent"/>
+                                    <field name="active"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hiper_sync_category_map_list" model="ir.ui.view">
+        <field name="name">hiper.sync.category.map.list</field>
+        <field name="model">hiper.sync.category.map</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="vendor_id"/>
+                <field name="kind"/>
+                <field name="origin_name"/>
+                <field name="target_categ_id"/>
+                <field name="target_public_categ_id"/>
+                <field name="margin_percent"/>
+                <field name="extra_margin_percent"/>
+                <field name="shipping_cost"/>
+                <field name="origin_discount_percent"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hiper_sync_category_map_form" model="ir.ui.view">
+        <field name="name">hiper.sync.category.map.form</field>
+        <field name="model">hiper.sync.category.map</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="vendor_id"/>
+                            <field name="kind"/>
+                            <field name="origin_name"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="target_categ_id"/>
+                            <field name="target_public_categ_id"/>
+                            <field name="shipping_cost"/>
+                            <field name="margin_percent"/>
+                            <field name="extra_margin_percent"/>
+                            <field name="origin_discount_percent"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

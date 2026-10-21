@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="theme_clarico_vega.ProductsDesignPanelPresetsExt" t-inherit="website_sale.ProductsDesignPanelPresets" t-inherit-mode="extension">
+        <xpath expr="//BuilderSelect//t[@t-set='showcaseLabel']" position="after">
+            <t t-set="firstLabel">First</t>
+            <t t-set="secondLabel">Second</t>
+            <t t-set="thirdLabel">Third</t>
+        </xpath>
+        <xpath expr="//t[@t-set='catalogStyles']" position="after">
+            <t t-set="catalogStyles" t-value="catalogStyles.concat([
+                {
+                    id: 'wsale_design_first_catalog',
+                    type: 'catalog',
+                    label: firstLabel,
+                    className: 'o_wsale_products_opt_layout_catalog o_wsale_products_opt_design_first',
+                    img: '/theme_clarico_vega/static/src/img/style_1.png',
+                    suggestedClasses: suggestedClassesCatalogDefault + suggestedClassesCatalogSubtle + ' o_wsale_products_opt_layout_catalog o_wsale_products_opt_has_description product_slider_style1',
+                    gap: 16,
+                },
+                {
+                    id: 'wsale_design_second_catalog',
+                    type: 'catalog',
+                    label: secondLabel,
+                    className: 'o_wsale_products_opt_layout_catalog o_wsale_products_opt_design_second',
+                    img: '/theme_clarico_vega/static/src/img/style_2.png',
+                    suggestedClasses: suggestedClassesCatalogDefault + suggestedClassesCatalogSubtle + ' o_wsale_products_opt_layout_catalog o_wsale_products_opt_has_description product_slider_style2',
+                    gap: 16,
+                },
+                {
+                    id: 'wsale_design_third_catalog',
+                    type: 'catalog',
+                    label: thirdLabel,
+                    className: 'o_wsale_products_opt_layout_catalog o_wsale_products_opt_design_third',
+                    img: '/theme_clarico_vega/static/src/img/style_3.png',
+                    suggestedClasses: suggestedClassesCatalogDefault + suggestedClassesCatalogSubtle + ' o_wsale_products_opt_layout_catalog o_wsale_products_opt_has_description product_slider_style3',
+                    gap: 16,
+                },
+            ])"/>
+        </xpath>
+
+    </t>
+
+</templates>

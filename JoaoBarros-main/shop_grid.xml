@@ -1,0 +1,41 @@
+<t name="Shop Product Grid" t-name="website_sale.shop_product_grid">
+    <div id="o-grid-product" class="o_wsale_product_page_grid mb-3"
+         data-name="Product Grid"
+         t-att-data-image_spacing="website.product_page_image_spacing"
+         t-att-data-grid_columns="website.product_page_grid_columns">
+        <div class="container position-relative overflow-hidden">
+
+<!-- Render Ribbon only when actual discount -->
+<t t-if="discount_percentage and discount_percentage &gt; 0">
+    <span t-attf-class="o_ribbon o_not_editable #{bg_class}"
+          t-attf-style="#{text_color and ('color: %s; ' % text_color)}#{bg_color and 'background-color:' + bg_color}">
+        -<t t-esc="discount_percentage"/>%
+    </span>
+</t>
+
+
+            <!-- Image Grid -->
+            <t t-set="image_classes" t-value="'w-100'"/>
+            <t t-set="col_classes" t-value="website._get_product_page_grid_image_classes()"/>
+            <t t-foreach="range(ceil(len(product_images) / website.product_page_grid_columns))" t-as="row_idx">
+                <div class="row m-0">
+                    <t t-foreach="range(row_idx * website.product_page_grid_columns, (row_idx + 1) * website.product_page_grid_columns)" t-as="image_idx">
+                        <t t-set="product_image" t-value="image_idx &lt; len(product_images) and product_images[image_idx] or False"/>
+                        <div t-if="product_image" t-att-class="col_classes">
+                            <!-- Pass ribbon and discount info to image renderer -->
+                            <t t-set="ctx">
+                                <t t-set="product_image" t-value="product_image"/>
+                                <t t-set="ribbon" t-value="ribbon"/>
+                                <t t-set="bg_color" t-value="bg_color"/>
+                                <t t-set="text_color" t-value="text_color"/>
+                                <t t-set="bg_class" t-value="bg_class"/>
+                                <t t-set="discount_percentage" t-value="discount_percentage"/>
+                            </t>
+                            <t t-call="website_sale.shop_product_image"/>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </div>
+    </div>
+</t>

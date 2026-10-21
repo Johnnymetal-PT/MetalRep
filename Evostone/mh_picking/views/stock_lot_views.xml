@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Stock Lot Form View Extension -->
+    <record id="view_stock_lot_form_inherit_dimensions" model="ir.ui.view">
+        <field name="name">stock.lot.form.inherit.dimensions</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='main_group']" position="after">
+                <group string="Dimensões" name="dimensions_info">
+                    <field name="length"/>
+                    <field name="width"/>
+                    <field name="thickness"/>
+                    <field name="price_group_id" options="{'no_create': True}"/>
+                    <field name="peso"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

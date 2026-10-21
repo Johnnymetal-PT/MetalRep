@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="pg_mrp_default_workorder_view_tree" model="ir.ui.view">
+        <field name="name">pg.mrp.default.workorder.tree</field>
+        <field name="model">pg.mrp.default.workorder</field>
+        <field name="arch" type="xml">
+            <tree string="Centros de Trabalho por Defeito" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="workcenter_id"/>
+                <field name="duration_expected" widget="float_time"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pg_mrp_default_workorder_view_form" model="ir.ui.view">
+        <field name="name">pg.mrp.default.workorder.form</field>
+        <field name="model">pg.mrp.default.workorder</field>
+        <field name="arch" type="xml">
+            <form string="Centro de Trabalho por Defeito">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="workcenter_id"/>
+                        <field name="duration_expected" widget="float_time"/>
+                        <field name="sequence"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pg_mrp_default_workorder_action" model="ir.actions.act_window">
+        <field name="name">Centros de Trabalho por Defeito</field>
+        <field name="res_model">pg.mrp.default.workorder</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Defina os centros de trabalho por defeito
+            </p>
+            <p>
+                Estes centros de trabalho são preenchidos automaticamente nas novas Ordens
+                de Fabrico que não tragam operações da Lista de Materiais, e podem ser
+                aplicados a Ordens de Fabrico existentes através do botão "Centros por defeito".
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="pg_mrp_default_workorder_menu"
+              name="Centros de Trabalho por Defeito"
+              parent="mrp.menu_mrp_configuration"
+              action="pg_mrp_default_workorder_action"
+              sequence="90"/>
+
+</odoo>

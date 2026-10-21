@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_purchase_import_block" model="ir.ui.view">
+        <field name="name">stock.picking.form.purchase.import.block</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Campo auxiliar para controlar visibilidade do botão de stickers -->
+            <xpath expr="//header" position="before">
+                <field name="has_stone_products" invisible="1"/>
+            </xpath>
+
+            <!-- Botão para imprimir stickers (só aparece quando state=done e tem produtos de pedra) -->
+            <xpath expr="//header" position="inside">
+                <button name="action_print_stickers"
+                        string="Imprimir Stickers"
+                        type="object"
+                        class="btn-secondary"
+                        icon="fa-print"
+                        invisible="state != 'done' or not has_stone_products"/>
+                <button name="action_print_guia_recepcao"
+                        string="Imprimir Listagem Pedras"
+                        type="object"
+                        class="btn-secondary"
+                        icon="fa-file-pdf-o"
+                        invisible="state != 'done' or not purchase_id or not has_stone_products"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

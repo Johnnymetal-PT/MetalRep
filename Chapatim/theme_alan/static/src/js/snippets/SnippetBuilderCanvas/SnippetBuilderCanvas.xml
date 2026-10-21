@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="theme_alan.snippet_builder_canvas">
+        <div t-attf-class="as-sb-canvas-preview as-preview-{{props.deviceView}}" t-ref="canvasArea">
+            <div>
+                <div class="as-sb-canvas-inner">
+                    <div class="as-sb-canvas-inner-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="as-sb-canvas-inner-body">
+                        <div  class="as-sb-canvas-empty as-sb-border w-100 mx-auto">
+                            <div class="as-sb-canvas-empty-image w-100 mx-auto" id="as-sb-canvas-empty-image">
+                                <div class="ear-wrap">
+                                    <div class="ear ear-left"></div>
+                                    <div class="ear ear-right"></div>
+                                </div>
+                                <div class="face" id="face">
+                                    <div class="face-inner">
+                                        <img src="/theme_alan/static/src/img/face-inner.png" alt="icon"/>
+                                        <div class="eye-wrap">
+                                            <div class="eye eye-left">
+                                                <div class="eye-inner"></div>
+                                            </div>
+                                            <div class="eye eye-right">
+                                                <div class="eye-inner"></div>
+                                            </div>
+                                            <div class="mouth">
+                                                <div class="mouth-top"></div>
+                                            </div>
+                                        </div>
+                                        <div class="nose">
+                                            <svg viewBox="0 0 16 16" fill="none">
+                                                <path d="M16 7.16891C16 11.5872 12.4183 15.6689 8 15.6689C3.58172 15.6689 0 11.5872 0 7.16891C0 2.75063 2.5 -0.831045 8 0.168906C14.5 -0.33101 16 2.75063 16 7.16891Z" fill="#030E50"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="arm-wrap">
+                                    <div class="arm arm-left">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                    <div class="arm arm-right">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="leg-wrap">
+                                    <div class="leg leg-left"></div>
+                                    <div class="leg leg-right"></div>
+                                </div>
+                                <div id="tooltip" class="tooltip"></div>
+                            </div>
+                            <div class="as-sb-canvas-empty-content">
+                                <h4 class="mb-2 pb-1">Hey, You don't need to be a designer to configure the snippet.</h4>
+                                <p class="mb-0">Start by selecting items from the right panel</p>
+                            </div>
+                        </div>
+
+                        <div class="as-sb-preview-container d-none">
+                             <iframe src="/theme_alan/get_snippet_builder_preview"
+                                t-ref="as-sb-preview-container"
+                                t-on-load="onIframeLoaded"
+                                class="w-100 h-100 as-sb-canvas-iframe"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

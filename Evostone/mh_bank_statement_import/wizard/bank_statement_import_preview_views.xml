@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Preview Line List View -->
+    <record id="view_bank_statement_import_preview_line_list" model="ir.ui.view">
+        <field name="name">mh.bank.statement.import.preview.line.list</field>
+        <field name="model">mh.bank.statement.import.preview.line</field>
+        <field name="arch" type="xml">
+            <list string="Transações" create="false" edit="false" delete="false">
+                <field name="sequence" optional="hide"/>
+                <field name="date"/>
+                <field name="payment_ref"/>
+                <field name="partner_name"/>
+                <field name="ref"/>
+                <field name="amount" decoration-success="amount &gt; 0" decoration-danger="amount &lt; 0"/>
+                <field name="note" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Preview Wizard Form View -->
+    <record id="view_bank_statement_import_preview_form" model="ir.ui.view">
+        <field name="name">mh.bank.statement.import.preview.form</field>
+        <field name="model">mh.bank.statement.import.preview</field>
+        <field name="arch" type="xml">
+            <form string="Preview de Importação de Extracto">
+                <group>
+                    <group string="Informações do Ficheiro">
+                        <field name="bank_name"/>
+                        <field name="filename"/>
+                        <field name="account_number"/>
+                        <field name="currency_code"/>
+                    </group>
+                    <group string="Informações do Extracto">
+                        <field name="statement_name"/>
+                        <field name="statement_date"/>
+                        <field name="balance_start"/>
+                        <field name="balance_end"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Resumo">
+                        <field name="total_transactions"/>
+                        <field name="total_credit" class="text-success"/>
+                        <field name="total_debit" class="text-danger"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Transações" name="transactions">
+                        <field name="line_ids" nolabel="1">
+                            <list string="Transações" create="false" edit="false" delete="false">
+                                <field name="sequence" optional="hide"/>
+                                <field name="date" string="Data Trans."/>
+                                <field name="date_valor" string="Data Valor"/>
+                                <!-- Campos BCI -->
+                                <field name="num_doc" string="Nº Doc" optional="show"/>
+                                <field name="num_oper" string="Nº Oper" optional="show"/>
+                                <!-- Descrição -->
+                                <field name="payment_ref" string="Descrição"/>
+                                <!-- Valores BIM: Débito e Crédito separados -->
+                                <field name="debit" string="Débito" sum="Total Débito" decoration-danger="debit != 0"/>
+                                <field name="credit" string="Crédito" sum="Total Crédito" decoration-success="credit != 0"/>
+                                <!-- Saldo -->
+                                <field name="balance" string="Saldo"/>
+                                <!-- Moeda (BCI) -->
+                                <field name="currency" string="Moeda" optional="hide"/>
+                                <!-- Campos ocultos -->
+                                <field name="amount" optional="hide"/>
+                                <field name="ref" optional="hide"/>
+                                <field name="note" optional="hide"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+                <field name="journal_id" invisible="1"/>
+                <field name="attachment_id" invisible="1"/>
+                <field name="import_data" invisible="1"/>
+                <footer>
+                    <button name="action_import" string="Importar" type="object" class="btn-primary"/>
+                    <button name="action_cancel" string="Cancelar" type="object" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open preview wizard -->
+    <record id="action_bank_statement_import_preview" model="ir.actions.act_window">
+        <field name="name">Preview de Importação</field>
+        <field name="res_model">mh.bank.statement.import.preview</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

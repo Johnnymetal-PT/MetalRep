@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_partner_statement" model="mail.template">
+            <field name="name">Mapa de Cobranças — Envio ao Cliente</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="subject">{{ user.company_id.name or '' }} — Mapa de Cobranças</field>
+            <field name="email_from">{{ (user.company_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.id }}</field>
+            <field name="lang">{{ object.lang or 'pt_PT' }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333; line-height: 1.6;">
+                    <p>Caro(a) <strong t-out="object.name"/>,</p>
+
+                    <p>
+                        Em anexo segue o <strong>Mapa de Cobranças</strong> com a posição actual
+                        de facturas pendentes na nossa empresa
+                        <strong t-out="user.company_id.name"/>.
+                    </p>
+
+                    <p>
+                        Solicitamos a regularização dos valores em aberto com a maior brevidade
+                        possível. Para qualquer esclarecimento ou em caso de discordância,
+                        não hesite em entrar em contacto connosco.
+                    </p>
+
+                    <p style="margin-top: 15px;">
+                        <em>Nota: Caso o pagamento já tenha sido efectuado, por favor ignore esta solicitação.</em>
+                    </p>
+
+                    <p>
+                        Cumprimentos,<br/>
+                        <t t-out="user.signature">
+                            <strong t-out="user.name"/><br/>
+                            <span t-out="user.company_id.name"/>
+                        </t>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

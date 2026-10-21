@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =====================================================
+         WIZARD: EXPORTAR MOVIMENTOS DE CAIXA
+         ===================================================== -->
+
+    <record id="view_cash_export_wizard_form" model="ir.ui.view">
+        <field name="name">cash.export.wizard.form</field>
+        <field name="model">cash.export.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Fecho de Caixa - Exportar">
+                <group invisible="state == 'done'">
+                    <group string="Filtros">
+                        <field name="journal_id" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="include_confirmed"/>
+                    </group>
+                    <group string="Informação">
+                        <div class="alert alert-info" role="alert">
+                            <p><strong>O ficheiro Excel terá duas secções:</strong></p>
+                            <ul>
+                                <li><span style="color: green;">CONFIRMADOS (Verde)</span> - Movimentos já reconciliados</li>
+                                <li><span style="color: orange;">PENDENTES (Laranja)</span> - Aguardam confirmação</li>
+                            </ul>
+                            <p><strong>Resumo Final:</strong></p>
+                            <ul>
+                                <li>Subtotal Confirmados</li>
+                                <li>Subtotal Pendentes</li>
+                                <li>SALDO ESPERADO NO CAIXA</li>
+                            </ul>
+                        </div>
+                    </group>
+                </group>
+
+                <group invisible="state != 'done'">
+                    <group string="Ficheiro Gerado">
+                        <field name="file_name" readonly="1"/>
+                        <field name="file_data" filename="file_name" readonly="1"/>
+                    </group>
+                    <group>
+                        <div class="alert alert-success" role="alert">
+                            <p><i class="fa fa-check-circle"/> Ficheiro Excel gerado com sucesso!</p>
+                            <p>Clique no botão "Download" para descarregar o ficheiro.</p>
+                        </div>
+                    </group>
+                </group>
+
+                <field name="state" invisible="1"/>
+
+                <footer>
+                    <button name="action_export"
+                            string="Gerar Excel"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state == 'done'"/>
+                    <button name="action_download"
+                            string="Download"
+                            type="object"
+                            class="btn-primary"
+                            icon="fa-download"
+                            invisible="state != 'done'"/>
+                    <button string="Fechar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- =====================================================
+         WIZARD: IMPORTAR EXTRACTO DE CAIXA
+         ===================================================== -->
+
+    <record id="view_cash_import_wizard_form" model="ir.ui.view">
+        <field name="name">cash.import.wizard.form</field>
+        <field name="model">cash.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Fecho de Caixa - Confirmar Pendentes">
+
+                <!-- Estado: Rascunho (carregar ficheiro) -->
+                <group invisible="state != 'draft'">
+                    <group string="Diário e Ficheiro">
+                        <field name="journal_id" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="data_file" filename="filename"/>
+                        <field name="filename" invisible="1"/>
+                    </group>
+                    <group string="Extracto">
+                        <field name="statement_name" placeholder="Ex: Fecho Caixa 02/01/2026"/>
+                        <field name="statement_date"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                </group>
+                <group invisible="state != 'draft'" string="Formato Esperado">
+                    <div class="alert alert-info" role="alert">
+                        <p><strong>O ficheiro Excel deve ter as colunas:</strong>
+                        Data, Referência, Descrição, Parceiro, Entrada, Saída, Saldo, Estado, ID</p>
+                        <p><em>Utilize o ficheiro exportado pelo sistema como modelo.</em></p>
+                    </div>
+                </group>
+
+                <!-- Estado: Pré-visualização -->
+                <group invisible="state != 'preview'">
+                    <group string="Extracto">
+                        <field name="journal_id" readonly="1"/>
+                        <field name="statement_name"/>
+                        <field name="statement_date"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                    <group string="Saldos">
+                        <field name="balance_start"/>
+                        <field name="balance_end_real" class="fw-bold text-primary"/>
+                        <div colspan="2">
+                            <hr/>
+                        </div>
+                        <field name="balance_end_computed" readonly="1"/>
+                        <field name="balance_difference" readonly="1"
+                               decoration-danger="balance_difference &lt; 0"
+                               decoration-success="balance_difference &gt; 0"
+                               decoration-muted="balance_difference == 0"/>
+                    </group>
+                </group>
+
+                <div invisible="state != 'preview'" class="alert alert-warning" role="alert">
+                    <p><i class="fa fa-info-circle"/> <strong>Saldo Final (Contado):</strong> Introduza o valor contado fisicamente no caixa.</p>
+                </div>
+
+                <group invisible="state != 'preview'" col="2">
+                    <group>
+                        <field name="excel_opening_balance" readonly="1" string="Saldo Inicial (Extracto)"/>
+                    </group>
+                    <group></group>
+                </group>
+
+                <group invisible="state != 'preview'" string="Linhas a Importar">
+                    <field name="preview_line_ids" nolabel="1">
+                        <list editable="bottom">
+                            <field name="is_reconciled" column_invisible="1"/>
+                            <field name="to_import" string="Importar" readonly="is_reconciled"/>
+                            <field name="row_number" string="Linha" readonly="1"/>
+                            <field name="date" readonly="1"/>
+                            <field name="payment_ref" readonly="1"/>
+                            <field name="name" readonly="1" optional="hide"/>
+                            <field name="partner_name" readonly="1" optional="hide"/>
+                            <field name="partner_id"/>
+                            <field name="debit" readonly="1" sum="Total Entrada" string="Entrada"/>
+                            <field name="credit" readonly="1" sum="Total Saída" string="Saída"/>
+                            <field name="amount" readonly="1" sum="Total" string="Valor"/>
+                            <field name="balance" readonly="1" string="Saldo"/>
+                        </list>
+                    </field>
+                </group>
+
+                <group invisible="state != 'preview'" col="2">
+                    <group></group>
+                    <group>
+                        <field name="excel_closing_balance" readonly="1" string="Saldo Final (Extracto)"/>
+                    </group>
+                </group>
+
+                <group invisible="not error_message">
+                    <div class="alert alert-warning" role="alert">
+                        <p><strong>Avisos/Erros:</strong></p>
+                        <field name="error_message" nolabel="1" readonly="1"/>
+                    </div>
+                </group>
+
+                <!-- Estado: Concluído -->
+                <group invisible="state != 'done'">
+                    <group string="Resultado">
+                        <field name="import_count" readonly="1"/>
+                    </group>
+                    <group>
+                        <div class="alert alert-success" role="alert" invisible="import_count == 0">
+                            <p><i class="fa fa-check-circle"/> Importação concluída com sucesso!</p>
+                            <p>Aceda à reconciliação bancária para reconciliar os movimentos importados.</p>
+                        </div>
+                        <div class="alert alert-warning" role="alert" invisible="import_count != 0">
+                            <p><i class="fa fa-exclamation-triangle"/> Nenhuma linha foi importada.</p>
+                        </div>
+                    </group>
+                </group>
+
+                <field name="state" invisible="1"/>
+
+                <footer>
+                    <!-- Botões estado Draft -->
+                    <button name="action_preview"
+                            string="Pré-visualizar"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+
+                    <!-- Botões estado Preview -->
+                    <button name="action_import"
+                            string="Importar Seleccionados"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'preview'"/>
+                    <button name="action_back_to_draft"
+                            string="Voltar"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'preview'"/>
+
+                    <!-- Botões estado Done -->
+                    <button name="action_back_to_draft"
+                            string="Nova Importação"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'done'"/>
+
+                    <button string="Fechar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- =====================================================
+         ACÇÕES DOS WIZARDS
+         ===================================================== -->
+
+    <record id="action_cash_export_wizard" model="ir.actions.act_window">
+        <field name="name">Fecho de Caixa - Exportar</field>
+        <field name="res_model">cash.export.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_cash_import_wizard" model="ir.actions.act_window">
+        <field name="name">Fecho de Caixa - Confirmar Pendentes</field>
+        <field name="res_model">cash.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

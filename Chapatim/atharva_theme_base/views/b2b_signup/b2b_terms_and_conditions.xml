@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Default B2B Terms & Conditions Page -->
+    <template id="default_b2b_terms_conditions_page" name="Terms &amp; Conditions">
+        <t t-call="web.frontend_layout">
+            <div class="oe_structure" id="oe_structure_terms_conditions"/>
+            <div class="container oe_website_terms_conditions">
+                <div id="o_terms_conditions">
+                    <div t-out="website.b2b_terms_and_conditions"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Default B2B Terms & Conditions Content -->
+    <template id="default_b2b_terms_and_conditions">
+        <div style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6;">
+            <h2 style="text-align:center; margin-bottom: 20px;">
+                <strong>B2B Terms &amp; Conditions</strong>
+            </h2>
+
+            <p>
+                By creating and using a B2B Account on our platform, you agree to the following
+                terms and conditions. Please read them carefully before proceeding with your
+                orders or business transactions.
+            </p>
+
+            <h4><strong>1. Account Eligibility</strong></h4>
+            <ul>
+                <li>The B2B account is intended exclusively for registered businesses, resellers, or distributors.</li>
+                <li>You must provide accurate business information during registration.</li>
+                <li>We reserve the right to approve or reject any B2B account application.</li>
+            </ul>
+
+            <h4><strong>2. Pricing &amp; Discounts</strong></h4>
+            <ul>
+                <li>Special B2B pricing and discount structures may apply based on assigned pricelists.</li>
+                <li>Prices are subject to change without prior notice.</li>
+                <li>Taxes, duties, and other applicable fees are the responsibility of the buyer.</li>
+            </ul>
+
+            <h4><strong>3. Orders &amp; Payment</strong></h4>
+            <ul>
+                <li>All orders placed through your B2B account are considered official purchase orders.</li>
+                <li>Payments must be made within the agreed payment terms.</li>
+                <li>Late payments may result in account suspension and additional charges.</li>
+            </ul>
+
+            <h4><strong>4. Shipping &amp; Delivery</strong></h4>
+            <ul>
+                <li>Delivery timelines depend on stock availability and logistics.</li>
+                <li>Any shipping delays caused by third-party couriers are beyond our control.</li>
+            </ul>
+
+            <h4><strong>5. Returns &amp; Refunds</strong></h4>
+            <ul>
+                <li>Return requests must be submitted within the allowed return window.</li>
+                <li>Refunds or replacements will be processed only after inspection.</li>
+            </ul>
+
+            <h4><strong>6. Account Responsibilities</strong></h4>
+            <ul>
+                <li>You are responsible for maintaining confidentiality of your login credentials.</li>
+                <li>Unauthorized usage of your account must be reported immediately.</li>
+            </ul>
+
+            <h4><strong>7. Termination of Account</strong></h4>
+            <ul>
+                <li>We reserve the right to suspend or terminate your B2B account in case of misuse, fraud, or non-compliance.</li>
+            </ul>
+
+            <h4><strong>8. Legal Compliance</strong></h4>
+            <ul>
+                <li>All transactions must comply with applicable local and international trade laws.</li>
+            </ul>
+
+            <p>
+                By continuing to use your B2B account, you acknowledge that you have read, understood,
+                and agree to these terms and conditions.
+            </p>
+
+            <p style="margin-top: 25px;">
+                <em>Last Updated: <span t-esc="(datetime.date.today()).strftime('%B %d, %Y')" /></em>
+            </p>
+        </div>
+    </template>
+</odoo>

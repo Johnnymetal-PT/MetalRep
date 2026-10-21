@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tornar a vista stock.quant tree editable em readonly (sem create/edit/delete)
+         + esconder botões Relocate (header) e Replenishment (linha) -->
+    <record id="view_stock_quant_tree_editable_readonly" model="ir.ui.view">
+        <field name="name">stock.quant.tree.editable.readonly</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="create">false</attribute>
+                <attribute name="edit">false</attribute>
+                <attribute name="delete">false</attribute>
+                <attribute name="editable"/>
+            </xpath>
+            <xpath expr="//header/button[@name='action_stock_quant_relocate']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_view_orderpoints']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tornar a vista stock.move.line tree em readonly (sem create/edit/delete) -->
+    <record id="view_move_line_tree_readonly" model="ir.ui.view">
+        <field name="name">stock.move.line.tree.readonly</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="create">false</attribute>
+                <attribute name="edit">false</attribute>
+                <attribute name="delete">false</attribute>
+                <attribute name="editable"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Forçar filtro de localizações internas na action que abre a vista
+         editable (Update Quantity) -->
+    <record id="stock.dashboard_open_quants" model="ir.actions.act_window">
+        <field name="domain">[('location_id.usage', '=', 'internal')]</field>
+    </record>
+</odoo>

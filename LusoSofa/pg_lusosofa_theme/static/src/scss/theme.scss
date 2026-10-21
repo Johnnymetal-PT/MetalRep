@@ -1,0 +1,694 @@
+//==============================================================================
+// Lusosofá — componentes do website
+//------------------------------------------------------------------------------
+// Carregado em `web.assets_frontend`. Só toca em acabamento: ritmo tipográfico,
+// filetes, movimento e o tratamento das fotografias.
+//
+// Sobre as fotografias, e porque o tratamento mudou a 2026-09-28: as do
+// catálogo estão sobre fundo branco e o site é preto. Recortar os fundos só
+// resulta limpo em 6 das 12 peças, porque as sombras suaves deixam crosta —
+// por isso a ficha de produto mantém um cartão claro por trás, agora branco,
+// que se funde com a própria fotografia.
+//
+// As fotografias de ambiente deixaram de levar cartão nenhum: envolver uma
+// cena completa num passe-partout trata-a como se fosse um recorte, e era a
+// leitura errada aplicada à imagem errada.
+//==============================================================================
+
+$pg-gold:      #84703F;
+$pg-gold-lit:  #C8B074;
+$pg-linen:     #EDE7DC;
+$pg-ink:       #0B0A08;
+
+// --- Ritmo tipográfico -------------------------------------------------------
+
+$pg-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+#wrapwrap {
+    // Títulos: peso leve, tracking apertado, escala curta.
+    //
+    // A Marcellus saiu a 2026-09-28: era uma romana de inscrição, e a Lara
+    // queria moderno e minimalista — que é o contrário do que ela faz. A
+    // Schibsted Grotesk a peso 300, grande e apertada, é o registo pedido.
+    //
+    // A escala baixou porque os títulos estavam grandes de mais: o h1 chegava
+    // a 48 px e o h2 a 40. Passam a 38 e 27 no máximo, com `clamp` a tratar
+    // dos ecrãs estreitos sem regras à parte.
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 300;
+        letter-spacing: -0.035em;
+        text-wrap: balance;
+    }
+
+    h1 { font-size: clamp(1.9rem, calc(1.25rem + 1.9vw), 2.4rem); }
+    h2 { font-size: clamp(1.4rem, calc(1.1rem + .9vw), 1.7rem); }
+    h3 { font-size: clamp(1.2rem, calc(1.05rem + .5vw), 1.35rem); }
+
+    // Etiquetas e sobretítulos: é aqui que vive o registo moderno.
+    .pg-eyebrow {
+        display: block;
+        font-family: $pg-mono;
+        font-size: .656rem;
+        letter-spacing: .3em;
+        text-transform: uppercase;
+        color: $pg-gold-lit;
+    }
+
+    // Sem itálico, por decisão de 2026-09-28: a Lara não gosta de texto
+    // inclinado, e tinha razão num ponto que eu não tinha pesado — itálico em
+    // parágrafos inteiros custa a ler, e era assim que a página «História»
+    // mostrava todo o texto.
+    //
+    // A assinatura distingue-se pelo peso, pela cor e pelo espaçamento, que
+    // chegam bem sem inclinar nada.
+    .pg-signature {
+        font-weight: 300;
+        font-size: 1.05rem;
+        letter-spacing: .06em;
+        color: $pg-gold-lit;
+    }
+}
+
+// --- Filete dourado ----------------------------------------------------------
+
+#wrapwrap .pg-rule {
+    height: 1px;
+    border: 0;
+    margin: 0;
+    background: linear-gradient(90deg, $pg-gold, rgba($pg-gold, .12));
+}
+
+// --- Molduras ----------------------------------------------------------------
+// Usável à mão em qualquer bloco: <div class="pg-frame"><img …></div>
+
+// A moldura de linho saiu a 2026-09-28, por decisão da Lara.
+//
+// Resolvia um problema real — fotografias de produto com fundo branco sobre
+// uma página preta — mas entretanto passou a envolver também fotografias de
+// ambiente, e um passe-partout à volta de uma cena completa trata-a como se
+// fosse um recorte. Era a leitura errada aplicada à imagem errada.
+//
+// O que fica: a imagem preenche a caixa, com uma sombra funda por baixo para
+// a descolar do preto. Sem tapete bege, sem filete a rodear.
+//
+// A classe mantém o nome porque está usada em quatro páginas; mudá-lo obrigava
+// a reescrever todas para não ganhar nada.
+
+#wrapwrap .pg-frame {
+    display: grid;
+    overflow: hidden;
+    box-shadow: 0 30px 70px -40px rgba(0, 0, 0, .95);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+// --- Loja --------------------------------------------------------------------
+// As fichas de produto recebem o mesmo tratamento de moldura, sem depender de
+// quem monta a página se lembrar de aplicar a classe.
+
+#wrapwrap {
+    .oe_product {
+        // Aqui o fundo claro fica, mas branco e não bege, e sem filete.
+        //
+        // As fotografias do catálogo estão sobre branco: numa página preta,
+        // sem nada por trás, ficavam rectângulos brancos a flutuar. O branco
+        // continua a resolver isso e funde-se com a própria fotografia — o
+        // bege denunciava-se como moldura, o branco desaparece.
+        .oe_product_image {
+            background: #FFFFFF;
+            padding: .75rem;
+            transition: transform .5s cubic-bezier(.2, .7, .2, 1),
+                        box-shadow .5s ease;
+
+            img {
+                transition: transform .8s cubic-bezier(.2, .7, .2, 1);
+            }
+        }
+
+        &:hover .oe_product_image {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 70px -32px rgba($pg-gold-lit, .42);
+
+            img {
+                transform: scale(1.04);
+            }
+        }
+
+        .o_wsale_product_information {
+            padding-top: 1rem;
+        }
+
+        h6, .h6, .o_wsale_products_item_title {
+            font-size: .95rem;
+            font-weight: 400;
+            letter-spacing: -.01em;
+        }
+    }
+
+    // O preço só faz sentido quando existe. Enquanto o cliente não enviar a
+    // tabela, os produtos estão a 0,00 € e um "0,00 €" no catálogo faz mais
+    // mal do que preço nenhum.
+    .oe_product .product_price .oe_currency_value:empty {
+        display: none;
+    }
+}
+
+// --- Botões ------------------------------------------------------------------
+
+#wrapwrap {
+    .btn-primary,
+    .btn-outline-primary,
+    .btn-secondary,
+    .btn-outline-secondary {
+        font-family: $pg-mono;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        font-size: .656rem;
+        transition: background-color .4s ease, color .4s ease;
+    }
+}
+
+// --- Barra de filtros da loja: texto e ícones a branco -----------------------
+// Categorias, pesquisa, "Ordenar por" e grelha/lista são `btn-light` /
+// `text-bg-light` do Odoo, que trazem texto escuro. A pedido da Lara passam a
+// branco. Âmbito limitado à loja para não mexer nos restantes botões claros.
+
+#wrapwrap .o_wsale_products_main_row {
+    .btn-light,
+    .btn-light:hover,
+    .btn-light:focus,
+    .btn-light.active,
+    .btn-light.dropdown-toggle,
+    .text-bg-light,
+    .o_sortby_dropdown .text-muted,
+    .o_wsale_products_searchbar_form .oe_search_button,
+    .o_wsale_products_searchbar_form .oi,
+    .o_wsale_products_searchbar_form .fa {
+        --bs-btn-color: #FFFFFF;
+        --bs-btn-hover-color: #FFFFFF;
+        --bs-btn-active-color: #FFFFFF;
+        color: #FFFFFF !important;
+    }
+
+    .o_wsale_products_searchbar_form input::placeholder {
+        color: rgba(255, 255, 255, .8);
+    }
+}
+
+// --- Medida de leitura -------------------------------------------------------
+// Uma linha de texto corrido longa de mais cansa e lê-se como denso. Limitar a
+// largura é, com o tamanho do corpo, o que mais muda a sensação de cuidado —
+// mais do que a escolha da fonte.
+//
+// Aplica-se só a parágrafos dentro de colunas largas, para não estreitar
+// legendas, tabelas ou blocos que já tenham largura própria.
+
+#wrapwrap {
+    .s_text_block p:not([class*="col-"]),
+    .oe_structure p:not([class*="col-"]) {
+        max-width: 62ch;
+    }
+
+    .text-center p,
+    .text-center .lead {
+        margin-inline: auto;
+    }
+}
+
+// --- Rodapé ------------------------------------------------------------------
+
+#wrapwrap footer {
+    border-top: 1px solid rgba($pg-gold, .22);
+
+    .o_footer_copyright {
+        font-size: .78rem;
+        letter-spacing: .1em;
+    }
+
+    // Os títulos das colunas estavam num amarelo cru, escrito à mão na vista
+    // (`rgb(189, 148, 0)`), e a 1,5rem — maiores do que alguns títulos de
+    // secção. Passam a etiqueta discreta, como o resto das etiquetas do site.
+    h5 {
+        font-family: $pg-mono !important;
+        font-size: .656rem !important;
+        font-weight: 400;
+        letter-spacing: .3em;
+        text-transform: uppercase;
+        margin-bottom: 1.1rem;
+
+        span, font { font-size: inherit !important; color: $pg-gold-lit !important; }
+    }
+
+    a { transition: color .3s ease; }
+}
+
+// --- Interacção --------------------------------------------------------------
+// O que torna um site «vivo» não são efeitos grandes: é cada coisa em que se
+// toca responder. Aqui é o sublinhado a crescer do lado esquerdo, e não a
+// aparecer de repente — meio segundo de diferença que se sente sem se notar.
+
+#wrapwrap {
+    .nav-link,
+    p a:not(.btn),
+    li a:not(.btn):not(.nav-link) {
+        position: relative;
+        text-decoration: none;
+    }
+
+    .nav-link::after,
+    p a:not(.btn)::after,
+    li a:not(.btn):not(.nav-link)::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -.15em;
+        height: 1px;
+        background: currentColor;
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform .38s cubic-bezier(.22, .61, .36, 1);
+    }
+
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after,
+    p a:not(.btn):hover::after,
+    p a:not(.btn):focus-visible::after,
+    li a:not(.btn):not(.nav-link):hover::after,
+    li a:not(.btn):not(.nav-link):focus-visible::after {
+        transform: scaleX(1);
+    }
+
+    // O item activo do menu fica marcado sem depender de cor.
+    .nav-link.active::after { transform: scaleX(1); opacity: .45; }
+}
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+}
+
+// --- Ligações sobre o ouro ---------------------------------------------------
+// Na combinação 4 o fundo é o ouro da marca, e aí só o branco passa o critério
+// AA (4,80:1) — nem o preto puro chega, que fica em 4,37:1. O raciocínio e os
+// valores medidos estão em `primary_variables.scss`.
+//
+// Com a ligação branca e o texto também branco, a cor deixa de as distinguir.
+// O sublinhado permanente devolve essa distinção, e não depende de cor nenhuma
+// — o que é a razão pela qual as normas o preferem à cor, aqui e em geral.
+
+#wrapwrap .o_cc4 a:not(.btn):not(.nav-link) {
+    text-decoration: underline;
+    text-underline-offset: .18em;
+    text-decoration-thickness: 1px;
+}
+
+// --- Movimento: revelação ao entrar no ecrã ----------------------------------
+//
+// Tudo o que segue está debaixo de `.pg-movimento`, classe que o
+// `pg_movimento.js` põe no <html>. Sem esse ficheiro — se falhar, se for
+// bloqueado, se o visitante pediu menos movimento — nada aqui se aplica e a
+// página fica visível. O estado escondido nunca é o estado por defeito.
+//
+// Os tempos são curtos de propósito. Uma revelação de meio segundo lê-se como
+// cuidada; a mesma a um segundo e meio lê-se como um site lento, e é o erro
+// mais comum de quem acrescenta animação para parecer moderno.
+
+.pg-movimento {
+    #wrapwrap .pg-revela {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    #wrapwrap .pg-revela.pg-visivel {
+        opacity: 1;
+        transform: none;
+        transition:
+            opacity .55s cubic-bezier(.22, .61, .36, 1) var(--pg-atraso, 0ms),
+            transform .55s cubic-bezier(.22, .61, .36, 1) var(--pg-atraso, 0ms);
+    }
+
+    // O filete dourado desenha-se da esquerda em vez de aparecer inteiro.
+    //
+    // O encolhimento tem de estar preso a `.pg-revela` — a classe que o JS põe
+    // **só** no que decidiu animar. Escrito sobre `.pg-rule` solto, como esteve
+    // até 2026-09-28, encolhia todos os filetes do site e devolvia largura
+    // apenas aos que o observador viesse a marcar. Os que nascem acima da dobra
+    // nunca são marcados, de propósito, e por isso **ficavam invisíveis para
+    // sempre**: medidos a 0 px no topo de `/projetos` e de `/contactus`.
+    //
+    // É o erro que o comentário no cabeçalho deste bloco existe para evitar,
+    // cometido três linhas abaixo dele. Um elemento não pode depender de JS
+    // para ter largura.
+    #wrapwrap .pg-revela .pg-rule,
+    #wrapwrap .pg-rule.pg-revela {
+        transform: scaleX(0);
+        transform-origin: left center;
+    }
+
+    #wrapwrap .pg-rule.pg-visivel,
+    #wrapwrap .pg-visivel .pg-rule {
+        transform: scaleX(1);
+        transition: transform .9s cubic-bezier(.22, .61, .36, 1) .1s;
+    }
+}
+
+// --- Cabeçalho: fundo preto --------------------------------------------------
+//
+// O logótipo da LusoSofá tem fundo preto. Sobre o ouro da marca fica um
+// rectângulo colado em vez de um logótipo — foi o que a Lara viu a 2026-09-26.
+//
+// Isto devia ser uma escolha de paleta, e tentou-se por aí. Não resultou, e
+// vale a pena deixar escrito o que foi tentado para ninguém repetir:
+//
+//   1. `'menu': 4` no mapa `$o-color-palettes` do módulo — chega ao CSS como
+//      `--menu: 4`, mas a resolução por defeito emite depois `--menu: #84703F`
+//      e ganha;
+//   2. `'menu': 4` no `user_color_palette.scss` da base, que é onde o editor
+//      do site escreveria a escolha — confirmado que a linha lá ficou, e o
+//      `.navbar-light` continuou a pintar `#84703F`.
+//
+// O que pinta a faixa é a variante `navbar-light` do Bootstrap, e é aí que se
+// declara. `--bg-light` vai junto porque há componentes do cabeçalho que
+// derivam dele e ficariam dourados sobre preto.
+
+#wrapwrap header .navbar {
+    --bg-light: #{$pg-ink};
+    --o-cc-bg: #{$pg-ink};
+    background-color: $pg-ink;
+
+    // O texto do menu sobre o preto: branco dá 19,8:1.
+    --color-light: #FFFFFF;
+}
+
+// --- Cabeçalho que condensa --------------------------------------------------
+// Ao rolar, o cabeçalho encolhe e ganha fundo translúcido com um filete
+// dourado. É o gesto que mais contribui para a sensação de site cuidado, e
+// custa duas propriedades.
+
+#wrapwrap header {
+    transition: padding .35s ease, background-color .35s ease, box-shadow .35s ease;
+
+    &.pg-condensado {
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+        background-color: rgba($pg-ink, .88);
+        backdrop-filter: saturate(140%) blur(10px);
+        box-shadow: 0 1px 0 rgba($pg-gold, .35), 0 18px 40px -28px rgba(0, 0, 0, .9);
+    }
+}
+
+// --- Fotografia de produto ---------------------------------------------------
+// O tratamento de hover das fichas já está definido acima, na secção "Loja":
+// a moldura levanta e a fotografia aproxima-se lá dentro. Aqui só se acrescenta
+// o que faltava — conter a aproximação dentro da moldura, para a fotografia não
+// transbordar o passe-partout de linho — e dar o mesmo gesto às molduras soltas.
+
+#wrapwrap .pg-frame {
+    overflow: hidden;
+
+    img {
+        transition: transform 1.1s cubic-bezier(.22, .61, .36, 1);
+    }
+
+    &:hover img,
+    &:focus-within img {
+        transform: scale(1.045);
+    }
+}
+
+#wrapwrap .oe_product .oe_product_image {
+    overflow: hidden;
+}
+
+#wrapwrap .oe_product {
+    // O sublinhado do título cresce da esquerda em vez de aparecer inteiro.
+    .o_wsale_products_item_title a {
+        background-image: linear-gradient(currentColor, currentColor);
+        background-repeat: no-repeat;
+        background-position: 0 100%;
+        background-size: 0% 1px;
+        transition: background-size .45s cubic-bezier(.22, .61, .36, 1);
+    }
+
+    &:hover .o_wsale_products_item_title a,
+    &:focus-within .o_wsale_products_item_title a {
+        background-size: 100% 1px;
+    }
+}
+
+// --- Botões: varrimento em vez de mudança de cor -----------------------------
+
+#wrapwrap {
+    .btn-primary,
+    .btn-outline-primary,
+    .btn-secondary,
+    .btn-outline-secondary {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: $pg-gold;
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform .45s cubic-bezier(.22, .61, .36, 1);
+        }
+
+        &:hover::after,
+        &:focus-visible::after {
+            transform: scaleX(1);
+        }
+    }
+}
+
+// --- Foco visível ------------------------------------------------------------
+// Quem navega por teclado tem de ver onde está. O contorno por defeito do
+// browser desaparece sobre o preto da marca.
+
+#wrapwrap :focus-visible {
+    outline: 2px solid $pg-gold-lit;
+    outline-offset: 3px;
+    border-radius: 0;
+}
+
+// --- Movimento reduzido ------------------------------------------------------
+// Uma única declaração que desliga tudo o que está acima, para quem o pediu ao
+// sistema. O JS já nem chega a marcar o <html>; isto cobre o resto.
+
+@media (prefers-reduced-motion: reduce) {
+    #wrapwrap *,
+    #wrapwrap *::before,
+    #wrapwrap *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+// --- As classes próprias também têm de passar AA ---------------------------
+//
+// `FACTO OBSERVADO` (2026-09-28): o sobretítulo e a assinatura estavam fixos
+// no dourado clareado, que sobre o preto dá 9,35:1 e sobre o linho dá **1,72:1**
+// — praticamente invisível. Só apareceu quando a faixa clara entrou na página
+// inicial, porque até aí estas classes só tinham vivido sobre fundo escuro.
+//
+// A verificação de contraste que corre em cada implantação mede as variáveis
+// que o Odoo emite por combinação (`--o-ccN-*`) e **não vê classes nossas**.
+// Foi por isso que passou. Fica aqui a tabela, medida:
+//
+//   dourado clareado #C8B074 ... 9,35:1 sobre #0B0A08   1,72:1 sobre #EDE7DC
+//   dourado fechado  #6B5B33 ... 5,38:1 sobre #EDE7DC
+//   castanho escuro  #3E351E ... 5,72:1 sobre #C8B074
+
+#wrapwrap {
+    .o_cc2 .pg-eyebrow,
+    .o_cc2 .pg-signature { color: #6B5B33; }
+
+    .o_cc3 .pg-eyebrow,
+    .o_cc3 .pg-signature { color: #3E351E; }
+
+    .o_cc4 .pg-eyebrow,
+    .o_cc4 .pg-signature { color: #FFFFFF; }
+}
+
+
+// --- Transições entre páginas ------------------------------------------------
+//
+// Ao clicar numa ligação, o navegador tira um retrato da página que sai,
+// desenha a que entra por baixo e faz a passagem — em vez do estalido branco
+// habitual. É a API de View Transitions, e a parte que interessa é que
+// **funciona sem JavaScript nenhum**: é uma regra de CSS, o navegador trata
+// do resto, e quem não a suporta navega exactamente como antes.
+//
+// Isto vale por si num site de mobiliário. Quem entra pela página inicial e
+// abre um cadeirão vê uma passagem contínua em vez de duas páginas separadas,
+// e é essa continuidade que separa um site caro de um catálogo.
+//
+// **Só se aplica a navegação dentro do próprio site.** Sair para um domínio
+// externo continua a ser uma navegação normal, por decisão do navegador.
+//
+// `PONTO POR VALIDAR`: à data (2026-09-28) as transições entre documentos
+// existem no Chrome, no Edge e no Safari; o Firefox ainda não as entrega.
+// Não é motivo para esperar — a ausência de suporte não degrada nada, mostra
+// o comportamento antigo.
+
+@view-transition {
+    navigation: auto;
+}
+
+// O cabeçalho e o rodapé são os mesmos em todas as páginas. Dando-lhes nome
+// próprio, saem do retrato geral e **deixam de piscar**: ficam parados
+// enquanto o conteúdo passa por baixo. Sem isto a barra preta do topo
+// desaparecia e voltava a cada clique, que é pior do que não ter transição.
+#wrapwrap > header { view-transition-name: pg-cabecalho; }
+#wrapwrap > footer { view-transition-name: pg-rodape; }
+
+::view-transition-group(root) {
+    animation-duration: .38s;
+    animation-timing-function: cubic-bezier(.22, .61, .36, 1);
+}
+
+// A página que sai apaga-se depressa; a que entra demora um pouco mais e sobe
+// uns pixéis ao aparecer. O desencontro é de propósito — feitos à mesma
+// velocidade, os dois retratos sobrepõem-se a meio e vê-se o fundo através
+// dos dois.
+::view-transition-old(root) {
+    animation: pgPaginaSai .22s cubic-bezier(.4, 0, 1, 1) both;
+}
+
+::view-transition-new(root) {
+    animation: pgPaginaEntra .38s cubic-bezier(.22, .61, .36, 1) both;
+}
+
+@keyframes pgPaginaSai {
+    to { opacity: 0; }
+}
+
+@keyframes pgPaginaEntra {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+}
+
+// O bloco de movimento reduzido mais acima cobre `#wrapwrap`, e estes
+// pseudo-elementos vivem fora dele — daí a repetição, que não é descuido.
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
+    }
+}
+
+
+// --- Carrossel ---------------------------------------------------------------
+//
+// Nasceu de `/projetos`, onde sete imagens estavam numa grelha de três colunas.
+// `FACTO OBSERVADO` (2026-09-29): cinco são 3:2 deitadas e duas 2:3 ao alto, e
+// a moldura não impunha proporção nenhuma — cada imagem ficava com a altura que
+// trazia, os cartões não fechavam em baixo e a secção lia-se desarrumada.
+//
+// A proporção fixa é que resolve isso, não o carrossel. O carrossel resolve
+// outra coisa: sete peças numa grelha obrigam a rolar a página inteira para as
+// ver, e em três colunas a última fila fica com um buraco.
+//
+// **A faixa é rolável por si.** `overflow-x: auto` com pontos de encaixe já dá
+// arrasto com o dedo, com o trackpad e com as teclas. As setas que o JS
+// acrescenta são conforto, não o mecanismo.
+//
+// A largura dos painéis é escolhida para o seguinte **espreitar** na margem.
+// Isso diz que há mais para ver melhor do que qualquer bolinha por baixo, e é
+// por isso que não há bolinhas.
+
+.pg-carrossel {
+    position: relative;
+}
+
+.pg-carrossel-faixa {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: .5rem;
+
+    // A barra de deslocamento nativa corta a composição, e o conteúdo não
+    // depende dela para se alcançar: há setas, teclado e arrasto.
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+}
+
+// Altura fixa, largura natural — e não o contrário.
+//
+// A primeira tentativa impôs 3:2 a todos os painéis com recorte ao centro.
+// Alinhava as alturas, que era o problema, mas **cortava as peças**: o cadeirão
+// de bouclé, que é uma fotografia ao alto, ficava sem as pernas. Numa oficina
+// de estofos as pernas são desenho, não margem.
+//
+// Fixando a altura e deixando a largura seguir a proporção, as alturas alinham
+// na mesma e nenhuma peça é cortada. As fotografias ao alto ficam painéis
+// estreitos ao lado das deitadas, o que se lê como uma galeria composta e não
+// como um acidente.
+.pg-carrossel-painel {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    margin: 0;
+
+    img {
+        display: block;
+        height: 58vw;
+        max-height: 260px;
+        width: auto;
+        max-width: 86vw;
+        background: #FFFFFF;
+    }
+
+    @media (min-width: 768px)  { img { height: 300px; max-height: none; } }
+    @media (min-width: 1200px) { img { height: 360px; } }
+}
+
+.pg-carrossel-seta {
+    position: absolute;
+    top: -3.4rem;
+    right: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba($pg-gold, .55);
+    background: transparent;
+    color: $pg-gold-lit;
+    font-size: 1rem;
+    line-height: 1;
+    transition: border-color .25s ease, color .25s ease, opacity .25s ease;
+
+    &--tras { right: 3.25rem; }
+
+    &:hover:not(:disabled) {
+        border-color: $pg-gold-lit;
+        color: #FFFFFF;
+    }
+
+    // Desactivada continua visível, mas sem prometer nada. Escondê-la fazia os
+    // botões saltarem de sítio ao chegar ao fim.
+    &:disabled { opacity: .3; cursor: default; }
+}
+
+// Se couber tudo no ecrã não há nada para percorrer, e duas setas mortas só
+// dizem que o desenho não reparou.
+.pg-carrossel--sem-sobra .pg-carrossel-seta { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+    .pg-carrossel-faixa { scroll-behavior: auto; }
+}

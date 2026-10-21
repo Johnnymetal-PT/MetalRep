@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="hide_variant_info_in_cart" active="False"/>
+
+    <template id="cart_lines_ept" inherit_id="website_sale.cart_lines">
+        <xpath expr="//t[@t-call='website_sale.cart_line_description_following_lines']" position="attributes">
+            <attribute name="t-if">not request.website.viewref('theme_clarico_vega.hide_variant_info_in_cart').active</attribute>
+        </xpath>
+        <xpath expr="//t[@t-set='combination_name']" position="attributes">
+            <attribute name="t-value">not request.website.viewref('theme_clarico_vega.hide_variant_info_in_cart').active and line._get_combination_name()</attribute>
+        </xpath>
+    </template>
+
+    <template id="product_cart_lines_ept" inherit_id="website_sale_wishlist.product_cart_lines">
+        <xpath expr="//button[hasclass('o_add_wishlist')]//i" position="attributes">
+            <attribute name="class" add="emipro-icon ept-wishlist" remove="fa fa-fw fa-heart-o" separator=" "/>
+        </xpath>
+    </template>
+
+    <template id="cart_summary_content_ept" inherit_id="website_sale.cart_summary_content">
+        <xpath expr="//table[hasclass('o_cart_products_table')]//td[hasclass('td-product_name')]//p" position="attributes">
+            <attribute name="t-if">not request.website.viewref('theme_clarico_vega.hide_variant_info_in_cart').active</attribute>
+        </xpath>
+    </template>
+
+    <template id="suggested_products_list_ext" inherit_id="website_sale.suggested_products_list">
+        <xpath expr="//div[@t-field='product.description_sale']" position="attributes">
+            <attribute name="t-if">not request.website.viewref('theme_clarico_vega.hide_variant_info_in_cart').active</attribute>
+        </xpath>
+        <xpath expr="//button[hasclass('js_add_suggested_products')]//i" position="replace">
+            <i class="d-md-none emipro-icon ept-cart" role="presentation"/>
+        </xpath>
+    </template>
+
+    <template id="cart_lines_quantity_ext" inherit_id="website_sale.cart_lines_quantity">
+        <xpath expr="//input[@type='text'][hasclass('quantity')]" position="attributes">
+            <attribute name="t-att-min">line.product_template_id.min_order_qty or 1</attribute>
+        </xpath>
+    </template>
+
+</odoo>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Regras de registo multiempresa para os modelos exclusivos dos modulos
+         a medida que declaram company_id e nao tinham qualquer regra.
+         Regras globais, como as multiempresa do standard: sem <field name="groups"/>.
+         Ordenadas por peso, medido em campos monetarios e decimais. -->
+
+    <!-- account_MZ | 387 campos numericos -->
+    <record id="rule_apuramento_model_company" model="ir.rule">
+        <field name="name">apuramento.model: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'apuramento.model')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_stock_valuation | 18 campos numericos -->
+    <record id="rule_lot_price_group_company" model="ir.rule">
+        <field name="name">lot.price.group: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'lot.price.group')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_purchase | 12 campos numericos -->
+    <record id="rule_import_document_line_company" model="ir.rule">
+        <field name="name">import.document.line: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'import.document.line')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_stock_valuation | 12 campos numericos -->
+    <record id="rule_stone_stock_company" model="ir.rule">
+        <field name="name">stone.stock: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'stone.stock')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_stock_valuation | 9 campos numericos -->
+    <record id="rule_base_lot_group_company" model="ir.rule">
+        <field name="name">base.lot.group: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'base.lot.group')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_import_adjustment | 8 campos numericos -->
+    <record id="rule_import_document_company" model="ir.rule">
+        <field name="name">import.document: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'import.document')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_stock_valuation | 6 campos numericos -->
+    <record id="rule_mh_pcmp_fiscal_year_company" model="ir.rule">
+        <field name="name">mh.pcmp.fiscal.year: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'mh.pcmp.fiscal.year')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_sale | 6 campos numericos -->
+    <record id="rule_stock_reservation_report_company" model="ir.rule">
+        <field name="name">stock.reservation.report: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'stock.reservation.report')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_product_transformation | 4 campos numericos -->
+    <record id="rule_transformation_document_company" model="ir.rule">
+        <field name="name">transformation.document: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'transformation.document')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- account_MZ | 3 campos numericos -->
+    <record id="rule_bank_statement_company" model="ir.rule">
+        <field name="name">bank.statement: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'bank.statement')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_sale | 3 campos numericos -->
+    <record id="rule_proforma_payment_company" model="ir.rule">
+        <field name="name">proforma.payment: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'proforma.payment')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- account_MZ | 1 campos numericos -->
+    <record id="rule_bank_statement_line_company" model="ir.rule">
+        <field name="name">bank.statement.line: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'bank.statement.line')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_import_adjustment | 1 campos numericos -->
+    <record id="rule_import_document_adjustment_company" model="ir.rule">
+        <field name="name">import.document.adjustment: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'import.document.adjustment')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_internal_consumption | 0 campos numericos -->
+    <record id="rule_internal_consumption_company" model="ir.rule">
+        <field name="name">internal.consumption: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'internal.consumption')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_internal_consumption | 0 campos numericos -->
+    <record id="rule_material_consumption_company" model="ir.rule">
+        <field name="name">material.consumption: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'material.consumption')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_stone_reports | 0 campos numericos -->
+    <record id="rule_mh_bank_company" model="ir.rule">
+        <field name="name">mh.bank: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'mh.bank')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_stock_valuation | 0 campos numericos -->
+    <record id="rule_mh_pcmp_year_transition_company" model="ir.rule">
+        <field name="name">mh.pcmp.year.transition: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'mh.pcmp.year.transition')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_partner_account | 0 campos numericos -->
+    <record id="rule_res_company_partner_account_config_company" model="ir.rule">
+        <field name="name">res.company.partner.account.config: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'res.company.partner.account.config')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- mh_stone_reports | 0 campos numericos -->
+    <record id="rule_stone_stock_report_wizard_company" model="ir.rule">
+        <field name="name">stone.stock.report.wizard: multiempresa</field>
+        <field name="model_id" search="[('model', '=', 'stone.stock.report.wizard')]"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>

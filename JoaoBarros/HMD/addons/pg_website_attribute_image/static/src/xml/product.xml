@@ -1,0 +1,10 @@
+<templates>
+   <!-- For radio display (unchanged) -->
+   <t t-name="ptav-radio-image" t-inherit="sale_product_configurator.saleProductConfigurator.ptav-radio" t-inherit-mode="extension">
+       <xpath expr="//div[hasclass('form-check')]" position="after">
+           <img class="attr_value_img" style="width: 100px;" t-if="ptav.image"
+                t-attf-src="data:image/png;base64,{{ptav.image}}"/>
+       </xpath>
+   </t>
+</templates>
+

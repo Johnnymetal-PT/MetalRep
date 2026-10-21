@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_scrap_remediation_wizard_form" model="ir.ui.view">
+        <field name="name">stock.scrap.remediation.wizard.form</field>
+        <field name="model">stock.scrap.remediation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Remediação — Novas Dimensões">
+                <field name="scrap_id" invisible="1"/>
+                <field name="product_form" invisible="1"/>
+                <group>
+                    <group string="Dimensões Originais">
+                        <field name="original_length"/>
+                        <field name="original_width"/>
+                        <field name="original_thickness"/>
+                        <field name="original_area"/>
+                    </group>
+                    <group string="Novas Dimensões">
+                        <field name="remediation_length"/>
+                        <field name="remediation_width"/>
+                        <field name="remediation_thickness"
+                               readonly="product_form != 'block'"
+                               required="product_form == 'block'"/>
+                        <field name="remediation_area"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_validate"
+                            type="object"
+                            string="Validar"
+                            class="btn-primary"
+                            data-hotkey="v"/>
+                    <button name="action_save"
+                            type="object"
+                            string="Guardar"
+                            class="btn-secondary"
+                            data-hotkey="g"/>
+                    <button string="Cancelar"
+                            class="btn-secondary"
+                            special="cancel"
+                            data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

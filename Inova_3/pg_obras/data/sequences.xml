@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data noupdate="1">
+    <!-- Receipts em Obras: OBR/IN/00001 -->
+    <record id="seq_obras_in" model="ir.sequence">
+      <field name="name">Obras: Receipts</field>
+      <field name="code">stock.picking</field>
+      <field name="prefix">OBR/IN/</field>
+      <field name="padding">5</field>
+      <field name="company_id" eval="ref('base.main_company')"/>
+    </record>
+
+    <!-- Entrega em Obra (do armazém Geral): EOBR/00001 -->
+    <record id="seq_picking_type_entrega_obra" model="ir.sequence">
+      <field name="name">Entrega em Obra</field>
+      <field name="code">stock.picking</field>
+      <field name="prefix">EOBR/</field>
+      <field name="padding">5</field>
+      <field name="company_id" eval="ref('base.main_company')"/>
+    </record>
+
+  </data>
+</odoo>

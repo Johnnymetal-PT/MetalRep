@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="sh_purchase_order_form_view" model="ir.ui.view">
+<field name="name">sh.purchase.order.form.view</field>
+<field name="model">purchase.order</field>
+<field name="inherit_id" ref="purchase.purchase_order_form" />
+<field name="arch" type="xml">
+
+<!-- Adding fields to the tree view inside the order line -->
+<xpath expr="//field[@name='order_line']/tree" position="inside">
+<!-- Sem `groups`, como em sale_order_views.xml: o xmlid original
+     `sh_multi_discount.group_...` não existe nesta base e o Odoo removia os campos a todos. -->
+<field name="sh_discount_price_unit" optional="show"/>
+<field name="sh_multi_discount" optional="show"/>
+<field name="sh_discount_amount" optional="show"/>
+<field name="sh_discounted_total_amount" optional="show"/>
+<field name="dis_bool" invisible="1"/>
+</xpath>
+
+<!-- Setting attributes for discount fields -->
+<!-- Mantém o readonly standard (`qty_invoiced != 0`), que este atributo substitui. -->
+<xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+<attribute name="readonly">qty_invoiced != 0 or dis_bool == False</attribute>
+<attribute name="force_save">dis_bool == False</attribute>
+</xpath>
+
+<!-- Adding 'Show Multi Discount In PDF Report' field after payment term -->
+<xpath expr="//field[@name='payment_term_id']" position="after">
+<field name="sh_show_multi_disc"/>
+</xpath>
+
+</field>
+</record>
+</odoo>

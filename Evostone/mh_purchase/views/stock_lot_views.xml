@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Stock Lot Form View Extension -->
+    <record id="view_stock_lot_form_inherit_pcmp" model="ir.ui.view">
+        <field name="name">stock.lot.form.inherit.pcmp</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <field name="ref" position="after">
+                <label for="pcmp"/>
+                <div class="o_row">
+                    <field name="pcmp" widget="monetary" class="oe_inline" options="{'currency_field': 'company_currency_id'}" readonly="1"/>
+                </div>
+            </field>
+        </field>
+    </record>
+</odoo>

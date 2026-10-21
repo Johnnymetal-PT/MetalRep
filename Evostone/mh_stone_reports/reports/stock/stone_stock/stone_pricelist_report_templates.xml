@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Página HTML do Relatório de Lista de Preços de Pedras -->
+        <record id="view_report_stone_pricelist_page" model="ir.ui.view">
+            <field name="name">Stone Pricelist Page</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_pricelist_page</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_pricelist_page">
+                    <div class="container bg-white p-4 my-4">
+                        <div class="oe_structure"></div>
+                        <div class="row my-3">
+                            <div class="col-12">
+                                <h2 t-if="is_html_type">
+                                    Lista de Preços
+                                    <span t-if="display_pricelist_title and pricelist">:</span>
+                                    <a t-if="display_pricelist_title and pricelist" href="#" class="o_action"
+                                        data-model="product.pricelist" t-att-data-res-id="pricelist.id">
+                                        <span t-out="pricelist.display_name"/>
+                                    </a>
+                                </h2>
+                                <h2 t-else="">
+                                    Lista de Preços
+                                    <span t-if="display_pricelist_title and pricelist">:</span>
+                                    <span t-if="display_pricelist_title and pricelist" t-out="pricelist.display_name"/>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="oe_structure"></div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-1">Descrição</th>
+                                            <th class="text-end px-1">Área (m²)</th>
+                                            <th class="px-1">UoM</th>
+                                            <th class="text-end px-1">Preço/UoM</th>
+                                            <th class="text-end px-1">Preço Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="rows" t-as="row">
+                                            <tr>
+                                                <td class="px-1">
+                                                    <a t-if="is_html_type and row['price_group_id']" href="#" class="o_action"
+                                                        data-model="lot.price.group" t-att-data-res-id="row['price_group_id']">
+                                                        <span t-out="row['description']"/>
+                                                    </a>
+                                                    <span t-else="" t-out="row['description']"/>
+                                                </td>
+                                                <td class="text-end px-1" t-out="row['area']" t-options='{"widget": "float", "precision": 4}'/>
+                                                <td class="px-1" t-out="row['uom']"/>
+                                                <td class="text-end px-1" t-out="row['unit_price']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                                <td class="text-end px-1" t-out="row['total_price']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="oe_structure"></div>
+                    </div>
+                </t>
+            </field>
+        </record>
+
+        <!-- Wrapper PDF/HTML -->
+        <record id="view_report_stone_pricelist" model="ir.ui.view">
+            <field name="name">Stone Pricelist Report</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_pricelist</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_pricelist">
+                    <t t-if="is_html_type">
+                        <t t-call="web.html_container">
+                            <div class="page">
+                                <t t-call="mh_stone_reports.report_stone_pricelist_page"/>
+                            </div>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_stone_pricelist_document"/>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <!-- Documento PDF (estilo listagem de stock) -->
+        <record id="view_report_stone_pricelist_document" model="ir.ui.view">
+            <field name="name">Stone Pricelist Report - Document</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_pricelist_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_pricelist_document">
+                    <div class="page"/>
+                    <style>
+                        td { border: 1px solid #DCDCDC; border-collapse: collapse; padding: 4px; }
+                        .totals-row { background-color: #e0e0e0; font-weight: bold; }
+                    </style>
+
+                    <!-- Cabeçalho com Logo e Título -->
+                    <div class="row">
+                        <div class="col-8">
+                            <img class="img-fluid" style="width: 50%;" t-att-src="image_data_uri(company.logo_report)"/>
+                        </div>
+                        <br/>
+                        <div class="col-4 text-end">
+                            <br/>
+                            <span style="color:#000000; font-size: 14pt; font-weight: bold;">
+                                <t t-esc="title"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Dados da Empresa -->
+                    <div class="row" style="font-size: 11px; font-family: Arial, sans-serif;">
+                        <div class="col-6">
+                            <strong><t t-esc="company.name"/></strong><br/>
+                            <t t-if="company.street"><span t-esc="company.street"/><br/></t>
+                            <t t-if="company.street2"><span t-esc="company.street2"/><br/></t>
+                            <t t-if="company.city"><span t-esc="company.city"/><br/></t>
+                            <t t-if="company.country_id"><span t-esc="company.country_id.name"/><br/></t>
+                            <t t-if="company.vat"><strong>NIF: </strong><span t-esc="company.vat"/><br/></t>
+                            <t t-if="company.phone"><span>c. </span><span t-esc="company.phone"/><br/></t>
+                            <t t-if="company.email"><span>e. </span><span t-esc="company.email"/></t>
+                        </div>
+                        <div class="col-6 text-end">
+                            <br/>
+                            <span style="font-size: 10pt;">
+                                <b>Processado em:</b> <t t-esc="report_date.strftime('%d/%m/%Y %H:%M') if report_date else ''"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <!-- Caixa de Filtros -->
+                    <div class="col-12">
+                        <table style="text-align: center; font-family: Arial, sans-serif; font-size: 10px;" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>PRICELIST</strong><br/>
+                                        <span t-esc="pricelist.display_name if pricelist else 'Padrão'"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>ARTIGO</strong><br/>
+                                        <span t-esc="product.display_name if product else 'Todos'"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br/>
+
+                    <!-- Mensagem se não houver dados -->
+                    <t t-if="not rows">
+                        <div class="alert alert-warning" style="margin: 20px 0; padding: 15px; background-color: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; font-family: Arial, sans-serif;">
+                            <strong>Sem dados para mostrar.</strong>
+                        </div>
+                    </t>
+
+                    <table class="table table" t-if="rows">
+                        <!-- Watermark -->
+                        <div class="watermark_logo" style="position:absolute;opacity:0.05;font-size:8em;width:100%;text-align:center;z-index:100;">
+                            <t t-if="company.report_watermark">
+                                <img class="img-fluid" t-att-src="image_data_uri(company.report_watermark)" width="55%"/>
+                            </t>
+                        </div>
+
+                        <!-- Cabeçalho da Tabela -->
+                        <tr style="background-color: #F8F8FF; color:#000000; font-Family: arial; font-size:11px; text-align: center">
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: left; white-space: nowrap"><b>DESCRIÇÃO</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>ÁREA (m²)</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>UoM</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>PREÇO/UoM</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>PREÇO TOTAL</b></th>
+                        </tr>
+
+                        <t t-foreach="rows" t-as="row">
+                            <tr style="font-family: Times New Roman; font-size: 8pt; text-align: center">
+                                <td style="border: 1px solid #DED9D9; text-align: left;">
+                                    <t t-esc="row['description']"/>
+                                </td>
+                                <td style="border: 1px solid #DED9D9; text-align: right;">
+                                    <t t-esc="'%.4f' % row['area']"/>
+                                </td>
+                                <td style="border: 1px solid #DED9D9;">
+                                    <t t-esc="row['uom']"/>
+                                </td>
+                                <td style="border: 1px solid #DED9D9; text-align: right;">
+                                    <span t-out="row['unit_price']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                </td>
+                                <td style="border: 1px solid #DED9D9; text-align: right;">
+                                    <span t-out="row['total_price']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                </td>
+                            </tr>
+                        </t>
+
+                    </table>
+
+                    <br/><br/>
+
+                    <!-- Rodapé -->
+                    <div style="font-Family: arial; font-size:8pt; text-align: center;">
+                        <i>Documento processado por computador - <t t-esc="company.name"/></i>
+                    </div>
+                </t>
+            </field>
+        </record>
+
+        <!-- Acção do servidor: aparece em Action menu da list view de stone.stock.
+             model_id usa lot.price.group (writable) para evitar erro de ACL sobre stone.stock (SQL view).
+             Em runtime, lê active_ids do contexto e despacha para stone.stock. -->
+        <record id="action_print_stone_pricelist" model="ir.actions.server">
+            <field name="name">Relatório de Lista de Preços</field>
+            <field name="model_id" ref="mh_stock_valuation.model_lot_price_group"/>
+            <field name="binding_model_id" ref="mh_stock_valuation.model_stone_stock"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="state">code</field>
+            <field name="code">
+stones = env['stone.stock'].browse(env.context.get('active_ids') or [])
+action = stones.action_open_stone_pricelist_report()
+            </field>
+        </record>
+
+        <!-- Acção report PDF -->
+        <record id="action_report_stone_pricelist" model="ir.actions.report">
+            <field name="name">Lista de Preços de Pedras</field>
+            <field name="model">lot.price.group</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_stone_pricelist</field>
+            <field name="report_file">mh_stone_reports.report_stone_pricelist</field>
+        </record>
+
+    </data>
+</odoo>

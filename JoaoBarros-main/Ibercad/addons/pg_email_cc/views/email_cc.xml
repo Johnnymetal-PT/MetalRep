@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="email_compose_message_wizard_form_inherit" model="ir.ui.view">
+            <field name="name">mail.compose.message.form.inherit</field>
+            <field name="model">mail.compose.message</field>
+            <field name="inherit_id" ref="mail.email_compose_message_wizard_form" />
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='subject']" position="after">
+                    <field name="email_to" placeholder="Email CC" />
+                </xpath>
+            </field>
+        </record>
+
+         <record id="account_move_send_form_inherit" model="ir.ui.view">
+            <field name="name">account.move.send.form.inherit</field>
+            <field name="model">account.move.send</field>
+            <field name="inherit_id" ref="account.account_move_send_form" />
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='mail_subject']" position="after">
+                    <field name="email_to" placeholder="Email CC" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

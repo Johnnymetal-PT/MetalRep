@@ -1,0 +1,140 @@
+<odoo>
+  <record id="pg_action_partner_sync_phc_list" model="ir.actions.server">
+    <field name="name">Sync PHC</field>
+    <field name="model_id" ref="base.model_res_partner"/>
+    <field name="binding_model_id" ref="base.model_res_partner"/>
+    <field name="binding_view_types">list</field>
+    <field name="state">code</field>
+    <field name="code">action = records.action_sync_phc()</field>
+  </record>
+
+  <record id="pg_view_partner_tree_phc_sync" model="ir.ui.view">
+    <field name="name">res.partner.list.pg.phc.sync</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//list/field[1]" position="before">
+        <header>
+          <button name="%(pg_phc_api.pg_action_partner_sync_phc_list)d"
+                  type="action"
+                  string="Sync PHC"
+                  class="btn-primary"
+                  display="always"/>
+        </header>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="view_partner_form_phc_sync" model="ir.ui.view">
+    <field name="name">res.partner.form.phc.sync</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+
+      <!-- Buttons: stable Studio anchor -->
+      <xpath expr="/form//div[@name='warning_tax']" position="before">
+        <header>
+          <!-- Sync PHC only if not synced yet (or no ref) -->
+          <button string="Sync PHC"
+                  type="object"
+                  name="action_sync_phc"
+                  class="btn-primary"
+                  invisible="(not is_company and type != 'delivery') or is_phc_synced or (is_company and ref)"/>
+
+          <!-- Update PHC only if already synced and ref exists -->
+          <button string="Update PHC"
+                  type="object"
+                  name="action_update_phc"
+                  class="btn-secondary"
+                  invisible="not is_company or type == 'delivery' or not is_phc_synced or not ref"/>
+
+          <!-- Toggle visible in header -->
+          <field name="is_phc_synced"
+                 widget="boolean_toggle"
+                 class="o_inline"
+                 string="PHC Synced"
+                 invisible="not is_company and type != 'delivery'"/>
+        </header>
+      </xpath>
+
+      <xpath expr="//sheet/div[contains(@class, 'mb8')]//div[field[@name='phone']]/i[contains(@class, 'fa-phone')]" position="attributes">
+        <attribute name="class">fa fa-fw me-1 fa-mobile text-primary</attribute>
+        <attribute name="title">Telemovel</attribute>
+      </xpath>
+
+      <xpath expr="//sheet/div[contains(@class, 'mb8')]" position="before">
+        <field name="type" invisible="1"/>
+        <div class="alert alert-info d-flex align-items-center mb-2"
+             role="alert"
+             invisible="motivo_isencao or not is_company or type == 'delivery'">
+          <i class="fa fa-info-circle me-2"/>
+          <span>
+            Sugestão: considere preencher o campo
+            <strong>Motivo de Isenção</strong>
+            no separador <em>PHC</em> caso este cliente esteja sujeito a alguma isenção de IVA.
+          </span>
+        </div>
+      </xpath>
+
+      <xpath expr="//sheet/div[contains(@class, 'mb8')]//div[field[@name='phone']]" position="after">
+        <div class="d-flex align-items-baseline w-md-50" invisible="not is_company and type != 'delivery'">
+          <i class="fa fa-fw me-1 fa-phone text-primary" title="Telefone"/>
+          <field name="pg_telefone" class="w-100" widget="phone" placeholder="Telefone"/>
+        </div>
+      </xpath>
+
+      <!-- PHC debug tab -->
+      <xpath expr="//sheet/notebook" position="inside">
+        <page string="PHC" invisible="not is_company and type != 'delivery'">
+          <group>
+            <field name="pg_responsavel_interno_user_id"
+                   widget="many2one_avatar_user"
+                   domain="[('share', '=', False), ('pg_phc_responsavel_interno_name', '!=', False)]"
+                   options="{'no_create': True}"
+                   invisible="type == 'delivery'"/>
+            <field name="responsavel_interno"
+                   string="Responsavel Interno PHC"
+                   readonly="1"
+                   invisible="type == 'delivery'"/>
+            <field name="pg_portes_gratuitos" invisible="type == 'delivery'"/>
+            <field name="pg_insolvente" invisible="type == 'delivery'"/>
+            <field name="pg_nao_email_cc" invisible="type == 'delivery'"/>
+            <field name="pg_cobranca_email"
+                   placeholder="ex: cobranca@empresa.pt"
+                   invisible="type == 'delivery'"/>
+            <field name="pg_cobranca_contacto"
+                   placeholder="Nome do contacto de cobrança..."
+                   invisible="type == 'delivery'"/>
+            <field name="motivo_isencao"
+                   placeholder="Selecione apenas se o cliente está isento de IVA..."
+                   invisible="type == 'delivery'"/>
+            <field name="pg_obs" placeholder="Notas enviadas ao PHC no campo obs..." invisible="type == 'delivery'"/>
+            <field name="pg_contacto_entrega"
+                   placeholder="Nome do contacto enviado ao PHC..."
+                   invisible="type != 'delivery'"/>
+
+            <!-- Main toggle -->
+            <field name="is_phc_synced" widget="boolean_toggle"/>
+
+            <!-- Debug -->
+            <field name="phc_last_response" nolabel="0" readonly="1"/>
+          </group>
+        </page>
+      </xpath>
+
+      <xpath expr="//page[@name='contact_addresses']/field[@name='child_ids']/form/sheet//div[field[@name='phone']]" position="after">
+        <div class="d-flex align-items-baseline" invisible="type != 'delivery'">
+          <i class="fa fa-fw me-1 fa-phone text-primary" title="Telefone"/>
+          <field name="pg_telefone" widget="phone" class="w-100" placeholder="Telefone"/>
+        </div>
+      </xpath>
+
+      <xpath expr="//page[@name='contact_addresses']/field[@name='child_ids']/form/sheet/group[field[@name='comment']]" position="inside">
+        <field name="pg_contacto_entrega" invisible="type != 'delivery'"/>
+        <field name="is_phc_synced" widget="boolean_toggle" invisible="type != 'delivery'"/>
+        <field name="phc_last_response" readonly="1" nolabel="1" invisible="type != 'delivery'"/>
+      </xpath>
+
+    </field>
+  </record>
+</odoo>

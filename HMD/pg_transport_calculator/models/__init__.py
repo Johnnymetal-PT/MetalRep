@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+from . import transport_carrier
+from . import transport_rate
+from . import res_company
+from . import res_config_settings
+from . import sale_order
+from . import stock_picking

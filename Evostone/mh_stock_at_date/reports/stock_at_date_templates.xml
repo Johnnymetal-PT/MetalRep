@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Wrapper PDF: usa layout standard + chama o conteúdo -->
+    <template id="report_stock_at_date_pdf_document">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-set="data_report_landscape" t-value="True"/>
+                <t t-set="render_data"
+                   t-value="env['report.mh_stock_at_date.report']._get_report_data(data or {})"/>
+                <div class="page">
+                    <t t-call="mh_stock_at_date.report_stock_at_date_page">
+                        <t t-set="target_date" t-value="render_data['target_date']"/>
+                        <t t-set="filter_location" t-value="render_data['filter_location']"/>
+                        <t t-set="filter_product" t-value="render_data['filter_product']"/>
+                        <t t-set="filter_lot" t-value="render_data['filter_lot']"/>
+                        <t t-set="groups" t-value="render_data['groups']"/>
+                        <t t-set="grand_total" t-value="render_data['grand_total']"/>
+                        <t t-set="grand_lines" t-value="render_data['grand_lines']"/>
+                        <t t-set="qty_precision" t-value="render_data['qty_precision']"/>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_stock_at_date_page">
+        <div class="container bg-white p-4 my-4">
+            <div class="oe_structure"></div>
+            <div class="row my-3">
+                <div class="col-12">
+                    <h2>
+                        Inventário a uma Data
+                        <small class="text-muted">
+                            à data
+                            <span t-out="target_date" t-options='{"widget": "date"}'/>
+                        </small>
+                    </h2>
+                    <h5 t-if="filter_location" class="text-muted">
+                        Localização: <span t-out="filter_location.complete_name"/>
+                    </h5>
+                    <h5 t-if="filter_product" class="text-muted">
+                        Produto: <span t-out="filter_product.display_name"/>
+                    </h5>
+                    <h5 t-if="filter_lot" class="text-muted">
+                        S/N: <span t-out="filter_lot.name"/>
+                    </h5>
+                </div>
+            </div>
+            <div class="oe_structure"></div>
+
+            <t t-if="not groups">
+                <div class="alert alert-info">Sem movimentos até esta data com estes filtros.</div>
+            </t>
+
+            <div class="row" t-if="groups">
+                <div class="col-12">
+                    <table class="table table-sm" style="table-layout:fixed; width:100%;">
+                        <thead>
+                            <tr>
+                                <th style="width:30px;"></th>
+                                <th>Localização / Produto / S/N</th>
+                                <th class="text-end" style="width:120px;">Quantidade</th>
+                                <th style="width:80px;">UoM</th>
+                            </tr>
+                        </thead>
+                        <t t-foreach="groups" t-as="group">
+                            <tbody class="o_loc_block collapsed"
+                                   t-att-data-loc-id="group['location_id']">
+                                <!-- Cabeçalho de localização (nivel 1) -->
+                                <tr class="table-secondary fw-bold o_loc_header" style="cursor:pointer;">
+                                    <td>
+                                        <i class="fa fa-chevron-right o_loc_chevron"/>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-map-marker me-2"/>
+                                        <t t-out="group['location'].complete_name if group['location'] else '(sem localização)'"/>
+                                        <span class="badge bg-secondary ms-2" t-out="group['n_products']"/>
+                                        <span class="text-muted ms-1 fw-normal">produtos</span>
+                                    </td>
+                                    <td class="text-end" t-out="group['total_qty']"
+                                        t-options="{'widget': 'float', 'precision': qty_precision}"/>
+                                    <td></td>
+                                </tr>
+
+                                <!-- Detalhe produtos (escondido até clicar na location) -->
+                                <t t-foreach="group['products']" t-as="psub">
+                                    <t t-set="has_lots" t-value="any(li['lot'] for li in psub['lots'])"/>
+                                    <tr t-att-class="'o_loc_detail o_prod_header' + (' o_clickable' if has_lots else '')"
+                                        t-att-style="'cursor:pointer;' if has_lots else ''">
+                                        <td></td>
+                                        <td style="padding-left: 20px !important;">
+                                            <i t-if="has_lots" class="fa fa-chevron-right o_prod_chevron me-2"/>
+                                            <span t-else="" class="me-3"></span>
+                                            <a t-if="psub['product_id']" href="#" class="o_action fw-bold"
+                                               data-model="product.product"
+                                               t-att-data-res-id="psub['product_id']">
+                                                <span t-out="psub['product'].display_name if psub['product'] else ''"/>
+                                            </a>
+                                            <t t-if="has_lots">
+                                                <span class="badge bg-light text-dark ms-2" t-out="psub['n_lots']"/>
+                                                <span class="text-muted ms-1 fw-normal small" t-out="psub['form_label']"/>
+                                            </t>
+                                        </td>
+                                        <td class="text-end fw-bold" t-out="psub['total_qty']"
+                                            t-options="{'widget': 'float', 'precision': qty_precision}"/>
+                                        <td t-out="psub['product'].uom_id.name if psub['product'] and psub['product'].uom_id else ''"/>
+                                    </tr>
+                                    <t t-if="has_lots" t-foreach="psub['lots']" t-as="lot_item">
+                                        <tr class="o_loc_detail o_prod_detail collapsed-prod"
+                                            t-att-data-prod-id="psub['product_id']">
+                                            <td></td>
+                                            <td class="text-muted" style="padding-left: 30px !important;">
+                                                <i class="fa fa-tag me-2"/>
+                                                <t t-out="lot_item['lot'].name if lot_item['lot'] else '(sem S/N)'"/>
+                                            </td>
+                                            <td class="text-end" t-out="lot_item['qty']"
+                                                t-options="{'widget': 'float', 'precision': qty_precision}"/>
+                                            <td></td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </t>
+                        <tfoot>
+                            <tr class="fw-bold">
+                                <td></td>
+                                <td>Total Geral</td>
+                                <td class="text-end" t-out="grand_total"
+                                    t-options="{'widget': 'float', 'precision': qty_precision}"/>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

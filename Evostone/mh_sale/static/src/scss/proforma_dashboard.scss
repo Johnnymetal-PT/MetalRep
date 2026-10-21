@@ -1,0 +1,301 @@
+.o_proforma_dashboard {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8f9fa;
+
+    .o_dashboard_header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background-color: white;
+
+        h2 {
+            color: #2c3e50;
+            font-size: 1.75rem;
+            font-weight: 700;
+
+            i {
+                color: #3498db;
+            }
+        }
+
+        .btn-group {
+            .btn {
+                font-weight: 500;
+                padding: 0.5rem 1.25rem;
+                transition: all 0.3s ease;
+
+                &:hover {
+                    transform: translateY(-2px);
+                }
+            }
+        }
+    }
+
+    .kpi_card {
+        transition: all 0.3s ease;
+        border-width: 2px;
+        border-radius: 12px;
+        cursor: pointer;
+        background: white;
+
+        &:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+
+            .card-footer {
+                opacity: 1;
+            }
+        }
+
+        .card-body {
+            .icon-container {
+                i {
+                    transition: transform 0.3s ease;
+                }
+            }
+
+            h2 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                transition: color 0.3s ease;
+            }
+        }
+
+        .card-footer {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        &:hover .icon-container i {
+            transform: scale(1.1);
+        }
+    }
+
+    .card {
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: white;
+
+        .card-header {
+            font-weight: 600;
+            border-bottom: 2px solid #f8f9fa;
+
+            h5 {
+                font-size: 1.1rem;
+                color: #2c3e50;
+            }
+
+            i {
+                font-size: 1.2rem;
+            }
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+    }
+
+    .alert {
+        border-radius: 12px;
+        border: none;
+        animation: slideInDown 0.5s ease;
+
+        .fa-exclamation-triangle {
+            color: #f39c12;
+        }
+
+        .btn {
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+
+    // Mini Payment Cards
+    .mini-payment-card {
+        transition: all 0.3s ease;
+        border-width: 2px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+
+        &:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.2) !important;
+            border-color: #f39c12 !important;
+        }
+
+        .card-body {
+            padding: 1rem;
+
+            h6 {
+                font-size: 0.95rem;
+                color: #3498db;
+            }
+
+            .badge {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+            }
+
+            strong {
+                font-size: 1.1rem;
+            }
+        }
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .bg-gradient-warning {
+        background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%) !important;
+    }
+
+    // Totalizador Geral
+    .totalizador-geral {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border-left: 5px solid #3498db !important;
+        transition: all 0.3s ease;
+
+        &:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+            transform: translateY(-2px);
+        }
+
+        .border-end {
+            border-right: 2px solid #e9ecef !important;
+
+            @media (max-width: 768px) {
+                border-right: none !important;
+                border-bottom: 2px solid #e9ecef !important;
+                padding-bottom: 1rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            animation: fadeIn 0.8s ease-in-out;
+
+            @media (max-width: 768px) {
+                font-size: 1.8rem;
+            }
+        }
+
+        small {
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        i.fa-calculator,
+        i.fa-file-text-o,
+        i.fa-line-chart {
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        &:hover {
+            i.fa-calculator,
+            i.fa-file-text-o,
+            i.fa-line-chart {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    // Cores personalizadas
+    .text-primary { color: #3498db !important; }
+    .text-success { color: #2ecc71 !important; }
+    .text-info { color: #1abc9c !important; }
+    .text-danger { color: #e74c3c !important; }
+    .text-warning { color: #f39c12 !important; }
+    .text-secondary { color: #95a5a6 !important; }
+
+    .bg-primary { background-color: #3498db !important; }
+    .bg-success { background-color: #2ecc71 !important; }
+    .bg-info { background-color: #1abc9c !important; }
+    .bg-danger { background-color: #e74c3c !important; }
+    .bg-warning { background-color: #f39c12 !important; }
+    .bg-secondary { background-color: #95a5a6 !important; }
+
+    .border-primary { border-color: #3498db !important; }
+    .border-success { border-color: #2ecc71 !important; }
+    .border-info { border-color: #1abc9c !important; }
+    .border-danger { border-color: #e74c3c !important; }
+    .border-warning { border-color: #f39c12 !important; }
+    .border-secondary { border-color: #95a5a6 !important; }
+
+    // Animações
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .row {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    // Responsividade
+    @media (max-width: 768px) {
+        .o_dashboard_header {
+            .row {
+                text-align: center !important;
+
+                > div {
+                    margin-bottom: 1rem;
+                }
+
+                .btn-group {
+                    display: flex;
+                    justify-content: center;
+                    width: 100%;
+
+                    .btn {
+                        flex: 1;
+                    }
+                }
+            }
+        }
+
+        .kpi_card {
+            h2 {
+                font-size: 2rem;
+            }
+
+            .icon-container i {
+                font-size: 2rem !important;
+            }
+        }
+    }
+
+    // Chart container
+    .chart-container {
+        canvas {
+            max-height: 300px;
+        }
+    }
+}

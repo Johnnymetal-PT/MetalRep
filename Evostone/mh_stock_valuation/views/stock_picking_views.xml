@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Herdar vista do picking para mostrar campos -->
+    <record id="view_picking_form_inherit_initial_stock" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.initial.stock</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <!-- Campo invisível para controlar visibilidade -->
+            <xpath expr="//field[@name='picking_type_id']" position="after">
+                <field name="is_initial_stock" invisible="1"/>
+            </xpath>
+
+            <!-- Campo last_serial_sequence visível apenas para Stock Inicial -->
+            <xpath expr="//group[@name='other_infos']" position="inside">
+                <field name="last_serial_sequence"
+                       string="Última Sequência Serial"
+                       invisible="not is_initial_stock"
+                       readonly="state in ('done', 'cancel')"/>
+            </xpath>
+
+            <!-- Adicionar campos PCMP: custo unitário -->
+            <xpath expr="//field[@name='move_ids_without_package']/list/field[@name='product_uom']" position="after">
+                <field name="price_unit" string="Custo Unit." optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista tree de pickings para Stock Inicial -->
+    <record id="view_picking_tree_initial_stock" model="ir.ui.view">
+        <field name="name">stock.picking.tree.initial.stock</field>
+        <field name="model">stock.picking</field>
+        <field name="arch" type="xml">
+            <list string="Stock Inicial" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('draft', 'cancel', 'done')">
+                <field name="name"/>
+                <field name="scheduled_date"/>
+                <field name="origin"/>
+                <field name="partner_id" optional="show"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action para Stock Inicial -->
+    <record id="action_picking_initial_stock" model="ir.actions.act_window">
+        <field name="name">Stock Inicial</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain" eval="[('picking_type_id', '=', ref('mh_stock_valuation.picking_type_initial_stock'))]"/>
+        <field name="context" eval="{'default_picking_type_id': ref('mh_stock_valuation.picking_type_initial_stock'), 'contact_display': 'partner_address'}"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Criar uma entrada de Stock Inicial
+            </p>
+            <p>
+                Use este documento para registar stock inicial com valorização.
+                Defina o custo unitário e opcionalmente o grupo de lote.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu para Stock Inicial -->
+    <menuitem
+        id="menu_initial_stock"
+        name="Stock Inicial"
+        parent="stock.menu_stock_warehouse_mgmt"
+        action="action_picking_initial_stock"
+        sequence="99"/>
+
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!-- ==================== Alan Product Row Price==================== -->
+    <t t-inherit="website_sale_comparison.ProductRow" t-inherit-mode="extension">
+        <xpath expr="//div/a/h6/small[@t-if='!props.prevent_zero_price_sale']" position="replace">
+            <t t-if="props.active_b2b_mode and props.is_public_user ">
+            </t>
+            <t t-else="">
+                <small t-if="!props.prevent_zero_price_sale" class="mb-0 text-body">
+                    <span t-out="formattedPrice" class="me-1 text-nowrap"/>
+                    <del t-if="props.strikethrough_price" t-out="formattedStrikethroughPrice" class="text-nowrap text-muted"/>
+                </small>
+            </t>
+        </xpath>
+    </t>
+</templates>

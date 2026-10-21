@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--
+    Etiqueta térmica ZPL, para as Zebra das lojas. Relatório de texto: o que sai daqui
+    é enviado tal e qual para a impressora.
+
+    Por isso **toda** a explicação vive em comentários XML, que o QWeb não renderiza, e
+    não em linhas `;` dentro do fluxo. A V17 tinha comentários `;` no meio do ZPL —
+    e `;` não é comentário em ZPL (o comando é ^FX): aquilo ia para a impressora. Uma
+    primeira versão deste template repetiu o erro e o resultado foram 3502 bytes de
+    fluxo, boa parte prosa. Agora são os comandos e mais nada.
+
+    Também removido face à V17: o `<p style="page-break-after">` no fim de cada
+    etiqueta. O par ^XA/^XZ já delimita uma etiqueta.
+
+    Medidas da V17, mantidas: ^PW315 de largura, ^LL550 de comprimento, ^CI28 (UTF-8).
+    A 203 dpi dá cerca de 39 x 69 mm.
+
+    O t-translation="off" vai num `t` interior e não no `template`: o schema de
+    importação (odoo/import_xml.rng, define name="template") só aceita uma lista
+    fechada de atributos no elemento `template`, e um a mais faz a instalação falhar
+    com "Element odoo has extra content". É onde o standard o põe também
+    (addons/stock/report/product_templates.xml).
+
+    Disposição vertical: o nome em y=80, a referência em 150 (e 180 se não couber), a
+    descrição a partir de 210 de 25 em 25, o tecido de 40 em 40, e depois os preços e o
+    código de barras. O `y` é acumulado à medida que o conteúdo cresce, como na V17.
+-->
+<template id="report_pg_etiqueta_zpl">
+<t t-translation="off">
+<t t-foreach="docs" t-as="move">
+<t t-set="product" t-value="move.product_id"/>
+<t t-set="pricelist" t-value="product._pg_label_pricelist()"/>
+<t t-set="moeda" t-value="pricelist.currency_id or product.currency_id"/>
+<t t-set="precos" t-value="product._pg_label_prices(pricelist)"/>
+<t t-set="preco" t-value="precos[0]"/>
+<t t-set="preco_anterior" t-value="precos[1]"/>
+<t t-set="referencia" t-value="product._pg_label_reference()"/>
+<t t-set="codigo_barras" t-value="product._pg_label_barcode()"/>
+^XA
+^CI28
+^PW315
+^LL550
+^FT20,80^A0N,40,40^FD<t t-out="product.name"/>^FS
+<t t-if="referencia"><t t-if="len(referencia) &gt; 15">
+^FT20,150^A0N,30,35^FD<t t-out="referencia[:15]"/>^FS
+^FT20,180^A0N,30,35^FD<t t-out="referencia[15:]"/>^FS
+</t><t t-else="">
+^FT20,150^A0N,30,35^FD<t t-out="referencia"/>^FS
+</t></t>
+<t t-set="palavras" t-value="(product.description_sale or '').split(' ')"/>
+<t t-set="linhas" t-value="[]"/>
+<t t-set="atual" t-value="''"/>
+<t t-foreach="palavras" t-as="palavra">
+<t t-if="len(atual + ' ' + palavra) &lt;= 30"><t t-set="atual" t-value="(atual + ' ' + palavra).strip()"/></t>
+<t t-else=""><t t-set="linhas" t-value="linhas + [atual]"/><t t-set="atual" t-value="palavra"/></t>
+</t>
+<t t-if="atual"><t t-set="linhas" t-value="linhas + [atual]"/></t>
+<t t-set="y" t-value="210"/>
+<t t-foreach="linhas" t-as="linha">
+^FT20,<t t-out="y"/>^A0N,20,20^FD<t t-out="linha"/>^FS
+<t t-set="y" t-value="y + 25"/>
+</t>
+<t t-set="y" t-value="y + 50"/>
+<t t-set="tecido" t-value="'x_studio_tecido' in move._fields and move.x_studio_tecido or ''"/>
+<t t-if="tecido">
+<t t-foreach="[tecido[i:i + 30] for i in range(0, len(tecido), 30)]" t-as="linha">
+^FT20,<t t-out="y"/>^A0N,15,15^FD<t t-out="linha"/>^FS
+<t t-set="y" t-value="y + 40"/>
+</t>
+</t>
+<!--
+    Preço anterior à esquerda, mais pequeno, riscado com uma linha (^GB) desenhada por
+    cima: o ZPL não tem texto riscado. A largura da linha é estimada em 16 dots por
+    caractere — PONTO POR VALIDAR numa etiqueta impressa de verdade.
+
+    A formatação vem do format() da moeda, como na etiqueta ZPL do standard, em vez do
+    símbolo colado à mão da V17: dá "249,00 €" em vez de "249.00€".
+-->
+<t t-if="preco_anterior">
+<t t-set="texto_anterior" t-value="moeda.format(preco_anterior)"/>
+^FT20,<t t-out="y + 40"/>^A0N,30,25^FD<t t-out="texto_anterior"/>^FS
+^FO20,<t t-out="y + 30"/>^GB<t t-out="len(texto_anterior) * 16"/>,2,2^FS
+</t>
+^FO160,<t t-out="y"/>^A0N,55,40^FD<t t-out="moeda.format(preco)"/>^FS
+<t t-set="y" t-value="y + 60"/>
+<t t-if="codigo_barras">
+^FO75,<t t-out="y"/>^BY1
+^BCN,50,Y,R,R
+^FDN<t t-out="codigo_barras"/>^FS
+</t>
+^XZ
+</t>
+</t>
+</template>
+
+</odoo>

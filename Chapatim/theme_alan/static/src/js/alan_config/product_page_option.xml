@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- ==================== Products Page Options ==================== -->
+    <t t-name="theme_alan.ProductPageOption"  t-inherit="website_sale.ProductPageOption" t-inherit-mode="extension">
+        <xpath expr="." position="inside">
+            <div class="o_wsale_panel_section_title ps-2 pt-2 pb-1 fw-bold">Alan Config</div>
+            <hr class="mx-2 mt-0 mb-2"/>
+            <BuilderRow label.translate="Pager" tooltip.translate="Pager" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_pager'" action="'setAlanConfig'" actionParam="{fields: ['active_product_pager']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Offer Timer"  tooltip.translate="Offer Timer" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_offer_timer'" action="'setAlanConfig'" actionParam="{fields: ['active_product_offer_timer']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Brand Info"  tooltip.translate="Brand Info" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_brand'" action="'setAlanConfig'" actionParam="{fields: ['active_product_brand']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Advance Info"  tooltip.translate="Advance Info" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_advance_info'" action="'setAlanConfig'" actionParam="{fields: ['active_product_advance_info']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Variant Info"  tooltip.translate="Variant Info" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_variant_info'" action="'setAlanConfig'" actionParam="{fields: ['active_product_variant_info']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Discount %"  tooltip.translate="Discount %" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_discount'" action="'setAlanConfig'" actionParam="{fields: ['active_product_discount']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Sold Out Info"  tooltip.translate="Sold Out Info" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_last_month_count'" action="'setAlanConfig'" actionParam="{fields: ['active_last_month_count']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Live Visitor"  tooltip.translate="Live Visitor" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_visitor'" action="'setAlanConfig'" actionParam="{fields: ['active_product_visitor']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Bulk Save Offer"  tooltip.translate="Bulk Save Offer" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_bulk_save'" action="'setAlanConfig'" actionParam="{fields: ['active_product_bulk_save']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Product Inquiry"  tooltip.translate="Product Inquiry" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_inquiry'" action="'setAlanConfig'" actionParam="{fields: ['active_product_inquiry']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Reference/SKU"  tooltip.translate="Reference/SKU" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_reference'" action="'setAlanConfig'" actionParam="{fields: ['active_product_reference']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Category"  tooltip.translate="Category" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_category'" action="'setAlanConfig'" actionParam="{fields: ['active_product_category']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Sticky Cart"  tooltip.translate="Sticky Cart" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_sticky'" action="'setAlanConfig'" actionParam="{fields: ['active_product_sticky']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Accessory"  tooltip.translate="Accessory" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_accessory'" action="'setAlanConfig'" actionParam="{fields: ['active_product_accessory']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Alternative"  tooltip.translate="Alternative" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_product_alternative'" action="'setAlanConfig'" actionParam="{fields: ['active_product_alternative']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Product Barcode" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_shop_product_barcode'" action="'setAlanConfig'" actionParam="{fields: ['active_shop_product_barcode']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Delivery Check" tooltip.translate="Delivery Check" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_delivery_check'" action="'setAlanConfig'" actionParam="{fields: ['active_delivery_check']}" preview="false"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Tab View Mode" tooltip.translate="Tab View Mode" extraLabelClass="'as-builder-icon'">
+                <BuilderSelect action="'setAlanConfig'">
+                    <BuilderSelectItem actionParam="{views:['theme_alan.as_product_content_tabs', '!theme_alan.as_product_content_list']}" preview="false">Tab View</BuilderSelectItem>
+                    <BuilderSelectItem actionParam="{views:['!theme_alan.as_product_content_tabs', 'theme_alan.as_product_content_list']}" preview="false">List View</BuilderSelectItem>
+                </BuilderSelect>
+            </BuilderRow>
+        </xpath>
+        <xpath expr="//BuilderRow[@label.translate='Search Bar']" position="replace">
+        </xpath>
+    </t>
+
+</templates>

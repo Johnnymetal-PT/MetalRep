@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add accg_nr_order and dynamic accounts in partner form view (keep default account fields visible) -->
+    <record id="view_partner_form_add_dynamic_accounts" model="ir.ui.view">
+        <field name="name">res.partner.form.add.dynamic.accounts</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <!-- Add hidden fields for visibility conditions -->
+            <xpath expr="//field[@name='property_account_receivable_id']" position="before">
+                <field name="customer_rank" invisible="1"/>
+                <field name="supplier_rank" invisible="1"/>
+            </xpath>
+            
+            <!-- Show property_account_receivable_id only for customers -->
+            <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">
+                <attribute name="invisible">customer_rank == 0</attribute>
+            </xpath>
+            
+            <!-- Show property_account_payable_id only for suppliers -->
+            <xpath expr="//field[@name='property_account_payable_id']" position="attributes">
+                <attribute name="invisible">supplier_rank == 0</attribute>
+            </xpath>
+            
+            <!-- Add accg_nr_order field and dynamic accounts after property_account_payable_id -->
+            <xpath expr="//field[@name='property_account_payable_id']" position="after">
+                <field name="accg_nr_order" string="Número de Ordem" readonly="1"/>
+                <field name="accg_nr_order_customer" string="Nº Ordem Cliente" readonly="1" invisible="1"/>
+                <field name="accg_nr_order_supplier" string="Nº Ordem Fornecedor" readonly="1" invisible="1"/> 
+                <!-- Mostrar contas dinâmicas criadas para este parceiro -->
+                <separator string="Others accounting entries" class="mt-3"/>
+                <field name="dynamic_account_ids" nolabel="1">
+                    <list string="Contas Criadas" create="false" delete="false">
+                        <field name="code" string="Código"/>
+                        <field name="name" string="Nome da Conta"/>
+                        <field name="account_type" string="Tipo"/>
+                        <field name="reconcile" string="Reconciliação" widget="boolean_toggle" optional="show"/>
+                        <field name="currency_id" string="Moeda" optional="show"/>
+                        <field name="non_trade" string="Não Comercial" widget="boolean_toggle" optional="hide"/>
+                        <field name="deprecated" string="Descontinuada" widget="boolean_toggle" optional="show"/>
+                    </list>
+                </field>
+            </xpath>
+        </field>
+    </record>
+    <!-- Make company_id and country_id required in partner form view -->
+    <record id="view_partner_form_company_country_required" model="ir.ui.view">
+        <field name="name">res.partner.form.company.country.required</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Make company_id field required and visible -->
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="required">1</attribute>
+                <attribute name="invisible">0</attribute>
+            </xpath>
+            <!-- Make country_id field required -->
+            <xpath expr="//field[@name='country_id']" position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
+        </field>
+    </record>
+    <!-- Add accg_nr_order to partner list view using a safer approach -->
+    <record id="view_res_partner_filter_accg" model="ir.ui.view">
+        <field name="name">res.partner.select.accg</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="accg_nr_order" string="Nº Ordem"/>
+                <!-- Campos ocultados - não aparecem no formulário
+                <field name="accg_nr_order_customer" string="Nº Cliente"/>
+                <field name="accg_nr_order_supplier" string="Nº Fornecedor"/>
+                -->
+            </xpath>
+        </field>
+    </record>
+</odoo>

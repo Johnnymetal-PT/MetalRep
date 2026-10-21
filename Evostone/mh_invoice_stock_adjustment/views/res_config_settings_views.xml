@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_inherit_stock_adjustment" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.stock.adjustment</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="25"/>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='account']/block[last()]" position="after">
+                <block title="Acerto de Stock" name="stock_adjustment_setting_container">
+                    <setting id="stock_adjustment_deficit_account" string="Conta Deficit" help="Conta a debitar para défices de stock (quando recebeu menos do que facturou)">
+                        <div class="content-group">
+                            <div class="mt16">
+                                <div class="d-flex align-items-center">
+                                    <label for="stock_adjustment_deficit_account_id" string="Conta Deficit"
+                                           class="fw-bold" style="min-width: 150px;"/>
+                                    <field name="stock_adjustment_deficit_account_id" style="width: 300px;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="stock_adjustment_surplus_account" string="Conta Excedente" help="Conta a creditar para excedentes de stock (quando recebeu mais do que facturou)">
+                        <div class="content-group">
+                            <div class="mt16">
+                                <div class="d-flex align-items-center">
+                                    <label for="stock_adjustment_surplus_account_id" string="Conta Excedente"
+                                           class="fw-bold" style="min-width: 150px;"/>
+                                    <field name="stock_adjustment_surplus_account_id" style="width: 300px;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

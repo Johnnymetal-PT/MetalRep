@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      noupdate: a sequencia guarda o proximo numero. Sem isto, cada atualizacao do
+      modulo repunha o contador e as referencias PROT- comecavam a colidir com as ja
+      atribuidas.
+    -->
+    <data noupdate="1">
+        <record id="seq_pg_prototipo_ref" model="ir.sequence">
+            <field name="name">PG Referência de protótipo</field>
+            <field name="code">pg.prototipo.ref</field>
+            <field name="prefix">PROT-%(year)s-</field>
+            <field name="padding">4</field>
+            <field name="implementation">standard</field>
+        </record>
+    </data>
+</odoo>

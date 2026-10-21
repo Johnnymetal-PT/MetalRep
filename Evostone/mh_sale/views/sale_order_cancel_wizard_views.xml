@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Sale Order Cancel Wizard Form View -->
+    <record id="view_sale_order_cancel_wizard_form" model="ir.ui.view">
+        <field name="name">sale.order.cancel.wizard.form</field>
+        <field name="model">sale.order.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Confirmar Cancelamento">
+                <div class="alert alert-warning" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="fa fa-warning fa-2x mr-3" title="Aviso" style="color: #856404;"/>
+                        <div>
+                            <h5 class="mb-2">
+                                <strong>Atenção: Cancelamento com Limpeza Automática</strong>
+                            </h5>
+                            <p class="mb-0">
+                                Esta cotação possui dependências que serão automaticamente removidas durante o cancelamento.
+                                Revise as ações abaixo antes de confirmar.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <group>
+                    <field name="order_id" readonly="1"/>
+                </group>
+
+                <group string="Ações Automáticas">
+                    <field name="confirmation_message" readonly="1" nolabel="1"
+                           widget="text" class="o_field_text"/>
+                </group>
+
+                <footer>
+                    <button name="action_confirm_cancel"
+                            string="Confirmar Cancelamento"
+                            type="object"
+                            class="btn-danger"/>
+                    <button string="Cancelar"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

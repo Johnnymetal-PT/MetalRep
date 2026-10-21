@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mm_task_list" model="ir.ui.view">
+        <field name="name">mm.task.list</field>
+        <field name="model">mm.task</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="route_id"/>
+                <field name="location_id"/>
+                <field name="scheduled_start"/>
+                <field name="scheduled_end"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_task_form" model="ir.ui.view">
+        <field name="name">mm.task.form</field>
+        <field name="model">mm.task</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start" type="object" string="Start" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_done" type="object" string="Done" invisible="state != 'in_progress'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state == 'done' or state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done,cancelled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="employee_id"/>
+                        <field name="route_id"/>
+                        <field name="location_id"/>
+                    </group>
+                    <group>
+                        <field name="scheduled_start"/>
+                        <field name="scheduled_end"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_task" model="ir.actions.act_window">
+        <field name="name">Tarefas</field>
+        <field name="res_model">mm.task</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_agro_campaign_list" model="ir.ui.view">
+        <field name="name">mm.agro.campaign.list</field>
+        <field name="model">mm.agro.campaign</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_agro_campaign_form" model="ir.ui.view">
+        <field name="name">mm.agro.campaign.form</field>
+        <field name="model">mm.agro.campaign</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_agro_campaign" model="ir.actions.act_window">
+        <field name="name">Campanhas Agro</field>
+        <field name="res_model">mm.agro.campaign</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_obra_list" model="ir.ui.view">
+        <field name="name">mm.obra.list</field>
+        <field name="model">mm.obra</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="cost_center_id"/>
+                <field name="location_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_obra_form" model="ir.ui.view">
+        <field name="name">mm.obra.form</field>
+        <field name="model">mm.obra</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="cost_center_id"/>
+                        <field name="location_id"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_obra" model="ir.actions.act_window">
+        <field name="name">Obras</field>
+        <field name="res_model">mm.obra</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_waste_container_list" model="ir.ui.view">
+        <field name="name">mm.waste.container.list</field>
+        <field name="model">mm.waste.container</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="location_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_waste_container_form" model="ir.ui.view">
+        <field name="name">mm.waste.container.form</field>
+        <field name="model">mm.waste.container</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="location_id"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_waste_container" model="ir.actions.act_window">
+        <field name="name">Contentores</field>
+        <field name="res_model">mm.waste.container</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

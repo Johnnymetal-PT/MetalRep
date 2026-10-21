@@ -1,0 +1,1939 @@
+2026-01-16 18:09:16,633 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.base.models.ir_cron: Job 'PG Product Update: Drive Job Runner' (68) starting
+2026-01-16 18:09:16,748 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1595, in cron_run_drive_jobs
+    children = gd.list_children(folder_id, folders_only=True)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+ 
+2026-01-16 18:09:34,890 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Derived product name: Spot30 from IMAGENS folder id: 1yo5tHP5jEHAkJ16-i68kRlMGw4RuxKUD 
+2026-01-16 18:09:38,569 105 WARNING parametroglobaladmin-essani-main-24829872 odoo.addons.rpc.controllers.xmlrpc: The /xmlrpc, /xmlrpc/2 and /jsonrpc endpoints are deprecated in Odoo 19 and scheduled for removal in Odoo 20. Please report the problem to the client making the request.
+Mute this logger: --log-handler odoo.addons.rpc.controllers.xmlrpc:ERROR
+https://www.odoo.com/documentation/latest/developer/reference/external_api.html#migrating-from-xml-rpc-json-rpc
+2026-01-16 18:09:38,599 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) starting 
+2026-01-16 18:09:39,209 105 INFO parametroglobaladmin-essani-main-24829872 odoo.models.unlink: User #1 deleted ir.cron.progress records with IDs: [38766, 38767, 38768, 38769, 38770]
+2026-01-16 18:09:39,214 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.base.models.res_users: GC 'auth_totp.device' delete 0 entries
+2026-01-16 18:09:39,226 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.base.models.res_device: GC device logs delete 0 entries
+2026-01-16 18:09:39,292 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.base.models.res_device: GC device logs delete 0 entries
+2026-01-16 18:09:39,402 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.sms.models.sms_sms: GC'd 0 sms marked for deletion
+2026-01-16 18:09:39,542 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.base.models.res_users: GC 'res.users.apikeys' delete 0 entries
+2026-01-16 18:09:39,590 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.api_doc.models.ir_attachment: GC'd 0 /doc cached index
+2026-01-16 18:09:39,754 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.base.models.ir_attachment: filestore gc 22 checked, 10 removed 
+2026-01-16 18:09:39,949 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.base.models.res_users: GC'd 1 user log entries
+2026-01-16 18:09:39,988 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) fully done (#loop 1; done 236; remaining 0; duration 1.39s)
+2026-01-16 18:09:39,995 105 INFO ? werkzeug: 10.0.179.138 - - [16/Jan/2026 18:09:39] "POST /xmlrpc/2/object#ir.cron.acquire_job HTTP/1.1" 200 - 1709 0.371 1.057
+2026-01-16 18:09:54,295 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1096, in process_multi_variant_product
+    imagens_folder = self._get_specific_or_shared_folder(product_path, "IMAGENS", shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+2026-01-16 18:09:54,807 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1_0jk2t3po9gzP2tlrQS9omnz66RH84CE name=IMAGENS normalized=IMAGENS specific=1yo5tHP5jEHAkJ16-i68kRlMGw4RuxKUD shared=1yo5tHP5jEHAkJ16-i68kRlMGw4RuxKUD
+2026-01-16 18:09:54,808 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 1yo5tHP5jEHAkJ16-i68kRlMGw4RuxKUD for main product 
+2026-01-16 18:09:55,290 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=None file=SPOT30_1.png id=1uqaITQgO2_d39i42RqP2v3UizZtHi3OP md5=520fa50955d8a8f3064f5719aa36b077 
+2026-01-16 18:09:56,662 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Set first image as thumbnail: SPOT30_1.png
+2026-01-16 18:09:56,662 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=None file=SPOT30_2.jpg id=1-rNo-TmRHR3nCZ8L0uo3JUQMjbxyvOqE md5=56568b07e702f7538c1e9f558c53d8c2 
+2026-01-16 18:09:57,335 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Added extra media: SPOT30_2.jpg
+2026-01-16 18:09:57,335 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=None file=SPOT30_3.png id=1rxnLF4g85ZriqHuMQJAo5XeWFL4lqZoM md5=487c0fa4213a171d611032f72bbf9d0d 
+2026-01-16 18:09:58,667 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Added extra media: SPOT30_3.png
+2026-01-16 18:09:58,667 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=None file=SPOT30_4.png id=1MCU1OHzbf88scf62xWrXU4B0w_k98Olv md5=f1e45083ebd11e4da06e2a268f29c9f2 
+2026-01-16 18:10:00,034 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Added extra media: SPOT30_4.png
+2026-01-16 18:10:00,034 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=None file=SPOT30_5.png id=198sczt-N_Gpz8l6O5e6c9i3di0EWYKJ5 md5=db596671968805b79484864e21b207c7 
+2026-01-16 18:10:01,026 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Added extra media: SPOT30_5.png
+2026-01-16 18:10:01,071 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1100, in process_multi_variant_product
+    self._process_additional_docs(product, product_path, shared_folders, product_path)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+2026-01-16 18:10:01,528 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1_0jk2t3po9gzP2tlrQS9omnz66RH84CE name=3D normalized=3D specific=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d
+2026-01-16 18:10:01,994 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder contents: type=3D folder_id=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d count=4 sample=['1.SPOT30_20.dxf', '1.SPOT_35.dxf', '2.SPOT30_20.fbx', '2.SPOT_35.fbx'] 
+2026-01-16 18:10:06,154 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc created: type=3D res_model=product.template res_id=196 name=3D - 1.SPOT30_20.dxf file_id=1Xo1TNaKPc2DnFm9gpz792qASN1eZnKbT 
+2026-01-16 18:10:14,385 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc created: type=3D res_model=product.template res_id=196 name=3D - 1.SPOT_35.dxf file_id=1Rm3qp7-AAl79SqRybOsia8k3H24j9nW9 
+2026-01-16 18:10:15,431 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc created: type=3D res_model=product.template res_id=196 name=3D - 2.SPOT30_20.fbx file_id=1Dj3tjCNhqKDi2p-kGnmeZIDBw86rJN_i 
+2026-01-16 18:10:16,203 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc created: type=3D res_model=product.template res_id=196 name=3D - 2.SPOT_35.fbx file_id=1q3buhADfUfMXg7Jt_xEvicXKL9EvJPWX
+2026-01-16 18:10:16,203 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.template res_id=196 existing=0 created=4 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:10:16,252 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1100, in process_multi_variant_product
+    self._process_additional_docs(product, product_path, shared_folders, product_path)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+2026-01-16 18:10:16,789 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1_0jk2t3po9gzP2tlrQS9omnz66RH84CE name=FICHA TECNICA normalized=FICHA TECNICA specific=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah 
+2026-01-16 18:10:17,441 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder contents: type=FICHA TECNICA folder_id=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah count=1 sample=['FICHA TÉCNICA SPOT30 24V_P.pdf'] 
+2026-01-16 18:10:19,408 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc created: type=FICHA TECNICA res_model=product.template res_id=196 name=FICHA TECNICA - FICHA TÉCNICA SPOT30 24V_P.pdf file_id=1Y8Ujr-ViciC1R18WyxHqmtxU0ekhsvC9
+2026-01-16 18:10:19,408 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.template res_id=196 existing=0 created=1 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:10:19,455 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1100, in process_multi_variant_product
+    self._process_additional_docs(product, product_path, shared_folders, product_path)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+ 
+2026-01-16 18:10:20,047 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1_0jk2t3po9gzP2tlrQS9omnz66RH84CE name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g
+2026-01-16 18:10:20,581 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder contents: type=CERTIFICADO CONFORMIDADE folder_id=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g count=1 sample=['CE_F_01_01_CONFORMIDADE SPOT30 .pdf'] 
+2026-01-16 18:10:21,575 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc created: type=CERTIFICADO CONFORMIDADE res_model=product.template res_id=196 name=CERTIFICADO CONFORMIDADE - CE_F_01_01_CONFORMIDADE SPOT30 .pdf file_id=14i7RTcpaUdqHfNkg93h58K6viQXalvDM
+2026-01-16 18:10:21,575 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.template res_id=196 existing=0 created=1 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:10:21,575 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Template pre-variant: product=196 image_1920=True gdrive_id=1uqaITQgO2_d39i42RqP2v3UizZtHi3OP gdrive_md5=520fa50955d8a8f3064f5719aa36b077 
+2026-01-16 18:10:25,218 105 INFO parametroglobaladmin-essani-main-24829872 odoo.models.unlink: User #1 deleted mail.message records with IDs: [7973]
+2026-01-16 18:10:25,250 105 INFO parametroglobaladmin-essani-main-24829872 odoo.models.unlink: User #1 deleted product.product records with IDs: [400]
+2026-01-16 18:10:25,441 105 INFO parametroglobaladmin-essani-main-24829872 odoo.models.unlink: User #1 deleted mail.message records with IDs: [7976, 7975, 7974]
+2026-01-16 18:10:25,460 105 INFO parametroglobaladmin-essani-main-24829872 odoo.models.unlink: User #1 deleted product.product records with IDs: [401, 402, 403] 
+2026-01-16 18:10:25,941 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image sync: default_code=EF8.V1-4000 folder_id=1vfopoQXQgDnyRbBpHQMmlmTHkQL9ZaP4 imagens_id=1i40AwAWADaI2xsgQyOYrgzusyUEAJnnz
+2026-01-16 18:10:25,941 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 1i40AwAWADaI2xsgQyOYrgzusyUEAJnnz for variant
+2026-01-16 18:10:25,941 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image field related to template: False (variant=414 code=EF8.V1-4000)
+2026-01-16 18:10:25,942 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state pre-sync: variant=414 code=EF8.V1-4000 image_variant_1920=False gdrive_id=False gdrive_md5=False
+2026-01-16 18:10:25,991 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1168, in process_multi_variant_product
+    self.upload_images(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 461, in upload_images
+    children = gd.list_children(current_folder_id, folders_only=False)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+2026-01-16 18:10:26,368 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=414 file=pngtree-golden-color-number-11-illustration-png-image_12643232.png id=1eT65zOL5xor3VD2FAWPrXK8nimEL3plS md5=07f747b04939659a552997c74b8df4d3 
+2026-01-16 18:10:26,992 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Set first variant image as thumbnail: pngtree-golden-color-number-11-illustration-png-image_12643232.png
+2026-01-16 18:10:26,992 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state post-sync: variant=414 code=EF8.V1-4000 image_variant_1920=True gdrive_id=1eT65zOL5xor3VD2FAWPrXK8nimEL3plS gdrive_md5=07f747b04939659a552997c74b8df4d3
+2026-01-16 18:10:27,037 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1196, in process_multi_variant_product
+    self._process_additional_docs(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+2026-01-16 18:10:27,545 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1vfopoQXQgDnyRbBpHQMmlmTHkQL9ZaP4 name=3D normalized=3D specific=1Xl85LTP0BgjqNhZ9W3O7ORrtRXxfuTO- shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d
+2026-01-16 18:10:27,930 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=3D folder_id=1Xl85LTP0BgjqNhZ9W3O7ORrtRXxfuTO-
+2026-01-16 18:10:27,931 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.product res_id=414 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:10:28,399 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1vfopoQXQgDnyRbBpHQMmlmTHkQL9ZaP4 name=FICHA TECNICA normalized=FICHA TECNICA specific=1hfJ5vZkUA8tnfYDPh_7y-A15cibDnDJZ shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah
+2026-01-16 18:10:28,726 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=FICHA TECNICA folder_id=1hfJ5vZkUA8tnfYDPh_7y-A15cibDnDJZ
+2026-01-16 18:10:28,727 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.product res_id=414 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:10:29,255 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1vfopoQXQgDnyRbBpHQMmlmTHkQL9ZaP4 name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=1RWRcSKZoO1FSPBPsd08gIZwTjQBJtWYU shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g
+2026-01-16 18:10:29,608 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=CERTIFICADO CONFORMIDADE folder_id=1RWRcSKZoO1FSPBPsd08gIZwTjQBJtWYU
+2026-01-16 18:10:29,610 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.product res_id=414 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:10:30,425 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image sync: default_code=EF8.V1-3000 folder_id=1Ywp6YTAiwC5ADczsa_DOJEs8_qFEe9U0 imagens_id=1TlH-tIr9cFJfqWDfgsoioqXtGgg4_kLY
+2026-01-16 18:10:30,426 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 1TlH-tIr9cFJfqWDfgsoioqXtGgg4_kLY for variant
+2026-01-16 18:10:30,426 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image field related to template: False (variant=413 code=EF8.V1-3000)
+2026-01-16 18:10:30,426 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state pre-sync: variant=413 code=EF8.V1-3000 image_variant_1920=False gdrive_id=False gdrive_md5=False
+2026-01-16 18:10:30,906 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=413 file=1000_F_193980561_lymRkyDG6roPxmgA6x27fEaq3O3z3Mcf.jpg id=1rvaJ8_5P8fWSRYr2uaUTtqnnq7ztIx3a md5=96a45864a1d2fad6dd71d03ef012f091 
+2026-01-16 18:10:31,921 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Set first variant image as thumbnail: 1000_F_193980561_lymRkyDG6roPxmgA6x27fEaq3O3z3Mcf.jpg
+2026-01-16 18:10:31,921 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state post-sync: variant=413 code=EF8.V1-3000 image_variant_1920=True gdrive_id=1rvaJ8_5P8fWSRYr2uaUTtqnnq7ztIx3a gdrive_md5=96a45864a1d2fad6dd71d03ef012f091 
+2026-01-16 18:10:31,980 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1196, in process_multi_variant_product
+    self._process_additional_docs(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+2026-01-16 18:10:32,460 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1Ywp6YTAiwC5ADczsa_DOJEs8_qFEe9U0 name=3D normalized=3D specific=1kpuzdY0h4Do0C2kSShbikNijPSINH6oE shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d
+2026-01-16 18:10:32,812 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=3D folder_id=1kpuzdY0h4Do0C2kSShbikNijPSINH6oE
+2026-01-16 18:10:32,813 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.product res_id=413 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:10:33,469 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1Ywp6YTAiwC5ADczsa_DOJEs8_qFEe9U0 name=FICHA TECNICA normalized=FICHA TECNICA specific=1g2ihH0vbyfeS3tk3FukW7alb_V-VAT_E shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah
+2026-01-16 18:10:33,726 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=FICHA TECNICA folder_id=1g2ihH0vbyfeS3tk3FukW7alb_V-VAT_E
+2026-01-16 18:10:33,727 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.product res_id=413 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:10:34,439 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1Ywp6YTAiwC5ADczsa_DOJEs8_qFEe9U0 name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=1x5x4ORAIQLod0jyJ0-S8Dug6A4OpuHCB shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g 
+2026-01-16 18:10:35,045 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=CERTIFICADO CONFORMIDADE folder_id=1x5x4ORAIQLod0jyJ0-S8Dug6A4OpuHCB
+2026-01-16 18:10:35,046 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.product res_id=413 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:10:35,519 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image sync: default_code=EF8.V1-2700 folder_id=1B_sa3JymTS3UNuLL_y--wDWVOpPwbVfl imagens_id=1RMbJo7_rYd8MT5KGPuuI96EbWKDHjA8a
+2026-01-16 18:10:35,520 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 1RMbJo7_rYd8MT5KGPuuI96EbWKDHjA8a for variant
+2026-01-16 18:10:35,520 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image field related to template: False (variant=412 code=EF8.V1-2700)
+2026-01-16 18:10:35,520 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state pre-sync: variant=412 code=EF8.V1-2700 image_variant_1920=False gdrive_id=False gdrive_md5=False 
+2026-01-16 18:10:36,216 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=412 file=pngtree-gold-number-9-png-image_5330851.jpg id=14PhlpZelQi5kxhytCCvDqbrIS-Gf7xMY md5=8b62175ac5f3164cb34999710c63abca 
+2026-01-16 18:10:37,060 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Set first variant image as thumbnail: pngtree-gold-number-9-png-image_5330851.jpg
+2026-01-16 18:10:37,060 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state post-sync: variant=412 code=EF8.V1-2700 image_variant_1920=True gdrive_id=14PhlpZelQi5kxhytCCvDqbrIS-Gf7xMY gdrive_md5=8b62175ac5f3164cb34999710c63abca
+2026-01-16 18:10:37,112 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1196, in process_multi_variant_product
+    self._process_additional_docs(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+2026-01-16 18:10:37,590 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1B_sa3JymTS3UNuLL_y--wDWVOpPwbVfl name=3D normalized=3D specific=17fYLeBXZ9gRGaSLwENSLygsnLltGvOKE shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d 
+2026-01-16 18:10:38,245 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=3D folder_id=17fYLeBXZ9gRGaSLwENSLygsnLltGvOKE
+2026-01-16 18:10:38,247 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.product res_id=412 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:10:38,793 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1B_sa3JymTS3UNuLL_y--wDWVOpPwbVfl name=FICHA TECNICA normalized=FICHA TECNICA specific=196g-xF3aipKOJ6X3tFE-9RXTeEknbOJc shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah 
+2026-01-16 18:10:39,060 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=FICHA TECNICA folder_id=196g-xF3aipKOJ6X3tFE-9RXTeEknbOJc
+2026-01-16 18:10:39,061 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.product res_id=412 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:10:39,762 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1B_sa3JymTS3UNuLL_y--wDWVOpPwbVfl name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=1S2h7xuSiDifAqxDLIBkK7YRbCKOCRTzP shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g 
+2026-01-16 18:10:40,160 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=CERTIFICADO CONFORMIDADE folder_id=1S2h7xuSiDifAqxDLIBkK7YRbCKOCRTzP
+2026-01-16 18:10:40,161 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.product res_id=412 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:10:40,571 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image sync: default_code=EF8.V1-6000 folder_id=11vd7ZVUim3Ys6k8E671c-nL_l-IFYlaX imagens_id=1SpROYoqS30HPrin9Zr3-j4ZOXZ5rAsky
+2026-01-16 18:10:40,572 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 1SpROYoqS30HPrin9Zr3-j4ZOXZ5rAsky for variant
+2026-01-16 18:10:40,572 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image field related to template: False (variant=415 code=EF8.V1-6000)
+2026-01-16 18:10:40,573 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state pre-sync: variant=415 code=EF8.V1-6000 image_variant_1920=False gdrive_id=False gdrive_md5=False 
+2026-01-16 18:10:41,050 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=415 file=images.jpg id=1AMvRKlmgt5KDalKQbZwcttr6Z57UWyGj md5=0dfa1bb30d345ecd4ca078499e9f733a 
+2026-01-16 18:10:42,114 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Set first variant image as thumbnail: images.jpg
+2026-01-16 18:10:42,114 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state post-sync: variant=415 code=EF8.V1-6000 image_variant_1920=True gdrive_id=1AMvRKlmgt5KDalKQbZwcttr6Z57UWyGj gdrive_md5=0dfa1bb30d345ecd4ca078499e9f733a
+2026-01-16 18:10:42,163 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1196, in process_multi_variant_product
+    self._process_additional_docs(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+2026-01-16 18:10:42,601 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=11vd7ZVUim3Ys6k8E671c-nL_l-IFYlaX name=3D normalized=3D specific=1a7_wGPdL-rlWVjELafc-Po_kEKkqNsp7 shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d 
+2026-01-16 18:10:43,118 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=3D folder_id=1a7_wGPdL-rlWVjELafc-Po_kEKkqNsp7
+2026-01-16 18:10:43,120 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.product res_id=415 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:10:43,821 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=11vd7ZVUim3Ys6k8E671c-nL_l-IFYlaX name=FICHA TECNICA normalized=FICHA TECNICA specific=19F484rXD-VfsG48taZtXdq4ekcDYgPy8 shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah 
+2026-01-16 18:10:44,067 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=FICHA TECNICA folder_id=19F484rXD-VfsG48taZtXdq4ekcDYgPy8
+2026-01-16 18:10:44,068 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.product res_id=415 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:10:44,660 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=11vd7ZVUim3Ys6k8E671c-nL_l-IFYlaX name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=1CTsOtiZbTLhSuBTGJPDGUvJcbqLAd7NX shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g 
+2026-01-16 18:10:44,946 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=CERTIFICADO CONFORMIDADE folder_id=1CTsOtiZbTLhSuBTGJPDGUvJcbqLAd7NX
+2026-01-16 18:10:44,947 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.product res_id=415 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:10:45,274 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image sync: default_code=EF8.V3-6000 folder_id=19M3xobO8fl6QFyIlsGIjS4VYGC1hFu1_ imagens_id=1rucvYCuhYY351SfiS4dHwEunjEg9vMxc
+2026-01-16 18:10:45,274 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 1rucvYCuhYY351SfiS4dHwEunjEg9vMxc for variant
+2026-01-16 18:10:45,274 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image field related to template: False (variant=411 code=EF8.V3-6000)
+2026-01-16 18:10:45,274 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state pre-sync: variant=411 code=EF8.V3-6000 image_variant_1920=False gdrive_id=False gdrive_md5=False
+2026-01-16 18:10:45,791 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=411 file=istockphoto-618634976-612x612.jpg id=1vwHbP3xCHGVrQO5tdxRxlU5pgS3enpnt md5=84503d5b526344db99ec7127057a29d5 
+2026-01-16 18:10:46,700 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Set first variant image as thumbnail: istockphoto-618634976-612x612.jpg
+2026-01-16 18:10:46,701 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state post-sync: variant=411 code=EF8.V3-6000 image_variant_1920=True gdrive_id=1vwHbP3xCHGVrQO5tdxRxlU5pgS3enpnt gdrive_md5=84503d5b526344db99ec7127057a29d5
+2026-01-16 18:10:46,745 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1196, in process_multi_variant_product
+    self._process_additional_docs(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+ 
+2026-01-16 18:10:47,284 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=19M3xobO8fl6QFyIlsGIjS4VYGC1hFu1_ name=3D normalized=3D specific=1BoVy977bmlUmXbIJvSDJS41SbjKrg0s6 shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d
+2026-01-16 18:10:47,661 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=3D folder_id=1BoVy977bmlUmXbIJvSDJS41SbjKrg0s6
+2026-01-16 18:10:47,663 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.product res_id=411 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:10:48,197 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=19M3xobO8fl6QFyIlsGIjS4VYGC1hFu1_ name=FICHA TECNICA normalized=FICHA TECNICA specific=1UcnTD4s0PzVYQNixzxxch3ZWZtwc8rc2 shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah
+2026-01-16 18:10:48,458 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=FICHA TECNICA folder_id=1UcnTD4s0PzVYQNixzxxch3ZWZtwc8rc2
+2026-01-16 18:10:48,459 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.product res_id=411 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:10:49,042 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=19M3xobO8fl6QFyIlsGIjS4VYGC1hFu1_ name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=1OgxKX8KCXVtnRt2B8gKk2tlwrhtvQr0M shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g
+2026-01-16 18:10:49,345 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=CERTIFICADO CONFORMIDADE folder_id=1OgxKX8KCXVtnRt2B8gKk2tlwrhtvQr0M
+2026-01-16 18:10:49,346 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.product res_id=411 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:10:50,412 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image sync: default_code=EF8.V3-4000 folder_id=1oC73RjQMG2dDTSIwprwfUSzJ__aNlAR5 imagens_id=18LsYF08KdUcPl0MIqecohuGVJ9Bz5btu
+2026-01-16 18:10:50,412 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 18LsYF08KdUcPl0MIqecohuGVJ9Bz5btu for variant
+2026-01-16 18:10:50,413 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image field related to template: False (variant=410 code=EF8.V3-4000)
+2026-01-16 18:10:50,413 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state pre-sync: variant=410 code=EF8.V3-4000 image_variant_1920=False gdrive_id=False gdrive_md5=False 
+2026-01-16 18:10:51,050 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=410 file=pngtree-gold-number-7-png-image_5330848.jpg id=1gbJMf_xcOHpH79chdL5_AsX8Wr4ih0El md5=7140d35020729cc9db05da07a80be3e8
+2026-01-16 18:10:51,867 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Set first variant image as thumbnail: pngtree-gold-number-7-png-image_5330848.jpg
+2026-01-16 18:10:51,867 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state post-sync: variant=410 code=EF8.V3-4000 image_variant_1920=True gdrive_id=1gbJMf_xcOHpH79chdL5_AsX8Wr4ih0El gdrive_md5=7140d35020729cc9db05da07a80be3e8
+2026-01-16 18:10:51,914 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1196, in process_multi_variant_product
+    self._process_additional_docs(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+ 
+2026-01-16 18:10:52,510 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1oC73RjQMG2dDTSIwprwfUSzJ__aNlAR5 name=3D normalized=3D specific=1va0sjXHLJsjdim8ZrN2ddRuNscXXQIvh shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d 
+2026-01-16 18:10:53,030 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=3D folder_id=1va0sjXHLJsjdim8ZrN2ddRuNscXXQIvh
+2026-01-16 18:10:53,031 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.product res_id=410 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:10:53,519 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1oC73RjQMG2dDTSIwprwfUSzJ__aNlAR5 name=FICHA TECNICA normalized=FICHA TECNICA specific=1u9nHR__S9ll7GVSFtMObCaPOnJGxBYd- shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah
+2026-01-16 18:10:53,800 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=FICHA TECNICA folder_id=1u9nHR__S9ll7GVSFtMObCaPOnJGxBYd-
+2026-01-16 18:10:53,802 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.product res_id=410 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:10:54,300 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1oC73RjQMG2dDTSIwprwfUSzJ__aNlAR5 name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=1B66rE0IRoPFXw9vlETaxkZt9YomCDY-V shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g
+2026-01-16 18:10:54,586 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=CERTIFICADO CONFORMIDADE folder_id=1B66rE0IRoPFXw9vlETaxkZt9YomCDY-V
+2026-01-16 18:10:54,587 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.product res_id=410 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:10:54,960 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image sync: default_code=EF8.V3-3000 folder_id=1UB5ng83wUtUKuA9coqswSjGn4cOkRfC4 imagens_id=159TVNsUmQ2Cu6vHQHr5kgNfXGi5GWrdI
+2026-01-16 18:10:54,961 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 159TVNsUmQ2Cu6vHQHr5kgNfXGi5GWrdI for variant
+2026-01-16 18:10:54,961 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image field related to template: False (variant=409 code=EF8.V3-3000)
+2026-01-16 18:10:54,961 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state pre-sync: variant=409 code=EF8.V3-3000 image_variant_1920=False gdrive_id=False gdrive_md5=False
+2026-01-16 18:10:55,488 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=409 file=images.jpg id=1sWJyHWO0iCTs0gpJlynu9RfmMeEBfgkS md5=6ee001885240026b189b741fa5021fd2 
+2026-01-16 18:10:56,330 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Set first variant image as thumbnail: images.jpg
+2026-01-16 18:10:56,330 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state post-sync: variant=409 code=EF8.V3-3000 image_variant_1920=True gdrive_id=1sWJyHWO0iCTs0gpJlynu9RfmMeEBfgkS gdrive_md5=6ee001885240026b189b741fa5021fd2
+2026-01-16 18:10:56,375 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1196, in process_multi_variant_product
+    self._process_additional_docs(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+2026-01-16 18:10:56,806 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1UB5ng83wUtUKuA9coqswSjGn4cOkRfC4 name=3D normalized=3D specific=1XT_48kWqT8uldJT_QgZu88s0CASVbscb shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d 
+2026-01-16 18:10:57,972 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=3D folder_id=1XT_48kWqT8uldJT_QgZu88s0CASVbscb
+2026-01-16 18:10:57,973 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.product res_id=409 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:10:58,477 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1UB5ng83wUtUKuA9coqswSjGn4cOkRfC4 name=FICHA TECNICA normalized=FICHA TECNICA specific=1SrCniTdosXfVLWZ2t2_gPAkpL4eUu17V shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah
+2026-01-16 18:10:58,789 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=FICHA TECNICA folder_id=1SrCniTdosXfVLWZ2t2_gPAkpL4eUu17V
+2026-01-16 18:10:58,790 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.product res_id=409 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:10:59,437 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1UB5ng83wUtUKuA9coqswSjGn4cOkRfC4 name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=1u7XFq6zYZLOB1801GxQirTNUunmg40eV shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g
+2026-01-16 18:10:59,738 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=CERTIFICADO CONFORMIDADE folder_id=1u7XFq6zYZLOB1801GxQirTNUunmg40eV
+2026-01-16 18:10:59,739 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.product res_id=409 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:11:00,381 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image sync: default_code=EF8.V3-2700 folder_id=1R8AoHGKMF9CmYS-GJVOrezozqxCd_ao7 imagens_id=1XpNdMLeOFqUaHtU8rM3ZbRh7z33pY2Q1
+2026-01-16 18:11:00,382 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 1XpNdMLeOFqUaHtU8rM3ZbRh7z33pY2Q1 for variant
+2026-01-16 18:11:00,382 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image field related to template: False (variant=408 code=EF8.V3-2700)
+2026-01-16 18:11:00,382 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state pre-sync: variant=408 code=EF8.V3-2700 image_variant_1920=False gdrive_id=False gdrive_md5=False
+2026-01-16 18:11:00,877 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=408 file=pngtree-gold-number-5-png-image_5330870.jpg id=17WGfUhECltoiZQEJDH4GO2ycf62Y5b25 md5=0fabdc74dd9dd8d24293cbab516e33fb 
+2026-01-16 18:11:02,021 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Set first variant image as thumbnail: pngtree-gold-number-5-png-image_5330870.jpg
+2026-01-16 18:11:02,021 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state post-sync: variant=408 code=EF8.V3-2700 image_variant_1920=True gdrive_id=17WGfUhECltoiZQEJDH4GO2ycf62Y5b25 gdrive_md5=0fabdc74dd9dd8d24293cbab516e33fb 
+2026-01-16 18:11:02,098 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1196, in process_multi_variant_product
+    self._process_additional_docs(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+2026-01-16 18:11:02,586 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1R8AoHGKMF9CmYS-GJVOrezozqxCd_ao7 name=3D normalized=3D specific=1Eq0V2Bb7shsVNXVRQ6SfY1SQdvnKSJXN shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d 
+2026-01-16 18:11:02,996 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=3D folder_id=1Eq0V2Bb7shsVNXVRQ6SfY1SQdvnKSJXN
+2026-01-16 18:11:02,997 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.product res_id=408 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:11:03,543 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1R8AoHGKMF9CmYS-GJVOrezozqxCd_ao7 name=FICHA TECNICA normalized=FICHA TECNICA specific=1JOVoXG8N8SP0b7qaqd7TpeWHTz2BLsex shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah 
+2026-01-16 18:11:04,135 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=FICHA TECNICA folder_id=1JOVoXG8N8SP0b7qaqd7TpeWHTz2BLsex
+2026-01-16 18:11:04,136 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.product res_id=408 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:11:04,662 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1R8AoHGKMF9CmYS-GJVOrezozqxCd_ao7 name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=1nL2jZwxDy_sUmujmN8vwMmuL7RCMexiG shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g 
+2026-01-16 18:11:04,935 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=CERTIFICADO CONFORMIDADE folder_id=1nL2jZwxDy_sUmujmN8vwMmuL7RCMexiG
+2026-01-16 18:11:04,936 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.product res_id=408 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:11:05,300 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image sync: default_code=EF8.V2-4000 folder_id=1E8AFU1R6VdldBSJJfqAoi3nDIFechC3W imagens_id=1mRzsoKxgC_7DC3xY6_h1uoCtqJyTpwlb
+2026-01-16 18:11:05,301 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 1mRzsoKxgC_7DC3xY6_h1uoCtqJyTpwlb for variant
+2026-01-16 18:11:05,301 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image field related to template: False (variant=406 code=EF8.V2-4000)
+2026-01-16 18:11:05,301 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state pre-sync: variant=406 code=EF8.V2-4000 image_variant_1920=False gdrive_id=False gdrive_md5=False
+2026-01-16 18:11:05,739 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=406 file=depositphotos_152777778-stock-photo-gold-number-3.jpg id=1evfU0hnHdSx7mwfHu7uTTjwijjGfKsqU md5=964aad23dcc97e968f7b3a7e9004c5b4 
+2026-01-16 18:11:06,362 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Set first variant image as thumbnail: depositphotos_152777778-stock-photo-gold-number-3.jpg
+2026-01-16 18:11:06,362 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state post-sync: variant=406 code=EF8.V2-4000 image_variant_1920=True gdrive_id=1evfU0hnHdSx7mwfHu7uTTjwijjGfKsqU gdrive_md5=964aad23dcc97e968f7b3a7e9004c5b4
+2026-01-16 18:11:06,407 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1196, in process_multi_variant_product
+    self._process_additional_docs(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+ 
+2026-01-16 18:11:07,022 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1E8AFU1R6VdldBSJJfqAoi3nDIFechC3W name=3D normalized=3D specific=1thjp2AP3K0xmv95hNMXgfJ_VvHfuUSOh shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d
+2026-01-16 18:11:07,426 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=3D folder_id=1thjp2AP3K0xmv95hNMXgfJ_VvHfuUSOh
+2026-01-16 18:11:07,427 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.product res_id=406 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:11:07,861 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1E8AFU1R6VdldBSJJfqAoi3nDIFechC3W name=FICHA TECNICA normalized=FICHA TECNICA specific=1zhgxjR7BDp2acGiIdY3WNvpf3DgJTbom shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah 
+2026-01-16 18:11:08,194 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=FICHA TECNICA folder_id=1zhgxjR7BDp2acGiIdY3WNvpf3DgJTbom
+2026-01-16 18:11:08,195 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.product res_id=406 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:11:08,701 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1E8AFU1R6VdldBSJJfqAoi3nDIFechC3W name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=1fWM1S5Zn3NcM7Pdpd2jJAQV3fuuh3mYy shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g 
+2026-01-16 18:11:08,977 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=CERTIFICADO CONFORMIDADE folder_id=1fWM1S5Zn3NcM7Pdpd2jJAQV3fuuh3mYy
+2026-01-16 18:11:08,978 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.product res_id=406 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:11:09,366 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image sync: default_code=EF8.V2-6000 folder_id=1ACYq2mKIQ0ZfB6vJ3uK0rGmY6CKb2qzT imagens_id=1q2AuqAI4JMh2OLw79xQGRJsaC70mRoLu
+2026-01-16 18:11:09,367 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 1q2AuqAI4JMh2OLw79xQGRJsaC70mRoLu for variant
+2026-01-16 18:11:09,367 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image field related to template: False (variant=407 code=EF8.V2-6000)
+2026-01-16 18:11:09,367 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state pre-sync: variant=407 code=EF8.V2-6000 image_variant_1920=False gdrive_id=False gdrive_md5=False
+2026-01-16 18:11:09,865 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=407 file=pngtree-gold-number-4-png-image_2158842.jpg id=18TLdSE4mkK6ZiTJK4AgzyJ77hLdnKewo md5=8fe36bedccf9e08a78a4cc661fc55fd5
+2026-01-16 18:11:10,555 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Set first variant image as thumbnail: pngtree-gold-number-4-png-image_2158842.jpg
+2026-01-16 18:11:10,555 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state post-sync: variant=407 code=EF8.V2-6000 image_variant_1920=True gdrive_id=18TLdSE4mkK6ZiTJK4AgzyJ77hLdnKewo gdrive_md5=8fe36bedccf9e08a78a4cc661fc55fd5
+2026-01-16 18:11:10,600 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1196, in process_multi_variant_product
+    self._process_additional_docs(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+2026-01-16 18:11:11,042 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1ACYq2mKIQ0ZfB6vJ3uK0rGmY6CKb2qzT name=3D normalized=3D specific=1CUqwacvd4t9nchHYkEBXc-tlJT2L8oV_ shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d 
+2026-01-16 18:11:11,417 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=3D folder_id=1CUqwacvd4t9nchHYkEBXc-tlJT2L8oV_
+2026-01-16 18:11:11,419 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.product res_id=407 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:11:12,095 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1ACYq2mKIQ0ZfB6vJ3uK0rGmY6CKb2qzT name=FICHA TECNICA normalized=FICHA TECNICA specific=18Yspe1yNIeMpycp_IiYVt4uqCX43a3D2 shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah
+2026-01-16 18:11:12,381 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=FICHA TECNICA folder_id=18Yspe1yNIeMpycp_IiYVt4uqCX43a3D2
+2026-01-16 18:11:12,382 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.product res_id=407 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:11:12,844 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1ACYq2mKIQ0ZfB6vJ3uK0rGmY6CKb2qzT name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=1ksw8EG-j1RyxxulssOpkYYU9lMG2xA6g shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g 
+2026-01-16 18:11:13,124 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=CERTIFICADO CONFORMIDADE folder_id=1ksw8EG-j1RyxxulssOpkYYU9lMG2xA6g
+2026-01-16 18:11:13,125 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.product res_id=407 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:11:13,536 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image sync: default_code=EF8.V2-2700 folder_id=1d_OEo3aqLeW7YBmk04QfJYApbRgWlFQy imagens_id=1g53eT-HWqNRi9shiW1HCcZJBp2XtKFxJ
+2026-01-16 18:11:13,537 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 1g53eT-HWqNRi9shiW1HCcZJBp2XtKFxJ for variant
+2026-01-16 18:11:13,537 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image field related to template: False (variant=404 code=EF8.V2-2700)
+2026-01-16 18:11:13,537 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state pre-sync: variant=404 code=EF8.V2-2700 image_variant_1920=False gdrive_id=False gdrive_md5=False 
+2026-01-16 18:11:13,945 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: No images found for variant folder: 1g53eT-HWqNRi9shiW1HCcZJBp2XtKFxJ (variant=404)
+2026-01-16 18:11:13,946 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Cleared variant thumbnail due to no main image: variant=404
+2026-01-16 18:11:13,946 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state post-sync: variant=404 code=EF8.V2-2700 image_variant_1920=False gdrive_id=False gdrive_md5=False
+2026-01-16 18:11:14,555 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1d_OEo3aqLeW7YBmk04QfJYApbRgWlFQy name=3D normalized=3D specific=1i1V0VtfYl0Bws5wu9fQJhZHmX4PsmJ19 shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d 
+2026-01-16 18:11:14,943 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=3D folder_id=1i1V0VtfYl0Bws5wu9fQJhZHmX4PsmJ19
+2026-01-16 18:11:14,944 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.product res_id=404 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:11:15,469 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1d_OEo3aqLeW7YBmk04QfJYApbRgWlFQy name=FICHA TECNICA normalized=FICHA TECNICA specific=1IA6qeb8GIZDZ4i0RoNivCoEiWNAWdcGS shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah 
+2026-01-16 18:11:16,566 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=FICHA TECNICA folder_id=1IA6qeb8GIZDZ4i0RoNivCoEiWNAWdcGS
+2026-01-16 18:11:16,567 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.product res_id=404 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:11:17,157 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=1d_OEo3aqLeW7YBmk04QfJYApbRgWlFQy name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=1p48MTaxnaHwIUwuj8W1kEiIP5KO7jPkN shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g 
+2026-01-16 18:11:18,400 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=CERTIFICADO CONFORMIDADE folder_id=1p48MTaxnaHwIUwuj8W1kEiIP5KO7jPkN
+2026-01-16 18:11:18,401 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.product res_id=404 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:11:18,745 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image sync: default_code=EF8.V2-3000 folder_id=18VosU_rmPQgEjk6YGp1mBP8ezI-2GQUL imagens_id=1o_97Wb-dgvgMv8gRxG5_63n0ueNBuOUF
+2026-01-16 18:11:18,746 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Uploading images from Drive folder ID: 1o_97Wb-dgvgMv8gRxG5_63n0ueNBuOUF for variant
+2026-01-16 18:11:18,746 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image field related to template: False (variant=405 code=EF8.V2-3000)
+2026-01-16 18:11:18,746 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state pre-sync: variant=405 code=EF8.V2-3000 image_variant_1920=False gdrive_id=False gdrive_md5=False 
+2026-01-16 18:11:19,273 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image candidate: variant=405 file=1000_F_25853657_TZaY3PRevrRfVLhVwACDw1YxdmGQLXhf.jpg id=12czQFUdo-YXuKN9o2a5gfpnk1pPg4duM md5=7cb537325d43607e5991c7f0a5e50b46
+2026-01-16 18:11:19,976 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Set first variant image as thumbnail: 1000_F_25853657_TZaY3PRevrRfVLhVwACDw1YxdmGQLXhf.jpg
+2026-01-16 18:11:19,977 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant image state post-sync: variant=405 code=EF8.V2-3000 image_variant_1920=True gdrive_id=12czQFUdo-YXuKN9o2a5gfpnk1pPg4duM gdrive_md5=7cb537325d43607e5991c7f0a5e50b46
+2026-01-16 18:11:20,029 105 WARNING parametroglobaladmin-essani-main-24829872 py.warnings: /usr/lib/python3/dist-packages/httplib2/__init__.py:147: DeprecationWarning: ssl.PROTOCOL_TLS is deprecated
+  File "/home/odoo/src/odoo/odoo/http.py", line 2802, in __call__
+    response = request._serve_db()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2275, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/http.py", line 2330, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "/home/odoo/src/odoo/odoo/http.py", line 2452, in dispatch
+    return self.request.registry['ir.http']._dispatch(endpoint)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 788, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 162, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/home/odoo/src/odoo/addons/rpc/controllers/xmlrpc.py", line 134, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 439, in dispatch_rpc
+    return dispatch(method, params)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 55, in dispatch
+    return odoo_dispatch(method, dispatch_params + list(params))
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 129, in dispatch
+    res = execute_cr(cr, uid, model, method_, args, kw)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 146, in execute_cr
+    result = retrying(partial(call_kw, recs, method, args, kw), env)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 184, in retrying
+    result = func()
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 93, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "/opt/odoo.sh/odoosh/bin/odoo-rpc", line 23, in acquire_job
+    self._process_jobs(db)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 154, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 191, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 391, in _process_job
+    status = cls._run_job(job)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 459, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_cron.py", line 619, in _callback
+    self.env['ir.actions.server'].browse(server_action_id).run()
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1177, in run
+    res = action._run(records, eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1190, in _run
+    res = runner(run_self, eval_context=eval_context)
+  File "/home/odoo/src/odoo/addons/website/models/ir_actions_server.py", line 59, in _run_action_code_multi
+    res = super()._run_action_code_multi(eval_context)
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_actions.py", line 1014, in _run_action_code_multi
+    safe_eval(self.code.strip(), eval_context, mode="exec", filename=str(self))
+  File "/home/odoo/src/odoo/odoo/tools/safe_eval.py", line 397, in safe_eval
+    return unsafe_eval(c, globals_dict, None)
+  File "ir.actions.server(1110,)", line 1, in <module>
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1658, in cron_run_drive_jobs
+    self._process_one_imagens_folder(imagens_id, all_category, all_web_category)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1482, in _process_one_imagens_folder
+    self.process_multi_variant_product(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 1196, in process_multi_variant_product
+    self._process_additional_docs(
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 806, in _process_additional_docs
+    folder_id = self._get_specific_or_shared_folder(variant_path, doc_type, shared_folders)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 780, in _get_specific_or_shared_folder
+    specific = gd.find_child_folder(variant_folder, normalized)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 139, in find_child_folder
+    for item in self.list_children(parent_id, folders_only=True):
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 132, in list_children
+    res = self._execute(call)
+  File "/home/odoo/src/user/pg_product_update/models/product_update.py", line 91, in _execute
+    return call.execute()
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 923, in execute
+    resp, content = _retry_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/googleapiclient/http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 207, in request
+    self.credentials.before_request(self._request, method, uri, request_headers)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/auth/credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/service_account.py", line 457, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 259, in _token_endpoint_request
+    response_status_ok, response_data, retryable_error = _token_endpoint_request_no_throw(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google/oauth2/_client.py", line 192, in _token_endpoint_request_no_throw
+    response = request(
+  File "/home/odoo/.local/lib/python3.12/site-packages/google_auth_httplib2.py", line 117, in __call__
+    response, data = self.http.request(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1558, in request
+    conn = self.connections[conn_key] = connection_type(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 1077, in __init__
+    context = _build_ssl_context(
+  File "/usr/lib/python3/dist-packages/httplib2/__init__.py", line 147, in _build_ssl_context
+    context = ssl.SSLContext(DEFAULT_TLS_VERSION)
+ 
+2026-01-16 18:11:20,473 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=18VosU_rmPQgEjk6YGp1mBP8ezI-2GQUL name=3D normalized=3D specific=1UjQ9dWq68vr8DjRAcTRSqREiaeqwLThY shared=1ZEmbFiWg4RcC7x2sDnbuE45cF4nhCp8d 
+2026-01-16 18:11:21,770 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=3D folder_id=1UjQ9dWq68vr8DjRAcTRSqREiaeqwLThY
+2026-01-16 18:11:21,772 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=3D res_model=product.product res_id=405 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:11:22,391 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=18VosU_rmPQgEjk6YGp1mBP8ezI-2GQUL name=FICHA TECNICA normalized=FICHA TECNICA specific=1wY2qB0DaE8DYRwgRs-9l6VlWCnVGt_s9 shared=1Y2y0oj-aiGvJTmeqQbIr_KBQgvPhk8ah
+2026-01-16 18:11:22,686 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=FICHA TECNICA folder_id=1wY2qB0DaE8DYRwgRs-9l6VlWCnVGt_s9
+2026-01-16 18:11:22,687 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=FICHA TECNICA res_model=product.product res_id=405 existing=0 created=0 updated=0 skipped=0 stale_deleted=0 
+2026-01-16 18:11:23,212 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Doc folder lookup: variant_folder=18VosU_rmPQgEjk6YGp1mBP8ezI-2GQUL name=CERTIFICADO CONFORMIDADE normalized=CERTIFICADO CONFORMIDADE specific=1LYHDtLBnUfuCSqZvvvs7-x--k9lTPkFV shared=15-lXVln_KJX3Vp7ZIFNmAtpE3l0vfh0g
+2026-01-16 18:11:23,481 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs folder empty: type=CERTIFICADO CONFORMIDADE folder_id=1LYHDtLBnUfuCSqZvvvs7-x--k9lTPkFV
+2026-01-16 18:11:23,483 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Docs sync summary: type=CERTIFICADO CONFORMIDADE res_model=product.product res_id=405 existing=0 created=0 updated=0 skipped=0 stale_deleted=0
+2026-01-16 18:11:23,571 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Variant media summary: product=196 variants=['id=404 code=EF8.V2-2700 active=True image_1920=True images=0 gdrive_id=False gdrive_md5=False', 'id=405 code=EF8.V2-3000 active=True image_1920=True images=0 gdrive_id=12czQFUdo-YXuKN9o2a5gfpnk1pPg4duM gdrive_md5=7cb537325d43607e5991c7f0a5e50b46', 'id=406 code=EF8.V2-4000 active=True image_1920=True images=0 gdrive_id=1evfU0hnHdSx7mwfHu7uTTjwijjGfKsqU gdrive_md5=964aad23dcc97e968f7b3a7e9004c5b4', 'id=407 code=EF8.V2-6000 active=True image_1920=True images=0 gdrive_id=18TLdSE4mkK6ZiTJK4AgzyJ77hLdnKewo gdrive_md5=8fe36bedccf9e08a78a4cc661fc55fd5', 'id=408 code=EF8.V3-2700 active=True image_1920=True images=0 gdrive_id=17WGfUhECltoiZQEJDH4GO2ycf62Y5b25 gdrive_md5=0fabdc74dd9dd8d24293cbab516e33fb', 'id=409 code=EF8.V3-3000 active=True image_1920=True images=0 gdrive_id=1sWJyHWO0iCTs0gpJlynu9RfmMeEBfgkS gdrive_md5=6ee001885240026b189b741fa5021fd2', 'id=410 code=EF8.V3-4000 active=True image_1920=True images=0 gdrive_id=1gbJMf_xcOHpH79chdL5_AsX8Wr4ih0El gdrive_md5=7140d35020729cc9db05da07a80be3e8', 'id=411 code=EF8.V3-6000 active=True image_1920=True images=0 gdrive_id=1vwHbP3xCHGVrQO5tdxRxlU5pgS3enpnt gdrive_md5=84503d5b526344db99ec7127057a29d5', 'id=412 code=EF8.V1-2700 active=True image_1920=True images=0 gdrive_id=14PhlpZelQi5kxhytCCvDqbrIS-Gf7xMY gdrive_md5=8b62175ac5f3164cb34999710c63abca', 'id=413 code=EF8.V1-3000 active=True image_1920=True images=0 gdrive_id=1rvaJ8_5P8fWSRYr2uaUTtqnnq7ztIx3a gdrive_md5=96a45864a1d2fad6dd71d03ef012f091', 'id=414 code=EF8.V1-4000 active=True image_1920=True images=0 gdrive_id=1eT65zOL5xor3VD2FAWPrXK8nimEL3plS gdrive_md5=07f747b04939659a552997c74b8df4d3', 'id=415 code=EF8.V1-6000 active=True image_1920=True images=0 gdrive_id=1AMvRKlmgt5KDalKQbZwcttr6Z57UWyGj gdrive_md5=0dfa1bb30d345ecd4ca078499e9f733a']
+2026-01-16 18:11:23,573 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Template docs detail: product=196 docs=['3D - 1.SPOT30_20.dxf', '3D - 1.SPOT_35.dxf', '3D - 2.SPOT30_20.fbx', '3D - 2.SPOT_35.fbx', 'CERTIFICADO CONFORMIDADE - CE_F_01_01_CONFORMIDADE SPOT30 .pdf', 'FICHA TECNICA - FICHA TÉCNICA SPOT30 24V_P.pdf'] types=[None, None, None, None, None, None]
+2026-01-16 18:11:23,573 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Post-variant sync: product=196 variants_total=12 variants_active=12
+2026-01-16 18:11:23,574 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Template images/docs: product=196 images=4 docs=6
+2026-01-16 18:11:23,574 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Template thumbnail: product=196 image_1920=True 
+2026-01-16 18:11:25,080 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.pg_product_update.models.product_update: Re-applied template thumbnail from IMAGENS: product=196 
+2026-01-16 18:11:26,990 105 INFO parametroglobaladmin-essani-main-24829872 odoo.registry: Caches invalidated, signaling through the database: ['default']
+2026-01-16 18:11:26,993 105 INFO parametroglobaladmin-essani-main-24829872 odoo.addons.base.models.ir_cron: Job 'PG Product Update: Drive Job Runner' (68) fully done (#loop 1; done 0; remaining 0; duration 130.36s)

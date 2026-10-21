@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo auto_sequence="1">
+    <record id="aged_customer_invoices_report" model="account.report">
+        <field name="name">Mapa de Cobranças</field>
+        <field name="filter_date_range" eval="False"/>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_partner" eval="True"/>
+        <field name="filter_period_comparison" eval="False"/>
+        <field name="filter_account_type">receivable</field>
+        <field name="filter_hierarchy">never</field>
+        <field name="filter_show_draft" eval="False"/>
+        <field name="filter_multi_company">selector</field>
+        <field name="default_opening_date_filter">today</field>
+        <field name="custom_handler_model_id" ref="model_account_aged_customer_invoices_report_handler"/>
+        <field name="column_ids">
+            <record id="aged_customer_invoices_invoice_date" model="account.report.column">
+                <field name="name">Data Documento</field>
+                <field name="expression_label">invoice_date</field>
+                <field name="figure_type">date</field>
+                <field name="sortable" eval="True"/>
+            </record>
+            <record id="aged_customer_invoices_due_date" model="account.report.column">
+                <field name="name">Data Vencimento</field>
+                <field name="expression_label">due_date</field>
+                <field name="figure_type">date</field>
+                <field name="sortable" eval="True"/>
+            </record>
+            <record id="aged_customer_invoices_aging_days" model="account.report.column">
+                <field name="name">Estado Vencimento</field>
+                <field name="expression_label">aging_days</field>
+                <field name="figure_type">string</field>
+                <field name="sortable" eval="True"/>
+            </record>
+            <record id="aged_customer_invoices_invoice_total" model="account.report.column">
+                <field name="name">Total Documento</field>
+                <field name="expression_label">invoice_total</field>
+                <field name="sortable" eval="True"/>
+            </record>
+            <record id="aged_customer_invoices_amount_residual" model="account.report.column">
+                <field name="name">Valor em Dívida (Doc)</field>
+                <field name="expression_label">amount_residual</field>
+                <field name="sortable" eval="True"/>
+            </record>
+            <record id="aged_customer_invoices_amount_currency" model="account.report.column">
+                <field name="name">Montante Moeda</field>
+                <field name="expression_label">amount_currency</field>
+            </record>
+            <record id="aged_customer_invoices_currency" model="account.report.column">
+                <field name="name">Moeda</field>
+                <field name="expression_label">currency</field>
+                <field name="figure_type">string</field>
+            </record>
+            <record id="aged_customer_invoices_account_name" model="account.report.column">
+                <field name="name">Conta</field>
+                <field name="expression_label">account_name</field>
+                <field name="figure_type">string</field>
+            </record>
+            <record id="aged_customer_invoices_period0" model="account.report.column">
+                <field name="name">Corrente</field>
+                <field name="expression_label">period0</field>
+                <field name="sortable" eval="True"/>
+            </record>
+            <record id="aged_customer_invoices_period1" model="account.report.column">
+                <field name="name">1-30</field>
+                <field name="expression_label">period1</field>
+                <field name="sortable" eval="True"/>
+            </record>
+            <record id="aged_customer_invoices_period2" model="account.report.column">
+                <field name="name">31-60</field>
+                <field name="expression_label">period2</field>
+                <field name="sortable" eval="True"/>
+            </record>
+            <record id="aged_customer_invoices_period3" model="account.report.column">
+                <field name="name">61-90</field>
+                <field name="expression_label">period3</field>
+                <field name="sortable" eval="True"/>
+            </record>
+            <record id="aged_customer_invoices_period4" model="account.report.column">
+                <field name="name">91-120</field>
+                <field name="expression_label">period4</field>
+                <field name="sortable" eval="True"/>
+            </record>
+            <record id="aged_customer_invoices_period5" model="account.report.column">
+                <field name="name">Mais antigo</field>
+                <field name="expression_label">period5</field>
+                <field name="sortable" eval="True"/>
+            </record>
+            <record id="aged_customer_invoices_total" model="account.report.column">
+                <field name="name">Total</field>
+                <field name="expression_label">total</field>
+                <field name="sortable" eval="True"/>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="aged_customer_invoices_line" model="account.report.line">
+                <field name="name">Mapa de Cobranças</field>
+                <field name="groupby">partner_id, id</field>
+                <field name="expression_ids">
+                    <record id="aged_customer_invoices_expr_invoice_date" model="account.report.expression">
+                        <field name="label">invoice_date</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">invoice_date</field>
+                        <field name="auditable" eval="False"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_due_date" model="account.report.expression">
+                        <field name="label">due_date</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">due_date</field>
+                        <field name="auditable" eval="False"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_aging_days" model="account.report.expression">
+                        <field name="label">aging_days</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">aging_days</field>
+                        <field name="auditable" eval="False"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_invoice_total" model="account.report.expression">
+                        <field name="label">invoice_total</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">invoice_total</field>
+                        <field name="auditable" eval="False"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_amount_residual" model="account.report.expression">
+                        <field name="label">amount_residual</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">amount_residual</field>
+                        <field name="auditable" eval="False"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_amount_currency" model="account.report.expression">
+                        <field name="label">amount_currency</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">amount_currency</field>
+                        <field name="auditable" eval="False"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_currency_forced" model="account.report.expression">
+                        <field name="label">_currency_amount_currency</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">currency_id</field>
+                    </record>
+                    <record id="aged_customer_invoices_expr_currency" model="account.report.expression">
+                        <field name="label">currency</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">currency</field>
+                        <field name="auditable" eval="False"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_account_name" model="account.report.expression">
+                        <field name="label">account_name</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">account_name</field>
+                        <field name="auditable" eval="False"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_period0" model="account.report.expression">
+                        <field name="label">period0</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">period0</field>
+                        <field name="auditable" eval="True"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_period1" model="account.report.expression">
+                        <field name="label">period1</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">period1</field>
+                        <field name="auditable" eval="True"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_period2" model="account.report.expression">
+                        <field name="label">period2</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">period2</field>
+                        <field name="auditable" eval="True"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_period3" model="account.report.expression">
+                        <field name="label">period3</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">period3</field>
+                        <field name="auditable" eval="True"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_period4" model="account.report.expression">
+                        <field name="label">period4</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">period4</field>
+                        <field name="auditable" eval="True"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_period5" model="account.report.expression">
+                        <field name="label">period5</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">period5</field>
+                        <field name="auditable" eval="True"/>
+                    </record>
+                    <record id="aged_customer_invoices_expr_total" model="account.report.expression">
+                        <field name="label">total</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_customer_invoices</field>
+                        <field name="subformula">total</field>
+                        <field name="auditable" eval="True"/>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+</odoo>

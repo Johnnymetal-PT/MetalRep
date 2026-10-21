@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_sale_discount" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sale.discount</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Adicionar após o setting discount_sale_order_lines no bloco Pricing -->
+            <xpath expr="//setting[@id='discount_sale_order_lines']" position="after">
+                <setting id="sale_discount_limit_setting"
+                         title="Define o desconto máximo que usuários não-administradores podem aplicar em linhas de venda"
+                         help="Limite de desconto para usuários"
+                         invisible="not group_discount_per_so_line">
+                    <div title="Desconto máximo (%) que usuários não-administradores podem aplicar. Administradores e Gerentes de Vendas não têm restrição.">
+                        <label for="sale_discount_limit"/>
+                        <field name="sale_discount_limit" class="text-center" style="width: 3rem;"/>
+                        <span class="fa fa-lg fa-building-o p-2" title="Values set here are company-specific." groups="base.group_multi_company"/>
+                    </div>
+                    <div class="text-muted">
+                        Administradores e Gerentes de Vendas não têm restrição de desconto.
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

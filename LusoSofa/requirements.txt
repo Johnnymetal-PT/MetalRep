@@ -1,0 +1,36 @@
+# Dependências Python do _pg_template
+#
+# PORQUE EXISTE ESTE FICHEIRO
+#     Até 2026-09-11 a framework dependia de terceiros sem o declarar em lado nenhum:
+#     quem clonasse o repositório numa máquina nova descobria-o por erro de import. O
+#     `pg_odoo_migration_guard.py` chega a declarar no cabeçalho «Dependências: nenhuma
+#     além da biblioteca standard» — verdade para aquele ficheiro, falso para o conjunto.
+#
+#     A lista abaixo foi levantada dos imports reais de `scripts/*.py`, não de memória.
+#
+# INSTALAÇÃO
+#     pip install -r requirements.txt
+#     python -m playwright install chromium
+#
+#     O segundo comando é obrigatório e não vem no primeiro: o `playwright` instala a
+#     biblioteca, não o browser. Sem ele, a geração de PDF falha — e falha a dizer o
+#     comando que resolve, que é o mínimo que se pede a uma dependência opaca.
+
+# Documentos Word com a identidade da marca (pg_docx_identity, pg_build_docx_from_markdown)
+python-docx>=1.1
+
+# Decks PowerPoint com a identidade da marca (pg_pptx_identity, pg_build_ponto_situacao_pptx)
+python-pptx>=0.6.23
+
+# Markdown -> HTML, no caminho do PDF (pg_build_pdf_from_markdown)
+markdown>=3.5
+
+# Chromium para Markdown -> PDF e para captura de ecrãs em documentação.
+# ~150 MB de binários por máquina, instalados pelo comando acima. É o custo assumido
+# de ter um motor de layout a sério; a decisão está registada no CHANGELOG da v2.28.0.
+playwright>=1.40
+
+# --- só para os testes -------------------------------------------------------
+# Leitura do PDF gerado, para verificar acentuação e repetição de cabeçalho de tabela.
+# Os testes saltam essas verificações se não estiver instalado, em vez de falharem.
+pypdf>=4.0

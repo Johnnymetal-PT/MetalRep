@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_import_document_form_inherit_adjustment" model="ir.ui.view">
+        <field name="name">import.document.form.inherit.adjustment</field>
+        <field name="model">import.document</field>
+        <field name="inherit_id" ref="mh_purchase.view_import_document_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_adjustments" type="object"
+                        class="oe_stat_button" icon="fa-balance-scale"
+                        invisible="adjustment_count == 0">
+                    <field name="adjustment_count" widget="statinfo" string="Ajustes"/>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='total_import_cost']" position="after">
+                <field name="total_adjustments" invisible="total_adjustments == 0"/>
+                <field name="final_import_cost" invisible="total_adjustments == 0"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action -->
+    <record id="action_aged_customer_invoices" model="ir.actions.client">
+        <field name="name">Mapa de Cobranças</field>
+        <field name="tag">account_report</field>
+        <field name="path">aged-customer-invoices</field>
+        <field name="context" eval="{'report_id': ref('mh_accounting_reports.aged_customer_invoices_report')}"/>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_aged_customer_invoices"
+              name="Mapa de Cobranças"
+              action="action_aged_customer_invoices"
+              groups="account.group_account_readonly"
+              parent="account.account_reports_partners_reports_menu"
+              sequence="1"/>
+
+    <!-- Action Mapa de Pagamentos (Fornecedores) -->
+    <record id="action_aged_supplier_invoices" model="ir.actions.client">
+        <field name="name">Mapa de Pagamentos</field>
+        <field name="tag">account_report</field>
+        <field name="path">aged-supplier-invoices</field>
+        <field name="context" eval="{'report_id': ref('mh_accounting_reports.aged_supplier_invoices_report')}"/>
+    </record>
+
+    <menuitem id="menu_aged_supplier_invoices"
+              name="Mapa de Pagamentos"
+              action="action_aged_supplier_invoices"
+              groups="account.group_account_readonly"
+              parent="account.account_reports_partners_reports_menu"
+              sequence="2"/>
+</odoo>

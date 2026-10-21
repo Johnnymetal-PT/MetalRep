@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+from . import res_partner
+from . import stock_move
+from . import sale_order_line
+from . import pg_planeamento_line
+from . import mrp_production
+from . import pg_planeamento_semana

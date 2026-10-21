@@ -1,0 +1,117 @@
+<odoo>
+    <record id="view_pg_documento_orfao_linha_list" model="ir.ui.view">
+        <field name="name">pg.documento.orfao.linha.list</field>
+        <field name="model">pg.documento.orfao.linha</field>
+        <field name="arch" type="xml">
+            <list string="Documentos orfaos" create="0" delete="0" editable="bottom" default_order="estado, nome_ficheiro">
+                <field name="estado" widget="badge"
+                       decoration-success="estado == 'ligavel'"
+                       decoration-warning="estado in ('versao_antiga', 'ambiguo')"
+                       decoration-muted="estado in ('duplicado_conteudo', 'duplicado_nome', 'sem_referencia')"
+                       readonly="1"/>
+                <field name="nome_ficheiro" readonly="1"/>
+                <field name="referencia" readonly="1"/>
+                <field name="artigo_id" readonly="1"/>
+                <field name="variante_id" readonly="1" optional="hide"/>
+                <field name="ja_existe_como" readonly="1"/>
+                <field name="alvo_escrito_em" readonly="1" optional="hide"/>
+                <field name="artigos_ambiguos" readonly="1" optional="hide"/>
+                <field name="unico" readonly="1"/>
+                <field name="checksum" readonly="1" optional="hide"/>
+                <field name="gdrive_file_id" readonly="1" optional="hide"/>
+                <field name="res_id_morto" readonly="1" optional="hide"/>
+                <field name="aprovado" readonly="estado != 'ligavel' or aplicado_em != False"/>
+                <field name="aplicado_em" readonly="1"/>
+                <field name="resultado" readonly="1"/>
+                <field name="doc_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pg_documento_orfao_censo_form" model="ir.ui.view">
+        <field name="name">pg.documento.orfao.censo.form</field>
+        <field name="model">pg.documento.orfao.censo</field>
+        <field name="arch" type="xml">
+            <form string="Censo de documentos orfaos">
+                <header>
+                    <button name="action_analisar" type="object" string="Analisar" class="btn-primary"
+                            confirm="A analise so le. Nenhum documento e alterado neste passo."/>
+                    <button name="action_aprovar_recuperaveis" type="object" string="Aprovar recuperaveis"
+                            class="btn-secondary" invisible="state == 'rascunho'"
+                            confirm="Marca todas as linhas recuperaveis para aplicar. Continua sem escrever nos documentos: so aprova."/>
+                    <button name="action_aplicar" type="object" string="Religar aprovados" class="btn-primary"
+                            invisible="state == 'rascunho'"
+                            confirm="Religa apenas as linhas aprovadas e recuperaveis. Nada e apagado e nada e substituido; os documentos entram escondidos do site e dos orcamentos."/>
+                    <field name="state" widget="statusbar" statusbar_visible="rascunho,analisado,aplicado"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nome do censo"/></h1>
+                    </div>
+                    <group>
+                        <group string="O que se perde de facto">
+                            <field name="total_orfaos" readonly="1"/>
+                            <field name="n_unicos_registos" readonly="1"/>
+                            <field name="n_unicos_ficheiros" readonly="1"/>
+                            <field name="n_ligavel" readonly="1"/>
+                            <field name="n_aplicados" readonly="1"/>
+                        </group>
+                        <group string="Ficam de fora">
+                            <field name="n_duplicado_conteudo" readonly="1"/>
+                            <field name="n_duplicado_nome" readonly="1"/>
+                            <field name="n_versao_antiga" readonly="1"/>
+                            <field name="n_ambiguo" readonly="1"/>
+                            <field name="n_sem_referencia" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Imagens">
+                        <field name="imagens_sem_produto" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Documentos">
+                            <field name="linha_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pg_documento_orfao_censo_list" model="ir.ui.view">
+        <field name="name">pg.documento.orfao.censo.list</field>
+        <field name="model">pg.documento.orfao.censo</field>
+        <field name="arch" type="xml">
+            <list string="Censos" default_order="id desc">
+                <field name="name"/>
+                <field name="data"/>
+                <field name="state" widget="badge"/>
+                <field name="total_orfaos"/>
+                <field name="n_ligavel"/>
+                <field name="n_unicos_ficheiros"/>
+                <field name="n_aplicados"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_pg_documento_orfao_censo" model="ir.actions.act_window">
+        <field name="name">Documentos orfaos</field>
+        <field name="res_model">pg.documento.orfao.censo</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Criar um censo</p>
+            <p>
+                Encontra os documentos de produto que ficaram presos a variantes que ja
+                nao existem e separa os que sao copias de ficheiros ja colocados
+                daqueles que existem so ali. A analise so le; religar exige aprovacao
+                linha a linha e nunca apaga, arquiva nem substitui nada.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_pg_documento_orfao_censo"
+              name="Documentos orfaos"
+              parent="sale.product_menu_catalog"
+              action="action_pg_documento_orfao_censo"
+              groups="pg_product_update.group_pg_references_sync_user"
+              sequence="90"/>
+</odoo>

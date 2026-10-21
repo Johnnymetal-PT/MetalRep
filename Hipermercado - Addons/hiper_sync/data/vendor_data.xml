@@ -1,0 +1,76 @@
+<odoo noupdate="1">
+    <record id="vendor_intsorefoz" model="hiper.sync.vendor">
+        <field name="name">Sorefoz</field>
+        <field name="code">intsorefoz</field>
+        <field name="source_kind">ftp_csv</field>
+        <field name="ftp_host">sorefoz.pt</field>
+        <field name="ftp_port">21</field>
+        <field name="remote_filename">tot_jvoliveira.csv</field>
+        <field name="delimiter">,</field>
+    </record>
+
+    <record id="vendor_intdmi" model="hiper.sync.vendor">
+        <field name="name">DMI</field>
+        <field name="code">intdmi</field>
+        <field name="source_kind">csv_url</field>
+        <field name="api_url_template">http://www.dmi.es/catalogo.aspx?u={_user_}&amp;p={_pass_}</field>
+    </record>
+
+    <record id="vendor_intauferma" model="hiper.sync.vendor">
+        <field name="name">Auferma</field>
+        <field name="code">intauferma</field>
+        <field name="source_kind">ftp_csv</field>
+        <field name="ftp_host">ftp.auferma.pt</field>
+        <field name="ftp_port">21</field>
+        <field name="remote_filename">AUFERMA.csv</field>
+    </record>
+
+    <record id="vendor_intdepau" model="hiper.sync.vendor">
+        <field name="name">Depau</field>
+        <field name="code">intdepau</field>
+        <field name="source_kind">csv_url</field>
+        <field name="translate_enabled">1</field>
+        <field name="translate_provider">openai</field>
+    </record>
+
+    <record id="vendor_intociostock" model="hiper.sync.vendor">
+        <field name="name">Ociostock</field>
+        <field name="code">intociostock</field>
+        <field name="source_kind">csv_url</field>
+        <field name="translate_enabled">1</field>
+        <field name="translate_provider">openai</field>
+    </record>
+
+    <record id="vendor_intorima" model="hiper.sync.vendor">
+        <field name="name">Orima</field>
+        <field name="code">intorima</field>
+        <field name="source_kind">json_url</field>
+        <field name="api_url_template">https://www.orima.pt/api/get/{_call_type_}/id/{_userid_}/username/{_user_}/password/{_pass_}/filetype/{_type_}</field>
+        <field name="request_call_type">products</field>
+    </record>
+
+    <record id="vendor_intexperteletro" model="hiper.sync.vendor">
+        <field name="name">Experteletro</field>
+        <field name="code">intexperteletro</field>
+        <field name="source_kind">csv_url</field>
+    </record>
+
+    <record id="vendor_intmacorlux" model="hiper.sync.vendor">
+        <field name="name">Macorlux</field>
+        <field name="code">intmacorlux</field>
+        <field name="source_kind">json_url</field>
+        <field name="api_url_template">https://www.macorlux.pt/webservice.php?user={_user_}&amp;pass={_pass_}&amp;key={_apikey_}&amp;format={_type_}&amp;method=normal</field>
+    </record>
+
+    <record id="vendor_inteldisser" model="hiper.sync.vendor">
+        <field name="name">Eldisser</field>
+        <field name="code">inteldisser</field>
+        <field name="source_kind">csv_url</field>
+        <field name="translate_enabled">1</field>
+        <field name="translate_provider">openai</field>
+        <field name="extra_config_json">{"crawler_max_age_minutes": 180, "allow_existing_output_on_failure": true}</field>
+        <field name="crawler_workdir">Prestashop/inteldisser/inteldisser/scrapper</field>
+        <field name="crawler_command">scrapy crawl spider-hipermercados-updated-zenrows -o output.csv</field>
+        <field name="crawler_output_path">Prestashop/inteldisser/inteldisser/scrapper/output.csv</field>
+    </record>
+</odoo>

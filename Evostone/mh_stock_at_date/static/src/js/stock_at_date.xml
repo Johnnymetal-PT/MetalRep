@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="mh_stock_at_date.StockAtDateReport">
+        <div class="o_action o_stock_at_date_report">
+            <style>
+                .o_stock_at_date_report .o_loc_block.collapsed .o_loc_detail { display: none; }
+                .o_stock_at_date_report .o_loc_block .o_loc_chevron { transition: transform .15s; }
+                .o_stock_at_date_report .o_loc_block:not(.collapsed) .o_loc_chevron { transform: rotate(90deg); }
+                .o_stock_at_date_report .o_loc_header:hover { background-color: rgba(0,0,0,0.04); }
+                .o_stock_at_date_report .o_prod_detail.collapsed-prod { display: none; }
+                .o_stock_at_date_report .o_prod_chevron { transition: transform .15s; }
+                .o_stock_at_date_report .o_prod_chevron.expanded { transform: rotate(90deg); }
+                .o_stock_at_date_report .o_prod_header:hover { background-color: rgba(0,0,0,0.02); }
+                /* Override do verde Enterprise no table-secondary — tom muito subtil */
+                .o_stock_at_date_report tr.table-secondary {
+                    --bs-table-bg: #fafbfc;
+                    --bs-table-bg-state: transparent;
+                    --bs-table-accent-bg: transparent;
+                }
+                .o_stock_at_date_report tr.table-secondary > td {
+                    background-color: #fafbfc !important;
+                }
+                .o_stock_at_date_report a.o_action {
+                    color: inherit !important;
+                    text-decoration: none !important;
+                }
+                .o_stock_at_date_report a.o_action:hover {
+                    text-decoration: underline !important;
+                }
+            </style>
+            <Layout display="{ controlPanel: {} }">
+                <t t-set-slot="control-panel-always-buttons">
+                    <button t-on-click="onClickPrint" type="button" class="btn btn-primary" title="Print">Print</button>
+                    <select id="stock_at_date_format" class="form-select border-1 w-auto">
+                        <option value="pdf">pdf</option>
+                        <option value="csv">csv</option>
+                        <option value="xlsx">xlsx</option>
+                    </select>
+                </t>
+                <t t-set-slot="layout-actions">
+                    <form class="d-flex flex-row gap-3 align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <label class="fw-bold mb-0 text-nowrap">Data:</label>
+                            <DateTimeInput value="state.date"
+                                           onChange.bind="onChangeDate"
+                                           type="'date'"/>
+                        </div>
+                        <div class="input-group w-auto" style="min-width:240px;">
+                            <div class="input-group-text fw-bold">Localização</div>
+                            <select class="form-select border-0" t-on-change="onChangeLocation">
+                                <option value="">— Todas —</option>
+                                <t t-foreach="state.locations" t-as="l" t-key="l.id">
+                                    <option t-att-value="l.id"
+                                            t-att-selected="state.selectedLocationId === l.id"
+                                            t-out="l.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="input-group w-auto" style="min-width:300px;">
+                            <div class="input-group-text fw-bold">Artigo</div>
+                            <input type="text"
+                                   class="form-control border-0"
+                                   list="stock_at_date_products"
+                                   placeholder="Todos"
+                                   t-on-change="onSelectProduct"
+                                   t-on-input="onTypeProduct"/>
+                            <datalist id="stock_at_date_products">
+                                <t t-foreach="state.products" t-as="p" t-key="p.id">
+                                    <option t-att-value="p.name" t-att-data-id="p.id"/>
+                                </t>
+                            </datalist>
+                        </div>
+                        <div class="input-group w-auto">
+                            <div class="input-group-text fw-bold">Classificação</div>
+                            <select class="form-select border-0" t-on-change="onSelectClassification">
+                                <option value="">— Todas —</option>
+                                <t t-foreach="state.classifications" t-as="c" t-key="c.value">
+                                    <option t-att-value="c.value"
+                                            t-att-selected="state.selectedClassification === c.value"
+                                            t-out="c.label"/>
+                                </t>
+                            </select>
+                        </div>
+                        <span class="text-muted small ms-auto" t-if="state.totalGroups">
+                            <t t-esc="state.totalGroups"/> localizações,
+                            <t t-esc="state.totalLines"/> linhas,
+                            total <t t-esc="state.grandTotal.toFixed(4)"/>
+                        </span>
+                    </form>
+                </t>
+                <div t-on-click="onClickReport" t-ref="reportContainer">
+                    <t t-out="state.html"/>
+                </div>
+            </Layout>
+        </div>
+    </t>
+</templates>

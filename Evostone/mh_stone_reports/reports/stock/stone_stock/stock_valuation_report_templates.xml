@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Página HTML do Relatório de Valorização de Inventário -->
+        <record id="view_report_stock_valuation_page" model="ir.ui.view">
+            <field name="name">Stock Valuation Page</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stock_valuation_page</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stock_valuation_page">
+                    <div class="container bg-white p-4 my-4">
+                        <div class="oe_structure"></div>
+                        <div class="row my-3">
+                            <div class="col-12">
+                                <h2>
+                                    Valorização de Inventário
+                                    <small class="text-muted">
+                                        à data
+                                        <span t-out="date" t-options='{"widget": "date"}'/>
+                                    </small>
+                                </h2>
+                                <h5 t-if="product" class="text-muted">
+                                    Artigo:
+                                    <a t-if="is_html_type" href="#" class="o_action"
+                                        data-model="product.product" t-att-data-res-id="product.id">
+                                        <span t-out="product.display_name"/>
+                                    </a>
+                                    <span t-else="" t-out="product.display_name"/>
+                                </h5>
+                                <h5 t-if="classification" class="text-muted">
+                                    Classificação: <span t-out="classification_label"/>
+                                </h5>
+                                <h5 t-if="accounting_filter and accounting_filter != 'all'" class="text-muted">
+                                    Lançamento Contabilístico: <span t-out="accounting_filter_label"/>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="oe_structure"></div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-1">Data</th>
+                                            <th class="px-1">Referência</th>
+                                            <th class="px-1">Lote</th>
+                                            <th class="px-1">Descrição</th>
+                                            <th class="text-end px-1">Quantidade</th>
+                                            <th class="text-end px-1">Custo Unitário</th>
+                                            <th class="text-end px-1">Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <t t-foreach="classification_groups" t-as="cgroup">
+                                        <tbody t-att-class="'o_classification_block' + (is_html_type and ' o_class_collapsed' or '')">
+                                            <tr t-att-class="'o_classification_header table-secondary fw-bold' + (is_html_type and ' o_clickable' or '')"
+                                                t-att-style="is_html_type and 'cursor:pointer;' or ''">
+                                                <td colspan="4" class="px-1">
+                                                    <i t-if="is_html_type" class="fa fa-chevron-right o_class_chevron me-2"/>
+                                                    <i class="fa fa-folder-open text-primary me-2"/>
+                                                    <span t-out="cgroup['classification_label']"/>
+                                                    <span class="badge bg-secondary ms-2 fw-normal">
+                                                        <span t-out="cgroup['n_products']"/> art.
+                                                    </span>
+                                                </td>
+                                                <td class="text-end px-1" t-out="cgroup['total_qty']" t-options="{'widget': 'float', 'precision': qty_precision}"/>
+                                                <td class="px-1"></td>
+                                                <td class="text-end px-1" t-out="cgroup['total_value']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                            </tr>
+                                        </tbody>
+                                    <t t-foreach="cgroup['products']" t-as="group">
+                                        <tbody t-att-class="'o_group_block' + (is_html_type and ' collapsed' or '')"
+                                               t-att-data-product-id="group['product_id']"
+                                               t-att-data-svl-count="group['svl_count']"
+                                               t-att-data-total-pages="group['total_pages']"
+                                               t-att-data-page-size="page_size"
+                                               data-current-page="1">
+                                            <tr class="o_group_header" style="cursor:pointer;">
+                                                <td colspan="4" class="px-1" style="padding-left: 20px !important;">
+                                                    <i class="fa fa-chevron-right o_group_chevron me-2"/>
+                                                    <a t-if="is_html_type and group['product_id']" href="#" class="o_action"
+                                                        data-model="product.product" t-att-data-res-id="group['product_id']">
+                                                        <span t-out="group['product_name']"/>
+                                                    </a>
+                                                    <span t-else="" t-out="group['product_name']"/>
+                                                    <span class="text-muted ms-2 fw-normal">(<span t-out="group['uom']"/>)</span>
+                                                    <span class="badge bg-secondary ms-2 fw-normal" t-out="group['svl_count']"/>
+                                                </td>
+                                                <td class="text-end px-1" t-out="group['total_qty']" t-options="{'widget': 'float', 'precision': qty_precision}"/>
+                                                <td class="px-1"></td>
+                                                <td class="text-end px-1" t-out="group['total_value']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                            </tr>
+                                            <tr t-if="is_html_type and group['total_pages'] &gt; 1" class="o_group_pagination">
+                                                <td colspan="7" class="py-1 bg-light">
+                                                    <div class="d-flex justify-content-end align-items-center gap-3 small">
+                                                        <span class="text-muted">
+                                                            <span class="o_page_range fw-bold">1–<t t-esc="page_size if group['svl_count'] &gt;= page_size else group['svl_count']"/></span>
+                                                            de
+                                                            <span class="fw-bold" t-esc="group['svl_count']"/>
+                                                        </span>
+                                                        <nav>
+                                                            <ul class="pagination pagination-sm mb-0">
+                                                                <li class="page-item o_page_prev disabled">
+                                                                    <a class="page-link" href="#" tabindex="-1"><i class="fa fa-chevron-left"/></a>
+                                                                </li>
+                                                                <li class="page-item active">
+                                                                    <span class="page-link">
+                                                                        <span class="o_current_page">1</span>
+                                                                        <span class="text-muted">/</span>
+                                                                        <span class="o_total_pages" t-esc="group['total_pages']"/>
+                                                                    </span>
+                                                                </li>
+                                                                <li class="page-item o_page_next">
+                                                                    <a class="page-link" href="#"><i class="fa fa-chevron-right"/></a>
+                                                                </li>
+                                                            </ul>
+                                                        </nav>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-foreach="group['svls']" t-as="svl">
+                                                <tr class="o_group_row" t-att-data-row-index="svl_index">
+                                                    <td class="px-1" style="padding-left: 30px !important;" t-out="svl['date']" t-options='{"widget": "datetime"}'/>
+                                                    <td class="px-1">
+                                                        <div class="d-flex justify-content-between align-items-center gap-2">
+                                                            <span t-out="svl['reference']"/>
+                                                            <a t-if="is_html_type and svl['account_move_id']" href="#" class="o_action"
+                                                                data-model="account.move"
+                                                                t-att-data-res-id="svl['account_move_id']"
+                                                                t-att-title="svl['account_move_name']">
+                                                                <i class="fa fa-book"/>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-1">
+                                                        <a t-if="is_html_type and svl['lot_group_id']" href="#" class="o_action"
+                                                            data-model="base.lot.group" t-att-data-res-id="svl['lot_group_id']">
+                                                            <span t-out="svl['lot_group_name']"/>
+                                                        </a>
+                                                        <span t-else="" t-out="svl['lot_group_name']"/>
+                                                    </td>
+                                                    <td class="px-1" t-out="svl['description']"/>
+                                                    <td class="text-end px-1" t-out="svl['quantity']" t-options="{'widget': 'float', 'precision': qty_precision}"/>
+                                                    <td class="text-end px-1" t-out="svl['unit_cost']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                                    <td class="text-end px-1" t-out="svl['value']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </t>
+                                    </t>
+                                    <tfoot>
+                                        <tr class="fw-bold">
+                                            <td colspan="4" class="px-1">Total Geral</td>
+                                            <td class="text-end px-1" t-out="grand_total_qty" t-options="{'widget': 'float', 'precision': qty_precision}"/>
+                                            <td class="px-1"></td>
+                                            <td class="text-end px-1" t-out="grand_total_value" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="oe_structure"></div>
+                    </div>
+                </t>
+            </field>
+        </record>
+
+        <!-- Wrapper PDF/HTML -->
+        <record id="view_report_stock_valuation" model="ir.ui.view">
+            <field name="name">Stock Valuation Report</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stock_valuation</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stock_valuation">
+                    <t t-if="is_html_type">
+                        <t t-call="web.html_container">
+                            <div class="page">
+                                <t t-call="mh_stone_reports.report_stock_valuation_page"/>
+                            </div>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_stock_valuation_document"/>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <!-- Documento PDF (estilo listagem de stock) -->
+        <record id="view_report_stock_valuation_document" model="ir.ui.view">
+            <field name="name">Stock Valuation Report - Document</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stock_valuation_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stock_valuation_document">
+                    <div class="page"/>
+                    <style>
+                        td { border: 1px solid #DCDCDC; border-collapse: collapse; padding: 4px; }
+                        .product-row { background-color: #F8F8FF; font-weight: bold; }
+                        .detail-header { background-color: #E8E8E8; font-size: 7pt; }
+                        .detail-row { font-size: 7pt; }
+                        .totals-row { background-color: #e0e0e0; font-weight: bold; }
+                    </style>
+
+                    <!-- Cabeçalho com Logo e Título -->
+                    <div class="row">
+                        <div class="col-8">
+                            <img class="img-fluid" style="width: 50%;" t-att-src="image_data_uri(company.logo_report)"/>
+                        </div>
+                        <br/>
+                        <div class="col-4 text-end">
+                            <br/>
+                            <span style="color:#000000; font-size: 14pt; font-weight: bold;">
+                                <t t-esc="title"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Dados da Empresa -->
+                    <div class="row" style="font-size: 11px; font-family: Arial, sans-serif;">
+                        <div class="col-6">
+                            <strong><t t-esc="company.name"/></strong><br/>
+                            <t t-if="company.street"><span t-esc="company.street"/><br/></t>
+                            <t t-if="company.street2"><span t-esc="company.street2"/><br/></t>
+                            <t t-if="company.city"><span t-esc="company.city"/><br/></t>
+                            <t t-if="company.country_id"><span t-esc="company.country_id.name"/><br/></t>
+                            <t t-if="company.vat"><strong>NIF: </strong><span t-esc="company.vat"/><br/></t>
+                            <t t-if="company.phone"><span>c. </span><span t-esc="company.phone"/><br/></t>
+                            <t t-if="company.email"><span>e. </span><span t-esc="company.email"/></t>
+                        </div>
+                        <div class="col-6 text-end">
+                            <br/>
+                            <span style="font-size: 10pt;">
+                                <b>Processado em:</b> <t t-esc="report_date.strftime('%d/%m/%Y %H:%M') if report_date else ''"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <!-- Caixa de Filtros -->
+                    <div class="col-12">
+                        <table style="text-align: center; font-family: Arial, sans-serif; font-size: 10px;" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>VALORIZAÇÃO À DATA</strong><br/>
+                                        <span t-esc="date.strftime('%d/%m/%Y') if date else ''"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>ARTIGO</strong><br/>
+                                        <span t-esc="product.display_name if product else 'Todos'"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>CLASSIFICAÇÃO</strong><br/>
+                                        <span t-esc="classification_label or 'Todas'"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>LANÇAMENTO CONTAB.</strong><br/>
+                                        <span t-esc="accounting_filter_label or 'Todos'"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br/>
+
+                    <!-- Mensagem se não houver dados -->
+                    <t t-if="not groups">
+                        <div class="alert alert-warning" style="margin: 20px 0; padding: 15px; background-color: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; font-family: Arial, sans-serif;">
+                            <strong>Sem dados para mostrar.</strong><br/>
+                            Não foram encontrados SVLs com os filtros seleccionados.
+                        </div>
+                    </t>
+
+                    <table class="table table" t-if="groups">
+                        <!-- Watermark -->
+                        <div class="watermark_logo" style="position:absolute;opacity:0.05;font-size:8em;width:100%;text-align:center;z-index:100;">
+                            <t t-if="company.report_watermark">
+                                <img class="img-fluid" t-att-src="image_data_uri(company.report_watermark)" width="55%"/>
+                            </t>
+                        </div>
+
+                        <!-- Cabeçalho da Tabela -->
+                        <tr style="background-color: #F8F8FF; color:#000000; font-Family: arial; font-size:11px; text-align: center">
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: left; white-space: nowrap"><b>PRODUTO</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>QUANTIDADE</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>UoM</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>VALOR</b></th>
+                        </tr>
+
+                        <t t-foreach="classification_groups" t-as="cgroup">
+                            <!-- Cabeçalho da Classificação -->
+                            <tr style="background-color:#F8F8FF; font-family: Times New Roman; font-size: 8pt; font-weight: bold;">
+                                <td style="border: 1px solid #DED9D9; text-align: left;">
+                                    <t t-esc="cgroup['classification_label']"/>
+                                </td>
+                                <td style="border: 1px solid #DED9D9; text-align: right;">
+                                    <t t-esc="('%.' + str(qty_precision) + 'f') % cgroup['total_qty']"/>
+                                </td>
+                                <td style="border: 1px solid #DED9D9;"/>
+                                <td style="border: 1px solid #DED9D9; text-align: right;">
+                                    <span t-out="cgroup['total_value']"
+                                          t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                </td>
+                            </tr>
+                            <t t-foreach="cgroup['products']" t-as="group">
+                                <tr style="font-family: Times New Roman; font-size: 8pt; text-align: center">
+                                    <td style="border: 1px solid #DED9D9; text-align: left; padding-left: 18px;">
+                                        <t t-esc="group['product_name']"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9; text-align: right;">
+                                        <t t-esc="('%.' + str(qty_precision) + 'f') % group['total_qty']"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <t t-esc="group['uom']"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9; text-align: right;">
+                                        <span t-out="group['total_value']"
+                                              t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+
+                        <!-- Linha de Totais -->
+                        <tr style="background-color:#e0e0e0; font-family: Times New Roman; font-size: 8pt; font-weight: bold;">
+                            <td style="border: 1px solid #DED9D9; text-align: left;">TOTAL GERAL</td>
+                            <td style="border: 1px solid #DED9D9; text-align: right;">
+                                <t t-esc="('%.' + str(qty_precision) + 'f') % grand_total_qty"/>
+                            </td>
+                            <td style="border: 1px solid #DED9D9;"/>
+                            <td style="border: 1px solid #DED9D9; text-align: right;">
+                                <span t-out="grand_total_value"
+                                      t-options='{"widget": "monetary", "display_currency": currency}'/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <br/><br/>
+
+                    <!-- Rodapé -->
+                    <div style="font-Family: arial; font-size:8pt; text-align: center;">
+                        <i>Documento processado por computador - <t t-esc="company.name"/></i>
+                    </div>
+                </t>
+            </field>
+        </record>
+
+        <!-- Acção client para abrir o ecrã interactivo -->
+        <record id="action_stock_valuation_report_client" model="ir.actions.client">
+            <field name="name">Valorização de Inventário</field>
+            <field name="tag">generate_stock_valuation_report</field>
+        </record>
+
+        <!-- Menu sob Inventário → Relatórios -->
+        <menuitem id="menu_stock_valuation_report"
+                  name="Valorização de Inventário"
+                  parent="stock.menu_warehouse_report"
+                  action="action_stock_valuation_report_client"
+                  groups="mh_stone_reports.group_report_stock_valuation,base.group_system"
+                  sequence="251"/>
+
+        <!-- Acção report PDF -->
+        <record id="action_report_stock_valuation" model="ir.actions.report">
+            <field name="name">Valorização de Inventário</field>
+            <field name="model">res.company</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_stock_valuation</field>
+            <field name="report_file">mh_stone_reports.report_stock_valuation</field>
+        </record>
+
+    </data>
+</odoo>

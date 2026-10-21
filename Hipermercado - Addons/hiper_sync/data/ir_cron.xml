@@ -1,0 +1,38 @@
+<odoo noupdate="1">
+    <record id="ir_cron_hiper_sync_queue" model="ir.cron">
+        <field name="name">Hiper Queued Sync Processor</field>
+        <field name="model_id" ref="model_hiper_sync_run"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_process_queued_runs()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="active">True</field>
+    </record>
+    <record id="ir_cron_hiper_sync_full" model="ir.cron">
+        <field name="name">Hiper Full Supplier Sync</field>
+        <field name="model_id" ref="model_hiper_sync_vendor"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_full_sync()</field>
+        <field name="interval_number">4</field>
+        <field name="interval_type">hours</field>
+        <field name="active">False</field>
+    </record>
+    <record id="ir_cron_hiper_pending_images" model="ir.cron">
+        <field name="name">Hiper Pending Image Processor</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_process_pending_hiper_images()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="active">True</field>
+    </record>
+    <record id="ir_cron_pg_remote_crawler_prewarm" model="ir.cron">
+        <field name="name">Hiper Remote Crawler Prewarm</field>
+        <field name="model_id" ref="model_hiper_sync_vendor"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_prepare_remote_crawlers()</field>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

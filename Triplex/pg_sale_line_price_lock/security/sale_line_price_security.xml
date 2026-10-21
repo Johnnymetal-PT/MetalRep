@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_category_sale_line_price_lock" model="ir.module.category">
+        <field name="name">Bloqueio de Precos de Venda</field>
+        <field name="description">Controla campos de preco em so leitura nas linhas de venda.</field>
+        <field name="sequence">35</field>
+    </record>
+
+    <record id="group_sale_line_price_readonly" model="res.groups">
+        <field name="name">Linhas de Venda: Precos So Leitura</field>
+        <field name="category_id" ref="module_category_sale_line_price_lock"/>
+        <field name="comment">
+            Utilizadores neste grupo nao conseguem editar o preco unitario nas linhas da encomenda de venda.
+        </field>
+    </record>
+
+</odoo>

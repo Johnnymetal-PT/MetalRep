@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_mm_hr_employee" model="ir.actions.act_window">
+        <field name="name">Colaboradores</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="search_view_id" ref="hr.view_employee_filter"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+    </record>
+
+    <record id="view_mm_hr_entity_list" model="ir.ui.view">
+        <field name="name">mm.hr.entity.list</field>
+        <field name="model">mm.hr.entity</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_hr_entity_form" model="ir.ui.view">
+        <field name="name">mm.hr.entity.form</field>
+        <field name="model">mm.hr.entity</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="legacy_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_hr_entity" model="ir.actions.act_window">
+        <field name="name">Entidades</field>
+        <field name="res_model">mm.hr.entity</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_hr_cost_center_list" model="ir.ui.view">
+        <field name="name">mm.hr.cost.center.list</field>
+        <field name="model">mm.hr.cost.center</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="entity_id"/>
+                <field name="company_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_hr_cost_center_form" model="ir.ui.view">
+        <field name="name">mm.hr.cost.center.form</field>
+        <field name="model">mm.hr.cost.center</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="legacy_id"/>
+                        </group>
+                        <group>
+                            <field name="entity_id"/>
+                            <field name="company_id"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_hr_cost_center" model="ir.actions.act_window">
+        <field name="name">Centros de Custo</field>
+        <field name="res_model">mm.hr.cost.center</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_hr_location_list" model="ir.ui.view">
+        <field name="name">mm.hr.location.list</field>
+        <field name="model">mm.hr.location</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="entity_id"/>
+                <field name="cost_center_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_hr_location_form" model="ir.ui.view">
+        <field name="name">mm.hr.location.form</field>
+        <field name="model">mm.hr.location</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="legacy_id"/>
+                            <field name="address"/>
+                        </group>
+                        <group>
+                            <field name="entity_id"/>
+                            <field name="cost_center_id"/>
+                            <field name="company_id"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="latitude"/>
+                        <field name="longitude"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_hr_location" model="ir.actions.act_window">
+        <field name="name">Locais</field>
+        <field name="res_model">mm.hr.location</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_hr_employee_profile_list" model="ir.ui.view">
+        <field name="name">mm.hr.employee.profile.list</field>
+        <field name="model">mm.hr.employee.profile</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_hr_employee_profile_form" model="ir.ui.view">
+        <field name="name">mm.hr.employee.profile.form</field>
+        <field name="model">mm.hr.employee.profile</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="legacy_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_hr_employee_profile" model="ir.actions.act_window">
+        <field name="name">Perfis</field>
+        <field name="res_model">mm.hr.employee.profile</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_hr_external_service_type_list" model="ir.ui.view">
+        <field name="name">mm.hr.external.service.type.list</field>
+        <field name="model">mm.hr.external.service.type</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="requires_document"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_hr_external_service_type_form" model="ir.ui.view">
+        <field name="name">mm.hr.external.service.type.form</field>
+        <field name="model">mm.hr.external.service.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="company_id"/>
+                        <field name="requires_document"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_hr_external_service_type" model="ir.actions.act_window">
+        <field name="name">Tipos de Serviço Externo</field>
+        <field name="res_model">mm.hr.external.service.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_hr_work_code_list" model="ir.ui.view">
+        <field name="name">mm.hr.work.code.list</field>
+        <field name="model">mm.hr.work.code</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_hr_work_code_form" model="ir.ui.view">
+        <field name="name">mm.hr.work.code.form</field>
+        <field name="model">mm.hr.work.code</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="company_id"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_hr_work_code" model="ir.actions.act_window">
+        <field name="name">Códigos de Trabalho</field>
+        <field name="res_model">mm.hr.work.code</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_hr_absence_code_list" model="ir.ui.view">
+        <field name="name">mm.hr.absence.code.list</field>
+        <field name="model">mm.hr.absence.code</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="deduct_bank_hours"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_hr_absence_code_form" model="ir.ui.view">
+        <field name="name">mm.hr.absence.code.form</field>
+        <field name="model">mm.hr.absence.code</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="company_id"/>
+                        <field name="deduct_bank_hours"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_hr_absence_code" model="ir.actions.act_window">
+        <field name="name">Códigos de Ausência</field>
+        <field name="res_model">mm.hr.absence.code</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

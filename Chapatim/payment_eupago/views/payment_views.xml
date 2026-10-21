@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="provider_form_eupago" model="ir.ui.view">
+        <field name="name">provider.form.eupago</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment_portugal.provider_form_portugal" />
+        <field name="arch" type="xml">
+            <field name="pt_pay_method" position="after">
+                <field
+                    name="eupago_client_id"
+                    required="provider == 'eupago' and state != 'disabled'"
+                    invisible="provider != 'eupago'"
+                />
+                <field
+                    name="eupago_client_secret"
+                    password="True"
+                    required="provider == 'eupago' and state != 'disabled'"
+                    invisible="provider != 'eupago'"
+                />
+                <field
+                    name="eupago_api_key"
+                    string="API Key"
+                    password="True"
+                    required="provider == 'eupago' and state != 'disabled'"
+                    invisible="provider != 'eupago'"
+                />
+                <field
+                    name="pt_validity_days"
+                    invisible="provider != 'eupago' or pt_pay_method != 'mb'"
+                />
+                <field name="pt_callback_url" invisible="provider != 'eupago'" />
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Espacamento entre letras dos titulos, no editor (#7873).
+
+        Pedido da Monica (06/10/2026): poder ajustar no editor de websites o
+        espacamento entre letras e entre paragrafos, sobretudo nos titulos.
+        O Odoo 18 ja tem no separador Tema > Titulos a altura da linha e as
+        margens; nao tem espacamento entre letras. Acrescenta-se aqui, ao lado
+        da altura da linha, no mesmo formato (data-fake-unit grava um numero).
+
+        O valor vai para a variavel do website "headings-letter-spacing", que
+        o tokens.scss le para o espacamento dos titulos H1 a H3. Por defeito
+        e o do XD, -0.089 (primary_variables.scss).
+    -->
+    <template id="snippet_options_typography_hmd" inherit_id="website.snippet_options"
+              name="Espacamento entre letras dos titulos HMD">
+        <xpath expr="//we-input[@data-variable='headings-line-height']" position="after">
+            <we-input string="Espaçamento entre letras"
+                      title="Títulos (H1 a H3)"
+                      data-customize-website-variable="null"
+                      data-variable="headings-letter-spacing"
+                      data-fake-unit="em"/>
+        </xpath>
+    </template>
+
+</odoo>

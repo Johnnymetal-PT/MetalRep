@@ -1,0 +1,116 @@
+.o_expense_request {
+    .o_expense_container{
+        width: 100%;
+        .o_expense_card {
+            border-bottom: 1px solid darken($o-control-panel-background-color, 20%);
+            text-align: center;
+            padding: 10px;
+            .content_center {
+                margin-top: auto;
+                margin-bottom: auto;
+            }
+            div {
+                line-height: 1;
+            }
+        }
+
+        .o_expense_card_last {
+            border-right: 0px;
+        }
+
+        .o_expense_purple {
+            color: $o-enterprise-color;
+        }
+    }
+}
+
+
+$steps-bg: #fbfbfb;
+.o_portal {
+    .row {
+        .text-right, .col-2 {
+            text-align: right !important;
+        }
+    }
+}
+ul.status_step {
+    padding: 0;
+    list-style: none outside none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.065);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.065);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.065);
+
+    li {
+        border: 1px solid #d4d4d4;
+        border-right-width: 0;
+        position: relative;
+        float: left;
+        padding: 0 10px 0 20px;
+        margin: 0;
+        line-height: 38px;
+        background: $steps-bg;
+
+        .chevron {
+            position: absolute;
+            top: 0;
+            right: -10px;
+            z-index: 1;
+            display: block;
+            border: 20px solid transparent;
+            border-right: 0;
+            border-left: 10px solid #d4d4d4;
+
+            &:before {
+                position: absolute;
+                top: -20px;
+                right: 1px;
+                display: block;
+                border: 20px solid transparent;
+                border-right: 0;
+                border-left: 10px solid $steps-bg;
+                content: "";
+            }
+        }
+
+        .o_link_disable {
+            text-decoration: none;
+            color: inherit;
+            cursor: text;
+        }
+
+        &.text-success {
+            background: #28a745;
+            // color: white !important;
+            .chevron:before {
+                border-left: 10px solid #28a745;
+            }
+        }
+
+        &.text-primary {
+            background: #28a745;
+            .text-success {
+                color: white !important;
+            }
+            .chevron:before {
+                border-left: 10px solid #28a745;
+            }
+        }
+
+        &:first-child {
+            padding-left: 15px;
+            border-radius: 4px 0 0 4px;
+        }
+
+        &:last-child {
+            border-radius: 0 4px 4px 0;
+            border-right-width: 1px;
+
+            .chevron {
+                display: none;
+            }
+        }
+    }
+}

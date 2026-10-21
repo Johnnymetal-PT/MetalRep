@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_picking_tree_packing_list_confirmada" model="ir.ui.view">
+        <field name="name">stock.picking.tree.packing.list.confirmada</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="decoration-success">packing_list_confirmada and picking_type_code == 'outgoing'</attribute>
+                <attribute name="decoration-danger">not packing_list_confirmada and picking_type_code == 'outgoing'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='scheduled_date']" position="after">
+                <field name="packing_list_confirmada"
+                       widget="boolean_toggle"
+                       attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_form_packing_list_confirmada" model="ir.ui.view">
+        <field name="name">stock.picking.form.packing.list.confirmada</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='scheduled_date']" position="after">
+                <field name="packing_list_confirmada"
+                       widget="boolean_toggle"
+                       attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

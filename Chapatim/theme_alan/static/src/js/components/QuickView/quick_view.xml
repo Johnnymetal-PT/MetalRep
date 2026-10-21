@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- ==================== Quick View Dialog Template ==================== -->
+    <t t-name="theme_alan.QuickViewDialog">
+        <Dialog size="'lg'" title="''" header="false" footer="false" bodyClass="'as-quick-view-modal js_sale'">
+            <div class="as-quick-view-header d-flex align-items-end justify-content-end pb-3">
+                <button type="button" t-on-click="props.close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <t t-out="props.body"/>
+        </Dialog>
+    </t>
+
+</templates>

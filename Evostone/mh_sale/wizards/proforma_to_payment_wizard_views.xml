@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Wizard Form View -->
+    <record id="view_proforma_to_payment_wizard_form" model="ir.ui.view">
+        <field name="name">proforma.to.payment.wizard.form</field>
+        <field name="model">proforma.to.payment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Transformar em Recibo">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        <p><strong>Criar Recibo Contábil</strong></p>
+                        <p>Este assistente irá criar um <strong>account.payment</strong> oficial baseado neste recibo pró-forma.</p>
+                    </div>
+
+                    <group string="Dados do Recibo Pró-forma" col="4">
+                        <field name="partner_id" readonly="1"/>
+                        <field name="proforma_date" readonly="1"/>
+                        <field name="amount" readonly="1" widget="monetary"/>
+                        <field name="currency_id" readonly="1" invisible="1"/>
+                    </group>
+
+                    <group string="Alocações" invisible="not allocation_info or allocation_info == '&lt;p&gt;&lt;i&gt;Sem alocações associadas&lt;/i&gt;&lt;/p&gt;'">
+                        <field name="allocation_info" nolabel="1" widget="html"/>
+                    </group>
+
+                    <separator string="Configuração do Pagamento"/>
+
+                    <group col="2">
+                        <group string="Diário e Método">
+                            <field name="journal_id"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   placeholder="Selecione banco ou caixa..."/>
+                            <field name="payment_method_line_id"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   placeholder="Selecione método de pagamento..."/>
+                        </group>
+                        <group string="Data">
+                            <field name="payment_date"/>
+                        </group>
+                    </group>
+
+                    <group string="Memorando">
+                        <field name="memo"
+                               nolabel="1"
+                               placeholder="Descrição do pagamento (será preenchido automaticamente se deixado vazio)..."/>
+                    </group>
+
+                    <!-- Hidden field -->
+                    <field name="proforma_payment_id" invisible="1"/>
+                </sheet>
+
+                <footer>
+                    <button string="Criar Pagamento"
+                            name="action_create_payment"
+                            type="object"
+                            class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Cancelar"
+                            class="btn-secondary"
+                            special="cancel"
+                            data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_proforma_to_payment_wizard" model="ir.actions.act_window">
+        <field name="name">Transformar em Recibo</field>
+        <field name="res_model">proforma.to.payment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_proforma_payment"/>
+    </record>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Categoria comum dos relatórios de inventário -->
+    <record id="module_category_stock_reports" model="ir.module.category">
+        <field name="name">Relatórios de Inventário</field>
+        <field name="sequence">90</field>
+    </record>
+
+    <!-- Grupo: acesso ao relatório "Inventário a uma Data" -->
+    <record id="group_report_stock_at_date" model="res.groups">
+        <field name="name">Inventário a uma Data</field>
+        <field name="category_id" ref="module_category_stock_reports"/>
+    </record>
+</odoo>

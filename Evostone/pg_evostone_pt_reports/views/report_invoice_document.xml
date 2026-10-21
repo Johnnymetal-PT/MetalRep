@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        priority 99: esta heranca tem de correr DEPOIS das do PT+, porque o
+        `ptplus.report_invoice_document` alinha a coluna de impostos por um
+        xpath posicional (`//tbody/t/tr/t/td[5]`). Se as colunas novas
+        entrassem primeiro, esse `td[5]` passava a apanhar outra celula.
+    -->
+    <template id="report_invoice_document_pt_stone"
+              inherit_id="account.report_invoice_document"
+              priority="99">
+
+        <!-- Doze colunas nao cabem no corpo normal do relatorio. -->
+        <xpath expr="//table[@name='invoice_line_table']" position="attributes">
+            <attribute name="class" add="pg_stone_lines" separator=" "/>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']" position="before">
+            <t t-call="pg_evostone_pt_reports.stone_lines_style"/>
+        </xpath>
+
+        <!-- ================= cabecalhos ================= -->
+
+        <xpath expr="//th[@name='th_description']" position="after">
+            <th name="th_pg_lot" class="text-start"><span>Serial</span></th>
+            <th name="th_pg_units" class="text-end"><span>Units</span></th>
+            <th name="th_pg_length" class="text-end"><span>Length</span></th>
+            <th name="th_pg_width" class="text-end"><span>Width</span></th>
+            <th name="th_pg_thickness" class="text-end"><span>Thick.</span></th>
+        </xpath>
+
+        <!--
+            A quantidade deixa de ser "3.00 m2" e passa a ser o volume/area, com
+            a unidade numa coluna propria, como no documento de Mocambique.
+        -->
+        <xpath expr="//th[@name='th_quantity']/span" position="replace">
+            <span>Vol./Area/Unit</span>
+        </xpath>
+        <xpath expr="//th[@name='th_quantity']" position="after">
+            <th name="th_pg_uom" class="text-start"><span>UoM</span></th>
+        </xpath>
+
+        <!-- ================= linhas ================= -->
+
+        <xpath expr="//td[@name='account_invoice_line_name']" position="after">
+            <td name="td_pg_lot" class="text-start">
+                <span t-if="line.lot_id" t-field="line.lot_id.name">#1281/NG.010/1</span>
+                <span t-elif="line.lot_name" t-field="line.lot_name">L-0001</span>
+            </td>
+            <td name="td_pg_units" class="text-end">
+                <span t-if="line.units_qty" t-out="line.units_qty">1</span>
+            </td>
+            <td name="td_pg_length" class="text-end">
+                <span t-if="line.length" t-out="'%.3f' % line.length">3.200</span>
+            </td>
+            <td name="td_pg_width" class="text-end">
+                <span t-if="line.width" t-out="'%.3f' % line.width">1.600</span>
+            </td>
+            <td name="td_pg_thickness" class="text-end">
+                <span t-if="line.thickness" t-out="'%.3f' % line.thickness">0.012</span>
+            </td>
+        </xpath>
+
+        <!-- a unidade sai de dentro da quantidade... -->
+        <xpath expr="//td[@name='td_quantity']/span[@t-field='line.product_uom_id']"
+               position="replace"/>
+
+        <!-- ...e passa a coluna propria -->
+        <xpath expr="//td[@name='td_quantity']" position="after">
+            <td name="td_pg_uom" class="text-start">
+                <span t-field="line.product_uom_id">m²</span>
+            </td>
+        </xpath>
+
+    </template>
+
+</odoo>

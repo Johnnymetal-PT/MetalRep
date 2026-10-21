@@ -1,0 +1,1447 @@
+<t t-name="website.projeto-de-decoracao">
+    <t t-call="website.layout">
+<style>
+/* Wizard layout */
+.o_form_wizard_wrap{
+  min-height:auto;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center !important;   /* ✅ protect against justify-content-end */
+  padding: 24px 0;
+  width: 100%;
+}
+
+/* Make the wizard card smaller */
+.o_form_wizard_card{
+  width: min(640px, 92vw) !important;  /* ✅ protect against layout utilities */
+  padding: 40px 32px;
+  background-color: rgb(242, 239, 233);
+  border-radius: 18px;
+  --o-border-color: color-mix(in srgb, currentColor 15%, transparent);
+  border: 1px solid var(--o-border-color);
+  position: relative;              /* nav anchors inside */
+  padding-bottom: 84px;            /* space for nav */
+}
+
+/* Step transition */
+.o_form_wizard[data-wizard-ready="1"] .o_form_wizard_q{
+  display:none;
+  opacity:0;
+  transform: translateY(8px);
+  transition: opacity .28s ease, transform .28s ease;
+}
+.o_form_wizard[data-wizard-ready="1"] .o_form_wizard_q.is-active{display:block}
+.o_form_wizard[data-wizard-ready="1"] .o_form_wizard_q.is-active.is-visible{
+  opacity:1;
+  transform: translateY(0);
+}
+
+/* Question title */
+.o_form_wizard[data-wizard-ready="1"] .o_form_wizard_title{
+  font-size:clamp(18px, 1.6vw, 24px);
+  font-weight:600;
+  line-height:1.2;
+  margin-bottom:18px;
+}
+
+/* Inputs */
+.o_form_wizard[data-wizard-ready="1"] .s_website_form_field{margin-bottom:0!important}
+.o_form_wizard[data-wizard-ready="1"] .form-control,
+.o_form_wizard[data-wizard-ready="1"] textarea,
+.o_form_wizard[data-wizard-ready="1"] select{
+  border:none!important;
+  border-bottom:1px solid rgba(0,0,0,.25)!important;
+  border-radius:0!important;
+  padding:10px 0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  font-size:18px;
+  line-height:1.25;
+}
+.o_form_wizard[data-wizard-ready="1"] textarea{font-size:16px}
+.o_form_wizard[data-wizard-ready="1"] .form-control:focus,
+.o_form_wizard[data-wizard-ready="1"] textarea:focus,
+.o_form_wizard[data-wizard-ready="1"] select:focus{
+  outline:none!important;
+  box-shadow:none!important;
+  border-bottom-color:rgba(0,0,0,.6)!important;
+}
+
+/* Hide internal labels (we use title instead) */
+.o_form_wizard[data-wizard-ready="1"] .s_website_form_label,
+.o_form_wizard[data-wizard-ready="1"] .s_website_form_field &gt; label{
+  display:none!important;
+}
+
+/* Hide Odoo default submit row until last step (NO !important) */
+.o_form_wizard[data-wizard-ready="1"] .s_website_form_submit{display:none}
+
+/* Nav inside the card */
+.o_form_wizard[data-wizard-ready="1"] .o_form_wizard_nav{
+  position:absolute;
+  right:16px;
+  bottom:16px;
+  z-index:9999;                    /* ensure above everything */
+  display:flex;
+  gap:10px;
+}
+
+/* Buttons */
+.o_form_wizard[data-wizard-ready="1"] .o_form_wizard_btn{
+  width:40px;height:40px;
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,.15);
+  background:#111;color:#fff;
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;user-select:none
+}
+.o_form_wizard[data-wizard-ready="1"] .o_form_wizard_btn.is-disabled{opacity:.35;cursor:not-allowed}
+.o_form_wizard[data-wizard-ready="1"] .o_form_wizard_ok{
+  padding:8px 14px;
+  width:auto;
+  min-width:84px;
+  height:40px;
+  font-size:14px;
+}
+
+/* Remove number spinners (Estimativa de orcamento) */
+.o_form_wizard[data-wizard-ready="1"] input[name="expected_revenue"]::-webkit-outer-spin-button,
+.o_form_wizard[data-wizard-ready="1"] input[name="expected_revenue"]::-webkit-inner-spin-button{
+  -webkit-appearance: none;
+  margin: 0;
+}
+.o_form_wizard[data-wizard-ready="1"] input[name="expected_revenue"]{
+  -moz-appearance: textfield;
+}
+
+/* Align checkbox + text on one line */
+.o_form_wizard[data-wizard-ready="1"] .terms-inline{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+.o_form_wizard[data-wizard-ready="1"] .terms-inline .s_website_form_field_description{
+  margin:0;
+}
+
+#project3d-form-toggle{
+  background:#000;
+  color:#fff;
+  font-size:20px;
+}
+
+/* Remove number input spinners for budget field */
+input[name="expected_revenue"]::-webkit-outer-spin-button,
+input[name="expected_revenue"]::-webkit-inner-spin-button{
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[name="expected_revenue"]{
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Align terms checkbox with description text */
+.terms-inline{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+.terms-inline .form-check{
+  margin:0;
+}
+.terms-inline .s_website_form_field_description{
+  margin:0;
+}
+</style>
+
+<script>
+(function () {
+  const initWizardForms = () =&gt; {
+    const forms = document.querySelectorAll('form.o_form_wizard');
+    if (!forms.length) return;
+
+    const getLabelText = (fieldEl) =&gt; {
+      const labelContent = fieldEl.querySelector('.s_website_form_label_content');
+      if (labelContent  &amp;&amp; labelContent.textContent.trim()) return labelContent.textContent.trim();
+
+      const label = fieldEl.querySelector('label');
+      if (label  &amp;&amp; label.textContent.trim()) return label.textContent.replace(/\*/g, '').trim();
+
+      return (fieldEl.getAttribute('data-translated-name') || fieldEl.getAttribute('data-name') || 'Pergunta').trim();
+    };
+
+    const isFieldConditionallyVisible = (fieldEl) =&gt; {
+      if (!fieldEl) return false;
+
+      const hiddenClassList = [
+        'd-none',
+        'o_invisible_modifier',
+        'o_snippet_invisible',
+        'o_hidden',
+        'visually-hidden',
+      ];
+
+      let cur = fieldEl;
+      while (cur  &amp;&amp; cur !== document.documentElement) {
+        if (cur.classList  &amp;&amp; cur.classList.contains('o_form_wizard_q')) break;
+
+        if (cur.hidden) return false;
+        if (cur.getAttribute  &amp;&amp; cur.getAttribute('aria-hidden') === 'true') return false;
+
+        if (cur.classList) {
+          for (const c of hiddenClassList) {
+            if (cur.classList.contains(c)) return false;
+          }
+        }
+
+        if (cur.style  &amp;&amp; cur.style.display === 'none') return false;
+
+        cur = cur.parentElement;
+      }
+      return true;
+    };
+
+    const isStepConditionallyVisible = (stepEl) =&gt; {
+      const fieldEl = stepEl.querySelector('.s_website_form_field');
+      return isFieldConditionallyVisible(fieldEl);
+    };
+
+    const isStepAnswered = (stepEl) =&gt; {
+      if (!isStepConditionallyVisible(stepEl)) return true;
+
+      const fields = stepEl.querySelectorAll('input, select, textarea');
+      if (!fields.length) return true;
+
+      const checkboxes = stepEl.querySelectorAll('input[type="checkbox"]');
+      if (checkboxes.length) return Array.from(checkboxes).some(c =&gt; c.checked);
+
+      const field = fields[0];
+      if (typeof field.checkValidity === 'function') return field.checkValidity();
+      return (field.value || '').trim().length &gt; 0;
+    };
+
+    const focusFirstField = (stepEl) =&gt; {
+      const field = stepEl.querySelector('input:not([type="hidden"]), textarea, select');
+      if (field) field.focus({ preventScroll: true });
+    };
+
+    const showStepWithFade = (steps, nextIndex, currentIndex) =&gt; {
+      const currentStep = steps[currentIndex];
+      const nextStep = steps[nextIndex];
+
+      if (currentStep) currentStep.classList.remove('is-visible');
+
+      window.setTimeout(() =&gt; {
+        steps.forEach((s, i) =&gt; s.classList.toggle('is-active', i === nextIndex));
+        void nextStep.offsetWidth;
+        nextStep.classList.add('is-visible');
+        focusFirstField(nextStep);
+      }, 180);
+    };
+
+    const safeSubmit = (form) =&gt; {
+      // Prefer Odoo's handler (usually bound to this button)
+      const odooSend = form.querySelector('a.s_website_form_send, button.s_website_form_send, input.s_website_form_send');
+      if (odooSend) return odooSend.click();
+
+      if (typeof form.requestSubmit === 'function') return form.requestSubmit();
+
+      const realSubmit = form.querySelector('button[type="submit"], input[type="submit"]');
+      if (realSubmit) return realSubmit.click();
+
+      form.submit();
+    };
+
+    forms.forEach((form) =&gt; {
+      // If already ready, skip
+      if (form.dataset.wizardReady === '1') return;
+
+      const rows = form.querySelector('.s_website_form_rows');
+      if (!rows) return;
+
+      // Ensure wrap/card exist (or reuse existing)
+      let card = rows.closest('.o_form_wizard_card');
+      if (!card) {
+        const wrap = document.createElement('div');
+        wrap.className = 'o_form_wizard_wrap';
+
+        card = document.createElement('div');
+        card.className = 'o_form_wizard_card';
+
+        wrap.appendChild(card);
+        rows.parentNode.insertBefore(wrap, rows);
+        card.appendChild(rows);
+      }
+
+      // Steps: reuse existing wizard steps if present, otherwise build them
+      let steps = Array.from(rows.querySelectorAll(':scope &gt; .o_form_wizard_q'));
+
+      if (steps.length) {
+        // sort by data-step-index if present
+        steps.sort((a, b) =&gt; {
+          const ai = parseInt(a.dataset.stepIndex || '0', 10);
+          const bi = parseInt(b.dataset.stepIndex || '0', 10);
+          return ai - bi;
+        });
+      } else {
+        const fieldEls = Array.from(rows.children).filter(el =&gt;
+          el.classList.contains('s_website_form_field')  &amp;&amp;
+          !el.classList.contains('s_website_form_field_hidden')
+        );
+
+        if (fieldEls.length &lt;= 1) return;
+
+        steps = fieldEls.map((fieldEl, idx) =&gt; {
+          const step = document.createElement('div');
+          step.className = 'o_form_wizard_q';
+          step.dataset.stepIndex = String(idx);
+
+          const title = document.createElement('div');
+          title.className = 'o_form_wizard_title';
+          title.textContent = getLabelText(fieldEl);
+
+          step.appendChild(title);
+          step.appendChild(fieldEl);
+
+          rows.insertBefore(step, rows.firstChild);
+          return step;
+        });
+
+        steps.sort((a, b) =&gt; parseInt(a.dataset.stepIndex, 10) - parseInt(b.dataset.stepIndex, 10));
+      }
+
+      // Ensure each step has a title
+      steps.forEach((stepEl) =&gt; {
+        if (stepEl.querySelector('.o_form_wizard_title')) return;
+        const fieldEl = stepEl.querySelector('.s_website_form_field');
+        if (!fieldEl) return;
+
+        const title = document.createElement('div');
+        title.className = 'o_form_wizard_title';
+        title.textContent = getLabelText(fieldEl);
+        stepEl.insertBefore(title, stepEl.firstChild);
+      });
+
+      // Find submit row (might not be inside steps)
+      const submitRow = rows.querySelector('.s_website_form_submit') || form.querySelector('.s_website_form_submit');
+
+      // Ensure nav exists
+      let nav = card.querySelector('.o_form_wizard_nav');
+      if (!nav) {
+        nav = document.createElement('div');
+        nav.className = 'o_form_wizard_nav';
+        nav.innerHTML = `
+          <button type="button" class="o_form_wizard_btn js_prev" aria-label="Previous">↑</button>
+          <button type="button" class="o_form_wizard_btn js_next" aria-label="Next">↓</button>
+        `;
+        card.appendChild(nav);
+      }
+
+      // Remove old listeners safely by cloning
+      const navClone = nav.cloneNode(true);
+      nav.parentNode.replaceChild(navClone, nav);
+      nav = navClone;
+
+      let current = 0;
+
+      const getNextVisibleIndex = (from, dir) =&gt; {
+        let i = from;
+        while (true) {
+          i += dir;
+          if (i &lt; 0 || i &gt;= steps.length) return null;
+          if (isStepConditionallyVisible(steps[i])) return i;
+        }
+      };
+
+      const getFirstVisibleIndex = () =&gt; {
+        for (let i = 0; i &lt; steps.length; i++) {
+          if (isStepConditionallyVisible(steps[i])) return i;
+        }
+        return 0;
+      };
+
+      const ensureCurrentIsVisible = () =&gt; {
+        if (isStepConditionallyVisible(steps[current])) return;
+
+        const next = getNextVisibleIndex(current, +1);
+        if (next !== null) { current = next; return; }
+
+        const prev = getNextVisibleIndex(current, -1);
+        if (prev !== null) { current = prev; return; }
+
+        current = getFirstVisibleIndex();
+      };
+
+      const renderNav = () =&gt; {
+        ensureCurrentIsVisible();
+
+        const prevBtn = nav.querySelector('.js_prev');
+        const nextBtn = nav.querySelector('.js_next');
+
+        prevBtn.classList.toggle('is-disabled', getNextVisibleIndex(current, -1) === null);
+
+        const isLastVisible = (getNextVisibleIndex(current, +1) === null);
+        if (submitRow) submitRow.style.display = isLastVisible ? '' : 'none';
+
+        nextBtn.textContent = isLastVisible ? 'Submeter' : '↓';
+        nextBtn.classList.toggle('o_form_wizard_ok', isLastVisible);
+      };
+
+      const renderStep = (initial = false) =&gt; {
+        ensureCurrentIsVisible();
+        steps.forEach((s, i) =&gt; {
+          s.classList.toggle('is-active', i === current);
+          if (i !== current) s.classList.remove('is-visible');
+        });
+
+        if (initial) {
+          window.setTimeout(() =&gt; steps[current].classList.add('is-visible'), 0);
+        } else {
+          steps[current].classList.add('is-visible');
+        }
+
+        focusFirstField(steps[current]);
+        renderNav();
+      };
+
+      const goNext = () =&gt; {
+        ensureCurrentIsVisible();
+
+        const stepEl = steps[current];
+        if (!isStepAnswered(stepEl)) {
+          const firstField = stepEl.querySelector('input, textarea, select');
+          if (firstField  &amp;&amp; typeof firstField.reportValidity === 'function') firstField.reportValidity();
+          return;
+        }
+
+        const next = getNextVisibleIndex(current, +1);
+        if (next !== null) {
+          const old = current;
+          current = next;
+          showStepWithFade(steps, current, old);
+          renderNav();
+          return;
+        }
+
+        safeSubmit(form);
+      };
+
+      const goPrev = () =&gt; {
+        ensureCurrentIsVisible();
+        const prev = getNextVisibleIndex(current, -1);
+        if (prev === null) return;
+
+        const old = current;
+        current = prev;
+        showStepWithFade(steps, current, old);
+        renderNav();
+      };
+
+      nav.querySelector('.js_next').addEventListener('click', goNext);
+      nav.querySelector('.js_prev').addEventListener('click', goPrev);
+
+      form.addEventListener('keydown', (e) =&gt; {
+        if (e.key !== 'Enter') return;
+        const activeStep = steps[current];
+        if (activeStep  &amp;&amp; activeStep.querySelector('textarea:focus')) return;
+        e.preventDefault();
+        goNext();
+      });
+
+      // Observe changes that might toggle visibility classes
+      const mo = new MutationObserver(() =&gt; {
+        const was = current;
+        ensureCurrentIsVisible();
+        if (current !== was) showStepWithFade(steps, current, was);
+        renderNav();
+      });
+
+      mo.observe(form, {
+        attributes: true,
+        subtree: true,
+        attributeFilter: ['class', 'style', 'hidden', 'aria-hidden']
+      });
+
+      // Mark as ready (this enables wizard-only CSS)
+      form.dataset.wizardReady = '1';
+
+      // Init
+      current = getFirstVisibleIndex();
+      renderStep(true);
+    });
+  };
+
+  const boot = () =&gt; {
+    initWizardForms();
+
+    // Re-init when Studio/editor alters the DOM (sections removed/added)
+    const root = document.getElementById('wrap') || document.body;
+    const domObserver = new MutationObserver(() =&gt; initWizardForms());
+    domObserver.observe(root, { childList: true, subtree: true });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+
+        <style>
+/* --- Newsletter: collapsed -&gt; button, expanded -&gt; wizard card --- */
+.newsletter_wizard_wrap{
+  display:flex;
+  justify-content:flex-end; /* keep aligned to the right column */
+}
+
+.newsletter_wizard_btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 20px;
+  border-radius:12px;
+  background:#fff;
+  color:#111;
+  border:1px solid rgba(255,255,255,.25);
+  font-weight:600;
+  cursor:pointer;
+}
+
+.newsletter_wizard_panel{
+  display:none;             /* hidden until button click */
+  width: min(520px, 100%);
+}
+
+.newsletter_wizard_panel.is-open{
+  display:block;
+}
+
+/* Card */
+.newsletter_wizard_card{
+  position:relative;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px;
+  padding: 22px 22px 78px;
+  backdrop-filter: blur(6px);
+}
+
+/* Close button */
+.newsletter_wizard_close{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.35);
+  color:#fff;
+  cursor:pointer;
+}
+
+/* Reuse wizard look but adapted to dark bg */
+.newsletter_wizard_card .o_form_wizard_q{
+  display:none;
+  opacity:0;
+  transform: translateY(8px);
+  transition: opacity .28s ease, transform .28s ease;
+}
+.newsletter_wizard_card .o_form_wizard_q.is-active{display:block}
+.newsletter_wizard_card .o_form_wizard_q.is-active.is-visible{
+  opacity:1;
+  transform: translateY(0);
+}
+
+.newsletter_wizard_card .o_form_wizard_title{
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 14px;
+  color:#fff;
+}
+
+/* Inputs */
+.newsletter_wizard_card .form-control,
+.newsletter_wizard_card textarea,
+.newsletter_wizard_card select{
+  border:none!important;
+  border-bottom:1px solid rgba(255,255,255,.35)!important;
+  border-radius:0!important;
+  padding:10px 0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  font-size:16px;
+  color:#fff;
+}
+.newsletter_wizard_card .form-control::placeholder{color:rgba(255,255,255,.6)}
+.newsletter_wizard_card .form-control:focus,
+.newsletter_wizard_card textarea:focus,
+.newsletter_wizard_card select:focus{
+  outline:none!important;
+  box-shadow:none!important;
+  border-bottom-color:rgba(255,255,255,.8)!important;
+}
+
+/* Hide built-in labels */
+.newsletter_wizard_card .s_website_form_label,
+.newsletter_wizard_card .s_website_form_field &gt; label{display:none!important}
+
+/* Hide default submit row until last step (NO !important) */
+.newsletter_wizard_card .s_website_form_submit{display:none}
+
+/* Nav inside card */
+.newsletter_wizard_card .o_form_wizard_nav{
+  position:absolute;
+  right:16px;
+  bottom:16px;
+  z-index:10;
+  display:flex;
+  gap:10px;
+}
+
+.newsletter_wizard_card .o_form_wizard_btn{
+  width:40px;height:40px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  background:#fff;color:#111;
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;user-select:none
+}
+.newsletter_wizard_card .o_form_wizard_btn.is-disabled{opacity:.35;cursor:not-allowed}
+.newsletter_wizard_card .o_form_wizard_ok{
+  padding:8px 14px;
+  width:auto;
+  min-width:96px;
+  height:40px;
+  font-size:14px;
+}
+
+.newsletter_wizard_close{
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+/* ONLY the "Saiba primeiro..." popup (use its wrapper id) */
+#sPopup1754558420306 .modal-content,
+#sPopup1754558420306 .modal-content *{
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+/* Inputs + placeholders inside the popup */
+#sPopup1754558420306 .s_website_form .form-control,
+#sPopup1754558420306 .s_website_form textarea,
+#sPopup1754558420306 .s_website_form select{
+  color: #000 !important;
+}
+
+#sPopup1754558420306 .s_website_form .form-control::placeholder,
+#sPopup1754558420306 .s_website_form textarea::placeholder{
+  color: rgba(0,0,0,.65) !important;
+}
+
+/* (Optional) if the background is dark, force input background to white */
+#sPopup1754558420306 .s_website_form .form-control,
+#sPopup1754558420306 .s_website_form textarea,
+#sPopup1754558420306 .s_website_form select{
+  background: #fff !important;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () =&gt; {
+  // Find newsletter forms in this page (mailing.contact)
+  const forms = Array.from(document.querySelectorAll('form[data-model_name="mailing.contact"]'));
+  if (!forms.length) return;
+
+  const getLabelText = (fieldEl) =&gt; {
+    const labelContent = fieldEl.querySelector('.s_website_form_label_content');
+    if (labelContent &amp;&amp; labelContent.textContent.trim()) return labelContent.textContent.trim();
+    const label = fieldEl.querySelector('label');
+    if (label &amp;&amp; label.textContent.trim()) return label.textContent.replace(/\*/g, '').trim();
+    return (fieldEl.getAttribute('data-translated-name') || fieldEl.getAttribute('data-name') || 'Pergunta').trim();
+  };
+
+  const focusFirstField = (stepEl) =&gt; {
+    const field = stepEl.querySelector('input:not([type="hidden"]), textarea, select');
+    if (field) field.focus({ preventScroll: true });
+  };
+
+  const safeSubmit = (form) =&gt; {
+    // Prefer Odoo's handler (usually bound to this button)
+    const odooSend = form.querySelector('a.s_website_form_send, button.s_website_form_send, input.s_website_form_send');
+    if (odooSend) return odooSend.click();
+
+    // Fallbacks
+    if (typeof form.requestSubmit === 'function') return form.requestSubmit();
+    const realSubmit = form.querySelector('button[type="submit"], input[type="submit"]');
+    if (realSubmit) return realSubmit.click();
+
+    form.submit();
+  };
+
+  forms.forEach((form) =&gt; {
+    // If Studio saved the init flag, do NOT bail out. We'll recover and bind safely.
+    const host = form.closest('.s_website_form') || form.parentElement;
+    if (!host) return;
+
+    // If wrapper already exists (saved in HTML), bind to it
+    let wrap = host.querySelector(':scope &gt; .newsletter_wizard_wrap');
+    let openBtn, panel, card, closeBtn;
+
+    // capture success message BEFORE moving (or if already moved, just find it)
+    let endMsg = host.querySelector('.s_website_form_end_message');
+
+    if (!wrap) {
+      // Hide the form initially (we'll put it in a panel)
+      form.style.display = 'none';
+
+      wrap = document.createElement('div');
+      wrap.className = 'newsletter_wizard_wrap';
+
+      openBtn = document.createElement('button');
+      openBtn.type = 'button';
+      openBtn.className = 'newsletter_wizard_btn';
+      openBtn.textContent = 'Subscrever';
+
+      panel = document.createElement('div');
+      panel.className = 'newsletter_wizard_panel';
+
+      card = document.createElement('div');
+      card.className = 'newsletter_wizard_card';
+
+      closeBtn = document.createElement('button');
+      closeBtn.type = 'button';
+      closeBtn.className = 'newsletter_wizard_close';
+      closeBtn.setAttribute('aria-label', 'Fechar');
+      closeBtn.textContent = '✕';
+
+      panel.appendChild(card);
+      wrap.appendChild(openBtn);
+      wrap.appendChild(panel);
+
+      // insert wrapper before the form host content
+      host.insertBefore(wrap, host.firstChild);
+
+      // Move the form into the card
+      card.appendChild(closeBtn);
+      card.appendChild(form);
+
+      // Move success message into the card too
+      if (endMsg) card.appendChild(endMsg);
+
+      form.style.display = ''; // visible inside panel (panel still hidden)
+    } else {
+      openBtn = wrap.querySelector('.newsletter_wizard_btn');
+      panel = wrap.querySelector('.newsletter_wizard_panel');
+      card = wrap.querySelector('.newsletter_wizard_card');
+      closeBtn = wrap.querySelector('.newsletter_wizard_close');
+
+      // If structure is partially missing, rebuild minimal missing pieces
+      if (!panel) {
+        panel = document.createElement('div');
+        panel.className = 'newsletter_wizard_panel';
+        wrap.appendChild(panel);
+      }
+      if (!card) {
+        card = document.createElement('div');
+        card.className = 'newsletter_wizard_card';
+        panel.appendChild(card);
+      }
+      if (!openBtn) {
+        openBtn = document.createElement('button');
+        openBtn.type = 'button';
+        openBtn.className = 'newsletter_wizard_btn';
+        openBtn.textContent = 'Subscrever';
+        wrap.insertBefore(openBtn, panel);
+      }
+      if (!closeBtn) {
+        closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.className = 'newsletter_wizard_close';
+        closeBtn.setAttribute('aria-label', 'Fechar');
+        closeBtn.textContent = '✕';
+        card.insertBefore(closeBtn, card.firstChild);
+      }
+
+      // Ensure form is inside card
+      if (!card.contains(form)) card.appendChild(form);
+      if (endMsg &amp;&amp; !card.contains(endMsg)) card.appendChild(endMsg);
+    }
+
+    // Prevent double-binding listeners by replacing controls (safe rebinding)
+    const openBtnNew = openBtn.cloneNode(true);
+    openBtn.parentNode.replaceChild(openBtnNew, openBtn);
+    openBtn = openBtnNew;
+
+    const closeBtnNew = closeBtn.cloneNode(true);
+    closeBtn.parentNode.replaceChild(closeBtnNew, closeBtn);
+    closeBtn = closeBtnNew;
+
+    // Build steps (only from visible fields, excluding hidden list_ids)
+    const rows = form.querySelector('.s_website_form_rows');
+    if (!rows) return;
+
+    // Reuse existing steps if present
+    let steps = Array.from(rows.querySelectorAll(':scope &gt; .o_form_wizard_q'));
+
+    if (!steps.length) {
+      const fieldEls = Array.from(rows.children).filter(el =&gt;
+        el.classList.contains('s_website_form_field') &amp;&amp;
+        !el.classList.contains('s_website_form_field_hidden')
+      );
+
+      if (fieldEls.length &lt;= 1) {
+        openBtn.addEventListener('click', () =&gt; {
+          panel.classList.add('is-open');
+          openBtn.style.display = 'none';
+        });
+        closeBtn.addEventListener('click', () =&gt; {
+          panel.classList.remove('is-open');
+          openBtn.style.display = '';
+        });
+        return;
+      }
+
+      steps = fieldEls.map((fieldEl, idx) =&gt; {
+        const step = document.createElement('div');
+        step.className = 'o_form_wizard_q';
+        step.dataset.stepIndex = String(idx);
+
+        const title = document.createElement('div');
+        title.className = 'o_form_wizard_title';
+        title.textContent = getLabelText(fieldEl);
+
+        step.appendChild(title);
+        step.appendChild(fieldEl);
+
+        rows.insertBefore(step, rows.firstChild);
+        return step;
+      });
+
+      // restore order
+      steps = steps
+        .slice()
+        .sort((a,b) =&gt; parseInt(a.dataset.stepIndex || '0',10) - parseInt(b.dataset.stepIndex || '0',10));
+    }
+
+    const submitRow = rows.querySelector('.s_website_form_submit') || form.querySelector('.s_website_form_submit');
+
+    // If Studio saved steps out of order, normalize by step index.
+    if (steps.length &gt; 1) {
+      const sorted = steps.slice().sort((a, b) =&gt;
+        parseInt(a.dataset.stepIndex || '0', 10) - parseInt(b.dataset.stepIndex || '0', 10)
+      );
+      const anchor = (submitRow &amp;&amp; submitRow.parentElement === rows) ? submitRow : null;
+      sorted.forEach((s) =&gt; rows.insertBefore(s, anchor));
+      steps = sorted;
+    }
+
+    // Ensure nav exists
+    let nav = card.querySelector(':scope &gt; .o_form_wizard_nav');
+    if (!nav) {
+      nav = document.createElement('div');
+      nav.className = 'o_form_wizard_nav';
+      nav.innerHTML = `
+        <button type="button" class="o_form_wizard_btn js_prev" aria-label="Anterior">↑</button>
+        <button type="button" class="o_form_wizard_btn js_next" aria-label="Seguinte">↓</button>
+      `;
+      card.appendChild(nav);
+    } else {
+      if (!nav.querySelector('.js_prev') || !nav.querySelector('.js_next')) {
+        nav.innerHTML = `
+          <button type="button" class="o_form_wizard_btn js_prev" aria-label="Anterior">↑</button>
+          <button type="button" class="o_form_wizard_btn js_next" aria-label="Seguinte">↓</button>
+        `;
+      }
+    }
+
+    // Replace nav buttons to remove any old handlers
+    const prevOld = nav.querySelector('.js_prev');
+    const nextOld = nav.querySelector('.js_next');
+    const prevBtn = prevOld.cloneNode(true);
+    const nextBtn = nextOld.cloneNode(true);
+    prevOld.parentNode.replaceChild(prevBtn, prevOld);
+    nextOld.parentNode.replaceChild(nextBtn, nextOld);
+
+    let current = 0;
+
+    const isStepAnswered = (stepEl) =&gt; {
+      const fields = stepEl.querySelectorAll('input, select, textarea');
+      if (!fields.length) return true;
+
+      const checkboxes = stepEl.querySelectorAll('input[type="checkbox"]');
+      if (checkboxes.length) return Array.from(checkboxes).some(c =&gt; c.checked);
+
+      const field = fields[0];
+      if (typeof field.checkValidity === 'function') return field.checkValidity();
+      return (field.value || '').trim().length &gt; 0;
+    };
+
+    const renderNav = () =&gt; {
+      prevBtn.classList.toggle('is-disabled', current === 0);
+
+      const isLast = current === (steps.length - 1);
+
+      // show/hide default Odoo submit row only on last step
+      if (submitRow) submitRow.style.display = isLast ? 'block' : 'none';
+
+      nextBtn.textContent = isLast ? 'Submeter' : '↓';
+      nextBtn.classList.toggle('o_form_wizard_ok', isLast);
+    };
+
+    const renderStep = (initial=false) =&gt; {
+      steps.forEach((s,i) =&gt; {
+        s.classList.toggle('is-active', i === current);
+        if (i !== current) s.classList.remove('is-visible');
+      });
+
+      if (initial) setTimeout(() =&gt; steps[current].classList.add('is-visible'), 0);
+      else steps[current].classList.add('is-visible');
+
+      focusFirstField(steps[current]);
+      renderNav();
+    };
+
+    const goNext = () =&gt; {
+      const stepEl = steps[current];
+      if (!isStepAnswered(stepEl)) {
+        const firstField = stepEl.querySelector('input, textarea, select');
+        if (firstField &amp;&amp; typeof firstField.reportValidity === 'function') firstField.reportValidity();
+        return;
+      }
+
+      const isLast = current === (steps.length - 1);
+      if (!isLast) {
+        const old = current;
+        current += 1;
+        steps[old].classList.remove('is-visible');
+        setTimeout(() =&gt; {
+          steps.forEach((s,i) =&gt; s.classList.toggle('is-active', i === current));
+          void steps[current].offsetWidth;
+          steps[current].classList.add('is-visible');
+          focusFirstField(steps[current]);
+          renderNav();
+        }, 160);
+        return;
+      }
+
+      safeSubmit(form);
+    };
+
+    const goPrev = () =&gt; {
+      if (current === 0) return;
+      const old = current;
+      current -= 1;
+      steps[old].classList.remove('is-visible');
+      setTimeout(() =&gt; {
+        steps.forEach((s,i) =&gt; s.classList.toggle('is-active', i === current));
+        void steps[current].offsetWidth;
+        steps[current].classList.add('is-visible');
+        focusFirstField(steps[current]);
+        renderNav();
+      }, 160);
+    };
+
+    nextBtn.addEventListener('click', goNext);
+    prevBtn.addEventListener('click', goPrev);
+
+    form.addEventListener('keydown', (e) =&gt; {
+      if (e.key !== 'Enter') return;
+      const activeStep = steps[current];
+      if (activeStep &amp;&amp; activeStep.querySelector('textarea:focus')) return;
+      e.preventDefault();
+      goNext();
+    });
+
+    // Open/close behavior
+    openBtn.addEventListener('click', () =&gt; {
+      panel.classList.add('is-open');
+      openBtn.style.display = 'none'; // hide after click
+      current = 0;
+      renderStep(true);
+    });
+
+    const closePanel = () =&gt; {
+      panel.classList.remove('is-open');
+      openBtn.style.display = ''; // show button again
+    };
+
+    closeBtn.addEventListener('click', (e) =&gt; {
+      e.preventDefault();
+      e.stopPropagation();
+      closePanel();
+    });
+
+    // Init in closed state
+    renderStep(true);
+  });
+});
+</script>
+
+        <div id="wrap" class="oe_structure oe_empty">
+            <section class="s_text_block pt40 o_colored_level pb48 o_animate o_anim_fade_in o_visible" data-snippet="s_text_block" data-name="Texto">
+                <div class="s_allow_columns container">
+                    <h2 style="text-align: center;"><strong>PROJETO DE DECORAÇÃO</strong></h2>
+                </div>
+            </section>
+
+            <section class="s_title parallax s_parallax_is_fixed o_cc o_cc5 o_colored_level s_custom_snippet o_animate o_anim_fade_in o_visible pb88 pt256 o_full_screen_height" data-vcss="001" data-scroll-background-ratio="1" data-snippet="s_title" data-name="Personalizar Título">
+                <span class="s_parallax_bg oe_img_bg o_bg_img_center o_bg_img_origin_border_box" style="background-position: 50% 100%; background-image: url(&quot;/web/image/41835-11ff3302/Design%20sem%20nome%20%2827%29.webp&quot;);" data-attachment-id="20002" data-format-mimetype="image/webp" data-original-id="20002" data-original-src="/web/image/20002-89a67888/Design%20sem%20nome%20%2827%29.png" data-mimetype-before-conversion="image/png" data-resize-width="1920" data-mimetype="image/webp" data-quality="100"/>
+                
+                <div class="s_allow_columns container">
+                    <h2 class="display-3-fs" style="text-align: center;"> <br/></h2>
+                </div>
+            </section>
+
+            <section class="s_text_block pb0 o_colored_level pt96 o_animate o_anim_fade_in o_visible" data-snippet="s_text_block" data-name="Texto">
+                <div class="container s_allow_columns">
+                    <h2 style="text-align: left;">
+                         
+                        Transforme a sua casa com design à sua medida
+                    </h2>
+                </div>
+            </section>
+
+            <section class="s_text_block pt40 o_colored_level pb24 o_animate o_anim_fade_in o_visible" data-snippet="s_text_block" data-name="Texto">
+                <div class="s_allow_columns container">
+                    <p>
+                        No Alfaiate D’Interiores, cada projeto de decoração é feito à medida do seu estilo e das suas necessidades. Criamos espaços únicos e sofisticados, onde cada detalhe reflete a sua personalidade, combinando conforto, funcionalidade e elegância. 
+                    </p>
+                </div>
+            </section>
+
+            <section class="s_text_block o_colored_level s_custom_snippet pt0 pb64 o_animate o_anim_fade_in o_visible" data-snippet="s_text_block" data-name="Orçamento">
+                <div class="s_allow_columns container">
+                    <div class="row">
+                        <div class="mt-4 mt-lg-0 o_colored_level col-lg-12">
+                            <p class="lead"><br/></p>
+                            <p style="text-align: center;">
+                                <button type="button" class="btn btn-secondary o_translate_inline" id="project3d-form-toggle">Solicite aqui o seu projeto 3D</button>
+                            </p>
+                            <div id="project3d-form-panel">
+                                <section class="s_website_form" data-vcss="001" data-snippet="s_website_form" data-name="Formulário">
+                                    <div class="container">
+                                    <form id="contactus_form" action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required o_form_wizard" data-mark="*" data-model_name="crm.lead" data-success-mode="message" data-success-page="/contactus-thank-you" data-pre-fill="true" data-wizard-js-init="1" data-wizard-ready="1">
+                                        <div class="o_form_wizard_wrap">
+                                            <div class="o_form_wizard_card">
+                                                <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                    <div class="o_form_wizard_q" data-step-index="11">
+                                                        <div class="o_form_wizard_title">Termos e Política de Privacidade</div>
+                                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="boolean" data-translated-name="Campo">
+                                                            <label class="s_website_form_label d-none" style="width: 200px" for="o65ab14misx"><span class="s_website_form_label_content">Custom Text</span><span class="s_website_form_mark">  *</span></label>
+                                                            <div class="terms-inline">
+                                                                <div class="form-check"><input type="checkbox" value="Yes" class="s_website_form_input form-check-input" name="Custom Text" required="" id="o65ab14misx"/></div>
+                                                                <div class="s_website_form_field_description small form-text text-muted">
+                                                                    Ao submeter este formulário, você concorda com os nossos <a href="/termos">termos</a> e <a href="/politicadeprivacidade">política de privacidade</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="o_form_wizard_q" data-step-index="10"><div class="o_form_wizard_title">Anexos</div><div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="binary"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-sm-auto s_website_form_label" style="width: 200px" for="orwkx5g1uxz"><span class="s_website_form_label_content">Anexos</span></label><div class="col-sm"><input type="file" class="form-control s_website_form_input" name="Anexos" id="orwkx5g1uxz" data-max-files-number="1" data-max-file-size="1" data-fill-with="undefined"/></div></div></div></div>
+                                                    <div class="o_form_wizard_q" data-step-index="9"><div class="o_form_wizard_title">Previsão de conclusão</div><div data-translated-name="Campo" data-name="Field" class="s_website_form_field mb-3 col-12" data-type="date"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okjt9uctrpym"><span class="s_website_form_label_content">Previsão de conclusão</span></label><div class="col-sm"><div class="s_website_form_date input-group date"><input type="text" class="form-control datetimepicker-input s_website_form_input" name="date_deadline" value="" placeholder="" id="okjt9uctrpym" inputmode="none"/><div class="input-group-text o_input_group_date_icon cursor-pointer"><i class="fa fa-calendar"/></div></div></div></div></div></div>
+                                                    <div class="o_form_wizard_q" data-step-index="8"><div class="o_form_wizard_title">Estimativa de orçamento</div><div data-name="Field" class="s_website_form_field mb-3 col-12" data-type="monetary" data-translated-name="Campo"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="o2ao4q12alvf"><span class="s_website_form_label_content">Estimativa de orçamento</span></label><div class="col-sm"><input type="number" class="form-control s_website_form_input" step="any" name="expected_revenue" value="" placeholder="Quanto pretende gastar aproximadamente?" id="o2ao4q12alvf"/></div></div></div></div>
+                                                    <div class="o_form_wizard_q" data-step-index="7"><div class="o_form_wizard_title">Divisão da casa</div><div data-translated-name="Campo" data-name="Field" class="s_website_form_field mb-3 col-12" data-type="char"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="owxc6rwqyzfr"><span class="s_website_form_label_content">Divisão da casa</span></label><div class="col-sm"><input class="form-control s_website_form_input" type="text" name="x_studio_divises" value="" placeholder="Quarto, Sala, Total …" id="owxc6rwqyzfr"/></div></div></div></div>
+                                                    <div class="o_form_wizard_q" data-step-index="6"><div class="o_form_wizard_title">Tipo de serviço</div><div data-translated-name="Campo" data-name="Field" class="s_website_form_field mb-3 col-12" data-type="text"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ovoy76hkqpjp"><span class="s_website_form_label_content">Tipo de serviço </span></label><div class="col-sm"><textarea class="form-control s_website_form_input" name="description" placeholder="Descreva o serviço pretendido" id="ovoy76hkqpjp" rows="3"/></div></div></div></div>
+                                                    <div class="o_form_wizard_q" data-step-index="5"><div class="o_form_wizard_title">Localização</div><div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required" data-type="char" data-translated-name="Campo"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="otffu2rjkr4c"><span class="s_website_form_label_content">Localização</span><span class="s_website_form_mark">  *</span></label><div class="col-sm"><input class="form-control s_website_form_input" type="text" name="city" required="" value="" placeholder="Cidade e/ou código postal" id="otffu2rjkr4c"/></div></div></div></div>
+                                                    <div class="o_form_wizard_q" data-step-index="4"><div class="o_form_wizard_title">Empresa</div><div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required s_website_form_field_hidden_if d-none" data-type="char" data-translated-name="Campo" data-visibility-dependency="Custom Text" data-visibility-condition="Empresa" data-visibility-comparator="selected"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="osfy45aldsdb"><span class="s_website_form_label_content">Empresa</span><span class="s_website_form_mark">    *</span></label><div class="col-sm"><input class="form-control s_website_form_input" type="text" name="partner_name" required="" placeholder="" id="osfy45aldsdb" data-fill-with="commercial_company_name"/></div></div></div></div>
+                                                    <div class="o_form_wizard_q" data-step-index="3"><div class="o_form_wizard_title">Entidade</div><div data-name="Field" class="s_website_form_field mb-3 col-12 col-lg-10 s_website_form_custom" data-type="selection" data-translated-name="Campo"><label class="s_website_form_label d-none" style="width: 200px" for="o03jazabtu1pm"><span class="s_website_form_label_content">Entidade</span></label><div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="Custom Text" data-display="horizontal"><div class="radio col-12 col-lg-4 col-md-6"><div class="form-check"><input type="radio" class="s_website_form_input form-check-input" id="o03jazabtu1pm0" name="Custom Text" value="Particular"/><label class="form-check-label s_website_form_check_label" for="o03jazabtu1pm0">Particular</label></div></div><div class="radio col-12 col-lg-4 col-md-6"><div class="form-check"><input type="radio" class="s_website_form_input form-check-input" id="o03jazabtu1pm1" name="Custom Text" value="Empresa"/><label class="form-check-label s_website_form_check_label" for="o03jazabtu1pm1">Empresa</label></div></div></div></div></div>
+                                                    <div class="o_form_wizard_q" data-step-index="2"><div class="o_form_wizard_title">E-mail</div><div data-translated-name="Campo" data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required" data-type="email"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ouv6zm451da"><span class="s_website_form_label_content">E-mail</span><span class="s_website_form_mark"> *</span></label><div class="col-sm"><input class="form-control s_website_form_input" type="email" name="email_from" required="" placeholder="Escreva aqui o seu e-mail" id="ouv6zm451da" data-fill-with="email"/></div></div></div></div>
+                                                    <div class="o_form_wizard_q" data-step-index="1"><div class="o_form_wizard_title">Contacto</div><div data-translated-name="Campo" data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required" data-type="tel"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ou128lamr0t"><span class="s_website_form_label_content">Contacto</span><span class="s_website_form_mark"> *</span></label><div class="col-sm"><input class="form-control s_website_form_input" type="tel" name="phone" required="" placeholder="Número de telemóvel" id="ou128lamr0t" data-fill-with="phone"/></div></div></div></div>
+                                                    <div class="o_form_wizard_q is-active is-visible" data-step-index="0"><div class="o_form_wizard_title">Primeiro e último nome</div><div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required" data-type="char" data-translated-name="Campo"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ot2b729jwuhb"><span class="s_website_form_label_content">Primeiro e último nome</span><span class="s_website_form_mark"> *</span></label><div class="col-sm"><input class="form-control s_website_form_input" type="text" name="contact_name" required="" placeholder="Escreva aqui o seu nome" id="ot2b729jwuhb" data-fill-with="name"/></div></div></div></div>
+
+                                                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required s_website_form_field_hidden" data-type="char" data-translated-name="Campo"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okfh0sppp2x"><span class="s_website_form_label_content">Assunto</span><span class="s_website_form_mark">  *</span></label><div class="col-sm"><input class="form-control s_website_form_input" type="text" name="name" required="" value="orçamento" placeholder="" id="okfh0sppp2x"/></div></div></div>
+
+                                                    <div data-translated-name="Campo" data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_field_hidden" data-type="many2one"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="o6130msbg3km"><span class="s_website_form_label_content">Mailing List</span></label><div class="col-sm"><select class="form-select s_website_form_input" name="x_studio_mailing_list" id="o6130msbg3km"><option id="o6130msbg3km0" value="19">Catálogo Alfaiate D'Interiores (0)</option><option id="o6130msbg3km1" value="18">TESTE (1)</option><option id="o6130msbg3km2" value="17">Meta EPOCA - UK (102)</option><option id="o6130msbg3km3" value="16">Campanhas Meta EPOCA- Arábia (12)</option><option id="o6130msbg3km4" value="15" selected="selected">Alfaiate D'Interiores Website (5905)</option><option id="o6130msbg3km5" value="14">Epoca Group Website (13)</option><option id="o6130msbg3km6" value="13">Quinta D'Ervedosa Website (109)</option><option id="o6130msbg3km7" value="12">Epoca Properties Website (5)</option><option id="o6130msbg3km8" value="11">Epoca Properties - Leads Novo Projeto - PT (1)</option><option id="o6130msbg3km9" value="10">Epoca Properties - Leads Molhe 479 - FR (41)</option><option id="o6130msbg3km10" value="9">Epoca Properties - Leads Flow - PT (87)</option><option id="o6130msbg3km11" value="8">EPOCA Feiras - EN (9173)</option><option id="o6130msbg3km12" value="7">EPOCA Administração - EN (1474)</option><option id="o6130msbg3km13" value="6">EPOCA Top Hotel - EN (4148)</option><option id="o6130msbg3km14" value="5">EPOCA - EN (3669)</option><option id="o6130msbg3km15" value="4">Epoca Properties - Leads Lux One - PT (198)</option><option id="o6130msbg3km16" value="3">Epoca Properties - Leads Molhe 479 - EN (196)</option><option id="o6130msbg3km17" value="2">Epoca Properties - Leads Molhe 479 - PT (764)</option><option id="o6130msbg3km18" value="1">Newsletter (2)</option></select></div></div></div>
+
+                                                    <div class="mb-0 py-2 col-12 s_website_form_submit s_website_form_no_submit_label text-end" data-name="Submit Button" style="display: none;">
+                                                        <div style="width: 200px;" class="s_website_form_label"/>
+                                                        <a href="#" role="button" class="btn btn-primary s_website_form_send">Submeter</a>
+                                                        <span id="s_website_form_result"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="o_form_wizard_nav">
+                                                    <button type="button" class="o_form_wizard_btn js_prev is-disabled" aria-label="Previous">↑</button>
+                                                    <button type="button" class="o_form_wizard_btn js_next" aria-label="Next">↓</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <div class="s_website_form_end_message d-none">
+                                        <div class="oe_structure">
+                                            <section class="s_text_block o_colored_level rounded px-5 text-center" data-snippet="s_text_block" data-name="Texto">
+                                                <img src="/web/image/40306-2c4ca78e/Alfaiate%20D%27Interiores.webp" alt="" data-attachment-id="40299" class="mb-3 img img-fluid o_we_custom_image" data-format-mimetype="image/webp" data-original-id="40299" data-original-src="/web/image/40299-6300da41/Alfaiate%20D%27Interiores.webp" data-mimetype-before-conversion="image/webp" data-resize-width="690" data-mimetype="image/webp" data-quality="100" style="width: 25% !important;" loading="lazy"/>
+                                                <h1 class="fw-bolder" style="font-size:30px">Obrigado por preencher o formulário.</h1>
+                                                <p class="lead mb-0">Recebemos a sua submissão com sucesso e entraremos em contacto o mais breve possível.</p><p>Até lá sinta-se à vontade para explorar o nosso website!</p>
+                                            </section>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const toggleBtn = document.getElementById('project3d-form-toggle');
+                    const formPanel = document.getElementById('project3d-form-panel');
+
+                    if (!toggleBtn || !formPanel) {
+                        return;
+                    }
+
+                    formPanel.classList.add('d-none');
+
+                    const toggleVisibility = (event) =&gt; {
+                        event.preventDefault();
+                        formPanel.classList.toggle('d-none');
+                        if (!formPanel.classList.contains('d-none')) {
+                            const form = formPanel.querySelector('form.o_form_wizard');
+                            if (form) {
+                                form.dispatchEvent(new Event('o-wizard-reset'));
+                            }
+                            formPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    };
+
+                    toggleBtn.addEventListener('click', toggleVisibility);
+                });
+            </script>
+
+<section class="s_split_intro o_colored_level pb0 o_cc o_cc5" data-snippet="s_split_intro" data-name="Split Intro" style="background-color: rgb(15, 18, 18);">
+        <div class="container-fluid">
+            <div class="row o_grid_mode" data-row-count="15">
+                
+                
+            <div class="o_colored_level o_cc o_cc5 o_grid_item g-col-lg-4 g-height-15 col-lg-4 o_animate o_anim_fade_in o_visible" style="background-color: rgb(15, 18, 18); --grid-item-padding-y: 120px; --grid-item-padding-x: 15px; z-index: 1; grid-area: 1 / 3 / 16 / 7; animation-name: dummy;">
+                    <h1 class="display-3"><span class="h1-fs">Projeto de<font class="bg-o-color-1">​</font><br/>Decoração 3D</span></h1>
+                    <p class="lead"><span style="font-size: 1.25rem;"><strong>Oferecemos um serviço completo de projetos de interiores 3D, para uma ou várias divisões da sua casa.&amp;nbsp;</strong></span></p><p class="lead"><span class="base-fs">A nossa equipa de designers adapta-se ao seu ritmo de forma a conseguir acompanhar o projeto presencialmente ou à distância, de forma prática e personalizada. Traga a sua ideia e contexto em que pretende que se insira, desde cores, iluminação, mobiliário e estilo geral. Esta reflexão ajuda-nos a transformar a sua visão em realidade, garantindo um resultado harmonioso e funcional.</span></p><p class="lead">Acompanhamos todas as fases do projeto, desde a conceção inicial até à instalação final, assegurando que cada pormenor cumpre as suas expectativas.&amp;nbsp;</p></div><div class="o_not_editable o_colored_level o_background_video o_cc o_cc5 o_grid_item g-height-15 g-col-lg-6 col-lg-6" style="z-index: 2; --grid-item-padding-y: 120px; --grid-item-padding-x: 15px; grid-area: 1 / 7 / 16 / 13;" data-bg-video-src="https://player.vimeo.com/video/1119475261?autoplay=1&amp;muted=1&amp;autopause=0&amp;controls=0&amp;loop=1"><div class="o_we_bg_filter" style="background-color: rgba(0, 0, 0, 0.34);"/></div></div>
+        </div>
+    </section><section data-name="Texto" data-snippet="s_text_block" class="s_text_block o_colored_level pb16 pt136 o_animate o_anim_fade_in o_visible"><div class="s_allow_columns container"><h2 style="text-align: center;">
+<span class="o_animated_text o_animate o_visible o_anim_fade_in" style="">Cada etapa, à sua medida
+
+</span></h2>
+        </div>
+    </section><section class="s_embed_code o_colored_level text-center pt0 pb40" data-snippet="s_embed_code" data-name="Incorporar Código">
+        <template class="s_embed_code_saved"><div class="timeline-container">
+  <div class="step">
+    <div class="circle">1</div>
+    <div class="connector"/>
+    <div class="title">Reunião inicial</div>
+    <div class="desc">Agende uma reunião presencial numa das nossas lojas ou online e partilhe connosco a sua visão e expectativas para o espaço.</div>
+  </div>
+
+  <div class="step">
+    <div class="circle">2</div>
+    <div class="connector"/>
+    <div class="title">Recolha de dados</div>
+    <div class="desc">Recolhemos fotografias e/ou a planta da divisão a intervir, assegurando uma compreensão rigorosa do ambiente a transformar.</div>
+  </div>
+
+  <div class="step">
+    <div class="circle">3</div>
+    <div class="connector"/>
+    <div class="title">Projeto personalizado</div>
+    <div class="desc">Desenvolvemos um projeto de design de interiores personalizado, inspirado no seu estilo e nas suas necessidades.</div>
+  </div>
+
+  <div class="step">
+    <div class="circle">4</div>
+    <div class="connector"/>
+    <div class="title">Validação do projeto</div>
+    <div class="desc">Com a sua validação, refinamos os últimos detalhes e preparamos o projeto para avançar para a execução.</div>
+  </div>
+
+  <div class="step">
+    <div class="circle">5</div>
+    <div class="connector"/>
+    <div class="title">Fabricação</div>
+    <div class="desc">Fabricamos cada peça de mobiliário com a qualidade, precisão e cuidado artesanal que distinguem o Alfaiate D’Interiores.</div>
+  </div>
+
+  <div class="step">
+    <div class="circle">6</div>
+    <div class="title">Instalação</div>
+    <div class="desc">A nossa equipa especializada assegura a instalação completa, garantindo que cada detalhe corresponde ao projeto idealizado.</div>
+  </div>
+</div>
+
+<style>
+.timeline-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 80px 20px 40px 20px;
+  font-family: 'Poppins', sans-serif;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.step {
+  position: relative;
+  text-align: center;
+  flex: 1;
+  min-width: 100px;
+  z-index: 2;
+}
+
+.circle {
+  width: 80px;
+  height: 80px;
+  background: #f2efe9;
+  border-radius: 50%;
+  margin: 0 auto;
+  line-height: 80px;
+  font-size: 24px;
+  color: #333;
+  transition: transform 0.3s;
+  position: relative;
+  z-index: 2;
+}
+
+.step:hover .circle {
+  transform: scale(1.1);
+}
+
+.title {
+  margin-top: 15px;
+  font-weight: 600;
+  font-size: 16px; /* ligeiramente maior */
+  color: #333;
+}
+
+.desc {
+  margin-top: 10px;
+  font-size: 14px; /* permanece igual */
+  color: #333;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.step:hover .desc {
+  opacity: 1;
+}
+
+/* Pequenas linhas conectando os círculos */
+.connector {
+  position: absolute;
+  top: 40px; /* metade da altura do círculo */
+  left: 50%;
+  height: 2px;
+  background: #545454;
+  z-index: 1;
+}
+
+.step:not(:last-child) .connector {
+  width: calc(100% - 100px); /* deixa espaço de 10px antes e depois dos círculos */
+  transform: translateX(50%);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .timeline-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .connector {
+    top: 80px;
+    left: 50%;
+    width: 2px;
+    height: 60px;
+    transform: translateX(-50%);
+  }
+}
+</style>
+</template>
+        <div class="s_embed_code_embedded o_not_editable container"><div class="timeline-container">
+  <div class="step">
+    <div class="circle">1</div>
+    <div class="connector"/>
+    <div class="title">Reunião inicial</div>
+    <div class="desc">Agende uma reunião presencial numa das nossas lojas ou online e partilhe connosco a sua visão e expectativas para o espaço.</div>
+  </div>
+
+  <div class="step">
+    <div class="circle">2</div>
+    <div class="connector"/>
+    <div class="title">Recolha de dados</div>
+    <div class="desc">Recolhemos fotografias e/ou a planta da divisão a intervir, assegurando uma compreensão rigorosa do ambiente a transformar.</div>
+  </div>
+
+  <div class="step">
+    <div class="circle">3</div>
+    <div class="connector"/>
+    <div class="title">Projeto personalizado</div>
+    <div class="desc">Desenvolvemos um projeto de design de interiores personalizado, inspirado no seu estilo e nas suas necessidades.</div>
+  </div>
+
+  <div class="step">
+    <div class="circle">4</div>
+    <div class="connector"/>
+    <div class="title">Validação do projeto</div>
+    <div class="desc">Com a sua validação, refinamos os últimos detalhes e preparamos o projeto para avançar para a execução.</div>
+  </div>
+
+  <div class="step">
+    <div class="circle">5</div>
+    <div class="connector"/>
+    <div class="title">Fabricação</div>
+    <div class="desc">Fabricamos cada peça de mobiliário com a qualidade, precisão e cuidado artesanal que distinguem o Alfaiate D’Interiores.</div>
+  </div>
+
+  <div class="step">
+    <div class="circle">6</div>
+    <div class="title">Instalação</div>
+    <div class="desc">A nossa equipa especializada assegura a instalação completa, garantindo que cada detalhe corresponde ao projeto idealizado.</div>
+  </div>
+</div><style>
+.timeline-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 80px 20px 40px 20px;
+  font-family: 'Poppins', sans-serif;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.step {
+  position: relative;
+  text-align: center;
+  flex: 1;
+  min-width: 100px;
+  z-index: 2;
+}
+
+.circle {
+  width: 80px;
+  height: 80px;
+  background: #f2efe9;
+  border-radius: 50%;
+  margin: 0 auto;
+  line-height: 80px;
+  font-size: 24px;
+  color: #333;
+  transition: transform 0.3s;
+  position: relative;
+  z-index: 2;
+}
+
+.step:hover .circle {
+  transform: scale(1.1);
+}
+
+.title {
+  margin-top: 15px;
+  font-weight: 600;
+  font-size: 16px; /* ligeiramente maior */
+  color: #333;
+}
+
+.desc {
+  margin-top: 10px;
+  font-size: 14px; /* permanece igual */
+  color: #333;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.step:hover .desc {
+  opacity: 1;
+}
+
+/* Pequenas linhas conectando os círculos */
+.connector {
+  position: absolute;
+  top: 40px; /* metade da altura do círculo */
+  left: 50%;
+  height: 2px;
+  background: #545454;
+  z-index: 1;
+}
+
+.step:not(:last-child) .connector {
+  width: calc(100% - 100px); /* deixa espaço de 10px antes e depois dos círculos */
+  transform: translateX(50%);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .timeline-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .connector {
+    top: 80px;
+    left: 50%;
+    width: 2px;
+    height: 60px;
+    transform: translateX(-50%);
+  }
+}
+</style></div>
+    </section><section class="s_image_punchy o_cc o_cc2 o_colored_level pt0 pb40 o_animate o_anim_fade_in o_visible" data-snippet="s_image_punchy" data-name="Punchy Image">
+        <div class="container">
+            <div class="row o_grid_mode" data-row-count="13">
+                
+                <div class="o_grid_item g-height-5 o_colored_level col-lg-4 g-col-lg-4 o_animate o_anim_fade_in o_visible o_anim_from_right" style="grid-area: 9 / 9 / 14 / 13; z-index: 2; animation-name: dummy;">
+                    <h2 class="display-1-fs" style="text-align: right;"><font style="color: rgb(15, 18, 18);">LUXURY IN DETAILS</font></h2>
+                </div>
+            <div class="o_grid_item o_grid_item_image o_colored_level g-col-lg-12 g-height-11 col-lg-12" style="grid-area: 1 / 1 / 12 / 13; z-index: 1;"><img src="/web/image/25950-da9be85c/SOF%C3%81_00__View03.jpg" alt="" data-attachment-id="25949" class="img img-fluid o_we_custom_image" data-format-mimetype="image/jpeg" data-original-id="25949" data-original-src="/web/image/25949-9bf78ff2/SOF%C3%81_00__View03.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920" data-mimetype="image/jpeg" data-aspect-ratio="0/0" data-y="79.47169811320755" data-width="1920" data-height="1000.5283018867925" data-scale-x="1" data-scale-y="1" data-quality="100" loading="lazy"/></div></div>
+        </div>
+    </section><section class="s_text_block o_colored_level pb0 pt0 o_animate o_anim_fade_in o_visible" data-snippet="s_text_block" data-name="Texto">
+        <div class="s_allow_columns container">
+            <p style="text-align: right;"><a href="/todos-os-projetos">Ver todos os projetos</a></p>
+        </div>
+    </section>
+    
+<section class="s_picture o_colored_level pb96 pt0" data-snippet="s_picture" data-name="Title - Image" style="background-color: rgb(255, 255, 255);">
+        <div class="container">
+            <p><br/></p>
+            <div class="row">
+                <div class="pt24 o_colored_level col-lg-4" style="text-align: center;">
+                    <figure class="figure">
+                        <a href="/projeto-sala-bege"><img src="/web/image/27093-141ccfd3/Projetos%20%20SITE.png" alt="" data-attachment-id="27092" class="figure-img img-fluid img o_we_custom_image o_animate_on_hover rounded" style="width: 100% !important;" data-shape="web_editor/geometric/geo_square" data-shape-colors=";;;;" data-hover-effect="overlay" data-hover-effect-color="#00000040" data-format-mimetype="image/webp" data-original-id="27092" data-original-src="/web/image/27092-ed70fa4b/Projetos%20%20SITE.png" data-mimetype-before-conversion="image/png" data-resize-width="690" data-mimetype="image/svg+xml" loading="lazy"/></a>
+                        <figcaption class="figure-caption text-muted mt-2">Descubra este projeto de sala de estar elegante, com tons dourados, bejes suaves e castanhos torrados, pensado para criar um ambiente sofisticado e acolhedor.</figcaption><figcaption class="figure-caption text-muted mt-2"><br/></figcaption><figcaption class="figure-caption text-muted mt-2"><a class="btn btn-primary" href="/projeto-3d-residencial">Ver projeto</a><br/></figcaption></figure></div><div class="pt24 o_colored_level col-lg-4" style="text-align: center;">
+                    <figure class="figure">
+                        <img src="/web/image/19833-08fccbca/Design%2520sem%2520nome%2520%252822%2529.svg" alt="" class="figure-img img-fluid rounded img o_we_custom_image o_animate_on_hover" data-shape="web_editor/geometric/geo_square" data-shape-colors=";;;;" data-hover-effect="overlay" data-hover-effect-color="#00000040" data-mimetype="image/svg+xml" data-original-id="19828" data-original-src="/web/image/19828-d9bcd6ce/Design%20sem%20nome%20%2822%29.png" data-mimetype-before-conversion="image/png" data-resize-width="NaN" data-file-name="Design%20sem%20nome%20%2822%29.svg" loading="lazy" data-quality="100" data-attachment-id="19828" data-format-mimetype="image/webp"/>
+                        <figcaption class="figure-caption text-muted mt-2">Um quarto de bebé delicado e acolhedor, com tons suaves de rosa e bege, berço elegante e confortável cadeirão de amamentação, pensado para conforto.</figcaption><figcaption class="figure-caption text-muted mt-2"><br/></figcaption><figcaption class="figure-caption text-muted mt-2"><a class="btn btn-primary" href="/a-baby-s-dream">Ver projeto</a><br/></figcaption>
+                    </figure>
+                </div><div class="pt24 o_colored_level col-lg-4" style="text-align: center;">
+                    <figure class="figure">
+                        <img src="/web/image/19832-befea6d6/Design%2520sem%2520nome%2520%252821%2529.svg" alt="" class="figure-img img-fluid rounded img o_we_custom_image o_animate_on_hover" data-shape="web_editor/geometric/geo_square" data-shape-colors=";;;;" data-hover-effect="overlay" data-hover-effect-color="#00000040" data-mimetype="image/svg+xml" data-original-id="19821" data-original-src="/web/image/19821-6df52b60/Design%20sem%20nome%20%2821%29.png" data-mimetype-before-conversion="image/png" data-resize-width="NaN" data-file-name="Design%20sem%20nome%20%2821%29.svg" loading="lazy" data-quality="100" data-attachment-id="19821" data-format-mimetype="image/webp"/>
+                        <figcaption class="figure-caption text-muted mt-2">Quarto de casal elegante e sóbrio, com cama de casal, cabeceira imponente e mesas de cabeceira, combinando conforto e design contemporâneo.</figcaption><figcaption class="figure-caption text-muted mt-2"><br/></figcaption><figcaption class="figure-caption text-muted mt-2"><a class="btn btn-primary" href="/master-dream">Ver projeto</a><br/></figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section><section class="s_call_to_action o_colored_level o_cc o_cc4 pb56 pt80 o_animate o_anim_fade_in o_visible" data-snippet="s_call_to_action" data-name="Call to Action" style="background-color: rgb(242, 239, 233);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center o_colored_level pb48">
+                    <h2>
+        <font class="text-o-color-1">Quer começar o seu projeto de decoração connosco?</font>
+    </h2>
+                    </div>
+                <div class="col-lg-12 o_colored_level">
+                    <p style="text-align: center">
+        &amp;nbsp;<a class="btn btn-primary btn-lg o_translate_inline mb-2" href="/contactus">Pedir orçamento</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+            
+
+            
+        </div>
+    </t>
+</t>

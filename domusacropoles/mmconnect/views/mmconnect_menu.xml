@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_mmconnect_root" name="MMConnect" sequence="10" groups="mmconnect.group_mmconnect_employee,mmconnect.group_mmconnect_supervisor,mmconnect.group_mmconnect_manager"/>
+
+    <menuitem id="menu_mmconnect_config" name="Configuração" parent="menu_mmconnect_root" sequence="10" groups="mmconnect.group_mmconnect_manager"/>
+    <menuitem id="menu_mmconnect_attendance" name="Assiduidade" parent="menu_mmconnect_root" sequence="20" groups="mmconnect.group_mmconnect_employee,mmconnect.group_mmconnect_supervisor,mmconnect.group_mmconnect_manager"/>
+    <menuitem id="menu_mmconnect_operations" name="Operações" parent="menu_mmconnect_root" sequence="30" groups="mmconnect.group_mmconnect_employee,mmconnect.group_mmconnect_supervisor,mmconnect.group_mmconnect_manager"/>
+    <menuitem id="menu_mmconnect_devices" name="Dispositivos" parent="menu_mmconnect_root" sequence="40" groups="mmconnect.group_mmconnect_device_manager"/>
+    <menuitem id="menu_mmconnect_compliance" name="Compliance" parent="menu_mmconnect_root" sequence="50" groups="mmconnect.group_mmconnect_manager,mmconnect.group_mmconnect_rgpd_manager"/>
+    <menuitem id="menu_mmconnect_verticals" name="Verticais" parent="menu_mmconnect_root" sequence="60" groups="mmconnect.group_mmconnect_employee,mmconnect.group_mmconnect_supervisor,mmconnect.group_mmconnect_manager"/>
+
+    <menuitem id="menu_mmconnect_config_employee" name="Colaboradores" parent="menu_mmconnect_config" action="action_mm_hr_employee" sequence="10"/>
+    <menuitem id="menu_mmconnect_config_entity" name="Entidades" parent="menu_mmconnect_config" action="action_mm_hr_entity" sequence="20"/>
+    <menuitem id="menu_mmconnect_config_cost_center" name="Centros de Custo" parent="menu_mmconnect_config" action="action_mm_hr_cost_center" sequence="30"/>
+    <menuitem id="menu_mmconnect_config_location" name="Locais" parent="menu_mmconnect_config" action="action_mm_hr_location" sequence="40"/>
+    <menuitem id="menu_mmconnect_config_profile" name="Perfis" parent="menu_mmconnect_config" action="action_mm_hr_employee_profile" sequence="50"/>
+    <menuitem id="menu_mmconnect_config_service_type" name="Tipos de Serviço Externo" parent="menu_mmconnect_config" action="action_mm_hr_external_service_type" sequence="60"/>
+    <menuitem id="menu_mmconnect_config_work_code" name="Códigos de Trabalho" parent="menu_mmconnect_config" action="action_mm_hr_work_code" sequence="70"/>
+    <menuitem id="menu_mmconnect_config_absence_code" name="Códigos de Ausência" parent="menu_mmconnect_config" action="action_mm_hr_absence_code" sequence="80"/>
+
+    <menuitem id="menu_mmconnect_attendance_results" name="Resultados" parent="menu_mmconnect_attendance" action="action_mm_att_result" sequence="10"/>
+    <menuitem id="menu_mmconnect_attendance_events" name="Marcações" parent="menu_mmconnect_attendance" action="action_mm_att_raw_event" sequence="20"/>
+    <menuitem id="menu_mmconnect_attendance_missing" name="Marcações em Falta" parent="menu_mmconnect_attendance" action="action_mm_att_missing_punch" sequence="30"/>
+    <menuitem id="menu_mmconnect_attendance_batches" name="Processamento" parent="menu_mmconnect_attendance" action="action_mm_att_processing_batch" sequence="40" groups="mmconnect.group_mmconnect_manager"/>
+    <menuitem id="menu_mmconnect_attendance_external" name="Serviço Externo" parent="menu_mmconnect_attendance" action="action_mm_external_service_request" sequence="50"/>
+    <menuitem id="menu_mmconnect_attendance_banks" name="Banco de Horas" parent="menu_mmconnect_attendance" action="action_mm_att_bank_account" sequence="60" groups="mmconnect.group_mmconnect_manager"/>
+
+    <menuitem id="menu_mmconnect_operations_plans" name="Escalas" parent="menu_mmconnect_operations" action="action_mm_shift_plan" sequence="10"/>
+    <menuitem id="menu_mmconnect_operations_distribution" name="Distribuição de Tempo" parent="menu_mmconnect_operations" action="action_mm_time_distribution_sheet" sequence="20"/>
+    <menuitem id="menu_mmconnect_operations_visits" name="Visitas" parent="menu_mmconnect_operations" action="action_mm_visit" sequence="30"/>
+    <menuitem id="menu_mmconnect_operations_rooms" name="Salas" parent="menu_mmconnect_operations" action="action_mm_room" sequence="40" groups="mmconnect.group_mmconnect_manager"/>
+    <menuitem id="menu_mmconnect_operations_room_bookings" name="Reservas de Salas" parent="menu_mmconnect_operations" action="action_mm_room_booking" sequence="50"/>
+    <menuitem id="menu_mmconnect_operations_vehicle_bookings" name="Reservas de Viaturas" parent="menu_mmconnect_operations" action="action_mm_vehicle_booking" sequence="60"/>
+    <menuitem id="menu_mmconnect_operations_expense_code" name="Códigos de Despesa" parent="menu_mmconnect_operations" action="action_mm_expense_code" sequence="70" groups="mmconnect.group_mmconnect_manager"/>
+    <menuitem id="menu_mmconnect_operations_per_diem" name="Ajudas de Custo" parent="menu_mmconnect_operations" action="action_mm_per_diem_rule" sequence="80" groups="mmconnect.group_mmconnect_manager"/>
+
+    <menuitem id="menu_mmconnect_devices_devices" name="Terminais" parent="menu_mmconnect_devices" action="action_mm_device" sequence="10"/>
+    <menuitem id="menu_mmconnect_devices_commands" name="Comandos" parent="menu_mmconnect_devices" action="action_mm_device_command" sequence="20"/>
+    <menuitem id="menu_mmconnect_devices_biometrics" name="Biometrias" parent="menu_mmconnect_devices" action="action_mm_biometric_template" sequence="30"/>
+    <menuitem id="menu_mmconnect_devices_access" name="Permissões de Acesso" parent="menu_mmconnect_devices" action="action_mm_access_permission" sequence="40"/>
+    <menuitem id="menu_mmconnect_devices_geo" name="Georeferências" parent="menu_mmconnect_devices" action="action_mm_geo_area" sequence="50"/>
+    <menuitem id="menu_mmconnect_devices_lpr" name="LPR" parent="menu_mmconnect_devices" action="action_mm_lpr_event" sequence="60"/>
+
+    <menuitem id="menu_mmconnect_compliance_rgpd_request" name="Pedidos RGPD" parent="menu_mmconnect_compliance" action="action_mm_rgpd_request" sequence="10"/>
+    <menuitem id="menu_mmconnect_compliance_rgpd_consent" name="Consentimentos RGPD" parent="menu_mmconnect_compliance" action="action_mm_rgpd_consent" sequence="20"/>
+    <menuitem id="menu_mmconnect_compliance_import_job" name="Jobs de Importação" parent="menu_mmconnect_compliance" action="action_mm_import_job" sequence="30" groups="mmconnect.group_mmconnect_manager"/>
+    <menuitem id="menu_mmconnect_compliance_import_profile" name="Perfis de Importação" parent="menu_mmconnect_compliance" action="action_mm_import_profile" sequence="40" groups="mmconnect.group_mmconnect_manager"/>
+
+    <menuitem id="menu_mmconnect_verticals_task" name="Tarefas" parent="menu_mmconnect_verticals" action="action_mm_task" sequence="10"/>
+    <menuitem id="menu_mmconnect_verticals_agro" name="Campanhas Agro" parent="menu_mmconnect_verticals" action="action_mm_agro_campaign" sequence="20"/>
+    <menuitem id="menu_mmconnect_verticals_obra" name="Obras" parent="menu_mmconnect_verticals" action="action_mm_obra" sequence="30"/>
+    <menuitem id="menu_mmconnect_verticals_waste" name="Contentores" parent="menu_mmconnect_verticals" action="action_mm_waste_container" sequence="40"/>
+</odoo>

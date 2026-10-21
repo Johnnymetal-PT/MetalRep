@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Added button animation functionality | Added by: Priyanshi Vasoya | Date: 15 Oct 2025 -->
+    <t t-name="theme_clarico_vega.ThemeButtonOption" t-inherit="website.ThemeButtonOption" t-inherit-mode="extension">
+        <xpath expr="//BuilderContext" position="inside">
+            <BuilderContext preview="false">
+                <BuilderRow label.translate="Animation">
+                    <BuilderSelect action="'websiteConfig'" actionParam="'animation'" id="'btn_animation_opt'">
+                        <BuilderSelectItem title.translate="None" actionValue="'none'" actionParam="{views: [], vars: { 'button-template': 'none' }}">None</BuilderSelectItem>
+                        <BuilderSelectItem title.translate="Fade In" id="'style_1_btn'" actionValue="'style_1'" actionParam="{views: [], vars: { 'button-template': 'style_1' }}">Fade In</BuilderSelectItem>
+                        <BuilderSelectItem title.translate="Shadow" id="'style_2_btn'" actionValue="'style_2'" actionParam="{views: [], vars: { 'button-template': 'style_2' }}">Shadow</BuilderSelectItem>
+                        <BuilderSelectItem title.translate="Slide Down" id="'style_3_btn'" actionValue="'style_3'" actionParam="{views: [], vars: { 'button-template': 'style_3' }}">Slide Down</BuilderSelectItem>
+                        <BuilderSelectItem title.translate="Skew" id="'style_4_btn'" actionValue="'style_4'" actionParam="{views: [], vars: { 'button-template': 'style_4' }}">Skew</BuilderSelectItem>
+                        <BuilderSelectItem title.translate="With Gradient" id="'style_5_btn'" actionValue="'style_5'" actionParam="{views: [], vars: { 'button-template': 'style_5' }}">With Gradient</BuilderSelectItem>
+                        <BuilderSelectItem title.translate="Slide Up" id="'style_6_btn'" actionValue="'style_6'" actionParam="{views: [], vars: { 'button-template': 'style_6' }}">Slide Up</BuilderSelectItem>
+                    </BuilderSelect>
+                </BuilderRow>
+                <BuilderRow label.translate="Text Color" level="1">
+                    <BuilderColorPicker t-if="isActiveItem('style_1_btn') || isActiveItem('style_2_btn') || isActiveItem('style_3_btn') || isActiveItem('style_4_btn') || isActiveItem('style_5_btn') || isActiveItem('style_6_btn')"
+                        enabledTabs="['solid', 'custom']"
+                        preview="false"
+                        defaultColor="''"
+                        action="'customizeWebsiteColor'"
+                        actionParam="{
+                                mainParam: 'animation-text-color',
+                                combinationColor: 'animation-text',
+                                nullValue: 'NULL',
+                            }"/>
+                </BuilderRow>
+                <BuilderRow label.translate="Text Hover Color" level="1">
+                    <BuilderColorPicker t-if="isActiveItem('style_1_btn') || isActiveItem('style_2_btn') || isActiveItem('style_3_btn') || isActiveItem('style_4_btn') || isActiveItem('style_5_btn') || isActiveItem('style_6_btn')"
+                        enabledTabs="['solid', 'custom']"
+                        preview="false"
+                        defaultColor="''"
+                        action="'customizeWebsiteColor'"
+                        actionParam="{
+                                mainParam: 'animation-hover-color',
+                                combinationColor: 'animation-hover',
+                                nullValue: 'NULL',
+                            }"/>
+                </BuilderRow>
+                <BuilderRow label.translate="Gradient Color" level="1">
+                    <BuilderColorPicker t-if="isActiveItem('style_1_btn') || isActiveItem('style_2_btn') || isActiveItem('style_3_btn') || isActiveItem('style_4_btn') || isActiveItem('style_5_btn') || isActiveItem('style_6_btn')"
+                        enabledTabs="['solid', 'custom', 'gradient']"
+                        preview="false"
+                        defaultColor="''"
+                        action="'customizeWebsiteColor'"
+                        actionParam="{
+                                mainParam: 'animation-gry-color',
+                                gradientColor: 'animation-gradient-color',
+                                combinationColor: 'animation-gry',
+                                nullValue: 'NULL',
+                            }"/>
+                </BuilderRow>
+            </BuilderContext>
+        </xpath>
+    </t>
+
+</templates>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_timesheet.portal_layout" model="ir.ui.view">
+        <field name="active" eval="0"/>
+    </record>
+
+    <template id="portal_layout" name="Portal layout: timesheet menu entry" inherit_id="portal.portal_breadcrumbs" priority="35">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'timesheet' or timesheet" t-attf-class="breadcrumb-item #{'active ' if not timesheet else ''}">
+                <a t-if="timesheet" t-attf-href="/my/timesheets?{{ keep_query() }}">Timesheets</a>
+                <t t-else="">Timesheets</t>
+            </li>
+            <li t-if="timesheet" class="breadcrumb-item active">
+                <t t-esc="timesheet.name"/>
+            </li>
+            <li t-if="page_name == 'timesheet_creates'" t-attf-class="breadcrumb-item #{'active ' if not (page_name == 'timesheet_creates') else ''}">
+                <a t-if="page_name == 'timesheet_creates'" t-attf-href="/my/timesheets?{{ keep_query() }}">Timesheets</a>
+                <t t-else="">Timesheets</t>
+            </li>
+            <li t-if="page_name == 'timesheet_creates'" class="breadcrumb-item active">
+                    New
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_timesheets" inherit_id="hr_timesheet.portal_my_timesheets" name="My Timesheets">
+        <t t-if="not grouped_timesheets" position="after">
+            <a t-if="employee_id" href="/create/new/timesheet" class="btn btn-primary mb-2 btn-md">Create New Timesheet</a>
+        </t>
+        <xpath expr="//span[@t-field='timesheet.date']" position="replace">
+            <a t-attf-href="/my/timesheet/#{timesheet.id}?{{ keep_query() }}"><span t-field="timesheet.date" t-options='{"widget": "date"}'/></a>
+        </xpath>
+        <xpath expr="//tbody//td[hasclass('text-end')]" position="after">
+            <td><a t-attf-href="/my/timesheet/delete/#{timesheet.id}?{{ keep_query() }}">
+                <span class="fa fa-trash-o remove-optionnal-item" title="Delete" aria-label="Delete"/>
+                </a>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="portal_my_timesheet" name="My Timesheet">
+        <t t-call="portal.portal_layout">
+            <t t-if="timesheet" t-set="o_portal_fullwidth_alert" groups="hr_timesheet.group_hr_timesheet_user">
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="backend_url" t-value="'/web#return_label=Website&amp;model=account.analytic.line&amp;id=%s&amp;view_type=form' % (timesheet.id)"/>
+                </t>
+            </t>
+            <p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+                <t t-esc="request.params.get('error_msg')"/>
+            </p>
+            <form t-attf-action="/create/timesheet" method="post" class="oe_portal_timesheet_form form-horizontal container-fluid" enctype="multipart/form-data">
+                <input type="hidden" name="timesheet_id" t-att-value="timesheet and timesheet.id"/>
+                <input type="hidden" name="employee_id" t-att-value="timesheet and timesheet.employee_id.id"/>
+                    <div class="card">
+                        <dic class="card-header">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-md">
+                                    <h5 class="mb-1 mb-md-0">
+                                        <span t-if="timesheet" t-esc="timesheet.name"/>
+                                        <span t-else="">New</span>
+                                    </h5>
+                                </div>
+                                <div class="col-md text-right" style="text-align: right;">
+                                    <button class="btn btn-secondary btn-md" type="submit">Save</button>
+                                    <a t-attf-href="/my/timesheets?{{ keep_query() }}">
+                                        <button class="btn btn-danger btn-md" type="button" special="cancel">Discard</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </dic>
+                        <div class="card-body">
+                            <div class="row no-gutters">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="input-group row">
+                                        <label for="name" class="col-md-2 col-sm-2 col-4">Description * :</label>
+                                        <input id="name" name="name" type="text" string="Description" class="form-control" t-att-value="timesheet and timesheet.name" required="required" placeholder='Write description here ...'/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 mt-3">
+                                    <div class="input-group row">
+                                        <label for="project_id" class="col-md-4 col-sm-4 col-4">Project * :</label>
+                                        <select id="project_id" name="project_id" t-attf-class="form-control col-md-7 col-sm-7" required="required">
+                                            <option value="" placeholder='Project'></option>
+                                            <t t-foreach="projects or []" t-as="p">
+                                                <option t-att-value="p.id" t-att-selected="p.id == int(timesheet.project_id.id) if timesheet and timesheet.project_id.id else None">
+                                                    <t t-esc="p.name" t-att-value="p.id"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="input-group row mt-3">
+                                        <label for="date" class="col-md-4 col-sm-12 col-4">Date * :</label>
+                                        <input id="date" name="date" type="date" t-att-max="currentDate" string="Date" class="form-control datetimepicker-input col-md-7 col-sm-12" t-att-value="timesheet.date if timesheet and timesheet.date else datetime.date.today().strftime('%Y-%m-%d')" required="required" placeholder='Date'/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 mt-3">
+                                    <div class="input-group row">
+                                        <label for="task_id" class="col-md-4 col-sm-4 col-4">Task * :</label>
+                                        <select id="task_id" name="task_id" t-attf-class="form-control col-md-7 col-sm-7" required="required">
+                                            <option value="" placeholder='Task'></option>
+                                            <t t-foreach="timesheet and timesheet.project_id and timesheet.project_id.task_ids or []" t-as="t">
+                                                <t t-if="t">
+                                                    <option t-att-value="t.id" t-att-selected="t.id == timesheet.task_id.id if timesheet and timesheet.task_id.id else None">
+                                                    <t t-esc="t.name" />
+                                                </option>
+                                                </t>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 mt-3">
+                                    <div class="row">
+                                        <t t-set="convert_time" t-value="request.env['account.analytic.line'].convert_time(timesheet and timesheet.unit_amount)"/>
+                                        <label for="unit_amount" style="margin-right: -10px;" class="col-md-4 col-sm-12">Duration (HH:MM) * :</label>
+                                        <div id="unit_amount" class="col-md-8 d-flex col-sm-12 ml-0" style="padding-left: 0px;">
+                                            <input name="unit_amount_hours" class="form-control col-md-3 col-sm-3 mr-2" type="number" min="0" max="23" placeholder="00" t-att-value="convert_time.get('hours')"/><span style="margin-right: 10px;margin-left: 10px;" class="mr-2 d-flex align-items-center"><strong>:</strong></span>
+                                            <input name="unit_amount_minutes" class="form-control col-md-3 col-sm-3" type="number" min="0" max="59" placeholder="00" t-att-value="convert_time.get('minutes')" required="required"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </t>
+    </template>
+</odoo>

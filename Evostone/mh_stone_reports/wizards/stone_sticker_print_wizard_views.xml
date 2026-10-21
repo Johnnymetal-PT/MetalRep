@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stone_sticker_print_wizard_form" model="ir.ui.view">
+        <field name="name">stone.sticker.print.wizard.form</field>
+        <field name="model">stone.sticker.print.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Imprimir Stickers">
+                <group>
+                    <field name="stone_stock_ids" invisible="1"/>
+                    <field name="print_type" widget="radio"/>
+                </group>
+                <footer>
+                    <button name="action_print" string="Imprimir" type="object" class="btn-primary" icon="fa-print"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action que aparece no menu "Imprimir" do stone.stock -->
+    <record id="action_stone_sticker_print_wizard" model="ir.actions.act_window">
+        <field name="name">Stickers de Placas</field>
+        <field name="res_model">stone.sticker.print.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="mh_stock_valuation.model_stone_stock"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+</odoo>

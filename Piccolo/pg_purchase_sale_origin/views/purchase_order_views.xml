@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pg_purchase_order_form_sale_origin" model="ir.ui.view">
+        <field name="name">purchase.order.form.pg.sale.origin</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Botão inteligente para a(s) Venda(s) de origem -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_pg_sale_orders" type="object"
+                        class="oe_stat_button" icon="fa-dollar"
+                        invisible="pg_sale_order_count == 0">
+                    <field name="pg_sale_order_count" widget="statinfo" string="Venda(s)"/>
+                </button>
+            </xpath>
+            <!-- Venda a Cliente, junto ao Documento de origem.
+                 Many2one em readonly => renderiza como link clicavel que
+                 abre a Venda. Havendo varias, o botao "Venda(s)" lista todas. -->
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="pg_sale_order_id" readonly="1"
+                       invisible="not pg_sale_order_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

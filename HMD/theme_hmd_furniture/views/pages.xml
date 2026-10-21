@@ -1,0 +1,850 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Home — Website_Design/Desktop/SVG/Home.svg (1920x8047)
+        Seccoes, por ordem de y:
+          hero moodboard a sangrar, "SEND US YOUR IDEAS" (y=432) e
+          "CONTRACT US" + lead (y=2071/2222)
+          editorial "NEWS FROM PORTUGAL" (y=2619..4256)
+          destaque CONGO em fundo mauve (y=4513..5785)
+          dois projectos (y=6311..6964)
+        O conteudo vai dentro de oe_structure para a HMD poder editar no
+        construtor de website sem tocar no modulo.
+    -->
+    <template id="homepage_hmd" inherit_id="website.homepage" name="Home HMD">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="oe_structure">
+
+                <section class="hmd-hero"
+                         style="background-image:url('/theme_hmd_furniture/static/src/img/home_hero.jpg')">
+                    <!-- Quebra explicita: no XD sao duas linhas, "SEND US" e
+                         "YOUR IDEAS". Depender de max-width em ch nao e fiavel
+                         com a Prata, que tem maiusculas largas. -->
+                    <h1 class="hmd-hero__kicker">Send us<br/>your ideas</h1>
+                    <div class="hmd-hero__foot">
+                        <h2 class="hmd-hero__title">Contract us</h2>
+                        <p class="hmd-hero__lead">
+                            For interior design visionaries, we present the Congo Table:
+                            a seemingly simple piece that unveils itself as a masterpiece
+                            for those with refined sensibilities.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="hmd-editorial">
+                    <div>
+                        <figure class="hmd-figure">
+                            <img src="/theme_hmd_furniture/static/src/img/editorial_interior.jpg"
+                                 alt="Interior com peca HMD" class="img img-fluid"/>
+                            <figcaption class="hmd-caption">legendas imagens</figcaption>
+                        </figure>
+                        <h2 class="hmd-editorial__title">News from Portugal</h2>
+                        <p class="hmd-editorial__body">
+                            We are grateful to the architects, designers and clients who
+                            generously allow us to share their work. Every space reflects
+                            a unique vision, and we are proud to have contributed with
+                            pieces that become part of those stories.
+                        </p>
+                    </div>
+                    <div>
+                        <p class="hmd-standfirst">
+                            We are grateful to the architects, designers and clients who
+                            generously allow us to share their work.
+                        </p>
+                        <p class="hmd-editorial__note">
+                            Every space reflects a unique vision, and we are proud to have
+                            contributed with pieces that become part of those stories.
+                        </p>
+                        <figure class="hmd-figure mt-4">
+                            <img src="/theme_hmd_furniture/static/src/img/editorial_sketch.jpg"
+                                 alt="Desenho tecnico" class="img img-fluid"/>
+                            <figcaption class="hmd-caption">legendas imagens</figcaption>
+                        </figure>
+                    </div>
+                </section>
+
+                <section class="hmd-feature">
+                    <h2 class="hmd-feature__title">Congo</h2>
+                    <p class="hmd-feature__sub">Coffee Tables</p>
+                    <figure class="hmd-feature__media">
+                        <img src="/theme_hmd_furniture/static/src/img/congo_detail.jpg"
+                             alt="Congo" class="img img-fluid"/>
+                        <figcaption class="hmd-caption text-start">legendas imagens</figcaption>
+                    </figure>
+                    <p class="hmd-feature__body">
+                        We are grateful to the architects, designers and clients who
+                        generously allow us to share their work. Every space reflects a
+                        unique vision, and we are proud to have contributed with pieces
+                        that become part of those stories.
+                    </p>
+                </section>
+
+                <section class="hmd-projects">
+                    <!-- No XD os dois cartoes trazem o paragrafo completo, nao
+                         metade cada um. -->
+                    <article class="hmd-project">
+                        <img src="/theme_hmd_furniture/static/src/img/editorial_interior.jpg"
+                             alt="Projecto" class="img img-fluid"/>
+                        <p class="hmd-project__caption">Project by <strong>L'Elephant</strong></p>
+                        <p class="hmd-project__body">
+                            We are grateful to the architects, designers and clients who
+                            generously allow us to share their work. Every space reflects a
+                            unique vision, and we are proud to have contributed with pieces
+                            that become part of those stories.
+                        </p>
+                    </article>
+                    <article class="hmd-project">
+                        <img src="/theme_hmd_furniture/static/src/img/editorial_interior.jpg"
+                             alt="Projecto" class="img img-fluid"/>
+                        <p class="hmd-project__caption">Project by <strong>L'Elephant</strong></p>
+                        <p class="hmd-project__body">
+                            We are grateful to the architects, designers and clients who
+                            generously allow us to share their work. Every space reflects a
+                            unique vision, and we are proud to have contributed with pieces
+                            that become part of those stories.
+                        </p>
+                    </article>
+                </section>
+
+            </div>
+        </xpath>
+    </template>
+
+    <!-- We are — We are.svg (1920x8047) -->
+    <template id="page_we_are" name="We Are">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'we_are'"/>
+            <div id="wrap" class="oe_structure">
+                <section class="hmd-hero"
+                         style="background-image:url('/theme_hmd_furniture/static/src/img/congo_detail.jpg')">
+                    <div class="hmd-hero__foot">
+                        <h1 class="hmd-hero__title">We are</h1>
+                    </div>
+                </section>
+
+                <section class="hmd-editorial hmd-editorial--offset-lg">
+                    <div>
+                        <figure class="hmd-figure">
+                            <img src="/theme_hmd_furniture/static/src/img/editorial_interior.jpg"
+                                 alt="Atelier HMD" class="img img-fluid"/>
+                            <figcaption class="hmd-caption">legendas imagens</figcaption>
+                        </figure>
+                    </div>
+                    <div>
+                        <p class="hmd-standfirst">
+                            HMD designs and produces in Portugal. It's been over 30 years.
+                        </p>
+                        <p class="hmd-editorial__note">
+                            We work closely with artisans — selected for their precision,
+                            their patience, and their hands. Quietly, our pieces have found
+                            their way into private homes and hotels in more than 80 countries.
+                        </p>
+                        <figure class="hmd-figure mt-4">
+                            <img src="/theme_hmd_furniture/static/src/img/editorial_sketch.jpg"
+                                 alt="Desenho" class="img img-fluid"/>
+                            <figcaption class="hmd-caption">legendas imagens</figcaption>
+                        </figure>
+                    </div>
+                </section>
+
+                <section class="hmd-feature hmd-feature--white">
+                    <figure class="hmd-feature__media">
+                        <img src="/theme_hmd_furniture/static/src/img/weare_portrait.jpg"
+                             alt="Oficina" class="img img-fluid"/>
+                        <figcaption class="hmd-caption text-start">legendas imagens</figcaption>
+                    </figure>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!--
+        Portfolio — Portfolio.svg (1920x3626)
+          "SEEN IN PROJECTS"  Prata 89px  x=144  y=383
+          intro Courier 18px  x=960  y=395
+          3 imagens ~1447x755 empilhadas a y=501, 1274 e 2046
+        Nao e uma grelha de 3 colunas: sao tres bandas largas, uma por projecto.
+    -->
+    <template id="page_portfolio" name="Portfolio">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'portfolio'"/>
+            <div id="wrap" class="oe_structure hmd-portfolio-page">
+                <section class="hmd-pagehead">
+                    <h1 class="hmd-pagehead__title">Seen in projects</h1>
+                    <p class="hmd-pagehead__intro">
+                        We are grateful to the architects, designers and clients who
+                        generously allow us to share their work. Every space reflects
+                        a unique vision, and we are proud to have contributed with
+                        pieces that become part of those stories.
+                    </p>
+                </section>
+                <section class="hmd-bands hmd-bands--portfolio">
+                    <figure class="hmd-band">
+                        <img src="/theme_hmd_furniture/static/src/img/portfolio_01.jpg"
+                             alt="Projectos HMD — grupo 1"
+                             loading="lazy" class="img img-fluid"/>
+                    </figure>
+                    <figure class="hmd-band">
+                        <img src="/theme_hmd_furniture/static/src/img/portfolio_02.jpg"
+                             alt="Projectos HMD — grupo 2"
+                             loading="lazy" class="img img-fluid"/>
+                    </figure>
+                    <figure class="hmd-band">
+                        <img src="/theme_hmd_furniture/static/src/img/portfolio_03.jpg"
+                             alt="Projectos HMD — grupo 3"
+                             loading="lazy" class="img img-fluid"/>
+                    </figure>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!--
+        Collection — Collection.svg (1920x1830)
+
+        NAO e uma pagina estatica: o desenho mostra a grelha do catalogo, com
+        produtos reais da HMD (nome em Prata, preco em Inter, accoes de
+        carrinho/wishlist/comparar e seta de paginacao) sobre fundo #EDEDED.
+        O menu "Collection" aponta para /shop e o aspecto vem de views/shop.xml.
+    -->
+
+    <!--
+        Fabrics — Fabrics.svg (1920x3301)
+          "FABRICS"  Prata 80px  x=144  y=383
+          intro Courier 20px  x=488  y=398
+          4 bandas: 1689x453, 1696x431, 1713x459, 1677x513
+    -->
+    <template id="page_fabrics" name="Fabrics">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'fabrics'"/>
+            <div id="wrap" class="oe_structure hmd-fabrics-page">
+                <section class="hmd-pagehead">
+                    <h1 class="hmd-pagehead__title">Fabrics</h1>
+                    <p class="hmd-pagehead__intro">
+                        For interior design visionaries, we present the Congo Table:
+                        a seemingly simple piece that unveils itself as a masterpiece
+                        for those with refined sensibilities.
+                    </p>
+                </section>
+                <div id="oe_structure_hmd_fabrics_1" class="oe_structure"/>
+                <section class="hmd-bands hmd-bands--fabrics">
+                    <!--
+                        As series deixaram de estar escritas a mao.
+
+                        Antes havia quatro nomes literais (LUDE, LUCO, ALBO,
+                        ALRC) e tres ramos alternativos a adivinhar se um
+                        tecido era variante, valor de atributo ou produto —
+                        andaimes de quando a modelacao ainda nao estava
+                        decidida. A HMD decidiu a 07/09/2026: serie e produto,
+                        cor e variante. Mostrava quatro tecidos dos 32.
+
+                        As seccoes sao as CATEGORIAS de gama (CAT I a CAT V e
+                        C.O.M.), nao as familias: e a categoria que o cliente
+                        escolhe na pagina do movel, e e para ca que esse
+                        seletor vai apontar. A familia continua a existir no
+                        produto, mas so como informacao.
+
+                        O agrupamento vive no _hmd_fabric_families do modulo
+                        hmd_website_fabrics, nao aqui: e logica de dados, e em
+                        QWeb ficava impossivel de ler e de testar.
+
+                        A curadoria e o campo Publicado de cada tecido, que a
+                        HMD ja sabe usar. Nao ha campo novo para isso.
+                    -->
+                    <t t-set="hmd_families"
+                       t-value="request.env['product.template'].sudo()._hmd_fabric_categories()"/>
+
+                    <t t-foreach="hmd_families" t-as="hmd_family_data">
+                        <t t-set="hmd_family_key" t-value="hmd_family_data[0]"/>
+                        <t t-set="hmd_family_title" t-value="hmd_family_data[1]"/>
+                        <t t-set="hmd_family_anchor" t-value="hmd_family_data[2]"/>
+                        <t t-set="hmd_family_fabrics" t-value="hmd_family_data[3]"/>
+
+                        <!-- O id e a ancora para onde a pagina do movel vai
+                             apontar a partir do seletor de categoria. -->
+                        <section class="hmd-fabric-carousel"
+                                 t-att-id="hmd_family_anchor"
+                                 t-att-data-series="hmd_family_key">
+                            <header class="hmd-fabric-carousel__head">
+                                <h2 t-out="hmd_family_title"/>
+                                <button type="button" class="hmd-fabric-carousel__all">
+                                    <span class="hmd-fabric-carousel__all-label">View all fabrics</span>
+                                    <span aria-hidden="true">&#8594;</span>
+                                </button>
+                            </header>
+                            <div class="hmd-fabric-carousel__body">
+                                <button type="button" class="hmd-fabric-carousel__arrow hmd-fabric-carousel__arrow--prev"
+                                        t-att-aria-label="'Previous %s fabrics' % hmd_family_title">
+                                    <svg aria-hidden="true" viewBox="0 0 46 14">
+                                        <path d="M1 7 H44 M38 1 L44 7 L38 13"/>
+                                    </svg>
+                                </button>
+                                <div class="hmd-fabric-carousel__viewport">
+                                    <div class="hmd-fabric-carousel__track">
+                                        <t t-foreach="hmd_family_fabrics" t-as="hmd_fabric">
+                                            <t t-set="hmd_fabric_url" t-value="hmd_fabric._hmd_fabric_url()"/>
+                                            <!-- Cada cor e uma amostra clicavel; todas as cores
+                                                 da mesma serie levam a pagina da serie, porque as
+                                                 especificacoes sao da serie. -->
+                                            <a class="hmd-fabric-card"
+                                               t-foreach="hmd_fabric._hmd_fabric_swatches()" t-as="hmd_swatch"
+                                               t-att-href="hmd_fabric_url">
+                                                <img t-att-src="website.image_url(hmd_swatch, 'image_1024')"
+                                                     t-att-alt="hmd_swatch.display_name" loading="lazy"/>
+                                                <h3 t-out="hmd_swatch.display_name"/>
+                                            </a>
+                                        </t>
+                                    </div>
+                                </div>
+                                <button type="button" class="hmd-fabric-carousel__arrow hmd-fabric-carousel__arrow--next"
+                                        t-att-aria-label="'Next %s fabrics' % hmd_family_title">
+                                    <svg aria-hidden="true" viewBox="0 0 46 14">
+                                        <path d="M1 7 H44 M38 1 L44 7 L38 13"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </section>
+                    </t>
+
+                    <!--
+                        Rede de seguranca: se a categoria de tecidos for
+                        renomeada ou esvaziada, a pagina mostra as bandas do
+                        desenho em vez de ficar em branco. Degrada, nao parte.
+                    -->
+                    <t t-if="not hmd_families">
+                        <figure class="hmd-band hmd-fabric-fallback"
+                                t-foreach="['fabrics_01.jpg', 'fabrics_02.jpg', 'fabrics_swatch.jpg', 'fabrics_03.jpg']"
+                                t-as="hmd_band">
+                            <img t-att-src="'/theme_hmd_furniture/static/src/img/%s' % hmd_band"
+                                 alt="Amostras de tecido" loading="lazy" class="img img-fluid"/>
+                        </figure>
+                    </t>
+                </section>
+                <div id="oe_structure_hmd_fabrics_2" class="oe_structure"/>
+            </div>
+        </t>
+    </template>
+
+    <!--
+        Materials — Materials.svg (1920x3301)
+          "MATERIALS"  Prata 80px  x=144  y=383
+          intro Courier 20px  x=619  y=400
+          3 bandas: 1501x407, 1558x433, 1533x458
+    -->
+    <template id="page_materials" name="Materials">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'materials'"/>
+            <div id="wrap" class="oe_structure hmd-materials-page">
+                <section class="hmd-pagehead">
+                    <h1 class="hmd-pagehead__title">Materials</h1>
+                    <p class="hmd-pagehead__intro">
+                        For interior design visionaries, we present the Congo Table:
+                        a seemingly simple piece that unveils itself as a masterpiece
+                        for those with refined sensibilities.
+                    </p>
+                </section>
+                <div id="oe_structure_hmd_materials_1" class="oe_structure"/>
+                <section class="hmd-bands hmd-bands--materials">
+                    <!--
+                        Familias de materiais (#8379, 20/10/2026): as 13 do site antigo
+                        (website 1, /materials), pela mesma ordem. Cada familia e uma
+                        ETIQUETA de artigo (product.tag) na categoria 05 MATERIAIS -
+                        e assim que o site antigo as agrupa. Procurar pelo nome do
+                        artigo (como antes) so encontrava 3: "Rosewood" ou "Carrara"
+                        nunca contem "Wood Veneer" ou "Stone".
+                        (titulo, nome da etiqueta, imagem de recurso do tema)
+                    -->
+                    <t t-foreach="[
+                            ('Wood Veneers', 'Wood Veneer', 'materials_swatch.jpg'),
+                            ('Solid Wood', 'Solid Wood', 'materials_swatch.jpg'),
+                            ('Stone', 'stone', 'materials_swatch.jpg'),
+                            ('Epoxy Mate', 'Epoxy Mate', 'materials_02.jpg'),
+                            ('Epoxy Gloss', 'Epoxy Gloss', 'materials_02.jpg'),
+                            ('Brass', 'brass', 'materials_swatch.jpg'),
+                            ('Microcement', 'Microcement', 'materials_01.jpg'),
+                            ('Lacquered Glass', 'Lacquered Glass', 'materials_swatch.jpg'),
+                            ('Stainless Steel', 'Stainless Steel', 'materials_swatch.jpg'),
+                            ('Lacquered MDF Gloss', 'MDF Lacquered Gloss', 'materials_swatch.jpg'),
+                            ('Lacquered MDF Mate', 'MDF Lacquered Matte', 'materials_swatch.jpg'),
+                            ('Terrazo', 'Terrazo', 'materials_swatch.jpg'),
+                            ('HPL Fenix', 'HPL Fenix', 'materials_swatch.jpg')
+                        ]" t-as="hmd_series_data">
+                        <t t-set="hmd_series" t-value="hmd_series_data[0]"/>
+                        <t t-set="hmd_material_templates" t-value="request.env['product.template'].sudo().search([
+                            ('product_tag_ids.name', '=ilike', hmd_series_data[1]),
+                            ('categ_id.complete_name', '=like', '05 MATERIAIS%'),
+                            ('is_published', '=', True)
+                        ], order='website_sequence, id', limit=100)"/>
+                        <t t-set="hmd_material_variants" t-value="request.env['product.product'].sudo().search([
+                            ('product_tmpl_id', 'in', hmd_material_templates.ids),
+                            ('active', '=', True)
+                        ], order='product_tmpl_id, id', limit=100)"/>
+                        <t t-set="hmd_material_products" t-value="hmd_material_templates.filtered('image_1920')"/>
+                        <t t-set="hmd_material_values" t-value="request.env['product.attribute.value']"/>
+                        <!--
+                            Pagina da familia (#8379, 21/10/2026): /materials/<familia>, uma
+                            pagina do site que a Monica edita (descricao e cuidados). A ligacao
+                            so aparece ao visitante quando a pagina esta publicada; quem tem
+                            sessao iniciada ve-a sempre, para a poder abrir e editar.
+                        -->
+                        <t t-set="hmd_slug" t-value="hmd_series.lower().replace(' ', '-')"/>
+                        <t t-set="hmd_material_page" t-value="request.env['website.page'].sudo().search([
+                            ('url', '=', '/materials/' + hmd_slug),
+                            ('website_id', '=', website.id)
+                        ], limit=1)"/>
+                        <t t-set="hmd_material_page" t-value="hmd_material_page if hmd_material_page and (hmd_material_page.is_published or request.env.user._is_internal()) else False"/>
+
+                        <section t-if="hmd_material_variants or hmd_material_products or hmd_material_values"
+                                 class="hmd-fabric-carousel hmd-material-carousel"
+                                 t-att-data-series="hmd_series"
+                                 t-att-id="'material-%s' % hmd_slug">
+                            <header class="hmd-fabric-carousel__head">
+                                <h2 t-out="hmd_series"/>
+                                <a t-if="hmd_material_page" t-att-href="hmd_material_page.url" class="hmd-material-about">Description &amp; care</a>
+                                <button type="button" class="hmd-fabric-carousel__all">
+                                    <span class="hmd-fabric-carousel__all-label">View all</span>
+                                    <span aria-hidden="true">&#8594;</span>
+                                </button>
+                            </header>
+                            <div class="hmd-fabric-carousel__body">
+                                <button type="button" class="hmd-fabric-carousel__arrow hmd-fabric-carousel__arrow--prev"
+                                        t-att-aria-label="'Previous %s materials' % hmd_series">
+                                    <svg aria-hidden="true" viewBox="0 0 46 14">
+                                        <path d="M1 7 H44 M38 1 L44 7 L38 13"/>
+                                    </svg>
+                                </button>
+                                <div class="hmd-fabric-carousel__viewport">
+                                    <div class="hmd-fabric-carousel__track">
+                                        <t t-if="len(hmd_material_variants) &gt; 1">
+                                            <article class="hmd-fabric-card" t-foreach="hmd_material_variants" t-as="hmd_material">
+                                                <img t-att-src="website.image_url(hmd_material, 'image_1024')"
+                                                     t-att-alt="hmd_material.display_name" loading="lazy"/>
+                                                <h3 t-out="hmd_material.display_name"/>
+                                            </article>
+                                        </t>
+                                        <t t-elif="len(hmd_material_values) &gt; 1">
+                                            <article class="hmd-fabric-card" t-foreach="hmd_material_values" t-as="hmd_material">
+                                                <img t-att-src="'/web/image/product.attribute.value/%s/image' % hmd_material.id"
+                                                     t-att-alt="hmd_material.display_name" loading="lazy"/>
+                                                <h3 t-out="hmd_material.name if hmd_series.lower() in hmd_material.name.lower() else '%s (%s)' % (hmd_series, hmd_material.name)"/>
+                                            </article>
+                                        </t>
+                                        <t t-elif="hmd_material_products">
+                                            <article class="hmd-fabric-card" t-foreach="hmd_material_products" t-as="hmd_material">
+                                                <img t-att-src="website.image_url(hmd_material, 'image_1024')"
+                                                     t-att-alt="hmd_material.name" loading="lazy"/>
+                                                <h3 t-out="hmd_material.name"/>
+                                            </article>
+                                        </t>
+                                        <t t-elif="hmd_material_values">
+                                            <article class="hmd-fabric-card" t-foreach="hmd_material_values" t-as="hmd_material">
+                                                <img t-att-src="'/web/image/product.attribute.value/%s/image' % hmd_material.id"
+                                                     t-att-alt="hmd_material.display_name" loading="lazy"/>
+                                                <h3 t-out="hmd_material.name"/>
+                                            </article>
+                                        </t>
+                                    </div>
+                                </div>
+                                <button type="button" class="hmd-fabric-carousel__arrow hmd-fabric-carousel__arrow--next"
+                                        t-att-aria-label="'Next %s materials' % hmd_series">
+                                    <svg aria-hidden="true" viewBox="0 0 46 14">
+                                        <path d="M1 7 H44 M38 1 L44 7 L38 13"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </section>
+
+                        <figure t-else="" class="hmd-band hmd-material-fallback">
+                            <img t-att-src="'/theme_hmd_furniture/static/src/img/%s' % hmd_series_data[2]"
+                                 t-att-alt="'Amostras de material %s' % hmd_series"
+                                 loading="lazy" class="img img-fluid"/>
+                        </figure>
+                    </t>
+                </section>
+                <div id="oe_structure_hmd_materials_2" class="oe_structure"/>
+            </div>
+        </t>
+    </template>
+
+    <!--
+        Contact us — Contact us.svg (1920x2510) e Contact us.pdf
+
+        O desenho tem DOIS formularios sobre fundo #EDEDED, sem imagens:
+          1) "CREAT YOUR CUSTOMER ACCOUNT" — 11 campos, conta B2B
+          2) "CAN WE HELP?"                — 6 campos, duvidas e orcamentos
+        (o "CREAT" e gralha do desenho; escrevemos "CREATE")
+
+        Ambos gravam em crm.lead. Foi decisao de implementacao, nao do desenho:
+        cria uma oportunidade no CRM que a HMD tria, em vez de dar acesso ao
+        portal automaticamente. Para mudar para pedido de acesso ao portal,
+        troca-se data-model_name e o encaminhamento.
+
+        Os campos que nao existem em crm.lead (tipo de empresa, NIF) sao
+        enviados como campos livres: o controlador /website/form/ acrescenta-os
+        a descricao da oportunidade.
+    -->
+    <!-- As duas entradas da barra de topo: PRIVATE e PROFESSIONAL.
+         Estavam ligadas desde o inicio e nunca existiram — davam 404 em
+         todas as paginas do site (verificado a 17/09/2026).
+
+         O TEXTO E PROVISORIO e esta por rever pela HMD. Nao foi inventado:
+         sao as palavras que elas proprias escreveram no bloco B2B da pagina
+         de produto. Serve para as ligacoes deixarem de partir; a redaccao
+         definitiva e trabalho de conteudo delas, no Construtor. -->
+
+    <template id="page_professional" name="Professional">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure hmd-contact-page">
+                <section class="hmd-pagehead">
+                    <h1 class="hmd-pagehead__title">Professional</h1>
+                    <p class="hmd-pagehead__intro">
+                        HMD is a business to business wholesale company.
+                        Register and login to access Partner pricing, place an
+                        order and more.
+                    </p>
+                </section>
+                <section class="hmd-formblock">
+                    <div class="hmd-b2b__actions">
+                        <a class="hmd-b2b__btn hmd-b2b__btn--solid" href="/web/login">
+                            Log in as a HMD partner
+                        </a>
+                        <a class="hmd-b2b__btn" href="/partner-request">
+                            Request an HMD account
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="page_private" name="Private">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure hmd-contact-page">
+                <section class="hmd-pagehead">
+                    <h1 class="hmd-pagehead__title">Private</h1>
+                    <p class="hmd-pagehead__intro">
+                        HMD is a business to business wholesale company. If you
+                        are a private customer, our team will gladly answer any
+                        question about our pieces and point you to a partner
+                        near you.
+                    </p>
+                </section>
+                <section class="hmd-formblock">
+                    <div class="hmd-b2b__actions">
+                        <a class="hmd-b2b__btn hmd-b2b__btn--solid" href="/contactus">
+                            Contact us
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- Formulario de pedido de conta de parceiro.
+
+         Vive num template proprio porque aparece em dois sitios: na sua
+         propria pagina (/partner-request, para onde aponta o bloco B2B da
+         pagina de produto) e no topo da pagina de contactos, onde ja
+         estava. Duas copias divergiriam a primeira vez que alguem mudasse
+         um campo. -->
+    <template id="form_partner_request" name="Partner Account Request Form">
+                <section class="hmd-formblock">
+                    <h1 class="hmd-formblock__title">Create your customer account</h1>
+                    <p class="hmd-formblock__lead">
+                        Create an account for our B2B platform to access your information,
+                        exclusive files and catalogues, your orders and more.
+                    </p>
+
+                    <!-- A classe s_website_form NAO e decorativa: e o seletor a
+                         que o widget do Odoo se liga
+                         (.s_website_form form, form.s_website_form). Sem ela o
+                         JavaScript nunca intercepta a submissao, o browser faz
+                         um POST em bruto para a accao do <form> e o visitante
+                         apanha uma pagina em branco, com o pedido perdido.
+
+                         Apanhado a 17/09/2026 a testar no browser. Os testes
+                         por HTTP nao o revelavam: chamavam /website/form/crm.lead
+                         directamente, que e o que o JavaScript faria.
+
+                         A accao TEM de terminar em "/website/form/", sem o
+                         modelo: o widget concatena-a com o data-model_name
+
+                             post(action + (force_action || model_name), ...)
+
+                         (s_website_form/000.js, l.404). Por-lhe o modelo no
+                         caminho — que eu tentei a 17/09 como rede de seguranca
+                         para o caso de o JavaScript nao correr — submete para
+                         "/website/form/crm.leadcrm.lead" e o Odoo responde "o
+                         modelo de formulario especificado nao existe". -->
+                    <form action="/website/form/" method="post"
+                          enctype="multipart/form-data"
+                          class="s_website_form hmd-form o_mark_required" data-mark="*"
+                          data-model_name="crm.lead" data-success-mode="message">
+                        <input type="hidden" name="name" class="s_website_form_input"
+                               value="Pedido de conta B2B (website)"/>
+                        <!-- E este campo que distingue o pedido de conta de um
+                             lead qualquer; o hmd_partner_request le-o para
+                             mostrar o botao de aprovacao. -->
+                        <input type="hidden" name="hmd_is_account_request"
+                               class="s_website_form_input" value="1"/>
+
+                        <div class="hmd-form__row">
+                            <label>Name <span class="s_website_form_mark">*</span></label>
+                            <input type="text" name="contact_name" required="required"
+                                   class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Email <span class="s_website_form_mark">*</span></label>
+                            <input type="email" name="email_from" required="required"
+                                   class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Phone Number</label>
+                            <input type="tel" name="phone" class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Company <span class="s_website_form_mark">*</span></label>
+                            <input type="text" name="partner_name" required="required"
+                                   class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Company Type <span class="s_website_form_mark">*</span></label>
+                            <select name="Company Type" required="required" class="s_website_form_input">
+                                <option value="Store / Showroom">Store / Showroom</option>
+                                <option value="Architect / Interior Designer">Architect / Interior Designer</option>
+                                <option value="Distributor">Distributor</option>
+                                <option value="Hospitality">Hospitality</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>VAT Number <span class="s_website_form_mark">*</span></label>
+                            <input type="text" name="hmd_vat" required="required"
+                                   class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Website Link</label>
+                            <input type="url" name="website" class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Street</label>
+                            <input type="text" name="street" class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Postal Code</label>
+                            <input type="text" name="zip" class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Country</label>
+                            <select name="country_id" class="s_website_form_input">
+                                <option value="">—</option>
+                                <t t-foreach="request.env['res.country'].sudo().search([], order='name')" t-as="pais">
+                                    <option t-att-value="pais.id" t-out="pais.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Notes</label>
+                            <textarea name="description" rows="4" class="s_website_form_input"/>
+                        </div>
+
+                        <div class="hmd-form__actions">
+                            <button type="submit" class="s_website_form_send">Submit</button>
+                        </div>
+                        <div id="s_website_form_result" class="s_website_form_result"/>
+                    </form>
+                </section>
+    </template>
+
+    <template id="page_partner_request" name="Request an HMD Account">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure hmd-contact-page">
+                <t t-call="theme_hmd_furniture.form_partner_request"/>
+            </div>
+        </t>
+    </template>
+
+    <!--
+        Pagina de resultados de pesquisa.
+
+        Feedback Monica 18/09/2026, PDF "LUPA": o titulo "Search Results" sai
+        (esta riscado, com "RETIRAR" ao lado). O que fica e a caixa de
+        pesquisa com o termo e a contagem, que ja diz o mesmo.
+
+        O nativo escreve-o como <div class="mt24 h3">Search Results</div>
+        dentro do .container (website/views/website_templates.xml ~l.2721).
+        Retira-se na vista e nao por CSS: o seletor teria de ser ".h3" dentro
+        de um container generico, que apanha outras paginas.
+
+        A classe hmd-search-page serve de ancora para a folha de estilos —
+        sem ela nao ha nada nesta pagina que a distinga das restantes.
+    -->
+    <template id="page_search_hmd" inherit_id="website.list_hybrid" name="Search Results HMD">
+        <xpath expr="//div[hasclass('container')]" position="attributes">
+            <attribute name="class" add="hmd-search-page" separator=" "/>
+        </xpath>
+        <xpath expr="//div[hasclass('h3')]" position="replace"/>
+    </template>
+
+    <template id="page_contact_hmd" inherit_id="website.contactus" name="Contact Us HMD">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="oe_structure hmd-contact-page">
+
+                <t t-call="theme_hmd_furniture.form_partner_request"/>
+
+                <section class="hmd-formblock">
+                    <h2 class="hmd-formblock__title">Can we help?</h2>
+                    <p class="hmd-formblock__lead">
+                        For any issues or quotation requests, please fill the form below.
+                        Our team will do its best to answer as soon as possible.
+                    </p>
+
+                    <!-- A classe s_website_form NAO e decorativa: e o seletor a
+                         que o widget do Odoo se liga
+                         (.s_website_form form, form.s_website_form). Sem ela o
+                         JavaScript nunca intercepta a submissao, o browser faz
+                         um POST em bruto para a accao do <form> e o visitante
+                         apanha uma pagina em branco, com o pedido perdido.
+
+                         Apanhado a 17/09/2026 a testar no browser. Os testes
+                         por HTTP nao o revelavam: chamavam /website/form/crm.lead
+                         directamente, que e o que o JavaScript faria.
+
+                         A accao TEM de terminar em "/website/form/", sem o
+                         modelo: o widget concatena-a com o data-model_name
+
+                             post(action + (force_action || model_name), ...)
+
+                         (s_website_form/000.js, l.404). Por-lhe o modelo no
+                         caminho — que eu tentei a 17/09 como rede de seguranca
+                         para o caso de o JavaScript nao correr — submete para
+                         "/website/form/crm.leadcrm.lead" e o Odoo responde "o
+                         modelo de formulario especificado nao existe". -->
+                    <form action="/website/form/" method="post"
+                          enctype="multipart/form-data"
+                          class="s_website_form hmd-form o_mark_required" data-mark="*"
+                          data-model_name="crm.lead" data-success-mode="message">
+
+                        <div class="hmd-form__row">
+                            <label>Your Name <span class="s_website_form_mark">*</span></label>
+                            <input type="text" name="contact_name" required="required"
+                                   class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Phone Number</label>
+                            <input type="tel" name="phone" class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Your Email <span class="s_website_form_mark">*</span></label>
+                            <input type="email" name="email_from" required="required"
+                                   class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Your Company <span class="s_website_form_mark">*</span></label>
+                            <input type="text" name="partner_name" required="required"
+                                   class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Subject <span class="s_website_form_mark">*</span></label>
+                            <input type="text" name="name" required="required"
+                                   class="s_website_form_input"/>
+                        </div>
+                        <div class="hmd-form__row">
+                            <label>Your Question <span class="s_website_form_mark">*</span></label>
+                            <textarea name="description" rows="5" required="required"
+                                      class="s_website_form_input"/>
+                        </div>
+
+                        <div class="hmd-form__actions">
+                            <button type="submit" class="s_website_form_send">Submit</button>
+                        </div>
+                        <div id="s_website_form_result" class="s_website_form_result"/>
+                    </form>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Registo das paginas do tema -->
+    <record id="theme_page_we_are" model="theme.website.page">
+        <field name="url">/we-are</field>
+        <field name="view_id" ref="page_we_are"/>
+        <field name="is_published" eval="True"/>
+    </record>
+    <record id="theme_page_portfolio" model="theme.website.page">
+        <field name="url">/portfolio</field>
+        <field name="view_id" ref="page_portfolio"/>
+        <field name="is_published" eval="True"/>
+    </record>
+    <record id="theme_page_fabrics" model="theme.website.page">
+        <field name="url">/fabrics</field>
+        <field name="view_id" ref="page_fabrics"/>
+        <field name="is_published" eval="True"/>
+    </record>
+    <record id="theme_page_materials" model="theme.website.page">
+        <field name="url">/materials</field>
+        <field name="view_id" ref="page_materials"/>
+        <field name="is_published" eval="True"/>
+    </record>
+    <record id="theme_page_partner_request" model="theme.website.page">
+        <field name="url">/partner-request</field>
+        <field name="view_id" ref="page_partner_request"/>
+        <field name="is_published" eval="True"/>
+    </record>
+    <record id="theme_page_professional" model="theme.website.page">
+        <field name="url">/professional</field>
+        <field name="view_id" ref="page_professional"/>
+        <field name="is_published" eval="True"/>
+    </record>
+    <record id="theme_page_private" model="theme.website.page">
+        <field name="url">/private</field>
+        <field name="view_id" ref="page_private"/>
+        <field name="is_published" eval="True"/>
+    </record>
+
+    <!--
+        Menu principal, pela ordem do desenho.
+
+        O Odoo ja cria por defeito Home(10), Shop(20), Blog(40) e Contact us(60)
+        em cada website novo. Nao repetimos Home nem Contact us aqui, senao
+        aparecem a dobrar na navegacao. Shop e Blog nao constam do desenho —
+        sao retirados na configuracao do site, nao pelo tema (o "Products" do
+        desenho vive na coluna direita do cabecalho e aponta para /shop).
+
+        O url tem de vir preenchido: theme.website.menu._convert_to_base_model
+        copia 'url' tal e qual e NAO o deriva do page_id, pelo que um menu so
+        com page_id fica com href vazio.
+    -->
+    <!-- Collection e o catalogo: aponta para /shop, sem pagina propria -->
+    <record id="menu_collection" model="theme.website.menu">
+        <field name="name">Collection</field>
+        <field name="url">/shop</field>
+        <field name="sequence" eval="20"/>
+    </record>
+    <record id="menu_portfolio" model="theme.website.menu">
+        <field name="name">Portfolio</field>
+        <field name="url">/portfolio</field>
+        <field name="page_id" ref="theme_page_portfolio"/>
+        <field name="sequence" eval="30"/>
+    </record>
+    <record id="menu_fabrics" model="theme.website.menu">
+        <field name="name">Fabrics</field>
+        <field name="url">/fabrics</field>
+        <field name="page_id" ref="theme_page_fabrics"/>
+        <field name="sequence" eval="40"/>
+    </record>
+    <record id="menu_materials" model="theme.website.menu">
+        <field name="name">Materials</field>
+        <field name="url">/materials</field>
+        <field name="page_id" ref="theme_page_materials"/>
+        <field name="sequence" eval="50"/>
+    </record>
+    <record id="menu_we_are" model="theme.website.menu">
+        <field name="name">We are</field>
+        <field name="url">/we-are</field>
+        <field name="page_id" ref="theme_page_we_are"/>
+        <field name="sequence" eval="70"/>
+    </record>
+
+</odoo>

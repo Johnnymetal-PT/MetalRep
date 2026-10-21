@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Refletir desconto de pronto pagamento no relatorio impresso -->
+
+    <!-- 1. Tabela de totais com desconto de pronto pagamento:
+         valor sem impostos, desconto p.p., IVA e um único Total, que é o valor
+         a pagar dentro do prazo do desconto. -->
+    <template id="document_tax_totals_early_discount" inherit_id="account.document_tax_totals_template">
+        <!-- Desconto logo a seguir ao valor sem impostos, antes do IVA. -->
+        <xpath expr="//tr[hasclass('o_subtotal')]" position="after">
+            <t t-set="o" t-value="o or doc or sale_order or order"/>
+            <tr t-if="o and 'pg_has_early_discount' in o._fields and o.pg_has_early_discount">
+                <td>
+                    <span>Desconto Pronto Pagamento</span>
+                </td>
+                <td class="text-end">
+                    <span t-out="-o.pg_early_discount_amount"
+                          t-options='{"widget": "monetary", "display_currency": currency}'/>
+                </td>
+            </tr>
+        </xpath>
+        <!-- Um só Total: com desconto p.p. quando existe, o standard nos restantes casos. -->
+        <xpath expr="//tr[hasclass('o_total')]" position="replace">
+            <t t-set="o" t-value="o or doc or sale_order or order"/>
+            <tr class="o_total">
+                <td><strong>Total</strong></td>
+                <td class="text-end">
+                    <t t-if="o and 'pg_has_early_discount' in o._fields and o.pg_has_early_discount">
+                        <strong t-out="o.pg_amount_after_early_discount"
+                                t-options='{"widget": "monetary", "display_currency": currency}'/>
+                    </t>
+                    <t t-else="">
+                        <strong t-out="tax_totals['total_amount_currency']"
+                                t-options='{"widget": "monetary", "display_currency": currency}'/>
+                    </t>
+                </td>
+            </tr>
+        </xpath>
+    </template>
+
+    <!-- 2. Usar o total seletivo na informação standard do termo de pagamento. -->
+    <template id="report_invoice_document_early_discount" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@id='early_payment_discount']/span[1]" position="attributes">
+            <attribute name="t-out">o.pg_amount_after_early_discount if o.pg_has_early_discount else o.invoice_payment_term_id._get_amount_due_after_discount(o.amount_total, o.amount_tax)</attribute>
+        </xpath>
+    </template>
+
+</odoo>

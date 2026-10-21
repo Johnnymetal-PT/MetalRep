@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Stone Trading External Layout -->
+    <template id="mh_sale.external_layout_stone_trading">
+        <div t-attf-class="header o_company_#{company.id}_layout">
+                <!-- Logo e Título do Documento -->
+                <table style="width: 100%; border-bottom: 3px solid #000; padding-bottom: 10px; margin-bottom: 20px;">
+                    <tr>
+                        <td style="width: 50%; vertical-align: top;">
+                            <img t-if="company.logo"
+                                 t-att-src="image_data_uri(company.logo)"
+                                 style="max-height: 80px; max-width: 250px;"
+                                 alt="Logo"/>
+                        </td>
+                        <td style="width: 50%; text-align: right; vertical-align: top;">
+                            <h2 style="margin: 0; font-size: 18px; font-weight: bold;">
+                                <span t-if="o._name == 'account.move'">
+                                    Factura <span t-field="o.name"/>
+                                </span>
+                                <span t-if="o._name == 'sale.order'">
+                                    Orçamento <span t-field="o.name"/>
+                                </span>
+                            </h2>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Informações Empresa e Cliente -->
+                <table style="width: 100%; margin-bottom: 20px; border: 1px solid #000; padding: 10px;">
+                    <tr>
+                        <td style="width: 50%; vertical-align: top; padding: 10px;">
+                            <!-- Dados da Empresa -->
+                            <strong style="font-size: 12px; display: block; margin-bottom: 5px;">
+                                <span t-field="company.name"/>
+                            </strong>
+                            <div style="font-size: 10px; line-height: 1.6;">
+                                <span t-if="company.street" t-field="company.street"/><br t-if="company.street"/>
+                                <span t-if="company.street2" t-field="company.street2"/><br t-if="company.street2"/>
+                                <span t-if="company.city" t-field="company.city"/>
+                                <span t-if="company.state_id"> – <span t-field="company.state_id.name"/></span><br t-if="company.city"/>
+                                <span t-if="company.zip" t-field="company.zip"/>
+                                <span t-if="company.country_id" t-field="company.country_id.name"/><br t-if="company.country_id"/>
+                                <strong>NUIT:</strong><span t-field="company.vat"/><br t-if="company.vat"/>
+                                <strong>c.</strong> <span t-field="company.phone"/><br t-if="company.phone"/>
+                                <strong>e.</strong> <span t-field="company.email"/>
+                            </div>
+                        </td>
+                        <td style="width: 50%; vertical-align: top; padding: 10px; border-left: 1px solid #ccc;">
+                            <!-- Dados do Cliente -->
+                            <div style="font-size: 10px; line-height: 1.6;">
+                                <strong style="font-size: 11px;">Exmo.(s) Sr.(s)</strong><br/>
+                                <strong style="font-size: 12px;" t-field="o.partner_id.name"/><br/>
+                                <span t-if="o.partner_id.street">Att:<br/><span t-field="o.partner_id.street"/><br/></span>
+                                <span t-if="o.partner_id.street2" t-field="o.partner_id.street2"/><br t-if="o.partner_id.street2"/>
+                                <span t-if="o.partner_id.city" t-field="o.partner_id.city"/><br t-if="o.partner_id.city"/>
+                                <span t-if="o.partner_id.state_id" t-field="o.partner_id.state_id.name"/><br t-if="o.partner_id.state_id"/>
+                                <span t-if="o.partner_id.country_id" t-field="o.partner_id.country_id.name"/><br t-if="o.partner_id.country_id"/>
+                                <strong>NUIT:</strong> <span t-if="o.partner_id.vat" t-field="o.partner_id.vat"/>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Caixas de Informação do Documento -->
+                <table style="width: 100%; margin-bottom: 20px; border: 1px solid #000; background-color: #f5f5f5;">
+                    <tr>
+                        <td style="width: 33%; text-align: center; padding: 10px; border-right: 1px solid #ccc;">
+                            <strong style="font-size: 10px; display: block;">DATA EMISSÃO</strong>
+                            <span style="font-size: 10px;">
+                                <span t-if="o._name == 'account.move'" t-field="o.invoice_date" t-options='{"widget": "date", "format": "dd-MM-yyyy"}'/>
+                                <span t-if="o._name == 'sale.order'" t-field="o.date_order" t-options='{"widget": "date", "format": "dd-MM-yyyy"}'/>
+                            </span>
+                        </td>
+                        <td style="width: 33%; text-align: center; padding: 10px; border-right: 1px solid #ccc;">
+                            <strong style="font-size: 10px; display: block;">DATA VALIDADE</strong>
+                            <span style="font-size: 10px;">
+                                <span t-if="o._name == 'account.move' and o.invoice_date_due" t-field="o.invoice_date_due" t-options='{"widget": "date", "format": "dd-MM-yyyy"}'/>
+                                <span t-if="o._name == 'sale.order' and o.validity_date" t-field="o.validity_date" t-options='{"widget": "date", "format": "dd-MM-yyyy"}'/>
+                            </span>
+                        </td>
+                        <td style="width: 34%; text-align: center; padding: 10px;">
+                            <strong style="font-size: 10px; display: block;">CONDIÇÕES PAG.</strong>
+                            <span style="font-size: 10px;">
+                                <span t-if="o._name == 'account.move' and o.invoice_payment_term_id" t-field="o.invoice_payment_term_id.name"/>
+                                <span t-if="o._name == 'sale.order' and o.payment_term_id" t-field="o.payment_term_id.name"/>
+                                <span t-if="(o._name == 'account.move' and not o.invoice_payment_term_id) or (o._name == 'sale.order' and not o.payment_term_id)">
+                                    Pagamento Imediato
+                                </span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+        </div>
+
+        <!-- Conteúdo do Documento -->
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id">
+            <t t-raw="0"/>
+        </div>
+
+        <!-- Rodapé -->
+        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+                <div style="border-top: 2px solid #000; padding-top: 10px; font-size: 9px;">
+                    <!-- Referência Fiscal -->
+                    <p style="text-align: center; margin: 5px 0;">
+                        <span t-if="o._name == 'account.move' and o.fiscal_position_id and o.fiscal_position_id.note" t-field="o.fiscal_position_id.note"/>
+                        <span t-if="o._name == 'sale.order' and o.fiscal_position_id and o.fiscal_position_id.note" t-field="o.fiscal_position_id.note"/>
+                    </p>
+
+                    <!-- Documento Processado -->
+                    <p style="text-align: center; margin: 5px 0; font-style: italic;">
+                        Documento processado por computador
+                    </p>
+
+                    <!-- Dados Bancários -->
+                    <div style="margin-top: 15px;">
+                        <p style="text-align: center; margin: 5px 0;">
+                            <strong>--------------------------------- Dados Bancários ---------------------------------</strong>
+                        </p>
+                        <table style="width: 100%; font-size: 9px;">
+                            <thead>
+                                <tr style="background-color: #f0f0f0;">
+                                    <th style="padding: 3px; text-align: left;">NIB</th>
+                                    <th style="padding: 3px; text-align: left;">BANCO</th>
+                                    <th style="padding: 3px; text-align: left;">CONTA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="company.partner_id.bank_ids" t-as="bank">
+                                    <tr>
+                                        <td style="padding: 3px;"><span t-field="bank.acc_number"/></td>
+                                        <td style="padding: 3px;"><span t-field="bank.bank_id.name"/></td>
+                                        <td style="padding: 3px;">
+                                            <t t-if="bank.acc_number and len(str(bank.acc_number)) > 10">
+                                                <span t-esc="str(bank.acc_number)[-12:]"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="bank.acc_number"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Numeração de Páginas -->
+                    <div style="text-align: center; margin-top: 10px;">
+                        <span>Página <span class="page"/> de <span class="topage"/></span>
+                    </div>
+            </div>
+        </div>
+    </template>
+</odoo>

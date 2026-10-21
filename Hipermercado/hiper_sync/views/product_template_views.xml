@@ -1,0 +1,61 @@
+<odoo>
+    <record id="view_product_template_form_hiper_sync" model="ir.ui.view">
+        <field name="name">product.template.form.hiper.sync</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Hiper Sync">
+                    <group>
+                        <group>
+                            <field name="hiper_skip_sync"/>
+                            <field name="hiper_lock_name"/>
+                            <field name="hiper_lock_descriptions"/>
+                            <field name="hiper_lock_prices"/>
+                            <field name="hiper_lock_categories"/>
+                            <field name="hiper_lock_images"/>
+                            <field name="hiper_lock_features"/>
+                        </group>
+                        <group>
+                            <field name="hiper_source_vendor_id" readonly="1"/>
+                            <field name="hiper_source_module_code" readonly="1"/>
+                            <field name="hiper_source_ean13" readonly="1"/>
+                            <field name="hiper_last_sync_at" readonly="1"/>
+                            <field name="hiper_sync_match_method" readonly="1"/>
+                            <field name="hiper_supplier_qty" readonly="1"/>
+                            <field name="hiper_supplier_price" readonly="1"/>
+                            <field name="hiper_supplier_wholesale_price" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="hiper_origin_category" readonly="1"/>
+                            <field name="hiper_origin_sub_category" readonly="1"/>
+                            <field name="hiper_tags_text"/>
+                            <field name="hiper_manual_url"/>
+                            <field name="hiper_image_sync_state" readonly="1"/>
+                            <field name="hiper_pending_image_source" readonly="1"/>
+                            <field name="hiper_last_image_source" readonly="1"/>
+                            <field name="hiper_image_sync_updated_at" readonly="1"/>
+                            <field name="hiper_image_sync_retry_count" readonly="1"/>
+                            <field name="hiper_image_sync_note" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="hiper_feature_line_ids">
+                            <list editable="bottom">
+                                <field name="sequence"/>
+                                <field name="name"/>
+                                <field name="value"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group>
+                        <field name="hiper_last_feed_payload" widget="text" readonly="1"/>
+                        <field name="hiper_last_compare_data" widget="text" readonly="1"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

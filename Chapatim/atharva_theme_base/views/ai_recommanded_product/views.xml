@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List view for Product Touch -->
+    <record id="view_product_touch_list" model="ir.ui.view">
+        <field name="name">product.touch.list</field>
+        <field name="model">product.touch</field>
+        <field name="arch" type="xml">
+            <list string="Product Touch">
+                <field name="create_uid"/>
+                <field name="name"/>
+                <field name="recent_action"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form view for Product Touch -->
+    <record id="view_product_touch_form" model="ir.ui.view">
+        <field name="name">product.touch.form</field>
+        <field name="model">product.touch</field>
+        <field name="arch" type="xml">
+            <form string="Product Touch">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="recent_action"/>
+                    </group>
+                </sheet>
+                <chatter/>
+
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for Product Touch -->
+    <record id="action_product_touch" model="ir.actions.act_window">
+        <field name="name">Product Touch</field>
+        <field name="res_model">product.touch</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

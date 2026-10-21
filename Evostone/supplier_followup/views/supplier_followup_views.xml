@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- list view for Supplier Follow-up -->
+    <record id="supplier_followup_list_view" model="ir.ui.view">
+        <field name="name">supplier.followup.list</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list string="Relatórios de Follow-up de Fornecedores" create="false" import="false" delete="false" sample="1">
+                <field name="currency_id" column_invisible="True"/>
+                <field name="name"/>
+                <field name="supplier_followup_responsible_id" widget="many2one_avatar_user"/>
+                <field name="user_id" widget="many2one_avatar_user" optional="hide"/>
+                <field name="supplier_followup_reminder_type"/>
+                <field name="supplier_followup_status" widget="badge"
+                       decoration-danger="supplier_followup_status == 'in_need_of_action'"
+                       decoration-warning="supplier_followup_status == 'with_overdue_bills'"
+                       decoration-info="supplier_followup_status == 'no_action_needed'"/>
+                <field name="supplier_followup_next_action_date" optional="show" widget="remaining_days"/>
+                <field name="supplier_followup_line_id"/>
+                <field name="total_due_supplier" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
+                <field name="total_overdue_supplier" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="activity_ids" widget="list_activity"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form view for Supplier Follow-up -->
+    <record id="supplier_followup_form_view" model="ir.ui.view">
+        <field name="name">supplier.followup.form</field>
+        <field name="model">res.partner</field>
+        <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+        <field name="arch" type="xml">
+            <form create="false" delete="false">
+                <header>
+                    <button string="Follow Up" 
+                            name="%(supplier_followup_manual_reminder_action)d"
+                            type="action" 
+                            class="button btn-primary" 
+                            invisible="supplier_followup_status != 'in_need_of_action'"
+                            groups="account.group_account_invoice"/>
+                    <button string="Follow Up" 
+                            name="%(supplier_followup_manual_reminder_action)d"
+                            type="action" 
+                            class="button btn-secondary" 
+                            invisible="supplier_followup_status == 'in_need_of_action'"
+                            groups="account.group_account_invoice"/>
+                    <button string="Reconcile" 
+                            name="action_supplier_followup_reconcile"
+                            class="btn btn-secondary" 
+                            type="object"
+                            groups="account.group_account_invoice"/>
+                    <field name="supplier_followup_line_id" 
+                           widget="statusbar" 
+                           options="{'clickable': '1'}"
+                           groups="account.group_account_invoice"/>
+                </header>
+                <sheet>
+                    <field name="supplier_followup_status" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="get_formview_action"
+                                icon="fa-user">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Fornecedor</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_view_unpaid_bills"
+                                icon="fa-pencil-square-o">
+                            <field string="Faturas" name="unpaid_bills_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" 
+                            title="Necessita de Ação"
+                            bg_color="text-bg-danger"
+                            invisible="supplier_followup_status != 'in_need_of_action'"
+                            groups="account.group_account_invoice"/>
+                    <widget name="web_ribbon" 
+                            title="Com Faturas em Atraso"
+                            bg_color="text-bg-warning"
+                            invisible="supplier_followup_status != 'with_overdue_bills'"
+                            groups="account.group_account_invoice"/>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="True" required="True" class="oe_inline"/> <small><field name="trust" widget="followup_trust_widget" class="oe_inline"/></small></h1>
+                    </div>
+                    <group name="schedule">
+                        <group>
+                            <field name="supplier_followup_reminder_type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="supplier_followup_responsible_id"/>
+                        </group>
+                        <group>
+                            <field name="supplier_followup_next_action_date"/>
+                        </group>
+                    </group>
+                    <field name="unreconciled_supplier_aml_ids">
+                        <list create="false" delete="false" editable="bottom" default_order="date_maturity asc" no_open="true">
+                            <field name="currency_id" column_invisible="True"/>
+                            <field name="invoice_date" string="Data"/>
+                            <field name="move_name" string="Referência" widget="open_move_widget"/>
+                            <field name="date_maturity" widget="remaining_days" readonly="False" force_save="True"/>
+                            <field name="invoice_origin" string="Origem" optional="show"/>
+                            <field name="expected_pay_date" string="Data Prevista de Pagamento" widget="date" optional="show" readonly="False" force_save="True"/>
+                            <field name="supplier_blocked" string="Excluir do Acompanhamento" 
+                                   options="{'autosave': False}" 
+                                   optional="show" 
+                                   widget="boolean_toggle"/>
+                            <field name="amount_residual_currency" string="Valor em Dívida" 
+                                   widget="monetary" 
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="amount_currency" string="Valor Total" 
+                                   widget="monetary" 
+                                   options="{'currency_field': 'currency_id'}" 
+                                   optional="hide"/>
+                        </list>
+                    </field>
+                    <group class="oe_invoice_lines_tab">
+                        <group class="oe_subtotal_footer">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="total_due_supplier" 
+                                   style="font-weight: bold; font-size: 1.2em;" 
+                                   widget="monetary" 
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="total_overdue_supplier" 
+                                   style="font-weight: bold; font-size: 1.2em;" 
+                                   widget="monetary" 
+                                   options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter>
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </chatter>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view for Supplier Follow-up -->
+    <record id="supplier_followup_search_view" model="ir.ui.view">
+        <field name="name">supplier.followup.search</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="supplier_followup_responsible_id"/>
+                <field name="supplier_followup_line_id"/>
+                <field name="supplier_followup_status"/>
+                <filter string="Atribuído a mim"
+                        name="filter_assigned_to_me"
+                        domain="['|', ('supplier_followup_responsible_id', '=', uid), ('user_id', '=', uid)]"/>
+                <separator/>
+                <filter string="Automático"
+                        name="filter_automatic"
+                        domain="[('supplier_followup_reminder_type', '=', 'automatic')]"/>
+                <filter string="Manual"
+                        name="filter_manual"
+                        domain="[('supplier_followup_reminder_type', '=', 'manual')]"/>
+                <separator/>
+                <filter string="Faturas em Atraso"
+                        name="filter_with_overdue_bills"
+                        domain="[('supplier_followup_status', 'in', ('in_need_of_action', 'with_overdue_bills'))]"/>
+                <filter string="Pagamento Necessário"
+                        name="filter_in_need_of_action"
+                        domain="[('supplier_followup_status', '=', 'in_need_of_action')]"/>
+                <separator/>
+                <group expand="0" name="group_by" string="Group By">
+                    <filter name="responsible" string="Responsável" domain="[]" 
+                            context="{'group_by': 'supplier_followup_responsible_id'}"/>
+                    <filter name="followup_level" string="Nível de Acompanhamento" 
+                            context="{'group_by': 'supplier_followup_line_id'}"/>
+                    <filter name="country" string="Country" 
+                            context="{'group_by': 'country_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action for Supplier Follow-up Reports -->
+    <record id="action_supplier_followup_list" model="ir.actions.act_window">
+        <field name="name">Relatórios de Follow-up de Fornecedores</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="supplier_followup_search_view"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('supplier_followup_list_view')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('supplier_followup_form_view')})]"/>
+        <field name="domain">[('supplier_rank', '>', 0)]</field>
+        <field name="context">{
+            'search_default_filter_with_overdue_bills': 1,
+            'res_partner_search_mode': 'supplier'
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Nenhum follow-ups de pagamentos a fornecedores necessário!
+            </p>
+            <p>
+                Esta vista mostra todos os fornecedores com faturas pendentes que possam necessitar de follow-up de pagamento.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu items -->
+    <menuitem id="menu_supplier_followup_reports"
+              name="Follow-up Reports"
+              parent="account.menu_finance_payables"
+              action="action_supplier_followup_list"
+              groups="account.group_account_invoice"
+              sequence="30"/>
+</odoo>

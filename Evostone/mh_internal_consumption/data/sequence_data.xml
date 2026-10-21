@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_internal_consumption" model="ir.sequence">
+            <field name="name">Consumo Interno</field>
+            <field name="code">internal.consumption</field>
+            <field name="prefix">CI/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_material_consumption" model="ir.sequence">
+            <field name="name">Consumo de Material</field>
+            <field name="code">material.consumption</field>
+            <field name="prefix">CM/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Localização origem: Consumo Interno (tipo Internal) -->
+        <record id="stock_location_consumption_source" model="stock.location">
+            <field name="name">Consumo Interno</field>
+            <field name="usage">internal</field>
+            <field name="is_consumption">True</field>
+            <field name="location_id" ref="stock.stock_location_locations"/>
+        </record>
+
+        <!-- Localização destino: Consumo Interno (tipo Customer) -->
+        <record id="stock_location_consumption" model="stock.location">
+            <field name="name">Consumo Interno (Saída)</field>
+            <field name="usage">customer</field>
+            <field name="is_consumption">False</field>
+            <field name="location_id" ref="stock.stock_location_locations_partner"/>
+        </record>
+
+    </data>
+</odoo>

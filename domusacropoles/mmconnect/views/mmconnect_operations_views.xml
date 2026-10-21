@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mm_shift_template_list" model="ir.ui.view">
+        <field name="name">mm.shift.template.list</field>
+        <field name="model">mm.shift.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="start_hour"/>
+                <field name="end_hour"/>
+                <field name="break_hours"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_shift_template_form" model="ir.ui.view">
+        <field name="name">mm.shift.template.form</field>
+        <field name="model">mm.shift.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="company_id"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="start_hour"/>
+                        <field name="end_hour"/>
+                        <field name="break_hours"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_shift_template" model="ir.actions.act_window">
+        <field name="name">Templates de Escala</field>
+        <field name="res_model">mm.shift.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_shift_group_list" model="ir.ui.view">
+        <field name="name">mm.shift.group.list</field>
+        <field name="model">mm.shift.group</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_shift_group_form" model="ir.ui.view">
+        <field name="name">mm.shift.group.form</field>
+        <field name="model">mm.shift.group</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="company_id"/>
+                    </group>
+                    <group>
+                        <field name="employee_ids" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_shift_group" model="ir.actions.act_window">
+        <field name="name">Grupos de Escala</field>
+        <field name="res_model">mm.shift.group</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_shift_plan_list" model="ir.ui.view">
+        <field name="name">mm.shift.plan.list</field>
+        <field name="model">mm.shift.plan</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="group_id"/>
+                <field name="template_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_shift_plan_form" model="ir.ui.view">
+        <field name="name">mm.shift.plan.form</field>
+        <field name="model">mm.shift.plan</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_publish" type="object" string="Publish" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_done" type="object" string="Done" invisible="state != 'published'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,published,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="group_id"/>
+                            <field name="template_id"/>
+                        </group>
+                        <group>
+                            <field name="service_id"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="employee_ids" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_shift_plan" model="ir.actions.act_window">
+        <field name="name">Escalas</field>
+        <field name="res_model">mm.shift.plan</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_time_distribution_sheet_list" model="ir.ui.view">
+        <field name="name">mm.time.distribution.sheet.list</field>
+        <field name="model">mm.time.distribution.sheet</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="date"/>
+                <field name="state"/>
+                <field name="total_hours"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_time_distribution_sheet_form" model="ir.ui.view">
+        <field name="name">mm.time.distribution.sheet.form</field>
+        <field name="model">mm.time.distribution.sheet</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" type="object" string="Submit" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_approve" type="object" string="Approve" invisible="state != 'submitted'"/>
+                    <button name="action_reject" type="object" string="Reject" invisible="state != 'submitted'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,rejected"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="employee_id"/>
+                            <field name="supervisor_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="total_hours" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="description"/>
+                            <field name="work_code_id"/>
+                            <field name="absence_code_id"/>
+                            <field name="cost_center_id"/>
+                            <field name="location_id"/>
+                            <field name="project_id"/>
+                            <field name="hours"/>
+                        </list>
+                    </field>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_time_distribution_sheet" model="ir.actions.act_window">
+        <field name="name">Distribuição de Tempo</field>
+        <field name="res_model">mm.time.distribution.sheet</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_expense_code_list" model="ir.ui.view">
+        <field name="name">mm.expense.code.list</field>
+        <field name="model">mm.expense.code</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_expense_code_form" model="ir.ui.view">
+        <field name="name">mm.expense.code.form</field>
+        <field name="model">mm.expense.code</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="company_id"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_expense_code" model="ir.actions.act_window">
+        <field name="name">Códigos de Despesa</field>
+        <field name="res_model">mm.expense.code</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_per_diem_rule_list" model="ir.ui.view">
+        <field name="name">mm.per.diem.rule.list</field>
+        <field name="model">mm.per.diem.rule</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="amount"/>
+                <field name="currency_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_per_diem_rule_form" model="ir.ui.view">
+        <field name="name">mm.per.diem.rule.form</field>
+        <field name="model">mm.per.diem.rule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="amount"/>
+                        <field name="currency_id"/>
+                        <field name="company_id"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_per_diem_rule" model="ir.actions.act_window">
+        <field name="name">Ajudas de Custo</field>
+        <field name="res_model">mm.per.diem.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_visit_list" model="ir.ui.view">
+        <field name="name">mm.visit.list</field>
+        <field name="model">mm.visit</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="visitor_id"/>
+                <field name="scheduled_start"/>
+                <field name="scheduled_end"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_visit_form" model="ir.ui.view">
+        <field name="name">mm.visit.form</field>
+        <field name="model">mm.visit</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" type="object" string="Approve" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_check_in" type="object" string="Check In" invisible="state != 'approved'"/>
+                    <button name="action_check_out" type="object" string="Check Out" invisible="state != 'checked_in'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state == 'done' or state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved,checked_in,done,cancelled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="employee_id"/>
+                            <field name="visitor_id"/>
+                            <field name="visit_type_id"/>
+                        </group>
+                        <group>
+                            <field name="scheduled_start"/>
+                            <field name="scheduled_end"/>
+                            <field name="actual_checkin" readonly="1"/>
+                            <field name="actual_checkout" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="location_id"/>
+                        <field name="attachment_ids" widget="many2many_binary"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_visit" model="ir.actions.act_window">
+        <field name="name">Visitas</field>
+        <field name="res_model">mm.visit</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_room_list" model="ir.ui.view">
+        <field name="name">mm.room.list</field>
+        <field name="model">mm.room</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="location_id"/>
+                <field name="capacity"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_room_form" model="ir.ui.view">
+        <field name="name">mm.room.form</field>
+        <field name="model">mm.room</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="location_id"/>
+                        <field name="capacity"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_room" model="ir.actions.act_window">
+        <field name="name">Salas</field>
+        <field name="res_model">mm.room</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_room_booking_list" model="ir.ui.view">
+        <field name="name">mm.room.booking.list</field>
+        <field name="model">mm.room.booking</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="room_id"/>
+                <field name="start_datetime"/>
+                <field name="end_datetime"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_room_booking_form" model="ir.ui.view">
+        <field name="name">mm.room.booking.form</field>
+        <field name="model">mm.room.booking</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancelled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="employee_id"/>
+                        <field name="room_id"/>
+                        <field name="visit_id"/>
+                        <field name="start_datetime"/>
+                        <field name="end_datetime"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_room_booking" model="ir.actions.act_window">
+        <field name="name">Reservas de Salas</field>
+        <field name="res_model">mm.room.booking</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_vehicle_booking_list" model="ir.ui.view">
+        <field name="name">mm.vehicle.booking.list</field>
+        <field name="model">mm.vehicle.booking</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="vehicle_id"/>
+                <field name="destination"/>
+                <field name="start_datetime"/>
+                <field name="end_datetime"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_vehicle_booking_form" model="ir.ui.view">
+        <field name="name">mm.vehicle.booking.form</field>
+        <field name="model">mm.vehicle.booking</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_done" type="object" string="Done" invisible="state != 'confirmed'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state == 'cancelled' or state == 'done'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done,cancelled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="employee_id"/>
+                        <field name="vehicle_id"/>
+                        <field name="destination"/>
+                        <field name="start_datetime"/>
+                        <field name="end_datetime"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_vehicle_booking" model="ir.actions.act_window">
+        <field name="name">Reservas de Viaturas</field>
+        <field name="res_model">mm.vehicle.booking</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

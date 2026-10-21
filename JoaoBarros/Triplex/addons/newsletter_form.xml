@@ -1,0 +1,140 @@
+<data><xpath expr="//*[hasclass('oe_structure')][@id='oe_structure_website_sale_products_2']" position="replace"><div class="oe_structure oe_empty oe_structure_not_nearest" id="oe_structure_website_sale_products_2" data-editor-message-default="true" data-editor-message="DRAG BUILDING BLOCKS HERE" style="background-image: none;">
+      
+
+      
+      <style>
+        #oe_structure_website_sale_products_2 .newsletter-custom-theme { background-color:#faf9f5; color:#514c44; }
+        #oe_structure_website_sale_products_2 .newsletter-custom-theme,
+        #oe_structure_website_sale_products_2 .newsletter-custom-theme * { color:#514c44; }
+        #oe_structure_website_sale_products_2 .newsletter-custom-theme .form-control,
+        #oe_structure_website_sale_products_2 .newsletter-custom-theme .form-select {
+          border-color:#514c44 !important; color:#514c44 !important; background-color:transparent;
+        }
+        #oe_structure_website_sale_products_2 .newsletter-custom-theme .form-control:focus,
+        #oe_structure_website_sale_products_2 .newsletter-custom-theme .form-select:focus {
+          border-color:#514c44 !important; box-shadow:0 0 0 .2rem rgba(81,76,68,.12); outline:none;
+        }
+        #oe_structure_website_sale_products_2 .newsletter-custom-theme ::placeholder { color:#514c44; opacity:.6; }
+        #oe_structure_website_sale_products_2 .newsletter-custom-theme .subscribe-button,
+        #oe_structure_website_sale_products_2 .newsletter-custom-theme .subscribed-button {
+          border:1px solid #514c44; color:#514c44; background:transparent;
+        }
+        #oe_structure_website_sale_products_2 .newsletter-custom-theme .subscribe-button:focus {
+          background:#514c44; color:#faf9f5; border-color:#514c44;
+        }
+        #oe_structure_website_sale_products_2 .newsletter-custom-theme a { color:#514c44; }
+        @media (max-width: 767.98px) {
+          #oe_structure_website_sale_products_2 .s_newsletter_block {
+            padding-left:1.5rem !important;
+            padding-right:1.5rem !important;
+            padding-top:3.75rem !important;
+            padding-bottom:3.75rem !important;
+          }
+          #oe_structure_website_sale_products_2 .newsletter-title span {
+            font-size:1.75rem !important;
+          }
+          #oe_structure_website_sale_products_2 .custom-input-group {
+            display:flex;
+            flex-direction:column;
+            gap:0.75rem;
+          }
+          #oe_structure_website_sale_products_2 .custom-input-group .form-control,
+          #oe_structure_website_sale_products_2 .custom-input-group .subscribe-button,
+          #oe_structure_website_sale_products_2 .custom-input-group .subscribed-button {
+            width:100%;
+          }
+          #oe_structure_website_sale_products_2 .custom-input-group .subscribe-button,
+          #oe_structure_website_sale_products_2 .custom-input-group .subscribed-button {
+            text-align:center;
+          }
+        }
+      </style>
+
+      <section class="s_newsletter_block pt32 pb32 o_colored_level newsletter-custom-theme s_newsletter_list" style="background-color: rgb(245, 244, 239); padding-left: 300px; padding-right: 300px; padding-bottom: 150px !important; padding-top: 150px !important; background-image: none;" data-name="Newsletter Block">
+        <div class="o_container_small">
+          <div class="row">
+            <div class="pt24 pb24 o_colored_level offset-lg-1 col-lg-10">
+
+              <p class="lead newsletter-title" style="text-align:center; font-family: 'Cormorant Infant';">
+                <em><span style="font-size: 2.375rem;">STAY UPDATED</span></em><span style="font-size: 2.375rem;"> JOIN THE LIST cenas</span><br/>
+              </p>
+              <p style="text-align:center;"><br/></p>
+
+              
+              <div class="s_newsletter_subscribe_form js_subscribe transparent-newsletter s_newsletter_list" data-vxml="001" data-list-id="1" data-name="Newsletter Form" data-snippet="s_newsletter_subscribe_form">
+
+                
+                
+
+                
+                <div class="input-group custom-input-group">
+                  <input type="email" name="email" class="form-control email-input js_subscribe_value" placeholder="EMAIL" required="required"/>
+                  <a role="button" href="#" class="btn subscribe-button js_subscribe_btn" style="border:none;">SUBSCRIBE</a>
+                  <a role="button" href="#" class="btn subscribed-button js_subscribed_btn d-none" disabled="disabled" style="border:none;">THANK YOU</a>
+                </div>
+
+              </div> 
+
+              
+              <div class="mt-4 small" style="opacity:.85;">
+                
+<p>I confirm that I authorize the use of the data sent, according to the <a href="/privacy-policy">Privacy Policy</a></p></div>
+
+              
+<script>
+  (function () {
+    // Only these names are allowed to be submitted
+    var ALLOWED = new Set([
+      'email',
+      'name',
+      'x_studio_user_category',
+      'country_id',
+    ]);
+
+    function harden(root) {
+      var wrap = root.closest ? root.closest('.js_subscribe') : root;
+      if (!wrap) return;
+
+      // 1) Strip the class from anything that's not a real form field
+      wrap.querySelectorAll('.js_subscribe_value:not(input):not(select):not(textarea)')
+        .forEach(function (el) { el.classList.remove('js_subscribe_value'); });
+
+      // 2) Keep only fields with a non-empty, whitelisted name
+      wrap.querySelectorAll('input.js_subscribe_value, select.js_subscribe_value, textarea.js_subscribe_value')
+        .forEach(function (el) {
+          var n = (el.getAttribute('name') || '').trim();
+          if (!n || !ALLOWED.has(n)) {
+            el.classList.remove('js_subscribe_value');
+          }
+        });
+
+      // 3) Just in case—no clickable controls should carry the class
+      wrap.querySelectorAll('a.js_subscribe_value, button.js_subscribe_value')
+        .forEach(function (el) { el.classList.remove('js_subscribe_value'); });
+    }
+
+    // Sanitize existing forms on load
+    document.querySelectorAll('.js_subscribe').forEach(harden);
+
+    // Run *before* Odoo's built-in click handler
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.js_subscribe_btn');
+      if (btn) harden(btn);
+    }, true);
+
+    // Also protect pressing Enter inside inputs
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return;
+      var within = e.target &amp;&amp; e.target.closest('.js_subscribe');
+      if (within) harden(within);
+    }, true);
+  })();
+</script>
+
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div></xpath></data>

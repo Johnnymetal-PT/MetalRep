@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_template_form_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Documentos">
+                    <field name="attachment_ids" context="{'default_res_model': 'product.template'}">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="type"/>
+                            <field name="datas" widget="binary" filename="name"/>
+                            <field name="url" attrs="{'readonly': [('type', '!=', 'url')]}"/>
+                            <field name="mimetype" optional="hide"/>
+                            <field name="create_date" readonly="1" optional="hide"/>
+                            <field name="description" optional="hide"/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

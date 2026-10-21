@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ================================================================
+             CONFIGURAÇÃO DO UTILIZADOR - PERGUNTAR ANTES DE CRIAR CONTA
+             ================================================================ -->
+
+        <record id="view_users_form_partner_account" model="ir.ui.view">
+            <field name="name">res.users.form.partner.account</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='preferences']" position="inside">
+                    <group string="Contas de Parceiros" name="partner_accounts">
+                        <field name="ask_create_partner_account"/>
+                        <div class="text-muted" colspan="2">
+                            Se ativo, o sistema perguntará se deseja criar conta contabilística ao criar um novo parceiro.
+                            Se inativo, a conta será criada automaticamente sem perguntar.
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

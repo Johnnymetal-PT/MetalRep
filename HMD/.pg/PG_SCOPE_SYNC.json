@@ -1,0 +1,4388 @@
+{
+  "client_unit": "HMD INTERIORS - EDI\u00c7\u00c3O PRODU\u00c7\u00c3O DE MOBILIARIO LDA",
+  "odoo_edition": "enterprise",
+  "odoo_environment": "on_premise",
+  "odoo_version": "18.0",
+  "project_id": 93,
+  "project_lists": {
+    "approvals": [],
+    "documents": [],
+    "integrations": [],
+    "known_exceptions": [],
+    "reporting_needs": [],
+    "standard_attempted_or_validated": [],
+    "users_and_roles": [],
+    "why_standard_was_insufficient": []
+  },
+  "project_name": "Odoo - HMD",
+  "project_phase": "[PONTO POR VALIDAR]",
+  "repository_summary": "Reposit\u00f3rio de customiza\u00e7\u00f5es Odoo 18 Enterprise para HMD, cobrindo vendas, compras, produ\u00e7\u00e3o de mobili\u00e1rio, stock/packing e website/eCommerce",
+  "restrictions": {
+    "additional_contract_restrictions": [
+      "N\u00e3o alterar vendor/odoo_src; confirmar restri\u00e7\u00f5es no PG_CONTEXT.md; priorizar standard > m\u00f3dulo standard > Studio > custom; manter customiza\u00e7\u00f5es compat\u00edveis com upgrade"
+    ],
+    "additional_modules_allowed": "yes",
+    "custom_allowed": "yes",
+    "standard_allowed": "yes",
+    "studio_allowed": "yes"
+  },
+  "schema_version": "1.0",
+  "scope_items": [
+    {
+      "acceptance_criteria": [
+        "uns enviados em branco outros seguem em duplicado",
+        "validar pf"
+      ],
+      "assigned_users": [
+        "Pedro Coelho"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Nina Ligou a reportar problemas de envio email",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2545&model=project.task",
+      "task_id": 2545,
+      "task_name": "Email Problemas de Envio",
+      "task_priority": "2",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "- N\u00e3o est\u00e1 a passar valores da venda para entrega - Nome do documento n\u00e3o aparece",
+        "- Contadores n\u00e3o est\u00e3o a funcionar",
+        "- Retirar ':' e '(...)' do nome do produto"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "N\u00e3o est\u00e1 a calcular cubicagem no produto",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2286&model=project.task",
+      "task_id": 2286,
+      "task_name": "Bugs",
+      "task_priority": "1",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Criar fases de tarefa por projeto: Desenho / Compras / Produ\u00e7\u00e3o / Montagem / Conclu\u00eddo.",
+        "Criar 4 templates de projeto: Encomenda Cliente, Projeto Interno, Forma\u00e7\u00e3o, Desenvolvimento.",
+        "Preservar filtros existentes para projetos internos/forma\u00e7\u00e3o."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Objetivo:* Reduzir project.project.stage a Novo / Em Progresso / Conclu\u00eddo.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5670&model=project.task",
+      "task_id": 5670,
+      "task_name": "[P1+P2+P3] Reformular fases projeto HMD \u2014 3 fases globais + fases tarefa + 4 templates",
+      "task_priority": "1",
+      "task_stage": "Sprint Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Reunir tabelas de custo dos paranist\u00e1rios com S\u00e9rgio (input obrigat\u00f3rio antes).",
+        "Criar spreadsheet de c\u00e1lculo de custo/transporte ligada ao or\u00e7amento."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Ativar documents_spreadsheet (enterprise).",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5671&model=project.task",
+      "task_id": 5671,
+      "task_name": "[V2] Configurar Spreadsheet Calculator de transportes",
+      "task_priority": "1",
+      "task_stage": "Sprint in Progress",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Aten\u00e7\u00e3o:* apenas layout \u2014 N\u00c3O alterar documento de fatura certificada PT.",
+        "Cliente confirmou: s\u00f3 layout, sem mexer no documento."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Ajuste de layout do relat\u00f3rio QWeb existente em ptplus_sale_advance_payment.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5672&model=project.task",
+      "task_id": 5672,
+      "task_name": "[C5] Reformular template QWeb recibo de adiantamento",
+      "task_priority": "1",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Passos: abrir conta Meta Business, definir n\u00famero de"
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "URGENTE \u2014 templates Meta podem demorar semanas a aprovar.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5674&model=project.task",
+      "task_id": 5674,
+      "task_name": "[V3] Levantar pr\u00e9-requisitos WhatsApp Business (conta Meta + n\u00famero dedicado)",
+      "task_priority": "1",
+      "task_stage": "Sprint Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir [v19] Aprovar instala\u00e7\u00e3o WhatsApp enterprise (custos Meta) \u2014 decis\u00e3o cliente."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Decis\u00e3o do cliente sobre instala\u00e7\u00e3o do m\u00f3dulo WhatsApp enterprise e conta Meta Business.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5700&model=project.task",
+      "task_id": 5700,
+      "task_name": "[v19] Aprovar instala\u00e7\u00e3o WhatsApp enterprise (custos Meta) \u2014 decis\u00e3o cliente",
+      "task_priority": "1",
+      "task_stage": "Sprint Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Testes em staging com utilizadores HMD durante 1-2 semanas antes do go-live.",
+        "Janela: semana de baixa atividade ap\u00f3s fecho de m\u00eas."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Upgrade em produ\u00e7\u00e3o com rollback preparado (snapshot completo).",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5703&model=project.task",
+      "task_id": 5703,
+      "task_name": "[v19] Upgrade produ\u00e7\u00e3o Odoo 18\u219219 + go-live (janela Dez/Jan)",
+      "task_priority": "1",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir criar novo documento fatura\u00e7\u00e3o com Instrastat, HSCode e C\u00f3digo de Pa\u00eds."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Criar novo documento fatura\u00e7\u00e3o com Instrastat, HSCode e C\u00f3digo de Pa\u00eds",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5734&model=project.task",
+      "task_id": 5734,
+      "task_name": "Criar novo documento fatura\u00e7\u00e3o com Instrastat, HSCode e C\u00f3digo de Pa\u00eds",
+      "task_priority": "1",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Cl\u00e1udio Pereira",
+        "Jo\u00e3o Barros",
+        "Mariana Oliveira",
+        "Pedro Coelho",
+        "Vitor Costa"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=630&model=project.task",
+      "task_id": 630,
+      "task_name": "Kick Off",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir instalar V18 Servidor Cloud."
+      ],
+      "assigned_users": [
+        "Vitor Costa"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Servidor JLL",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=641&model=project.task",
+      "task_id": 641,
+      "task_name": "Instalar V18 Servidor Cloud",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Inserir os pre\u00e7os das vari\u00e1veis manualmente - Os pre\u00e7os v\u00e3o depender de mais do que uma variante",
+        "Adicionar m\u00f3dulo de campo de CC aos emails"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros",
+        "Pedro Coelho",
+        "Pedro Nunes"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Template de lista de pre\u00e7os meter tamb\u00e9m a quantidade m\u00ednima do produto",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=654&model=project.task",
+      "task_id": 654,
+      "task_name": "Levantamento de Cat\u00e1logo",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir criar Base de Dados e inserir artigos e contactos."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Esperar pela rece\u00e7\u00e3o dos excels da Nina",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=655&model=project.task",
+      "task_id": 655,
+      "task_name": "Criar Base de Dados e inserir artigos e contactos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=930&model=project.task",
+      "task_id": 930,
+      "task_name": "Reuni\u00e3o Ponto de Situa\u00e7\u00e3o",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir importa\u00e7\u00e3o de PHC."
+      ],
+      "assigned_users": [
+        "Mariana Oliveira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Importa\u00e7\u00e3o de PHC",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=939&model=project.task",
+      "task_id": 939,
+      "task_name": "Importa\u00e7\u00e3o de PHC",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Gra\u00e7a Cardoso da Silva - CEO e Gerente - - gcs@hmdfurniture.com",
+        "Nina Hedderich - Vendas e Opera\u00e7\u00f5es - - nina@hmdfurniture.com",
+        "Monica Hedderich - Dir. Criativa e head designer"
+      ],
+      "assigned_users": [
+        "Mariana Oliveira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Dados fiscais HMD",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=945&model=project.task",
+      "task_id": 945,
+      "task_name": "Dados Cliente",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=949&model=project.task",
+      "task_id": 949,
+      "task_name": "Forma\u00e7\u00e3o Inicial",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Vitor Costa"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1041&model=project.task",
+      "task_id": 1041,
+      "task_name": "Certifica\u00e7\u00e3o Odoo",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Mariana Oliveira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1043&model=project.task",
+      "task_id": 1043,
+      "task_name": "Website",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Hugo Ferreira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Acessos ao PHC",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1044&model=project.task",
+      "task_id": 1044,
+      "task_name": "Acessos ao PHC",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir listagem de pendentes PHC para importar Odoo."
+      ],
+      "assigned_users": [
+        "Joao Castro",
+        "Mariana Oliveira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Ficou marcado para ter\u00e7a-feira, da parte da manh\u00e3",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1045&model=project.task",
+      "task_id": 1045,
+      "task_name": "Listagem de pendentes PHC para importar Odoo",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Mariana Oliveira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1075&model=project.task",
+      "task_id": 1075,
+      "task_name": "Reuni\u00f5es",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir d\u00favida Cria\u00e7\u00e3o de Variantes."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "D\u00favida Cria\u00e7\u00e3o de Variantes",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1086&model=project.task",
+      "task_id": 1086,
+      "task_name": "D\u00favida Cria\u00e7\u00e3o de Variantes",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1094&model=project.task",
+      "task_id": 1094,
+      "task_name": "Reuni\u00e3o",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Hugo Ferreira",
+        "Mariana Oliveira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1098&model=project.task",
+      "task_id": 1098,
+      "task_name": "Configurar Emails",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1284&model=project.task",
+      "task_id": 1284,
+      "task_name": "Reuni\u00e3o Ponto Situa\u00e7\u00e3o",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir configurar um email."
+      ],
+      "assigned_users": [
+        "Hugo Ferreira",
+        "Mariana Oliveira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Configurar um email",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1285&model=project.task",
+      "task_id": 1285,
+      "task_name": "Configurar um email",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir verificar o reply no CRM."
+      ],
+      "assigned_users": [
+        "Vitor Costa"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Resposta a emails no CRM n\u00e3o est\u00e1 a cair no chatter.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1286&model=project.task",
+      "task_id": 1286,
+      "task_name": "Verificar o reply no CRM",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir criar uma p\u00e1gina tipo formul\u00e1rio no website."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Criar uma p\u00e1gina tipo formul\u00e1rio no website",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1287&model=project.task",
+      "task_id": 1287,
+      "task_name": "Criar uma p\u00e1gina tipo formul\u00e1rio no website",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1319&model=project.task",
+      "task_id": 1319,
+      "task_name": "Forma\u00e7\u00e3o",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1833&model=project.task",
+      "task_id": 1833,
+      "task_name": "Melhoramento website",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir verifica\u00e7\u00e3o de erro com imagens no envio de marketing."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Quando s\u00e3o enviados emails do modulo marketing imagens nao aparecem",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1837&model=project.task",
+      "task_id": 1837,
+      "task_name": "Verifica\u00e7\u00e3o de erro com imagens no envio de marketing",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Hugo Ferreira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Erro com envio de emails marketing",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1858&model=project.task",
+      "task_id": 1858,
+      "task_name": "Erro com envio de emails marketing",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Aparecer Produto Principal nos Projetos (Neste momento est\u00e3o a aparecer variantes)",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1862&model=project.task",
+      "task_id": 1862,
+      "task_name": "Aparecer Produto Principal nos Projetos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir ajustar acesso clientes registados."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Permitir acesso a clientes ao pre\u00e7os e carrinho nos produtos",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1865&model=project.task",
+      "task_id": 1865,
+      "task_name": "Ajustar acesso clientes registados",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir instalar M\u00f3dulos Anexos de Produto e Imagens Variantes."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Instalar M\u00f3dulos Anexos de Produto e Imagens Variantes",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1868&model=project.task",
+      "task_id": 1868,
+      "task_name": "Instalar M\u00f3dulos Anexos de Produto e Imagens Variantes",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1875&model=project.task",
+      "task_id": 1875,
+      "task_name": "Reuni\u00e3o Presencial",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Instala\u00e7\u00e3o PTPlus",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1903&model=project.task",
+      "task_id": 1903,
+      "task_name": "Instala\u00e7\u00e3o PTPlus",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir atualizar Servidor para ultima versao."
+      ],
+      "assigned_users": [
+        "Vitor Costa"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Atualizar Servidor para ultima versao",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1932&model=project.task",
+      "task_id": 1932,
+      "task_name": "Atualizar Servidor para ultima versao",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Mariana Oliveira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Sem acesso a App Documentos",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1939&model=project.task",
+      "task_id": 1939,
+      "task_name": "Sem acesso a App Documentos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Vitor Costa"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1950&model=project.task",
+      "task_id": 1950,
+      "task_name": "Verificar Chatter",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "\u0131 T",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1956&model=project.task",
+      "task_id": 1956,
+      "task_name": "erro entrar no odoo",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Alterar posi\u00e7\u00e3o de imagens media extra para topo da p\u00e1gina"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Criar campo para Desenho T\u00e9cnico para depois aparecer no website debaixo do pre\u00e7o",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1959&model=project.task",
+      "task_id": 1959,
+      "task_name": "Criar campo para Desenho T\u00e9cnico / Alterar posi\u00e7\u00e3o de imagens media extra para topo da p\u00e1gina",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Ficha_Tecnica Site (Fichas Tecnicas)",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1961&model=project.task",
+      "task_id": 1961,
+      "task_name": "Separa\u00e7\u00e3o de Ficheiros por nome",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir instalar M\u00f3dulo de Retirar Variantes do Website."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Instalar M\u00f3dulo de Retirar Variantes do Website",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1964&model=project.task",
+      "task_id": 1964,
+      "task_name": "Instalar M\u00f3dulo de Retirar Variantes do Website",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir importar compras e vendas do PHC."
+      ],
+      "assigned_users": [
+        "Joao Castro"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Importar compras e vendas do PHC",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1970&model=project.task",
+      "task_id": 1970,
+      "task_name": "Importar compras e vendas do PHC",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "\u00c9 que h\u00e1 produtos em que excedemos o numero de variantes e na realidade, poder\u00edamos agrupar algumas variantes dessa forma."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "No campo aberto das variantes n\u00e3o podemos condicionar a resposta/texto com uma lista de escolha? Image",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1975&model=project.task",
+      "task_id": 1975,
+      "task_name": "D\u00favida Variantes",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir criar BD teste para o Odoo."
+      ],
+      "assigned_users": [
+        "Mariana Oliveira",
+        "Vitor Costa"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Criar BD teste para o Odoo",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=1985&model=project.task",
+      "task_id": 1985,
+      "task_name": "Criar BD teste para o Odoo",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Eu sou a respons\u00e1vel pelo pagamento e gest\u00e3o dessa parte pelo que terei de ter acesso m\u00e1ximo e depois cada pessoa deve ver apenas o que diz respeito aos seus documentos.",
+        "Podemos fazer uma reuni\u00e3o r\u00e1pida para ver isso? Amanh\u00e3 por exemplo?"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Precisava de configurar a parte de RH para que cada pessoa possa ter acesso aos seus recibos de vencimento (e apenas aos seus) e tamb\u00e9m gerir quem pode ver a informa\u00e7\u00e3o.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2003&model=project.task",
+      "task_id": 2003,
+      "task_name": "Gest\u00e3o RH",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Hugo Ferreira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Criar e-mail para envio de faturas de fornecedores",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2026&model=project.task",
+      "task_id": 2026,
+      "task_name": "email faturas",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Joao Castro"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Temos informa\u00e7\u00e3o no CRM do PHC que queremos passar para o Odoo, nomeadamente os negocios",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2028&model=project.task",
+      "task_id": 2028,
+      "task_name": "Informa\u00e7oes CRM PHC",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir sincronizar calendario Odoo com Outlook."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Sincronizar calendario Odoo com Outlook",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2046&model=project.task",
+      "task_id": 2046,
+      "task_name": "Sincronizar calendario Odoo com Outlook",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "File \"/ProgGest/Odoo18/Server line 1963, in transactioning",
+        "File \"/ProgGest/Odoo18/Server line 156, in retrying",
+        "File \"/ProgGest/Odoo18/Server line 1930, in serveir_http"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "RPC_ERROR",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2048&model=project.task",
+      "task_id": 2048,
+      "task_name": "ERRO - produto ISAC",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2049&model=project.task",
+      "task_id": 2049,
+      "task_name": "Tele-Forma\u00e7\u00e3o de Compras a Fornecedor",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Eduardo Pacheco",
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Passar m\u00f3dulos tecidos para v18",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2068&model=project.task",
+      "task_id": 2068,
+      "task_name": "Passar m\u00f3dulos tecidos para v18",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Queremos que cada produto tenha a sua pr\u00f3pria apresenta\u00e7\u00e3o."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "No produto DUDA fizemos uma simula\u00e7\u00e3o de como queremos a pagina de produto. No entanto, o que fiz ficou em todas as paginas de produto.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2118&model=project.task",
+      "task_id": 2118,
+      "task_name": "Pagina Produtos WEBSITE",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "\u0131 T",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2119&model=project.task",
+      "task_id": 2119,
+      "task_name": "Deixou de aparecer a op\u00e7\u00e3o compra nos produtos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Vitor Costa"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Actualizar modulo PT-Exo",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2147&model=project.task",
+      "task_id": 2147,
+      "task_name": "Actualizar modulo PT-Exo",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "D\u00favidas em rela\u00e7\u00e3o a constru\u00e7\u00e3o de Listas de Materias",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2154&model=project.task",
+      "task_id": 2154,
+      "task_name": "D\u00favidas em rela\u00e7\u00e3o a constru\u00e7\u00e3o de Listas de Materias",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "\u00e9 poss\u00edvel fazer isso no nosso site? ou seja, colocar os produtos como produtos alternativos / opcionais e o site redirecionar para a pagina do artigo com a caracteristica selecionada?"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "No exemplo abaixo no site do IKEA, aparece a op\u00e7\u00e3o para selecionar outros tamanho e parece que o site abre outro produto (outra pagina diferente).",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2161&model=project.task",
+      "task_id": 2161,
+      "task_name": "produtos - hmd odoo",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "- RH; - Importa\u00e7\u00f5es do PHC (Jo\u00e3o Castro); (Contactos) - P\u00e1ginas de produtos de website - Mapas Documentos",
+        "Or\u00e7amento de CRM confirmado CRM Ganho",
+        "Microempresa (A\u00e7\u00e3o agendada PT Invoice False)"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Pontos a debater",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2182&model=project.task",
+      "task_id": 2182,
+      "task_name": "Reuni\u00e3o de Ponto de Situa\u00e7\u00e3o",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Exportar do phc e com o chatgpt fazer match e importar no odoo",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2189&model=project.task",
+      "task_id": 2189,
+      "task_name": "Importar Contactos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir criar Projeto no crm ao criar or\u00e7amento."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Criar Projeto no crm ao criar or\u00e7amento",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2190&model=project.task",
+      "task_id": 2190,
+      "task_name": "Criar Projeto no crm ao criar or\u00e7amento",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir instalar M\u00f3dulo de email CC e Resposta direta a email."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Instalar M\u00f3dulo de email CC e Resposta direta a email",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2202&model=project.task",
+      "task_id": 2202,
+      "task_name": "Instalar M\u00f3dulo de email CC e Resposta direta a email",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Neste momento todos os anexos est\u00e3o a ir para uma pasta geral, o que dificulta a organiza\u00e7\u00e3o e pesquisa nos documentos."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Necessitamos que os anexos de cada produtos, ao passarem para o modulo documentos, que sejam direcionados automaticamente para uma pasta com o nome do produto.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2223&model=project.task",
+      "task_id": 2223,
+      "task_name": "Organiza\u00e7\u00e3o anexos dos produtos - modulo documentos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Alinhar BoM mais antiga em cima",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2225&model=project.task",
+      "task_id": 2225,
+      "task_name": "Alinhar BoM mais antiga em cima",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Adaptar m\u00f3dulo de tecidos para substituir termos diretamento no componente",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2234&model=project.task",
+      "task_id": 2234,
+      "task_name": "Adaptar M\u00f3dulo Tecidos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2235&model=project.task",
+      "task_id": 2235,
+      "task_name": "Suporte",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "SE FOR PRODUTO CUSTOM, H\u00c1 UM PEDIDO DE OR\u00c7AMENTO A FORNECEDORES POR E-MAIL. (N\u00c3O TEMOS DOCUMENTO)",
+        "CALCULO DOS PRE\u00c7OS EM EXCEL",
+        "CRIA\u00c7\u00c3O DE PROPOSTA DE CONTACTO"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "PEDIDO CLIENTE POR E-MAIL",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2252&model=project.task",
+      "task_id": 2252,
+      "task_name": "PROCESSO DE VENDA E TEMPLATES",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Reuni\u00e3o online - D\u00favidas e Ponto Situa\u00e7\u00e3o",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2266&model=project.task",
+      "task_id": 2266,
+      "task_name": "Reuni\u00e3o online - D\u00favidas e Ponto Situa\u00e7\u00e3o",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Cl\u00e1udio Pereira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2268&model=project.task",
+      "task_id": 2268,
+      "task_name": "Kick Off",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": [
+        "Project Management"
+      ]
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "i T",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2269&model=project.task",
+      "task_id": 2269,
+      "task_name": "acesso:(",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Reuni\u00e3o Presencial para esclarecimento de d\u00favidas gerais e acompanhamento na cria\u00e7\u00e3o de BoM",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2288&model=project.task",
+      "task_id": 2288,
+      "task_name": "Reuni\u00e3o Presencial para esclarecimento de d\u00favidas e acompanhamento",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Migra\u00e7\u00e3o de servidor para SH",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2289&model=project.task",
+      "task_id": 2289,
+      "task_name": "Migra\u00e7\u00e3o de servidor para SH",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir atualizar Exo software."
+      ],
+      "assigned_users": [
+        "Vitor Costa"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Atualizar Exo software",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2332&model=project.task",
+      "task_id": 2332,
+      "task_name": "Atualizar Exo software",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "i T",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2334&model=project.task",
+      "task_id": 2334,
+      "task_name": "erro ao selecionar acabamento no produto",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Como fal\u00e1mos, substitui o nome de todos os atributos que s\u00e3o para eliminar.",
+        "Pareceu-me mais f\u00e1cil dar logo o nome APAGAR, acho que n\u00e3o deixa margem para d\u00favida"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Espero que as f\u00e9rias tenham sido boas!",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2337&model=project.task",
+      "task_id": 2337,
+      "task_name": "Apagar atributos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "i T",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2341&model=project.task",
+      "task_id": 2341,
+      "task_name": "erro de acesso",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "O Miguel colocou os desenhos t\u00e9cnicos nos artigos de compra baga e 211. No modulo documentos conseguimos ver os ficheiros e o nome dos produtos aos quais est\u00e3o associados mas no produto em si e na lista de materiais n\u00e3o aparecem esses documentos.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2351&model=project.task",
+      "task_id": 2351,
+      "task_name": "Erro nos documentos dos produtos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Penso que a configura\u00e7\u00e3o do e-mail",
+        "No entanto, \u00e9 poss\u00edvel fazer isto tamb\u00e9m com o info? N\u00e3o digo que v\u00e1 para o CRM mas que seja poss\u00edvel filtrar/ criar tarefas a partir dos e-mail recebidos no"
+      ],
+      "assigned_users": [
+        "Hugo Ferreira",
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "customer@hmdfurniture.com para que crie automaticamente um lead no crm n\u00e3o est\u00e1 ativa.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2354&model=project.task",
+      "task_id": 2354,
+      "task_name": "Funil vendas",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "ERRO DE ACESSO",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2371&model=project.task",
+      "task_id": 2371,
+      "task_name": "ERRO DE ACESSO",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "ERRO ACESSO",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2372&model=project.task",
+      "task_id": 2372,
+      "task_name": "ERRO ACESSO",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "ERRO DE ACESSO",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2373&model=project.task",
+      "task_id": 2373,
+      "task_name": "ERRO DE ACESSO",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "None Discover more here",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2405&model=project.task",
+      "task_id": 2405,
+      "task_name": "\u00c9 poss\u00edvel acrescentar fotos \u00e0s propostas a cliente?",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Hugo Ferreira",
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "N\u00e3o estamos a receber as respostas no odoo",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2412&model=project.task",
+      "task_id": 2412,
+      "task_name": "Respostas clientes e-mail",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir configura\u00e7\u00e3o de Firewall PFSense."
+      ],
+      "assigned_users": [
+        "Hugo Ferreira",
+        "Vitor Costa"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Configura\u00e7\u00e3o de Firewall PFSense",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2421&model=project.task",
+      "task_id": 2421,
+      "task_name": "Configura\u00e7\u00e3o de Firewall PFSense",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir associar artigo a uma tarefa no projeto."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Associar artigo a uma tarefa no projeto",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2422&model=project.task",
+      "task_id": 2422,
+      "task_name": "Associar artigo a uma tarefa no projeto",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Hugo Ferreira",
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Bloqueio de mails em massa / Respostas clientes e-mail / Funil de Vendas",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2430&model=project.task",
+      "task_id": 2430,
+      "task_name": "Bloqueio de mails em massa / Respostas clientes e-mail / Funil de Vendas",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "No entanto, no pdf esta indica\u00e7\u00e3o n\u00e3o aparece apesar do valor final ser o mesmo.",
+        "Como j\u00e1 t\u00ednhamos visto, atualmente n\u00f3s utilizamos 2 campos de desconto em cada artigo (40% + 10%) mas como n\u00e3o temos essa op\u00e7\u00e3o no Odoo, fizemos o desconto final."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Neste or\u00e7amento utilizamos m desconto extra global de 10% conforme podes ver abaixo",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2432&model=project.task",
+      "task_id": 2432,
+      "task_name": "Or\u00e7amento Cliente - erro no desconto",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir verificar sa\u00edda email marketing por odoobot."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Verificar sa\u00edda email marketing por odoobot",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2473&model=project.task",
+      "task_id": 2473,
+      "task_name": "Verificar sa\u00edda email marketing por odoobot",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir cria\u00e7\u00e3o CRM atrav\u00e9s de email."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Cria\u00e7\u00e3o CRM atrav\u00e9s de email",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2475&model=project.task",
+      "task_id": 2475,
+      "task_name": "Cria\u00e7\u00e3o CRM atrav\u00e9s de email",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Hugo Ferreira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Mudan\u00e7a de office 365 para nosso revendedor",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2495&model=project.task",
+      "task_id": 2495,
+      "task_name": "Mudan\u00e7a de office 365 para nosso revendedor",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir associar documento de origem a pedidos a fornecedor."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "\u00c9 poss\u00edvel associar uma solicita\u00e7\u00e3o de cota\u00e7\u00e3o inicial a um documento \u2013 Or\u00e7amento a cliente antes de \u201ctrancar o documento\u201d?",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2497&model=project.task",
+      "task_id": 2497,
+      "task_name": "Associar documento de origem a pedidos a fornecedor",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Em baixo exemplo de como temos atualmente no PHC"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "CRIAR NOVO SEPARADOR \u201c DADOS DE CARGA\u201d",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2518&model=project.task",
+      "task_id": 2518,
+      "task_name": "ALTERAR LOCALIZA\u00c7AO IMAGEM PALETES",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Ficha de Produto RFQ's link - X Validar template de email Quotation (SO duplicado) - X Preenchimento campo Projeto todo lado obrigat\u00f3rio - X Checkpoints controlo qualidade (A Entregar / A Receber)"
+      ],
+      "assigned_users": [
+        "Cl\u00e1udio Pereira",
+        "Jo\u00e3o Barros",
+        "S\u00e9rgio Moreira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Calculadora linhas de SO para pre\u00e7os de produtos com base em RFQ's + Margem + Obs - X",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2530&model=project.task",
+      "task_id": 2530,
+      "task_name": "Reuni\u00e3o 30/07/2025",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir registo em Falta."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Como comentei ontem, sempre que abro tarefas, ou novas janelas, aparece isto.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2538&model=project.task",
+      "task_id": 2538,
+      "task_name": "Registo em Falta",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir \u00e9 poss\u00edvel alterar as defini\u00e7\u00f5es desta opera\u00e7\u00e3o para permitir passar o or\u00e7amento para edit\u00e1vel?."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "None Discover more here",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2561&model=project.task",
+      "task_id": 2561,
+      "task_name": "\u00c9 poss\u00edvel alterar as defini\u00e7\u00f5es desta opera\u00e7\u00e3o para permitir passar o or\u00e7amento para edit\u00e1vel?",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "D\u00favidas sobre imagens e p\u00e1gina do produto",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2570&model=project.task",
+      "task_id": 2570,
+      "task_name": "D\u00favidas sobre imagens e p\u00e1gina do produto",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "None Discover more here",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2612&model=project.task",
+      "task_id": 2612,
+      "task_name": "acesso",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2613&model=project.task",
+      "task_id": 2613,
+      "task_name": "Desenvolvimento Website",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Na zona das compras nos produtos, h\u00e1 maneira de ligar \u00e0s compras criando um rfq do produto em quest\u00e3o? Basicamento um botao com liga\u00e7\u00e3o direta a app compras",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2614&model=project.task",
+      "task_id": 2614,
+      "task_name": "Seria poss\u00edvel pedi or\u00e7amentos atrav\u00e9s do Produto?",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Como colocar o desconto a zero, na linha, quando um cliente tem definido 40% de desconto?",
+        "Por exemplo na refer\u00eancia transporte ou seguro?",
+        "Aparece muitas vezes em varias situa\u00e7\u00f5es."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "se tentar colocar a zero no documento, o programa assume sempre os 40%. Consigo colocar 0,01%, mas isso n\u00e3o \u00e9 solu\u00e7\u00e3o.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2623&model=project.task",
+      "task_id": 2623,
+      "task_name": "Duvidas Erros",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Gostaria de reunir para perceber o ponto de situa\u00e7\u00e3o desde a \u00faltima reuni\u00e3o relativamente aos desenvolvimentos propostos assim como das tarefas/erros/d\u00favidas que foram sendo enviadas para hmd@parametrogloval.odoo.com.",
+        "Follow us on: None Facebook & None Instagram"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Espero que esteja tudo bem convosco.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2631&model=project.task",
+      "task_id": 2631,
+      "task_name": "Ponto de situa\u00e7\u00e3o HMD Furniture",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Descontos nas vendas n\u00e3o d\u00e3o para alterar",
+        "Ver possibilidade de aviso antes de apagar PDF nas linhas"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Adicionar um checkbox de email a fornecer enviado (Compras)",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2643&model=project.task",
+      "task_id": 2643,
+      "task_name": "Reuni\u00e3o 04/09/25",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Por favor rever a situa\u00e7\u00e3o o mais brevemente poss\u00edvel."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "O S\u00e9rgio continua sem acesso a alguns artigos. Neste momento estamos a tentar confirmar encomendas e n\u00e3o conseguimos avan\u00e7ar.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2663&model=project.task",
+      "task_id": 2663,
+      "task_name": "Acesso S\u00e9rgio",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "M\u00f3nica pede que lhe ligues para alguns esclarecimentos",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2664&model=project.task",
+      "task_id": 2664,
+      "task_name": "Esclarecimentos D\u00favidas",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Alterar grelha de imagens na p\u00e1gina do produto",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2717&model=project.task",
+      "task_id": 2717,
+      "task_name": "Alterar grelha de imagens na p\u00e1gina do produto",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Os campos a vermelho t\u00eam de ir buscar a informa\u00e7\u00e3o este parenteses",
+        "Thank you for your order. Enclosed please find our order confirmation nr.",
+        "Please review your Company data, including delivery address and VAT nr, as well as the items and prices listed."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Precisamos de este template ao enviar um confirma\u00e7\u00e3o de encomenda.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2727&model=project.task",
+      "task_id": 2727,
+      "task_name": "Template para envio de encomendar cliente",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir ao enviar or\u00e7amento a cliente, anexo 2 vezes o documento."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "continua a aparecer 2 vezes o or\u00e7amento ao enviar o e-mail",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2728&model=project.task",
+      "task_id": 2728,
+      "task_name": "Ao enviar or\u00e7amento a cliente, anexo 2 vezes o documento",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "<![if !vml]> Image <![endif]><![if !vml]><![endif]> Image"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "EST\u00c1 A COLOCAR O NR DO OR MAL NO ASSUNTO DO E-MAIL",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2729&model=project.task",
+      "task_id": 2729,
+      "task_name": "E-mail template para clientes",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Se entrar no artigo a partir de inventario artigos, consigo ver os 5 anexos em documentos.",
+        "Este artigo faz parte da BOM do artigo de venda POUF \u2013 MASTER BEDROOM FABRIC PIERRE FREY. Se vir a lista de materiais e, a partir dela, entrar no artigo inicial POUF \u2013 MASTER BEDROOM deixo de ver qualquer documento. M...",
+        "\u00c9 poss\u00edvel corrigir?"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Temos um exemplo de um artigo POUF - MASTER BEDROOM que tem uma s\u00e9rie de documentos anexados.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2732&model=project.task",
+      "task_id": 2732,
+      "task_name": "N\u00e3o conseguimos ver documentos do mesmo artigo ao aceder atrav\u00e9s do BoM",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Pretende saber se \u00e9 poss\u00edvel ou n\u00e3o Por favor ligar com cliente a validar tarefas"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "M\u00f3nica j\u00e1 validou a quest\u00e3o da galeria de produtos em colunas por\u00e9m a mesma era para ser din\u00e2mica poder variar numero de colunas",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2761&model=project.task",
+      "task_id": 2761,
+      "task_name": "Galeria de Produtos em Colunas din\u00e2micas",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Continua a dar v\u00e1rios erros de acesso!",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2764&model=project.task",
+      "task_id": 2764,
+      "task_name": "Erros Continua a dar v\u00e1rios erros de acesso!",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Ao confirmar a mesma, foi gerada a Ordem de Produ\u00e7\u00e3o",
+        "OP/00147, que por sua vez, depois de confirmada, gerou os pedidos a fornecedor",
+        "bot\u00f5es FABRICA\u00c7\u00c3O e MANUFACTURING ORDERS \u2013 s\u00e3o a mesma coisa? Ou v\u00eam de"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Estivemos a lan\u00e7ar um nova encomenda \u2013 NE A/00063 com data",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2778&model=project.task",
+      "task_id": 2778,
+      "task_name": "NE 00063 - Datas e compras",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Podem confirmar se estou a p\u00f4r os dados corretos?",
+        "E-mail e password que utilizo para entrar no browser"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Fiz log out da app no",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2785&model=project.task",
+      "task_id": 2785,
+      "task_name": "Erro log app telem\u00f3vel",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "de ter o 2\u00ba desconto nas linhas das ordens de venda."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Tal como fal\u00e1mos numa das \u00faltimas reuni\u00f5es, necessit\u00e1vamos",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2788&model=project.task",
+      "task_id": 2788,
+      "task_name": "2do Desconto linhas ordem de Venda",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Tamb\u00e9m detetamos outra situa\u00e7\u00e3o que pode ser mais grave que \u00e9 apareceu o e-mail abaixo no chat no Odoo (no or\u00e7amento S00279) mas n\u00e3o foi recebida no Outlook.",
+        "Podem por favor rever esta situa\u00e7\u00e3o?",
+        "H\u00e1 algum procedimento que possamos fazer quando detetamos estas falhas?"
+      ],
+      "assigned_users": [
+        "Hugo Ferreira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "registados na plataforma).",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2795&model=project.task",
+      "task_id": 2795,
+      "task_name": "Emails Falhas",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "@Joao Barros Ol\u00e1 Nina. A situa\u00e7\u00e3o da aba que aparece la lista de materiais\"Ver Produtos\" e carregar na seta (Como faz\u00edamos) faz-me alguma confus\u00e3o. at\u00e9 porque a informa\u00e7\u00e3o \u00e9 diferente nos dois s\u00edtios. Qual a correta?..."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "@Joao Barros Ol\u00e1 Nina. A situa\u00e7\u00e3o da aba que aparece la lista de materiais\"Ver Produtos\" e carregar na seta (Como faz\u00edamos) faz-me alguma confus\u00e3o. at\u00e9 porque a informa\u00e7\u00e3o \u00e9 diferente [...]",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2813&model=project.task",
+      "task_id": 2813,
+      "task_name": "RI BED QUEEN - ALTURA 100CM",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "vezes n\u00e3o. Quer\u00edamos perceber porque \u00e9 que isto acontece para podermos corrigir caso seja algo que n\u00e3o estamos a fazer bem.",
+        "Para colmatar isto, estamos a reencaminhar os e-mails recebidos no Outlook mas n\u00e3o no odoo para o Catchall \u2013 algum problema em fazer isto?"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Relativamente \u00e0s respostas dos clientes/fornecedores, continuamos com alguma incoer\u00eancia quanto a ficarem registadas ou n\u00e3o no chat do respetivo documento. \u00c0s vezes as respostas v\u00e3o para o Odoo outras",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2814&model=project.task",
+      "task_id": 2814,
+      "task_name": "OR A/0075 - PO 1703 PROJECT 1759",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Preciso de ter uma conclus\u00e3o quanto \u00e0 galeria de imagens nos",
+        "Vi que h\u00e1 umas semanas j\u00e1 come\u00e7aram a trabalhar nisso mas",
+        "n\u00e3o conclu\u00edram. Porque continua tudo igual e n\u00e3o satisfat\u00f3rio image"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "produtos para continuar a colocar imagens",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2831&model=project.task",
+      "task_id": 2831,
+      "task_name": "Galeria de Imagens",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Checkpoints controlo qualidade (A Entregar / A Receber)",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2840&model=project.task",
+      "task_id": 2840,
+      "task_name": "Checkpoints controlo qualidade (A Entregar / A Receber)",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Forma\u00e7\u00e3o geral",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2842&model=project.task",
+      "task_id": 2842,
+      "task_name": "Forma\u00e7\u00e3o geral",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir importar saldos de PHC."
+      ],
+      "assigned_users": [
+        "Joao Castro"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Importar saldos de PHC",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2843&model=project.task",
+      "task_id": 2843,
+      "task_name": "Importar saldos de PHC",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2844&model=project.task",
+      "task_id": 2844,
+      "task_name": "Certificar",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Adicionar campo pre\u00e7o fornecedor OP - X",
+        "Bot\u00e3o ver produtos na vista nova OP - X Pesquisa de or\u00e7amentos por artigo da linha - X",
+        "Colocar imagens de produto na linha - X"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "/Feito e entregue:/",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2863&model=project.task",
+      "task_id": 2863,
+      "task_name": "Reuni\u00e3o 14/10",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "\ud83d\udfe2 ** Entrega/ Packing List funcional",
+        "Ao criar a Packing List",
+        "Importa automaticamente os campos do produto e a previs\u00e3o de carga se existir na encomenda"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Como fal\u00e1mos ontem, para a packing list na entrega das encomendas necessitamos do seguinte",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2872&model=project.task",
+      "task_id": 2872,
+      "task_name": "HMD - Packing List",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "a enviar o e-mail de teste.",
+        "Na semana passada estava com o mesmo problema mas por fim",
+        "na segunda, conseguimos receber os testes."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Temos novamente o problema no envio de newsletters, n\u00e3o est\u00e1",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2884&model=project.task",
+      "task_id": 2884,
+      "task_name": "dificuldades com envio de newsletter",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Ao ver uma lista de materiais espec\u00edfica, \u00e9 possivel perceber de onde veio? De que ordem de venda/ ordem de producao?"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "No chater conseguimos perceber quem criou e a data mas nao o documento que lhe deu origem.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2909&model=project.task",
+      "task_id": 2909,
+      "task_name": "lista de materiais",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Passar desconto para contactos e automa\u00e7\u00e3o PG Desconto de Cliente",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2922&model=project.task",
+      "task_id": 2922,
+      "task_name": "Passar desconto para contactos e automa\u00e7\u00e3o PG Desconto de Cliente",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "(no caso abaixo queria que as linhas com o artigo TRSP ficassem em baixo)",
+        "Pode ver o que se passa?"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Hoje pela primeira vez, ao adicionar um novo artigo numa ordem de venda, o novo artigo est\u00e1 a ficar gravado na segunda linha da encomenda e n\u00e3o consigo alterar a ordem das linhas.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2961&model=project.task",
+      "task_id": 2961,
+      "task_name": "Linhas da ordem de venda",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=2965&model=project.task",
+      "task_id": 2965,
+      "task_name": "Reuni\u00e3o Ponto Situa\u00e7\u00e3o",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Passar desconto para contactos e automa\u00e7\u00e3o PG Desconto de Cliente",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3220&model=project.task",
+      "task_id": 3220,
+      "task_name": "Passar desconto para contactos e automa\u00e7\u00e3o PG Desconto de Cliente",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Report Pro-forma a sair com nome encomenda e deduzir valores de adiantamento",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3223&model=project.task",
+      "task_id": 3223,
+      "task_name": "Report Pro-forma a sair com nome encomenda e deduzir valores de adiantamento",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Documento Opera\u00e7\u00f5es de Stock passa a ser Packing List.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3227&model=project.task",
+      "task_id": 3227,
+      "task_name": "Documento Opera\u00e7\u00f5es de Stock passa a ser Packing List.",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3228&model=project.task",
+      "task_id": 3228,
+      "task_name": "Configurar Wave Transfer.",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Retirar attachments automaticos de SO",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3229&model=project.task",
+      "task_id": 3229,
+      "task_name": "Retirar attachments automaticos de SO",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "PG Imagem Paletes",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3230&model=project.task",
+      "task_id": 3230,
+      "task_name": "PG Imagem Paletes",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Cl\u00e1udio Pereira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Pedir Cota\u00e7\u00e3o para SH",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3295&model=project.task",
+      "task_id": 3295,
+      "task_name": "Pedir Cota\u00e7\u00e3o para SH",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Boolean linha para foto/sem foto Boolean geral para sele\u00e7\u00e3o total",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3325&model=project.task",
+      "task_id": 3325,
+      "task_name": "Encomendas a fornecedor c/e sem imagens",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Acontece que ao duplicar, assume tudo igual ao documento de origem, mas nos descontos, eles est\u00e3o indicados, mas n\u00e3o s\u00e3o aplicados.",
+        "Atualizar o status, n\u00e3o corrige.",
+        "Mudar o desconto, colocar a 0 e voltar a colocar 40, nada."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Como n\u00e3o podemos alterar um documento j\u00e1 emitido, dupliquei o documento para pode efetuar as altera\u00e7\u00f5es necess\u00e1rias.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3326&model=project.task",
+      "task_id": 3326,
+      "task_name": "HMD Furniture - Bug descontos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "A clicar em enviar por e-mail um or\u00e7amento, o programa n\u00e3o est\u00e1 a ir buscar o n\u00famero correto do or\u00e7amento no assunto mas sim sem Ref OR A/00033",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3417&model=project.task",
+      "task_id": 3417,
+      "task_name": "HMD ODOO Informa\u00e7\u00e3o errada no assunto de e-mail de envio de or\u00e7amentos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "venda a eliminar. Nos artigos h\u00e1 tamb\u00e9m ainda registos para apagar (neste caso",
+        "o nome do artigo \u00e9 mesmo APAGAR)"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Seguem as ordens de",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3468&model=project.task",
+      "task_id": 3468,
+      "task_name": "ordens de venda a eliminar",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3476&model=project.task",
+      "task_id": 3476,
+      "task_name": "Gest\u00e3o",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Este artigo est\u00e1 inserido na P00422",
+        "SOFA MODULAR 2 MODULOS 220X105X72H C.O.M."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "N\u00e3o est\u00e1 a aparecer na pesquisa ao criar um novo RFQ o artigo abaixo ao utilizador",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3563&model=project.task",
+      "task_id": 3563,
+      "task_name": "Artigo n\u00e3o vis\u00edvel para alguns utilizadores",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Nas linhas de venda queremos que o valor da coluna TOTAL por linha apare\u00e7a sem imposto (a maioria dos nossos clientes tem este valor a 0) mas no caso dos clientes nacionais, por norma, enviamos as propostas com o valor sem IVA por produto.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3566&model=project.task",
+      "task_id": 3566,
+      "task_name": "Colunas na Ordem de venda",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "queremos manter, estas v\u00e3o ficar como a faturar?",
+        "Ou seja, para limpar tudo o que j\u00e1 foi faturado em PHC mas",
+        "querendo manter o registo no Odoo das encomendas \u00e9 poss\u00edvel passar para o"
+      ],
+      "assigned_users": [
+        "Paula Gomes"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Se apagarmos as faturas emitidas referentes a Ordens de Venda que",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3574&model=project.task",
+      "task_id": 3574,
+      "task_name": "AT Ano 2026 Fatura\u00e7\u00e3o",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Joao Castro"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "D\u00favidas PHC",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3643&model=project.task",
+      "task_id": 3643,
+      "task_name": "D\u00favidas PHC",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir criar acesso externo a BD de teste."
+      ],
+      "assigned_users": [
+        "Vitor Costa"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "BD: HMD_TEST",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3723&model=project.task",
+      "task_id": 3723,
+      "task_name": "Criar acesso externo a BD de teste",
+      "task_priority": "0",
+      "task_stage": "Entregue",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Dados finan\u00e7as HMD",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3729&model=project.task",
+      "task_id": 3729,
+      "task_name": "Dados finan\u00e7as HMD",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir instala\u00e7\u00e3o de Plugin Outlook?."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3836&model=project.task",
+      "task_id": 3836,
+      "task_name": "Instala\u00e7\u00e3o de Plugin Outlook?",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Acertos de Invent\u00e1rio",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=3904&model=project.task",
+      "task_id": 3904,
+      "task_name": "Acertos de Invent\u00e1rio",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Contudo, a nivel gr\u00e1fico, estamos ainda com dificuldade em perceber como funciona",
+        "(Ao mexer num parametro, mexe noutros e \u00e9 muito pouco intuitivo nesse aspeto)",
+        "Foi falado por alto, h\u00e1 uns meses, que a nova vers\u00e3o era muito mais f\u00e1cil e intuitiva."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Agora que a parte de backoffice est\u00e1 quase em pleno, temos mesmo que por o site a funcionar.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4129&model=project.task",
+      "task_id": 4129,
+      "task_name": "HMD Odoo Forma\u00e7\u00e3o Site",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Nos produtos, o pre\u00e7o de compra n\u00e3o \u00e9 atualizado automaticamente? Ou n\u00e3o deveria ser?",
+        "Esta situa\u00e7\u00e3o \u00e9 comum que por vezes poderemos pedir algo sem o pre\u00e7o totalmente definido e que s\u00f3 com a fatura \u00e9 que temos o pre\u00e7o final.",
+        "Como fazer nestas situa\u00e7\u00f5es para que fique registado no produto para futuro o pre\u00e7o de compra?"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "No exemplo abaixo est\u00e1 um produto j\u00e1 com fatura de fornecedor mas o custo continua a zero e na aba e na compra o pre\u00e7o tamb\u00e9m aparece a zero e n\u00e3o d\u00e1 para editar.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4133&model=project.task",
+      "task_id": 4133,
+      "task_name": "HMD Odoo Atualiza\u00e7\u00e3o pre\u00e7os custo/compra",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Estive a simular na base de dados de teste e no nosso caso penso que seria muito melhor que os artigos tivessem Bom em KIT e n\u00e3o fabrico. Sei que existe a op\u00e7\\ao de subcontrata\u00e7\u00e3o mas operacionalmente n\u00e3o h\u00e1 grande di...",
+        "que ponto n\u00e3o complica o processo.",
+        "Precisava que analisassem esta quest\u00e3o pois penso que vai mais de acordo com o que precisamos.... o facto de termos ordens de produ\u00e7\u00e3o e compras diretas em cada encomenda n\u00e3o se tem mostrado muito f\u00e1cil e em termos de..."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros",
+        "Miguel Dias"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Um assunto que penso pertinente vermos com mais detalhe na Quinta \u00e9 o tipo de manufatura de cada artigo.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4170&model=project.task",
+      "task_id": 4170,
+      "task_name": "Tipo de BOM",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Como podemos contabilizar as proformas para controlo de pagamentos a serem feitos?",
+        "Nina Hedderich \u0131 ** HMD Furniture",
+        "None nina@hmdfurniture.com \u0131 T None +351"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Muitos fornecedores pedem pagamento antecipado atrav\u00e9s de proforma.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4173&model=project.task",
+      "task_id": 4173,
+      "task_name": "Como introduzir proformas para pagamento",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4179&model=project.task",
+      "task_id": 4179,
+      "task_name": "Confirming",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "\u2022 Erro nas atividades \u2022 Erro na assinatura do e-mail \u2022 Criar campo projeto no CRM \u2022 Campo etiquetas nas faturas de fornecedor",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4213&model=project.task",
+      "task_id": 4213,
+      "task_name": "Reuni\u00e3o dia 12/02/26",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Erro na assinatura do e-mail",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4218&model=project.task",
+      "task_id": 4218,
+      "task_name": "Erro na assinatura do e-mail",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir criar campo relacionado a projeto no CRM."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Criar campo relacionado a projeto no CRM",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4219&model=project.task",
+      "task_id": 4219,
+      "task_name": "Criar campo relacionado a projeto no CRM",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Campo nas faturas de fornecedor para indicar tipo de fatura",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4220&model=project.task",
+      "task_id": 4220,
+      "task_name": "Campo nas faturas de fornecedor para indicar tipo de fatura",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Ao utilizador Natalino Castro aparece este erro ao tentar ver as atividades no rel\u00f3gio do canto superior direito",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4222&model=project.task",
+      "task_id": 4222,
+      "task_name": "Erro ao ver atividades",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Acontece que al\u00e9m de j\u00e1 ter ordens de produ\u00e7\u00e3o e compras associadas, tem tamb\u00e9m uma fatura j\u00e1 associada (do adiantamento).",
+        "O que queremos alterar \u00e9 um produto cuja medida o cliente alterou."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Temos uma encomenda confirmada que entretanto sofreu altera\u00e7\u00f5es ap\u00f3s a confirma\u00e7\u00e3o.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4233&model=project.task",
+      "task_id": 4233,
+      "task_name": "Altera\u00e7\u00e3o encomenda em curso",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Erro ao entrar numa pasta em documentos",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4292&model=project.task",
+      "task_id": 4292,
+      "task_name": "Erro ao entrar numa pasta em documentos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Miguel Dias"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Liga\u00e7\u00e3o de Produto a Projeto",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4313&model=project.task",
+      "task_id": 4313,
+      "task_name": "Liga\u00e7\u00e3o de Produto a Projeto",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Adicionar Modulo 3D Website",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4314&model=project.task",
+      "task_id": 4314,
+      "task_name": "Adicionar Modulo 3D Website",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Miguel Dias"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Ver quest\u00e3o do Add-in do Outlook nao estar a dar em mais que 1 pc",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4315&model=project.task",
+      "task_id": 4315,
+      "task_name": "Ver quest\u00e3o do Add-in do Outlook nao estar a dar em mais que 1 pc",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Parte Outros Documentos esconder. (Too Metal) Mudar visualiza\u00e7\u00e3o de atributos com imagens",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4316&model=project.task",
+      "task_id": 4316,
+      "task_name": "P\u00e1gina Produto",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir atualiza\u00e7\u00e3o de m\u00f3dulos."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Atualiza\u00e7\u00e3o de m\u00f3dulos",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4427&model=project.task",
+      "task_id": 4427,
+      "task_name": "Atualiza\u00e7\u00e3o de m\u00f3dulos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Estamos a tentar criar a fatura final de uma encomenda que j\u00e1 est\u00e1 totalmente paga e, ao criar a regular invoice, o programa est\u00e1 a criar uma nota de cr\u00e9dito."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Al\u00e9m dos valores estarem trocados tamb\u00e9m n\u00e3o est\u00e1 a passar o seguro para a fatura e h\u00e1 uma diferen\u00e7a de 3,04\u20ac mas j\u00e1 n\u00e3o h\u00e1 nenhum valor pendente por parte do cliente.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4532&model=project.task",
+      "task_id": 4532,
+      "task_name": "Urgente - erro fatura",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Estamos a tentar criar a fatura final de uma encomenda que j\u00e1 est\u00e1 totalmente paga e, ao criar a regular invoice, o programa est\u00e1 a criar uma nota de cr\u00e9dito."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Al\u00e9m dos valores estarem trocados tamb\u00e9m n\u00e3o est\u00e1 a passar o seguro para a fatura e h\u00e1 uma diferen\u00e7a de 3,04\u20ac mas j\u00e1 n\u00e3o h\u00e1 nenhum valor pendente por parte do cliente.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4559&model=project.task",
+      "task_id": 4559,
+      "task_name": "Urgente - erro fatura",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Os totais dos documentos diferem do valor de incid\u00eancias e na opini\u00e3o do contabilista isto n\u00e3o permite uma declara\u00e7\u00e3o clara nas finan\u00e7as.",
+        "Outra quest\u00e3o \u00e9 que o valor do seguro n\u00e3o est\u00e1 a passar para os totais.",
+        "Seria muito importante vermos este assunto com a maior urg\u00eancia poss\u00edvel para corrigir antes do final do m\u00eas. At\u00e9 agora n\u00e3o detetou esta situa\u00e7\u00e3o pois s\u00f3 em Mar\u00e7o foram feitas as faturas \"regulares/finais\". Em termos..."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Na sexta-feira estive a ver com o contabilista a quest\u00e3o das nossas faturas \"finais\" a clientes pois neste momento da forma como est\u00e3o a ser emitidas, est\u00e1 a dar uma informa\u00e7\u00e3o errada na comunica\u00e7\u00e3o dos valores das faturas.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4585&model=project.task",
+      "task_id": 4585,
+      "task_name": "Informa\u00e7\u00e3o errada na comunica\u00e7\u00e3o de valores",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir atualiza\u00e7\u00e3o de M\u00f3dulos EXO."
+      ],
+      "assigned_users": [
+        "Vitor Costa"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Atualiza\u00e7\u00e3o de M\u00f3dulos EXO",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4635&model=project.task",
+      "task_id": 4635,
+      "task_name": "Atualiza\u00e7\u00e3o de M\u00f3dulos EXO",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "No exemplo em anexo, o transporte e o seguro n\u00e3o t\u00eam desconto e est\u00e1 a fazer 40% de desconto na mesma.",
+        "\u00c9 mesmo importante corrigir isto pois estamos sempre a ter de verificar se os valores est\u00e3o corretos."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Continua o bug dos descontos nas ordens de venda.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4786&model=project.task",
+      "task_id": 4786,
+      "task_name": "HMD Furniture Quotation (Ref OR A/00033)",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Penso que \u00e9 material \u00fatil a considerar na nossa reuni\u00e3o sobre este tema.",
+        "A partir de uma Nota Encomenda (NE) gere o Recebimento Adiantado, selecione o",
+        "Carregue no bot\u00e3o para gerar o recebimento adiantado"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Relativamente \u00e0 quest\u00e3o das faturas e forma de fazer o registo dos adiantamentos de cliente, penso que a solu\u00e7\u00e3o que o contabilista aconselha se aproxima do que est\u00e1 documentado no site abaixo",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4800&model=project.task",
+      "task_id": 4800,
+      "task_name": "Quest\u00e3o dos adiantamentos clientes externos",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Falei com o contabilista mas n\u00e3o consegui perceber qual a etiqueta a utilizar pois isto tem a ver com a cria\u00e7\u00e3o das etiquetas no Odoo e apenas necessito de perceber a que corresponde qual.",
+        "J\u00e1 preenchi as informa\u00e7\u00f5es que consegui obter com o contabilista no registo mas a numenclatura utilizada nas etiquetas \u00e9 melhor ser vista pelo vosso parceiro.",
+        "Outro ponto \u00e9 que nos quadros ainda h\u00e1 muita informa\u00e7\u00e3o mal traduzida ou em portugu\u00eas do Brasil (por exemplo auto-assentamento em vez de autoliquida\u00e7\u00e3o), o que dificulta bastante configura\u00e7\u00f5es relacionadas com temas t..."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Etiquetas de Impostos",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4801&model=project.task",
+      "task_id": 4801,
+      "task_name": "Cria\u00e7\u00e3o de imposto com motivo de isen\u00e7\u00e3o M01",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Ao entrar na nossa base de dados de novo, n\u00e3o est\u00e1 a aparecer o login",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4843&model=project.task",
+      "task_id": 4843,
+      "task_name": "Cabe\u00e7alhos de Website desapareceram",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir reposi\u00e7\u00e3o de BD de testes."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Reposi\u00e7\u00e3o de BD de testes",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4844&model=project.task",
+      "task_id": 4844,
+      "task_name": "Reposi\u00e7\u00e3o de BD de testes",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Nos RFQs n\u00e3o deveria aparecer automaticamente a descri\u00e7\u00e3o para compras que colocamos nos artigos?"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4856&model=project.task",
+      "task_id": 4856,
+      "task_name": "Descri\u00e7\u00e3o Compras",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Janeiro e quando est\u00e1vamos em call sem querer criei novamente na base de dados",
+        "hmd em vez da de teste.",
+        "Agora, ao fazer a fatura final est\u00e1 tudo OK mas o seguro continua"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Estamos a fazer nova fatura para um que j\u00e1 t\u00ednhamos cancelado de",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4937&model=project.task",
+      "task_id": 4937,
+      "task_name": "HMD Odoo NE erros",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Estamos com um erro num or\u00e7amento enviado ao cliente.",
+        "Quer\u00edamos alterar a morada de entrega e n\u00e3o deixa alterar num or\u00e7amento enviado, no entanto deixa alterar a morada de fatura\u00e7\u00e3o.",
+        "N\u00e3o sei como, as linha do documento ficaram em branco - sendo que o documento j\u00e1 tinha sido emitido e enviado ao cliente como pode ver no chater, ou seja, n\u00e3o \u00e9 alter\u00e1vel pelo utilizador."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Bom tarde Jo\u00e3o",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4939&model=project.task",
+      "task_id": 4939,
+      "task_name": "HMD ODOO Linhas em branco e morada de entrega ORA/00040",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Quando estamos a comunicar atrav\u00e9s do chat dentro de uma tarefa ou noutro pagina, n\u00e3o \u00e9 poss\u00edvel carregar anexos que j\u00e1 est\u00e3o no pr\u00f3prio registo sem ter de fazer novo upload?",
+        "ficheiros iguais, o que tamb\u00e9m vai come\u00e7ar a ocupar muito espa\u00e7o.",
+        "Isto acontece n\u00e3o s\u00f3 nas tarefas mas tamb\u00e9m nos productos, no crm ou dentro de uma proposta por exemplo."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "No caso abaixo quero enviar mensagem \u00e0 cliente com um ficheiro que j\u00e1 est\u00e1 dentro da tarefa. Neste caso n\u00e3o consigo anexar o documento que j\u00e1 est\u00e1 na tarefa mas, ao clicar em anexar, vai sempre buscar a uma pasta no computador. Isto faz com que fique com 2",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4974&model=project.task",
+      "task_id": 4974,
+      "task_name": "Envio de anexos dentro do Odoo",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "N\u00e3o estou a conseguir conectar o banco ao painel na contabilidade, d\u00e1 o seguinte erro",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=4993&model=project.task",
+      "task_id": 4993,
+      "task_name": "Erro ao conectar o banco",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Volta a ficar em branco ou a colocar a imagem que est\u00e1 no artigo.",
+        "Antes estava a funcionar corretamente e era poss\u00edvel colocar uma imagem diferente naquela ordem de venda sem alterar a do artigo."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Ao colocar uma imagem especifica numa linha na ordem de venda, o programa n\u00e3o est\u00e1 a gravar a imagem.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5003&model=project.task",
+      "task_id": 5003,
+      "task_name": "Imagem de produto na ordem de venda",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir verificar Caso de Fatura de Exporta\u00e7\u00e3o em EXO."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Adiantamentos Intracomunit\u00e1rios B2B",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5105&model=project.task",
+      "task_id": 5105,
+      "task_name": "Verificar Caso de Fatura de Exporta\u00e7\u00e3o em EXO",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "A fatura \u00e9 um adiantamento da encomenda NE A/00025 cujo valor total com IVA \u00e9 de 6544,49\u20ac e o cliente j\u00e1 pagou 2617,80 \u20ac - valor da fatura 34.",
+        "A informa\u00e7\u00e3o que aparece no total da encomenda est\u00e1 errado e tamb\u00e9m n\u00e3o faz muito sentido aparecer o \u201ctotal restante\u201d que \u00e9 o valor total desta fatura.",
+        "Agradecia que vissem isto rapidamente pois temos de enviar o documento ao cliente."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "A fatura em anexo \u2013 n\u00ba 34 est\u00e1 com valores errados na impress\u00e3o.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5113&model=project.task",
+      "task_id": 5113,
+      "task_name": "Erro nos valores de fatura!",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "\u00c9 que o di\u00e1rio cria Image do n\u00e3o est\u00e1 a dar qualquer informa\u00e7\u00e3o \u00fatil no painel da contabilidade mesmo confirmando e validando",
+        "Acho que esta parte da contabilidade ainda est\u00e1 muito incompleta.",
+        "Precisava de tra\u00e7ar um processo claro e se poss\u00edvel com um v\u00eddeo ou tutorial de como fazer."
+      ],
+      "assigned_users": [
+        "Nuno Oliveira"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Relativamente ao processo de pagamento por confirming n\u00e3o est\u00e1 criado enquanto m\u00e9todo de pagamento para registar as faturas.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5135&model=project.task",
+      "task_id": 5135,
+      "task_name": "Gravar v\u00eddeo Confirming e contabilidade. Gravar v\u00eddeo de adiantamento intracomunit\u00e1rio",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "No entanto ao criar esta oportunidade esta vai diretamente para a coluna respondido e n\u00e3o entra como nova"
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "H\u00e1 uns dias enviamos a newsletter na qual colocamos um bot\u00e3o para os clientes interessados responderem por e-mail para customer@hmdfurniture.com que cria automaticamente uma nova oportunidade no CRM.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5385&model=project.task",
+      "task_id": 5385,
+      "task_name": "resposta newsletter e cria\u00e7\u00e3o de lead no CRM",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "De: * S\u00e9rgio Pinto | HMD Furniture",
+        "Enviada:* 29 de abril de 2026 16:58",
+        "Nas vendas, chegaste a criar uma nova aba/p\u00e1gina onde adicion\u00e1vamos a imagem da previs\u00e3o \u2014 acho que se chamava \u201cLogistics\u201d ou algo assim."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Para:* Jo\u00e3o Barros < hmd@parametroglobal.odoo.com >; Nina Hedderich | HMD Furniture < nina@hmdfurniture.com >",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5424&model=project.task",
+      "task_id": 5424,
+      "task_name": "HMD Furniture - ERRO!!",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Pe\u00e7o que revejam a situa\u00e7\u00e3o e, por favor, nos deem feedback quanto \u00e0 reuni\u00e3o de ponto de situa\u00e7\u00e3o para vermos esta e outras quest\u00f5es."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Esta fatura de adiantamento continua a dar dores de cabe\u00e7a. Podemos ter corrigido a impress\u00e3o, mas a informa\u00e7\u00e3o que segue no SAFT continua com os valores diferentes.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5518&model=project.task",
+      "task_id": 5518,
+      "task_name": "FA adiantamento PARA ANALISAR",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Falha ao guardar bloco no site",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5556&model=project.task",
+      "task_id": 5556,
+      "task_name": "Falha ao guardar bloco no site",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "O ambito aprovado deve refletir reposi\u00e7\u00e3o de BD de Teste."
+      ],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Reposi\u00e7\u00e3o de BD de Teste",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5571&model=project.task",
+      "task_id": 5571,
+      "task_name": "Reposi\u00e7\u00e3o de BD de Teste",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Jo\u00e3o Barros"
+      ],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Planeamento com o que falta fazer e o que j\u00e1 est\u00e1 feito, equacionar migra\u00e7\u00e3o para v19 do odoo",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5572&model=project.task",
+      "task_id": 5572,
+      "task_name": "Reuni\u00e3o 20/05/2026",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "1. Criar di\u00e1rio tipo Diversos \"Custos Pessoal/Impostos\"",
+        "2. Criar fornecedores-entidade: Seguran\u00e7a Social, AT-IRS, AT-IVA",
+        "Alojar no chatter da tarefa-template correspondente."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Documentar e gravar v\u00eddeo curto HMD-specific",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5673&model=project.task",
+      "task_id": 5673,
+      "task_name": "[C6] Gravar v\u00eddeo: fluxo pagamentos sem fatura (IRS / IVA / SS)",
+      "task_priority": "0",
+      "task_stage": "Sprint Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Preparar script de matching por VAT/email para detectar contactos em falta sem duplicar.",
+        "M\u00e9todo: custom leve (script de import)."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "BLOQUEIA NO CLIENTE \u2014 pedir extrac\u00e7\u00e3o PHC ao cliente.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5675&model=project.task",
+      "task_id": 5675,
+      "task_name": "[V5] Cleanup contactos PHC vs Odoo \u2014 pedir extrac\u00e7\u00e3o + script matching",
+      "task_priority": "0",
+      "task_stage": "Sprint in Progress",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Decis\u00e3o: OneDrive/O365 para arquivo fotogr\u00e1fico pesado vs alojamento original.",
+        "Define onde fica o arquivo fotogr\u00e1fico HMD."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "BLOQUEIA NO CLIENTE \u2014 Cl\u00e1udio a fazer acerto contratual.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5676&model=project.task",
+      "task_id": 5676,
+      "task_name": "[W2] Confirmar acerto contratual O365 / alojamento com Cl\u00e1udio",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Resultado: qualificar lead \u2192 cria projeto com tarefas copiadas do template.",
+        "Base j\u00e1 existe; falta o hook + c\u00f3pia das tarefas template."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Hook de qualifica\u00e7\u00e3o sobre pg_crm_project_opportunities.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5677&model=project.task",
+      "task_id": 5677,
+      "task_name": "[P4] Auto-cria\u00e7\u00e3o projeto ao qualificar lead CRM (custom leve)",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Verificar comportamento em SO em rascunho vs confirmado."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Confirmar cobertura do m\u00f3dulo existente em novos SO.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5678&model=project.task",
+      "task_id": 5678,
+      "task_name": "[P5] Verificar espelhamento item venda \u2192 tarefa projeto (1 SOL = 1 task)",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Configura\u00e7\u00e3o standard \u2014 dispon\u00edvel ap\u00f3s P1+P2 conclu\u00eddos."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Vista kanban/lista de project.task agrupada por etapa, cruzando todos os projetos HMD.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5679&model=project.task",
+      "task_id": 5679,
+      "task_name": "[P6] Vista agregada tarefas entre projetos por etapa operacional",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "N\u00e3o requer timesheet detalhado por tarefa."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Preencher campo hr.employee.hourly_cost para elementos que fazem an\u00e1lise pr\u00e9-venda.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5680&model=project.task",
+      "task_id": 5680,
+      "task_name": "[P7] Configurar custo/hora por colaborador (hr.employee.hourly_cost)",
+      "task_priority": "0",
+      "task_stage": "Sprint Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Criar templates para caixas de amostra e modelos por linha de produto frequente.",
+        "N\u00e3o confundir com calculadora de pre\u00e7o (hmd_sale_price_calculator)."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Ativar \"Usar modelos de or\u00e7amento\" em Vendas > Configura\u00e7\u00e3o.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5681&model=project.task",
+      "task_id": 5681,
+      "task_name": "[V1] Templates de cota\u00e7\u00e3o por linha de produto (sale.order.template)",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Pr\u00e9-condi\u00e7\u00e3o: aprova\u00e7\u00e3o Meta e n\u00famero configurado (ver tarefa V3).",
+        "whatsapp_sale cria canal WhatsApp por SO automaticamente (zero config adicional)."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Instalar whatsapp + whatsapp_sale (enterprise).",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5682&model=project.task",
+      "task_id": 5682,
+      "task_name": "[V3b] Instalar m\u00f3dulo WhatsApp enterprise + configurar canal por SO",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "2. Criar relat\u00f3rio QWeb pg_export_document sobre account.move.",
+        "N\u00c3O mexer no documento de fatura certificada PT.",
+        "Imprim\u00edvel sob pedido a partir do bot\u00e3o Imprimir da fatura."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "1. Instalar account_intrastat enterprise (HS Code + c\u00f3digos Intrastat em product.template).",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5683&model=project.task",
+      "task_id": 5683,
+      "task_name": "[V7] Documento exporta\u00e7\u00e3o/intrastat anexo \u00e0 fatura (HS Code + peso + cubicagem)",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Se n\u00e3o, criar action shortcut de impress\u00e3o direta."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Validar se j\u00e1 existe via Studio.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5684&model=project.task",
+      "task_id": 5684,
+      "task_name": "[V8] Bot\u00e3o IDU \u2014 impress\u00e3o direta \u00fanica para encomendas e faturas",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Guardar como vistas favoritas. Configura\u00e7\u00e3o standard Odoo 18."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Em quality.check: criar filtros guardados por Estado=Pendente, por Tipo, por Fornecedor.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5685&model=project.task",
+      "task_id": 5685,
+      "task_name": "[Q1] Configurar painel QC com filtros guardados + kanban",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Ativar acesso mobile para utilizadores da produ\u00e7\u00e3o (browser)."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Action shortcut para quality.check direto (foto + nota) sem passar por Quality Control Point.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5686&model=project.task",
+      "task_id": 5686,
+      "task_name": "[Q2] Criar atalho mobile cria\u00e7\u00e3o espont\u00e2nea QC no terreno",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Alta utilidade segundo M\u00f3nica. Custom leve."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Vista galeria de imagens/fotos das verifica\u00e7\u00f5es QC.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5687&model=project.task",
+      "task_id": 5687,
+      "task_name": "[Q3] Vista gallery em quality.check (custom leve)",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Integrar com vista P6 se poss\u00edvel."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Vista purchase.order com smart button para quality.check associadas.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5688&model=project.task",
+      "task_id": 5688,
+      "task_name": "[Q4] Painel encomendas fornecedor com QC associadas (smart button)",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Substituir hack manual atual. Importar empr\u00e9stimos hist\u00f3ricos."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Instalar m\u00f3dulo enterprise account_loans.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5689&model=project.task",
+      "task_id": 5689,
+      "task_name": "[C1] Instalar account_loans + importar empr\u00e9stimos hist\u00f3ricos at\u00e9 2026",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Configurar aging report e cash flow dashboard."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Ativar account_reports enterprise (se n\u00e3o ativo).",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5690&model=project.task",
+      "task_id": 5690,
+      "task_name": "[C2] Activar cash-flow 30/60/90 + previs\u00e3o recebimentos/pagamentos",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Criar relat\u00f3rio de controlo sobre account.payment linked a sale.order."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Base existe em ptplus_sale_advance_payment.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5691&model=project.task",
+      "task_id": 5691,
+      "task_name": "[C3] Relat\u00f3rio dep\u00f3sitos 40% (Advance Payment) \u2014 controlo de adiantamentos",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Demonstrado na reuni\u00e3o de 20/05 \u2014 falta s\u00f3 documentar e configurar."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Criar di\u00e1rio tipo Diversos \"Custos Pessoal/Impostos\".",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5692&model=project.task",
+      "task_id": 5692,
+      "task_name": "[C6b] Configurar di\u00e1rio Custos Pessoal",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Configurar restrict_mode_hash_table + grupos por utilizador em account.journal."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Validar granularidade requerida pelo cliente.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5693&model=project.task",
+      "task_id": 5693,
+      "task_name": "[C7] Configurar permiss\u00f5es por di\u00e1rio contabil\u00edstico",
+      "task_priority": "0",
+      "task_stage": "Sprint Complete",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Configurar statement import."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Criar di\u00e1rio tipo Bank para cart\u00e3o de cr\u00e9dito.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5694&model=project.task",
+      "task_id": 5694,
+      "task_name": "[C8] Configurar contas cart\u00e3o de cr\u00e9dito",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Criar categorias de despesa por tipo de cart\u00e3o.",
+        "Configurar acesso restrito ao pr\u00f3prio utilizador."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Instalar hr_expense (enterprise standard).",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5695&model=project.task",
+      "task_id": 5695,
+      "task_name": "[C9] Instalar hr_expense + configurar categorias por cart\u00e3o",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Fluxo: Nina envia transfer\u00eancia \u2192 S\u00e9rgio confirma \u2192 SO muda automaticamente."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Server action em account.payment \u2192 atualizar state em sale.order.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5696&model=project.task",
+      "task_id": 5696,
+      "task_name": "[C11] Alerta pagamento cliente \u2192 mudar estado SO automaticamente (server action)",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Configura\u00e7\u00e3o standard simples."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Configurar cron ou atividade recorrente para alertar pagamentos de impostos pendentes.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5697&model=project.task",
+      "task_id": 5697,
+      "task_name": "[C12] Alertas pagamentos sem fatura impostos (cron / atividade recorrente)",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Configurar listas de mailing separadas dos contactos comerciais (res.partner.category)."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "M\u00f3dulo standard enterprise j\u00e1 dispon\u00edvel.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5698&model=project.task",
+      "task_id": 5698,
+      "task_name": "[W3] Avaliar e ativar Marketing Automation + Email Marketing",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Define ordem das melhorias Jun-Set. Prazo limite:."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Cliente deve aprovar janela de upgrade Dez/Jan 2026-27.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5699&model=project.task",
+      "task_id": 5699,
+      "task_name": "[v19] Decis\u00e3o go/no-go upgrade Odoo 18\u219219 \u2014 aprova\u00e7\u00e3o cliente",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Identificar falhas em m\u00f3dulos custom pg_*/hmd (especialmente 3D viewer e website)."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Clonar tenant em ambiente isolado.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5701&model=project.task",
+      "task_id": 5701,
+      "task_name": "[v19] Clone tenant HMD para ambiente de testes + correr upgrade v19",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Refazer altera\u00e7\u00f5es de website com blocos standard v19."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Refactor dos m\u00f3dulos afetados pela migra\u00e7\u00e3o v19.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5702&model=project.task",
+      "task_id": 5702,
+      "task_name": "[v19] Refactor m\u00f3dulos custom para compatibilidade Odoo 19",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Cliente envia agenda at\u00e9 Quarta 12h.",
+        "Substituir modelo de tickets por sess\u00f5es consultivas + v\u00eddeos HMD-specific."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "Reuni\u00f5es semanais 30min a partir de.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5704&model=project.task",
+      "task_id": 5704,
+      "task_name": "[OPS] Sess\u00f5es semanais HMD \u2014 Quinta 10h-10h30 (a partir 2026-05-28)",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Alojar no chatter da tarefa-template correspondente."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "V\u00eddeo curto sobre como criar e usar projeto-template no Odoo HMD.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5705&model=project.task",
+      "task_id": 5705,
+      "task_name": "[OPS] V\u00eddeo HMD-specific: cria\u00e7\u00e3o de projeto-template",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [
+        "Alojar no chatter da tarefa-template correspondente."
+      ],
+      "assigned_users": [],
+      "last_task_update_at": "2026-05-27 13:09:14",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "V\u00eddeo curto sobre cria\u00e7\u00e3o espont\u00e2nea de verifica\u00e7\u00e3o de qualidade no terreno.",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5706&model=project.task",
+      "task_id": 5706,
+      "task_name": "[OPS] V\u00eddeo HMD-specific: fluxo QC espont\u00e2neo no terreno",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    },
+    {
+      "acceptance_criteria": [],
+      "assigned_users": [
+        "Pedro Coelho"
+      ],
+      "last_task_update_at": "2026-05-27 13:51:29",
+      "scope_kind": "requirement",
+      "scope_sequence": 10,
+      "scope_state": "proposed",
+      "scope_summary": "HMD ODOO GUIAS DE TRANSPORTE",
+      "scope_track": "approved_scope",
+      "source_url": "https://parametroglobal.odoo.com/web#id=5763&model=project.task",
+      "task_id": 5763,
+      "task_name": "HMD ODOO GUIAS DE TRANSPORTE",
+      "task_priority": "0",
+      "task_stage": "Backlog",
+      "task_tags": []
+    }
+  ],
+  "scope_overview": {
+    "acceptance_criteria": [
+      "uns enviados em branco outros seguem em duplicado",
+      "validar pf",
+      "- N\u00e3o est\u00e1 a passar valores da venda para entrega - Nome do documento n\u00e3o aparece",
+      "- Contadores n\u00e3o est\u00e3o a funcionar",
+      "- Retirar ':' e '(...)' do nome do produto",
+      "Criar fases de tarefa por projeto: Desenho / Compras / Produ\u00e7\u00e3o / Montagem / Conclu\u00eddo.",
+      "Criar 4 templates de projeto: Encomenda Cliente, Projeto Interno, Forma\u00e7\u00e3o, Desenvolvimento.",
+      "Preservar filtros existentes para projetos internos/forma\u00e7\u00e3o."
+    ],
+    "business_goal": "Consolidar e evoluir adapta\u00e7\u00f5es Odoo que ligam venda, compra, produ\u00e7\u00e3o e publica\u00e7\u00e3o web de produtos/projetos, melhorando rastreabilidade e reduzindo opera\u00e7\u00e3o manual",
+    "business_impact": "[PONTO POR VALIDAR]",
+    "current_process": "[PONTO POR VALIDAR]",
+    "current_request": "[PONTO POR VALIDAR]",
+    "frequency": "Pontual no onboarding; revis\u00e3o por pedido funcional, sprint ou altera\u00e7\u00e3o de scope",
+    "problem_or_need": "[PONTO POR VALIDAR]",
+    "trigger": "Onboarding inicial do projeto HMD no framework PG e consolida\u00e7\u00e3o do reposit\u00f3rio de customiza\u00e7\u00f5es Odoo 18",
+    "urgency": "unknown",
+    "volumes": "29 addons no reposit\u00f3rio; volumes transacionais reais por validar"
+  },
+  "scope_summary": {
+    "active_scope_item_count": 224,
+    "deferred_scope_item_count": 0,
+    "last_scope_change_at": "2026-05-27 13:51:29",
+    "proposed_scope_item_count": 224,
+    "validated_scope_item_count": 0
+  },
+  "source_metadata": {
+    "payload_hash": "sha256:b1907d9738b599f890899b682c80e98aabec8be418b4e96a6e779e479333a449",
+    "repo_branch": "main",
+    "source_model": "project.task",
+    "source_record_id": 5763,
+    "source_record_url": "https://parametroglobal.odoo.com/web#id=5763&model=project.task",
+    "source_system": "odoo_parametro_global",
+    "sync_published_at": "2026-05-27 13:52:48",
+    "sync_published_by": "OdooBot",
+    "sync_reason": "project.task 5763",
+    "sync_trigger": "task_write"
+  }
+}

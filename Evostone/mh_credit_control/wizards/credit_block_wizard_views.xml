@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Wizard Form View -->
+    <record id="view_credit_block_wizard_form" model="ir.ui.view">
+        <field name="name">credit.block.wizard.form</field>
+        <field name="model">credit.block.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bloqueio de Crédito">
+                <!-- Campos invisíveis -->
+                <field name="currency_id" invisible="1"/>
+                <field name="has_credit_limit_block" invisible="1"/>
+                <field name="has_overdue_block" invisible="1"/>
+                <field name="has_pending_block" invisible="1"/>
+                <field name="credit_limit_approved" invisible="1"/>
+                <field name="overdue_approved" invisible="1"/>
+                <field name="pending_approved" invisible="1"/>
+                <field name="can_approve_credit_limit" invisible="1"/>
+                <field name="can_approve_overdue" invisible="1"/>
+                <field name="can_approve_pending" invisible="1"/>
+                <field name="can_approve_any" invisible="1"/>
+                <field name="user_id" invisible="1"/>
+
+                <!-- Cabeçalho -->
+                <group>
+                    <group>
+                        <field name="sale_order_id" readonly="1"/>
+                        <field name="partner_id" readonly="1"/>
+                    </group>
+                </group>
+
+                <!-- Bloqueio: Limite de Crédito -->
+                <group string="Limite de Crédito Excedido" invisible="not has_credit_limit_block">
+                    <group>
+                        <field name="partner_credit_limit" string="Limite" readonly="1"/>
+                        <field name="partner_current_credit" string="Crédito Actual" readonly="1"/>
+                        <field name="order_amount" string="Valor do Pedido" readonly="1"/>
+                    </group>
+                    <group>
+                        <div class="d-flex align-items-center">
+                            <span class="badge text-bg-warning me-2" invisible="credit_limit_approved">⏳ Pendente</span>
+                            <span class="badge text-bg-success me-2" invisible="not credit_limit_approved">✓ Aprovado</span>
+                            <button name="action_approve_credit_limit"
+                                    string="Aprovar"
+                                    type="object"
+                                    class="btn-sm btn-success ms-2"
+                                    invisible="not can_approve_credit_limit or credit_limit_approved"/>
+                            <button name="action_approve_credit_limit"
+                                    string="Desaprovar"
+                                    type="object"
+                                    class="btn-sm btn-secondary ms-2"
+                                    invisible="not can_approve_credit_limit or not credit_limit_approved"/>
+                            <span class="text-muted ms-2" invisible="can_approve_credit_limit">(sem permissão)</span>
+                        </div>
+                    </group>
+                </group>
+
+                <!-- Bloqueio: Facturas Vencidas -->
+                <group string="Facturas Vencidas" invisible="not has_overdue_block">
+                    <group>
+                        <field name="partner_overdue_amount" string="Total Vencido" readonly="1"/>
+                        <field name="partner_overdue_count" string="Nº Facturas" readonly="1"/>
+                    </group>
+                    <group>
+                        <div class="d-flex align-items-center">
+                            <span class="badge text-bg-danger me-2" invisible="overdue_approved">⏳ Pendente</span>
+                            <span class="badge text-bg-success me-2" invisible="not overdue_approved">✓ Aprovado</span>
+                            <button name="action_approve_overdue"
+                                    string="Aprovar"
+                                    type="object"
+                                    class="btn-sm btn-success ms-2"
+                                    invisible="not can_approve_overdue or overdue_approved"/>
+                            <button name="action_approve_overdue"
+                                    string="Desaprovar"
+                                    type="object"
+                                    class="btn-sm btn-secondary ms-2"
+                                    invisible="not can_approve_overdue or not overdue_approved"/>
+                            <span class="text-muted ms-2" invisible="can_approve_overdue">(sem permissão)</span>
+                        </div>
+                    </group>
+                </group>
+
+                <!-- Bloqueio: Facturas Pendentes -->
+                <group string="Facturas Pendentes" invisible="not has_pending_block">
+                    <group>
+                        <field name="partner_pending_amount" string="Total Pendente" readonly="1"/>
+                        <field name="partner_pending_count" string="Nº Facturas" readonly="1"/>
+                    </group>
+                    <group>
+                        <div class="d-flex align-items-center">
+                            <span class="badge text-bg-info me-2" invisible="pending_approved">⏳ Pendente</span>
+                            <span class="badge text-bg-success me-2" invisible="not pending_approved">✓ Aprovado</span>
+                            <button name="action_approve_pending"
+                                    string="Aprovar"
+                                    type="object"
+                                    class="btn-sm btn-success ms-2"
+                                    invisible="not can_approve_pending or pending_approved"/>
+                            <button name="action_approve_pending"
+                                    string="Desaprovar"
+                                    type="object"
+                                    class="btn-sm btn-secondary ms-2"
+                                    invisible="not can_approve_pending or not pending_approved"/>
+                            <span class="text-muted ms-2" invisible="can_approve_pending">(sem permissão)</span>
+                        </div>
+                    </group>
+                </group>
+
+                <!-- Mensagem para utilizadores sem permissão -->
+                <div class="alert alert-info" invisible="can_approve_any">
+                    <i class="fa fa-info-circle"/>
+                    Não tem permissão para aprovar estes bloqueios.
+                    Contacte um gestor com as permissões adequadas.
+                </div>
+
+                <footer>
+                    <button name="action_approve_all"
+                            string="Aprovar Todos"
+                            type="object"
+                            class="btn-primary"
+                            invisible="not can_approve_any"/>
+                    <button name="action_reset_all"
+                            string="Resetar Todos"
+                            type="object"
+                            class="btn-warning"
+                            invisible="not can_approve_any"
+                            groups="mh_credit_control.group_credit_manager"/>
+                    <button name="action_close"
+                            string="Fechar"
+                            type="object"
+                            class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

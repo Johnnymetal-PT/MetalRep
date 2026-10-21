@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_resequence_assistant_form" model="ir.ui.view">
+        <field name="name">mh_account.resequence.assistant.form</field>
+        <field name="model">mh_account.resequence.assistant</field>
+        <field name="arch" type="xml">
+            <form string="Assistente Resequenciar">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Renumera lançamentos de diários
+                        <b>bank/cash/general/credit</b> dentro de cada (diário × mês),
+                        atribuindo sequência contígua começando em <code>00001</code>
+                        por mês, ordenado por <i>data ASC + id ASC</i>.
+                        <br/>
+                        Recomenda-se executar antes de fechar o mês via
+                        <b>Lock Dates</b>.
+                    </div>
+                    <group>
+                        <group string="Selecção">
+                            <field name="journal_ids" widget="many2many_tags"
+                                   options="{'no_create': True}"/>
+                            <field name="year"/>
+                            <field name="month_from"/>
+                            <field name="month_to"/>
+                        </group>
+                        <group string="Modo">
+                            <field name="dry_run" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <group string="Preview" invisible="not preview_text">
+                        <field name="preview_text" nolabel="1" widget="text"
+                               readonly="1" style="font-family: monospace;"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_run" type="object"
+                            string="Executar" class="btn-primary"/>
+                    <button string="Fechar" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_resequence_assistant" model="ir.actions.act_window">
+        <field name="name">Assistente Resequenciar</field>
+        <field name="res_model">mh_account.resequence.assistant</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="groups_id" eval="[(4, ref('base.group_system'))]"/>
+    </record>
+
+    <menuitem id="menu_resequence_assistant"
+              name="Assistente Resequenciar"
+              parent="account.menu_finance_configuration"
+              action="action_resequence_assistant"
+              sequence="100"
+              groups="base.group_system"/>
+
+</odoo>

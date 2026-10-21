@@ -1,0 +1,12 @@
+<odoo>
+    <record id="cron_update_discount_tiers" model="ir.cron">
+        <field name="name">Update B2B Partner Discount Tiers</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">model.search([('x_studio_fidelizado', '=', True)])._compute_total_spendings()</field>
+        <field name="interval_type">days</field>
+        <field name="interval_number">1</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

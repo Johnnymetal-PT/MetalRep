@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+"""Limpeza das ir.actions.server orfas do botao smart "RFQs".
+
+A partir da versao 18.0.1.3.0 os botoes passam a usar type="object"
+chamando diretamente `action_view_rfq_purchase_orders`. As server
+actions intermedias deixam de existir; este post-migrate remove os
+registos que tenham ficado na base, de forma idempotente.
+
+A remocao por XID e tambem garantida pelo orphan-removal standard do
+Odoo (registos noupdate=False retirados do data file). Esta migracao e
+a salvaguarda explicita.
+"""
+
+from odoo import SUPERUSER_ID, api
+
+_XMLIDS = (
+    "hmd_product_rfq_button.product_template_rfq_server_action",
+    "hmd_product_rfq_button.product_product_rfq_server_action",
+)
+
+
+def migrate(cr, version):
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    for xml_id in _XMLIDS:
+        action = env.ref(xml_id, raise_if_not_found=False)
+        if action:
+            action.sudo().unlink()

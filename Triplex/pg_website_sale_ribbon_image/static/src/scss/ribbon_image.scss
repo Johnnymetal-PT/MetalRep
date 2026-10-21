@@ -1,0 +1,71 @@
+// Selo (imagem) usado como distintivo de produto.
+//
+// O distintivo standard do Odoo e uma fitinha inclinada (.o_ribbon_left/right) ou uma
+// etiqueta reta (.o_tag_left/right), sempre com fundo colorido e padding grande. Quando o
+// distintivo passa a ser uma imagem, essa forma e neutralizada e fica apenas a imagem,
+// colada ao canto da foto do produto.
+//
+// A classe .pg_ribbon_stamp e guardada no campo `html_class` do product.ribbon, pelo que
+// tambem se aplica no frontend sem qualquer alteracao aos templates.
+.o_ribbon.pg_ribbon_stamp {
+    --pg-stamp-size: 90px;
+    --pg-stamp-offset: 12px;
+
+    position: absolute;
+    padding: 0;
+    // !important porque o distintivo pode ter cor de fundo em estilo inline, herdada de
+    // quando era um distintivo de texto.
+    background-color: transparent !important;
+    box-shadow: none !important;
+    transform: none;
+    line-height: 0;
+    white-space: normal;
+    z-index: 2;
+
+    &.o_ribbon_left,
+    &.o_tag_left {
+        top: var(--pg-stamp-offset);
+        left: var(--pg-stamp-offset);
+        right: auto;
+        bottom: auto;
+    }
+
+    &.o_ribbon_right,
+    &.o_tag_right {
+        top: var(--pg-stamp-offset);
+        right: var(--pg-stamp-offset);
+        left: auto;
+        bottom: auto;
+    }
+
+    &.pg_stamp_sm {
+        --pg-stamp-size: 60px;
+    }
+
+    &.pg_stamp_lg {
+        --pg-stamp-size: 130px;
+    }
+
+    .pg_ribbon_img {
+        display: block;
+        width: var(--pg-stamp-size);
+        height: auto;
+        max-width: none;
+    }
+
+    // Em ecras pequenos o cartao do produto e bastante mais estreito: o selo desce de
+    // tamanho para nao tapar a foto. As variantes repetem-se aqui porque tem mais
+    // especificidade do que a regra base e ganhariam a media query.
+    @media (max-width: 767.98px) {
+        --pg-stamp-size: 60px;
+        --pg-stamp-offset: 8px;
+
+        &.pg_stamp_sm {
+            --pg-stamp-size: 44px;
+        }
+
+        &.pg_stamp_lg {
+            --pg-stamp-size: 80px;
+        }
+    }
+}

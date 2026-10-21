@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Cabecalho HMD
+        Origem: Website_Design/Desktop/SVG/Home.svg (Component_2_3 + Component_1_12),
+        revisto pelo feedback da Monica de 18/09/2026.
+          barra de topo  1920x39  — .......... conta/carrinho/wishlist a direita
+          navegacao      Courier New 14px a y=47
+          mega-menu      5 colunas de categorias a y=84
+          coluna direita logotipo + home/products/materials/fabrics + EN|PT
+        Substitui a <nav> do cabecalho, como fazem os headers nativos
+        (cf. website.template_header_default).
+    -->
+    <!-- Nasce inactivo: enquanto o cabecalho nativo estiver activo, dois
+         position="replace" no mesmo //header//nav fazem a validacao da vista
+         falhar. O gancho _post_copy desliga o nativo e liga este. -->
+    <template id="template_header_hmd" inherit_id="website.layout"
+              name="Cabecalho HMD" active="False">
+        <xpath expr="//header//nav" position="replace">
+
+          <!-- Contentor proprio: o <header> do Odoo escreve o class com
+               t-attf-class e descarta o nosso, por isso o fundo nunca se
+               aplicava. Tudo o que controlamos vive aqui dentro. -->
+          <div class="hmd-header">
+
+            <!--
+                Barra de topo (Rectangle_55 no XD: #fff opaco, 39px).
+
+                Feedback Monica 18/09/2026, PDF "LOG IN LOGOUT BOTOES":
+                "Afinal nao queremos para ja login PRIVATE por isso faz mais
+                sentido passar tudo para o lado direito".
+
+                Saem os dois atalhos PRIVATE / PROFESSIONAL da esquerda e a
+                faixa passa a ter so o bloco de conta, carrinho e wishlist,
+                encostado a direita — e o que as pranchas 2 e 3 do PDF
+                mostram, sobre a faixa branca e ja sem a caixa cinzenta.
+
+                As paginas /private e /professional NAO sao apagadas: por
+                indicacao da Lara (21/09/2026) ficam acessiveis por URL, so
+                deixam de ter entrada no cabecalho.
+            -->
+            <div class="hmd-topbar">
+                <div class="hmd-header__tools">
+                    <!--
+                        Deslogado: "PROFESSIONAL LOGIN" (prancha 2). O
+                        portal.user_dropdown nao serve aqui — tem
+                        t-if="is_connected" e nao desenha nada ao publico.
+                    -->
+                    <a t-if="website.is_public_user() or editable"
+                       class="hmd-topbar__login" href="/web/login">Professional login</a>
+
+                    <!--
+                        Logado: nome do utilizador com o menu MY ACCOUNT /
+                        LOGOUT (pranchas 3 e 4). Sao os dois itens que o
+                        dropdown nativo ja traz — o "My Account" vem do
+                        portal.my_account_link, que o herda.
+                        O _icon fica desligado: nas pranchas ha so o nome e a
+                        seta, sem o boneco.
+                    -->
+                    <t t-call="portal.user_dropdown">
+                        <t t-set="_user_name" t-value="True"/>
+                        <t t-set="_item_class" t-valuef="dropdown"/>
+                        <t t-set="_link_class" t-valuef="nav-link border-0"/>
+                        <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                    </t>
+
+                    <!-- O _icon e obrigatorio: nos templates do Odoo o glifo
+                         esta sob t-if="_icon", e sem ele saia so o numero.
+                         O _icon_wrap_class da ao <div> a referencia para o
+                         numero poder assentar em expoente sobre o icone. -->
+                    <t t-call="website_sale.header_cart_link">
+                        <t t-set="_icon" t-value="True"/>
+                        <t t-set="_icon_wrap_class" t-valuef="hmd-tool"/>
+                    </t>
+                    <t t-call="website_sale_wishlist.header_wishlist_link">
+                        <t t-set="_icon" t-value="True"/>
+                        <t t-set="_icon_wrap_class" t-valuef="hmd-tool"/>
+                    </t>
+                </div>
+            </div>
+
+            <div class="hmd-header__bar">
+
+                <!-- Coluna esquerda: navegacao + mega-menu, lado a lado com o
+                     bloco da direita (no XD ocupam metades da mesma faixa) -->
+                <div class="hmd-header__main">
+                <!--
+                    class="top_menu": o auto_hide_menu.js do Odoo faz
+                      const topMenu = header.querySelector(".top_menu");
+                      if (!topMenu.querySelector(...) || header.classList...)
+                    Sem .top_menu, topMenu e null e a linha seguinte lanca
+                    "TypeError: null is not an object" em TODAS as paginas. A
+                    valvula o_no_autohide_menu nao salva: esta do lado direito
+                    do ||, e o lado esquerdo rebenta primeiro.
+
+                    O bloco .top_menu do website.scss vive dentro de .navbar,
+                    que nao e o nosso caso — a classe e inerte visualmente.
+
+                    o_no_autohide_item em cada item: faz o ':scope > :not(...)'
+                    devolver null, o script conclui que nao ha nada a dobrar e
+                    sai antes de chamar autoHideMenu(). Assim ele nao mexe na
+                    nossa navegacao (espera <li> dentro de <ul>, nao <span>).
+                -->
+                <nav class="hmd-nav top_menu" aria-label="Principal">
+                    <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                        <!-- Condicional explicita: "x and '' or 'd-none'" devolve
+                             SEMPRE 'd-none', porque a string vazia e falsy. -->
+                        <span t-attf-class="hmd-nav__item o_no_autohide_item #{'' if submenu.is_visible else 'd-none'} #{'hmd-nav__trigger' if submenu.child_id else ''}">
+                            <a t-att-href="submenu.url" t-out="submenu.name"/>
+                        </span>
+                    </t>
+                </nav>
+
+                <!-- Mega-menu de categorias (MESAS / ESTOFO / ARRUMACAO / CAMAS / ILUMINACAO).
+                     No XD esta sempre aberto, por baixo da navegacao. -->
+                <!--
+                    So as cinco primeiras categorias de topo, como no XD:
+                    MESAS, ESTOFO, ARRUMACAO, CAMAS, ILUMINACAO.
+
+                    A base tem nove (juntam-se Tecidos, Materiais, Acabamentos
+                    e Colecao), mas essas tem pagina propria na coluna direita
+                    e nao constam do mega-menu do desenho. A ordem e dada pelo
+                    campo "sequence" das categorias, que a HMD controla no
+                    backoffice — nao ha nomes fixos no codigo.
+                -->
+                <!--
+                    t-nocache: o <nav> do Odoo vive dentro de um bloco
+                    t-cache="res_company" (portal.frontend_layout). Sem isto o
+                    mega-menu ficava em cache e NAO reflectia alteracoes as
+                    categorias — nomes, traducoes ou ordem — ate a empresa ser
+                    tocada ou o servico reiniciar.
+
+                    O t-set das categorias tem de ficar DENTRO do bloco: as
+                    variaveis definidas fora nao chegam ca dentro (e por isso
+                    que o Odoo usa t-nocache-<nome> para as passar).
+                -->
+                <div class="hmd-megamenu"
+                     t-nocache="As categorias mudam no backoffice; nao pode ficar em cache.">
+                    <t t-set="hmd_roots"
+                       t-value="website.env['product.public.category'].search([('parent_id', '=', False)], order='sequence, name', limit=5)"/>
+                    <div class="hmd-megamenu__grid">
+                        <div class="hmd-megamenu__col" t-foreach="hmd_roots" t-as="root">
+                            <a t-att-href="'/shop/category/%s' % slug(root)" t-out="root.name"/>
+                            <a t-foreach="root.child_id" t-as="child"
+                               t-att-href="'/shop/category/%s' % slug(child)" t-out="child.name"/>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Coluna direita.
+                     O bloco .hmd-header__tools que aqui vivia subiu para a
+                     barra de topo — ver o comentario la em cima. -->
+                <div class="hmd-header__aside">
+                    <!--
+                         Logotipo, no topo da coluna (cf. Home.svg y=78).
+
+                         O XD trazia aqui um wordmark tipografico, "hmd
+                         furniture" composto em texto. Feedback Monica
+                         18/09/2026, PDF "MENU LADO DIREITO": "LOGO EM ANEXO
+                         FORMATO EPS" — passa a ser o logotipo da casa, so
+                         "hmd", sem a palavra "furniture".
+
+                         O ficheiro e o static/src/img/logo_hmd.svg, convertido
+                         do EPS que ela enviou. Nao se usa o website.logo do
+                         Odoo: esse e o logotipo da base ("Your Logo" por
+                         omissao) e e partilhado com o site que esta no ar.
+                    -->
+                    <a class="hmd-brand" href="/" aria-label="HMD Furniture">
+                        <img class="hmd-brand__logo"
+                             src="/theme_hmd_furniture/static/src/img/logo_hmd.svg"
+                             alt="HMD Furniture"/>
+                    </a>
+
+                    <!-- Fora dos "tools" para poder ficar na 2.a linha em mobile,
+                         alinhado com o wordmark (cf. Mobile/Untitled.pdf) -->
+                    <button class="hmd-burger" type="button" aria-label="Menu">Menu</button>
+
+                    <div class="hmd-rail">
+                        <!-- O HOME faltava. No Home.svg os atalhos sao
+                             HOME (y=156), PRODUCTS (180), MATERIALS (204),
+                             FABRICS (227) — quatro, nao tres. -->
+                        <a href="/">Home</a>
+                        <a href="/shop">Products</a>
+                        <a href="/materials">Materials</a>
+                        <a href="/fabrics">Fabrics</a>
+                        <div class="hmd-rail__lang">
+                            <t t-foreach="website.language_ids" t-as="lang">
+                                <a t-att-href="'/%s' % lang.url_code"
+                                   t-attf-class="#{lang.code == request.env.lang and 'active' or ''}"
+                                   t-out="lang.url_code[:2].upper()"/>
+                            </t>
+                        </div>
+
+                        <!-- Campo de pesquisa por baixo dos atalhos (cf. Collection.svg) -->
+                        <form class="hmd-search" action="/website/search" method="get" role="search">
+                            <t t-call="website.website_search_box">
+                                <t t-set="_classes" t-valuef="hmd-search__group"/>
+                                <!-- Um espaco e nao '': o template faz
+                                     "placeholder if placeholder else 'Search...'",
+                                     e a string vazia e falsa em Python, por isso
+                                     o texto por omissao voltava sempre. -->
+                                <t t-set="placeholder" t-valuef=" "/>
+                                <!-- Com default_style falso o Odoo poe
+                                     "border-0 bg-light" no input — utilitarias
+                                     do Bootstrap com !important, que apagavam a
+                                     linha do desenho e pintavam a caixa
+                                     cinzenta. Ligado, o input fica limpo. -->
+                                <t t-set="default_style" t-value="True"/>
+                                <!-- E sem isto o botao herdava btn-primary, que
+                                     e o roxo do Odoo. -->
+                                <t t-set="_submit_classes" t-valuef="hmd-search__btn"/>
+                            </t>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Painel mobile de dois niveis.
+                 Nivel 1: Website_Design/Mobile/MENU CATEGORIAS.svg
+                 Nivel 2: Website_Design/Mobile/MENU SUBCATEGORIA.svg
+
+                 As pranchas mostram dois ecras: o primeiro com as categorias de
+                 raiz, o segundo com as subcategorias de uma delas. Uma raiz com
+                 filhos NAO navega — abre o segundo nivel. Sem filhos, e ligacao
+                 directa, para nao levar o visitante a um ecra vazio.
+
+                 Os niveis vao todos no HTML e trocam-se por classe. Evita um
+                 pedido ao servidor a cada toque, e o painel continua a funcionar
+                 se o JavaScript falhar: sem ele fica o nivel 1, que tem as
+                 ligacoes das categorias e das paginas. -->
+            <div class="hmd-mobile-menu"
+                 t-nocache="Idem: lista as mesmas categorias.">
+                <t t-set="hmd_roots"
+                   t-value="website.env['product.public.category'].search([('parent_id', '=', False)], order='sequence, name', limit=5)"/>
+                <div class="hmd-mobile-menu__level is-active" data-hmd-level="root">
+                    <!-- Um "Menu" por nivel, no mesmo lugar: no nivel 1 fecha, no
+                         nivel 2 volta atras. Ter os dois ao mesmo tempo levava a
+                         clicar no de fechar a pensar que se voltava atras.
+                         A classe hmd-burger NAO pode estar aqui: o widget liga
+                         _onToggle a .hmd-burger e a .hmd-mobile-menu__close, e com
+                         as duas classes o painel alternava duas vezes por clique
+                         — ou seja, nao acontecia nada. -->
+                    <button class="hmd-mobile-menu__close" type="button">Menu</button>
+                    <div class="hmd-mobile-menu__list">
+                        <t t-foreach="hmd_roots" t-as="root">
+                            <button t-if="root.child_id" type="button"
+                                    class="hmd-mobile-menu__into"
+                                    t-att-data-hmd-target="'cat-%s' % root.id"
+                                    t-out="root.name"/>
+                            <a t-else="" t-att-href="'/shop/category/%s' % slug(root)"
+                               t-out="root.name"/>
+                        </t>
+                    </div>
+                    <div class="hmd-mobile-menu__list">
+                        <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                            <a t-att-href="submenu.url" t-out="submenu.name"/>
+                        </t>
+                    </div>
+                    <t t-call="theme_hmd_furniture.mobile_account_hmd"/>
+                    <div class="hmd-mobile-menu__foot">
+                        <t t-call="theme_hmd_furniture.footer_cols_hmd"/>
+                    </div>
+                </div>
+
+                <t t-foreach="hmd_roots" t-as="root">
+                    <div t-if="root.child_id" class="hmd-mobile-menu__level"
+                         t-att-data-hmd-level="'cat-%s' % root.id">
+                        <button type="button" class="hmd-mobile-menu__back">Menu</button>
+                        <div class="hmd-mobile-menu__list">
+                            <!-- A propria raiz continua alcancavel: sem isto,
+                                 abrir "Mesas" deixava de dar acesso a "Mesas". -->
+                            <a class="hmd-mobile-menu__root"
+                               t-att-href="'/shop/category/%s' % slug(root)" t-out="root.name"/>
+                            <t t-foreach="root.child_id" t-as="hmd_sub">
+                                <a t-att-href="'/shop/category/%s' % slug(hmd_sub)"
+                                   t-out="hmd_sub.name"/>
+                            </t>
+                        </div>
+                        <t t-call="theme_hmd_furniture.mobile_account_hmd"/>
+                        <div class="hmd-mobile-menu__foot">
+                            <t t-call="theme_hmd_furniture.footer_cols_hmd"/>
+                        </div>
+                    </div>
+                </t>
+            </div>
+          </div>
+        </xpath>
+    </template>
+
+    <!--
+        Rodape HMD — 1920x672, fundo #222120.
+        Paragrafo de abertura + 4 colunas: marca / contactos / redes / newsletter.
+    -->
+    <!-- Idem: activado pelo _post_copy depois de desligar website.footer_custom -->
+    <!-- Colunas do rodape, partilhadas pelo rodape da pagina e pelo painel
+         mobile. Nas pranchas Mobile/MENU CATEGORIAS.svg e MENU SUBCATEGORIA.svg
+         o menu aberto mostra o mesmo rodape, por isso extraiu-se para aqui em
+         vez de se duplicarem contactos a mao. -->
+    <!-- Home e a conta aparecem nas duas pranchas de menu mobile. Fica em
+         template proprio por ser usado nos dois niveis.
+
+         Os atalhos Private e Professionals sairam a 21/09/2026, pela mesma
+         razao que sairam da barra de topo: "Afinal nao queremos para ja login
+         PRIVATE" (feedback Monica 18/09/2026, PDF "LOG IN LOGOUT BOTOES").
+         So o cabecalho de ecra grande tinha sido tratado — este painel ficou
+         para tras e continuava a mostrar os dois.
+
+         O "Login" passa a "Professional login", para dizer o mesmo que a
+         faixa de topo diz em ecra grande. As paginas continuam a existir e a
+         responder por URL. -->
+    <template id="mobile_account_hmd" name="Conta no painel mobile HMD">
+        <div class="hmd-mobile-menu__list hmd-mobile-menu__list--account">
+            <a href="/">Home</a>
+            <a t-if="website.is_public_user() or editable" href="/web/login">Professional login</a>
+            <a t-else="" href="/my/home">My account</a>
+        </div>
+    </template>
+
+    <template id="footer_cols_hmd" name="Colunas do rodape HMD">
+            <div class="hmd-footer__grid">
+
+                <div class="hmd-footer__col">
+                    <span><span>HMD Furniture©</span> <span t-out="datetime.date.today().year"/></span>
+                    <a href="/cookie-policy">Cookie Policy</a>
+                </div>
+
+                <div class="hmd-footer__col">
+                    <a t-att-href="'tel:%s' % res_company.phone" t-out="res_company.phone"/>
+                    <a t-att-href="'mailto:%s' % res_company.email" t-out="res_company.email"/>
+                    <span t-out="res_company.street"/>
+                    <span><span t-out="res_company.zip"/> <span t-out="res_company.city"/></span>
+                </div>
+
+                <div class="hmd-footer__col">
+                    <a t-if="website.social_instagram" t-att-href="website.social_instagram">Instagram</a>
+                    <a t-if="website.social_facebook" t-att-href="website.social_facebook">Facebook</a>
+                    <!-- O Odoo 18 nao tem campo social_pinterest; a ligacao e
+                         editavel no construtor de website. -->
+                    <a href="https://www.pinterest.com/">Pinterest</a>
+                    <a t-if="website.social_linkedin" t-att-href="website.social_linkedin">LinkedIn</a>
+                </div>
+
+                <div class="hmd-footer__col">
+                    <span>Newsletter</span>
+                    <form class="hmd-newsletter" action="/website_mass_mailing/is_subscriber" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="email" name="email" placeholder="Email" aria-label="Email"/>
+                        <button type="submit">Send</button>
+                    </form>
+                </div>
+            </div>
+    </template>
+
+    <template id="footer_hmd" inherit_id="website.layout"
+              name="Rodape HMD" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo hmd-footer"
+                 t-if="not no_footer">
+
+                <p class="hmd-footer__intro">
+                    HMD designs and produces in Portugal. It's been over 30 years.
+                    We work closely with artisans — selected for their precision,
+                    their patience, and their hands. Quietly, our pieces have found
+                    their way into private homes and hotels in more than 80 countries.
+                </p>
+
+                <t t-call="theme_hmd_furniture.footer_cols_hmd"/>
+
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

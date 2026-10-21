@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu Principal -->
+    <menuitem id="menu_transformation_root"
+              name="Transformação"
+              parent="stock.menu_stock_root"
+              sequence="30"/>
+
+    <!-- Sub-menus Operações -->
+    <menuitem id="menu_transformation_operations"
+              name="Operações"
+              parent="menu_transformation_root"
+              sequence="1"/>
+
+    <menuitem id="menu_transformation_document"
+              name="Documentos de Transformação"
+              parent="menu_transformation_operations"
+              action="action_transformation_document"
+              sequence="1"/>
+
+    <!-- Sub-menus Configuração -->
+    <menuitem id="menu_transformation_config"
+              name="Configuração"
+              parent="menu_transformation_root"
+              sequence="2"/>
+
+    <menuitem id="menu_product_transformer"
+              name="Transformadores"
+              parent="menu_transformation_config"
+              action="action_transformer_partners"
+              sequence="1"/>
+
+    <menuitem id="menu_carrier_partners"
+              name="Transportadores"
+              parent="menu_transformation_config"
+              action="action_carrier_partners"
+              sequence="2"/>
+
+    <!-- Menu de Relatórios -->
+    <menuitem id="menu_transformation_reporting"
+              name="Relatórios"
+              parent="menu_transformation_root"
+              sequence="3"/>
+</odoo>

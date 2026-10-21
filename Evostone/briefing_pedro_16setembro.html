@@ -1,0 +1,361 @@
+<title>Passagem de Pasta EVOSTONE</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F3F4F5;
+  --surface:#FFFFFF;
+  --ink:#15181B;
+  --ink-soft:#4E575E;
+  --ink-faint:#79838A;
+  --rule:#D9DEE1;
+  --rule-soft:#E7EBED;
+  --accent:#2F5D62;
+  --accent-soft:#E3ECEC;
+  --iron:#9B3A34;
+  --ochre:#94662A;
+  --serpentine:#3D6A4F;
+  --iron-wash:#F6E9E8;
+  --ochre-wash:#F7EFE2;
+  --serp-wash:#E8F0EA;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#121518;
+    --surface:#1A1F23;
+    --ink:#E9ECEE;
+    --ink-soft:#A8B2B8;
+    --ink-faint:#7E888E;
+    --rule:#2C343A;
+    --rule-soft:#232A2F;
+    --accent:#77B0B4;
+    --accent-soft:#1E2E30;
+    --iron:#D98079;
+    --ochre:#D0A063;
+    --serpentine:#7FAE90;
+    --iron-wash:#2A1D1C;
+    --ochre-wash:#2A2318;
+    --serp-wash:#1B2620;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#121518;
+  --surface:#1A1F23;
+  --ink:#E9ECEE;
+  --ink-soft:#A8B2B8;
+  --ink-faint:#7E888E;
+  --rule:#2C343A;
+  --rule-soft:#232A2F;
+  --accent:#77B0B4;
+  --accent-soft:#1E2E30;
+  --iron:#D98079;
+  --ochre:#D0A063;
+  --serpentine:#7FAE90;
+  --iron-wash:#2A1D1C;
+  --ochre-wash:#2A2318;
+  --serp-wash:#1B2620;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.62;
+  padding-inline:20px;
+  padding-block:0;
+  -webkit-font-smoothing:antialiased;
+}
+.sheet{max-width:790px;margin-inline:auto;padding-block:52px 72px}
+
+/* ---------- cabeçalho ---------- */
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-faint);margin:0 0 18px;
+}
+h1{
+  font-family:"Source Serif 4",Georgia,serif;
+  font-weight:600;font-size:clamp(34px,6vw,50px);line-height:1.08;
+  letter-spacing:-.018em;margin:0;text-wrap:balance;
+}
+.standfirst{
+  font-family:"Source Serif 4",Georgia,serif;
+  font-size:19px;line-height:1.55;color:var(--ink-soft);
+  max-width:60ch;margin:16px 0 0;
+}
+.facts{
+  display:flex;flex-wrap:wrap;gap:0 34px;
+  margin-top:28px;padding-top:20px;border-top:1px solid var(--rule);
+}
+.fact{display:flex;flex-direction:column;gap:2px;padding-block:6px}
+.fact dt{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);
+}
+.fact dd{margin:0;font-size:15px;font-weight:500;font-variant-numeric:tabular-nums}
+
+/* ---------- secções ---------- */
+section{margin-top:56px}
+h2{
+  font-family:"Source Serif 4",Georgia,serif;
+  font-weight:600;font-size:26px;line-height:1.2;letter-spacing:-.012em;
+  margin:0 0 6px;text-wrap:balance;
+}
+.sub{color:var(--ink-soft);margin:0 0 26px;max-width:64ch}
+p{max-width:66ch}
+h3{
+  font-family:"IBM Plex Sans",sans-serif;
+  font-size:17px;font-weight:600;line-height:1.35;margin:0 0 8px;text-wrap:balance;
+}
+
+/* ---------- decisões ---------- */
+.decisoes{display:flex;flex-direction:column;gap:18px}
+.decisao{
+  background:var(--surface);
+  border:1px solid var(--rule-soft);
+  border-left:3px solid var(--tone,var(--accent));
+  padding:20px 22px;
+}
+.decisao.critica{--tone:var(--iron)}
+.decisao.confirmar{--tone:var(--ochre)}
+.decisao.divida{--tone:var(--ochre)}
+.decisao.nota{--tone:var(--ink-faint)}
+.tag{
+  display:inline-block;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--tone,var(--accent));margin-bottom:9px;
+}
+.decisao p{margin:0 0 10px;font-size:15.5px;color:var(--ink-soft)}
+.decisao p:last-child{margin-bottom:0}
+.decisao strong{color:var(--ink);font-weight:600}
+
+/* ---------- blocos mono ---------- */
+.mono{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:13px;line-height:1.72;
+  background:var(--ground);
+  border:1px solid var(--rule-soft);
+  padding:14px 16px;margin:14px 0;
+  overflow-x:auto;white-space:pre;
+  color:var(--ink-soft);
+}
+.decisao .mono{background:var(--ground)}
+code{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.88em;background:var(--accent-soft);
+  padding:1px 5px;border-radius:2px;color:var(--ink);
+}
+
+/* ---------- citação ---------- */
+blockquote{
+  margin:0 0 26px;padding:0 0 0 20px;
+  border-left:2px solid var(--iron);
+  font-family:"Source Serif 4",Georgia,serif;
+  font-size:21px;line-height:1.45;color:var(--ink);
+  max-width:56ch;
+}
+blockquote .quem{
+  display:block;margin-top:10px;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-faint);
+}
+
+/* ---------- tabelas ---------- */
+.rolar{overflow-x:auto;margin:20px 0}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:440px}
+th{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-faint);text-align:left;font-weight:500;
+  padding:0 16px 9px 0;border-bottom:1px solid var(--rule);
+}
+td{
+  padding:11px 16px 11px 0;border-bottom:1px solid var(--rule-soft);
+  vertical-align:top;color:var(--ink-soft);
+}
+td:first-child{color:var(--ink);font-weight:500;width:44%}
+td.num{font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+
+/* ---------- diagrama do lote ---------- */
+.lote{
+  background:var(--surface);border:1px solid var(--rule-soft);
+  padding:20px 22px;margin:22px 0;
+}
+.lote-passo{display:flex;gap:14px;align-items:baseline;padding-block:7px}
+.lote-passo + .lote-passo{border-top:1px dashed var(--rule-soft)}
+.lote-nome{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:12.5px;color:var(--accent);flex:0 0 152px;
+}
+.lote-desc{font-size:14.5px;color:var(--ink-soft)}
+.lote-topo{
+  font-size:14.5px;color:var(--ink);margin:0 0 12px;
+  padding-bottom:12px;border-bottom:1px solid var(--rule);
+}
+
+/* ---------- listas ---------- */
+ul.limpa{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px}
+ul.limpa li{
+  padding-left:20px;position:relative;font-size:15.5px;
+  color:var(--ink-soft);max-width:64ch;
+}
+ul.limpa li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:7px;height:1px;background:var(--accent);
+}
+ul.limpa li strong{color:var(--ink);font-weight:600}
+
+/* ---------- rodapé ---------- */
+footer{
+  margin-top:64px;padding-top:22px;border-top:1px solid var(--rule);
+  font-size:13.5px;color:var(--ink-faint);max-width:64ch;
+}
+footer code{background:none;color:var(--ink-soft);padding:0}
+
+@media (max-width:520px){
+  .lote-passo{flex-direction:column;gap:2px}
+  .lote-nome{flex:none}
+  .facts{gap:0 24px}
+}
+</style>
+
+<div class="sheet">
+
+<p class="eyebrow">Projeto 316 · Odoo 18.0 Enterprise · Odoo.sh</p>
+<h1>Passagem de pasta</h1>
+<p class="standfirst">Para o Pedro Coelho, ao regresso. Cobre 14 a 16 de setembro — o que foi entregue, o que se partiu pelo caminho, e as quatro coisas que ficaram à tua espera.</p>
+
+<dl class="facts">
+  <div class="fact"><dt>Fim planeado</dt><dd>31/10/2026</dd></div>
+  <div class="fact"><dt>Horas lançadas</dt><dd>33,25 de 36</dd></div>
+  <div class="fact"><dt>Documentos à medida</dt><dd>22</dd></div>
+  <div class="fact"><dt>Validação</dt><dd>21 / 21</dd></div>
+</dl>
+
+<section>
+  <h2>Quatro coisas à tua espera</h2>
+  <p class="sub">Por ordem de consequência, não de urgência.</p>
+
+  <div class="decisoes">
+
+    <div class="decisao critica">
+      <span class="tag">Decisão · consequência comercial</span>
+      <h3>A certificação portuguesa não está no sistema — e o cliente já a pagou</h3>
+      <p>O <code>l10n_pt</code> instalado é só plano de contas e impostos: três ficheiros de modelo, sem assinatura de documentos, ATCUD, QR, SAF-T ou comunicação de guias à AT.</p>
+      <p>O <strong>«Odoo PT+» da Exo Software</strong>, comprado pelo cliente a 11/09 e já faturado, não está no repositório nem instalado. São 48 módulos no repo e nenhum é esse.</p>
+      <div class="mono">l10n_pt          installed    contas e impostos, mais nada
+l10n_pt_reports  installed    relatórios contabilísticos
+mh_saft          uninstalled  o SAF-T moçambicano do parceiro anterior
+Odoo PT+ / Exo   ausente      nem no repo nem instalado</div>
+      <p>Toda a fase correspondente está em Backlog — tarefas <strong>7045 a 7052</strong>: instalação, parametrização, layouts fiscais, teste de faturação e assinatura, séries de produção. Quando entra, quem instala, e o que se diz ao cliente sobre o prazo, é decisão tua.</p>
+    </div>
+
+    <div class="decisao confirmar">
+      <span class="tag">Confirmar · janela a fechar</span>
+      <h3>O método de custeio foi alterado em produção hoje de manhã</h3>
+      <div class="mono">Todos / Mercadoria   property_cost_method:  pcmp → average
+2026-09-16 07:51     it.odoo@parametro.global</div>
+      <p>Conta partilhada da Parâmetro Global, pela interface web. Não foi o cliente. A alteração é legítima em si, mas partiu a receção — expôs um defeito latente do módulo do parceiro anterior, entretanto corrigido e publicado.</p>
+      <p><strong>Enquanto houver 0 existências e 0 camadas de valorização é reversível.</strong> Depois da primeira receção real, deixa de ser. Falta saber de quem foi e se foi deliberada.</p>
+    </div>
+
+    <div class="decisao divida">
+      <span class="tag">Em dívida desde 08/09</span>
+      <h3>A estimativa de datas</h3>
+      <p>O cliente pediu-a a 08/09, 09/09 e 11/09. Foi-lhe dito que a resposta viria contigo. É também o que a CFO está realmente a perguntar quando escreve «e vai estar quando?».</p>
+    </div>
+
+    <div class="decisao nota">
+      <span class="tag">Para leres antes de olhar para o orçamento</span>
+      <h3>As horas no papel não são as horas reais</h3>
+      <p>33,25 h de 36 alocadas. O último lançamento é de 14/09, com 1 h. Os três dias de trabalho de 14, 15 e 16 estão praticamente por lançar, por indicação expressa de se ignorarem as horas nesta fase. <strong>As 2,75 h que sobram não existem.</strong></p>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <h2>A relação com o cliente</h2>
+  <p class="sub">A Maria Dias, CFO, respondeu ontem às 21:36 anotando o nosso email linha a linha.</p>
+
+  <blockquote>
+    Não entendo nada do que escreveu.
+    <span class="quem">Maria Dias, duas vezes, em pontos diferentes</span>
+  </blockquote>
+
+  <p>É um sinal sobre como escrevemos, não sobre ela. Os dois pontos eram a explicação dos obstáculos à receção e a explicação dos preços — ambos escritos em vocabulário de sistema.</p>
+
+  <h3 style="margin-top:32px">E tem razão em quatro pontos, contra o que lhe foi dito</h3>
+  <div class="rolar">
+    <table>
+      <thead><tr><th>O que ela escreveu</th><th>Verificado</th></tr></thead>
+      <tbody>
+        <tr><td>«Cada chapa não é um lote»</td><td>Ela. O sistema modela igual — um lote agrupa várias chapas</td></tr>
+        <tr><td>«No mercado externo o artigo está isento de IVA»</td><td>Ela quanto ao facto; o mecanismo confirma-o</td></tr>
+        <tr><td>«Devem saber as obrigações que cada documento tem que ter impresso»</td><td>Ela. São obrigação legal, não um pedido avulso</td></tr>
+        <tr><td>«Não podemos dar entrada nem saída de material sem isto resolvido»</td><td>Ela. É bloqueio operacional, não preferência</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin-top:36px">O lote, como o sistema o entende</h3>
+  <div class="lote">
+    <p class="lote-topo">Escreve-se <strong>um</strong> nome de lote por linha da encomenda. As 160 chapas da P00002 são numeradas pelo sistema — ele não tem de as criar à mão.</p>
+    <div class="lote-passo"><span class="lote-nome">base.lot.group</span><span class="lote-desc">o lote comercial, com o custo médio</span></div>
+    <div class="lote-passo"><span class="lote-nome">stock.lot</span><span class="lote-desc"><code>#1/CÓDIGO/NOME</code>, <code>#2/…</code> — uma por chapa, com as suas medidas</span></div>
+    <div class="lote-passo"><span class="lote-nome">lot.price.group</span><span class="lote-desc">agrupa as de dimensões iguais — é aqui que vive o preço</span></div>
+  </div>
+
+  <h3 style="margin-top:36px">Os campos dos documentos: o que lhe foi dito está errado</h3>
+  <p>Foi-lhe dito que local de carga, local de descarga e matrícula eram «desenvolvimento novo a orçamentar». O <strong>Decreto-Lei 147/2003, art. 4.º n.º 4</strong> exige os locais de carga e descarga <em>e</em> a data e hora de início do transporte — um quarto elemento que ninguém pediu. A matrícula não consta do artigo, mas é campo da comunicação à AT.</p>
+  <p>E os quatro vêm no módulo de certificação que o cliente já comprou. <strong>Orçamentá-los seria cobrar outra vez.</strong></p>
+  <p>Foi-lhe também dito «15 documentos». São 22 à medida.</p>
+</section>
+
+<section>
+  <h2>Entregue e provado em produção</h2>
+  <p class="sub">Cada linha tem a prova ao lado, porque provar um documento não prova os outros — foi assim que a fatura passou uma semana a não imprimir.</p>
+  <div class="rolar">
+    <table>
+      <thead><tr><th>O quê</th><th>Prova</th></tr></thead>
+      <tbody>
+        <tr><td>Identidade nos 15 modelos de impressão</td><td>renderizado na P00002 real do cliente</td></tr>
+        <tr><td>Remetente do correio corrigido</td><td><code>odoo.stg@pemaro.net</code> removido</td></tr>
+        <tr><td>Página de contactos do site</td><td>publicava morada da Matola, 3 telefones +258 e <code>geral@pemaro.net</code></td></tr>
+        <tr><td>Sequências, alias, etiquetas NUIT→NIF</td><td>varrimento global a zero</td></tr>
+        <tr><td>Receção desbloqueada</td><td>7 categorias, áreas do tipo de serviço, 3 encomendas</td></tr>
+        <tr><td>IVA de compra em 24 artigos</td><td class="num">fatura de compra 500,00 → 615,00</td></tr>
+        <tr><td>Fatura, NC e ND imprimiam com erro</td><td>campo <code>o.migration</code>, do <code>account_MZ</code></td></tr>
+        <tr><td>IBAN registado</td><td class="num">PT50 0018 0003 6905 9608 020 90, impresso na fatura</td></tr>
+        <tr><td>Defeito do SVL na receção</td><td class="num">FAM/IN/00009 → done · 322 existências · 160 chapas</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>O que não está provado</h2>
+  <p>Oito dos 22 documentos à medida — etiquetas de chapa, listagens de stock, lista de preços de pedras, recibos — <strong>não podem ser testados</strong> enquanto não houver chapas em stock e recibos emitidos. São precisamente os que o cliente vai usar todos os dias.</p>
+  <p>A primeira receção real ainda não aconteceu. Tudo o que está provado foi-o em transação revertida.</p>
+  <p>E a maior parte das alterações de configuração foi aplicada <strong>diretamente em produção</strong>, sem ensaio prévio em staging: valorização, áreas de atuação, site, sequências, etiquetas, impostos. Só as alterações de código seguiram o caminho completo. O host de staging leva o id do build no nome e muda a cada publicação, o que tirou o ensaio às últimas.</p>
+</section>
+
+<section>
+  <h2>Por fazer</h2>
+  <ul class="limpa">
+    <li><strong>Sessão com a Maria</strong> sobre a valorização das chapas. Destrava o stock e os preços ao mesmo tempo — é o nó de que dependem três queixas do cliente.</li>
+    <li><strong>Segundo IBAN</strong>, que ela anunciou.</li>
+    <li><strong>Recalcular os impostos</strong> das linhas da P00002 e P00001: ficam com <code>0% EX</code> e <code>23% EU G</code>, e o total não muda — 33.863,04 € e 97,80 €. Guião pronto, com guarda que recusa gravar se algum total mudar.</li>
+    <li><strong>Responder à Maria.</strong> Já não é resposta técnica.</li>
+  </ul>
+</section>
+
+<footer>
+  O detalhe todo está no <code>PG_CONTEXT.md</code>, entradas de 14 a 16 de setembro, com o raciocínio e os enganos pelo caminho. Os guiões de diagnóstico e prova estão no repositório, em <code>guioes/</code>, com um <code>README</code> que diz o que cada um responde e como se corre — <code>evo_validar.py</code> corre as 21 verificações, <code>evo_prova_documentos.py</code> renderiza todos os relatórios alcançáveis, e <code>evo_impostos_encomendas.py</code> é o único que fica por aplicar.
+</footer>
+
+</div>

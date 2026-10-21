@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================ TREE (DATA BASE) -->
+    <record id="view_pg_planeamento_line_tree" model="ir.ui.view">
+        <field name="name">pg.planeamento.line.tree</field>
+        <field name="model">pg.planeamento.line</field>
+        <field name="arch" type="xml">
+            <tree string="Painel de Encomendas" multi_edit="1" sample="1"
+                  decoration-success="encomenda_status == 'concluida'"
+                  decoration-info="encomenda_status == 'producao'"
+                  decoration-warning="prioridade == 'alta'"
+                  decoration-muted="encomenda_status == 'cancelada'">
+                <field name="encomenda_status" widget="badge"
+                       decoration-success="encomenda_status == 'concluida'"
+                       decoration-info="encomenda_status == 'producao'"
+                       decoration-muted="encomenda_status in ('rascunho','cancelada')"/>
+                <field name="prioridade" widget="badge"
+                       decoration-danger="prioridade == 'alta'"
+                       decoration-muted="prioridade in ('baixa','na')"/>
+                <field name="data"/>
+                <field name="imagem" widget="image" options="{'size': [40, 40]}" optional="show"/>
+                <field name="enc"/>
+                <field name="cliente_id"/>
+                <field name="contramarca" optional="show"/>
+                <field name="designacao"/>
+                <field name="variante" optional="hide"/>
+                <field name="qnt" sum="Total Qnt"/>
+                <field name="corte_status" widget="badge" optional="show"
+                       decoration-success="corte_status == 'done'"
+                       decoration-info="corte_status == 'progress'"
+                       decoration-warning="corte_status == 'ready'"/>
+                <field name="tecido" optional="hide"/>
+                <field name="tecido_status" widget="badge" optional="show"
+                       decoration-success="tecido_status == 'recebido'"
+                       decoration-danger="tecido_status == 'falta'"
+                       decoration-muted="tecido_status == 'na'"/>
+                <field name="casco" optional="hide"/>
+                <field name="casco_status" widget="badge" optional="show"
+                       decoration-success="casco_status == 'recebido'"
+                       decoration-danger="casco_status == 'falta'"
+                       decoration-muted="casco_status == 'na'"/>
+                <field name="inox" optional="hide"/>
+                <field name="inox_status" widget="badge" optional="show"
+                       decoration-success="inox_status == 'recebido'"
+                       decoration-danger="inox_status == 'falta'"
+                       decoration-muted="inox_status == 'na'"/>
+                <field name="polidor" optional="hide"/>
+                <field name="polidor_status" widget="badge" optional="show"
+                       decoration-success="polidor_status == 'recebido'"
+                       decoration-danger="polidor_status == 'falta'"
+                       decoration-muted="polidor_status == 'na'"/>
+                <field name="embalagem" optional="hide"/>
+                <field name="embalagem_status" widget="badge" optional="show"
+                       decoration-success="embalagem_status == 'recebido'"
+                       decoration-danger="embalagem_status == 'falta'"
+                       decoration-muted="embalagem_status == 'na'"/>
+                <field name="tecido_fornecedor_ids" widget="many2many_tags" optional="hide"/>
+                <field name="casco_fornecedor_ids" widget="many2many_tags" optional="hide"/>
+                <field name="inox_fornecedor_ids" widget="many2many_tags" optional="hide"/>
+                <field name="polidor_fornecedor_ids" widget="many2many_tags" optional="hide"/>
+                <field name="embalagem_fornecedor_ids" widget="many2many_tags" optional="hide"/>
+                <field name="faturacao" widget="badge" optional="show"/>
+                <field name="dt_prev" widget="date"/>
+                <field name="orc" sum="Total Orçamento" optional="hide"/>
+                <field name="total" sum="Total" optional="show"/>
+                <field name="semana" optional="show" readonly="1"/>
+                <field name="currency_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ================================================ FORM -->
+    <record id="view_pg_planeamento_line_form" model="ir.ui.view">
+        <field name="name">pg.planeamento.line.form</field>
+        <field name="model">pg.planeamento.line</field>
+        <field name="arch" type="xml">
+            <form string="Linha de Planeamento">
+                <header>
+                    <button name="action_pg_resync_from_odoo" type="object"
+                            string="Atualizar a partir do Odoo"
+                            confirm="Isto vai repor as horas e a semana a partir dos valores reais do Odoo e descartar as edições manuais desta encomenda. Continuar?"/>
+                    <field name="encomenda_status" widget="statusbar"
+                           statusbar_visible="rascunho,confirmada,producao,concluida"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_sale_order" type="object"
+                                class="oe_stat_button" icon="fa-shopping-cart"
+                                string="Encomenda" invisible="not sale_line_id"/>
+                        <button name="action_open_mos" type="object"
+                                class="oe_stat_button" icon="fa-wrench"
+                                invisible="mo_count == 0">
+                            <field name="mo_count" widget="statinfo" string="Ordens Produção"/>
+                        </button>
+                        <button name="action_open_purchase_orders" type="object"
+                                class="oe_stat_button" icon="fa-shopping-basket"
+                                invisible="po_count == 0">
+                            <field name="po_count" widget="statinfo" string="Ordens Compra"/>
+                        </button>
+                    </div>
+                    <field name="imagem" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="enc" readonly="1"/>
+                        </h1>
+                        <h3>
+                            <field name="designacao" readonly="1"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group string="Encomenda">
+                            <field name="sale_line_id" readonly="1"/>
+                            <field name="cliente_id"/>
+                            <field name="contramarca"/>
+                            <field name="data" readonly="1"/>
+                            <field name="dt_prev" widget="date"/>
+                            <field name="semana" readonly="1"/>
+                        </group>
+                        <group string="Produto">
+                            <field name="product_id" readonly="1"/>
+                            <field name="variante" readonly="1"/>
+                            <field name="qnt"/>
+                            <field name="prioridade"/>
+                            <field name="orc"/>
+                            <field name="total" readonly="1"/>
+                            <field name="faturacao" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Tempos por Centro de Trabalho (horas) — editável para planeamento">
+                        <group>
+                            <field name="tempo_corte_costura" widget="float_time"/>
+                            <field name="tempo_espuma_estofo" widget="float_time"/>
+                        </group>
+                        <group>
+                            <field name="tempo_embalagem" widget="float_time"/>
+                        </group>
+                    </group>
+                    <group string="Horas-pessoa (tempo × nº de pessoas) — medido, não editável">
+                        <group>
+                            <field name="horas_pessoa_corte_costura" widget="float_time"/>
+                            <field name="horas_pessoa_espuma_estofo" widget="float_time"/>
+                        </group>
+                        <group>
+                            <field name="horas_pessoa_embalagem" widget="float_time"/>
+                            <field name="horas_pessoa_total" widget="float_time"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Componentes" name="componentes">
+                            <group>
+                                <group string="Tecido">
+                                    <field name="tecido"/>
+                                    <field name="tecido_status"/>
+                                    <field name="tecido_fornecedor_ids" widget="many2many_tags" readonly="1"/>
+                                    <field name="tecido_po_ids" widget="many2many_tags" readonly="1"/>
+                                </group>
+                                <group string="Casco">
+                                    <field name="casco"/>
+                                    <field name="casco_status"/>
+                                    <field name="casco_fornecedor_ids" widget="many2many_tags" readonly="1"/>
+                                    <field name="casco_po_ids" widget="many2many_tags" readonly="1"/>
+                                </group>
+                                <group string="Inox">
+                                    <field name="inox"/>
+                                    <field name="inox_status"/>
+                                    <field name="inox_fornecedor_ids" widget="many2many_tags" readonly="1"/>
+                                    <field name="inox_po_ids" widget="many2many_tags" readonly="1"/>
+                                </group>
+                                <group string="Polidor">
+                                    <field name="polidor"/>
+                                    <field name="polidor_status"/>
+                                    <field name="polidor_fornecedor_ids" widget="many2many_tags" readonly="1"/>
+                                    <field name="polidor_po_ids" widget="many2many_tags" readonly="1"/>
+                                </group>
+                                <group string="Embalagem">
+                                    <field name="embalagem"/>
+                                    <field name="embalagem_status"/>
+                                    <field name="embalagem_fornecedor_ids" widget="many2many_tags" readonly="1"/>
+                                    <field name="embalagem_po_ids" widget="many2many_tags" readonly="1"/>
+                                </group>
+                                <group string="Posto Corte">
+                                    <field name="corte_status"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Produção" name="producao">
+                            <field name="mo_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="state"/>
+                                    <field name="date_start"/>
+                                    <field name="date_finished"/>
+                                    <field name="product_qty"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Compras" name="compras">
+                            <field name="purchase_order_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="date_order"/>
+                                    <field name="amount_total" widget="monetary"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'purchase'"
+                                           decoration-info="state == 'sent'"
+                                           decoration-muted="state in ('draft','cancel')"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Lista editável das encomendas de uma semana (planeamento administrativo).
+         Só as horas são editáveis; os restantes campos ficam readonly para nunca
+         escreverem na origem (SO/MO). -->
+    <record id="view_pg_planeamento_line_semana_tree" model="ir.ui.view">
+        <field name="name">pg.planeamento.line.semana.tree</field>
+        <field name="model">pg.planeamento.line</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <tree string="Encomendas da Semana" editable="bottom" create="0" delete="0">
+                <field name="imagem" widget="image" options="{'size': [45, 45]}" readonly="1"/>
+                <field name="enc" readonly="1"/>
+                <field name="semana" string="Semana"/>
+                <field name="cliente_id" readonly="1"/>
+                <field name="designacao" readonly="1"/>
+                <field name="qnt" readonly="1"/>
+                <field name="encomenda_status" widget="badge" readonly="1"/>
+                <field name="corte_status" widget="badge" readonly="1"/>
+                <field name="tempo_corte_costura" widget="float_time" sum="Total"/>
+                <field name="tempo_espuma_estofo" widget="float_time" sum="Total"/>
+                <field name="tempo_embalagem" widget="float_time" sum="Total"/>
+                <!-- Horas-pessoa em coluna opcional: quem quiser a leitura de custo activa-a,
+                     sem sobrecarregar a lista de quem só precisa dos tempos de relógio. -->
+                <field name="horas_pessoa_total" widget="float_time" sum="Total" optional="show"/>
+                <field name="dt_prev" widget="date" readonly="1"/>
+                <field name="total" widget="monetary" readonly="1" sum="Total"/>
+                <field name="total_faturado" widget="monetary" readonly="1" sum="Total"/>
+                <field name="currency_id" column_invisible="1"/>
+                <button name="action_pg_resync_from_odoo" type="object" icon="fa-refresh"
+                        title="Atualizar a partir do Odoo"
+                        confirm="Isto vai repor as horas e a semana a partir dos valores reais do Odoo e descartar as edições manuais desta encomenda. Continuar?"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ================================================ KANBAN -->
+    <record id="view_pg_planeamento_line_kanban" model="ir.ui.view">
+        <field name="name">pg.planeamento.line.kanban</field>
+        <field name="model">pg.planeamento.line</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="encomenda_status" sample="1" class="o_kanban_small_column">
+                <field name="encomenda_status"/>
+                <field name="prioridade"/>
+                <field name="enc"/>
+                <field name="cliente_id"/>
+                <field name="designacao"/>
+                <field name="qnt"/>
+                <field name="dt_prev" widget="date"/>
+                <field name="imagem"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('pg.planeamento.line', 'imagem', record.id.raw_value)"
+                                     alt="Imagem" class="o_image_64_contain"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong><field name="enc"/></strong>
+                                <div><field name="cliente_id"/></div>
+                                <div class="text-muted"><field name="designacao"/></div>
+                                <div>
+                                    <span class="badge text-bg-secondary">Qnt: <field name="qnt"/></span>
+                                    <field name="prioridade" widget="label_selection"
+                                           options="{'classes': {'alta': 'danger', 'baixa': 'info'}}"/>
+                                </div>
+                                <div t-if="record.dt_prev.raw_value" class="text-muted">
+                                    Prev: <field name="dt_prev" widget="date"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ================================================ PIVOT (PLANEAMENTO) -->
+    <record id="view_pg_planeamento_line_pivot" model="ir.ui.view">
+        <field name="name">pg.planeamento.line.pivot</field>
+        <field name="model">pg.planeamento.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Planeamento Semanal" sample="1">
+                <field name="semana_num" type="row"/>
+                <field name="encomenda_status" type="col"/>
+                <field name="total" type="measure"/>
+                <field name="orc" type="measure"/>
+                <field name="qnt" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- ================================================ GRAPH -->
+    <record id="view_pg_planeamento_line_graph" model="ir.ui.view">
+        <field name="name">pg.planeamento.line.graph</field>
+        <field name="model">pg.planeamento.line</field>
+        <field name="arch" type="xml">
+            <graph string="Planeamento" type="bar" sample="1">
+                <field name="semana_num"/>
+                <field name="total" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ================================================ SEARCH -->
+    <record id="view_pg_planeamento_line_search" model="ir.ui.view">
+        <field name="name">pg.planeamento.line.search</field>
+        <field name="model">pg.planeamento.line</field>
+        <field name="arch" type="xml">
+            <search string="Pesquisar Encomendas">
+                <field name="enc" string="Encomenda"/>
+                <field name="cliente_id" string="Cliente"/>
+                <field name="contramarca"/>
+                <field name="designacao"/>
+                <field name="semana"/>
+                <!-- Campos de data pesquisáveis (permitem facetas e filtros por intervalo). -->
+                <field name="data" string="Data"/>
+                <field name="dt_prev" string="Data Prevista"/>
+                <separator/>
+                <filter name="filter_em_producao" string="Em Produção"
+                        domain="[('encomenda_status', '=', 'producao')]"/>
+                <filter name="filter_concluidas" string="Concluídas"
+                        domain="[('encomenda_status', '=', 'concluida')]"/>
+                <filter name="filter_alta_prioridade" string="Alta Prioridade"
+                        domain="[('prioridade', '=', 'alta')]"/>
+                <separator/>
+                <filter name="filter_por_faturar" string="Por Faturar"
+                        domain="[('faturacao', '=', 'to invoice')]"/>
+                <filter name="filter_sem_semana" string="Sem Semana Atribuída"
+                        domain="[('semana', '=', False)]"/>
+                <separator/>
+                <filter name="filter_atrasadas" string="Atrasadas"
+                        domain="[
+                            ('dt_prev', '&lt;', context_today().strftime('%Y-%m-%d')),
+                            ('encomenda_status', 'not in', ('concluida', 'cancelada')),
+                        ]"/>
+                <filter name="filter_a_sair_2_semanas" string="A Sair (2 semanas)"
+                        domain="[
+                            ('dt_prev', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                            ('dt_prev', '&lt;=', (context_today() + relativedelta(days=14)).strftime('%Y-%m-%d')),
+                        ]"/>
+                <separator/>
+                <!-- Filtros de período sobre a Data (início do processo). -->
+                <filter name="filter_este_mes" string="Este Mês"
+                        domain="[
+                            ('data', '&gt;=', context_today().strftime('%Y-%m-01')),
+                            ('data', '&lt;=', (context_today() + relativedelta(day=31)).strftime('%Y-%m-%d')),
+                        ]"/>
+                <filter name="filter_este_ano" string="Este Ano"
+                        domain="[
+                            ('data', '&gt;=', context_today().strftime('%Y-01-01')),
+                            ('data', '&lt;=', context_today().strftime('%Y-12-31')),
+                        ]"/>
+                <filter name="filter_ano_passado" string="Ano Passado"
+                        domain="[
+                            ('data', '&gt;=', (context_today() - relativedelta(years=1)).strftime('%Y-01-01')),
+                            ('data', '&lt;=', (context_today() - relativedelta(years=1)).strftime('%Y-12-31')),
+                        ]"/>
+                <separator/>
+                <filter name="filter_falta_tecido" string="Falta Tecido"
+                        domain="[('tecido_status', '=', 'falta')]"/>
+                <filter name="filter_falta_casco" string="Falta Casco"
+                        domain="[('casco_status', '=', 'falta')]"/>
+                <filter name="filter_falta_inox" string="Falta Inox"
+                        domain="[('inox_status', '=', 'falta')]"/>
+                <filter name="filter_falta_polidor" string="Falta Polidor"
+                        domain="[('polidor_status', '=', 'falta')]"/>
+                <filter name="filter_falta_embalagem" string="Falta Embalagem"
+                        domain="[('embalagem_status', '=', 'falta')]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter name="group_by_status" string="Estado"
+                            context="{'group_by': 'encomenda_status'}"/>
+                    <filter name="group_by_faturacao" string="Faturação"
+                            context="{'group_by': 'faturacao'}"/>
+                    <filter name="group_by_semana" string="Semana"
+                            context="{'group_by': 'semana'}"/>
+                    <filter name="group_by_semana_num" string="Nº Semana"
+                            context="{'group_by': 'semana_num'}"/>
+                    <filter name="group_by_cliente" string="Cliente"
+                            context="{'group_by': 'cliente_id'}"/>
+                    <filter name="group_by_prioridade" string="Prioridade"
+                            context="{'group_by': 'prioridade'}"/>
+                    <separator/>
+                    <filter name="group_by_data_ano" string="Ano"
+                            context="{'group_by': 'data:year'}"/>
+                    <filter name="group_by_data_mes" string="Mês"
+                            context="{'group_by': 'data:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ================================================ ACTION -->
+    <record id="action_pg_planeamento_line" model="ir.actions.act_window">
+        <field name="name">Painel de Encomendas</field>
+        <field name="res_model">pg.planeamento.line</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph</field>
+        <field name="view_id" ref="view_pg_planeamento_line_tree"/>
+        <field name="search_view_id" ref="view_pg_planeamento_line_search"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Sem encomendas no painel.
+            </p>
+            <p>
+                As linhas são criadas automaticamente a partir das linhas de
+                encomenda (sale.order.line).
+            </p>
+        </field>
+    </record>
+
+    <!-- ============================================ PLANEAMENTO SEMANAL -->
+    <record id="view_pg_planeamento_semana_tree" model="ir.ui.view">
+        <field name="name">pg.planeamento.semana.tree</field>
+        <field name="model">pg.planeamento.semana</field>
+        <field name="arch" type="xml">
+            <tree string="Planeamento Semanal" create="0" delete="0" sample="1"
+                  decoration-bf="1">
+                <field name="semana"/>
+                <field name="previsao" widget="monetary" sum="Total Previsão"/>
+                <field name="efetivo" widget="monetary" sum="Total Efetivo"/>
+                <field name="tempo_corte_costura" widget="float_time" sum="Total"/>
+                <field name="tempo_espuma_estofo" widget="float_time" sum="Total"/>
+                <field name="tempo_embalagem" widget="float_time" sum="Total"/>
+                <!-- Horas-pessoa em coluna opcional: quem quiser a leitura de custo activa-a,
+                     sem sobrecarregar a lista de quem só precisa dos tempos de relógio. -->
+                <field name="horas_pessoa_total" widget="float_time" sum="Total" optional="show"/>
+                <field name="currency_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pg_planeamento_semana_form" model="ir.ui.view">
+        <field name="name">pg.planeamento.semana.form</field>
+        <field name="model">pg.planeamento.semana</field>
+        <field name="arch" type="xml">
+            <form string="Planeamento da Semana" create="false" edit="false">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_lines" type="object"
+                                class="oe_stat_button" icon="fa-pencil-square-o">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Editar Encomendas</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="semana" string="Semana"/>
+                        <h1><field name="semana"/></h1>
+                    </div>
+                    <group>
+                        <group string="Receita">
+                            <field name="previsao" widget="monetary"/>
+                            <field name="efetivo" widget="monetary"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group string="Tempo gasto (horas)">
+                            <field name="tempo_corte_costura" widget="float_time"/>
+                            <field name="tempo_espuma_estofo" widget="float_time"/>
+                            <field name="tempo_embalagem" widget="float_time"/>
+                            <!-- Tempo de relógio acima; aqui o mesmo trabalho multiplicado
+                                 pelo número de pessoas que o produziu. -->
+                            <field name="horas_pessoa_total" widget="float_time"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Encomendas da Semana" name="encomendas">
+                            <div class="alert alert-info" role="status">
+                                As horas por centro de trabalho são editáveis diretamente
+                                aqui (gravam na linha de planeamento, nunca na origem SO/MO).
+                            </div>
+                            <field name="line_ids">
+                                <tree editable="bottom" create="0" delete="0" limit="20">
+                                    <field name="encomenda_status" widget="badge" readonly="1"
+                                           decoration-success="encomenda_status == 'concluida'"
+                                           decoration-info="encomenda_status == 'producao'"/>
+                                    <field name="imagem" widget="image" options="{'size': [45, 45]}" readonly="1"/>
+                                    <field name="enc" readonly="1"/>
+                                    <field name="semana" string="Semana"/>
+                                    <field name="cliente_id" readonly="1"/>
+                                    <field name="designacao" readonly="1"/>
+                                    <field name="qnt" readonly="1"/>
+                                    <field name="corte_status" widget="badge" readonly="1"/>
+                                    <field name="tempo_corte_costura" widget="float_time" string="Corte/Costura" sum="Total"/>
+                                    <field name="tempo_espuma_estofo" widget="float_time" string="Espuma/Estofo" sum="Total"/>
+                                    <field name="tempo_embalagem" widget="float_time" string="Embalagem" sum="Total"/>
+                                    <field name="horas_pessoa_total" widget="float_time" string="Horas-pessoa" sum="Total" optional="show"/>
+                                    <field name="total" widget="monetary" readonly="1" sum="Total"/>
+                                    <field name="total_faturado" widget="monetary" readonly="1" sum="Total"/>
+                                    <field name="dt_prev" widget="date" readonly="1"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <button name="action_pg_resync_from_odoo" type="object" icon="fa-refresh"
+                                            title="Atualizar a partir do Odoo"
+                                            confirm="Isto vai repor as horas e a semana a partir dos valores reais do Odoo e descartar as edições manuais desta encomenda. Continuar?"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pg_planeamento_semana_search" model="ir.ui.view">
+        <field name="name">pg.planeamento.semana.search</field>
+        <field name="model">pg.planeamento.semana</field>
+        <field name="arch" type="xml">
+            <search string="Planeamento Semanal">
+                <field name="semana"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pg_planeamento_semanal" model="ir.actions.act_window">
+        <field name="name">Planeamento Semanal</field>
+        <field name="res_model">pg.planeamento.semana</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_pg_planeamento_semana_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Sem dados de planeamento semanal.
+            </p>
+            <p>
+                Cada linha agrega uma semana: total previsto, total faturado e tempo
+                gasto por centro de trabalho. As semanas vêm do campo Semana das encomendas.
+            </p>
+        </field>
+    </record>
+
+    <!-- ================================================ FORNECEDORES -->
+    <record id="view_stock_move_fornecedores_tree" model="ir.ui.view">
+        <field name="name">stock.move.fornecedores.tree</field>
+        <field name="model">stock.move</field>
+        <field name="arch" type="xml">
+            <tree string="Fornecedores Pendentes" create="0" edit="0" sample="1">
+                <field name="x_vendor_id"/>
+                <field name="x_supplier_type" widget="badge"/>
+                <field name="product_id" string="Componente"/>
+                <field name="raw_material_production_id" string="Ordem Produção"/>
+                <field name="x_planeamento_line_id" string="Planeamento" optional="show"/>
+                <field name="product_uom_qty" string="Qnt" sum="Total"/>
+                <field name="x_planeamento_status" widget="badge"
+                       decoration-success="x_planeamento_status == 'recebido'"
+                       decoration-info="x_planeamento_status == 'encomendado'"
+                       decoration-danger="x_planeamento_status == 'falta'"/>
+                <field name="date" string="Data Prevista"/>
+                <button name="action_open_planeamento" type="object"
+                        icon="fa-external-link" title="Abrir Planeamento"
+                        invisible="not x_planeamento_line_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_stock_move_fornecedores_search" model="ir.ui.view">
+        <field name="name">stock.move.fornecedores.search</field>
+        <field name="model">stock.move</field>
+        <field name="arch" type="xml">
+            <search string="Fornecedores Pendentes">
+                <field name="x_vendor_id"/>
+                <field name="product_id"/>
+                <filter name="filter_casco" string="Cascos"
+                        domain="[('x_supplier_type', '=', 'casco')]"/>
+                <filter name="filter_polidor" string="Polidor"
+                        domain="[('x_supplier_type', '=', 'polidor')]"/>
+                <filter name="filter_inox" string="Metais (Inox)"
+                        domain="[('x_supplier_type', '=', 'inox')]"/>
+                <filter name="filter_tecido" string="Tecido"
+                        domain="[('x_supplier_type', '=', 'tecido')]"/>
+                <filter name="filter_embalagem" string="Embalagem"
+                        domain="[('x_supplier_type', '=', 'embalagem')]"/>
+                <separator/>
+                <filter name="filter_por_receber" string="Por Receber"
+                        domain="[('x_planeamento_status', 'in', ('falta','encomendado'))]"/>
+                <filter name="filter_st_falta" string="Em Falta"
+                        domain="[('x_planeamento_status', '=', 'falta')]"/>
+                <filter name="filter_st_encomendado" string="Encomendado"
+                        domain="[('x_planeamento_status', '=', 'encomendado')]"/>
+                <filter name="filter_st_recebido" string="Recebido"
+                        domain="[('x_planeamento_status', '=', 'recebido')]"/>
+                <group expand="1" string="Agrupar Por">
+                    <filter name="group_by_status" string="Estado"
+                            context="{'group_by': 'x_planeamento_status'}"/>
+                    <filter name="group_by_vendor_type" string="Tipo de Fornecedor"
+                            context="{'group_by': 'x_supplier_type'}"/>
+                    <filter name="group_by_vendor" string="Fornecedor"
+                            context="{'group_by': 'x_vendor_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pg_planeamento_fornecedores" model="ir.actions.act_window">
+        <field name="name">Fornecedores Pendentes</field>
+        <field name="res_model">stock.move</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_stock_move_fornecedores_tree"/>
+        <field name="search_view_id" ref="view_stock_move_fornecedores_search"/>
+        <field name="domain">[
+            ('raw_material_production_id', '!=', False),
+            ('x_supplier_type', '!=', False),
+            ('state', 'not in', ('cancel', 'draft')),
+        ]</field>
+        <field name="context">{
+            'search_default_filter_por_receber': 1,
+            'search_default_group_by_vendor_type': 1,
+        }</field>
+    </record>
+
+</odoo>

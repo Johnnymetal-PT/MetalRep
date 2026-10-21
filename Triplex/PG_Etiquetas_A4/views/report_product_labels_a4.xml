@@ -1,0 +1,12 @@
+<odoo>
+    <template id="report_product_labels_a4">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <t t-foreach="doc.stock_move_ids" t-as="move">
+                    <t t-set="product" t-value="move.product_id"/>
+                    <t t-set="pricelist" t-value="request.env['product.pricelist'].search([], limit=1)"/>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="payment_provider_eupago_mb" model="payment.provider">
+        <field name="name">Multibanco (Eupago)</field>
+        <field name="code">mbreu</field>
+        <field name="module_id" ref="base.module_payment_eupago" />
+        <field
+            name="image_128"
+            type="base64"
+            file="payment_eupago/static/src/img/eupago_icon.png"
+        />
+        <field name="provider">eupago</field>
+        <field name="pt_pay_method">mb</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([
+                         ref('payment_portugal.payment_icon_mb'),
+                     ])]"
+        />
+        <field name="company_id" ref="base.main_company" />
+        <field name="redirect_form_view_id" ref="eupago_form" />
+        <field name="pending_msg">
+            <![CDATA[
+<h4>Please complete your Multibanco payment:</h4>
+<table class="table" style="width: auto; border-collapse: collapse; margin-top: 20px;">
+    <tbody>
+        <tr>
+            <td style="padding-left: 0px; padding-bottom: 5px; border: none;">Entity:</td>
+            <td style="padding-bottom: 5px; border: none;">{entity}</td>
+        </tr>
+        <tr>
+            <td style="padding-left: 0px; padding-top: 0px; padding-bottom: 5px; border: none;">
+                Reference:
+            </td>
+            <td style="padding-top: 0px; padding-bottom: 5px; border: none;">{reference}</td>
+        </tr>
+        <tr>
+            <td style="padding-left: 0px; padding-top: 0px; border: none;">Amount:</td>
+            <td style="padding-top: 0px; border: none;">{amount}</td>
+        </tr>
+    </tbody>
+</table>]]>
+        </field>
+    </record>
+
+    <record id="payment_provider_eupago_mbway" model="payment.provider">
+        <field name="name">MB Way (Eupago)</field>
+        <field name="code">mbweu</field>
+        <field name="module_id" ref="base.module_payment_eupago" />
+        <field
+            name="image_128"
+            type="base64"
+            file="payment_eupago/static/src/img/eupago_icon.png"
+        />
+        <field name="provider">eupago</field>
+        <field name="pt_pay_method">mbway</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([
+                         ref('payment_portugal.payment_icon_mbway'),
+                     ])]"
+        />
+        <field name="company_id" ref="base.main_company" />
+        <field name="inline_form_view_id" ref="payment_portugal.mbway_inline_form" />
+        <field name="pending_msg">
+            <![CDATA[
+<h4>Please complete your MB WAY payment:</h4>
+<p>A payment request has been sent to your MB WAY app. You have until {time_limit} to complete your payment.</p>
+<p></p>
+<p>If the deadline has passed, you can restart the payment process on the customer portal. Select the pending document, click on the payment button and choose a new payment method.</p>
+]]>
+        </field>
+    </record>
+</odoo>

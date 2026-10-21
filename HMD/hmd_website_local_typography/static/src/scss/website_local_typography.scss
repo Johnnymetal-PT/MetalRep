@@ -1,0 +1,35 @@
+.o_hmd_local_typography_menu {
+    // min() e funcao de CSS e de Sass; o libsass do Odoo tenta calcula-la e
+    // falha com unidades mistas, partindo o bundle do editor inteiro (no teste
+    // foi preciso retirar este ficheiro do bundle). unquote() passa-a ao CSS
+    // tal e qual, com o mesmo resultado no browser.
+    width: unquote("min(18rem, calc(100vw - 1rem))");
+    min-width: unquote("min(18rem, calc(100vw - 1rem))");
+    max-width: calc(100vw - 1rem);
+    // Sem regras de posicao aqui: quem poe a janela junto ao texto e o JS do
+    // modulo (style.left/top). As regras "inset ... !important" que aqui
+    // estavam anulavam esse calculo e a janela abria encostada a esquerda e
+    // cortada (08/10/2026) - so se nao via antes porque este ficheiro estava
+    // fora do bundle no teste.
+    overflow-y: auto;
+
+    .form-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.35rem;
+        text-transform: uppercase;
+    }
+
+    .form-select,
+    .form-control {
+        min-height: 2rem;
+        max-width: 100%;
+    }
+
+    #hmdAddCustomFontButton {
+        white-space: normal;
+        line-height: 1.2;
+    }
+}
+

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extensões de views comentadas temporariamente até identificar as views corretas -->
+    <!-- As views serão adicionadas via JavaScript e server actions -->
+    
+    <!-- Extensão da tree view de bank statement lines para adicionar botão de importação 
+    <record id="view_bank_statement_line_tree_inherit" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.tree.inherit</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="inherit_id" ref="account.view_bank_statement_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <header>
+                    <button name="%(action_bank_statement_import_wizard)d" 
+                            string="Import Bank Statement" 
+                            type="action" 
+                            class="btn-primary"
+                            icon="fa-upload"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+    -->
+    
+    <!-- Adiciona botão de importação na view de reconciliação
+    <record id="view_bank_reconciliation_inherit" model="ir.ui.view">
+        <field name="name">bank.reconciliation.inherit</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="inherit_id" ref="account_accountant.view_bank_statement_line_tree_bank_rec_widget"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="before">
+                <header>
+                    <button name="%(action_bank_statement_import_wizard)d" 
+                            string="Import Bank Statement" 
+                            type="action" 
+                            class="btn-primary o_button_upload_bank_statement"
+                            icon="fa-upload"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+    -->
+    
+    <!-- Adiciona botão na kanban view se existir
+    <record id="view_bank_statement_line_kanban_inherit" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.kanban.inherit</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="inherit_id" ref="account_accountant.view_bank_statement_line_kanban_bank_rec_widget" />
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <field name="journal_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    -->
+</odoo>

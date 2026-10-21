@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <template id="custom_ecommerce_description" inherit_id="website.layout">
+            <xpath expr="//*[hasclass('oe_structure')][@id='ecommerce_description']" position="replace">
+                <!-- Button to toggle the content, containing the product's thumbnail, name, and arrow -->
+                <button id="toggleContentButton" class="custom-product-button d-flex flex-column align-items-start w-100 p-2" type="button">
+                    <!-- Top section: Image and Name -->
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <div class="d-flex align-items-center">
+                            <!-- Fetch product images dynamically using _get_images() -->
+                            <t t-set="product_images" t-value="product_variant._get_images() if product_variant else product._get_images()"/>
+                            
+                            <!-- Product Thumbnail -->
+                            <t t-if="product_images and product_images[0]">
+                                <img t-att-src="'/web/image/product.product/' + str(product_images[0].id) + '/image_1920'" class="product-thumbnail" alt="Product Thumbnail"/>
+                            </t>
+                            <t t-else="">
+                                <img src="/web/static/src/img/placeholder.png" alt="Product Thumbnail" class="product-thumbnail"/>
+                            </t>
+
+                            <!-- Product Name -->
+                            <span class="product-name ms-2" t-field="product.name">Product Name Here</span>
+                        </div>
+
+                        <!-- Arrow icon initially pointing downwards -->
+                        <div id="arrowIcon" class="arrow-icon">
+                            › 
+                        </div>
+                    </div>
+
+                    <!-- Expandable content inside the button -->
+                    <div id="toggleContent" class="expandable-content mt-2" style="height: 0; overflow: hidden;" onclick="event.stopPropagation();">
+                        <section class="s_title pt40 o_colored_level pb0" data-vcss="001" data-snippet="s_title" data-name="Título" style="background-image: none;">
+                            <div class="s_allow_columns container">
+                                <p><a>
+                        <img loading="lazy"/>
+                    </a></p>
+                            </div>
+                        </section>
+                        <section data-snippet="s_dynamic_snippet_products" class="s_dynamic_snippet_products s_dynamic o_colored_level pt0 pb16 s_product_product_horizontal_card_2 o_dynamic_empty" data-name="Artigos" style="background-image: none;" data-product-category-id="all" data-number-of-records="16" data-filter-id="4" data-template-key="website_sale.dynamic_filter_template_product_product_horizontal_card_2" data-carousel-interval="5000" data-number-of-elements="2" data-number-of-elements-small-devices="1" data-extra-classes="o_carousel_multiple_rows" data-row-per-slide="2" data-arrow-position="bottom">
+                            <div class="o_not_editable container-fluid">
+                                <div class="css_non_editable_mode_hidden">
+                                    <div class="missing_option_warning alert alert-info rounded-0 fade show d-none d-print-none o_default_snippet_text">
+                                        Your Dynamic Snippet will be displayed here... This message is displayed because you did not provide both a filter and a template to use.<br/>
+                                    </div>
+                                </div>
+                                <div class="dynamic_snippet_template"/>
+                            </div>
+                        </section>
+                    </div>
+                </button>
+
+                <!-- CSS Styles for custom button and expandable content -->
+                <style>
+                    .o_website_rating_static{
+                      display:none;
+                    }
+                    
+                    .o_dynamic_snippet_btn_wrapper{
+                      display:none;
+                    }
+                  
+                    .custom-product-button {
+                        border: 1px solid #dedede;
+                        background-color: white;
+                        border-radius: 4px;
+                        text-align: left;
+                        font-size: 16px;
+                        font-weight: 500;
+                        padding: 12px;
+                        transition: all 0.4s ease; /* Smooth expansion */
+                    }
+
+                    .custom-product-button:hover {
+                        border-color: #aaa;
+                    }
+
+                    .product-thumbnail {
+                        width: 50px;
+                        height: 50px;
+                        object-fit: contain; /* To fit the image inside the thumbnail box */
+                    }
+
+                    .product-name {
+                        font-size: 14px;
+                        color: #333;
+                    }
+
+                    .arrow-icon {
+                        font-size: 24px;
+                        color: #666;
+                        transition: transform 0.3s ease; /* Smooth rotation */
+                        transform: rotate(90deg); /* Start with the arrow pointing down */
+                    }
+
+                    .arrow-rotate {
+                        transform: rotate(270deg); /* Rotate the arrow upwards */
+                    }
+
+                    /* Expanded content container */
+                    .expandable-content {
+                        transition: height 0.4s ease; /* Smooth expansion */
+                        overflow: hidden; /* Hide content initially */
+                        height: 0; /* Start fully collapsed */
+                    }
+                </style>
+
+                <!-- JavaScript to toggle the content visibility and arrow rotation -->
+                <script type="text/javascript">
+                    document.addEventListener("DOMContentLoaded", function () {
+                        // Ensure the expandable content is collapsed by default
+                        var content = document.getElementById("toggleContent");
+                        var arrowIcon = document.getElementById("arrowIcon");
+
+                        // Set the initial state to collapsed
+                        content.style.height = "0";
+                        arrowIcon.classList.remove("arrow-rotate"); // Ensure arrow points down
+
+                        // Add event listener for button click to toggle content
+                        document.getElementById("toggleContentButton").addEventListener("click", function (event) {
+                            if (content.style.height === "0px" || content.style.height === "") {
+                                // Expand the content
+                                content.style.height = content.scrollHeight + "px";
+                                arrowIcon.classList.add("arrow-rotate"); // Rotate arrow upwards
+                            } else {
+                                // Collapse the content
+                                content.style.height = "0";
+                                arrowIcon.classList.remove("arrow-rotate"); // Rotate arrow back down
+                            }
+
+                            event.stopPropagation(); // Prevent event from bubbling up
+                        });
+                    });
+                </script>
+            </xpath>
+        </template>
+    </data>
+</odoo>
+

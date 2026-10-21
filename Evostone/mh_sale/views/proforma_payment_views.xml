@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Proforma Payment List View -->
+    <record id="view_proforma_payment_list" model="ir.ui.view">
+        <field name="name">proforma.payment.list</field>
+        <field name="model">proforma.payment</field>
+        <field name="arch" type="xml">
+            <list string="Recibos Pró-forma">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="journal_id" optional="show"/>
+                <field name="amount" sum="Total" widget="monetary"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="allocation_type" widget="badge" optional="show"
+                       decoration-muted="allocation_type == 'none'"
+                       decoration-info="allocation_type == 'proforma'"
+                       decoration-success="allocation_type == 'normal'"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-primary="state == 'posted'"
+                       decoration-success="state == 'paid'"
+                       decoration-danger="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Proforma Payment Form View -->
+    <record id="view_proforma_payment_form" model="ir.ui.view">
+        <field name="name">proforma.payment.form</field>
+        <field name="model">proforma.payment</field>
+        <field name="arch" type="xml">
+            <form string="Recibo Pró-forma" duplicate="false">
+                <header>
+                    <button name="action_post" string="Confirmar" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_create_payment_wizard" string="Transformar em Recibo" type="object"
+                            class="btn-success" icon="fa-money"
+                            invisible="state != 'posted' or has_payment or allocation_type != 'normal' or not can_convert_to_payment"/>
+                    <button name="action_cancel" string="Cancelar" type="object"
+                            invisible="state not in ['posted', 'paid'] or not can_cancel"/>
+                    <button name="action_draft" string="Voltar a Rascunho" type="object"
+                            invisible="state == 'draft' or not can_cancel"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,posted,paid"/>
+                    <field name="has_payment" invisible="1"/>
+                    <field name="can_cancel" invisible="1"/>
+                    <field name="can_convert_to_payment" invisible="1"/>
+                </header>
+                <sheet>
+                    <!-- Ribbons para estados -->
+                    <widget name="web_ribbon"
+                            title="Confirmado"
+                            bg_color="text-bg-info"
+                            invisible="state != 'posted'"/>
+                    <widget name="web_ribbon"
+                            title="Pago"
+                            bg_color="text-bg-success"
+                            invisible="state != 'paid'"/>
+                    <widget name="web_ribbon"
+                            title="Cancelado"
+                            bg_color="text-bg-danger"
+                            invisible="state != 'cancelled'"/>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_allocations"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-exchange"
+                                invisible="allocation_count == 0">
+                            <field name="allocation_count" widget="statinfo" string="Alocações"/>
+                        </button>
+                        <button name="action_view_account_payment"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-money"
+                                invisible="not has_payment">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Pagamento</span>
+                                <span class="o_stat_text">Contábil</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Informações do Recibo">
+                            <field name="partner_id" readonly="state != 'draft'"
+                                   options="{'no_create': True}"
+                                   domain="[('parent_id', '=', False), '|', ('customer_rank', '>', 0), '&amp;', ('supplier_rank', '=', 0), ('customer_rank', '=', 0)]"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="amount" readonly="state != 'draft'"
+                                   widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="currency_id" readonly="state != 'draft'"
+                                   groups="base.group_multi_currency"/>
+                        </group>
+                        <group string="Detalhes do Recibo">
+                            <field name="journal_id" readonly="state != 'draft'"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   placeholder="Selecione banco ou caixa..."/>
+                            <field name="payment_method_line_id" readonly="state != 'draft'"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   placeholder="Selecione método..."/>
+                        </group>
+                    </group>
+
+                    <group string="Status de Alocação" col="4">
+                        <field name="amount_allocated" widget="monetary"/>
+                        <field name="amount_remaining" widget="monetary"/>
+                        <field name="allocation_type" widget="badge"
+                               decoration-muted="allocation_type == 'none'"
+                               decoration-info="allocation_type == 'proforma'"
+                               decoration-success="allocation_type == 'normal'"/>
+                    </group>
+
+                    <group string="Memo">
+                        <field name="memo" nolabel="1" readonly="state != 'draft'"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Alocações" name="allocations">
+                            <field name="allocation_ids" nolabel="1" readonly="1">
+                                <list create="0" edit="0" delete="0">
+                                    <field name="allocation_date" string="Data"/>
+                                    <field name="sale_order_id" string="Cotação"/>
+                                    <field name="order_state" widget="badge" string="Estado Cotação"/>
+                                    <field name="amount" sum="Total Alocado" widget="monetary" string="Valor Alocado"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="payment_remaining" optional="show" widget="monetary" string="Restante Pagto"/>
+                                    <field name="order_remaining" optional="show" widget="monetary" string="Restante Cotação"/>
+                                    <button name="action_deallocate" type="object" string="Desalocar"
+                                            icon="fa-trash" class="btn-link text-danger"
+                                            confirm="Tem certeza que deseja desalocar este pagamento?"
+                                            groups="account.group_account_invoice"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Informações Adicionais">
+                            <group>
+                                <group string="Empresa">
+                                    <field name="company_id" readonly="state != 'draft'"
+                                           groups="base.group_multi_company"/>
+                                </group>
+                            </group>
+                            <separator string="Observações Internas"/>
+                            <field name="notes" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Proforma Payment Search View -->
+    <record id="view_proforma_payment_search" model="ir.ui.view">
+        <field name="name">proforma.payment.search</field>
+        <field name="model">proforma.payment</field>
+        <field name="arch" type="xml">
+            <search string="Pesquisar Recibos Pró-forma">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="journal_id"/>
+                <separator/>
+                <!-- Filtros Inteligentes -->
+                <filter string="⚠️ Prontos para Pagamento" name="ready_to_convert"
+                        domain="[('state', '=', 'posted'), ('allocation_type', '=', 'normal')]"
+                        help="Recibos confirmados que podem ser transformados em pagamento"/>
+                <filter string="💰 Com Saldo Disponível" name="has_remaining"
+                        domain="[('amount_remaining', '>', 0)]"
+                        help="Recibos com valor disponível para alocação"/>
+                <separator/>
+                <!-- Estados -->
+                <filter string="Rascunho" name="draft"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmados" name="posted"
+                        domain="[('state', '=', 'posted')]"/>
+                <filter string="Pagos" name="paid"
+                        domain="[('state', '=', 'paid')]"/>
+                <filter string="Cancelados" name="cancelled"
+                        domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <!-- Tipo de Alocação -->
+                <filter string="Sem Alocações" name="no_allocation"
+                        domain="[('allocation_type', '=', 'none')]"/>
+                <filter string="Fatura Pró-Forma" name="proforma_type"
+                        domain="[('allocation_type', '=', 'proforma')]"/>
+                <filter string="Encomenda Normal" name="normal_type"
+                        domain="[('allocation_type', '=', 'normal')]"/>
+                <separator/>
+                <!-- Período -->
+                <filter string="Hoje" name="today"
+                        domain="[('date', '=', context_today())]"/>
+                <filter string="Esta Semana" name="this_week"
+                        domain="[('date', '&gt;=', (context_today() - relativedelta(days=7)))]"/>
+                <filter string="Este Mês" name="this_month"
+                        domain="[('date', '&gt;=', (context_today() - relativedelta(months=1)))]"/>
+                <filter string="Últimos 3 Meses" name="last_3_months"
+                        domain="[('date', '&gt;=', (context_today() - relativedelta(months=3)))]"/>
+                <separator/>
+                <!-- Agrupar Por -->
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Cliente" name="partner"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter string="Estado" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Tipo de Alocação" name="group_allocation"
+                            context="{'group_by': 'allocation_type'}"/>
+                    <filter string="Diário" name="group_journal"
+                            context="{'group_by': 'journal_id'}"/>
+                    <filter string="Data (Mês)" name="group_date_month"
+                            context="{'group_by': 'date:month'}"/>
+                    <filter string="Data (Semana)" name="group_date_week"
+                            context="{'group_by': 'date:week'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Proforma Payment Kanban View -->
+    <record id="view_proforma_payment_kanban" model="ir.ui.view">
+        <field name="name">proforma.payment.kanban</field>
+        <field name="model">proforma.payment</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" records_draggable="0" quick_create="0">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="amount"/>
+                <field name="currency_id"/>
+                <field name="journal_id"/>
+                <field name="state"/>
+                <progressbar field="state"
+                            colors='{"draft": "secondary", "posted": "success", "cancelled": "danger"}'/>
+                <templates>
+                    <t t-name="card">
+                        <div class="o_kanban_record_top">
+                            <div class="o_kanban_record_headings">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                            </div>
+                            <field name="state" widget="label_selection"/>
+                        </div>
+                        <div class="o_kanban_record_body">
+                            <div>
+                                <i class="fa fa-user" title="Cliente"/> <field name="partner_id"/>
+                            </div>
+                            <div>
+                                <i class="fa fa-calendar" title="Data"/> <field name="date"/>
+                            </div>
+                        </div>
+                        <div class="o_kanban_record_bottom">
+                            <div class="oe_kanban_bottom_left">
+                                <field name="amount" widget="monetary"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Pivot View -->
+    <record id="view_proforma_payment_pivot" model="ir.ui.view">
+        <field name="name">proforma.payment.pivot</field>
+        <field name="model">proforma.payment</field>
+        <field name="arch" type="xml">
+            <pivot string="Análise de Recibos" sample="1">
+                <field name="date" interval="month" type="row"/>
+                <field name="journal_id" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_proforma_payment_graph" model="ir.ui.view">
+        <field name="name">proforma.payment.graph</field>
+        <field name="model">proforma.payment</field>
+        <field name="arch" type="xml">
+            <graph string="Análise de Recibos" type="bar" sample="1">
+                <field name="date" interval="month"/>
+                <field name="amount" type="measure"/>
+                <field name="state" type="col"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Action Window -->
+    <record id="action_proforma_payment" model="ir.actions.act_window">
+        <field name="name">Recibos Pró-forma</field>
+        <field name="res_model">proforma.payment</field>
+        <field name="view_mode">list,kanban,pivot,graph,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Criar novo Recibo Pró-forma
+            </p>
+            <p>
+                Registre pagamentos proforma de clientes para validação de cotações.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_proforma_payment_root"
+              name="Recibos Pró-forma"
+              parent="sale.sale_order_menu"
+              action="action_proforma_payment"
+              sequence="10"
+              groups="account.group_account_invoice"/>
+</odoo>

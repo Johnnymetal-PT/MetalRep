@@ -1,0 +1,66 @@
+<odoo>
+    <!-- 1) Inherit Sale Order form: add calculator button in order lines LIST and show observation column,
+            and inject button + calculator group in the embedded FORM -->
+    <record id="view_order_form_inherit_price_calculator" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.price.calculator</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <!-- LIST (tree) of order_line: button after product -->
+            <xpath expr="//field[@name='order_line']//list//field[@name='product_id']" position="after">
+                <button name="action_open_price_calculator"
+                        string=" "
+                        type="object"
+                        icon="fa-calculator"/>
+            </xpath>
+
+            <!-- LIST (tree) of order_line: observation column after name -->
+            <xpath expr="//field[@name='order_line']//list//field[@name='name']" position="after">
+                <field name="calculator_observation" optional="show" readonly="1"/>
+            </xpath>
+
+            <!-- FORM (embedded sub-form) of order_line: add button before 'name' -->
+            <xpath expr="//field[@name='order_line']//form//field[@name='name']" position="before">
+                <button name="action_open_price_calculator"
+                        string="Price Calculator"
+                        type="object"
+                        class="oe_highlight"/>
+            </xpath>
+
+            <!-- FORM (embedded sub-form) of order_line: add a 'Price Calculator' group at the end of the form -->
+            <xpath expr="//field[@name='order_line']//form" position="inside">
+                <group string="Price Calculator">
+                    <field name="calculator_cost_price" readonly="1"/>
+                    <field name="calculator_margin_type" readonly="1"/>
+                    <field name="calculator_margin_value" readonly="1"/>
+                    <field name="calculator_margin_amount" readonly="1"/>
+                    <field name="calculator_observation" readonly="1"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- 2) (Optional) Also inherit the shared Sale Order Line TREE view to show the button/observation
+            wherever that tree is reused -->
+    <record id="view_order_line_tree_inherit_price_calculator" model="ir.ui.view">
+        <field name="name">sale.order.line.tree.inherit.price.calculator</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_order_line_tree"/>
+        <field name="arch" type="xml">
+            <!-- Button before name -->
+            <xpath expr="//field[@name='name']" position="before">
+                <button name="action_open_price_calculator"
+                        string=" "
+                        type="object"
+                        icon="fa-calculator"
+                        invisible="['|', ('parent.state','!=','draft'), ('display_type','!=', False)]"/>
+            </xpath>
+            <!-- Observation after name -->
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="calculator_observation" optional="show" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

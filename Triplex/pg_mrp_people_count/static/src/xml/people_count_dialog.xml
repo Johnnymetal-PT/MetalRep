@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="pg_mrp_people_count.PeopleCountDialog">
+        <Dialog title="title" size="'md'" contentClass="'pg_people_count_dialog'">
+            <p class="pg_people_count_hint">
+                Toque no número de pessoas nesta operação. O tempo continua a ser contado em
+                relógio; este número serve para apurar as horas-pessoa.
+            </p>
+            <div class="pg_people_count_grid">
+                <button t-foreach="options" t-as="numero" t-key="numero"
+                        type="button"
+                        class="btn pg_people_count_option"
+                        t-att-class="numero === props.current ? 'btn-primary' : 'btn-outline-secondary'"
+                        t-on-click="() => this.select(numero)">
+                    <t t-esc="numero"/>
+                </button>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-lg btn-secondary" t-on-click="() => props.close()">
+                    Cancelar
+                </button>
+            </t>
+        </Dialog>
+    </t>
+
+</templates>

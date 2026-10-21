@@ -1,0 +1,12 @@
+<odoo>
+    <record id="view_order_form_hmd_product_image" model="ir.ui.view">
+        <field name="name">sale.order.form.hmd.product.image</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']//form//field[@name='name']" position="before">
+                <field name="hmd_sale_product_image_manual" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- `o.migration` era um campo do account_MZ, a localizacao mocambicana, e
+     marcava os documentos trazidos do sistema antigo. Esse modulo nao esta
+     instalado nesta base portuguesa, e por isso imprimir uma factura dava
+     AttributeError. Nao ha documentos migrados: a condicao e' sempre falsa,
+     e o ramo t-else — o que usa os campos reais do Odoo — e' o correcto. -->
+<odoo>
+    <data noupdate="0">
+
+        <!-- Main wrapper for Debit Note report -->
+        <record id="view_report_debit_note" model="ir.ui.view">
+            <field name="name">Debit Note Report - Main Wrapper</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_debit_note</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_debit_note">
+                    <t t-foreach="docs" t-as="o">
+                        <!-- Original -->
+                        <t t-call="web.basic_layout">
+                            <t t-set="lang" t-value="o.partner_id.lang"/>
+                            <t t-set="print_with_payments" t-value="True"/>
+                            <t t-set="copy_type" t-value="'ORIGINAL'"/>
+                            <t t-call="mh_stone_reports.report_debit_note_document" t-lang="lang"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                        <!-- Duplicado -->
+                        <t t-call="web.basic_layout">
+                            <t t-set="lang" t-value="o.partner_id.lang"/>
+                            <t t-set="print_with_payments" t-value="True"/>
+                            <t t-set="copy_type" t-value="'DUPLICADO'"/>
+                            <t t-call="mh_stone_reports.report_debit_note_document" t-lang="lang"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                        <!-- Triplicado -->
+                        <t t-call="web.basic_layout">
+                            <t t-set="lang" t-value="o.partner_id.lang"/>
+                            <t t-set="print_with_payments" t-value="True"/>
+                            <t t-set="copy_type" t-value="'TRIPLICADO'"/>
+                            <t t-call="mh_stone_reports.report_debit_note_document" t-lang="lang"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <!-- Document template for Debit Note report -->
+        <record id="view_report_debit_note_document" model="ir.ui.view">
+            <field name="name">Debit Note Report - Document Template</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_debit_note_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_debit_note_document">
+                    <div class="page"/>
+                        <style>
+                            td{
+                                <!--border: 1px solid #DCDCDC;; -->
+                                border: 1px solid #DCDCDC;;
+                                border-collapse: collapse;
+                                padding: 4px;
+                                &lt;!--font-size: 8pt;--&gt;
+                            }
+                            &lt;!--div{--&gt;
+                            &lt;!--color:#DCDCDC;--&gt;
+                            &lt;!--}--&gt;
+                            .tb{
+                                margin-left: 5px;
+                            }
+                        </style>
+
+                        <!-- Banner DOCUMENTO INVALIDO quando draft ou cancel -->
+                        <t t-if="o.state in ('draft', 'cancel')">
+                            <div style="background-color: #dc3545; color: white; text-align: center; padding: 15px; margin-bottom: 20px; font-family: Arial, sans-serif;">
+                                <span style="font-size: 24px; font-weight: bold; letter-spacing: 3px;">
+                                    DOCUMENTO INVALIDO - SEM VALOR FISCAL
+                                </span>
+                            </div>
+                        </t>
+
+                        <!-- Endereco de Entrega (se diferente) -->
+                        <div class="row">
+                            <t t-if="o.partner_shipping_id and (o.partner_shipping_id != o.partner_id)">
+                                <div class="col-6">
+                                    <t t-set="information_block">
+                                        <div groups="account.group_delivery_invoice_address" name="shipping_address_block">
+                                            <strong>Endereco de Entrega:</strong>
+                                            <div t-field="o.partner_shipping_id" t-options="{'widget': 'contact', 'fields': ['address', 'name'], 'no_marker': True}"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </t>
+                        </div>
+
+                        <!-- Cabecalho com Logo e Titulo -->
+                        <div class="row invoice-header">
+                            <div class="col-8">
+                                <img class="img-fluid" style="width: 50%;" t-att-src="image_data_uri(o.company_id.logo_report)"/>
+                            </div>
+                            <br/>
+                            <div class="col-4 text-end">
+                                <br/>
+                                <span style="color:#000000"/>
+                                <t t-if="o.state == 'posted'">Nota de Debito</t>
+                                <t t-elif="o.state == 'draft'">Rascunho da Nota de Debito</t>
+                                <t t-elif="o.state == 'cancel'">Nota de Debito Cancelada</t>
+                                <span t-if="o.name != '/'" t-field="o.name" class="o_bold"/>
+                                <br/>
+                                <span t-if="copy_type" t-esc="copy_type"
+                                      style="font-size: 11pt; font-weight: bold; border: 2px solid #333; padding: 2px 12px;"/>
+                            </div>
+                        </div>
+
+                        <!-- Dados da Empresa e Cliente -->
+                        <div class="row" style="font-size: 11px; font-family: Arial, sans-serif;">
+                            <div class="col-6">
+                                <strong><span t-field="o.company_id.name"/></strong><br/>
+                                <span t-field="o.company_id.street"/><br/>
+                                <t t-if="o.company_id.street2"><span t-field="o.company_id.street2"/><br/></t>
+                                <span t-field="o.company_id.zip"/> <span t-field="o.company_id.city"/> - <span t-field="o.company_id.country_id.name"/><br/>
+                                <strong>NIF: </strong><span t-field="o.company_id.vat"/><br/>
+                                <span>c. </span><span t-field="o.company_id.phone"/><br/>
+                                <span>e. </span><span t-field="o.company_id.email"/>
+                            </div>
+                            <div class="col-4">
+                                <br/><br/>
+                                <span>Exmo.(s) Sr.(s)</span><br/>
+                                <strong><span t-field="o.partner_id.name"/></strong><br/>
+                                <t t-if="False">
+                                    <t t-if="o.x_studio_responsvel">
+                                        <span>Att: </span><span t-field="o.x_studio_responsvel"/><br/>
+                                    </t>
+                                </t>
+                                <span t-field="o.partner_id.street"/><br/>
+                                <t t-if="o.partner_id.street2">
+                                    <span t-field="o.partner_id.street2"/><br/>
+                                </t>
+                                <span t-field="o.partner_id.city"/><br/>
+                                <t t-if="o.partner_id.country_id">
+                                    <span t-field="o.partner_id.country_id.name"/><br/>
+                                </t>
+                                <strong>NIF: </strong><span t-field="o.partner_id.vat"/>
+                            </div>
+                        </div>
+
+                        <br/>
+
+                        <!-- Informacoes do Documento -->
+                        <div class="col-12">
+                            <table style="text-align: center; font-family: Arial, sans-serif; font-size: 11px;" width="70%">
+                                <tbody>
+                                    <tr>
+                                        <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                            <strong>DATA EMISSAO</strong><br/>
+                                            <span t-field="o.invoice_date"/>
+                                        </td>
+                                        <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                            <strong>DATA VALIDADE</strong><br/>
+                                            <span t-field="o.invoice_date_due"/>
+                                        </td>
+                                        <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                            <strong>CONDICOES PAG.</strong><br/>
+                                            <span t-field="o.invoice_payment_term_id"/>
+                                        </td>
+                                        <t t-if="False">
+                                            <t t-if="o.x_studio_projecto">
+                                                <td style="border: 1px solid white; padding: 4px;">
+                                                    <strong>Projecto:</strong>
+                                                    <span t-field="o.x_studio_projecto"/>
+                                                </td>
+                                            </t>
+                                        </t>
+                                        <t t-if="o.ref and o.move_type in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')">
+                                            <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                                <t t-if="o.move_type in ('out_invoice', 'out_refund')">
+                                                    <strong>REFERÊNCIA DO CLIENTE</strong><br/>
+                                                </t>
+                                                <t t-else="">
+                                                    <strong>REFERÊNCIA DO FORNECEDOR</strong><br/>
+                                                </t>
+                                                <span t-field="o.ref"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <br/>
+
+                        <!-- Tabela de Produtos -->
+                        <t t-set="display_discount" t-value="any(l.discount for l in o.invoice_line_ids)"/>
+                        <table class="table table">
+                            <div class="watermark_logo" style="position:absolute;opacity:0.05;font-size:8em;width:100%;text-align:center;z-index:100;">
+                                <t t-if="o.company_id.report_watermark">
+                                    <img class="img-fluid" t-att-src="image_data_uri(o.company_id.report_watermark)" width="55%"/>
+                                </t>
+                            </div>
+
+                            <tr style="background-color: #F8F8FF;color:#000000;font-Family: arial;font-size:11px;margin-right:2px;margin-left:2px; border:; text-align: center ">
+                                <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: left; white-space: nowrap"><b>PRODUTO</b></th>
+                                <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>S/N</b></th>
+                                <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>QTD</b></th>
+                                <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>COMP.</b></th>
+                                <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>LAR.</b></th>
+                                <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>ESP.</b></th>
+                                <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>VOL./ÁREA/UNID.</b></th>
+                                <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>UN</b></th>
+                                <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>PREÇO</b></th>
+                                <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>DESC.</b></th>
+                                <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>SUBTOTAL</b></th>
+                            </tr>
+                            <t t-set="current_subtotal" t-value="0"/>
+                            <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
+                            <t t-foreach="lines" t-as="line">
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''" style="font-family: Times New Roman; font-size: 8pt; text-align: center">
+                                    <t t-if="line.display_type == 'product'" name="account_invoice_line_accountable">
+                                        <td style="border-left: 1px solid #ccc; text-align: left; border: 1px solid #DED9D9;">
+                                            <t t-if="False">
+                                                <span t-field="line.name"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="line.name"/>
+                                            </t>
+                                        </td>
+                                        <td style=" border-left: #ccc; text-align: left; border: 1px solid #DED9D9;">
+                                             <t t-if="False">
+                                                <span t-field="line.x_studio_sn"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="line.lot_id"/>
+                                            </t>
+                                        </td>
+                                        <td style="border-left: none; border-right: 1px solid #ccc; border: 1px solid #DED9D9;">
+                                            <t t-if="False">
+                                                <span t-esc="line.x_studio_rea_m2"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="line.units_qty"/>
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <t t-if="False">
+                                                <span t-esc="'%.3f'% line.x_studio_comprimento"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="'%.3f'% line.length"/>
+                                            </t>
+                                        </td>
+                                        <td style="border-left: 1px solid #ccc">
+                                            <t t-if="False">
+                                                <span t-esc="'%.3f'% line.x_studio_largura"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="'%.3f'% line.width"/>
+                                            </t>
+                                        </td>
+                                        <td style="border-left: 1px solid #ccc">
+                                            <t t-if="False">
+                                                <span t-esc="'%.3f'% line.x_studio_espessura"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="'%.3f'% line.thickness"/>
+                                            </t>
+                                        </td>
+                                        <td style="border-left: 1px solid #ccc">
+                                            <span t-esc="'%.4f'% line.quantity"/>
+                                        </td>
+                                        <td style="border-left: 1px solid #ccc">
+                                            <span t-field="line.product_uom_id"/>
+                                        </td>
+                                        <td style="border-left: 1px solid #ccc">
+                                            <span t-field="line.price_unit"/>
+                                        </td>
+                                        <td style="border-left: 1px solid #ccc">
+                                            <span t-field="line.discount"/>
+                                        </td>
+                                        <td style="border-left: 1px solid #ccc">
+                                            <span t-field="line.price_subtotal"/>
+                                        </td>
+                                    </t>
+                                    <t t-elif="line.display_type == 'line_section'">
+                                        <td name="td_section_line" colspan="99" style="text-align: left">
+                                            <span t-field="line.name" t-options="{'widget': 'text'}"/>
+                                        </td>
+                                        <t t-set="current_section" t-value="line"/>
+                                        <t t-set="current_subtotal" t-value="0"/>
+                                    </t>
+                                    <t t-elif="line.display_type == 'line_note'">
+                                        <td name="td_note_line" colspan="99" style="text-align: left">
+                                            <span t-field="line.name" t-options="{'widget': 'text'}"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </table>
+
+                        <!-- Totais -->
+                        <div class="clearfix mb-4" style="font-family: Arial, sans-serif; font-size: 11px; page-break-inside: avoid;">
+                            <div class="row text-start">
+                                <div class="col-8"/>
+                                <div class="col-2 text-start">
+                                    <span>SUBTOTAL</span><br/>
+                                    <span>DESC.</span><br/>
+                                    <span>SUBTOTAL - DESC.</span><br/>
+                                    <span>IVA</span><br/>
+                                    <span><strong>TOTAL</strong></span>
+                                </div>
+                                <div class="col-2 text-end">
+                                    <t t-if="False">
+                                        <span t-field="o.x_studio_total_s_desconto" t-options="{'widget': 'float', 'precision': 2}"/>
+                                        <span t-field="o.currency_id.symbol"/><br/>
+                                    </t>
+                                    <t t-else="">
+                                        <span t-field="o.amount_undiscounted" t-options="{'widget': 'float', 'precision': 2}"/>
+                                        <span t-field="o.currency_id.symbol"/><br/>
+                                    </t>
+                                    <t t-if="False">
+                                        <span t-field="o.x_studio_total_de_desconto" t-options="{'widget': 'float', 'precision': 2}"/>
+                                        <span t-field="o.currency_id.symbol"/><br/>
+                                    </t>
+                                    <t t-else="">
+                                        <span t-field="o.amount_discount" t-options="{'widget': 'float', 'precision': 2}"/>
+                                        <span t-field="o.currency_id.symbol"/><br/>
+                                    </t>
+                                    <span t-field="o.amount_untaxed"/><br/>
+                                    <span t-field="o.amount_tax"/><br/>
+                                    <strong><span t-field="o.amount_total"/></strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br/><br/>
+
+                        <!-- Footer -->
+                        <div class="col-10">
+                            <div class="footer" height="100%">
+                                <div style="font-family: Arial, sans-serif; font-size: 8pt;">
+                                    <i>Documento processado por computador</i>
+                                </div>
+                                <br/>
+                                <div style="font-size: 11px; font-family: Arial, sans-serif;">
+                                    ---------------------------------------------
+                                    <b> Dados Bancarios </b>-------------------------------------------------
+                                </div>
+                                <div class="row" style="font-size: 11px; font-family: Arial, sans-serif;">
+                                    <t t-foreach="o.company_id.partner_id.bank_ids" t-as="conta">
+                                    <div class="col-3">
+                                        <b>IBAN</b><br/>
+                                        <span t-field="conta.acc_number"/>
+                                    </div>
+                                    <div class="col-3">
+                                        <b>BANCO</b><br/>
+                                        <span t-field="conta.bank_id.name"/>
+                                    </div>
+                                </t>
+                                </div>
+                            </div>
+                        </div>
+
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

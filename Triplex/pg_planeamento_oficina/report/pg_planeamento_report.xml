@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Ação de relatório (aparece no menu Imprimir do formulário/lista) -->
+    <record id="action_report_pg_planeamento" model="ir.actions.report">
+        <field name="name">Planeamento</field>
+        <field name="model">pg.planeamento.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pg_planeamento_oficina.report_pg_planeamento</field>
+        <field name="report_file">pg_planeamento_oficina.report_pg_planeamento</field>
+        <field name="binding_model_id" ref="model_pg_planeamento_line"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Documento por linha de planeamento -->
+    <template id="report_pg_planeamento_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <div class="row mb-4">
+                    <div class="col-8">
+                        <h2 t-esc="o.enc or ''"/>
+                        <h4 class="text-muted" t-esc="o.designacao or ''"/>
+                    </div>
+                    <div class="col-4 text-end">
+                        <img t-if="o.imagem"
+                             t-att-src="image_data_uri(o.imagem)"
+                             style="max-height:140px; max-width:100%; border:1px solid #dee2e6;"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <h5 class="border-bottom pb-1">Encomenda</h5>
+                        <table class="table table-sm table-borderless">
+                            <tr><td class="fw-bold" style="width:45%;">Cliente</td>
+                                <td t-esc="o.cliente_id.display_name or ''"/></tr>
+                            <tr><td class="fw-bold">Contramarca</td>
+                                <td t-esc="o.contramarca or ''"/></tr>
+                            <tr><td class="fw-bold">Empresa</td>
+                                <td t-esc="o.company_id.name or ''"/></tr>
+                            <tr><td class="fw-bold">Estado</td>
+                                <td><span t-field="o.encomenda_status"/></td></tr>
+                            <tr><td class="fw-bold">Prioridade</td>
+                                <td><span t-field="o.prioridade"/></td></tr>
+                            <tr><td class="fw-bold">Data</td>
+                                <td><span t-field="o.data"/></td></tr>
+                            <tr><td class="fw-bold">Data Prevista</td>
+                                <td><span t-field="o.dt_prev"/></td></tr>
+                            <tr><td class="fw-bold">Semana</td>
+                                <td t-esc="o.semana or ''"/></tr>
+                        </table>
+                    </div>
+                    <div class="col-6">
+                        <h5 class="border-bottom pb-1">Produto</h5>
+                        <table class="table table-sm table-borderless">
+                            <tr><td class="fw-bold" style="width:45%;">Produto</td>
+                                <td t-esc="o.product_id.display_name or ''"/></tr>
+                            <tr><td class="fw-bold">Variante</td>
+                                <td t-esc="o.variante or ''"/></tr>
+                            <tr><td class="fw-bold">Quantidade</td>
+                                <td><span t-field="o.qnt"/></td></tr>
+                            <tr><td class="fw-bold">Orçamento</td>
+                                <td><span t-field="o.orc"/></td></tr>
+                            <tr><td class="fw-bold">Total</td>
+                                <td><span t-field="o.total"/></td></tr>
+                            <tr><td class="fw-bold">Faturação</td>
+                                <td><span t-field="o.faturacao"/></td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <h5 class="border-bottom pb-1 mt-3">Componentes</h5>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Componente</th>
+                            <th>Artigo(s)</th>
+                            <th>Estado</th>
+                            <th>Fornecedor(es)</th>
+                            <th>Ordem(ns) de Compra</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold">Tecido</td>
+                            <td t-esc="o.tecido or '—'"/>
+                            <td><span t-field="o.tecido_status"/></td>
+                            <td t-esc="', '.join(o.tecido_fornecedor_ids.mapped('display_name')) or '—'"/>
+                            <td t-esc="', '.join(o.tecido_po_ids.mapped('name')) or '—'"/>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Casco</td>
+                            <td t-esc="o.casco or '—'"/>
+                            <td><span t-field="o.casco_status"/></td>
+                            <td t-esc="', '.join(o.casco_fornecedor_ids.mapped('display_name')) or '—'"/>
+                            <td t-esc="', '.join(o.casco_po_ids.mapped('name')) or '—'"/>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Inox</td>
+                            <td t-esc="o.inox or '—'"/>
+                            <td><span t-field="o.inox_status"/></td>
+                            <td t-esc="', '.join(o.inox_fornecedor_ids.mapped('display_name')) or '—'"/>
+                            <td t-esc="', '.join(o.inox_po_ids.mapped('name')) or '—'"/>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Polidor</td>
+                            <td t-esc="o.polidor or '—'"/>
+                            <td><span t-field="o.polidor_status"/></td>
+                            <td t-esc="', '.join(o.polidor_fornecedor_ids.mapped('display_name')) or '—'"/>
+                            <td t-esc="', '.join(o.polidor_po_ids.mapped('name')) or '—'"/>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Embalagem</td>
+                            <td t-esc="o.embalagem or '—'"/>
+                            <td><span t-field="o.embalagem_status"/></td>
+                            <td t-esc="', '.join(o.embalagem_fornecedor_ids.mapped('display_name')) or '—'"/>
+                            <td t-esc="', '.join(o.embalagem_po_ids.mapped('name')) or '—'"/>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Posto Corte</td>
+                            <td>—</td>
+                            <td><span t-field="o.corte_status"/></td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div t-if="o.mo_ids">
+                    <h5 class="border-bottom pb-1 mt-3">Ordens de Produção</h5>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr><th>Referência</th><th>Estado</th><th>Início</th><th>Fim</th><th class="text-end">Qnt</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.mo_ids" t-as="mo">
+                                <td t-esc="mo.name"/>
+                                <td t-esc="mo.state"/>
+                                <td><span t-field="mo.date_start"/></td>
+                                <td><span t-field="mo.date_finished"/></td>
+                                <td class="text-end"><span t-field="mo.product_qty"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div t-if="o.purchase_order_ids">
+                    <h5 class="border-bottom pb-1 mt-3">Ordens de Compra</h5>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr><th>Referência</th><th>Fornecedor</th><th>Data</th><th>Estado</th><th class="text-end">Total</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.purchase_order_ids" t-as="po">
+                                <td t-esc="po.name"/>
+                                <td t-esc="po.partner_id.display_name"/>
+                                <td><span t-field="po.date_order"/></td>
+                                <td t-esc="po.state"/>
+                                <td class="text-end"><span t-field="po.amount_total"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Wrapper multi-registo -->
+    <template id="report_pg_planeamento">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="pg_planeamento_oficina.report_pg_planeamento_document"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>

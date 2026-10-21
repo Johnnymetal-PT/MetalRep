@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Categoria para os grupos -->
+    <record id="module_category_credit_control" model="ir.module.category">
+        <field name="name">Controle de Crédito</field>
+        <field name="description">Grupos para aprovação de vendas com bloqueio de crédito</field>
+        <field name="sequence">50</field>
+    </record>
+
+    <!-- Grupo: Aprovar Limite de Crédito Excedido -->
+    <record id="group_approve_credit_limit" model="res.groups">
+        <field name="name">Aprovar Limite de Crédito</field>
+        <field name="category_id" ref="module_category_credit_control"/>
+        <field name="comment">
+            Permite aprovar vendas quando o limite de crédito do cliente foi excedido.
+        </field>
+    </record>
+
+    <!-- Grupo: Aprovar Facturas Vencidas -->
+    <record id="group_approve_overdue" model="res.groups">
+        <field name="name">Aprovar Facturas Vencidas</field>
+        <field name="category_id" ref="module_category_credit_control"/>
+        <field name="comment">
+            Permite aprovar vendas quando o cliente tem facturas vencidas.
+        </field>
+    </record>
+
+    <!-- Grupo: Aprovar Facturas Pendentes -->
+    <record id="group_approve_pending" model="res.groups">
+        <field name="name">Aprovar Facturas Pendentes</field>
+        <field name="category_id" ref="module_category_credit_control"/>
+        <field name="comment">
+            Permite aprovar vendas quando o cliente tem facturas pendentes (não pagas).
+        </field>
+    </record>
+
+    <!-- Grupo: Gestor de Crédito (todos os tipos) -->
+    <record id="group_credit_manager" model="res.groups">
+        <field name="name">Gestor de Crédito</field>
+        <field name="category_id" ref="module_category_credit_control"/>
+        <field name="implied_ids" eval="[(4, ref('group_approve_credit_limit')),
+                                         (4, ref('group_approve_overdue')),
+                                         (4, ref('group_approve_pending'))]"/>
+        <field name="comment">
+            Gestor com permissão para aprovar todos os tipos de bloqueio de crédito.
+        </field>
+    </record>
+
+</odoo>

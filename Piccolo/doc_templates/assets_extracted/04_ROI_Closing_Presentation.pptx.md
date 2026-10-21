@@ -1,0 +1,211 @@
+# Extracted: 04_ROI_Closing_Presentation.pptx
+
+Análise ROI
+Closing Presentation — Proposta de Implementação
+Cliente: _________________________      Projeto: _________________________      Data: __________
+Preparado por: _________________________ (Project Leader, Odoo)
+Parâmetro Global · Global technology. Local insights.
+
+---
+
+Agenda
+Estrutura da apresentação de fecho ROI e aprovação da proposta
+Odoo ROI Closing Presentation | 2026
+02
+01
+Diagnóstico — Como trabalha hoje
+Pain points e ineficiências identificados nos workshops
+02
+Proposta de Solução Odoo
+Cobertura funcional por departamento / módulo
+03
+Prova de Conceito (POC)
+Demonstração dos fluxos-chave configurados
+04
+Análise de Investimento
+Custo de implementação e faseamento
+05
+Retorno sobre Investimento
+Poupanças esperadas e payback
+06
+Plano de Projeto
+Fases, milestones e próximos passos
+ROI
+Fecho da análise → decisão de arranque
+Diagnóstico validado, POC demonstrado, investimento estimado e plano de implementação alinhado.
+Próximo passo: aprovação da proposta
+
+---
+
+01 — Diagnóstico: como trabalha hoje
+Pain points identificados nos workshops por departamento
+Odoo ROI Closing Presentation | 2026
+03
+Departamento
+Ineficiências observadas
+Impacto operacional
+Vendas
+Criação de propostas manual em Excel
+Pipeline sem visibilidade em tempo real
+Follow-up perdido por falta de CRM
+Tempo comercial consumido em tarefas administrativas
+Risco de perda de oportunidades
+Compras
+POs em email/papel
+Aprovações lentas e sem rastreio
+Stock desalinhado com encomendas
+Ciclos de compra longos
+Baixa rastreabilidade de compromisso de stock
+Inventário
+Contagens manuais e erros frequentes
+Sem rastreabilidade de lote/série
+Ruturas por falta de reordering
+Baixa fiabilidade de stock
+Interrupções na operação e expedição
+Financeiro
+Reconciliação bancária demorada
+Faturação manual e erros de IVA
+Reporting em Excel
+Fecho mensal lento
+Dados de gestão pouco fiáveis
+Síntese — processos críticos ainda dependem de ficheiros, emails e validações manuais. A Fase 1 deve concentrar-se em standard Odoo para eliminar fricção operacional antes de customizações.
+
+---
+
+02 — Solução Odoo proposta
+Cobertura funcional por departamento e prioridade de faseamento
+Odoo ROI Closing Presentation | 2026
+04
+Fase 1 — Go-Live operacional
+1
+Sales & CRM
+Proposta, pipeline, ordens de venda
+2
+Purchase
+RFQ, POs, aprovações automáticas
+3
+Inventory
+Stock, rastreabilidade, reordering
+4
+Accounting
+Faturas, reconciliação, reporting
+5
+Manufacturing
+Ordens de produção, BOM, routing
+Fase 2 — Pós Go-Live
+Website / eCommerce
+Loja online integrada com stock, a implementar após estabilização da operação core.
+Princípio de desenho
+Standard first
+Customizações apenas quando forem must-have para operar o negócio no Go-Live.
+Resultado esperado: cobertura dos fluxos críticos sem alargar prazo, budget ou risco técnico.
+
+---
+
+03 — Prova de Conceito (POC)
+Fluxos demonstrados em ambiente Odoo configurado
+Odoo ROI Closing Presentation | 2026
+05
+Fluxo
+Descrição
+Apps Odoo
+Fluxo 1
+Lead → Oportunidade → Proposta → Ordem de Venda
+Sales / CRM
+Fluxo 2
+Ordem de Compra → Receção → Faturação Fornecedor
+Purchase + Inventory
+Fluxo 3
+Stock — Movimentos, Alertas, Inventário
+Inventory
+Fluxo 4
+Fatura Cliente → Pagamento → Reconciliação
+Accounting
+Configuração de staging
+O POC foi configurado com dados reais do cliente para os fluxos acima. O ambiente de staging fica disponível para validação do SPoC.
+Critério de sucesso
+Validar que os fluxos demonstrados cobrem os processos core sem dependência de desenvolvimento custom fora de âmbito.
+
+---
+
+04 — Análise de investimento
+Custo de implementação e faseamento em dias de serviço
+Odoo ROI Closing Presentation | 2026
+06
+Fase 1 — Go-Live
+Dias
+Gestão de Projeto
+X dias
+Configuração Standard
+X dias
+Dev. Custom (must-have)
+X dias
+Migração Dados
+X dias
+Formação
+X dias
+TOTAL FASE 1
+XX dias
+Fase 2 — Pós Go-Live
+Estimativa
+Apps adicionais
+TBD
+Integrações
+TBD
+Funcionalidades nice-to-have
+TBD
+Formação adicional
+TBD
+ESTIMATIVA FASE 2
+TBD
+* Valores em dias de serviço. 1 dia = tarifa contratual acordada. Orçamento detalhado em documento separado.
+Decisão — Aprovar Fase 1 e manter Fase 2 como backlog controlado.
+
+---
+
+05 — Retorno sobre investimento
+Poupanças esperadas, payback e benefício operacional
+Odoo ROI Closing Presentation | 2026
+07
+€ Poupança estimada/ano
+XXX.000 €
+Retorno operacional direto
+Payback esperado
+X–Y meses
+Após Go-Live
+FTE poupados
+X FTE
+Equivalente a tempo libertado
+ROI a 3 anos
+XXX%
+Sobre investimento total
+Interpretação — O ROI deve ser atualizado com dados reais recolhidos nos workshops: tempo por processo, frequência, custo/hora e redução esperada após Go-Live.
+
+---
+
+06 — Plano de projeto
+Fases, milestones e próximos passos
+Odoo ROI Closing Presentation | 2026
+08
+1
+ROI/Kick-Off
+Alinhamento, workshops, POC, aprovação
+X semanas
+10% do projeto
+2
+Implementation
+Configuração, dev., migração, formação key users
+X semanas
+80% do projeto
+3
+Go-Live
+Testes E2E, formação end-users, entrada em produção
+X semanas
+5% do projeto
+4
+Fase 2+
+Scope adicional, integrações, otimizações
+TBD
+— do projeto
+Próximo passo: aprovar proposta e agendar Kick-Off
+Contacto: _________________________  ·  Email: _________________________

@@ -1,0 +1,166 @@
+//==============================================================================
+// Lusosofá — variáveis primárias do website
+//------------------------------------------------------------------------------
+// Este ficheiro é carregado no bundle `web._assets_primary_variables`, depois
+// das variáveis do `website`, pelo que as atribuições aqui ganham às que o
+// Odoo declara com `!default`.
+//
+// Dourado da marca: #84703F, extraído do próprio ficheiro do logótipo.
+// Sobre o preto do fundo dá 4,1:1 — abaixo dos 4,5:1 que o critério AA exige
+// para texto corrido. Por isso a paleta tem uma segunda cor, #C8B074 (8,4:1),
+// para tudo o que seja texto, e reserva o #84703F para filetes e ornamento.
+//==============================================================================
+
+
+// --- Tipografia --------------------------------------------------------------
+// A 2026-09-26 escolheu-se uma serifada de inscrição (Marcellus) para os
+// títulos, com o argumento de que ligava à história de ofício. **Saiu a
+// 2026-09-28**, vista no site: a Lara pediu moderno e minimalista desde o
+// princípio, e uma romana de inscrição faz o contrário disso. A maqueta não
+// chegou para decidir — só o site montado.
+//
+// Fica a Schibsted Grotesk nos títulos, a peso 300; Instrument Sans no corpo;
+// JetBrains Mono nas micro-etiquetas. Uma família de texto, uma de títulos com
+// peso próprio, uma mono para rótulos: três registos, nenhum decorativo.
+//
+// O Odoo monta o pedido ao Google Fonts com a API v1 (`/css?family=`), que é
+// legada. Confirmado a 2026-09-26 que serve as duas fontes novas; se um dia
+// deixar de servir, o sintoma é o site cair nos tipos de substituição sem
+// erro nenhum — e é por isso que fica escrito aqui.
+
+$o-theme-font-configs: map-merge($o-theme-font-configs, (
+    'Schibsted Grotesk': (
+        'family': ('Schibsted Grotesk', 'Helvetica Neue', 'Segoe UI', sans-serif),
+        'url': 'Schibsted+Grotesk:300,400,500',
+    ),
+    'Instrument Sans': (
+        'family': ('Instrument Sans', 'Helvetica Neue', 'Segoe UI', sans-serif),
+        'url': 'Instrument+Sans:400,500',
+    ),
+    'JetBrains Mono': (
+        'family': ('JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace),
+        'url': 'JetBrains+Mono:400',
+    ),
+    'Jost': (
+        'family': ('Jost', 'Avenir Next', 'Segoe UI', sans-serif),
+        'url': 'Jost:300,300i,400,400i,500,500i',
+    ),
+));
+
+
+// --- Paleta ------------------------------------------------------------------
+// o-color-4 é o fundo do corpo. Ao contrário do habitual não é branco: é o
+// preto quente da marca. É isso que torna o site escuro por defeito, sem
+// depender de o editor aplicar combinações de cor secção a secção.
+
+$o-color-palettes: map-merge($o-color-palettes, (
+    'lusosofa': (
+        'o-color-1': #84703F,   // dourado da marca — filetes, ornamento, botões
+        'o-color-2': #C8B074,   // dourado clareado — texto e ligações
+        'o-color-3': #EDE7DC,   // linho — passe-partout das molduras
+        'o-color-4': #0B0A08,   // preto quente — fundo do corpo
+        'o-color-5': #131110,   // superfície elevada
+
+        'body': 4,
+        'menu': 4,
+        'footer': 5,
+        'copyright': 5,
+
+        // Cores por combinação.
+        //
+        // Sem estas, o Odoo deriva os títulos das combinações escuras a partir
+        // do `o-color-4` — que aqui é preto, porque é o fundo do corpo. O
+        // resultado era títulos #0B0A08 sobre fundo #131110 na cc5: preto
+        // sobre preto, invisíveis, e a homepage usa essa combinação em duas
+        // secções.
+        //
+        // Contrastes verificados sobre o fundo de cada combinação:
+        //   linho #EDE7DC em títulos ... 16,1:1 (cc1)   15,3:1 (cc5)
+        //   linho a 78% em texto ....... 9,8:1          9,5:1
+        //   dourado #C8B074 em links ... 9,4:1          8,9:1
+        'o-cc1-headings': 'o-color-3',
+        'o-cc1-text': rgba(#EDE7DC, .78),
+        'o-cc1-link': 'o-color-2',
+
+        'o-cc5-headings': 'o-color-3',
+        'o-cc5-text': rgba(#EDE7DC, .78),
+        'o-cc5-link': 'o-color-2',
+
+        // Sobre fundos claros o dourado da marca dá 3,9:1 e chumba AA.
+        // Nas ligações usa-se um tom mais fechado da mesma cor.
+        //
+        // As duas combinações claras não levam o mesmo valor, e levaram até
+        // 2026-09-23. A cc2 assenta no linho #EDE7DC, a cc3 no dourado
+        // clareado #C8B074 — que é bastante mais escuro. O mesmo #6B5B33 dá
+        // 5,38:1 sobre o linho e apenas 3,13:1 sobre o dourado. Tratá-las
+        // como «fundos claros», no plural, foi o erro.
+        'o-cc2-link': #6B5B33,   // sobre #EDE7DC ... 5,38:1
+        'o-cc3-link': #3E351E,   // sobre #C8B074 ... 5,72:1
+
+        // A combinação 4 tem o ouro da marca por fundo, e aí não há escolha:
+        // testadas as cores da paleta, nenhuma passa AA sobre ele — nem o
+        // preto puro, que fica em 4,37:1. O ouro está a meio da escala de
+        // luminância, sem folga para nenhum dos lados.
+        //
+        //   branco puro ........... 4,80:1  <- única que passa
+        //   preto puro ............ 4,37:1
+        //   preto quente da marca . 4,12:1
+        //   linho ................. 3,90:1
+        //
+        // Fica branco, como o texto e os títulos da mesma combinação. Isso
+        // deixa as ligações indistinguíveis do texto, e é por isso que o
+        // `theme.scss` lhes devolve o sublinhado permanente dentro da cc4.
+        'o-cc4-link': #FFFFFF,
+    ),
+));
+
+// Coloca a paleta da marca em primeiro na lista que o editor propõe.
+$o-selected-color-palettes-names: join(
+    ('lusosofa',),
+    $o-selected-color-palettes-names
+);
+
+
+// --- Valores do website ------------------------------------------------------
+
+$o-website-values-palettes: (
+    (
+        'color-palettes-name': 'lusosofa',
+
+        'headings-font': 'Schibsted Grotesk',
+        'font': 'Instrument Sans',
+        'navbar-font': 'Instrument Sans',
+        'buttons-font': 'JetBrains Mono',
+
+        // O que faz um site parecer caro não é a fonte: é texto pequeno com
+        // muito espaço à volta. Daí o corpo descer de 17 para 16 px e a
+        // entrelinha de 1,75 para 1,62 — mais apertada lê-se como deliberada,
+        // mais aberta lê-se como texto a preencher espaço.
+        'font-size-base': 1rem,
+        'body-line-height': 1.62,
+        'headings-line-height': 1.08,
+        'paragraph-margin-bottom': 1.15rem,
+
+        // Cantos vivos: o arredondado é o que faz um site de luxo
+        // parecer um template genérico.
+        'btn-border-radius': 0,
+        'btn-border-radius-sm': 0,
+        'btn-border-radius-lg': 0,
+        'input-border-radius': 0,
+        'input-border-radius-sm': 0,
+        'input-border-radius-lg': 0,
+
+        'btn-padding-y': .95rem,
+        'btn-padding-x': 2.2rem,
+        'btn-padding-y-lg': 1.1rem,
+        'btn-padding-x-lg': 2.8rem,
+        'btn-border-width': 1px,
+        'btn-primary-outline': true,
+        'btn-secondary-outline': true,
+
+        'link-underline': 'hover',
+        'layout': 'full',
+        'header-template': 'default',
+        'header-links-style': 'default',
+    ),
+);

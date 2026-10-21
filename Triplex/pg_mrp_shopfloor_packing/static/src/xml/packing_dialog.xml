@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="pg_mrp_shopfloor_packing.PackingListDialog">
+        <Dialog title="title" size="'lg'">
+            <div t-if="!state.loaded" class="text-center p-4">
+                <i class="fa fa-spinner fa-spin fa-2x"/>
+            </div>
+            <div t-else="" class="o_pg_packing_dialog">
+                <p class="fw-bold mb-3" t-esc="state.productName"/>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <label class="form-label">Volumes</label>
+                        <input type="number" min="1" step="1" class="form-control form-control-lg"
+                               t-att-value="state.values.packing_volumes"
+                               t-on-input="(ev) => this.onInput('packing_volumes', ev)"/>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Peso (Kg)</label>
+                        <input type="number" min="0" step="0.01" class="form-control form-control-lg"
+                               t-att-value="state.values.packing_weight"
+                               t-on-input="(ev) => this.onInput('packing_weight', ev)"/>
+                    </div>
+                </div>
+                <hr/>
+                <div t-if="!volumeRows.length" class="text-muted fst-italic mb-2">
+                    Indique o número de volumes para introduzir as dimensões.
+                </div>
+                <t t-foreach="volumeRows" t-as="row" t-key="row.index">
+                    <div class="row g-2 align-items-end mb-2">
+                        <div class="col-12"><strong>Volume <t t-esc="row.index"/></strong></div>
+                        <div class="col-4">
+                            <label class="form-label">Comprimento</label>
+                            <input type="number" min="0" step="0.01" class="form-control"
+                                   t-att-value="state.values[row.comp]"
+                                   t-on-input="(ev) => this.onInput(row.comp, ev)"/>
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label">Altura</label>
+                            <input type="number" min="0" step="0.01" class="form-control"
+                                   t-att-value="state.values[row.alt]"
+                                   t-on-input="(ev) => this.onInput(row.alt, ev)"/>
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label">Largura</label>
+                            <input type="number" min="0" step="0.01" class="form-control"
+                                   t-att-value="state.values[row.larg]"
+                                   t-on-input="(ev) => this.onInput(row.larg, ev)"/>
+                        </div>
+                    </div>
+                </t>
+                <div class="d-flex justify-content-end mt-3">
+                    <span class="badge text-bg-light fs-6">
+                        Cubicagem: <t t-esc="cubicagem.toFixed(2)"/> m³
+                    </span>
+                </div>
+                <!-- Fotografias da embalagem. Facultativas: o operador pode fechar a
+                     produção sem nenhuma.
+                     `capture="environment"` abre a câmara do sistema no tablet. É de
+                     propósito que não se usa a API de câmara do browser: essa exige
+                     contexto seguro (HTTPS) e esta instância é servida por HTTP. -->
+                <div t-if="props.productionId" class="pg_packing_fotos mt-4 pt-3 border-top">
+                    <label class="form-label fw-bold">
+                        Fotografias da embalagem <span class="fw-normal">(facultativo)</span>
+                    </label>
+                    <!-- Dois botões em vez do input cru do browser, por duas razões:
+                         o texto por omissão ("Escolher Ficheiros") não diz ao operador que
+                         pode fotografar; e num tablet um input de ficheiro é um alvo de
+                         toque pequeno. O input fica escondido dentro do <label>, que é o que
+                         o torna clicável.
+                         O primeiro tem `capture`, que nos sistemas móveis abre a câmara
+                         directamente; o segundo não o tem, para escolher da galeria ou dos
+                         ficheiros. Em ambiente de secretária os dois fazem o mesmo, porque o
+                         `capture` é ignorado. -->
+                    <div class="d-flex flex-wrap gap-2">
+                        <label class="btn btn-lg btn-secondary mb-0">
+                            <i class="fa fa-camera me-2"/>Tirar foto
+                            <input type="file" class="d-none" accept="image/*"
+                                   capture="environment" t-on-change="onFotosChange"/>
+                        </label>
+                        <label class="btn btn-lg btn-secondary mb-0">
+                            <i class="fa fa-folder-open-o me-2"/>Escolher ficheiro
+                            <input type="file" class="d-none" accept="image/*"
+                                   multiple="multiple" t-on-change="onFotosChange"/>
+                        </label>
+                    </div>
+                    <div t-if="state.fotos.length" class="mt-2 d-flex flex-column gap-1">
+                        <div t-foreach="state.fotos" t-as="foto" t-key="foto_index"
+                             class="d-flex align-items-center justify-content-between">
+                            <span class="text-truncate me-2">
+                                <i class="fa fa-camera me-2"/><t t-esc="foto.name"/>
+                            </span>
+                            <button type="button" class="btn btn-sm btn-link text-danger"
+                                    t-on-click="() => this.removerFoto(foto_index)">
+                                Remover
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div t-if="state.error" class="alert alert-warning mt-2 mb-0" t-esc="state.error"/>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-on-click="confirm" t-att-disabled="state.saving">
+                    Guardar e fechar produção
+                </button>
+                <button class="btn btn-secondary" t-on-click="cancel">Cancelar</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

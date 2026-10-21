@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="categories_page" name="Categories Page">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_three_columns pt32 pb32 o_colored_level o_cc o_cc1" style="position: relative; background-image: none;">
+                    <div class="container">
+                        <div class="row d-flex align-items-stretch">
+                            <t t-if="visible_categories">
+                                <t t-foreach="visible_categories" t-as="category" t-key="category.id">
+                                    <div class="col-lg-4 s_col_no_bgcolor pt0 pb64" t-attf-id="cat-#{category.id}">
+                                        <div class="card text-bg-white h-100">
+                                            <a t-att-href="'/shop/category/' + str(category.id)">
+                                                <div class="img-container">
+                                                    <t t-if="category.image_1920 or category.cover_image">
+                                                        <t t-if="category.image_1920">
+                                                            <img t-att-src="request.website.image_url(category, 'image_1920')" t-att-alt="category.name" class="custom-category-image primary-image" loading="eager"/>
+                                                            <t t-if="category.cover_image">
+                                                                <img t-att-src="request.website.image_url(category, 'cover_image')" t-att-alt="category.name" class="custom-category-image secondary-image" loading="eager"/>
+                                                            </t>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <img t-att-src="request.website.image_url(category, 'cover_image')" t-att-alt="category.name" class="custom-category-image primary-image" loading="eager"/>
+                                                        </t>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-set="product_category" t-value="request.env['product.category'].search([('name', '=', category.name)], limit=1)"/>
+                                                        <t t-if="product_category and 'cat_image_1' in product_category._fields and product_category.cat_image_1">
+                                                            <img t-att-src="'/web/image/product.category/' + str(product_category.id) + '/cat_image_1'" t-att-alt="category.name" class="custom-category-image primary-image" loading="eager"/>
+                                                            <t t-if="'cat_image_2' in product_category._fields and product_category.cat_image_2">
+                                                                <img t-att-src="'/web/image/product.category/' + str(product_category.id) + '/cat_image_2'" t-att-alt="category.name" class="custom-category-image secondary-image" loading="eager"/>
+                                                            </t>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <img t-att-src="'/web/image/placeholder.jpg'" t-att-alt="category.name" class="custom-category-image primary-image" loading="eager"/>
+                                                        </t>
+                                                    </t>
+                                                </div>
+                                            </a>
+                                            <div class="card-body">
+                                                <h3 class="card-title o_default_snippet_text">
+                                                    <t t-esc="category.name"/>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <div class="col-12">
+                                    <p class="text-muted">No categories available.</p>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

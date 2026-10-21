@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_import_adjustment" model="ir.ui.view">
+        <field name="name">res.config.settings.form.import.adjustment</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="stock_account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='valuation_setting_container']" position="inside">
+                <setting id="import_adjustment_cmv_journal_setting"
+                         string="Diário de Ajuste CMV (Importações)"
+                         help="Diário usado nos lançamentos CMV gerados ao aplicar Ajustes de Importação (ADJ).">
+                    <div class="content-group">
+                        <field name="import_adjustment_cmv_journal_id"/>
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

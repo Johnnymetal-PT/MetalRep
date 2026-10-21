@@ -1,0 +1,98 @@
+<t name="Template Header Mobile" t-name="website.template_header_mobile">
+    <t t-call="website.navbar">
+        <t t-set="_navbar_classes" t-valuef="o_header_mobile d-block d-lg-none shadow-sm"/>
+        <t t-set="_navbar_expand_class" t-valuef=""/>
+        <t t-set="_navbar_name" t-valuef="Mobile"/>
+        <t t-set="_side" t-valuef="offcanvas-end"/>
+
+        <style>
+        .o_header_mobile .o_main_nav{
+            position: relative;
+        }
+        .o_header_mobile .navbar-brand{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+        </style>
+
+        <div class="o_main_nav container flex-wrap justify-content-between">
+            <div class="d-flex flex-grow-1">
+                <!-- Brand -->
+                <t t-call="website.placeholder_header_brand"/>
+                <ul class="o_header_mobile_buttons_wrap navbar-nav d-flex flex-row align-items-center gap-2 mb-0 ms-auto"/>
+            </div>
+            <button class="nav-link btn p-2 o_not_editable" type="button" data-bs-toggle="offcanvas" data-bs-target="#top_menu_collapse_mobile" aria-controls="top_menu_collapse_mobile" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"/>
+            </button>
+            <div t-attf-class="offcanvas #{_side} o_navbar_mobile" id="top_menu_collapse_mobile">
+                <div class="offcanvas-header justify-content-end o_not_editable">
+                    <button type="button" class="nav-link btn-close" data-bs-dismiss="offcanvas" aria-label="Close"/>
+                </div>
+                <div class="offcanvas-body d-flex flex-column justify-content-between h-100 w-100 pt-0">
+                    <ul class="navbar-nav">
+                        <!-- Search bar -->
+                        <t t-call="website.placeholder_header_search_box" t-nocache="The searchbox should not cache previous searches.">
+                            <t t-set="_classes" t-valuef="mb-3"/>
+                            <t t-set="_input_classes" t-valuef="rounded-start-pill text-bg-light ps-3"/>
+                            <t t-set="_submit_classes" t-valuef="rounded-end-pill bg-o-color-3 pe-3"/>
+                            <t t-set="limit" t-valuef="0"/>
+                        </t>
+                        <!-- Navbar -->
+                        <t t-call="website.navbar_nav">
+                            <t t-set="is_vertical_nav" t-valuef="True"/>
+                            <t t-set="_no_autohide_menu_mobile" t-valuef="True"/>
+                            <t t-set="is_mobile" t-value="True"/>
+
+                            <!-- Menu -->
+                            <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                <t t-call="website.submenu">
+                                    <t t-set="item_class" t-valuef="nav-item border-top #{submenu_last and 'border-bottom'}"/>
+                                    <t t-set="link_class" t-valuef="nav-link p-3 text-wrap"/>
+                                    <t t-set="dropdown_toggler_classes" t-valuef="d-flex justify-content-between align-items-center"/>
+                                    <t t-set="dropdown_menu_classes" t-valuef="position-relative rounded-0 o_dropdown_without_offset"/>
+                                </t>
+                            </t>
+                        </t>
+                        <!-- Text element -->
+                        <t t-call="website.placeholder_header_text_element">
+                            <t t-set="_div_class" t-valuef="mt-2"/>
+                        </t>
+                        <!-- Social -->
+                        <t t-call="website.placeholder_header_social_links">
+                            <t t-set="_div_class" t-valuef="mt-2 border-top pt-2 o_border_contrast"/>
+                        </t>
+                    </ul>
+                    <ul class="navbar-nav gap-2 mt-3 w-100">
+                        <!-- Language Selector -->
+                        <t t-call="website.placeholder_header_language_selector">
+                            <t t-set="_btn_class" t-valuef="{{_additional_btn_color or 'nav-link'}} d-flex align-items-center w-100"/>
+                            <t t-set="_txt_class" t-valuef="me-auto small"/>
+                            <t t-set="_flag_class" t-valuef="me-2"/>
+                            <t t-set="_div_classes" t-valuef="dropup"/>
+                            <t t-set="_dropdown_menu_class" t-valuef="w-100"/>
+                        </t>
+                        <!-- Sign In -->
+                        <t t-call="portal.placeholder_user_sign_in">
+                            <t t-set="_link_class" t-valuef="{{_additional_btn_color or 'nav-link o_nav_link_btn'}} w-100 border text-center"/>
+                        </t>
+                        <!-- User Dropdown -->
+                        <t t-call="portal.user_dropdown">
+                            <t t-set="_icon" t-value="true"/>
+                            <t t-set="_user_name" t-value="true"/>
+                            <t t-set="_user_name_class" t-valuef="me-auto small"/>
+                            <t t-set="_link_class" t-valuef="{{ _additional_btn_color or 'nav-link'}} d-flex align-items-center border-0"/>
+                            <t t-set="_icon_class" t-valuef="me-2"/>
+                            <t t-set="_item_class" t-valuef="dropdown dropup"/>
+                            <t t-set="_dropdown_menu_class" t-valuef="w-100"/>
+                        </t>
+                        <!-- Call To Action -->
+                        <t t-call="website.header_call_to_action_large"/>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </t>
+</t>

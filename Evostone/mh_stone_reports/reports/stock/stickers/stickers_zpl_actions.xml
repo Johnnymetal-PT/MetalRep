@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--
+            Stickers de Placas ZPL (stock.move.line)
+
+            Template em: stickers_zpl_reports.xml
+            Tipo: qweb-text (gera ZPL texto, não PDF)
+            Impressora: Zebra ZD421 via IoT
+
+            Para ligar ao dispositivo IoT:
+            1. Instalar módulo IoT
+            2. IoT > Dispositivos > Zebra ZD421
+            3. No separador "Printer Reports", adicionar este relatório
+        -->
+        <record id="action_report_stickers_zpl" model="ir.actions.report">
+            <field name="name">Stickers de Placas (ZPL)</field>
+            <field name="model">stock.move.line</field>
+            <field name="report_type">qweb-text</field>
+            <field name="report_name">mh_stone_reports.report_stickers_zpl</field>
+            <field name="report_file">mh_stone_reports.report_stickers_zpl</field>
+            <field name="binding_model_id" ref="stock.model_stock_move_line"/>
+            <field name="binding_type">report</field>
+            <field name="attachment_use" eval="False"/>
+            <field name="multi" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

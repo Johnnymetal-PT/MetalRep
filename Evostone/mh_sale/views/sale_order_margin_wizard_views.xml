@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Sale Order Margin Warning Wizard Form View -->
+    <record id="view_sale_order_margin_wizard_form" model="ir.ui.view">
+        <field name="name">sale.order.margin.wizard.form</field>
+        <field name="model">sale.order.margin.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Margem não positiva">
+                <div class="alert alert-warning" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="fa fa-warning fa-2x mr-3" title="Aviso" style="color: #856404;"/>
+                        <div>
+                            <h5 class="mb-2">
+                                <strong>Atenção: linhas com margem ≤ 0</strong>
+                            </h5>
+                            <p class="mb-0">
+                                Esta venda tem linhas vendidas abaixo do custo ou com custo por apurar.
+                                Reveja a tabela antes de confirmar.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <group>
+                    <field name="order_id" readonly="1"/>
+                </group>
+
+                <field name="confirmation_message" readonly="1" nolabel="1" widget="text"/>
+
+                <field name="line_ids" readonly="1" nolabel="1">
+                    <list create="false" edit="false" delete="false" decoration-danger="margin_amount &lt; 0" decoration-warning="margin_amount == 0">
+                        <field name="product_id"/>
+                        <field name="lot_id" string="SN"/>
+                        <field name="product_uom_qty" string="Volume/Área/Unidade"/>
+                        <field name="price_unit" string="Preço"/>
+                        <field name="purchase_price" string="Custo"/>
+                        <field name="margin_amount" string="Margem"/>
+                        <field name="margin_percent" string="Margem %" widget="percentage"/>
+                    </list>
+                </field>
+
+                <footer>
+                    <button name="action_confirm_margin"
+                            string="Confirmar mesmo assim"
+                            type="object"
+                            class="btn-warning"
+                            groups="sales_team.group_sale_manager"/>
+                    <button string="Cancelar"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

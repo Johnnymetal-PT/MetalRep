@@ -1,0 +1,211 @@
+# Extracted: 16_GoLive_User_Manual_Template.docx
+
+MANUAL DO UTILIZADOR
+
+Template Interno — A preencher pelo SPoC | Fase: Go-Live
+
+Template operacional para documentar acessos, processos, screenshots, erros comuns e glossário interno para utilizadores finais Odoo.
+
+Cliente / Projeto
+
+Odoo Implementation
+
+Data
+
+02 de junho de 2026
+
+Versão
+
+1.0
+
+Preparado por Parâmetro Global
+
+Dados do Manual
+
+Identificação da empresa, versão do documento, autor responsável e data de atualização.
+
+Empresa
+
+Versão do Documento
+
+Autor (SPoC)
+
+Última Atualização
+
+NOTA - Este documento deve ser escrito e mantido pelo SPoC / equipa interna. Use a terminologia e processos da vossa empresa.
+
+Como usar este template
+
+Instruções para o SPoC adaptar o manual à realidade operacional da empresa.
+
+Este manual destina-se aos utilizadores finais da vossa empresa. Para cada processo ou fluxo, preenche as secções com:
+
+#
+
+Orientação para preencher o manual
+
+1
+
+A terminologia interna da vossa empresa (não necessariamente a terminologia Odoo).
+
+2
+
+Os passos exatos do processo como foi configurado para a vossa realidade.
+
+3
+
+Screenshots do vosso sistema real (não de demos genéricos).
+
+4
+
+Exceções e casos especiais que existam no vosso negócio.
+
+1. Acesso ao Sistema
+
+Informação essencial para acesso, browser recomendado, app móvel e suporte interno de primeiro nível.
+
+URL do Odoo
+
+https://_____________________.odoo.com
+
+Browser recomendado
+
+Chrome ou Firefox (versão atual)
+
+App móvel disponível?
+
+[ ] Sim  [ ] Não
+
+Suporte de 1.º nível
+
+Contactar o SPoC: _________________
+
+2. Fluxo 1: [Nome do Processo]
+
+Template para documentar um fluxo interno exatamente como foi configurado no Odoo.
+
+Quando usar este processo
+
+Descreve em que situação o utilizador vai executar este fluxo:
+
+____________________________________________________________
+
+Passos
+
+#
+
+Passos do processo
+
+1
+
+Acede a [Menu] > [Submenu]
+
+2
+
+Clica em [Botão / Ação]
+
+3
+
+Preenche os campos: [Campo A] = ___, [Campo B] = ___
+
+4
+
+Confirma clicando em [Botão de Confirmação]
+
+5
+
+Resultado esperado: ___________________________________
+
+Screenshot
+
+Screenshot / Evidência visual
+
+[ Inserir screenshot do fluxo 1 aqui ]
+
+Erros comuns e como resolver
+
+Erro comum
+
+Como resolver
+
+'_______________'
+
+________________________________
+
+'_______________'
+
+________________________________
+
+3. Fluxo 2: [Nome do Processo]
+
+Template para documentar um fluxo interno exatamente como foi configurado no Odoo.
+
+Quando usar este processo
+
+____________________________________________________________
+
+Passos
+
+#
+
+Passos do processo
+
+1
+
+Passo 1: _______________________________________________
+
+2
+
+Passo 2: _______________________________________________
+
+3
+
+Passo 3: _______________________________________________
+
+Screenshot
+
+Screenshot / Evidência visual
+
+[ Inserir screenshot do fluxo 2 aqui ]
+
+[ Duplica as secções acima para cada fluxo adicional ]
+
+Anexo: Glossário
+
+Mapeamento entre terminologia interna da empresa, termos Odoo e descrição prática para utilizadores finais.
+
+Termo interno
+
+Termo Odoo
+
+Descrição
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+_______________

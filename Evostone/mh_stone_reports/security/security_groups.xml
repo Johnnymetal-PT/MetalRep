@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Grupos de acesso aos relatórios de inventário.
+         Usam a MESMA categoria definida em mh_stock_at_date para os 3 grupos
+         aparecerem juntos numa só secção no formulário do utilizador. -->
+    <record id="group_report_stock_valuation" model="res.groups">
+        <field name="name">Valorização de Inventário</field>
+        <field name="category_id" ref="mh_stock_at_date.module_category_stock_reports"/>
+    </record>
+
+    <record id="group_report_stock_no_stock" model="res.groups">
+        <field name="name">Artigos sem Stock</field>
+        <field name="category_id" ref="mh_stock_at_date.module_category_stock_reports"/>
+    </record>
+
+    <!-- Dar acesso ao menu Inventário → Relatórios (stock.menu_warehouse_report)
+         também aos grupos de relatórios custom. Sem isto, o menu-pai exige
+         "Inventário/Administrador" e esconde os relatórios custom (filhos) de
+         quem só tem o grupo de relatório. (4,...) ADICIONA sem remover o Admin. -->
+    <record id="stock.menu_warehouse_report" model="ir.ui.menu">
+        <field name="groups_id" eval="[
+            (4, ref('mh_stock_at_date.group_report_stock_at_date')),
+            (4, ref('group_report_stock_valuation')),
+            (4, ref('group_report_stock_no_stock')),
+        ]"/>
+    </record>
+</odoo>

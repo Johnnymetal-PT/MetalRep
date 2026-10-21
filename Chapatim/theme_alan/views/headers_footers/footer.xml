@@ -1,0 +1,1465 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===============Alan Footer: 1 ===============  -->
+    <template id="alan_footer_1" inherit_id="website.layout" name="Alan: Footer 1" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border-bottom text-break as-footer" t-ignore="true" t-if="not no_footer" style="--box-border-left-width: 0px; --box-border-right-width: 0px;">
+                <section class="as-footer-top footer-py border-bottom">
+                    <div class="container d-flex flex-column gap-3">
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-3">
+                                    <div class="col-sm-6 col-lg-3">
+                                        <div class="d-flex as-footer-feature s_text_highlight p-3 p-lg-4 h-100" style="background-color: rgba(255, 255, 255, 0.06);">
+                                            <div class="icon">
+                                                <img src="/theme_alan/static/src/img/footer_icon_delivery.svg" />
+                                            </div>
+                                            <div class="col">
+                                                <h5>Worldwide Delivery</h5>
+                                                <p>120+ countries and regions worldwide</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-3">
+                                        <div class="d-flex as-footer-feature s_text_highlight p-3 p-lg-4 h-100" style="background-color: rgba(255, 255, 255, 0.06);">
+                                            <div class="icon">
+                                                <img src="/theme_alan/static/src/img/footer_icon_payment.svg" />
+                                            </div>
+                                            <div class="col">
+                                                <h5>Secure Payment</h5>
+                                                <p>Pay with popular and secure payment methods</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-3">
+                                        <div class="d-flex as-footer-feature s_text_highlight p-3 p-lg-4 h-100" style="background-color: rgba(255, 255, 255, 0.06);">
+                                            <div class="icon">
+                                                <img src="/theme_alan/static/src/img/footer_icon_policy.svg" />
+                                            </div>
+                                            <div class="col">
+                                                <h5>60-day Return Policy</h5>
+                                                <p>Merchandise must be returned within 60 days.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-3">
+                                        <div class="d-flex as-footer-feature s_text_highlight p-3 p-lg-4 h-100" style="background-color: rgba(255, 255, 255, 0.06);">
+                                            <div class="icon">
+                                                <img src="/theme_alan/static/src/img/footer_icon_help.svg" />
+                                            </div>
+                                            <div class="col">
+                                                <h5>24/7 Help Center</h5>
+                                                <p>We'll respond to you within 24/7 hours</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-3 g-lg-4">
+                                    <div class="col-lg-4">
+                                        <div class="s_text_highlight p-3 p-lg-4" style="background-color: rgba(255, 255, 255, 0.06);">
+                                            <div class="footer-title">
+                                                <h5>Theme Alan</h5>
+                                            </div>
+                                            <p class="text-muted">8000 Marina Blvd, Suite 300 <br/> Brisbane CA 94005 <br/>United States</p>
+                                            <ul class="list-unstyled mb-2 d-flex flex-column gap-2">
+                                                <li><i class="fa fa-phone fa-fw me-2"/><span class="o_force_ltr"><a href="tel:+1 555-555-5556">+1 555-555-5556</a></span></li>
+                                                <li><i class="fa fa-envelope fa-fw me-2"/><span><a href="mailto:hello@mycompany.com">hello@mycompany.com</a></span></li>
+                                            </ul>
+                                            <hr/>
+                                            <div class="s_social_media text-start no_icon_color o_not_editable" data-snippet="s_social_media" data-name="Social Media" contenteditable="false">
+                                                <h5 class="s_social_media_title d-none" contenteditable="true">Follow us</h5>
+                                                <a href="/website/social/facebook" class="s_social_media_facebook" target="_blank">
+                                                    <i class="fa fa-facebook fa-stack o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/twitter" class="s_social_media_twitter" target="_blank">
+                                                    <i class="fa fa-twitter fa-stack o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/instagram" class="s_social_media_instagram" target="_blank">
+                                                    <i class="fa fa-instagram fa-stack o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/linkedin" class="s_social_media_linkedin" target="_blank">
+                                                    <i class="fa fa-linkedin fa-stack o_editable_media"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 pt-lg-0 pt-3">
+                                        <div class="footer-title">
+                                            <h5>Customer Support</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Help Center</a></li>
+                                            <li><a href="#">Contact Us</a></li>
+                                            <li><a href="#">Order Tracking</a></li>
+                                            <li><a href="#">Shipping &amp; Delivery</a></li>
+                                            <li><a href="#">Returns &amp; Exchanges</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">FAQs</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="footer-title">
+                                            <h5>Shop</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Living Room</a></li>
+                                            <li><a href="#">Bedroom</a></li>
+                                            <li><a href="#">Dining</a></li>
+                                            <li><a href="#">Office</a></li>
+                                            <li><a href="#">Outdoor</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">FAQs</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="footer-title">
+                                            <h5>About Us</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Our Story</a></li>
+                                            <li><a href="#">Sustainability</a></li>
+                                            <li><a href="#">Careers</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Press</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="footer-title">
+                                            <h5>Policies</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Privacy Policy</a></li>
+                                            <li><a href="#">Terms &amp; Conditions</a></li>
+                                            <li><a href="#">Warranty Information</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Blog</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-4 offset-lg-4">
+                                        <div class="footer-title">
+                                            <h5>Supported Payments</h5>
+                                        </div>
+                                        <div
+                                            class="s_supported_payment_methods o_not_editable"
+                                            data-snippet="s_supported_payment_methods"
+                                            data-name="Supported Payment Methods"
+                                            data-limit="8"
+                                            data-height="32px"
+                                            data-oe-protected="true"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ===============Alan Footer: 2 ===============  -->
+    <template id="alan_footer_2" inherit_id="website.layout" name="Alan: Footer 2" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border text-break as-footer" t-ignore="true" t-if="not no_footer" style="--box-border-top-width: 0px; --box-border-left-width: 0px; --box-border-right-width: 0px;">
+                <section class="as-footer-main footer-py">
+                    <div class="container s_allow_columns">
+                        <div class="row g-3 g-lg-4">
+                            <div class="col-lg-3">
+                                <a href="/" class="o_footer_logo logo">
+                                    <img src="/website/static/src/img/website_logo.svg" width="200" class="img-fluid" aria-label="Logo of MyCompany" title="MyCompany" role="img" />
+                                </a>
+                                <div>
+                                    <p class="text-muted">We are a team of passionate people whose goal is to improve everyone's life through disruptive products. We build great products to solve your business problems.</p>
+                                    <div class="s_social_media text-start o_not_editable no_icon_color" data-snippet="s_social_media" data-name="Social Media" contenteditable="false">
+                                        <p class="s_social_media_title d-none" contenteditable="true">Follow us</p>
+                                        <a href="/website/social/twitter" class="s_social_media_twitter" target="_blank">
+                                            <i class="fa fa-twitter fa-stack o_editable_media"/>
+                                        </a>
+                                        <a href="/website/social/linkedin" class="s_social_media_linkedin" target="_blank">
+                                            <i class="fa fa-linkedin fa-stack o_editable_media"/>
+                                        </a>
+                                        <a href="/website/social/instagram" class="s_social_media_instagram" target="_blank">
+                                            <i class="fa fa-instagram fa-stack o_editable_media"/>
+                                        </a>
+                                        <a href="/website/social/facebook" class="s_social_media_facebook" target="_blank">
+                                            <i class="fa fa-facebook fa-stack o_editable_media"/>
+                                        </a>
+                                        <a href="/website/social/youtube" class="s_social_media_youtube" target="_blank">
+                                            <i class="fa fa-youtube-play fa-stack o_editable_media"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 pt-lg-0 pt-3">
+                                <div class="footer-title">
+                                    <h5>Shop</h5>
+                                </div>
+                                <ul class="list-unstyled as-footer-link">
+                                    <li><a href="#">Living Room</a></li>
+                                    <li><a href="#">Bedroom</a></li>
+                                    <li><a href="#">Dining</a></li>
+                                    <li><a href="#">Office</a></li>
+                                    <li><a href="#">Outdoor</a></li>
+                                    <t t-set="configurator_footer_links" t-value="[]"/>
+                                    <li t-foreach="configurator_footer_links" t-as="link">
+                                        <a t-att-href="link['href']" t-out="link['text']"/>
+                                    </li>
+                                    <li><a href="#">FAQs</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="footer-title">
+                                    <h5>About Us</h5>
+                                </div>
+                                <ul class="list-unstyled as-footer-link">
+                                    <li><a href="#">Our Story</a></li>
+                                    <li><a href="#">Sustainability</a></li>
+                                    <li><a href="#">Careers</a></li>
+                                    <t t-set="configurator_footer_links" t-value="[]"/>
+                                    <li t-foreach="configurator_footer_links" t-as="link">
+                                        <a t-att-href="link['href']" t-out="link['text']"/>
+                                    </li>
+                                    <li><a href="#">Press</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="footer-title">
+                                    <h5>Policies</h5>
+                                </div>
+                                <ul class="list-unstyled as-footer-link">
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Terms &amp; Conditions</a></li>
+                                    <li><a href="#">Warranty Information</a></li>
+                                    <t t-set="configurator_footer_links" t-value="[]"/>
+                                    <li t-foreach="configurator_footer_links" t-as="link">
+                                        <a t-att-href="link['href']" t-out="link['text']"/>
+                                    </li>
+                                    <li><a href="#">Blog</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="footer-title">
+                                    <h5>Connect with us</h5>
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-12" data-name="Feature">
+                                        <i class="s_showcase_icon fa fa-envelope me-auto rounded float-start bg-o-color-3" role="img"/>
+                                        <div class="d-flex flex-column ps-3">
+                                            <h3 class="s_showcase_title h6-fs mb-1">My Company</h3>
+                                            <p class="small text-muted m-0">8000 Marina Blvd, Suite 300 <br/> Brisbane CA 94005 <br/>United States</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" data-name="Feature">
+                                        <i class="s_showcase_icon fa fa-envelope me-auto rounded float-start bg-o-color-3" role="img"/>
+                                        <div class="d-flex flex-column ps-3">
+                                            <h3 class="s_showcase_title h6-fs m-0">Email</h3>
+                                            <p class="small m-0"><span><a class="text-muted" href="mailto:hello@mycompany.com">hello@mycompany.com</a></span></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" data-name="Feature">
+                                        <i class="s_showcase_icon fa fa-phone me-auto rounded float-start bg-o-color-3" role="img"/>
+                                        <div class="d-flex flex-column ps-3">
+                                            <h3 class="s_showcase_title h6-fs m-0">Phone</h3>
+                                            <p class="small m-0"><span class="o_force_ltr"><a class="text-muted" href="tel:+1 555-555-5556">+1 555-555-5556</a></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ===============Alan Footer: 3 ===============  -->
+    <template id="alan_footer_3" inherit_id="website.layout" name="Alan: Footer 3" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border text-break as-footer" t-ignore="true" t-if="not no_footer" style="--box-border-top-width: 0px; --box-border-left-width: 0px; --box-border-right-width: 0px;">
+                <section class="as-footer-top footer-py">
+                    <div class="container">
+                        <section data-name="Container" class="footer-py">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row align-items-end g-3">
+                                    <div class="col-lg-3">
+                                        <h4>Subscribe to our newsletter</h4>
+                                        <p class="m-0 text-muted small">Exclusive tips and trends delivered straight to your inbox.</p>
+                                    </div>
+
+                                    <div class="col-lg-5 me-auto">
+                                        <p class="as-subscribe-empty-p m-0"/>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <div class="s_social_media text-end o_not_editable no_icon_color" data-snippet="s_social_media" data-name="Social Media" contenteditable="false">
+                                            <p class="s_social_media_title d-none" contenteditable="true">Follow us</p>
+                                            <a href="/website/social/twitter" class="s_social_media_twitter" target="_blank">
+                                                <i class="fa fa-twitter fa-stack o_editable_media"/>
+                                            </a>
+                                            <a href="/website/social/linkedin" class="s_social_media_linkedin" target="_blank">
+                                                <i class="fa fa-linkedin fa-stack o_editable_media"/>
+                                            </a>
+                                            <a href="/website/social/instagram" class="s_social_media_instagram" target="_blank">
+                                                <i class="fa fa-instagram fa-stack o_editable_media"/>
+                                            </a>
+                                            <a href="/website/social/facebook" class="s_social_media_facebook" target="_blank">
+                                                <i class="fa fa-facebook fa-stack o_editable_media"/>
+                                            </a>
+                                            <a href="/website/social/youtube" class="s_social_media_youtube" target="_blank">
+                                                <i class="fa fa-youtube-play fa-stack o_editable_media"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="border-bottom"></div>
+                    <div class="container">
+                        <section data-name="Container" class="footer-py">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-3 g-lg-4">
+                                    <div class="col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>Customer Support</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Help Center</a></li>
+                                            <li><a href="#">Contact Us</a></li>
+                                            <li><a href="#">Order Tracking</a></li>
+                                            <li><a href="#">Shipping &amp; Delivery</a></li>
+                                            <li><a href="#">Returns &amp; Exchanges</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">FAQs</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>Shop</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Living Room</a></li>
+                                            <li><a href="#">Bedroom</a></li>
+                                            <li><a href="#">Dining</a></li>
+                                            <li><a href="#">Office</a></li>
+                                            <li><a href="#">Outdoor</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">FAQs</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>About Us</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Our Story</a></li>
+                                            <li><a href="#">Sustainability</a></li>
+                                            <li><a href="#">Careers</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Press</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>Policies</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Privacy Policy</a></li>
+                                            <li><a href="#">Terms &amp; Conditions</a></li>
+                                            <li><a href="#">Warranty Information</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Blog</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ===============Alan Footer: 4 ===============  -->
+    <template id="alan_footer_4" inherit_id="website.layout" name="Alan: Footer 4" active="False">
+       <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border text-break as-footer" t-ignore="true" t-if="not no_footer" style="--box-border-top-width: 0px; --box-border-left-width: 0px; --box-border-right-width: 0px;">
+                <section class="as-footer-main footer-py" data-name="Container">
+                    <div class="container s_allow_columns">
+                        <div class="row g-3 g-lg-4">
+                            <div class="col-lg-3">
+                                <div class="footer-title">
+                                    <h5>Customer Support</h5>
+                                </div>
+                                <ul class="list-unstyled as-footer-link">
+                                    <li><a href="#">Help Center</a></li>
+                                    <li><a href="#">Contact Us</a></li>
+                                    <li><a href="#">Order Tracking</a></li>
+                                    <li><a href="#">Shipping &amp; Delivery</a></li>
+                                    <li><a href="#">Returns &amp; Exchanges</a></li>
+                                    <t t-set="configurator_footer_links" t-value="[]"/>
+                                    <li t-foreach="configurator_footer_links" t-as="link">
+                                        <a t-att-href="link['href']" t-out="link['text']"/>
+                                    </li>
+                                    <li><a href="#">FAQs</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="footer-title">
+                                    <h5>Shop</h5>
+                                </div>
+                                <ul class="list-unstyled as-footer-link">
+                                    <li><a href="#">Living Room</a></li>
+                                    <li><a href="#">Bedroom</a></li>
+                                    <li><a href="#">Dining</a></li>
+                                    <li><a href="#">Office</a></li>
+                                    <li><a href="#">Outdoor</a></li>
+                                    <t t-set="configurator_footer_links" t-value="[]"/>
+                                    <li t-foreach="configurator_footer_links" t-as="link">
+                                        <a t-att-href="link['href']" t-out="link['text']"/>
+                                    </li>
+                                    <li><a href="#">FAQs</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="footer-title">
+                                    <h5>About Us</h5>
+                                </div>
+                                <ul class="list-unstyled as-footer-link">
+                                    <li><a href="#">Our Story</a></li>
+                                    <li><a href="#">Sustainability</a></li>
+                                    <li><a href="#">Careers</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Terms &amp; Conditions</a></li>
+                                    <li><a href="#">Warranty Information</a></li>
+                                    <t t-set="configurator_footer_links" t-value="[]"/>
+                                    <li t-foreach="configurator_footer_links" t-as="link">
+                                        <a t-att-href="link['href']" t-out="link['text']"/>
+                                    </li>
+                                    <li><a href="#">Press</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="footer-title">
+                                    <h5>Subscribe to our newsletter</h5>
+                                </div>
+                                <div>
+                                    <p class="as-subscribe-empty-p m-0"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="as-footer-top footer-py border-top" data-name="Container">
+                    <div class="container">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-lg-6">
+                                <div
+                                    class="s_supported_payment_methods o_not_editable"
+                                    data-snippet="s_supported_payment_methods"
+                                    data-name="Supported Payment Methods"
+                                    data-limit="8"
+                                    data-height="32px"
+                                    data-oe-protected="true"
+                                />
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="s_social_media text-end o_not_editable no_icon_color" data-snippet="s_social_media" data-name="Social Media" contenteditable="false">
+                                    <p class="s_social_media_title d-none" contenteditable="true">Follow us</p>
+                                    <a href="/website/social/twitter" class="s_social_media_twitter" target="_blank">
+                                        <i class="fa fa-twitter fa-stack o_editable_media"/>
+                                    </a>
+                                    <a href="/website/social/linkedin" class="s_social_media_linkedin" target="_blank">
+                                        <i class="fa fa-linkedin fa-stack o_editable_media"/>
+                                    </a>
+                                    <a href="/website/social/instagram" class="s_social_media_instagram" target="_blank">
+                                        <i class="fa fa-instagram fa-stack o_editable_media"/>
+                                    </a>
+                                    <a href="/website/social/facebook" class="s_social_media_facebook" target="_blank">
+                                        <i class="fa fa-facebook fa-stack o_editable_media"/>
+                                    </a>
+                                    <a href="/website/social/youtube" class="s_social_media_youtube" target="_blank">
+                                        <i class="fa fa-youtube-play fa-stack o_editable_media"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ===============Alan Footer: 5 ===============  -->
+    <template id="alan_footer_5" inherit_id="website.layout" name="Alan: Footer 5" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border text-break as-footer" t-ignore="true" t-if="not no_footer" style="--box-border-top-width: 0px; --box-border-left-width: 0px; --box-border-right-width: 0px;">
+                <section class="as-footer-main footer-py">
+                    <div class="container">
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-3 g-lg-4">
+                                    <div class="col-lg-2">
+                                        <div class="footer-title">
+                                            <h5>Customer Support</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Help Center</a></li>
+                                            <li><a href="#">Contact Us</a></li>
+                                            <li><a href="#">Order Tracking</a></li>
+                                            <li><a href="#">Shipping &amp; Delivery</a></li>
+                                            <li><a href="#">Returns &amp; Exchanges</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">FAQs</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="footer-title">
+                                            <h5>Shop</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Living Room</a></li>
+                                            <li><a href="#">Bedroom</a></li>
+                                            <li><a href="#">Dining</a></li>
+                                            <li><a href="#">Office</a></li>
+                                            <li><a href="#">Outdoor</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">FAQs</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>About Us</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Our Story</a></li>
+                                            <li><a href="#">Sustainability</a></li>
+                                            <li><a href="#">Careers</a></li>
+                                            <li><a href="#">Privacy Policy</a></li>
+                                            <li><a href="#">Terms &amp; Conditions</a></li>
+                                            <li><a href="#">Warranty Information</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Press</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <div class="footer-title">
+                                            <h5>About us</h5>
+                                        </div>
+                                        <div>
+                                            <p>We couldn't have created this demo without the support of incredible content and products. Visit our About page to discover the sources of all the products featured in this demo.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row py-3 py-lg-4 align-items-center g-4">
+                                    <div class="col-lg-6">
+                                        <div
+                                            class="s_supported_payment_methods o_not_editable"
+                                            data-snippet="s_supported_payment_methods"
+                                            data-name="Supported Payment Methods"
+                                            data-limit="8"
+                                            data-height="32px"
+                                            data-oe-protected="true"
+                                        />
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="s_social_media text-end o_not_editable no_icon_color" data-snippet="s_social_media" data-name="Social Media" contenteditable="false">
+                                            <p class="s_social_media_title d-none" contenteditable="true">Follow us</p>
+                                            <a href="/website/social/twitter" class="s_social_media_twitter" target="_blank">
+                                                <i class="fa fa-twitter fa-stack o_editable_media"/>
+                                            </a>
+                                            <a href="/website/social/linkedin" class="s_social_media_linkedin" target="_blank">
+                                                <i class="fa fa-linkedin fa-stack o_editable_media"/>
+                                            </a>
+                                            <a href="/website/social/instagram" class="s_social_media_instagram" target="_blank">
+                                                <i class="fa fa-instagram fa-stack o_editable_media"/>
+                                            </a>
+                                            <a href="/website/social/facebook" class="s_social_media_facebook" target="_blank">
+                                                <i class="fa fa-facebook fa-stack o_editable_media"/>
+                                            </a>
+                                            <a href="/website/social/youtube" class="s_social_media_youtube" target="_blank">
+                                                <i class="fa fa-youtube-play fa-stack o_editable_media"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="container">
+                        <div class="py-4 py-lg-5">
+                            <img class="w-100" src="/theme_alan/static/src/img/alan_moda_footer.svg" />
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ===============Alan Footer: 6 ===============  -->
+    <template id="alan_footer_6" inherit_id="website.layout" name="Alan: Footer 6" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border text-break as-footer" t-ignore="true" t-if="not no_footer" style="--box-border-top-width: 0px; --box-border-left-width: 0px; --box-border-right-width: 0px;">
+                <section class="as-footer-main footer-py" data-name="Container">
+                    <div class="container s_allow_columns">
+                        <div class="row g-3 g-lg-4">
+                            <div class="col-lg-4">
+                                <div class="pb-4">
+                                    <a href="/" class="o_footer_logo logo">
+                                        <img src="/website/static/src/img/website_logo.svg" class="img-fluid" width="180" aria-label="Logo of MyCompany" title="MyCompany" role="img"/>
+                                    </a>
+                                </div>
+
+                                <h6 class="small text-primary">ADDRESS</h6>
+                                <p class="text-muted mb-4">8000 Marina Blvd, Suite 300 <br/> Brisbane CA 94005 <br/>United States</p>
+                                <h6 class="small text-primary">PHONE</h6>
+                                <p class=" mb-4"><span class="o_force_ltr"><a href="tel:+1 555-555-5556">+1 555-555-5556</a></span></p>
+                                <h6 class="small text-primary">EMAIL</h6>
+                                <p><a href="mailto:hello@mycompany.com">hello@mycompany.com</a></p>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="footer-title">
+                                    <h5>Customer Support</h5>
+                                </div>
+                                <ul class="list-unstyled as-footer-link">
+                                    <li><a href="#">Help Center</a></li>
+                                    <li><a href="#">Contact Us</a></li>
+                                    <li><a href="#">Order Tracking</a></li>
+                                    <li><a href="#">Shipping &amp; Delivery</a></li>
+                                    <li><a href="#">Returns &amp; Exchanges</a></li>
+                                    <t t-set="configurator_footer_links" t-value="[]"/>
+                                    <li t-foreach="configurator_footer_links" t-as="link">
+                                        <a t-att-href="link['href']" t-out="link['text']"/>
+                                    </li>
+                                    <li><a href="#">FAQs</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="footer-title">
+                                    <h5>Shop</h5>
+                                </div>
+                                <ul class="list-unstyled as-footer-link">
+                                    <li><a href="#">Living Room</a></li>
+                                    <li><a href="#">Bedroom</a></li>
+                                    <li><a href="#">Dining</a></li>
+                                    <li><a href="#">Office</a></li>
+                                    <li><a href="#">Outdoor</a></li>
+                                    <t t-set="configurator_footer_links" t-value="[]"/>
+                                    <li t-foreach="configurator_footer_links" t-as="link">
+                                        <a t-att-href="link['href']" t-out="link['text']"/>
+                                    </li>
+                                    <li><a href="#">FAQs</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="footer-title">
+                                    <h5>About Us</h5>
+                                </div>
+                                <ul class="list-unstyled as-footer-link">
+                                    <li><a href="#">Our Story</a></li>
+                                    <li><a href="#">Sustainability</a></li>
+                                    <li><a href="#">Careers</a></li>
+                                    <t t-set="configurator_footer_links" t-value="[]"/>
+                                    <li t-foreach="configurator_footer_links" t-as="link">
+                                        <a t-att-href="link['href']" t-out="link['text']"/>
+                                    </li>
+                                    <li><a href="#">Press</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="footer-title">
+                                    <h5>Policies</h5>
+                                </div>
+                                <ul class="list-unstyled as-footer-link">
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Terms &amp; Conditions</a></li>
+                                    <li><a href="#">Warranty Information</a></li>
+                                    <t t-set="configurator_footer_links" t-value="[]"/>
+                                    <li t-foreach="configurator_footer_links" t-as="link">
+                                        <a t-att-href="link['href']" t-out="link['text']"/>
+                                    </li>
+                                    <li><a href="#">Blog</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4 offset-lg-4">
+                                <div class="footer-title">
+                                    <h5>Supported Payments</h5>
+                                </div>
+                                <div
+                                    class="s_supported_payment_methods o_not_editable"
+                                    data-snippet="s_supported_payment_methods"
+                                    data-name="Supported Payment Methods"
+                                    data-limit="8"
+                                    data-height="32px"
+                                    data-oe-protected="true"
+                                />
+                            </div>
+                            <div class="col-lg-4 d-flex justify-content-lg-end">
+                                <div>
+                                    <div class="s_social_media text-start o_not_editable no_icon_color" data-snippet="s_social_media" data-name="Social Media" contenteditable="false">
+                                        <p class="s_social_media_title d-none" contenteditable="true">Follow us</p>
+                                        <a href="/website/social/twitter" class="s_social_media_twitter" target="_blank">
+                                            <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-twitter rounded o_editable_media"/>
+                                        </a>
+                                        <a href="/website/social/linkedin" class="s_social_media_linkedin" target="_blank">
+                                            <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-linkedin rounded o_editable_media"/>
+                                        </a>
+                                        <a href="/website/social/instagram" class="s_social_media_instagram" target="_blank">
+                                            <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-instagram rounded o_editable_media"/>
+                                        </a>
+                                        <a href="/website/social/facebook" class="s_social_media_facebook" target="_blank">
+                                            <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-facebook rounded o_editable_media"/>
+                                        </a>
+                                        <a href="/website/social/youtube" class="s_social_media_youtube" target="_blank">
+                                            <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-youtube-play rounded o_editable_media"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ===============Alan Footer: 7 ===============  -->
+    <template id="alan_footer_7" inherit_id="website.layout" name="Alan: Footer 7" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border text-break as-footer" t-ignore="true" t-if="not no_footer" style="--box-border-top-width: 0px; --box-border-left-width: 0px; --box-border-right-width: 0px;">
+                <section class="as-footer-main footer-py">
+                    <div class="container">
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-3 g-lg-4 border-bottom pb-4 mb-4 mb-lg-5">
+                                    <div class="col-lg-8">
+                                        <div class="w-sm-25">
+                                            <a href="/" class="o_footer_logo logo">
+                                                <img src="/website/static/src/img/website_logo.svg" class="img-fluid" width="180" aria-label="Logo of MyCompany" title="MyCompany" role="img"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="footer-title">
+                                            <h5>Subscribe to our newsletter</h5>
+                                        </div>
+                                        <div>
+                                            <p class="as-subscribe-empty-p m-0"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-3 g-lg-4">
+                                    <div class="col-lg-4">
+                                        <h6 class="small text-primary">ADDRESS</h6>
+                                        <p class="text-muted mb-4">8000 Marina Blvd, Suite 300 <br/> Brisbane CA 94005 <br/>United States</p>
+                                        <h6 class="small text-primary">PHONE</h6>
+                                        <p class=" mb-4"><span class="o_force_ltr"><a href="tel:+1 555-555-5556">+1 555-555-5556</a></span></p>
+                                        <h6 class="small text-primary">EMAIL</h6>
+                                        <p><a href="mailto:hello@mycompany.com">hello@mycompany.com</a></p>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="footer-title">
+                                            <h5>Customer Support</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Help Center</a></li>
+                                            <li><a href="#">Contact Us</a></li>
+                                            <li><a href="#">Order Tracking</a></li>
+                                            <li><a href="#">Shipping &amp; Delivery</a></li>
+                                            <li><a href="#">Returns &amp; Exchanges</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">FAQs</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="footer-title">
+                                            <h5>Shop</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Living Room</a></li>
+                                            <li><a href="#">Bedroom</a></li>
+                                            <li><a href="#">Dining</a></li>
+                                            <li><a href="#">Office</a></li>
+                                            <li><a href="#">Outdoor</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">FAQs</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="footer-title">
+                                            <h5>About Us</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Our Story</a></li>
+                                            <li><a href="#">Sustainability</a></li>
+                                            <li><a href="#">Careers</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Press</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="footer-title">
+                                            <h5>Policies</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Privacy Policy</a></li>
+                                            <li><a href="#">Terms &amp; Conditions</a></li>
+                                            <li><a href="#">Warranty Information</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Blog</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-3 g-lg-4">
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <div class="s_social_media text-start o_not_editable no_icon_color" data-snippet="s_social_media" data-name="Social Media" contenteditable="false">
+                                                <p class="s_social_media_title d-none" contenteditable="true">Follow us</p>
+                                                <a href="/website/social/twitter" class="s_social_media_twitter" target="_blank">
+                                                    <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-twitter rounded o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/linkedin" class="s_social_media_linkedin" target="_blank">
+                                                    <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-linkedin rounded o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/instagram" class="s_social_media_instagram" target="_blank">
+                                                    <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-instagram rounded o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/facebook" class="s_social_media_facebook" target="_blank">
+                                                    <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-facebook rounded o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/youtube" class="s_social_media_youtube" target="_blank">
+                                                    <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-youtube-play rounded o_editable_media"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 d-flex justify-content-lg-end">
+                                        <div>
+                                            <div class="footer-title">
+                                                <h5>Supported Payments</h5>
+                                            </div>
+                                            <div
+                                                class="s_supported_payment_methods o_not_editable"
+                                                data-snippet="s_supported_payment_methods"
+                                                data-name="Supported Payment Methods"
+                                                data-limit="8"
+                                                data-height="32px"
+                                                data-oe-protected="true"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="as-footer-image">
+                        <img src="" />
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ===============Alan Footer: 8 ===============  -->
+    <template id="alan_footer_8" inherit_id="website.layout" name="Alan: Footer 8" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border text-break as-footer" t-ignore="true" t-if="not no_footer" style="--box-border-top-width: 0px; --box-border-left-width: 0px; --box-border-right-width: 0px;">
+                <section class="as-footer-main footer-py position-relative overflow-hidden" data-snippet="s_text_block" data-oe-shape-data="{&quot;shape&quot;:&quot;html_builder/Blurry/06&quot;,&quot;flip&quot;:[&quot;x&quot;],&quot;showOnMobile&quot;:false,&quot;shapeAnimationSpeed&quot;:&quot;0&quot;}">
+                    <div class="o_we_shape o_html_builder_Blurry_06" style="background-image: url(&quot;/html_editor/shape/html_builder%2FBlurry%2F06.svg?c1=%23714B67&amp;c4=%23FFFFFF&amp;flip=x&quot;); background-position: 50% 50%;"/>
+                    <div class="container">
+                        <section data-name="Container">
+                            <div class=" s_allow_columns position-relative z-1 screen-width-section">
+                                <div class="row g-3 g-lg-4 border-bottom pb-4 mb-4 mb-lg-5">
+                                    <div class="col-lg-4">
+                                        <h6 class="small text-primary">ADDRESS</h6>
+                                        <p class="mb-2 mb-lg-4">8000 Marina Blvd, Suite 300 <br/> Brisbane CA 94005 <br/>United States</p>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h6 class="small text-primary">PHONE</h6>
+                                        <p class="mb-2 mb-lg-4"><span class="o_force_ltr"><a href="tel:+1 555-555-5556">+1 555-555-5556</a></span></p>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h6 class="small text-primary">EMAIL</h6>
+                                        <p><a href="mailto:hello@mycompany.com">hello@mycompany.com</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-3 g-lg-4 border-bottom pb-4 mb-4 mb-lg-5">
+                                    <div class="col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>Customer Support</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Help Center</a></li>
+                                            <li><a href="#">Contact Us</a></li>
+                                            <li><a href="#">Order Tracking</a></li>
+                                            <li><a href="#">Shipping &amp; Delivery</a></li>
+                                            <li><a href="#">Returns &amp; Exchanges</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">FAQs</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>Shop</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Living Room</a></li>
+                                            <li><a href="#">Bedroom</a></li>
+                                            <li><a href="#">Dining</a></li>
+                                            <li><a href="#">Office</a></li>
+                                            <li><a href="#">Outdoor</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">FAQs</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>About Us</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Our Story</a></li>
+                                            <li><a href="#">Sustainability</a></li>
+                                            <li><a href="#">Careers</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Press</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>Policies</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Privacy Policy</a></li>
+                                            <li><a href="#">Terms &amp; Conditions</a></li>
+                                            <li><a href="#">Warranty Information</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Blog</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-3 g-lg-4">
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <div class="s_social_media text-start o_not_editable no_icon_color" data-snippet="s_social_media" data-name="Social Media" contenteditable="false">
+                                                <p class="s_social_media_title d-none" contenteditable="true">Follow us</p>
+                                                <a href="/website/social/twitter" class="s_social_media_twitter" target="_blank">
+                                                    <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-twitter rounded o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/linkedin" class="s_social_media_linkedin" target="_blank">
+                                                    <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-linkedin rounded o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/instagram" class="s_social_media_instagram" target="_blank">
+                                                    <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-instagram rounded o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/facebook" class="s_social_media_facebook" target="_blank">
+                                                    <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-facebook rounded o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/youtube" class="s_social_media_youtube" target="_blank">
+                                                    <i style="background-color: rgba(255, 255, 255, 0.10);" class="fa fa-youtube-play rounded o_editable_media"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 d-flex justify-content-lg-end">
+                                        <div>
+                                            <div class="footer-title">
+                                                <h5>Supported Payments</h5>
+                                            </div>
+                                            <div
+                                                class="s_supported_payment_methods o_not_editable"
+                                                data-snippet="s_supported_payment_methods"
+                                                data-name="Supported Payment Methods"
+                                                data-limit="8"
+                                                data-height="32px"
+                                                data-oe-protected="true"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="as-footer-image">
+                        <img src="/theme_alan/static/src/img/alan-bg-trans.png" />
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ===============Alan Footer: 9 ===============  -->
+    <template id="alan_footer_9" inherit_id="website.layout" name="Alan: Footer 9" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border text-break as-footer" t-ignore="true" t-if="not no_footer" style="--box-border-top-width: 0px; --box-border-left-width: 0px; --box-border-right-width: 0px;">
+                <section class="as-footer-top footer-py" style="position: relative;" data-oe-shape-data="{&quot;shape&quot;:&quot;html_builder/Bold/20&quot;,&quot;colors&quot;:{&quot;c1&quot;:&quot;#A97155&quot;,&quot;c5&quot;:&quot;#1C1B1A00&quot;},&quot;flip&quot;:[],&quot;showOnMobile&quot;:false,&quot;shapeAnimationSpeed&quot;:&quot;0&quot;}">
+                    <div class="o_we_shape o_html_builder_Bold_20" style="background-image: url(&quot;/html_editor/shape/html_builder%2FBold%2F20.svg?c1=%23A97155&amp;c5=%231C1B1A00&quot;);"/>
+                    <div class="container">
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-3 g-lg-4">
+                                    <div class="col-lg-8">
+                                        <div class="s_text_highlight p-0">
+                                            <a href="/" class="o_footer_logo logo">
+                                                <img src="/website/static/src/img/website_logo.svg" width="200" class="img-fluid" aria-label="Logo of MyCompany" title="MyCompany" role="img" />
+                                            </a>
+                                            <p class="text-muted mt-3 mt-lg-4">8000 Marina Blvd, Suite 300 Brisbane CA 94005 United States</p>
+                                            <ul class="list-unstyled mb-2 d-flex flex-column gap-2">
+                                                <li><i class="fa fa-phone fa-fw me-2"/><span class="o_force_ltr"><a href="tel:+1 555-555-5556">+1 555-555-5556</a></span></li>
+                                                <li><i class="fa fa-envelope fa-fw me-2"/><span><a href="mailto:hello@mycompany.com">hello@mycompany.com</a></span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <hr class="my-lg-5 my-4"></hr>
+                    <div class="container">
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-3 g-lg-4">
+                                    <div class="col-lg-3 d-flex flex-column">
+                                        <div class="footer-title">
+                                            <h5>About Us</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link mb-0">
+                                            <li><a href="#">Our Story</a></li>
+                                            <li><a href="#">Sustainability</a></li>
+                                            <li><a href="#">Careers</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Press</a></li>
+                                        </ul>
+                                        <hr class="mt-auto" style="max-width: 175px"/>
+                                        <div class="s_social_media text-start no_icon_color o_not_editable" data-snippet="s_social_media" data-name="Social Media" contenteditable="false">
+                                            <h5 class="s_social_media_title d-block" contenteditable="true">Follow us</h5>
+                                            <a href="/website/social/facebook" class="s_social_media_facebook" target="_blank">
+                                                <i class="fa fa-facebook fa-stack o_editable_media"/>
+                                            </a>
+                                            <a href="/website/social/twitter" class="s_social_media_twitter" target="_blank">
+                                                <i class="fa fa-twitter fa-stack o_editable_media"/>
+                                            </a>
+                                            <a href="/website/social/instagram" class="s_social_media_instagram" target="_blank">
+                                                <i class="fa fa-instagram fa-stack o_editable_media"/>
+                                            </a>
+                                            <a href="/website/social/linkedin" class="s_social_media_linkedin" target="_blank">
+                                                <i class="fa fa-linkedin fa-stack o_editable_media"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 d-flex flex-column pt-lg-0 pt-4">
+                                        <div class="footer-title">
+                                            <h5>Shop</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link mb-0">
+                                            <li><a href="#">Living Room</a></li>
+                                            <li><a href="#">Bedroom</a></li>
+                                            <li><a href="#">Dining</a></li>
+                                            <li><a href="#">Office</a></li>
+                                            <li><a href="#">Outdoor</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">FAQs</a></li>
+                                        </ul>
+                                        <hr class="mt-auto" style="max-width: 175px"/>
+                                        <div class="">
+                                            <div class="footer-title">
+                                                <h5>We Accept</h5>
+                                            </div>
+                                            <div
+                                                class="s_supported_payment_methods o_not_editable"
+                                                data-snippet="s_supported_payment_methods"
+                                                data-name="Supported Payment Methods"
+                                                data-limit="8"
+                                                data-height="32px"
+                                                data-oe-protected="true"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 pt-lg-0 pt-4">
+                                        <div class="footer-title">
+                                            <h5>Customer Support</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Help Center</a></li>
+                                            <li><a href="#">Contact Us</a></li>
+                                            <li><a href="#">Order Tracking</a></li>
+                                            <li><a href="#">Shipping &amp; Delivery</a></li>
+                                            <li><a href="#">Returns &amp; Exchanges</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">FAQs</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>Policies</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Privacy Policy</a></li>
+                                            <li><a href="#">Terms &amp; Conditions</a></li>
+                                            <li><a href="#">Warranty Information</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Blog</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ===============Alan Footer: 10 ===============  -->
+    <template id="alan_footer_10" inherit_id="website.layout" name="Alan: Footer 10" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border text-break" t-ignore="true" t-if="not no_footer" style="--box-border-top-width: 0px; --box-border-left-width: 0px; --box-border-right-width: 0px;">
+                <section class="as-footer-top footer-py" style="position: relative;">
+                    <div class="container">
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-3">
+                                    <div class="col-lg-4 pe-lg-5 position-relative">
+                                        <div class="s_text_highlight p-0">
+                                            <a href="/" class="o_footer_logo logo">
+                                                <img src="/website/static/src/img/website_logo.svg" width="200" class="img-fluid" aria-label="Logo of MyCompany" title="MyCompany" role="img" />
+                                            </a>
+                                            <p class="text-muted mt-3 mt-lg-4">8000 Marina Blvd, Suite 300 Brisbane CA 94005 United States</p>
+                                            <ul class="list-unstyled mb-2 d-flex flex-column gap-2">
+                                                <li><i class="fa fa-phone fa-fw me-2"/><span class="o_force_ltr"><a href="tel:+1 555-555-5556">+1 555-555-5556</a></span></li>
+                                                <li><i class="fa fa-envelope fa-fw me-2"/><span><a href="mailto:hello@mycompany.com">hello@mycompany.com</a></span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="s_social_media text-start no_icon_color o_not_editable mt-4" data-snippet="s_social_media" data-name="Social Media" contenteditable="false">
+                                            <h5 class="s_social_media_title d-none" contenteditable="true">Follow us</h5>
+                                            <a href="/website/social/facebook" class="s_social_media_facebook" target="_blank">
+                                                <i class="fa fa-facebook fa-stack o_editable_media rounded-empty-circle"/>
+                                            </a>
+                                            <a href="/website/social/twitter" class="s_social_media_twitter" target="_blank">
+                                                <i class="fa fa-twitter fa-stack o_editable_media rounded-empty-circle"/>
+                                            </a>
+                                            <a href="/website/social/instagram" class="s_social_media_instagram" target="_blank">
+                                                <i class="fa fa-instagram fa-stack o_editable_media rounded-empty-circle"/>
+                                            </a>
+                                            <a href="/website/social/linkedin" class="s_social_media_linkedin" target="_blank">
+                                                <i class="fa fa-linkedin fa-stack o_editable_media rounded-empty-circle"/>
+                                            </a>
+                                        </div>
+                                        <div class="position-absolute end-0 top-0 h-100 border-end d-none d-lg-block pe-none" style="width: 1px"></div>
+                                    </div>
+                                    <div class="col-lg-8 ps-lg-5 pt-4 pt-lg-0">
+                                        <section class="border-bottom pb-4 mb-4">
+                                            <div class="container screen-width-section">
+                                                <div class="row g-3 g-lg-4">
+                                                    <div class="col-lg-7">
+                                                        <div class="footer-title">
+                                                            <h5>Sign Up to Newsletter</h5>
+                                                            <p class="mb-0">Sign up for 10% off your first purchase and free shipping.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-5 text-lg-end">
+                                                        <p class="as-subscribe-empty-p m-0"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <section>
+                                            <div class="container screen-width-section">
+                                                <div class="row g-3 g-lg-4">
+                                                    <div class="col-lg-4">
+                                                        <div class="footer-title">
+                                                            <h5>About Links</h5>
+                                                        </div>
+                                                        <ul class="list-unstyled as-footer-link mb-0 mt-3">
+                                                            <li><a href="#">Home page</a></li>
+                                                            <li><a href="#">Search</a></li>
+                                                            <li><a href="#">All collections</a></li>
+                                                            <li><a href="#">Contact</a></li>
+                                                            <li><a href="#">News</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="footer-title">
+                                                            <h5>Help and Support</h5>
+                                                        </div>
+                                                        <ul class="list-unstyled as-footer-link mt-3">
+                                                            <li><a href="#">Contact Information</a></li>
+                                                            <li><a href="#">Privacy Policy</a></li>
+                                                            <li><a href="#">Refund Policy</a></li>
+                                                            <li><a href="#">Terms of Service</a></li>
+                                                            <li><a href="#">News</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="footer-title">
+                                                            <h5>Top Sellings</h5>
+                                                        </div>
+                                                        <ul class="list-unstyled as-footer-link mt-3">
+                                                            <li><a href="#">Black Co-ord set</a></li>
+                                                            <li><a href="#">Racerback sports bra</a></li>
+                                                            <li><a href="#">High rise shorts with top</a></li>
+                                                            <li><a href="#">Denim Jean</a></li>
+                                                            <li><a href="#">3pc gym suit</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+     <!-- ===============Alan Footer: 11 ===============  -->
+     <template id="alan_footer_11" inherit_id="website.layout" name="Alan: Footer 11" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border-bottom text-break as-footer" t-ignore="true" t-if="not no_footer" style="--box-border-left-width: 0px; --box-border-right-width: 0px;">
+                <section class="as-footer-top footer-py ">
+                    <div class="container d-flex flex-column as-footer-content">
+                        <section data-name="Container">
+                            <div class="s_allow_columns screen-width-section border-bottom as-footer-news">
+                            <div class="row align-items-center">
+                                <div class="col-lg-5 col-md-5 me-auto">
+                                    <h4 class="as-h4">Join Our Newsletter</h4>
+                                    <p class="mb-0">Get early access to new arrivals, exclusive deals &amp; more.</p>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <p class="as-subscribe-empty-p m-0"/>
+                                </div>
+                            </div>
+                            </div>
+                        </section>
+                        <section data-name="Container">
+                            <div class="container s_allow_columns screen-width-section">
+                                <div class="row g-3 g-lg-4">
+                                    <div class="col-lg-3">
+                                        <div class="">
+                                            <div class="footer-title">
+                                                <a href="/" class="o_footer_logo logo">
+                                                    <img src="/website/static/src/img/website_logo.svg" class="img-fluid" width="180" aria-label="Logo of MyCompany" title="MyCompany" role="img"/>
+                                                </a>
+                                            </div>
+                                            <p class="text-muted pe-1">ALAN is a modern lifestyle brand offering thoughtfully designed furniture &amp;
+                                            home décor. Premium quality, fair pricing.</p>
+                                            <div class="s_social_media text-start no_icon_color o_not_editable" data-snippet="s_social_media" data-name="Social Media" contenteditable="false">
+                                                <a href="/website/social/facebook" class="s_social_media_facebook" target="_blank">
+                                                    <i class="fa fa-facebook fa-stack o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/twitter" class="s_social_media_twitter" target="_blank">
+                                                    <i class="fa fa-twitter fa-stack o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/instagram" class="s_social_media_instagram" target="_blank">
+                                                    <i class="fa fa-instagram fa-stack o_editable_media"/>
+                                                </a>
+                                                <a href="/website/social/linkedin" class="s_social_media_linkedin" target="_blank">
+                                                    <i class="fa fa-linkedin fa-stack o_editable_media"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 pt-lg-0 pt-md-3 pt-2">
+                                        <div class="footer-title">
+                                            <h5>Shop Links</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Living Room</a></li>
+                                            <li><a href="#">Bedroom</a></li>
+                                            <li><a href="#">Kitchen</a></li>
+                                            <li><a href="#">Decor</a></li>
+                                            <li><a href="#">Storage </a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Lighting</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>Customer Support</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Help / FAQ</a></li>
+                                            <li><a href="#">Shipping Info</a></li>
+                                            <li><a href="#">Returns Policy</a></li>
+                                            <li><a href="#">Order Tracking</a></li>
+                                            <li><a href="#">Terms &amp; Conditions</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Privacy Policy</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>My Account</h5>
+                                        </div>
+                                        <ul class="list-unstyled as-footer-link">
+                                            <li><a href="#">Login</a></li>
+                                            <li><a href="#">My Orders</a></li>
+                                            <li><a href="#">Wishlist</a></li>
+                                            <li><a href="#">Compare</a></li>
+                                            <li><a href="#">Track Your Order</a></li>
+                                            <t t-set="configurator_footer_links" t-value="[]"/>
+                                            <li t-foreach="configurator_footer_links" t-as="link">
+                                                <a t-att-href="link['href']" t-out="link['text']"/>
+                                            </li>
+                                            <li><a href="#">Gift Cards</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section data-name="Container">
+                            <div class=" s_allow_columns screen-width-section">
+                                <div class="row g-md-3 g-2">
+                                    <div class="col-sm-6 col-lg-3">
+                                        <div class="d-flex as-footer-feature s_text_highlight h-100 justify-content-center align-items-center" style="background-color: rgba(255, 255, 255, 0.06);">
+                                            <div class="icon">
+                                                <img src="/theme_alan/static/src/img/shipping.svg" />
+                                            </div>
+                                            <div class="as-footer-h5">Free Shipping</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-3">
+                                        <div class="d-flex as-footer-feature s_text_highlight h-100 justify-content-center align-items-center" style="background-color: rgba(255, 255, 255, 0.06);">
+                                            <div class="icon">
+                                                <img src="/theme_alan/static/src/img/payment.svg" />
+                                            </div>
+                                            <div class="as-footer-h5">Secure Payment Methods</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-3">
+                                        <div class="d-flex as-footer-feature s_text_highlight h-100 justify-content-center align-items-center" style="background-color: rgba(255, 255, 255, 0.06);">
+                                            <div class="icon">
+                                                <img src="/theme_alan/static/src/img/return.svg" />
+                                            </div>
+                                            <div class="as-footer-h5">Easy Returns</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-3">
+                                        <div class="d-flex as-footer-feature s_text_highlight h-100 justify-content-center align-items-center" style="background-color: rgba(255, 255, 255, 0.06);">
+                                            <div class="icon">
+                                                <img src="/theme_alan/static/src/img/support.svg" />
+                                            </div>
+                                            <div class="as-footer-h5">Customer Support</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="footer_payment_payment_method" inherit_id="portal.frontend_layout" name="Footer Supported Payment Method">
+        <xpath expr="//*[hasclass('o_footer_copyright_name')]" position="before">
+            <div
+                class="s_supported_payment_methods o_not_editable"
+                data-limit="6"
+                data-height="30px"
+                data-oe-protected="true"
+            />
+        </xpath>
+    </template>
+</odoo>

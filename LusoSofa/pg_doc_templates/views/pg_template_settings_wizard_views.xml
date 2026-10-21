@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_pg_template_settings_wizard_form" model="ir.ui.view">
+        <field name="name">pg.template.settings.wizard.form</field>
+        <field name="model">pg.template.settings.wizard</field>
+        <field name="arch" type="xml">
+            <form string="PG Template Settings">
+                <group>
+                    <field name="article_id" readonly="1"/>
+                    <field name="pg_is_template"/>
+                </group>
+                <group string="Template Metadata" invisible="not pg_is_template">
+                    <field name="pg_template_code"/>
+                    <field name="pg_template_version"/>
+                    <field name="pg_template_state"/>
+                    <field name="pg_template_body_md" widget="text"/>
+                </group>
+                <footer>
+                    <button name="action_apply" type="object" string="Save" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

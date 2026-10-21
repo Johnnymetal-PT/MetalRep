@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Adicionar alerta no wizard que aparece ao clicar no botão de lista (fa-list) -->
+    <record id="view_stock_move_operations_inherit" model="ir.ui.view">
+        <field name="name">stock.move.operations.form.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <field name="picking_code" invisible="1"/>
+                <div class="alert alert-info" role="alert" style="margin: 10px;"
+                     invisible="picking_code != 'incoming'">
+                    <i class="fa fa-info-circle" title="Informação"/> <b>Geração Automática de Lotes:</b>
+                    <p style="margin-bottom: 5px;">Para produtos com forma física (Bloco, Placa, Banda, Ladrilhos) e rastreamento ativo:</p>
+                    <ul style="margin-bottom: 5px;">
+                        <li><b>Quantidade de Unidades > 1:</b> A linha será dividida automaticamente em múltiplas linhas (uma por unidade)</li>
+                        <li><b>Nome do Lote:</b> Gerado no formato <code>#N/CÓDIGO/NOME_BASE</code></li>
+                        <li><b>Exemplo:</b> <code>#1/MARM001/LOTE_ABC</code>, <code>#2/MARM001/LOTE_ABC</code>, etc.</li>
+                    </ul>
+                    <p style="margin-bottom: 0;"><i>Este processo ocorre ao validar a receção.</i></p>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

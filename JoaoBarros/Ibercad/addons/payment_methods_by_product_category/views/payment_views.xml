@@ -1,0 +1,13 @@
+<odoo>
+    <record id="view_account_payment_register_form_inherit_restrict_payment" model="ir.ui.view">
+        <field name="name">account.payment.register.form.inherit.restrict.payment</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_method_line_id']" position="attributes">
+                <attribute name="domain">[('payment_method_id.code', 'not in', ['paypal', 'stripe', 'adyen'])]</attribute>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>

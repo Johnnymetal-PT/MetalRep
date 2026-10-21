@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <title>Sofmovel - Guia de Inventario Fisico no Odoo</title>
+  <style>
+    :root {
+      --text: #1f2937;
+      --muted: #5b6472;
+      --line: #d9dee7;
+      --accent: #0f766e;
+    }
+    @page {
+      size: A4;
+      margin: 18mm 16mm;
+    }
+    body {
+      font-family: "Segoe UI", Calibri, Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.45;
+      font-size: 11pt;
+      margin: 0;
+    }
+    h1, h2, h3 {
+      margin: 0 0 8px 0;
+      line-height: 1.2;
+    }
+    h1 {
+      font-size: 22pt;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    h2 {
+      font-size: 14pt;
+      color: #0b4f4b;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 4px;
+      margin-top: 20px;
+    }
+    h3 {
+      font-size: 12pt;
+      margin-top: 14px;
+      color: #27475f;
+    }
+    p {
+      margin: 7px 0;
+    }
+    ul, ol {
+      margin: 8px 0 8px 20px;
+      padding: 0;
+    }
+    li {
+      margin: 4px 0;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 6px 12px;
+      margin-bottom: 14px;
+      font-size: 10.5pt;
+    }
+    .meta b {
+      color: #111827;
+    }
+    .small {
+      color: var(--muted);
+      font-size: 10pt;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 10px 0;
+      font-size: 10pt;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 7px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f6f8fb;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 9.5pt;
+      background: #f4f5f7;
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sofmovel - Guia de Inventario Fisico no Odoo</h1>
+
+  <h2>1. Contexto e objetivo de negocio</h2>
+  <p>Este documento explica qual o procedimento recomendado para realizar inventario fisico no Odoo 17 da Sofmovel, com o objetivo de corrigir as quantidades em mao de forma rastreavel e alinhada com o processo standard da plataforma.</p>
+  <p>O objetivo principal e permitir que a equipa operacional registe contagens reais de stock sem recorrer a alteracoes avulsas de quantidade fora do fluxo standard de inventario.</p>
+  <p><b>Trigger:</b> Pedido do cliente para perceber se pode "ajustar manualmente as quantidades em mao" e qual a forma mais correta de fazer o inventario.</p>
+  <p><b>Impacto de negocio se nao resolvido:</b> Risco de discrepancias entre stock fisico e stock registado, menor rastreabilidade operacional, dificuldade de auditoria interna e potencial desalinhamento contabilistico.</p>
+
+  <h2>2. Processo recomendado</h2>
+  <p>O procedimento recomendado e usar o ecra standard de inventario fisico do Odoo:</p>
+  <p><code>Inventario &gt; Operacoes &gt; Inventario Fisico</code></p>
+  <p>Neste ecra, a equipa:</p>
+  <ol>
+    <li>seleciona os produtos e localizacoes a contar;</li>
+    <li>regista a quantidade contada fisicamente;</li>
+    <li>define o motivo ou referencia do ajuste;</li>
+    <li>aplica o ajuste;</li>
+    <li>guarda evidencia da contagem e da justificacao.</li>
+  </ol>
+  <p><b>Ferramenta recomendada:</b> ecra standard <code>Physical Inventory</code> / <code>Inventario Fisico</code> do Odoo.</p>
+  <p><b>Frequencia:</b> periodica ou ciclica, conforme a politica interna da Sofmovel.</p>
+
+  <h2>3. Necessidade identificada</h2>
+  <ul>
+    <li>O cliente pretende corrigir quantidades em mao, mas quer evitar impactos indevidos a nivel contabilistico ou fiscal.</li>
+    <li>Existe risco de interpretar "ajuste manual" como alteracao direta de quantidades fora do fluxo standard do Odoo.</li>
+    <li>E importante nao confundir uma contagem fisica com outros acertos tecnicos ou operacionais que tenham causa diferente.</li>
+  </ul>
+
+  <h2>4. Pressupostos confirmados</h2>
+  <ul>
+    <li>A Sofmovel utiliza Odoo 17 Enterprise em ambiente on-premise.</li>
+    <li>O processo aqui descrito parte do pressuposto de que o inventario sera feito pelo fluxo standard do Odoo.</li>
+    <li>Na base produtiva da Sofmovel, a valorizacao de stock esta configurada como <code>manual_periodic</code>.</li>
+    <li>O metodo de custo identificado esta configurado como <code>standard</code>.</li>
+    <li>A verificacao realizada nao encontrou variacao entre categorias de produto neste ponto.</li>
+  </ul>
+
+  <h2>5. Guia operacional</h2>
+
+  <h3>5.1 Quando usar este processo</h3>
+  <p>Usar este processo quando o objetivo e corrigir o stock registado para o stock fisico realmente existente.</p>
+  <ul>
+    <li>contagem geral de armazem;</li>
+    <li>contagem ciclica por zona ou familia;</li>
+    <li>correcao de divergencias detetadas em auditoria interna;</li>
+    <li>regularizacao de faltas ou sobras identificadas fisicamente.</li>
+  </ul>
+
+  <h3>5.2 Quando nao usar este processo</h3>
+  <ul>
+    <li>atualizar stock em massa por ficheiros de fornecedor sem validacao operacional;</li>
+    <li>"forcar" disponibilidade no website;</li>
+    <li>corrigir problemas de regras de aprovisionamento, reservas ou website;</li>
+    <li>substituir recebimentos, entregas, transferencias internas ou sucata quando esses movimentos sao a causa real da divergencia.</li>
+  </ul>
+
+  <h3>5.3 Passo a passo no Odoo</h3>
+  <ol>
+    <li>Entrar em <code>Inventario &gt; Operacoes &gt; Inventario Fisico</code>.</li>
+    <li>Filtrar os produtos ou localizacoes que vao ser contados.</li>
+    <li>Se necessario, usar a atribuicao de utilizador e data planeada para distribuir a contagem.</li>
+    <li>Na coluna de quantidade contada, registar a quantidade fisica real.</li>
+    <li>Rever a diferenca entre quantidade em sistema e quantidade contada.</li>
+    <li>Ao aplicar, preencher uma referencia ou motivo claro.</li>
+    <li>Confirmar o ajuste apenas depois de validada a contagem.</li>
+    <li>Arquivar a folha de contagem, listagem exportada ou outra evidencia interna usada na contagem.</li>
+  </ol>
+
+  <h3>5.4 Boas praticas operacionais</h3>
+  <ul>
+    <li>Contar por localizacao, e nao apenas por produto agregado.</li>
+    <li>Evitar fazer a contagem enquanto existem rececoes, entregas ou transferencias a decorrer na mesma zona.</li>
+    <li>Definir um motivo objetivo para o ajuste, por exemplo: <code>Contagem ciclica junho 2026 - Armazem Freamunde</code>.</li>
+    <li>Em produtos com lotes ou numeros de serie, garantir que a contagem e feita com o lote/serie correto.</li>
+    <li>Em diferencas materialmente relevantes, pedir segunda contagem antes da aplicacao.</li>
+  </ul>
+
+  <h3>5.5 O que deve ficar registado</h3>
+  <ul>
+    <li>data da contagem;</li>
+    <li>utilizador responsavel;</li>
+    <li>localizacao;</li>
+    <li>quantidade em sistema;</li>
+    <li>quantidade contada;</li>
+    <li>diferenca;</li>
+    <li>motivo do ajuste;</li>
+    <li>evidencia da contagem, quando aplicavel.</li>
+  </ul>
+
+  <h2>6. Notas contabilisticas e legais</h2>
+
+  <h3>6.1 Nota contabilistica</h3>
+  <p>O inventario fisico nao e apenas uma operacao logistica. Sempre que exista uma diferenca entre a quantidade registada e a quantidade fisica, ha uma regularizacao de inventarios com relevancia contabilistica.</p>
+  <p>Em termos de enquadramento contabilistico portugues, a <code>NCRF 18 - Inventarios</code> estabelece que perdas e ajustamentos de inventarios devem ser reconhecidos como gasto do periodo em que ocorram.</p>
+  <p>Isto significa que:</p>
+  <ul>
+    <li>uma quebra real de stock nao deve ser tratada como simples "edicao tecnica" sem contexto;</li>
+    <li>o ajuste deve ficar suportado por contagem e motivo;</li>
+    <li>a entidade deve conseguir explicar a origem de faltas, sobras ou quebras materialmente relevantes.</li>
+  </ul>
+
+  <h3>6.2 Nota fiscal e legal</h3>
+  <p>Este processo nao corresponde, por si so, a uma regra fiscal especial autonoma em Portugal. Ou seja, usar o ecra standard de inventario fisico do Odoo nao e um problema fiscal por definicao.</p>
+  <p>Ainda assim, o tema tem relevancia fiscal indireta porque:</p>
+  <ul>
+    <li>inventarios influenciam o resultado contabilistico e, por essa via, a materia tributavel;</li>
+    <li>as perdas/quebras devem ser coerentes com a contabilidade da entidade;</li>
+    <li>a empresa esta sujeita a obrigacoes de comunicacao de inventario a AT, nos termos legais aplicaveis.</li>
+  </ul>
+
+  <h3>6.3 Impacto no Odoo na configuracao atual da Sofmovel</h3>
+  <p>Na configuracao atualmente identificada na base produtiva da Sofmovel, a valorizacao de stock esta em modo manual (<code>manual_periodic</code>).</p>
+  <p>Isto significa que o ajuste de inventario continua a ter relevancia contabilistica de fundo, mas nao e esperado que o Odoo gere automaticamente lancamentos contabilisticos de valorizacao de stock como aconteceria num cenario de valorizacao automatica.</p>
+  <p>Por esse motivo, o ponto critico nao e evitar o ecra standard de inventario. O ponto critico e garantir que cada ajuste fica suportado por contagem real, motivo claro e validacao interna adequada.</p>
+
+  <h2>7. Recomendacao pratica para a Sofmovel</h2>
+  <ul>
+    <li>usar sempre o fluxo standard de <code>Inventario Fisico</code> para contagens e regularizacoes operacionais;</li>
+    <li>nao tratar ajustes de inventario como simples alteracao massiva de quantidades fora do fluxo standard;</li>
+    <li>considerar que, na configuracao atual identificada, a valorizacao de stock esta manual e o metodo de custo esta standard;</li>
+    <li>separar problemas de inventario fisico de problemas de disponibilidade no website ou de logica de aprovisionamento.</li>
+  </ul>
+
+  <h2>8. Pontos de governance a definir internamente</h2>
+  <ul>
+    <li>Definir politica interna para contagens ciclicas, segunda contagem e aprovacao de diferencas relevantes.</li>
+    <li>Definir quem e o responsavel interno por validar ajustes de inventario com impacto material.</li>
+    <li>Definir qual a evidencia minima a arquivar para cada contagem.</li>
+  </ul>
+
+  <h2>9. Referencias consultadas</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Referencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Documentacao Odoo</td>
+        <td class="small">https://www.odoo.com/documentation/17.0/applications/inventory_and_mrp/inventory/warehouses_storage/inventory_management/count_products.html<br>https://www.odoo.com/documentation/17.0/applications/inventory_and_mrp/inventory/product_management/inventory_valuation/inventory_valuation_config.html<br>https://www.odoo.com/documentation/17.0/applications/inventory_and_mrp/inventory/product_management/inventory_valuation/using_inventory_valuation.html</td>
+      </tr>
+      <tr>
+        <td>Portugal</td>
+        <td class="small">NCRF 18 - Inventarios: https://www.cnc.min-financas.pt/pdf/snc/2016/normas/NCRF_18.pdf<br>Texto pesquisavel: https://dre.pt/application/file/69889638<br>Comunicacao de inventarios a AT: https://diariodarepublica.pt/dr/detalhe/lei/82-b-2014-66016527<br>Dispensas de valorizacao: https://diariodarepublica.pt/dr/detalhe/lei/82-2023-835864042</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Botão com o número de pessoas em vigor, no cartão do Chão de Fábrica.
+         A âncora é a mesma que o `pg_mrp_shopfloor_cards` usa e que está provada neste
+         projeto. `t-on-click.stop` é indispensável: sem ele o toque subia ao cabeçalho do
+         cartão, que é o comando de iniciar e parar a contagem. -->
+    <t t-inherit="mrp_workorder.MrpDisplayRecord" t-inherit-mode="extension">
+        <xpath expr="//div[contains(@class, 'card-header')]/div[contains(@class, 'justify-content-between') and contains(@class, 'flex-wrap')]" position="after">
+            <div t-if="pgShowPeopleCount" class="pg_people_count_bar mt-2">
+                <button type="button" class="btn pg_people_count_chip"
+                        t-on-click.stop="openPeopleCountDialog">
+                    <i class="fa fa-users me-2"/>
+                    <span t-esc="pgPeopleCount"/>
+                    <span class="ms-1">pessoas</span>
+                </button>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

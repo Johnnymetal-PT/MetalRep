@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pg_purchase_order_form_view" model="ir.ui.view">
+        <field name="name">pg.purchase.order.form.view</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/list" position="inside">
+                <field name="sh_discount_price_unit" groups="pg_multi_discount.group_purchase_multi_discount_security" optional="show"/>
+                <field name="sh_multi_discount" groups="pg_multi_discount.group_purchase_multi_discount_security" optional="show"/>
+                <field name="sh_discount_amount" groups="pg_multi_discount.group_purchase_multi_discount_security" optional="show"/>
+                <field name="sh_discounted_total_amount" groups="pg_multi_discount.group_purchase_multi_discount_security" optional="show"/>
+                <field name="dis_bool" column_invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/list/field[@name='discount']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="sh_show_multi_disc" groups="pg_multi_discount.group_purchase_multi_discount_security"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

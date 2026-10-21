@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <!--
+      Requisito (Inventario): ver artigos em stock, EXCLUINDO os artigos nas
+      localizacoes "Componentes" e "Defects".
+
+      Confirmado na BD que AMBOS sao LOCALIZACOES de stock internas:
+        - WH/Stock/COMPONENTES
+        - WH/Stock/DEFECTS  (id 25)
+      (e nao atributos de produto). As restantes localizacoes (FABRIC COM,
+      FABRIC PROVIDED BY PRIVATE LABEL, IMOBILIZADOS, PROTOTIPAGEM, SAMPLES)
+      permanecem visiveis, conforme pedido.
+
+      As localizacoes nao tem xmlid (criadas manualmente) e o id nao e portavel,
+      por isso filtra-se por `complete_name` (apanha tambem sub-localizacoes).
+
+      Este filtro aplica-se ao stock.quant (vista de stock por localizacao).
+      O produto (product.product) NAO tem location_id; ver nota sobre a lista de
+      Produtos no README (decisao: manter ou nao um filtro a nivel de produto).
+    -->
+
+    <!-- stock.quant: excluir as localizacoes COMPONENTES e DEFECTS -->
+    <record id="pg_rule_inventory_quant_exclude" model="ir.rule">
+        <field name="name">PG Inventario: quants sem COMPONENTES nem DEFECTS</field>
+        <field name="model_id" ref="stock.model_stock_quant"/>
+        <field name="groups" eval="[(4, ref('pg_group_inventory_stock_readonly'))]"/>
+        <field name="domain_force">[('location_id.complete_name', 'not ilike', 'WH/Stock/COMPONENTES'), ('location_id.complete_name', 'not ilike', 'WH/Stock/DEFECTS')]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+</odoo>

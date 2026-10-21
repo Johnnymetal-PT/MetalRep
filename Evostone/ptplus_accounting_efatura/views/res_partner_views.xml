@@ -1,0 +1,22 @@
+<odoo>
+    <record id="vendor_efatura_field_add" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <group name="accounting_entries" position="after">
+                <group string="E-Fatura" name="e_fatura">
+                    <field name="l10n_pt_efatura_auto_created" />
+                    <button
+                        name="l10n_pt_action_efatura_tax_mapping"
+                        icon="fa-arrow-right"
+                        type="object"
+                        string="Configure Mappings"
+                        class="btn-link p-0"
+                        colspan="2"
+                    />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,50 @@
+<odoo>
+  <record id="view_import_public_categories_wizard" model="ir.ui.view">
+    <field name="name">import.public.categories.wizard.form</field>
+    <field name="model">import.public.categories.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Import Categories from XLSX">
+        <group>
+          <field name="file_data" filename="file_name"/>
+          <field name="file_name" invisible="1"/>
+          <field name="website_id"/>
+        </group>
+
+        <group string="What to update">
+          <field name="do_website_categories"/>
+          <field name="do_pos_categories"/>
+        </group>
+
+        <group string="Options">
+          <field name="only_active_products"/>
+          <field name="replace_categories"/>
+          <field name="create_missing_categories"/>
+        </group>
+
+        <group string="XLSX Columns">
+          <field name="col_default_code"/>
+          <field name="col_website_categories" invisible="not do_website_categories"/>
+          <field name="col_pos_categories" invisible="not do_pos_categories"/>
+        </group>
+
+        <footer>
+          <button name="action_import" type="object" string="Import" class="btn-primary"/>
+          <button string="Cancel" class="btn-secondary" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_import_public_categories_wizard" model="ir.actions.act_window">
+    <field name="name">Import Categories (XLSX)</field>
+    <field name="res_model">import.public.categories.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+
+  <menuitem id="menu_import_public_categories_wizard"
+            name="Import Categories (XLSX)"
+            parent="base.menu_custom"
+            action="action_import_public_categories_wizard"/>
+</odoo>
+

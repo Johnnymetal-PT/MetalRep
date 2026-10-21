@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Ancora no `product_uom_qty` da lista de linhas dentro do separador
+         "Linhas do pedido". A vista da V17 ancorava no `product_packaging_qty`,
+         que desapareceu em v19, e usava `tree`, que passou a `list`. -->
+    <record id="view_order_form_square_meter" model="ir.ui.view">
+        <field name="name">sale.order.form.square.meter</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='order_lines']//list//field[@name='product_uom_qty']" position="before">
+                <field name="comprimento" optional="show"/>
+                <field name="largura" optional="show"/>
+                <field name="area" optional="show" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Limite de dimensao, ao lado das definicoes de unidades de medida -->
+    <record id="res_config_settings_view_form_square_meter" model="ir.ui.view">
+        <field name="name">res.config.settings.square.meter</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <setting id="uom_settings" position="after">
+                <setting id="pg_m2_dimensao"
+                         string="Venda a metragem"
+                         help="Recusa dimensões fora de escala na linha de venda">
+                    <field name="pg_m2_max_dimensao"/>
+                    <span class="text-muted">
+                        Comprimento ou largura acima deste valor são recusados. A 0 desliga.
+                    </span>
+                </setting>
+            </setting>
+        </field>
+    </record>
+
+</odoo>

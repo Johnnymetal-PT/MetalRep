@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_picking_form_pg_transport" model="ir.ui.view">
+        <field name="name">stock.picking.form.pg.transport.packages</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="pg_transport_packages"
+                      string="Embalagens Previstas"
+                      invisible="not sale_id">
+                    <div class="text-muted mb-2">
+                        Embalagens definidas na simulacao de transporte do
+                        orcamento. Copiadas ao criar a entrega e editaveis
+                        para a preparacao da expedicao.
+                    </div>
+                    <button type="object"
+                            name="action_pg_copy_transport_packages"
+                            string="Repor do Orcamento"
+                            class="btn-secondary mb-2"
+                            icon="fa-refresh"/>
+                    <field name="pg_transport_package_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="package_type"/>
+                            <field name="width"/>
+                            <field name="length"/>
+                            <field name="height"/>
+                            <field name="quantity"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

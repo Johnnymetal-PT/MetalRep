@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Banner de aviso: picking gerido por Documento de Transformação -->
+    <record id="view_picking_form_transformation_banner" model="ir.ui.view">
+        <field name="name">stock.picking.form.transformation.banner</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <field name="transformation_id" invisible="1"/>
+                <div class="alert alert-warning" role="alert"
+                     style="margin-bottom: 0px;"
+                     invisible="not transformation_id or state in ('done', 'cancel')">
+                    <div class="row">
+                        <div class="col-12">
+                            <p style="margin-bottom: 8px;">
+                                <i class="fa fa-exclamation-triangle fa-lg" title="Atenção" style="margin-right: 8px;"/>
+                                <strong>Atenção:</strong> Este picking é gerido por um <strong>Documento de Transformação</strong> e não deve ser editado nem validado directamente.
+                            </p>
+                            <p style="margin-bottom: 8px;">
+                                O processamento deve ser feito através do documento para garantir:
+                            </p>
+                            <ul style="margin-bottom: 8px;">
+                                <li>Consumo do input ao PCMP e cálculo correcto do PCMP das placas</li>
+                                <li>Aplicação dos serviços de transformação (landed cost)</li>
+                                <li>Rastreabilidade e consistência do fluxo</li>
+                            </ul>
+                            <p style="margin-bottom: 0px;">
+                                <strong>Como proceder:</strong>
+                                abra o Documento de Transformação relacionado e use os botões do fluxo (<em>Iniciar</em> / <em>Concluir</em>).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

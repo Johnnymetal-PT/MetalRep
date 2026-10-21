@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="mailing_mailing_schedule_date_view_form_rate_limit" model="ir.ui.view">
+        <field name="name">mailing.mailing.schedule.date.rate.limit</field>
+        <field name="model">mailing.mailing.schedule.date</field>
+        <field name="inherit_id" ref="mass_mailing.mailing_mailing_schedule_date_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='schedule_date']" position="after">
+                <field name="marketing_hourly_limit" string="Hourly Send Limit"/>
+                <field name="marketing_daily_limit" string="Daily Send Limit"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

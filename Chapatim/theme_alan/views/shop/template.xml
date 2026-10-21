@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================== Similar Product Offcanvas Template ==================== -->
+    <template id="o_wsale_offcanvas_similar_product" name="Similar Product Offcanvans">
+        <aside id="o_wsale_offcanvas_similar_product" class="o_website_offcanvas offcanvas offcanvas-end as-similar-product-modal">
+            <div class="offcanvas-header">
+                <h5>Similar Products</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"/>
+            </div>
+            <div class="offcanvas_similar_product offcanvas-body">
+                <!-- Similar products will be dynamically loaded here -->
+            </div>
+        </aside>
+    </template>
+    <!-- ==================== End Similar Product Offcanvas Template ==================== -->
+
+    <!-- ==================== Similar Product List Template ==================== -->
+    <template id="as_similar_product" name="Similar Product">
+        <div class="m_c_box as-similar-product-box">
+            <!-- Empty State: No Similar Products Found -->
+            <div t-if="not products" class="as-similar-empty">
+                <div class="img">
+                    <!-- SVG illustration for empty state -->
+                    <svg width="527" height="405" viewBox="0 0 527 405" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 200px;height: auto;">
+                        <!-- ...SVG paths... -->
+                        <path d="M41.634 370.844C54.0624 393.893 80.44 403.787 80.44 403.787C80.44 403.787 86.6671 376.312 74.2387 353.263C61.8103 330.214 35.4327 320.319 35.4327 320.319C35.4327 320.319 29.2056 347.795 41.634 370.844Z" fill="#2F2E41" />
+                        <path d="M419.647 297.511C400.271 315.126 397.022 343.11 397.022 343.11C397.022 343.11 425.188 342.535 444.565 324.921C463.941 307.306 467.19 279.321 467.19 279.321C467.19 279.321 439.024 279.896 419.647 297.511Z" fill="#2F2E41" />
+                        <path d="M50.1765 363.261C72.6149 376.761 81.2567 403.575 81.2567 403.575C81.2567 403.575 53.5186 408.502 31.0802 395.002C8.64174 381.502 0 354.688 0 354.688C0 354.688 27.7381 349.761 50.1765 363.261Z" fill="var(--primary)" />
+                        <path d="M429.065 303.975C421.368 329.005 397.425 343.852 397.425 343.852C397.425 343.852 385.962 318.117 393.659 293.087C401.356 268.058 425.298 253.211 425.298 253.211C425.298 253.211 436.762 278.946 429.065 303.975Z" fill="var(--primary)" />
+                        <path d="M362.06 360.29H125.274V358.587H360.356V275.967H145.18L134.727 254.19L136.263 253.453L146.252 274.263H362.06V360.29Z" fill="#2F2E41" />
+                        <path d="M156.789 402.026C166.667 402.026 174.675 394.018 174.675 384.139C174.675 374.26 166.667 366.252 156.789 366.252C146.91 366.252 138.902 374.26 138.902 384.139C138.902 394.018 146.91 402.026 156.789 402.026Z" fill="#3F3D56" />
+                        <path d="M333.101 402.026C342.979 402.026 350.987 394.018 350.987 384.139C350.987 374.26 342.979 366.252 333.101 366.252C323.222 366.252 315.214 374.26 315.214 384.139C315.214 394.018 323.222 402.026 333.101 402.026Z" fill="#3F3D56" />
+                        <path d="M387.385 247.859H121.237L63.6484 59.6227H446.693L446.344 60.7302L387.385 247.859ZM122.497 246.156H386.136L444.37 61.3262H65.9508L122.497 246.156Z" fill="#2F2E41" />
+                        <path d="M366.61 238.064H132.842L82.26 71.121H418.701L418.395 72.104L366.61 238.064Z" fill="#F2F2F2" />
+                        <path d="M451.465 42.806L449.818 42.369L461.059 0H526.448V1.70398H462.37L451.465 42.806Z" fill="#2F2E41" />
+                        <path d="M427.552 116.69H82.2584V118.393H427.552V116.69Z" fill="#2F2E41" />
+                        <path d="M407.777 179.45H101.459V181.153H407.777V179.45Z" fill="#2F2E41" />
+                        <path d="M256.017 60.4744H254.314V247.007H256.017V60.4744Z" fill="#2F2E41" />
+                        <path d="M332.286 60.421L320.057 246.949L321.758 247.061L333.986 60.5324L332.286 60.421Z" fill="#2F2E41" />
+                        <path d="M178.081 60.419L176.38 60.5298L188.538 247.063L190.238 246.952L178.081 60.419Z" fill="#2F2E41" />
+                    </svg>
+                </div>
+                <p>No Similar Product Found!</p>
+            </div>
+            <!-- Similar Products List -->
+            <div t-else="" class="as-similar-product-list">
+                <t t-foreach="products" t-as="product">
+                    <t t-set="combination_info" t-value="product._get_combination_info(combination, add_qty=1)"/>
+                    <div class="as-similar-product">
+                        <!-- Product Image -->
+                        <div class="sim-pro-img">
+                            <img t-att-src="website.image_url(product, 'image_512')" title="" alt="" />
+                        </div>
+                        <div class="sim-pro-body">
+                            <!-- Product Name and Link -->
+                            <div class="as-product-brand">
+                                <t t-if="product.product_brand_id">
+                                    <span t-esc="product.product_brand_id.name"/>
+                                </t>
+                            </div>
+                            <div class="as-sp-product">
+                                <h4>
+                                    <a class="stretched-link text-decoration-none text-reset" t-att-href="product.website_url">
+                                        <t t-esc="product.name"/>
+                                    </a>
+                                </h4>
+                            </div>
+                            <!-- Product Price Info -->
+                            <div t-if="product.product_variant_ids" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" class="product_price">
+                                <div t-if="website.active_product_discount and not (request.env.user._is_public() and request.website.active_b2b_mode)" t-attf-class="as-price as-pc-price" >
+                                    <span t-esc="combination_info['price']"
+                                        class="fw-bold"
+                                        name="product_price"
+                                        t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                    <del t-attf-class="text-danger mr-2 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                                    <t t-if="website.active_product_discount">
+                                        <span t-if="combination_info['has_discounted_price'] and website.active_product_discount" t-attf-class="as-product-discounted {{'' if combination_info['has_discounted_price'] else 'd-none'}}">
+                                            (<t t-esc="combination_info['as_offer_discount']"/> %)
+                                        </span>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </template>
+    <!-- ==================== End Similar Product List Template ==================== -->
+
+    <!-- ==================== Quick View Template ==================== -->
+    <template id="as_quick_view_model" name="as quick view model">
+        <t t-set="product_variant" t-value="product.sudo().product_variant_id"/>
+        <t t-set="combination_info" t-value="product._get_combination_info()"/>
+
+        <section id="product_detail"
+            t-attf-class="oe_website_sale as_quick_view_content #{'discount'
+                if combination_info['has_discounted_price'] else ''}
+                {{website._get_product_page_container() == 'regular' and 'o_wsale_container_lg container-lg' or (website._get_product_page_container() == 'fluid' and 'o_wsale_container_fluid container-fluid' or false)}}
+                o_wsale_product_page_opt_image_width_{{website.product_page_image_width}}
+                o_wsale_product_page_opt_image_ratio_{{website.product_page_image_ratio}}
+                o_wsale_product_page_opt_image_ratio_mobile_{{website.product_page_image_ratio_mobile}}
+                o_wsale_product_page_opt_image_radius_{{website.product_page_image_roundness}}
+            "
+            t-att-data-view-track="view_track and '1' or '0'">
+
+        <div
+            t-attf-class="row align-items-lg-start {{website.product_page_cols_order == 'inverse' and 'flex-lg-row-reverse' or ''}}"
+            id="product_detail_main"
+            data-name="Product Page"
+            t-att-data-image_layout="website.product_page_image_layout">
+            <div
+                t-attf-class="o_wsale_product_images col o_wsale_sticky_object"
+                t-att-data-image-amount="len(product_variant._get_images() if product_variant else product._get_images())">
+                <t t-call="website_sale.shop_product_images"/>
+            </div>
+            <div
+                    id="product_details"
+                    t-attf-class="position-relative col">
+                <div id="o_wsale_product_details_content" t-attf-class="js_product js_main_product o_wsale_content_contained container">
+                    <t t-set="is_add_to_cart_possible" t-value="product._is_add_to_cart_possible()"/>
+                    <t
+                        t-if="not is_add_to_cart_possible"
+                        t-call="website_sale.product_title"/>
+                    <form t-if="is_add_to_cart_possible">
+                        <t t-call="website_sale.product_title"/>
+                        <div
+                            t-if="not is_view_active('website_sale.cta_wrapper_boxed')"
+                            class="o_wsale_product_details_content_section o_wsale_product_details_content_section_price mb-4">
+                            <t t-call="website_sale.product_price"/>
+                            <small t-if="combination_info.get('base_unit_price')"
+                                class="ms-1 text-muted o_base_unit_price_wrapper d-none">
+                                <t t-call="website_sale.base_unit_price">
+                                    <t
+                                        t-set="base_unit_price"
+                                        t-value="combination_info['base_unit_price']"
+                                    />
+                                </t>
+                            </small>
+                        </div>
+
+                        <div t-if="website.active_product_offer_timer" class="o_wsale_product_details_content_section as-wsale-product-details-extra-section as-wsale-product-details-ov-section">
+                            <t t-call="theme_alan.as_offer_timer">
+                                <t t-set="product" t-value="product_variant"/>
+                            </t>
+                        </div>
+
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            t-att-value="request.csrf_token()"/>
+                        <t name="variant_info">
+                            <input
+                                type="hidden"
+                                class="o_not_editable product_id"
+                                name="product_id"
+                                t-att-value="product_variant.id"/>
+                            <input
+                                type="hidden"
+                                class="o_not_editable product_template_id"
+                                name="product_template_id"
+                                t-att-value="product.id"/>
+                            <input
+                                t-if="product.public_categ_ids.ids"
+                                type="hidden"
+                                class="product_category_id"
+                                name="product_category_id"
+                                t-att-value="product.public_categ_ids.ids[0]"/>
+                            <input
+                                type="hidden"
+                                name="product_type"
+                                t-att-value="product.type"/>
+                            <div
+                                t-attf-class="o_wsale_product_details_content_section o_wsale_product_details_content_section_attributes mb-4 {{not (product.valid_product_template_attribute_line_ids or product._has_multiple_uoms()) and 'd-none' or ''}}">
+                                <t t-call="website_sale.variants">
+                                    <t t-set="ul_class" t-valuef="flex-column" />
+                                    <t t-set="parent_combination" t-value="None" />
+                                    <t
+                                        t-set="combination"
+                                        t-value="combination_info['combination']"
+                                    />
+                                </t>
+                            </div>
+                        </t>
+                        <div class="o_wsale_product_details_content_section o_wsale_product_details_content_section_cta mb-4">
+                            <t t-call="website_sale.cta_wrapper">
+                                <t t-set="is_quick_view" t-value="True"/>
+                            </t>
+                        </div>
+                        <div class="o_wsale_product_details_content_section as-product-meta mb-3 as_product_details_content_section_sci_info ">
+                            <t t-if="product.product_brand_id">
+                                <div class="as-pd-extra-info as-brand">
+                                    <span class="fw-bold">Brand:</span>
+                                    <span t-esc="product.product_brand_id.name"/>
+                                </div>
+                            </t>
+                            <t t-if="product.public_categ_ids">
+                                <div class="as-pd-extra-info as_product_cat">
+                                    <span class="fw-bold">Category:</span>
+                                    <span t-esc="', '.join(product.public_categ_ids.mapped('name'))"/>
+                                </div>
+                            </t>
+                            <t t-if="product_variant.default_code">
+                                <div class="as-pd-extra-info as_product_sku">
+                                    <span class="fw-bold">SKU:</span>
+                                    <span t-esc="product_variant.default_code"/>
+                                </div>
+                            </t>
+                            <t t-if="product_variant.barcode">
+                                <div class="as-pd-extra-info as_product_barcode">
+                                    <span class="fw-bold">Barcode:</span>
+                                    <span t-esc="product_variant.barcode"/>
+                                </div>
+                            </t>
+                        </div>
+                    </form>
+                    <div class="pd-q-more-info">
+                        <a class="pd-q-more-info-link btn btn-secondary" t-attf-href="/shop/{{product.id}}">More Information <i class="asi asi-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </template>
+    <!-- ==================== End Quick View Template ==================== -->
+
+    <!-- ===================== Category Offcanvas ==============================  -->
+    <template id="as_offcanvas_categories" name="Categories Offcanvas">
+        <aside class="offcanvas offcanvas-end as_all_categories_swipeup" tabindex="-1" id="as_offcanvas_categories" aria-labelledby="as_offcanvas_categories_label">
+            <div class="offcanvas-header">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="as_offcanvas_categories offcanvas-body">
+            </div>
+        </aside>
+    </template>
+    <!-- ===================== End Category Offcanvas ==============================  -->
+
+    <!-- ===================== Category Offcanvas Content==============================  -->
+    <template id="as_offcanvas_categories_content" name="Categories Offcanvas Content">
+        <div class="as-categories-list">
+
+            <h5 t-if="not current_parent" class="offcanvas-title as-view-category" id="as_offcanvas_categories_label">All Categories</h5>
+            <!-- Back Button (shown when viewing subcategories) -->
+            <t t-if="current_parent">
+                <div class="as-category-back py-2 mb-2">
+                    <button type="button" class="btn btn-link text-start p-0 as-back-btn" t-att-data-parent-id="current_parent['parent_id']" style="border: none; background: none;">
+                        <i class="asi asi-chevron-left"></i>
+                        <span class="fw-bold as-view-category"><strong t-esc="current_parent['name']"/></span>
+                    </button>
+                </div>
+            </t>
+
+            <!-- Categories List -->
+            <div class="as-categories-container">
+                <t t-if="not categories">
+                    <div class="text-center text-muted py-4">
+                        <p>No categories available</p>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="categories" t-as="category">
+                        <div class="as-category-row border-bottom py-2" t-att-data-category-id="category['id']">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="flex-grow-1">
+                                    <t t-if="category['has_children']">
+                                        <!-- Category with children - clickable to expand -->
+                                        <button type="button" class="btn btn-link text-start p-0 as-category-link text-decoration-none text-dark fw-500" t-att-data-category-id="category['id']" t-att-data-category-name="category['name']" style="border: none; background: none;">
+                                            <div class="as-cat-img">
+                                                <img t-att-src="category['image_url']"/>
+                                            </div>
+                                            <div class="as-cat-text">
+                                                <span t-esc="category['name']"/>
+                                                <span class="badge bg-secondary " >(<t t-esc="category['product_count']"/>)</span>
+                                            </div>
+                                            <div class="as-cat-icon">
+                                                <i class="asi asi-chevron-right"></i>
+                                            </div>
+                                        </button>
+                                    </t>
+                                    <t t-else="">
+                                        <!-- Leaf category - direct link -->
+                                        <a href="#" class="text-decoration-none text-dark fw-500 as-leaf-category as-category-link" t-att-data-category-id="category['id']" t-att-data-category-name="category['name']">
+                                            <div class="as-cat-img">
+                                                <img t-att-src="category['image_url']"/>
+                                            </div>
+                                            <div class="as-cat-text">
+                                                <span t-esc="category['name']"/>
+                                                <span class="badge bg-secondary" >(<t t-esc="category['product_count']"/>)</span>
+                                            </div>
+                                        </a>
+                                    </t>
+                                </div>
+
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </div>
+    </template>
+    <!-- ===================== End Category Offcanvas Content==============================  -->
+
+</odoo>

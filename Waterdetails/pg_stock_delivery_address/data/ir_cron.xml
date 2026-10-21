@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ir_cron_pg_cleanup_picking_delivery_address" model="ir.cron">
+        <field name="name">PG: Limpar moradas de entrega de guias (mensal)</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">model._pg_cleanup_picking_delivery_addresses()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">months</field>
+        <field name="nextcall"
+               eval="(DateTime.now().replace(hour=3, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        <field name="active" eval="True"/>
+    </record>
+
+</odoo>

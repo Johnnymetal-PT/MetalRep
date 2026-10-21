@@ -1,0 +1,69 @@
+# Odoo source local (referencia tecnica; nunca versionar)
+/vendor/odoo_core
+/vendor/odoo_src
+/.pg_framework
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Logs / runtime
+*.log
+*.pid
+*.tmp
+*.sqlite*
+
+# IDEs
+.vscode/
+.idea/
+.claude/settings.local.json
+CLAUDE.local.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Handoff bundles
+handoff/*.zip
+
+# Migração de dados: log de chamadas do guard.
+# O args_preview pode conter dados de clientes (nomes, NIF, emails) e o *.log acima
+# não apanha a extensão .jsonl.
+.pg/migration/
+
+# Ficheiros de ligação do guard de migração — contêm API keys.
+# Antes eram protegidos só por um aviso no README; agora é mecânico.
+conn.json
+conn_*.json
+!conn.json.example
+
+# Gerado por pg_preflight_context.ps1 a cada arranque: estado local da maquina,
+# nao conteudo do framework. Nao seguido evitava o pull --ff-only para sempre,
+# porque o ensure_framework_current usa `git status --porcelain`, que conta
+# ficheiros nao seguidos.
+.pg/PREFLIGHT.json
+
+# OdooLS: configuracao e cache locais com paths absolutos da maquina
+/odools.toml
+/.pg/odools/
+
+# Despejos de consulta na raiz do repositorio.
+#
+# A raiz e um conjunto curado de sete ficheiros (README, CHANGELOG, CLAUDE.md,
+# config.toml e os tres dot-files); nenhum deles e .txt ou .json. Tudo o resto que
+# la aparece com essas extensoes e saida de uma consulta ad-hoc -- e essa saida
+# traz dados de clientes. Ficaram na raiz deste repositorio, sem os cobrir regra
+# nenhuma, ids e write_uid de producao do GLC e nomes de produtos da Vasil, num
+# repositorio que tambem aloja credenciais.
+#
+# A regra e por extensao e nao por nome porque o problema nao sao aqueles ficheiros:
+# e o habito de despejar o resultado de uma consulta onde calha. Para trabalho
+# temporario usar .pg/tmp/ ou a pasta temporaria da sessao.
+# Um .txt ou .json que a raiz venha mesmo a precisar entra com `git add -f`, ou --
+# se for permanente -- com uma excecao explicita aqui em baixo. O `git add -f` serve
+# para uma vez; um ficheiro do repositorio tem de entrar por regra, senao a proxima
+# pessoa que o recrie volta a perde-lo em silencio. Foi o que aconteceu ao
+# requirements.txt em 2026-09-11: escrito, ignorado, e so apanhado ao commitar.
+/*.txt
+/*.json
+!/requirements.txt

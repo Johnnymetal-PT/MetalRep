@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="report_picking_grouped_inherit_pg_listagem" model="ir.ui.view">
+        <field name="name">stock.report_picking_grouped (PG Listagem: Cubicagem + Material em Falta)</field>
+        <field name="type">qweb</field>
+        <field name="inherit_id" search="[('key', '=', 'stock.report_picking'), ('type', '=', 'qweb')]"/>
+        <field name="arch" type="xml">
+            <data>
+                <!-- Data em que o documento foi tirado (momento da impressao). -->
+                <xpath expr="//table[thead/tr/th[4]]" position="before">
+                    <div class="row mb16" name="pg_print_date">
+                        <div class="col-auto">
+                            <strong>Data do documento:</strong>
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="//thead/tr/th[3]" position="replace">
+                    <th><strong>Cubicagem</strong></th>
+                </xpath>
+                <xpath expr="//thead/tr/th[4]" position="replace">
+                    <th><strong>Material em Falta</strong></th>
+                </xpath>
+                <xpath expr="//tr[@style='page-break-inside: avoid;']/td[3]" position="replace">
+                    <td>
+                        <div>Peso: <span t-esc="'%.2f' % (move.x_studio_peso_kg_1 or 0)"/> Kg</div>
+                        <div>Volumes: <span t-esc="int(move.x_studio_volumes_3 or 0)"/></div>
+                        <div>Cubicagem: <span t-esc="'%.3f' % (move.x_studio_cubicagem_1 or 0)"/></div>
+                    </td>
+                </xpath>
+                <xpath expr="//tr[@style='page-break-inside: avoid;']/td[4]" position="replace">
+                    <td>
+                        <t t-if="move._pg_listagem_material_pronto()">
+                            <span style="color:#198754; font-weight:bold;">O Material está Pronto</span>
+                        </t>
+                        <t t-else="">
+                            <span style="color:#dc3545; font-weight:bold;">Está Material em Falta</span>
+                            <t t-set="grupos_falta" t-value="move._pg_listagem_material_falta_por_grupo()"/>
+                            <t t-foreach="grupos_falta" t-as="grupo_falta" t-key="grupo_falta[0]">
+                                <t t-if="grupo_falta[1]">
+                                    <div style="margin-top:4px;">
+                                        <span style="font-weight:bold;"><t t-esc="grupo_falta[0]"/>:</span>
+                                        <ul style="margin:0 0 0 16px; padding:0;">
+                                            <li t-foreach="grupo_falta[1]" t-as="comp_falta" t-key="comp_falta_index">
+                                                <t t-esc="comp_falta"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </t>
+                            </t>
+                        </t>
+                    </td>
+                </xpath>
+            </data>
+        </field>
+    </record>
+</odoo>

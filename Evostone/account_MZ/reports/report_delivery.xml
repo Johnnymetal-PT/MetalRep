@@ -1,0 +1,2963 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_delivery_document" model="ir.ui.view">
+        <field name="name">report_delivery_document</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_delivery_document">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="web.external_layout">       
+                 <style>
+        table,td{
+            border: 1px solid black;
+            font-size: 9pt
+        }
+    </style>
+    
+    
+            
+    <table cellpadding="0" cellspacing="0" style="width:1100pt; border-collapse:collapse;">
+        <tr style="height:65.75pt;">
+            <td style=" border: none; outline: none; solid black; text-align:center; font-size:10px;  border: none; vertical-align:center;">
+                <br/>
+<img src="/account_MZ/static/description/emblema.png" alt="Descrição da Imagem" width="90" height="90"/>
+            </td>
+            <td style="border: none; outline: none; solid black; text-align:center; font-size:12pt; background-color:#9CC6E4; ">
+                <br/>
+                        República de Moçambique
+                          
+                        
+                <br/>
+                <br/>
+                        Ministério da Economia e Finanças
+                        
+                <br/>
+                        Autoridade Tributária de Moçambique
+                        
+                <br/>
+                        DIRECÇÃO GERAL DE IMPOSTOS
+                    
+            </td>
+            <td style="Border: 1px solid black ; text-align:center; font-size:12pt; background-color:#9CC6E4;">
+               
+                  DECLARAÇÃO ANUAL DE INFORMAÇÃO CONTABILÍSTICA E FISCAL 
+                <br/>
+               CONTABILÍSTICA E FISCAL <br/> DISCRIMINAÇÃO DE RENDIMENTOS COM VARIOS REGIMES DE
+TRIBUTAÇÃO NO IRPS OU NO IRPC
+
+            </td>
+            
+             <td style="Border: 1px solid black ; text-align:center; font-size:12pt; background-color:#9CC6E4;">
+               
+                1 - Nome / Designação social
+        
+                <br/>
+               ______________________ <br/> ____________________
+            </td>
+            
+            <td style="Border: 1px solid black ; text-align:center; font-size:12pt; background-color:#9CC6E4;">
+               
+                2 - NUIT
+        
+                <br/>
+               |_______|_______|______| <br/> 3 - Exercício ___/___/____
+            </td> 
+            
+            
+            
+            
+            <td style="solid black; text-align: center; font-size:12pt; background-color:#9CC6E4;" width="150px; ">
+                <br/>
+                <br/>
+                     M/20 G
+                      
+                <br/>
+                <br/>
+            </td>
+        </tr>
+    </table>
+    
+ 
+    <table cellpadding="0" cellspacing="0" style="width: 1100pt; border-collapse: collapse;">
+        <!--<tbody>-->
+       <tr>
+<td colspan="23" style="width:559.74pt; border-style:solid; vertical-align:top; background-color:#9CC6E4;">
+                    <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt;">
+<b>4 - RENDIMENTOS COMERCIAIS, INDUSTRIAIS OU AGRÍCOLAS - Demonstração de resultados distribuidos por regimes de tributação</b>
+</p>
+</td>
+</tr>
+
+        <!--</tbody>-->
+    </table>
+   
+   <table cellpadding="0" cellspacing="0" style="width:1100pt; border-collapse:collapse;">
+        <tbody>
+          <tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> Cod. Conta </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> Vendas e bens</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> REGIME GERAL</b><br/>
+<span style="padding-left: 50px;">A</span>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> REGIME DE REDUÇÃO DE TAXA</b><br/>
+B
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> REGIME DE ISENÇÃO</b><br/>
+C
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> TOTAL</b><br/>
+D = A+B+C
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> Código (*)</b><br/>
+
+</td>
+</tr>
+
+
+          <tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.1</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> Vendas e meios circulantes materíais</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+
+
+          <tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.2</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> Vendas de Serviços</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+          <tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> SOMA</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px; background-color:#9CC6E4;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+
+          <tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> Variação da produção</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+          <tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.4</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> Investimentos realizados pela própria empresa</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.5</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Receitas financeiras</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.6</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Subsídios estatais aos preços</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.8</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Outros proveitos</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>8.6</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Ganhos extraordinários</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>8.7</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Resultados imputáveis a exercicios anteriores</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b/>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>TOTAL DOS PROVEITOS</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.1</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Custos dos meios circulantes vendidos ou consumidos</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.2</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Romunerações aos trabalhadores</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.3</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Fornecimentos de terceiros</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.4</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Serviços de terceiros</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.5</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Encargos financeiros</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.6</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Impostos e taxas</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.7</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Amortizações</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.8</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Outros custos</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>8.6</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Perdas extraordinários do exorcicio</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>8.7</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Perdas imputáveis a exercícios anteriores</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b/>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>TOTAL DOS CUSTOS</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>8.8</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Impostos sobre o rendimento do exercício</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b/>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>RESULTADO DO EXERCÍCIO (So negativo, inscrever o valor entre parêntosis)</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b/>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Correcções a acrescer (Ver quadro 8 do M/22 ou 5 do Anexo A1 do M/10) </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b/>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Correcções a deduzir (Ver quadro 8 do M/22 ou 5 do Anaxo A1 do M/10) </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b/>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Soma das correções </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b/>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Prejuízo fiscal (a transportar para o quadro 9 do M/22 ou 6 do Anexo A1 do M/10) </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b/>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Lucro tributável (a transportar para o quadro 9 do M/22 ou 6 do Anexo A1 do M/10) </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b><br/>
+
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/><br/>
+
+</td>
+</tr>
+
+
+<tr>
+                <td colspan="23" style="width:559.74pt; border-style:solid; vertical-align:top;">
+                    <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt;">
+                        <b> (*) Código a inscrever relativamente a cada rubrica: 1 = Afectação directa do proveito / custo 2 = Imputação de proveitos / custos comuns</b>
+                    </p>
+                </td>
+            </tr>
+<tr>
+                <td colspan="23" style="width:559.74pt; border-style:solid; vertical-align:top; background-color:#9CC6E4;">
+                    <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt;">
+                        <b> 5 - INFORMAÇÕES COMPLEMENTARES</b>
+                    </p>
+                </td>
+            </tr> 
+                         
+           
+           
+</tbody>
+</table>
+
+<table cellpadding="0" cellspacing="0" style="width:1100pt; border-collapse:collapse; font-size: 13px;">
+<tr>
+<td style="width:50%; border-left: 1px solid black; border-bottom: 1px solid black; border-right: none; vertical-align: top; padding: 4px;">
+<b>Tipo de actividade desenvolvido em cada regime de tributação</b> _________________________________________<br/>
+<span><b>Regime de Redução de taxa</b> _____________________________________</span>
+</td>
+
+<td style="width:50%; border-top: 1px solid black; border-left: none; border-bottom: 1px solid black; vertical-align: top; padding-left: 150px; padding-top: 4px;">
+<b>Regime Geral</b> ________________________________________________________<br/>
+<span><b>Regime de Isenção</b> _____________________________________</span>
+</td>
+</tr>
+
+
+<tr>
+                <td colspan="23" style="width:559.74pt; border-style:solid; vertical-align:top;">
+                    <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt;">
+                        <b> Descrição sumária e justificação dos critérios de Imputação de custos comuns aos diferentes regimes de tributação</b>
+                    </p>
+                </td>
+            </tr> 
+            
+   <tr>
+                <td colspan="23" style="width:559.74pt; border-style:solid; vertical-align:top;">
+                    <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt;">
+                        ____________________________________________________________________________________________________<br/>
+                                                            ____________________________________________________________________________________________________<br/>
+
+                                                            ____________________________________________________________________________________________________
+
+                    </p>
+                </td>
+    </tr>      
+    </table>     
+       
+
+
+
+
+            </t>
+        </t>
+    </t>
+</t>
+        </field>
+    </record>
+
+    <record id="report_return_slip" model="ir.ui.view">
+        <field name="name">report_return_slip</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_return_slip">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="web.external_layout">
+
+
+       
+    <style>
+        table,td{
+            border: 1px solid black;
+            font-size: 9pt
+        }
+    </style>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">    
+        <!--<tr style="border: none; outline: none;">-->
+        <tr>    
+                <td style=" border: none; outline: none; solid black; text-align:center; font-size:10px;  border: none; vertical-align:center;">
+            <br/>
+                   <span>  
+                   
+<img src="/account_MZ/static/description/emblema.png" alt="Descrição da Imagem" width="90" height="90"/>
+                   </span>
+               </td>
+               
+                 <td style="border: none; outline: none; solid black; text-align:center; font-size:12px; background-color:#9CC6E4; ">
+                    República de Moçambique
+                    <br/>
+                  <br/>
+                    Ministério da Economia e Finanças
+                    <br/> 
+                    Autoridade Tributária de Moçambique
+                    <br/>
+                    DIRECÇÃO GERAL DE IMPOSTOS
+                </td>
+               
+                <td style="Border: 1px solid black ; text-align:center; font-size:12px; background-color:#9CC6E4;">
+                 <span> DECLARACAO ANUAL DE INFORMACAO CONTABILISTICA E FISCAL <br>Sujeitoa passivos que exercem a titulo principal actividade de natureza comercial<BR>industrial ou agricula, com contabilidade organizada (Art.75 do CIRPC)</BR></br></span>
+               </td>
+               
+               
+               <td style="solid black; text-align: center; font-size:12px; background-color:#9CC6E4;" width="150px; ">
+                   <br/>
+                   <br/>
+                <B> M/20A.1</B>
+                  <br/>
+                 <br/>
+               </td>
+               
+        </tr>
+
+    </table>
+    
+
+
+
+               <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+        <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#9CC6E4;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:12pt; width: 70%"><b>1 - NOME / DESIGNAÇÃO SOCIAL DO SUJEITO PASSIVO</b></p>
+        </td>
+        <td colspan="23" style="width:40%; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#9CC6E4;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:12pt; text-align:center;"> <span style="font-size:14pt;">2 - Numero Unico de identificacao<br/>Tributaria (NUIT)</span></p>
+        </td>
+    </table>
+
+
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">    
+<!--<table class="table-width table-border" styte="width: 800pt"> -->
+               <tr style="height:65.75pt;">
+                  
+                <td style="solid black; text-align:leght; font-size:14px;padding-left: 5px; width:60%">
+                     <!--<b>1 – NOME/DESIGNAÇÃO SOCIAL DO SUJEITO PASSIVO </b><br/>-->
+                    <!--<strong t-field="doc.x_studio_many2one_field_l8gCk.partner_id"/> -->
+                      <br/>
+              </td>
+              
+             
+              
+               <td style="solid black; text-align:leght; font-size:14px;padding-left: 5px" id="bg-color2">
+                     <!--<b>2 – Número Único de Identificação Tributária </b><br/>-->
+                <span style="padding-left: 180px"> |______|_______|_____|_______|_____|</span><br/>
+                     
+                     <span style="padding-left: 220px"><b>3 – Exercício / Ano</b></span><br/>
+                     <span style="padding-left: 150px">20____</span><br/>
+              </td>
+              
+              </tr>
+             
+          </table>
+          
+          <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+        <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#9CC6E4;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt;"><b>4 - DEMONSTRACAO DE RESULTADO </b></p>
+        </td>
+    </table>
+           
+         
+            
+        
+          
+          
+           <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">    
+
+               <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left; font-size:12pt; border: none; outline: none; padding-left: 5px">
+                     <b>Cod.Contas </b>
+              </td>
+             
+              <!--<td style="solid black; text-align: left; font-size:12pt; border: none; outline: none; padding-left: 5px">-->
+              <!--       <b> </b>-->
+              <!--</td>-->
+              <!--<td style="solid black; text-align: left; font-size:12pt; border: none; outline: none; padding-left: 5px">-->
+              <!--       <b> </b>-->
+              <!--</td>-->
+              <td style="solid black; text-align: right; font-size:12pt; border: none; outline: none; padding-left: 10px; width: 150%;">
+                     <b> (Valores em meticais, sem centavos) </b>
+              </td>
+             </tr>
+             </table>
+             
+             
+             
+             
+             
+             
+              <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+    <tbody>
+      <tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.1 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> Vendas e bens</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 201 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> __________|_________|_________|</b>
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.2 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> prestação de serviços</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 202 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>SOMA</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 203 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 6.1.2</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Variação da produção - A transportar do campo 264 do quadro 6</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 204 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.3</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Investimentos realizados pela própria empresa</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 205 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.4</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Reversões do periodo</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 206 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>    
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.5</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Rendimentos suplementares</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 207 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>  
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.6</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Outros rendimentos e ganhos operacionais</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 208 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>  
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.8</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Rendimentos e ganhos financeiros</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 209 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>     
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 7.9</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Ganhos por aumento do justo valor</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 210 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>     
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>TOTAL DOS RENDIMENTOS GANHOS</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 211 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>       
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.1.1</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Custos dos inventários vendidos ou consumidos - A transportar<br/>
+do campo 245 do quadro 5
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 212 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>       
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.2</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Gastos com o pessoal
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 213 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>       
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.3</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Fornecimentos e serviços de terceiros
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 214 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>   
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.4</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Perdas por imparidade do período / Ajustamentos do período
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 215 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>        
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.5</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Amortizações do período
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 216 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>         
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.6</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Provisões do período
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 216 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>    
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.7</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Perdas por redução do justo valor
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 217 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>    
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.8</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Outros gastos e perdas operacionais
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 218 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>  
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>6.9</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Gastos e perdas financeiras
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 220 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b/>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>TOTAL DOS GASTOS E PERDAS
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 221 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>85</b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> Imposto sobre o rendimento
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 222 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>
+
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b/>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> RESULTADOS DO EXERCÍCIO (Se negativo, inscrever o valor entre parêntesis)<br/>
+A transportar para o campo 201 do quadro 8 do M/22
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b> 223 </b>
+</td>
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b> </b>
+</td>
+</tr>
+
+
+<!--               </tbody>    -->
+<!--                 </table>-->
+             
+<!--<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">-->
+<!--        <tbody>-->
+        <tr>
+            <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#9CC6E4;">
+                <p style="margin-top:0pt; margin-bottom:0pt; font-size:13pt;">
+                    <b> 5 - CUSTO DOS INVENTÁRIOS VENDIDOS OU CONSUMIDOS MERCADORIAS</b>
+                </p>
+            </td>
+           
+        </tr>
+    </tbody>
+</table>                  
+             
+             
+             
+             
+             
+
+    
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">    
+
+               <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left; font-size:12pt; border: none; outline: none; padding-left: 5px">
+                     <b> </b>
+              </td>
+             
+              <td style="solid black; text-align: left; font-size:12pt; border: none; outline: none; padding-left: 5px;  vertical-align: middle;">
+                    
+              </td>
+              <td style="solid black; text-align: right; font-size:12pt; border: none; outline: none; padding-left: 250px;  vertical-align: middle;">
+                   MERCADORIAS  
+              </td>
+              <td style="solid black; text-align: right; font-size:12pt; border: none; outline: none; padding-left: 10px;  vertical-align: middle;">
+                     MATERIAS-PRIMAS, AUXILIARES E MATERIAIS
+              </td>
+             </tr>
+                 </table>
+                 
+                 
+         <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;"> 
+             <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left; padding-left: 5px;  vertical-align: middle;">
+                     3 - Existencia inicial
+              </td>
+             
+              <td style="solid black; text-align: left; padding-left: 5px;  vertical-align: middle;">
+                    230
+              </td>
+              <td style="solid black; text-align: center; padding-left: 5px;  vertical-align: middle;">
+                   |______|______|______|_______|  
+              </td>
+              <td style="solid black; text-align: right;  padding-left: 10px; vertical-align: middle;">
+                     240
+              </td>
+              
+              <td style="solid black; text-align: right;  padding-left: 10p;  vertical-align: middle;">
+                    |_____|______|________
+              </td>
+             </tr>
+             
+              <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left;  padding-left: 5px;  vertical-align: middle;">
+                     2 - Compras (a)
+              </td>
+             
+              <td style="solid black; text-align: left; padding-left: 5px;  vertical-align: middle;">
+                    231
+              </td>
+              <td style="solid black; text-align: center; padding-left: 5px;  vertical-align: middle;">
+                   |______|______|______|_______|  
+              </td>
+              <td style="solid black; text-align: right;  padding-left: 10px;  vertical-align: middle;">
+                     241
+              </td>
+              
+              <td style="solid black; text-align: right;  padding-left: 10px;  vertical-align: middle;">
+                    |_____|______|________
+              </td>
+             </tr>
+             
+             
+             
+              <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left; padding-left: 5px; vertical-align: middle;">
+                     3 - Regularizacao de existencia (b)
+              </td>
+             
+              <td style="solid black; text-align: left; padding-left: 5px; vertical-align: middle;">
+                    232
+              </td>
+              <td style="solid black; text-align: center; padding-left: 5px; vertical-align: middle">
+                   |______|______|______|_______|  
+              </td>
+              <td style="solid black; text-align: right;  padding-left: 10px; vertical-align: middle;">
+                     242
+              </td>
+              
+              <td style="solid black; text-align: right; padding-left: 10px; vertical-align: middle;">
+                    |_____|______|________
+              </td>
+             </tr>
+             
+             
+              <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left; padding-left: 5px; vertical-align: middle;">
+                     4 - Existencia finais
+              </td>
+             
+              <td style="solid black; text-align: left; padding-left: 5px; vertical-align: middle;">
+                    233
+              </td>
+              <td style="solid black; text-align: center; padding-left: 5px; vertical-align: middle;">
+                   |______|______|______|_______|  
+              </td>
+              <td style="solid black; text-align: right; padding-left: 10px; vertical-align: middle;">
+                     243
+              </td>
+              
+              <td style="solid black; text-align: right; padding-left: 10px; vertical-align: middle;">
+                    |_____|______|________
+              </td>
+             </tr>
+             
+              <tr style="height:25.75pt; vertical-align: middle;">
+                 <td style="solid black; text-align: left;  padding-left: 5px; vertical-align: middle;">
+                     5 - CUSTO DOS INVENTARIOS V.e C.(5=1+2+/-3-4)
+              </td>
+             
+              <td style="solid black; text-align: left;  padding-left: 5px; vertical-align: middle;">
+                    234
+              </td>
+              <td style="solid black; text-align: center; padding-left: 5px; vertical-align: middle;">
+                    
+              </td>
+              <td style="solid black; text-align: right;  padding-left: 10px; vertical-align: middle;">
+                     244
+              </td>
+              
+              <td style="solid black; text-align: right;  padding-left: 10px; vertical-align: middle;">
+                  
+              </td>
+             </tr>
+             
+             
+              <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left; padding-left: 5px">
+                     6 - TOTAL DOS CUSTOS DOS INVENTARIOS VENDIDOS OU CONSUMIDOS A transportar para o campo 212 do quadro 4
+              </td>
+             
+              <td style="solid black; text-align: left; padding-left: 5px">
+                    
+              </td>
+              <td style="solid black; text-align: center; padding-left: 5px">
+                    
+              </td>
+              <td style="solid black; text-align: right; padding-left: 10px">
+                     245
+              </td>
+              
+              <td style="solid black; text-align: right; padding-left: 10px">
+                  
+              </td>
+             </tr>
+             </table>
+    
+    
+     
+
+
+
+     <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+      <tr style="border: none; height:30.8pt;">
+        <td style="font-size: 13px; padding-left: 5px; border: none; vertical-align: middle;"> (a) Inclui direitos aduaneiros, IVA nao dedutivel, seguros, fretes, etc</td>
+        <td style="font-size: 13px; text-align:center; border: none; vertical-align: middle;"> b) Engloba quebras anormais, e ofertas de existencias proprias</td>
+    </tr>
+
+    </table>
+    
+     
+           <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+        <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#9CC6E4;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:13pt;"><b>6 - VARIAÇÃO DA PRODUÇÃO</b></p>
+        </td>
+    </table>
+    
+     <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">    
+
+               <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left; font-size:12pt; border: none; outline: none; padding-left: 5px">
+                     <b> </b>
+              </td>
+             
+              <td style="solid black; text-align: left; font-size:12pt; border: none; outline: none; padding-left: 5px">
+                    
+              </td>
+              <td style="solid black; text-align: right; font-size:12pt; border: none; outline: none; padding-left: 250px">
+                  PRODUTO ACABADOS 
+              </td>
+              <td style="solid black; text-align: right; font-size:12pt; border: none; outline: none; padding-left: 10px">
+                    PRODUTOS E SERVICOS EM CURSO
+              </td>
+             </tr>
+                 </table>
+                 
+                 
+         <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;"> 
+             <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left; padding-left: 5px">
+                     1 - Existencia finais
+              </td>
+             
+              <td style="solid black; text-align: left; padding-left: 5px">
+                    250
+              </td>
+              <td style="solid black; text-align: center; padding-left: 5px">
+                   |______|______|______|_______|  
+              </td>
+              <td style="solid black; text-align: right; padding-left: 10px">
+                     260
+              </td>
+              
+              <td style="solid black; text-align: right; padding-left: 10px">
+                    |_____|______|________
+              </td>
+             </tr>
+             
+              <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left; padding-left: 5px">
+                     2 - Regularizacao de existencia (a)
+              </td>
+             
+              <td style="solid black; text-align: left; padding-left: 5px">
+                    251
+              </td>
+              <td style="solid black; text-align: center; padding-left: 5px">
+                   |______|______|______|_______|  
+              </td>
+              <td style="solid black; text-align: right;  padding-left: 10px">
+                     261
+              </td>
+              
+              <td style="solid black; text-align: right; padding-left: 10px">
+                    |_____|______|________
+              </td>
+             </tr>
+             
+             
+             
+              <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left;  padding-left: 5px">
+                     3 -  Existencia iniciais
+              </td>
+             
+              <td style="solid black; text-align: left; padding-left: 5px">
+                    252
+              </td>
+              <td style="solid black; text-align: center; padding-left: 5px">
+                   |______|______|______|_______|  
+              </td>
+              <td style="solid black; text-align: right; padding-left: 10px">
+                     262
+              </td>
+              
+              <td style="solid black; text-align: right; padding-left: 10px">
+                    |_____|______|________
+              </td>
+             </tr>
+             
+             
+              <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left; padding-left: 5px">
+                     4 - VARIACAO DA PRODUCAO (b) (4=1+/-2-3)
+              </td>
+            
+              <td style="solid black; text-align: left; padding-left: 5px">
+                    253
+              </td>
+              <td style="solid black; text-align: center;  padding-left: 5px">
+                   |______|______|______|_______|  
+              </td>
+              <td style="solid black; text-align: right;  padding-left: 10px">
+                     263
+              </td>
+              
+              <td style="solid black; text-align: right;  padding-left: 10px">
+                    |_____|______|________
+              </td>
+             </tr>
+             
+             
+             
+              <tr style="height:25.75pt;">
+                 <td style="solid black; text-align: left; padding-left: 5px">
+                     6 - TOTAL DOS CUSTOS DOS INVENTARIOS VENDIDOS OU CONSUMIDOS A transportar para o campo 212 do quadro 4
+              </td>
+             
+              <td style="solid black; text-align: left; font-size:12pt; padding-left: 5px">
+                    
+              </td>
+              <td style="solid black; text-align: center; font-size:12pt; padding-left: 5px">
+                    
+              </td>
+              <td style="solid black; text-align: right; font-size:12pt;  padding-left: 10px">
+                     264
+              </td>
+              
+              <td style="solid black; text-align: right; font-size:12pt;  padding-left: 10px">
+                  
+              </td>
+             </tr>
+             </table>
+    
+    
+     
+
+    
+     <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+      <tr style="border: none; height:30.8pt;">
+        <td style="font-size: 13px; padding-left: 5px; border: none; vertical-align: middle;"> <span>(a) engloba quebras anormais e ofertas de existencias proprias </span></td>
+        <td style="font-size: 13px; text-align:center; border: none; vertical-align: middle;"><span> b) Se negativo, inscrever entre parentesis </span></td>
+    </tr>
+
+    </table>
+    
+    
+    
+     <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr>
+        <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:13pt; background-color:#9CC6E4;"><b>7 -APLICAÇÃO DE RESULTADOS</b></p>
+        </td>
+       
+        </tr>
+        <tr style="height:30.75pt;">
+         <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; vertical-align: middle;"> Confirma deliberação da assembleia geral de _________/___________/_________
+           
+        </td>
+        
+        </tr>
+        
+          <tr>
+                 <td style="solid black; text-align: left; font-size:12pt; border: none; outline: none; padding-left: 5px">
+                     <b> </b>
+              </td>
+             
+              <td style="solid black; text-align: left; font-size:12pt; border: none; outline: none; padding-left: 5px">
+                     <b> </b>
+              </td>
+              <td style="solid black; text-align: left; font-size:12pt; border: none; outline: none; padding-left: 5px">
+                     <b> </b>
+              </td>
+              <td style="solid black; text-align: right; font-size:12pt; border: none; outline: none; padding-left: 13px">
+                     <b> (Valores em meticais, sem centavos) </b>
+              </td>
+             </tr>
+             
+    </table>
+    
+
+    
+     
+    
+    
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Entregas de lucros ao Orcamento do Estado</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>270
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> |_______|___________|________| |________|______|</span>  </b>
+</td>
+
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>A fundos próprios</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>271
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> |_______|___________|________| |________|______|</span>  </b>
+</td>
+
+</tr>            
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Dotação do exercício a reservas</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>272
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> |_______|___________|________| |________|______|</span>  </b>
+</td>
+
+</tr>            
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Dotação do exercício a provisões</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>273
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> |_______|___________|________| |________|______|</span>  </b>
+</td>
+
+</tr>            
+       
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Distribuição de lucros aos sócios, accionistas ou proprietários</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>274
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> |_______|___________|________| |________|______|</span>  </b>
+</td>
+
+</tr>      
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Lucros ou prejuízos a acumular</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>275
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> |_______|___________|________| |________|______|</span>  </b>
+</td>
+
+</tr>   
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Gratificações a corpos gerentes</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>276
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> |_______|___________|________| |________|______|</span>  </b>
+</td>
+
+</tr>   
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Gratificações aos trabalhadores</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>277
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> |_______|___________|________| |________|______|</span>  </b>
+</td>
+
+</tr> 
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b/>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>278
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> |_______|___________|________| |________|______|</span>  </b>
+</td>
+
+</tr> 
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>TOTAL</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>279
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> |_______|___________|________| |________|______|</span>  </b>
+</td>
+
+</tr> 
+
+    </table>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr>
+        <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:13pt; background-color:#9CC6E4;"><b>8 - PARTICIPAÇÃO NO CAPITAL SOCIAL</b></p>
+        </td>
+       
+        </tr>
+        
+   
+    </table>
+    
+
+    
+     
+    
+    
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>1 - Do Estado ou entidades públicas</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>280
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> %</span>  </b>
+</td>
+
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>2 - De empresas públicas</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>281
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> %</span>  </b>
+</td>
+
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>3 - De empresas privadas nacionais</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>282
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> %</span>  </b>
+</td>
+
+</tr>
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>4 - De não residentes</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>283
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> %</span>  </b>
+</td>
+
+</tr>
+
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>5 - De outros</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>284
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> %</span>  </b>
+</td>
+
+</tr>
+
+
+<tr style="height:25.75pt; font-size: 12pt">
+<td style="border: 1px solid black; text-align: left; vertical-align: middle; padding: 5px;">
+<b>Total</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>285
+</b>
+</td>
+<td style="border: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+<b>     <span> %</span>  </b>
+</td>
+
+</tr>
+    </table>
+           
+                         
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+           
+           
+      
+         
+         
+       
+                 
+       <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr style=" background-color:#9CC6E4;">
+        <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top;  background-color:#9CC6E4;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt; background-color:#9CC6E4;"><b>8 - Balanco </b></p>
+        </td>
+         </tr>
+             </table>
+          
+          <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr style=" background-color:#9CC6E4;">
+        <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px; background-color:#9CC6E4; text-align: center">ACTIVO</p>
+        </td>
+        </tr>
+        <tr>
+        <td style="margin-top:0pt; margin-bottom:0pt; font-size:14px; text-align: right">(Valores em meticais, sem centavos)</td>
+         </tr>
+         </table>
+         
+           <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%; vertical-align: middle;">Cod,contas</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; vertical-align: middle;">CONTAS</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 25%; vertical-align: middle;">ACTIVO BRUTO</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 27.5%; vertical-align: middle;">AMORTIZACOES, PROVISOES E PERDAS POR IMPARIDADE</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; vertical-align: middle;">ACTIVO LIQUIDO</td>
+             
+         </tr>
+             </table>
+          
+          
+           <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+    <tr style="font-size: 16px;">
+<td colspan="23" style="width: 10%; border: 1pt solid black; vertical-align: middle; text-align: center; font-size: 16px;">1.1 e 1.2s</td>
+<td colspan="23" style="width: 20%; border: 1pt solid black; vertical-align: middle; text-align: center; font-size: 16px;">Caixa e Bancos</td>
+<td colspan="23" style="width: 5%; border: 1pt solid black; vertical-align: middle; text-align: center; font-size: 16px;">290</td>
+<td colspan="23" style="width: 20%; border: 1pt solid black; vertical-align: middle; text-align: center; font-size: 16px;">|____|___|____|</td>
+<td colspan="23" style="width: 5%; border: 1pt solid black; vertical-align: middle; text-align: center; font-size: 16px;">296</td>
+<td colspan="23" style="border: 1pt solid black; vertical-align: middle; text-align: center; font-size: 16px;">|___|_______|___|</td>
+<td colspan="23" style="width: 5%; border: 1pt solid black; vertical-align: middle; text-align: center; font-size: 16px;">302</td>
+<td colspan="23" style="border: 1pt solid black; vertical-align: middle; text-align: center; font-size: 16px;">|___|_______|___|</td>
+<!--<td colspan="23" style="border: 1pt solid black; vertical-align: middle; text-align: center; font-size: 16px;">|___|_______|___|</td>-->
+</tr>
+
+            
+            
+        <tr style="font-size: 16px;">
+<td colspan="23" style="width:10%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">1.3</td>
+<td colspan="23" style="width:20%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">Outros Instrumentos Financeiros</td>
+<td colspan="23" style="width:5%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">291</td>
+<td colspan="23" style="width:20%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">|____|___|____|</td>
+<td colspan="23" style="width:5%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">297</td>
+<td colspan="23" style="border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">|___|_______|___|</td>
+<td colspan="23" style="width:5%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">303</td>
+<td colspan="23" style="border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">|___|_______|___|</td>
+</tr>
+
+<tr style="font-size: 16px;">
+<td colspan="23" style="width:10%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">4.1, 1, 4.5 e 4.7</td>
+<td colspan="23" style="width:20%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">Créditos sobre terceiros</td>
+<td colspan="23" style="width:5%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">292</td>
+<td colspan="23" style="width:20%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">|____|___|____|</td>
+<td colspan="23" style="width:5%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">298</td>
+<td colspan="23" style="border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">|___|_______|___|</td>
+<td colspan="23" style="width:5%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">304</td>
+<td colspan="23" style="border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">|___|_______|___|</td>
+</tr>
+
+<tr style="font-size: 16px;">
+<td colspan="23" style="width:10%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">4.9.3 e 4.9.4</td>
+<td colspan="23" style="width:20%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">Acréscimos R e Gastos Diferidos</td>
+<td colspan="23" style="width:5%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">293</td>
+<td colspan="23" style="width:20%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">|____|___|____|</td>
+<td colspan="23" style="width:5%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">299</td>
+<td colspan="23" style="border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">|___|_______|___|</td>
+<td colspan="23" style="width:5%; border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">305</td>
+<td colspan="23" style="border:1px solid black; text-align:center; vertical-align:middle; font-size:16px;">|___|_______|___|</td>
+</tr>
+
+         
+<tr>
+<td colspan="23" style="font-size:16px; width:10%; border:1px solid black; text-align:center; vertical-align:middle;">2.1 a 2.9</td>
+<td colspan="23" style="font-size:16px; width:20%; border:1px solid black; text-align:center; vertical-align:middle;">Inventário e ativos Biológicos</td>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black; text-align:center; vertical-align:middle;">294</td>
+<td colspan="23" style="font-size:16px; width:20%; border:1px solid black; text-align:center; vertical-align:middle;">|____|___|____|</td>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black; text-align:center; vertical-align:middle;">300</td>
+<td colspan="23" style="font-size:16px; border:1px solid black; text-align:center; vertical-align:middle;">|___|_______|___|</td>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black; text-align:center; vertical-align:middle;">306</td>
+<td colspan="23" style="font-size:16px; border:1px solid black; text-align:center; vertical-align:middle;">|___|_______|___|</td>
+</tr>
+
+<tr>
+<td colspan="23" style="font-size:16px; width:10%; border:1px solid black; text-align:center; vertical-align:middle;">3.1 a 3.9</td>
+<td colspan="23" style="font-size:16px; width:20%; border:1px solid black; text-align:center; vertical-align:middle;">Inventário de Capital</td>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black; text-align:center; vertical-align:middle;">295</td>
+<td colspan="23" style="font-size:16px; width:20%; border:1px solid black; text-align:center; vertical-align:middle;">|____|___|____|</td>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black; text-align:center; vertical-align:middle;">301</td>
+<td colspan="23" style="font-size:16px; border:1px solid black; text-align:center; vertical-align:middle;">|___|_______|___|</td>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black; text-align:center; vertical-align:middle;">307</td>
+<td colspan="23" style="font-size:16px; border:1px solid black; text-align:center; vertical-align:middle;">|___|_______|___|</td>
+</tr>
+
+<tr>
+<td colspan="23" style="font-size:16px; width:10%; border:1px solid black; text-align:center; vertical-align:middle;"/>
+<td colspan="23" style="font-size:16px; width:50%; border:1px solid black; text-align:center; vertical-align:middle;">TOTAL DO ACTIVO</td>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:20%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black; text-align:center; vertical-align:middle;">307</td>
+<td colspan="23" style="font-size:16px; border:1px solid black; text-align:center; vertical-align:middle;">|___|_______|___|</td>
+</tr>
+
+<tr>
+<td colspan="23" style="font-size:16px; width:10%; border:1px solid black; text-align:center; vertical-align:middle;">Cod.contas</td>
+<td colspan="23" style="font-size:16px; width:50%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:20%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black;">PASSIVO</td>
+</tr>
+
+<tr>
+<td colspan="23" style="font-size:16px; width:10%; border:1px solid black; text-align:center; vertical-align:middle;">4.2, 4.3 e 4.6</td>
+<td colspan="23" style="font-size:16px; width:50%; border:1px solid black; text-align:center; vertical-align:middle;">Dívidas a terceiros</td>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:20%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black; text-align:center; vertical-align:middle;">310</td>
+<td colspan="23" style="font-size:16px; border:1px solid black; text-align:center; vertical-align:middle;">|___|_______|___|</td>
+</tr>
+
+<tr>
+<td colspan="23" style="font-size:16px; width:10%; border:1px solid black; text-align:center; vertical-align:middle;">4.8</td>
+<td colspan="23" style="font-size:16px; width:50%; border:1px solid black; text-align:center; vertical-align:middle;">Provisões</td>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:20%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black; text-align:center; vertical-align:middle;">311</td>
+<td colspan="23" style="font-size:16px; border:1px solid black; text-align:center; vertical-align:middle;">|___|_______|___|</td>
+</tr>
+
+<tr>
+<td colspan="23" style="font-size:16px; width:10%; border:1px solid black; text-align:center; vertical-align:middle;">4.9.1 e 4.9.2</td>
+<td colspan="23" style="font-size:16px; width:50%; border:1px solid black; text-align:center; vertical-align:middle;">Acréscimos de G e R diferentes</td>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:20%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; border:1px solid black;"/>
+<td colspan="23" style="font-size:16px; width:5%; border:1px solid black; text-align:center; vertical-align:middle;">312</td>
+<td colspan="23" style="font-size:16px; border:1px solid black; text-align:center; vertical-align:middle;">|___|_______|___|</td>
+</tr>
+
+
+         
+           <tr>
+             <td colspan="23" style="width:559.74pt;font-size:16px; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%;"/>
+             <td colspan="23" style="width:559.74pt;font-size:16px; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 50%;  border-right: 1px solid white;">TOTAL DO PASSIVO</td>
+              <td colspan="23" style="width:559.74pt;font-size:16px; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt;font-size:16px; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;  border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt;font-size:16px; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt;font-size:16px; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  "/>
+              <td colspan="23" style="width:559.74pt;font-size:16px; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">313</td>
+                                 <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+        
+                            <!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+         </tr>
+         
+            
+            
+            
+            
+          <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%;">Cod.contas</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 50%; border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid; font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px;  border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;  ">CAPITAL PROPRIO</td>
+             <!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; ">|___|_______|___|</td>-->
+             <!-- <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">307</td>-->
+             <!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+        
+                            <!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+         </tr>
+         
+         
+         
+         
+           <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%;">5.1</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 50%;  border-right: 1px solid white;">Capital</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;  border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  "/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">320</td>
+                                 <td colspan="23" style="width:559.74pt;font-size:16px; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+        
+                            <!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+         </tr>
+         
+          <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%;"> 5.2</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 50%;  border-right: 1px solid white;">Accoes ou quotas proprias</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;  border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  "/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">321</td>
+                                 <td colspan="23" style="width:559.74pt;font-size:16px; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+        
+                            <!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+         </tr>
+         
+         
+          <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%;">5.3</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 50%;  border-right: 1px solid white;">Prestacoes suplementares</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;  border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  "/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">322</td>
+                                 <td colspan="23" style="width:559.74pt;font-size:16px; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+        
+                            <!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+         </tr>
+         
+         
+           <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%;">5.4</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 50%;  border-right: 1px solid white;">Premios de emi de accoes quotas</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;  border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  "/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">323</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+             </tr>
+             
+             
+             <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%;">5.5</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 50%;  border-right: 1px solid white;">Reservas</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;  border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  "/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">324</td>
+            <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+<!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+         </tr>
+         
+         
+          <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%;">5.6</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 50%;  border-right: 1px solid white;">Excendentes de R.de intangiveis</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;  border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  "/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">325</td>
+            <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+<!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+         </tr>
+            
+             <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%;">5.8</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 50%;  border-right: 1px solid white;"> variacoes no capital proprio</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;  border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  "/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">326</td>
+            <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+<!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+         </tr>
+            
+
+              <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%;">5.9</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 50%;  border-right: 1px solid white;"> Resultados transitados</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;  border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  "/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">327</td>
+            <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+<!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+         </tr>
+            
+            
+             <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%;">8.8</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 50%;  border-right: 1px solid white;"> Resultados liquido do periodo</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;  border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  "/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">328</td>
+            <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+<!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+         </tr>
+            
+            
+             <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: right; width: 10%; border-right: 1px solid white;">TOTAL DO CAP</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: left; width: 50%;  border-right: 1px solid white;">ITAL PROPRIO </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;  border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  "/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">329</td>
+            <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+<!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+         </tr> 
+            
+            
+            
+             <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: right; width: 10%; border-right: 1px solid white;">T DO PASSIVO </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: left; width: 50%;  border-right: 1px solid white;">  E DO CAPITAL PROPRIO </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;  border-right: 1px solid white;"/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;  border-right: 1px solid white;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  "/>
+              <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">330</td>
+            <td colspan="23" style="width:559.74pt; border-style:solid;font-size:16px; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+<!--<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>-->
+         </tr> 
+             </table>
+         
+         
+         
+         
+         
+            
+        <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr style=" background-color:#9CC6E4;">
+        <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top;  background-color:#9CC6E4;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt; background-color:#9CC6E4;"><b>10 - MAIS VALIAS: REINVESTIMENTOS DOS VALORES DE REALIZACAO </b></p>
+        </td>
+         </tr>
+             </table>
+             
+             
+             <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">Exercicio </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center font-size:16px;">  Valor de realizacao </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">Valor reinvestido</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;font-size:16px;">Mais valia nao atributada</td>
+        
+         </tr>
+         
+          <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">N - 4(a) </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">  <span>   </span></td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;"><span>      </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;"><span>      </span></td>
+        
+         </tr>
+         
+         
+          <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">N - 3 </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;"> <span>  </span> </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;"><span>  </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;"><span>    </span></td>
+        
+         </tr>
+         
+         <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">N - 2 </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;"> <span>  </span> </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;"><span>  </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;"><span>    </span></td>
+        
+         </tr>
+         
+         <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">N - 1 </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;"> <span>  </span> </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;font-size:16px;"><span>  </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;"><span>    </span></td>
+        
+         </tr>
+         
+         <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">(a) Sujeito a autorizacao previa </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;  border-right: 1px solid white;"> <span>  </span> </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px; border-right: 1px solid white;"><span>  </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px; "><span>    </span></td>
+        
+         </tr>
+         
+             </table>
+             
+             
+              <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr style=" background-color:#9CC6E4;">
+        <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top;  background-color:#9CC6E4;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt; background-color:#9CC6E4; font-size:16px;"><b>11 - SUJEITOS PASSIVOS EM QUE O DECLARANTE PARTICIPA OU E PARTICIPADO </b> (Percentagem igual ou superior a 25%)</p>
+        </td>
+         </tr>
+         </table>
+         
+         
+              
+       
+             
+             <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%; font-size:16px;"/>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">NUIT </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;"> % do declarante na participada </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">% do participante na declarante</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">Vendas da declarante as participadas</td>
+                <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">Compras da declarante as participadas</td>
+         </tr>
+         
+          <tr>
+               <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%; font-size:16px;">400</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;font-size:16px;"><span>    </span> </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">  <span>   </span></td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>      </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>      </span></td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>      </span></td>
+         </tr>
+         
+         
+          <tr>
+               <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%; font-size:16px;">401</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>  </span> </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center"> <span>  </span> </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>  </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>    </span></td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>      </span></td>
+        
+         </tr>
+         
+         <tr>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%; font-size:16px;">402</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>  </span> </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center"> <span>  </span> </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>  </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>    </span></td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>      </span></td>
+        
+         </tr>
+         
+         <tr>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%;font-size:16px;">403</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>  </span> </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center"> <span>  </span> </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>  </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>    </span></td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>      </span></td>
+        
+         </tr>
+         
+         
+          <tr>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%; font-size:16px;">404</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>  </span> </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center"> <span>  </span> </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>  </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>    </span></td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>      </span></td>
+        
+         </tr>
+         
+         
+          <tr>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%; font-size:16px;">405</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>  </span> </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center"> <span>  </span> </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>  </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>    </span></td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>      </span></td>
+        
+         </tr>
+         
+         
+           <tr>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%; font-size:16px;">406</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>  </span> </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center"> <span>  </span> </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>  </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>    </span></td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;"><span>      </span></td>
+        
+         </tr>
+         
+         
+         <tr>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 10%; font-size:16px;">407</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; border-right: 1px solid white;"><span> </span> </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  border-right: 1px solid white;"> <span>  </span> </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;  border-right: 1px solid white;"><span>  </span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center;   border-right: 1px solid white;"><span>    </span></td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; "><span>      </span></td>
+        
+         </tr>
+         
+             </table>
+             
+         
+             
+                  
+        <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr style=" background-color:#9CC6E4;">
+        <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top;  background-color:#9CC6E4;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt; background-color:#9CC6E4;"><b>12 - OUTRAS INFORMACOES CONTABILISTICAS E ESTATITICAS </b></p>
+        </td>
+         </tr>
+         
+         <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; font-size:16px;">(Valores em meticais, sem centavos)</td>
+         </tr>
+             </table>
+             
+             
+             
+              <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;">Despesas de representacao </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; font-size:16px;">500</td>
+             
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;"><span>|_______|________|</span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;">Publicidade</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; font-size:16px;">504</td>
+               <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 15%; font-size:16px;"><span>|_______|________|</span></td>
+               <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 27.5%; font-size:16px;">Nr de trabalhadores</td>
+                 <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; font-size:16px;">508</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;"><span>|_______|________|</span></td>
+         </tr>
+         
+         
+         
+         
+         
+         
+         
+         <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;">Deslocacao e estadias </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; font-size:16px;">501</td>
+             
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;"><span>|_______|________|</span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;">Subcontratos</td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; font-size:16px;">505</td>
+               <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 15%; font-size:16px;"><span>|_______|________|</span></td>
+               <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 27.5%; font-size:16px;">Nr de viaturas ligeiras de passageiros</td>
+                 <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; font-size:16px;">509</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;"><span>|_______|________|</span></td>
+         </tr>
+         
+         
+          <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;">Encargos com viaturas </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; font-size:16px;">502</td>
+             
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;"><span>|_______|________|</span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;">Suprimentos(saldo credor) </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; font-size:16px;">506</td>
+               <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 15%; font-size:16px;"><span>|_______|________|</span></td>
+               <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 27.5%; font-size:16px;">Nr de viaturas mistas</td>
+                 <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; font-size:16px;">510</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;"><span>|_______|________|</span></td>
+         </tr>
+         
+         
+         
+          <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;">IVA entregas </td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; font-size:16px;">503</td>
+             
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;"><span>|_______|________|</span></td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;">IVA - Reembolsos recebidos </td>
+              <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; font-size:16px;">507</td>
+               <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 15%; font-size:16px;"><span>|_______|________|</span></td>
+               <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 27.5%; font-size:16px;">Nr de viaturas pesadas</td>
+                 <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; font-size:16px;">511</td>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%; font-size:16px;"><span>|_______|________|</span></td>
+         </tr>
+             </table>
+          
+          
+        <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr style=" background-color:#9CC6E4;">
+        <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top;  background-color:#9CC6E4;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt; background-color:#9CC6E4;"><b>13 - IDENTIFICACAO DE FILIAIS/SUCURSAIS (ESTABELECIMENTOS COM LOCALIZACAO DIFERENTE DE SEDE) </b></p>
+        </td>
+         </tr>
+         
+         <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: left; font-size:16px;">Distico Comercial Usado:<span> ______________________________________  </span>
+             <span>Localidade______________________________________</span>
+             <!--<br/>-->
+             <span>Rua/Avenida,etc:_________________________________________________</span>
+         <br/>  <br/>  <span style="text-align: right; width:10%">Reservado aos Servicos _________/______/________/_________/________/</span>
+            <span>Distrito:_____________________________</span>
+            <span>Tipo de actividade desenvolvida:_______________________________________</span>
+             
+             
+             </td>
+         </tr>
+            
+         
+         <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: left; font-size:16px;">Distico Comercial Usado:<span> ______________________________________  </span>
+             <span>Localidade______________________________________</span>
+             <!--<br/>-->
+             <span>Rua/Avenida,etc:_________________________________________________</span>
+         <br/>  <br/>  <span style="text-align: right; width:10%">Reservado aos Servicos _________/______/________/_________/________/</span>
+            <span>Distrito:_____________________________</span>
+            <span>Tipo de actividade desenvolvida:_______________________________________</span>
+             
+             
+             </td>
+         </tr>
+         
+         
+         
+          <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: left; font-size:16px;">Distico Comercial Usado:<span> ______________________________________  </span>
+             <span>Localidade______________________________________</span>
+             <!--<br/>-->
+             <span>Rua/Avenida,etc:_________________________________________________</span>
+         <br/>  <br/>  <span style="text-align: right; width:10%">Reservado aos Servicos _________/______/________/_________/________/</span>
+            <span>Distrito:_____________________________</span>
+            <span>Tipo de actividade desenvolvida:_______________________________________</span>
+             
+             
+             </td>
+         </tr>
+         
+         
+          <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: left; font-size:16px;">Distico Comercial Usado:<span> ______________________________________  </span>
+             <span>Localidade______________________________________</span>
+             <!--<br/>-->
+             <span>Rua/Avenida,etc:_________________________________________________</span>
+         <br/>  <br/>  <span style="text-align: right; width:10%">Reservado aos Servicos _________/______/________/_________/________/</span>
+            <span>Distrito:_____________________________</span>
+            <span>Tipo de actividade desenvolvida:_______________________________________</span>
+             
+             
+             </td>
+         </tr>
+         
+         
+          <tr>
+             <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: left; font-size:16px;">Distico Comercial Usado:<span> ______________________________________  </span>
+             <span>Localidade______________________________________</span>
+             <!--<br/>-->
+             <span>Rua/Avenida,etc:_________________________________________________</span>
+         <br/>  <br/>  <span style="text-align: right; width:10%">Reservado aos Servicos _________/______/________/_________/________/</span>
+            <span>Distrito:_____________________________</span>
+            <span>Tipo de actividade desenvolvida:_______________________________________</span>
+             
+             
+             </td>
+         </tr>
+             </table>
+             
+        
+         <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+         <tr style=" background-color:#9CC6E4;">
+        <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top;  background-color:#9CC6E4; font-size:16px;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt; background-color:#9CC6E4;"><b>14 - OBSERVACOES </b></p>
+        </td>
+         </tr>
+         
+         
+         <tr>
+             <td><span>________________________________________________________________________<br/>
+             ___________________________________________________________________________________
+             </span></td>
+         </tr>
+         
+         
+         
+          
+         
+         </table>
+
+            </t>
+        </t>
+    </t>
+</t>
+        </field>
+    </record>
+
+</odoo>

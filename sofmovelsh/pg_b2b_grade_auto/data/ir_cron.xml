@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Fica DESLIGADO de propósito. Ligar só depois de os escalões terem
+             faturação mínima definida: se correr com a tabela por preencher,
+             muda o escalão de toda a base de uma vez.
+
+             Mensal, no dia 1. O Odoo avança o `nextcall` somando um mês de cada
+             vez, o que preserva o dia — basta que a âncora caia num dia 1. A
+             âncora está no passado de propósito: ao activar, corre uma vez no
+             tique seguinte (o primeiro apuramento) e depois assenta no dia 1.
+             Data e periodicidade mudam-se em Definições > Técnico > Acções
+             Planeadas, sem tocar em código. -->
+        <record id="cron_pg_b2b_grade_auto" model="ir.cron">
+            <field name="name">B2B: recalcular escalões por faturação</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">model._pg_cron_recompute_grades()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="nextcall">2026-01-01 02:00:00</field>
+            <field name="active" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

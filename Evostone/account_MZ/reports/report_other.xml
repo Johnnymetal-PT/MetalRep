@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="relatorio_pendentes_template" model="ir.ui.view">
+        <field name="name">relatorio_pendentes_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.relatorio_pendentes_template">
+  <t t-call="web.html_container">
+    <t t-foreach="docs" t-as="doc">
+        <t t-call="web.external_layout">
+        <div class="page">  
+        
+
+               <div class="row">
+                    <div class="col-6">
+                        <table style="                             font-family: 'DejaVu Sans', Arial, sans-serif;                             font-size: 10px;                             width: 100%;                             border: 0 !important;                             border-collapse: collapse;                             background: transparent !important;                         ">
+                            <tr style="border: 0 !important; background: transparent !important;">
+                                <td style="                                     width: 80px;                                     vertical-align: top;                                     border: 0 !important;                                     background: transparent !important;                                 ">
+                                    <img src="/web/image/217-cbcaad96/aaq.PNG" alt="Logo" style="max-height: 120px;"/>
+                                </td>
+
+                                <td style="                                     vertical-align: top;                                     padding-left: 10px;                                     border: 0 !important;                                     background: transparent !important;                                 ">
+                                    Activus Accounting Services Soc. Unip., Lda<br/>
+                                    Contribuinte N.º: 400719731<br/>
+                                    Rua Kamba Simango, 432<br/>
+                                    Maputo<br/>
+                                    Telef. 258 866224967 Fax.<br/>
+                                    geral@activus.co.mz
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="col-6 text-end">
+                    </div>
+                </div>
+
+                <p>
+                </p>               
+                <!--Fim Cabeçalho    -->
+        <!--Inicio  Detalhes da empresa-->
+            <div class="container">
+                <div class="row" style="font-size:10px;font-Family: arial;margin-top:-5px">
+                    <div class="col-6">
+                       
+                        
+                    </div>
+                    <!--Detalhes do cliente-->
+                    <div class="text-end col-6">
+                        <span style="font-size:12pt;">Exmo.(s) Sr.(s) </span>
+                        <br/>
+                        <span t-field="doc.name"/>
+                        <br/>
+                    </div>
+                    <!--Fim Dados do cliente-->
+                    </div>
+                        <br/>
+                        <br/>
+                        <t t-set="current_date" t-value="time.strftime('%Y-%m-%d')"/>
+                        <p>
+                                        Data: 
+                            <t t-esc="current_date"/>
+                        </p>
+                        <h2>
+                            <strong style="color:#154398; text-align: right">Relatórios de Pendentes</strong>
+                        </h2>
+
+
+
+
+                    <br/>
+                    <table class="table table-bordered table-striped table-hover table-sm">
+                          <thead class="table-dark">
+                            <tr class="text-center">
+                                <th style="text-align: center;"><strong>Data</strong></th>
+                                <th style="text-align: center;"><strong>Referência</strong></th>
+                                <th style="text-align: center;"><strong>Data de Vencimento</strong></th>
+                                <th style="text-align: center;"><strong>Total em Dívida</strong></th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="invoice_tbody">
+                            <t t-set="invoice_count" t-value="0"/>
+                            <t t-foreach="doc.customer_invoices" t-as="invoice">
+                                <t t-set="invoice_count" t-value="invoice_count + 1"/>
+                                <tr class="text-center">
+                                    <td><span t-field="invoice.invoice_date"/></td>
+                                    <td><span t-field="invoice.move_name"/></td>
+                                    <td><span t-field="invoice.date_maturity"/></td>
+                                    <td><span t-field="invoice.amount_residual_currency"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+
+                        <tfoot>
+                            <tr class="text-center fw-bold">
+                                <td colspan="3" class="text-end"><strong>Total em Dívida:</strong></td>
+                                <td><strong t-field="doc.total_devido"/></td>
+                            </tr>
+                            <tr class="text-center fw-bold">
+                                <td colspan="3" class="text-end"><strong>Total em Atraso:</strong></td>
+                                <td><strong t-field="doc.total_em_atraso"/></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <!-- <table class="table table-bordered table-striped table-hover table-sm">
+                        <thead class="table-dark">
+                            <tr class="text-center">
+                                <th class="text-center"><strong>Data</strong></th>
+                                <th class="text-center"><strong>Referência</strong></th>
+                                <th class="text-center"><strong>Data de vencimento</strong></th>
+                                <th class="text-center"><strong>Total em dívida</strong></th>
+                            </tr>
+                        </thead>
+                         <tbody class="invoice_tbody">
+                        <t t-set="invoice_count" t-value="0"/>
+                        <t t-foreach="doc.customer_invoices" t-as="invoice">
+                            <t t-set="invoice_count" t-value="invoice_count + 1"/>
+                            <tr>
+                                <td class="text-center">
+                                    <span t-field="invoice.invoice_date"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="invoice.move_name"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="invoice.date_maturity"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="invoice.amount_residual_currency"/>
+                                </td>
+                            </tr>
+                            </t>
+                            </tbody>
+                             <tbody class="invoice_tbody">
+                        
+                            
+                            <tr>
+                                <td class="text-center">
+                                    
+                                </td>
+                                <td class="text-center">
+                                </td>
+                                <td class="text-center">
+                                    
+                                </td>
+                                <td class="text-center">
+                                     <strong>Total Devido:</strong> <strong t-field="doc.total_devido"/>
+                                </td>
+                            </tr>
+                        
+                        </tbody>
+                        
+                    </table> -->
+                    
+                    
+                <p class="fw-bold mt-2">
+                            Número total de documentos: <t t-esc="invoice_count"/>
+                        </p>
+                       
+
+
+                <div class="footer">
+                    <p class="mt16">Processado por Computador: SW Odoo, implementado por INNOVACTIVE (www.innovactive.co.mz)</p>
+                </div>
+            </div>    
+        </div>
+        </t>
+    </t>
+  </t>
+</t>
+        </field>
+    </record>
+
+</odoo>

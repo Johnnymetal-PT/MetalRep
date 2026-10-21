@@ -1,0 +1,18 @@
+<odoo>
+    <record id="view_product_form_inherit" model="ir.ui.view">
+        <field name="name">product.product.form.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='volume']" position="after">
+                    <field name="quantidade_volume"/>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="%(action_open_variant_update_wizard)d" string="Update Variants from File" type="action" class="oe_highlight"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+</odoo>
+

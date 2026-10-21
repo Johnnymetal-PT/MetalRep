@@ -1,0 +1,231 @@
+.btn:not(
+        .dropdown-menu,
+        .o_wsale_my_cart .btn,
+        .position-relative,
+        .js_add_suggested_products,
+        .dropdown-toggle,
+        .js_add_cart_json,
+        .oe_search_button,
+        .btn-light,
+        .o_add_compare_dyn,
+        .o_add_wishlist_dyn,
+        .btn-link,
+        .o_wsale_product_action_row .a-submit,
+        .te_pay_now,
+        .te_add_address,
+        .card_hover_btn,
+        .category_animate,
+        .btn-danger,
+        #close-button,
+        .load_more_button,
+        .load_more_button_top,
+        .o_notification_close,
+        .hotspot_draggable a,
+        .btn_heading .btn,
+        .btn_create_collection,
+        .btn_wish,
+        .o_wsale_product_btn .o_add_wishlist,
+        .o_add_compare,
+        .o_wsale_product_ptav_pill,
+        .js_subscribe_btn,
+        .oe_voice_button,
+        .o_wsale_product_btn_primary,
+    ) {
+    /* Button Gradient Style */
+    @if o-color('animation-gradient-color') != transparent {
+        @include o-add-gradient('animation-gradient-color');
+    }
+    /* Button Fade Style */
+    @if o-website-value("button-template") == "style_1" {
+        transition-property: all;
+        background: transparent;
+        color: o-color("primary");
+        transition-duration: 300ms;
+        @if o-color('animation-text-color') != transparent {
+            color: o-color('animation-text-color') !important;
+        }
+        &:hover {
+            transition-duration: 0.4s;
+            background: o-color("primary");
+            color: white;
+            @if o-color('animation-hover-color') != transparent {
+                color: o-color('animation-hover-color') !important;
+            }
+            @if o-color('animation-gradient-color') != transparent {
+                border-color: black;
+            }
+        }
+    }
+
+    /* Button Shadow Style */
+    @if o-website-value("button-template") == "style_2" {
+        @include position(relative);
+        @include transition(all, 0.3s, ease-out);
+        @if o-color('animation-text-color') != transparent {
+            color: o-color('animation-text-color') !important;
+        }
+        &:hover {
+            box-shadow: 0 15px 10px -10px rgba(31, 31, 31, 0.5) !important;
+            @if o-color('animation-hover-color') != transparent {
+                color: o-color('animation-hover-color') !important;
+            }
+            @if o-color('animation-gradient-color') != transparent {
+                border-color: black;
+            }
+        }
+    }
+
+    /* Button Slide Down Style */
+    @if o-website-value("button-template") == "style_3" {
+        display: inline-block;
+        background: transparent;
+        color: o-color("primary");
+        @include position(relative);
+        @include transition(background-color, 0.3s, null);
+        overflow: hidden;
+        z-index: 1;
+        @if o-color('animation-text-color') != transparent {
+            color: o-color('animation-text-color') !important;
+        }
+        &:hover {
+            background-color: unset;
+            color: white;
+            &:after {
+                height: 100%;
+            }
+            @if o-color('animation-hover-color') != transparent {
+                color: o-color('animation-hover-color') !important;
+            }
+        }
+        &:after {
+            content: "";
+            @include position(absolute, 0, unset, unset, 0) z-index: -1;
+            width: 100%;
+            height: 0;
+            background: o-color("primary");
+            @include transition(all, 0.3s, null)
+            @if o-color('animation-gradient-color') != transparent {
+                @include o-add-gradient('animation-gradient-color');
+            }
+        }
+    }
+
+    /* Button Skew Style */
+    @if o-website-value("button-template") == "style_4" {
+        @include position(relative, null, null, null, null);
+        overflow: hidden;
+        z-index: 1;
+        -webkit-transition: 0.2s cubic-bezier(0.19, 0.4, 0.9, 0.76) background;
+        transition: 0.2s
+            cubic-bezier(0.19, 0.4, 0.9, 0.76)
+            background; /* Transition mixin is not compatible with this property structure.*/
+        @if o-color('animation-text-color') != transparent {
+            color: o-color('animation-text-color') !important;
+        }
+        &:hover {
+            @if o-color('animation-hover-color') != transparent {
+                color: o-color('animation-hover-color') !important;
+            }
+            &:after {
+                height: 100%;
+                opacity: 1;
+                color: gray;
+            }
+        }
+        &:after {
+            content: "";
+            @include position(absolute, 50%, null, null, 50%);
+            width: 100%;
+            height: 0;
+            opacity: 0;
+            @include transform(translateX(-50%) translateY(-50%) rotate(45deg))
+                @include transition(all, 0.4s, cubic-bezier(0, 0, 0, 0.3))
+                background: rgba(255, 255, 255, 0.15);
+        }
+    }
+
+    /* Button With Gradient Style */
+    @if o-website-value("button-template") == "style_5" {
+        z-index: 1;
+        background-size: 300% 100%;
+        @include position(relative);
+        overflow: hidden;
+        transition-property: all;
+        transition-duration: 0.4s;
+        @if o-color('animation-text-color') != transparent {
+            color: o-color('animation-text-color') !important;
+        }
+        background-image: linear-gradient(
+            75deg,
+            #0000ff,
+            #9c00ff,
+            #9c00ff,
+            #0000ff
+        );
+        &:hover {
+            transition-property: all;
+            transition-duration: 0.4s;
+            transition-timing-function: ease-in-out;
+            background-position: 100% 0;
+            @if o-color('animation-hover-color') != transparent {
+                color: o-color('animation-hover-color') !important;
+            }
+        }
+    }
+
+    /* Button Slide Up Style */
+    @if o-website-value("button-template") == "style_6" {
+        @include position(relative);
+        transform: translate3d(0px, 0%, 0px);
+        transition-delay: 0.6s;
+        overflow: hidden;
+        @if o-color('animation-text-color') != transparent {
+            color: o-color('animation-text-color') !important;
+        }
+        &:hover {
+            border-color: black;
+            transition: background 0.2s linear;
+            transition-delay: 0.6s;
+            @if o-color('animation-hover-color') != transparent {
+                color: o-color('animation-hover-color') !important;
+            }
+            &:before {
+                border-radius: 0;
+                transform: translateY(0) scaleY(1);
+            }
+            &:after {
+                border-radius: 0 0 50% 50%;
+                transform: translateY(-100%) scaleY(0.5);
+            }
+        }
+        &:before,
+        &:after {
+            content: "";
+            @include position(absolute, 0%, null, null, 0%);
+            width: 100%;
+            height: 100%;
+            transition: all 0.6s ease;
+            z-index: -1;
+        }
+        &:before {
+            @if o-color('animation-gradient-color') != transparent {
+                @include o-add-gradient('animation-gradient-color');
+            }
+            background: black;
+            border-radius: 50% 50% 0 0;
+            transform: translateY(100%) scaleY(0.5);
+        }
+        &:after {
+            background: transparent;
+            border-radius: 0;
+            transform: translateY(0) scaleY(1);
+        }
+    }
+}
+.s_dynamic_snippet_products .style_8 .o_wsale_product_information{
+    background-color : o-color('back-gry-color') !important;
+    color: o-color('text-gry-color') !important;
+    .text-muted, .text-muted > div{
+        color: color-mix(in srgb, o-color('text-gry-color') 40%, transparent) !important;
+    }
+}

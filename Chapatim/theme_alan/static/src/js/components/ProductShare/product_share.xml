@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- ==================== Product Share Dialog Template ==================== -->
+    <t t-name="theme_alan.ProductShare">
+        <Dialog size="'md'" title.translate="Share" footer="false">
+            <div class="as-product-share-modal">
+                <div class="as-product-social-share">
+                    <a
+                        t-att-href="facebookUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Share on Facebook"
+                        title="Share on Facebook"
+                        class="s_share_facebook"
+                    >
+                        <i class="fa fa-facebook"/>
+                    </a>
+                    <a
+                        t-att-href="twitterUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Share on X"
+                        title="Share on X"
+                        class="s_share_twitter"
+                    >
+                        <i class="fa fa-twitter"/>
+                    </a>
+                    <a
+                        t-att-href="linkedinUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Share on LinkedIn"
+                        title="Share on LinkedIn"
+                        class="s_share_linkedin"
+                    >
+                        <i class="fa fa-linkedin"/>
+                    </a>
+                    <a
+                        t-att-href="whatsappUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Share on WhatsApp"
+                        title="Share on WhatsApp"
+                        class="s_share_whatsapp"
+                    >
+                        <i class="fa fa-whatsapp"/>
+                    </a>
+                    <a
+                        t-att-href="pinterestUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Share on Pinterest"
+                        title="Share on Pinterest"
+                        class="s_share_pinterest"
+                    >
+                        <i class="fa fa-pinterest"/>
+                    </a>
+                    <a
+                        t-att-href="emailUrl"
+                        aria-label="Share via Email"
+                        title="Share via Email"
+                        class="s_share_email"
+                    >
+                        <i class="fa fa-envelope"/>
+                    </a>
+                </div>
+                <div class="as-product-share-link">
+                    <div class="row">
+                        <div class="col col-10">
+                            <input
+                                type="text"
+                                class="form-control product_share_link col-3"
+                                t-att-value="props.product_link"
+                                readonly="readonly"
+                                autocomplete="off"
+                                aria-label="Product link"
+                            />
+                        </div>
+                        <div class="col col-2">
+                            <button
+                                class="btn btn-primary copy-btn w-100"
+                                type="button"
+                                t-ref="copy_btn"
+                                t-on-click="copyToProductLink"
+                                aria-label="Copy product link"
+                                aria-live="polite"
+                                title="Copy link"
+                            >
+                                <i class="asi asi-link-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Dialog>
+    </t>
+</templates>

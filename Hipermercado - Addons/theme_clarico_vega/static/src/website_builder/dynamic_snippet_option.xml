@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+    <t t-name="theme_clarico_vega.DynamicSnippetProductOption" t-inherit="website.DynamicSnippetOption">
+
+        <xpath expr="//BuilderRow[*[@id=&quot;'template_opt'&quot;]]" position="before">
+            <t t-foreach="filteredTemplates" t-as="template" t-key="template.key">
+                <t t-if="template.name == 'Product slider Style 8'">
+                    <div class="hb-row d-flex position-relative pe-2">
+                        <div class="hb-row-label d-flex align-items-center flex-basis-100">
+                            <span class="text-nowrap text-truncate">Product slider Style 8</span>
+                        </div>
+                    </div>
+                        <BuilderRow label.translate="Background Color" level="1">
+                            <BuilderColorPicker t-if="template.name == 'Product slider Style 8'"
+                            enabledTabs="['solid', 'custom', 'gradient']"
+                            preview="false"
+                            defaultColor="''"
+                            action="'customizeWebsiteColor'"
+                            actionParam="{
+                                mainParam: 'back-gry-color',
+                                gradientColor: 'back-gradient-color',
+                                combinationColor: 'back-gry',
+                                nullValue: 'NULL',
+                            }"/>
+                        </BuilderRow>
+                        <BuilderRow label.translate="Text Color" level="1">
+                            <BuilderColorPicker t-if="template.name == 'Product slider Style 8'"
+                            enabledTabs="['solid', 'custom', 'gradient']"
+                            preview="false"
+                            defaultColor="''"
+                            action="'customizeWebsiteColor'"
+                            actionParam="{
+                                mainParam: 'text-gry-color',
+                                gradientColor: 'text-gradient-color',
+                                combinationColor: 'text-gry',
+                                nullValue: 'NULL',
+                            }"/>
+                        </BuilderRow>
+
+                </t>
+            </t>
+        </xpath>
+
+        <xpath expr="//BuilderRow[@id='number_of_records_opt_row']" position="after">
+            <BuilderRow label.translate="Start Date">
+                <BuilderDateTimePicker dataAttributeAction="'startTime'" acceptEmptyDate="false"
+                    action="'sliderVisibilityByDate'"/>
+            </BuilderRow>
+            <BuilderRow label.translate="End Date">
+                <BuilderDateTimePicker action="'sliderVisibilityByDate'" dataAttributeAction="'endTime'" acceptEmptyDate="false"/>
+            </BuilderRow>
+            <BuilderRow id="desktop_products_opt_row" label.translate="Desktop Number of Products"
+                t-if="!!dynamicOptionParams.domState.filterId or isSingleMode">
+                <BuilderSelect action="'numberOfElements'" preview="false" id="'desktop_products_opt'">
+                    <t t-foreach="['1','2','3','4','5 (Single Scroll Mode)','6']" t-as="value" t-key="value">
+                        <BuilderSelectItem actionParam="value" t-out="value"/>
+                    </t>
+                </BuilderSelect>
+            </BuilderRow>
+
+            <!-- Mobile -->
+            <BuilderRow id="mobile_products_opt_row" label.translate="Mobile Number of Products"
+                t-if="!!dynamicOptionParams.domState.filterId or isSingleMode">
+                <BuilderSelect action="'numberOfElementsSmallDevices'" preview="false" id="'mobile_products_opt'">
+                    <t t-foreach="['1','2','3']" t-as="value" t-key="value">
+                        <BuilderSelectItem actionParam="value" t-out="value"/>
+                    </t>
+                </BuilderSelect>
+            </BuilderRow>
+
+        </xpath>
+    </t>
+
+</templates>

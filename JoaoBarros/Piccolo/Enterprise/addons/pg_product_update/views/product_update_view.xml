@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="action_update_products" model="ir.actions.server">
+            <field name="name">Update Products</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="binding_model_id" ref="product.model_product_template"/>
+            <field name="state">code</field>
+            <field name="code">env['product.update'].update_products()</field>
+        </record>
+    </data>
+</odoo>

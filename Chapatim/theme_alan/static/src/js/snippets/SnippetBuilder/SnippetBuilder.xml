@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- =============== Snippet Builder Template ===============  -->
+    <t t-name="theme_alan.snippet_builder">
+        <Dialog size="'fullscreen'" title.translate="Snippet Builder" header="false" footer="false" bodyClass="'as-snippet-builder-dialog'">
+            <div class="as-sb-header d-flex justify-content-between align-items-center">
+
+                <!-- Snippet Builder Header -->
+                <div class="as-sb-header-title d-flex gap-2">
+                    <div class="as-sb-logo d-flex align-items-center gap-2">
+                        <div class="as-sb-btn-primary">
+                            <span class="as-sb-btn-icon"></span>
+                        </div>
+                        <t t-if="props.snippet_type === 'as_mega_menu'">
+                            <span>MegaMenu Snippet Builder</span>
+                        </t>
+                        <t t-else="">
+                            <span>Snippet Builder Studio</span>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Preview Options -->
+                <div class="as-sb-preview-op d-flex align-items-center">
+                    <div class="as-sb-screens d-flex align-items-center as-sb-border">
+                        <button
+                            class="btn as-sb-desktop"
+                            t-att-class="{'active': state.deviceView === 'desktop'}"
+                            t-on-click="()=>this.setDeviceView('desktop')"
+                            title="Desktop View"
+                        >
+                            <span class="as-sb-btn-icon"></span>
+                        </button>
+                        <button
+                            class="btn as-sb-tablet"
+                            t-att-class="{'active': state.deviceView === 'tablet'}"
+                            t-on-click="()=>this.setDeviceView('tablet')"
+                            title="Tablet View"
+                        >
+                            <span class="as-sb-btn-icon"></span>
+                        </button>
+                        <button
+                            class="btn as-sb-mobile"
+                            t-att-class="{'active': state.deviceView === 'mobile'}"
+                            t-on-click="()=>this.setDeviceView('mobile')"
+                            title="Mobile View"
+                        >
+                            <span class="as-sb-btn-icon"></span>
+                        </button>
+                    </div>
+
+                    <!-- History Controls -->
+                    <div class="as-sb-history d-flex align-items-center">
+                        <button class="btn as-sb-undo as-sb-border" title="Undo" t-on-click="onUndo">
+                            <span class="as-sb-btn-icon"></span>
+                        </button>
+                        <button class="btn as-sb-redo as-sb-border" title="Redo" t-on-click="onRedo">
+                            <span class="as-sb-btn-icon"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Header Actions -->
+                <div class="as-sb-header-actions d-flex align-items-center">
+                    <button type="button" class="btn as-sb-save as-sb-btn-primary" t-on-click="onSave">
+                        <span class="as-sb-btn-icon"></span>
+                        Save
+                    </button>
+                    <button type="button" class="btn as-sb-cross" t-on-click="onClose" >
+                        <span class="as-sb-btn-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <!-- Snippet Builder Body -->
+            <div class="as-sb-body">
+                <div class="as-sb-main position-relative">
+                    <div class="as-sb-main-header bg-white p-3 as-sb-border-bottom">
+                        <button type="button" class="btn as-sb-btn-primary" t-on-click="onClickTemplateMenu">Select Template</button>
+                        <t t-if="props.snippet_type !== 'as_mega_menu'">
+                            <button type="button" class="btn as-sb-btn-primary btn-secondary" t-on-click="onClickCollectionsMenu"> My Collections</button>
+                        </t>
+                    </div>
+
+                    <!-- Collections Menu -->
+                    <div class="as-sb-top-template as-sb-top-temp" t-att-class="{'d-none': !state.showCollections,'d-block': state.showCollections}">
+                        <div class="as-sb-snippet-tmp-list position-relative">
+                            <t t-if="parsedCollections.length">
+                                <div class="sb-tmp-card d-flex flex-nowrap gap-3 overflow-auto pb-3">
+                                    <t t-foreach="parsedCollections" t-as="collection" t-key="collection.id">
+                                    <div class="sb-snippet-card flex-shrink-0 as-sb-border sb-tmp" t-on-click="()=>this.onCollectionSelect(collection)">
+                                        <div class="card shadow-sm border-0 h-100">
+                                            <!-- <div class="card-img-top rounded-top"> -->
+                                                <t t-if="collection.preview_image">
+                                                    <img t-att-src="collection.preview_image"
+                                                        class="card-img-top rounded-top"
+                                                        t-att-alt="collection.name"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <i class="fa fa-image fa-3x text-muted"/>
+                                                </t>
+                                            <!-- </div> -->
+                                            <div class="card-body p-2 text-center  as-sb-border-top">
+                                                <span class="fw-semibold d-block text-truncate mb-2" t-esc="collection.name"/>
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-danger w-100"
+                                                        t-on-click.stop="(ev) => this.onDeleteCollection(ev, collection)">
+                                                    <i class="fa fa-trash me-1"/>Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </t>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="text-center text-muted mt-5">
+                                    <i class="fa fa-folder-open fa-2x mb-3"/>
+                                    <p class="mb-0">No saved collections yet.</p>
+                                </div>
+                            </t>
+                            <div class="as-sb-top-template-close">
+                                <button type="button" class="btn as-sb-cross" t-on-click="onCloseCollectionsMenu">
+                                    <span class="as-sb-btn-icon"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="as-sb-top-template" t-att-class="{'d-none': !state.showSnippets,'d-block': state.showSnippets}">
+                        <div class="as-sb-section-tabs-wrapper">
+                            <div class="as-sb-section-tabs d-flex items-center justify-content-end bg-transparent">
+                                <div role="search"  class="as-sb-snippet-search me-2 input-group">
+                                    <input type="search"
+                                        class="oe_search_box search-query form-control form-control-md"
+                                        placeholder="Search snippets..."
+                                        t-on-input="onSearchSnippet"/>
+                                        <button type="submit" aria-label="Search" title="Search" class="btn oe_search_button btn btn-light">
+                                            <i class="oi oi-search"></i>
+                                        </button>
+                                </div>
+                                <div class="as-sb-snippets-tabs-list d-flex align-items-center gap-2">
+                                    <t t-if="snippetTabs.length">
+                                        <t t-foreach="snippetTabs" t-as="tab" t-key="tab.id">
+                                            <button class="btn as-sb-btn-secondary"
+                                                t-att-class="{'active': state.activeCategory and state.activeCategory.id === tab.id }"
+                                                t-on-click="() => this.onSnippetTabSelect(tab)">
+                                                <t t-esc="tab.name"/>
+                                            </button>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="text-gray-400 text-sm">No snippet tabs found</span>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="as-sb-snippet-tmp-list position-relative">
+                            <t t-if="state.activeCategory and state.activeCategory.snippets">
+                                <div class="sb-tmp-card d-flex flex-nowrap gap-3 overflow-auto pb-3">
+                                    <t t-foreach="filteredSnippets" t-as="snippet" t-key="snippet.technical_name">
+                                        <div class="sb-snippet-card flex-shrink-0 as-sb-border" t-on-click="()=>this.onSnippetSelect(snippet)">
+                                            <div class="card shadow-sm border-0 h-100">
+                                                <img t-att-src="snippet.preview_image"
+                                                    class="card-img-top rounded-top"
+                                                    alt="Snippet Preview"/>
+                                                <div class="card-body text-center py-2 as-sb-border-top">
+                                                    <span class="fw-semibold d-block text-truncate">
+                                                        <t t-esc="snippet.name"/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="text-center text-muted mt-5">
+                                    <i class="fa fa-info-circle fa-2x mb-3"/>
+                                    <p class="mb-0">No snippets available in this category.</p>
+                                </div>
+                            </t>
+                            <div class="as-sb-top-template-close">
+                                <button type="button" class="btn as-sb-cross" t-on-click="onCloseTemplateMenu" >
+                                    <span class="as-sb-btn-icon"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Snippet Builder Canvas Area -->
+                    <div class="as-sb-canvas-area">
+                        <SnippetBuilderCanvas editor="editor" config="config" snippet_type="props.snippet_type" deviceView="state.deviceView"/>
+                    </div>
+                </div>
+                <!-- Snippet Builder Config Area -->
+                <div class="as-sb-config">
+                    <SnippetBuilderConfig editor="editor" config="config" snippet_type="props.snippet_type"/>
+                </div>
+            </div>
+        </Dialog>
+    </t>
+</templates>

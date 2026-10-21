@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Custom Payslip Line Tree View -->
+    <record id="view_custom_payslip_line_tree" model="ir.ui.view">
+        <field name="name">custom.payslip.line.tree</field>
+        <field name="model">custom.payslip.line</field>
+        <field name="arch" type="xml">
+            <list string="Custom Payslip Lines">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="total"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Extend Payslip Form to show custom lines -->
+    <record id="view_hr_payslip_form_inherit" model="ir.ui.view">
+        <field name="name">hr.payslip.form.inherit.rh_custom</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Custom Lines" name="custom_lines">
+                    <field name="custom_line_ids">
+                        <list editable="bottom">
+                            <field name="name"/>
+                            <field name="category_id"/>
+                            <field name="total"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

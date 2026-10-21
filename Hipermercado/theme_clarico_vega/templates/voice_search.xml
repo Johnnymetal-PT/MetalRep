@@ -1,0 +1,11 @@
+<odoo>
+    <template id="voice_search_extend" inherit_id="website.website_search_box_input" name="Voice Search Extend">
+        <xpath expr="//form//div" position="inside">
+            <button type="button" aria-label="Voice Search" title="Voice Search" t-if="request.env['website'].get_current_website().enable_voice_search"
+                    class="btn-voice-search btn oe_voice_button border border-start-0 px-4 bg-o-color-4"
+                    id="voiceSearchBtn">
+                <i class="fa fa-microphone"></i>
+            </button>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,24 @@
+# VERSÃO ALTERNATIVA SEM EMOJIS - Caso necessário
+
+def unlink(self):
+    """Override unlink para impedir exclusão de contatos"""
+    if self:
+        raise ValidationError(
+            'OPERAÇÃO NÃO PERMITIDA\n'
+            '════════════════════════════════════════════════════════════\n\n'
+            'A exclusão de contatos está bloqueada por política de segurança.\n\n'
+            'MOTIVOS:\n'
+            '  • Preservação do histórico de transações\n'
+            '  • Manutenção da integridade referencial\n'
+            '  • Conformidade com requisitos de auditoria\n'
+            '  • Rastreabilidade de operações comerciais\n\n'
+            'ALTERNATIVA RECOMENDADA:\n'
+            '  → Use a opção "Arquivar" para ocultar contatos inativos\n'
+            '  → Acesse: Ação > Arquivar\n\n'
+            'Contatos arquivados:\n'
+            '  • Não aparecem em pesquisas e listas\n'
+            '  • Mantêm todo o histórico preservado\n'
+            '  • Podem ser desarquivados quando necessário\n'
+            '════════════════════════════════════════════════════════════'
+        )
+    return super().unlink()

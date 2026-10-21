@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Template 1: Lembrete interno para equipa de Contas a Pagar -->
+        <record id="email_template_supplier_payment_reminder_internal" model="mail.template">
+            <field name="name">Lembrete de Pagamento ao Fornecedor - Interno (Equipa AP)</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="subject">⚠️ Pagamento Necessário: {{ object.name }} - {{ format_amount(object.total_overdue_supplier, object.currency_id) }} em atraso</field>
+            <field name="email_from">{{ user.email_formatted or user.company_id.email_formatted }}</field>
+            <field name="email_to">{{ object.supplier_followup_responsible_id.email_formatted or user.email_formatted }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 14px; color: rgb(34, 34, 34); background-color: #FFF; padding: 20px;">
+                    <h3 style="color: #875A7B;">Lembrete de Pagamento - Ação Necessária</h3>
+                    
+                    <p>Caro(a) <t t-out="object.supplier_followup_responsible_id.name or 'Equipa de Contas a Pagar'"/>,</p>
+                    
+                    <p>Este é um lembrete urgente de que temos <b>pagamentos em atraso</b> ao nosso fornecedor <b><t t-out="object.name"/></b>.</p>
+                    
+                    <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #dc3545; margin: 20px 0;">
+                        <h4 style="color: #dc3545; margin-top: 0;">Resumo do Pagamento</h4>
+                        <table style="width: 100%;">
+                            <tr>
+                                <td style="padding: 8px;"><b>Fornecedor:</b></td>
+                                <td style="padding: 8px;"><t t-out="object.name"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;"><b>Total em Dívida:</b></td>
+                                <td style="padding: 8px; font-size: 16px;"><b><t t-out="format_amount(object.total_due_supplier, object.currency_id)"/></b></td>
+                            </tr>
+                            <tr style="background-color: #ffebee;">
+                                <td style="padding: 8px;"><b>Valor em Atraso:</b></td>
+                                <td style="padding: 8px; color: #dc3545; font-size: 16px;"><b><t t-out="format_amount(object.total_overdue_supplier, object.currency_id)"/></b></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;"><b>N.º de Faturas por Pagar:</b></td>
+                                <td style="padding: 8px;"><t t-out="object.unpaid_bills_count"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <p><b>Ação Necessária:</b></p>
+                    <ul>
+                        <li>Rever as faturas em anexo imediatamente</li>
+                        <li>Autorizar o pagamento</li>
+                        <li>Agendar transferência bancária ou outro meio de pagamento</li>
+                        <li>Atualizar o estado do pagamento no sistema</li>
+                    </ul>
+                    
+                    <p style="color: #dc3545;"><b>⚠️ Importante:</b> Pagamentos em atraso podem resultar em:
+                        <ul>
+                            <li>Multas por atraso</li>
+                            <li>Suspensão dos serviços do fornecedor</li>
+                            <li>Danos na relação comercial</li>
+                            <li>Impacto nas condições de crédito futuras</li>
+                        </ul>
+                    </p>
+                    
+                    <div style="margin: 30px 0; text-align: center;">
+                        <a href="/web#id={{ object.id }}&amp;model=res.partner&amp;view_type=form" 
+                        style="background-color: #dc3545; padding: 12px 30px; text-decoration: none; color: #fff; border-radius: 5px; display: inline-block;">
+                            📋 Rever Faturas &amp; Processar Pagamento
+                        </a>
+                    </div>
+                    
+                    <p style="margin-top: 30px; color: #666;">
+                        Solicitamos que processe este pagamento ainda hoje para mantermos a boa relação com este fornecedor.<br/><br/>
+                        Com os melhores cumprimentos,<br/>
+                        <b><t t-out="user.company_id.name"/> - Departamento Financeiro</b>
+                    </p>
+                </div>
+            </field>
+            <field name="lang">{{ object.lang }}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Template 2: Notificação cortês ao fornecedor -->
+        <record id="email_template_supplier_payment_notification" model="mail.template">
+            <field name="name">Notificação de Pagamento ao Fornecedor - Externa</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="subject">Atualização de Pagamento - {{ user.company_id.name }}</field>
+            <field name="email_from">{{ user.company_id.email_formatted or user.email_formatted }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 14px; color: rgb(34, 34, 34); background-color: #FFF; padding: 20px;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h2 style="color: #875A7B;"><t t-out="user.company_id.name"/></h2>
+                    </div>
+                    
+                    <p>Exmo(a). <t t-out="object.name"/>,</p>
+                    
+                    <p>Esperamos que esta mensagem o(a) encontre bem. Estamos a escrever para reconhecer as faturas em aberto nos nossos registos e para atualizar o estado do pagamento.</p>
+                    
+                    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                        <h4 style="color: #875A7B;">Informação de Pagamento</h4>
+                        <table style="width: 100%;">
+                            <tr>
+                                <td style="padding: 8px;"><b>Total em Dívida:</b></td>
+                                <td style="padding: 8px;"><b><t t-out="format_amount(object.total_due_supplier, object.currency_id)"/></b></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;"><b>Data Prevista de Pagamento:</b></td>
+                                <td style="padding: 8px;">
+                                    <t t-if="object.supplier_followup_next_action_date">
+                                        <t t-out="format_date(object.supplier_followup_next_action_date)"/>
+                                    </t>
+                                    <t t-else="">A confirmar</t>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <p>Estamos neste momento a processar estes pagamentos através do nosso departamento de contas a pagar. Pode esperar receber o pagamento de acordo com os termos acordados.</p>
+                    
+                    <p>Se tiver alguma questão ou preocupação relativamente a estes pagamentos, por favor contacte a nossa equipa de contas a pagar através de:</p>
+                    <ul>
+                        <li>Email: <t t-out="user.company_id.email or 'accounts.payable@company.com'"/></li>
+                        <li>Telefone: <t t-out="user.company_id.phone or 'Contacto Telefónico'"/></li>
+                    </ul>
+                    
+                    <p>Valorizamos a nossa relação comercial e agradecemos a sua paciência e parceria contínua.</p>
+                    
+                    <p style="margin-top: 30px;">
+                        Atentamente,<br/>
+                        <b><t t-out="user.company_id.name"/></b><br/>
+                        Departamento de Contas a Pagar<br/>
+                        <t t-out="user.company_id.email"/><br/>
+                        <t t-out="user.company_id.phone"/>
+                    </p>
+                </div>
+            </field>
+            <field name="lang">{{ object.lang }}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Template 3: Compromisso de pagamento urgente -->
+        <record id="email_template_supplier_urgent_payment" model="mail.template">
+            <field name="name">Pagamento ao Fornecedor - Compromisso Urgente</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="subject">Urgente: Processamento de Pagamento - {{ user.company_id.name }}</field>
+            <field name="email_from">{{ user.company_id.email_formatted or user.email_formatted }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 14px; color: rgb(34, 34, 34); background-color: #FFF; padding: 20px;">
+                    <div style="background-color: #fff3cd; border: 1px solid #ffc107; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                        <h3 style="color: #856404; margin-top: 0;">⚠️ Notificação Urgente de Pagamento</h3>
+                    </div>
+                    
+                    <p>Exmo(a). <t t-out="object.name"/>,</p>
+                    
+                    <p>Acusamos a receção das suas faturas e pedimos desculpa pelo atraso no processamento do pagamento.</p>
+                    
+                    <div style="background-color: #d4edda; padding: 15px; border-left: 4px solid #28a745; margin: 20px 0;">
+                        <h4 style="color: #155724; margin-top: 0;">Compromisso de Pagamento</h4>
+                        <p>Comprometemo-nos a liquidar o montante em atraso de <b><t t-out="format_amount(object.total_overdue_supplier, object.currency_id)"/></b> com a máxima prioridade.</p>
+                        <p><b>O pagamento será processado nas próximas 48-72 horas.</b></p>
+                    </div>
+                    
+                    <p>A nossa equipa de contas a pagar está ativamente a trabalhar em:</p>
+                    <ul>
+                        <li>✓ Finalizar a autorização do pagamento</li>
+                        <li>✓ Processar as instruções de transferência bancária</li>
+                        <li>✓ Garantir que toda a documentação está completa</li>
+                    </ul>
+                    
+                    <p>Valorizamos imensamente a nossa parceria com <t t-out="object.name"/> e estamos a tomar medidas imediatas para resolver esta situação.</p>
+                    
+                    <p>Para quaisquer questões urgentes, por favor contacte diretamente:</p>
+                    <div style="background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+                        <b>Gestor de Contas a Pagar</b><br/>
+                        Email: <t t-out="object.supplier_followup_responsible_id.email or user.email"/><br/>
+                        Linha Direta: <t t-out="user.company_id.phone or 'Contacto Telefónico'"/>
+                    </div>
+                    
+                    <p style="margin-top: 30px;">
+                        Pedimos desculpa por qualquer inconveniente e agradecemos a sua compreensão e apoio contínuo.<br/><br/>
+                        Com os melhores cumprimentos,<br/>
+                        <b><t t-out="user.company_id.name"/></b><br/>
+                        Diretor Financeiro
+                    </p>
+                </div>
+            </field>
+            <field name="lang">{{ object.lang }}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

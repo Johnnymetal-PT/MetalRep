@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Reconciliacao bancaria > "Search: Journal Items to Match" (lista). A coluna
+         nativa "Amount Due" mostra o valor bruto em divida; o desconto de
+         pronto pagamento so entra no lancamento depois de reconciliar. Estas
+         colunas mostram logo o valor a pagar com o desconto aplicado e a data
+         limite, para que o valor do extrato bancario possa ser validado a olho.
+         Usam os campos nativos discount_amount_currency / discount_date, que ja
+         respeitam as linhas excluidas do desconto (ver _compute_needed_terms).
+         So aparecem quando o lancamento ainda nao tem nada reconciliado, tal
+         como o valor em divida do modulo nas faturas. -->
+    <record id="view_account_move_line_list_bank_rec_widget_pg_early_discount" model="ir.ui.view">
+        <field name="name">account.move.line.list.bank_rec_widget.pg.early.discount</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account_accountant.view_account_move_line_list_bank_rec_widget"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_residual_currency']" position="after">
+                <field name="amount_currency" column_invisible="True"/>
+                <field name="discount_amount_currency"
+                       string="Valor em dívida c/ desc. P.P."
+                       optional="show"
+                       decoration-muted="discount_amount_currency &lt; 0"
+                       invisible="not discount_date or amount_residual_currency != amount_currency"/>
+                <field name="discount_date"
+                       string="Desc. P.P. até"
+                       optional="show"
+                       invisible="not discount_date or amount_residual_currency != amount_currency"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

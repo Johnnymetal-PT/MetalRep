@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template Principal - Layout Stone Trading -->
+    <template id="external_layout_stone">
+        <!-- Definir variáveis com fallbacks para preview -->
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <t t-set="company" t-value="res_company or (o and o.company_id) or env.company"/>
+        </t>
+
+        <!-- ========== HEADER ========== -->
+        <div t-attf-class="header ">
+            <!-- Cabeçalho com Logo e Título -->
+            <div class="row mb8">
+                <div class="col-6">
+                    <img t-if="company and company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" class="stone_logo"/>
+                </div>
+                <div class="col-6 text-end mb4 " style="margin-top: 35px; font-size: 14pt;">
+                    <!--<div class="stone_doc_title">-->
+                        <t t-if="o">
+                                <t t-if="o._name == 'account.move'">
+                                    Factura <span t-esc="o.name or ''"/>
+                                </t>
+                                <t t-elif="o._name == 'sale.order'">
+                                    <t t-if="o.state == 'draft'">
+                                        Cotação <span t-esc="o.name or ''"/>
+                                    </t>
+                                    <t t-elif="o.state == 'sale' and not o.is_proforma">
+                                        Ordem de Venda <span t-esc="o.name or ''"/>
+                                    </t>
+                                    <t t-elif="o.state == 'sale' and o.is_proforma">
+                                        Factura Pró-forma <span t-esc="o.name or ''"/>
+                                        <!--Factura FT/2025/01211-->
+                                    </t>
+                                    <t t-else="">
+                                        Cotação <span t-esc="o.name or ''"/>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    Documento
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <span t-if="company and company.report_header" t-esc="company.report_header"/>
+                                <span t-else="">Pré-visualização de Layout</span>
+                            </t>
+                    <!--</div>-->
+                </div>
+                </div>
+            </div>
+
+        <!-- ========== ARTICLE ========== -->
+        <div t-attf-class="article stone_layout o_report_layout_stone o_company_#{company.id if company else 0}_layout o_snail_mail"
+             t-att-data-oe-model="o._name if o else ''"
+             t-att-data-oe-id="o.id if o else 0"
+             t-att-data-oe-lang="o.env.context.get('lang') if o and o.env else ''">
+
+            <!-- Informações Emissor e Destinatário -->
+            <div class="row stone_parties mt-3">
+                <!-- Emissor -->
+                <div class="col-6">
+                    <div class="stone_party_block">
+                        <span t-esc="company.name if company else 'Sua Empresa'"/>
+                        <t t-if="company and company.partner_id">
+                            <span t-field="company.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
+                        </t>
+                        <t t-else="">
+                            Morada da empresa<br/>
+                        </t>
+                        <t t-if="company and company.vat">
+                            <strong>NIF: <span t-esc="company.vat"/></strong><br/>
+                        </t>
+                        <t t-if="company and company.phone">
+                            c. <span t-esc="company.phone"/><br/>
+                        </t>
+                        <t t-if="company and company.email">
+                            e. <span t-esc="company.email"/>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Destinatário -->
+                <div class="col-6" style="margin-top: 35px;">
+                    <div class="stone_party_block">
+                        Exmo.(s) Sr.(s)<br/>
+                        <t t-if="o and o.partner_id">
+                            <span t-field="o.partner_id.name"/><br/>
+                            Att:<br/>
+                            <span t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
+                            <t t-if="o.partner_id.vat">
+                                NIF: <span t-field="o.partner_id.vat"/>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <strong>Cliente Exemplo Ltda</strong><br/>
+                            Morada do cliente<br/>
+                            NIF: 123456789
+                        </t>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Título do documento (se fornecido) -->
+            <h2 t-if="layout_document_title" t-out="layout_document_title" class="mt-3"/>
+
+            <!-- Conteúdo principal do documento -->
+            <t t-out="0"/>
+        </div>
+
+        <!-- ========== FOOTER ========== -->
+        <div t-attf-class="footer stone_layout o_company_#{company.id if company else 0}_layout {{report_type != 'pdf' and 'mt-auto'}}">
+            <!-- Referência Administrativa -->
+            <div class="row mt-2">
+                <div class="col-12">
+                    <small class="text-muted">
+                        <t t-if="o and o.name">
+                            Ref: <span t-esc="o.name"/>
+                        </t>
+                        | Documento processado por computador
+                    </small>
+                </div>
+            </div>
+
+            <!-- Dados Bancários -->
+            <div class="row stone_bank_section mt-3">
+                <div class="col-12">
+                    <div class="stone_bank_header text-center">
+                        Dados Bancários
+                    </div>
+                    <table class="table table-sm stone_bank_table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">NIB</th>
+                                <th class="text-center">BANCO</th>
+                                <th class="text-center">CONTA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="company and company.partner_id and company.partner_id.bank_ids">
+                                <t t-foreach="company.partner_id.bank_ids[:2]" t-as="bank">
+                                    <tr>
+                                        <td class="text-center">
+                                            <span t-if="bank.acc_number" t-field="bank.acc_number"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-if="bank.bank_id" t-field="bank.bank_id.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-if="bank.acc_number" t-field="bank.acc_number"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <tr>
+                                    <td class="text-center" colspan="3">
+                                        <em class="text-muted">Configurar contas bancárias em Configurações da Empresa</em>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template de Estilos Dinâmicos -->
+    <template id="layout_stone_css" inherit_id="web.styles_company_report">
+        <xpath expr="." position="inside">
+            <t t-if="layout == 'mh_layout_pdf.external_layout_stone'">
+                .stone_layout.header {
+                    .stone_header {
+                        border-bottom: 2px solid #000;
+                        padding-bottom: 10px;
+                    }
+
+                    .stone_doc_title {
+                        color: #000;
+                        font-size: 14pt;
+                        font-weight: bold;
+                        margin-top: 15px;
+                    }
+
+                    .stone_logo {
+                        max-height: 45mm;
+                        max-width: 100%;
+                    }
+
+                    .stone_parties {
+                        margin-top: 15px;
+                    }
+
+                    .stone_party_block {
+                        font-size: 9pt;
+                        line-height: 1.4;
+                    }
+
+                    .stone_dates {
+                        border-top: 1px solid #ccc;
+                        border-bottom: 1px solid #ccc;
+                        padding: 10px 0;
+                        font-size: 9pt;
+                    }
+                }
+
+                .stone_layout.article {
+                    font-family: Arial, sans-serif;
+                    font-size: 9pt;
+                }
+
+                .stone_layout.footer {
+                    border-top: 2px solid #000;
+                    padding-top: 10px;
+                    font-size: 8pt;
+
+                    .stone_bank_header {
+                        border-bottom: 1px dashed #666;
+                        border-top: 1px dashed #666;
+                        padding: 5px 0;
+                        font-weight: bold;
+                        margin-bottom: 10px;
+                    }
+
+                    .stone_bank_table {
+                        font-size: 8pt;
+
+                        th {
+                            background-color: #f5f5f5;
+                            font-weight: bold;
+                            border: 1px solid #000;
+                        }
+
+                        td {
+                            border: 1px solid #000;
+                        }
+                    }
+                }
+            </t>
+        </xpath>
+    </template>
+</odoo>

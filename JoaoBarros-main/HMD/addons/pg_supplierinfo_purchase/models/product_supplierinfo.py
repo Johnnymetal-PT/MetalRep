@@ -1,0 +1,81 @@
+from dateutil.relativedelta import relativedelta
+
+from odoo import _, fields, models
+from odoo.exceptions import UserError
+
+
+class ProductSupplierinfo(models.Model):
+    _inherit = "product.supplierinfo"
+
+    def action_create_purchase_order(self):
+        """Create a purchase order using the vendor information line."""
+        self.ensure_one()
+
+        vendor = self.partner_id or getattr(self, "name", False)
+        if not vendor:
+            raise UserError(
+                _("Please define a vendor on the vendor list line before creating a purchase order."),
+            )
+
+        product = self.product_id or self.product_tmpl_id.product_variant_id
+        if not product:
+            raise UserError(
+                _("Please link the vendor line to a product before creating a purchase order."),
+            )
+
+        company = self.company_id or self.env.company
+        qty = self.min_qty or 1.0
+
+        if "product_uom" in self._fields and self.product_uom:
+            uom = self.product_uom
+        else:
+            uom = product.uom_po_id or product.uom_id
+        if not uom:
+            raise UserError(
+                _("Please configure a purchase unit of measure for the selected product."),
+            )
+
+        planned_date = fields.Datetime.now()
+        if "delay" in self._fields and self.delay:
+            planned_date += relativedelta(days=int(self.delay))
+
+        product_description = product.display_name
+        if "product_name" in self._fields and self.product_name:
+            product_description = self.product_name
+
+        line_vals = {
+            "product_id": product.id,
+            "name": product_description,
+            "product_qty": qty,
+            "price_unit": self.price or 0.0,
+            "product_uom": uom.id,
+            "date_planned": planned_date,
+        }
+        if "discount" in self._fields:
+            line_vals["discount"] = self.discount or 0.0
+        if "taxes_id" in self._fields and self.taxes_id:
+            line_vals["taxes_id"] = [(6, 0, self.taxes_id.ids)]
+
+        order_currency = False
+        if "currency_id" in self._fields and self.currency_id:
+            order_currency = self.currency_id
+        else:
+            order_currency = vendor.property_purchase_currency_id or company.currency_id
+
+        order_vals = {
+            "partner_id": vendor.id,
+            "company_id": company.id,
+            "order_line": [(0, 0, line_vals)],
+        }
+        if order_currency:
+            order_vals["currency_id"] = order_currency.id
+
+        purchase = self.env["purchase.order"].with_company(company).create(order_vals)
+
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Purchase Order"),
+            "res_model": "purchase.order",
+            "res_id": purchase.id,
+            "view_mode": "form",
+        }

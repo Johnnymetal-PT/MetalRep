@@ -1,0 +1,21 @@
+<t name="Shop Product Images" t-name="website_sale.shop_product_images">
+    <!-- Product Images -->
+    <t t-set="product_images" t-value="product_variant._get_images() if product_variant else product._get_images()"/>
+
+    <!-- Ribbon Info -->
+    <t t-set="ribbon" t-value="product_variant.sudo().ribbon_id or product.sudo().website_ribbon_id"/>
+    <t t-set="bg_color" t-value="ribbon['bg_color'] or ''"/>
+    <t t-set="text_color" t-value="ribbon['text_color']"/>
+    <t t-set="bg_class" t-value="ribbon['html_class']"/>
+
+    <!-- Discount percentage comes from backend (Python patch) -->
+<t t-if="combination_info and combination_info.get('discount_percentage')">
+    <t t-set="discount_percentage" t-value="combination_info['discount_percentage']"/>
+</t>
+<t t-else="">
+    <t t-set="discount_percentage" t-value="0"/>
+</t>
+
+    <!-- Call product grid layout -->
+    <t t-call="website_sale.shop_product_#{website.product_page_image_layout}"/>
+</t>

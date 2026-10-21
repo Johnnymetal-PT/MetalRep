@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Remove price structured data that Google can use for rich snippets.
+        Keep visible price in page UI, but mark it as non-snippable.
+    -->
+    <template id="product_price_hide_price_microdata" inherit_id="website_sale.product_price" priority="90">
+        <xpath expr="//div[contains(@t-attf-class, 'product_price')]" position="replace">
+            <div
+                t-attf-class="product_price mt-2 mb-3 {{'d-none' if combination_info['prevent_zero_price_sale'] else 'd-inline-block'}}"
+                data-nosnippet="true"
+            >
+                <h3 class="css_editable_mode_hidden">
+                    <span class="oe_price"
+                          style="white-space: nowrap;"
+                          t-out="combination_info['price']"
+                          t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                    <span t-attf-class="text-muted oe_default_price ms-1 h5 {{'' if combination_info['has_discounted_price'] and not combination_info['compare_list_price'] else 'd-none'}}"
+                          style="text-decoration: line-through; white-space: nowrap;"
+                          t-esc="combination_info['list_price']"
+                          t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                    />
+                    <t t-if="is_view_active('website_sale.tax_indication')" t-call="website_sale.tax_indication"/>
+                    <del t-if="combination_info['compare_list_price'] and (combination_info['compare_list_price'] &gt; combination_info['price'])"
+                        class="text-muted ms-1 h5 oe_compare_list_price">
+                        <bdi dir="inherit">
+                        <span t-esc="combination_info['compare_list_price']"
+                              groups="website_sale.group_product_price_comparison"
+                              t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        </bdi>
+                    </del>
+                </h3>
+                <h3
+                    t-if="editable"
+                    class="css_non_editable_mode_hidden decimal_precision"
+                    t-att-data-precision="str(website.currency_id.decimal_places)"
+                >
+                    <span t-field="product.list_price"
+                          t-options="{'widget': 'monetary', 'display_currency': product.currency_id}"/>
+                    <t t-if="is_view_active('website_sale.tax_indication')" t-call="website_sale.tax_indication"/>
+                    <del t-if="combination_info['compare_list_price'] and (combination_info['compare_list_price'] &gt; combination_info['price'])">
+                        <bdi dir="inherit">
+                        <span t-field="product.compare_list_price"
+                              groups="website_sale.group_product_price_comparison"
+                              t-options="{'widget': 'monetary', 'display_currency': product.currency_id}"/>
+                        </bdi>
+                    </del>
+                </h3>
+                <small t-if="combination_info.get('tax_disclaimer')" class="text-muted">
+                    <t t-out="combination_info['tax_disclaimer']"/>
+                </small>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="product_hide_tracking_price" inherit_id="website_sale.product" priority="95">
+        <xpath expr="//section[@id='product_detail']" position="attributes">
+            <attribute name="t-att-data-product-tracking-info"/>
+        </xpath>
+    </template>
+
+    <template id="badge_extra_price_hide_from_snippet" inherit_id="website_sale.badge_extra_price" priority="95">
+        <xpath expr="//span[contains(@class, 'badge')]" position="attributes">
+            <attribute name="data-nosnippet">true</attribute>
+        </xpath>
+    </template>
+</odoo>

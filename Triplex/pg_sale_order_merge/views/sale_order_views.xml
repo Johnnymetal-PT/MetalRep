@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_pg_merge" model="ir.ui.view">
+        <field name="name">sale.order.form.pg.merge</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Aviso no topo quando a venda foi incorporada noutra -->
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-info" role="alert"
+                     invisible="not pg_merged_into_id">
+                    Esta venda foi fundida em
+                    <field name="pg_merged_into_id" readonly="1"
+                           options="{'no_open': False}" class="oe_inline"/>
+                    (fusão PG) e encontra-se cancelada.
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

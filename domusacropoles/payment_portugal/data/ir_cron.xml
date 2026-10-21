@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+    <record id="ir_cron_get_payments" model="ir.cron">
+        <field name="name">Check for new MB, MB WAY or Payshop payments</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="model_id" ref="model_payment_provider" />
+        <field name="code">model.cron_get_payments()</field>
+        <field name="active" eval="True" />
+    </record>
+
+    <record id="ir_cron_check_multibanco_date" model="ir.cron">
+        <field name="name">Check for Multibanco Reference dates</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="model_id" ref="model_payment_transaction" />
+        <field name="code">model.cron_check_multibanco_date()</field>
+        <field name="active" eval="True" />
+    </record>
+</odoo>

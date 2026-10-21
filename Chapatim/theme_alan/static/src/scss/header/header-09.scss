@@ -1,0 +1,44 @@
+@if o-website-value('header-template') == 'as_header9' {
+	.as-top-header {
+        @include o-apply-colors('header-sales_four');
+        @include o-apply-colors('header-sales_four-custom');
+        @include o-add-gradient('menu-secondary-gradient');
+    }
+    .as-main-header{
+        .as-middle-header{
+            .top_menu > .nav-item > .nav-link{
+                --as-nav-padding-y: 1.4rem;
+            }
+        }
+    }
+    .as-hm-container{
+        .top_menu {
+            flex: 1;
+           
+        }
+        
+        .as-hm-end{
+            flex: 1;
+        }
+        .as-h-icon {
+            background: transparent;
+			width: 42px;
+            border: none;
+			height: 42px;
+			border-radius: 50px;
+            .fa {
+                &::before {
+                    font-size: 19px !important;
+                }
+            }
+            &.as-h-sign{
+                &::before{
+                    font-size: 19px;
+                }
+            }
+            sup {
+                margin-top: 1px !important;
+            }
+        }
+    }
+}

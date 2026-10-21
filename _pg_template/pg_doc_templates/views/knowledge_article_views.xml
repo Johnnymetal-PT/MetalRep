@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_knowledge_article_form_pg_doc_templates" model="ir.ui.view">
+        <field name="name">knowledge.article.form.pg.doc.templates</field>
+        <field name="model">knowledge.article</field>
+        <field name="inherit_id" ref="knowledge.knowledge_article_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <group string="PG Template">
+                    <field name="pg_is_template"/>
+                    <button
+                        name="action_open_pg_template_settings"
+                        type="object"
+                        string="Template Settings"
+                        class="btn-secondary"
+                    />
+                </group>
+                <field name="pg_template_code" invisible="1"/>
+                <field name="pg_template_version" invisible="1"/>
+                <field name="pg_template_state" invisible="1"/>
+                <field name="pg_template_body_md" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

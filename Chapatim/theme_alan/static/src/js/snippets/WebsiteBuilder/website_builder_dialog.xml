@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- ==================== Website Builder Dialog ==================== -->
+    <t t-name="theme_alan.website_builder">
+        <Dialog size="'fullscreen'" title.translate="Alan Website Builder" bodyClass="'as_website_builder'">
+            <div class="snippets_collection" id="builder">
+                <div class="edit-snippet-builder-box">
+                    <div class="row">
+                        <div class="col-md-3 e-sb-tab-col">
+                            <!-- Tabs -->
+                            <ul class="e-sb-tab">
+                                <t t-foreach="Object.entries(this.props.tabs)" t-as="tab" t-key="tab[0]">
+                                    <li>
+                                        <label t-ref="snippetBuilderTab"
+                                            t-att-data-tag="tab[0]"
+                                            t-att-class="{'e-sb-active': this.state.activeTab === tab[0]}"
+                                            t-on-click="(ev) => this.activeTab(tab[0])">
+                                            <t t-esc="tab[1]"/>
+                                        </label>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                        <div class="col-md-9 e-sb-tab-wrap">
+                            <!-- Tab Content -->
+                            <t t-if="this.state.activeTab === 'e_slider'">
+                                <!-- Slider Templates -->
+                                <div id="e_slider" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.slider_temp{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_banner'">
+                                <!-- Banner Templates -->
+                                <div id="e_banner" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.banner_temp{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_about'">
+                                <!-- About Templates -->
+                                <div id="e_about" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.about_temp{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_title_style'">
+                                <!-- Title Style Templates -->
+                                <div id="e_title_style" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7, 8, 9]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.title_{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_cta'">
+                                <!-- CTA Templates -->
+                                <div id="e_cta" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.cta_temp{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_category'">
+                                <!-- Category Templates -->
+                                <div id="e_category" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.category_temp{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_our_client'">
+                                <!-- Our Client Templates -->
+                                <div id="e_our_client" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-call="theme_alan.our_client_temp1"/>
+                                        <t t-call="theme_alan.our_client_temp2"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_collection'">
+                                <!-- Collection Templates -->
+                                <div id="e_collection" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.collection_temp{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_contact_us'">
+                                <!-- Contact Us Templates -->
+                                <div id="e_contact_us" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-call="theme_alan.cont_us_temp1"/>
+                                        <t t-call="theme_alan.cont_us_temp2"/>
+                                        <t t-call="theme_alan.cont_us_temp3"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_features'">
+                                <!-- Features Templates -->
+                                <div id="e_features" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.feature_temp{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_our_team'">
+                                <!-- Our Team Templates -->
+                                <div id="e_our_team" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7, 8]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.our_team_temp{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_portfolio'">
+                                <!-- Portfolio Templates -->
+                                <div id="e_portfolio" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-call="theme_alan.portfolio_temp_1"/>
+                                        <t t-call="theme_alan.portfolio_temp_2"/>
+                                        <t t-call="theme_alan.portfolio_temp_3"/>
+                                        <t t-call="theme_alan.portfolio_temp_4"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_price_table'">
+                                <!-- Price Table Templates -->
+                                <div id="e_price_table" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-call="theme_alab.price_table_temp1"/>
+                                        <t t-call="theme_alab.price_table_temp2"/>
+                                        <t t-call="theme_alab.price_table_temp3"/>
+                                        <t t-call="theme_alab.price_table_temp4"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_promotion'">
+                                <!-- Promotion Templates -->
+                                <div id="e_promotion" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.pro_temp{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_services'">
+                                <!-- Services Templates -->
+                                <div id="e_services" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.service_temp{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_shop_banner'">
+                                <!-- Shop Banner Templates -->
+                                <div id="e_shop_banner" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.shop_banner_temp{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_testimonial'">
+                                <!-- Testimonial Templates -->
+                                <div id="e_testimonial" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"/>
+                                        <t t-foreach="temp_range" t-as="number" t-key="number">
+                                            <t t-call="theme_alan.testimonial_temp{{number}}"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_video_popup'">
+                                <!-- Video Popup Templates -->
+                                <div id="e_video_popup" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                        <t t-call="theme_alan.video_temp1"/>
+                                        <t t-call="theme_alan.video_temp2"/>
+                                        <t t-call="theme_alan.video_temp3"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="this.state.activeTab === 'e_subscribe_newsletter'">
+                                <!-- Subscribe Newsletter Templates -->
+                                <div id="e_subscribe_newsletter" class="e-sb-tab--content">
+                                    <div class="row g-3 row-cols row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                                         <t t-set="temp_range" t-value="[1, 2, 3, 4, 5, 6, 7]"/>
+                                         <t t-foreach="temp_range" t-as="number" t-key="number">
+                                             <t t-call="theme_alan.subscribe_temp{{number}}"/>
+                                         </t>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer Buttons -->
+            <t t-set-slot="footer">
+                <button class="btn btn-primary e-sb-btn" t-on-click="_confirm">Save</button>
+                <button class="btn btn-secondary e-sb-btn" t-on-click="() => this.props.close()">Discard</button>
+            </t>
+        </Dialog>
+    </t>
+
+</templates>

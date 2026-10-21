@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Allocation List View -->
+    <record id="view_proforma_payment_allocation_list" model="ir.ui.view">
+        <field name="name">proforma.payment.allocation.list</field>
+        <field name="model">proforma.payment.allocation</field>
+        <field name="arch" type="xml">
+            <list string="Alocações de Recibo" create="1" edit="1">
+                <field name="allocation_date" string="Data"/>
+                <field name="payment_id" string="Pagamento"/>
+                <field name="payment_state" widget="badge"
+                       decoration-success="payment_state == 'posted'"
+                       decoration-danger="payment_state == 'cancelled'"
+                       string="Estado Pagto"/>
+                <field name="sale_order_id" string="Cotação"/>
+                <field name="order_state" widget="badge" string="Estado Cotação"/>
+                <field name="amount" sum="Total Alocado" widget="monetary" string="Valor Alocado"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="payment_remaining" optional="show" widget="monetary" string="Restante Pagto"/>
+                <field name="order_remaining" optional="show" widget="monetary" string="Restante Cotação"/>
+                <button name="action_deallocate" type="object" string="Desalocar"
+                        icon="fa-trash" class="btn-link text-danger"
+                        confirm="Tem certeza que deseja desalocar este pagamento?"
+                        groups="account.group_account_invoice"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Allocation Form View -->
+    <record id="view_proforma_payment_allocation_form" model="ir.ui.view">
+        <field name="name">proforma.payment.allocation.form</field>
+        <field name="model">proforma.payment.allocation</field>
+        <field name="arch" type="xml">
+            <form string="Alocação de Recibo">
+                <sheet>
+                    <div class="oe_title">
+                        <h3>Alocar Recibo para Cotação</h3>
+                    </div>
+                    <group>
+                        <group string="Pagamento">
+                            <field name="available_payment_domain" invisible="1"/>
+                            <!-- Dropdown enriquecido (saldo+data) via name_search;
+                                 readonly em registos existentes (mostra nome normal). -->
+                            <field name="payment_id" string="Recibo Pró-forma"
+                                   domain="available_payment_domain"
+                                   context="{'proforma_picker': 1}"
+                                   readonly="id"
+                                   options="{'no_create': True}"/>
+                            <field name="payment_partner_id" invisible="1"/>
+                            <field name="payment_amount" widget="monetary" string="Valor Total"/>
+                            <label for="payment_remaining" string="Após Alocação"/>
+                            <div>
+                                <field name="payment_remaining" widget="monetary" nolabel="1" class="oe_inline"/>
+                                <span class="oe_inline"> restará disponível</span>
+                            </div>
+                        </group>
+                        <group string="Cotação">
+                            <field name="sale_order_id"
+                                   domain="[('partner_id', '=', payment_partner_id), ('state', 'in', ['draft', 'sent']), ('approval_state', '!=', 'rejected')]"
+                                   options="{'no_create': True}"/>
+                            <field name="order_partner_id" invisible="1"/>
+                            <field name="order_amount" widget="monetary" string="Valor Total"/>
+                            <label for="order_remaining" string="Após Alocação"/>
+                            <div>
+                                <field name="order_remaining" widget="monetary" nolabel="1" class="oe_inline"/>
+                                <span class="oe_inline"> restará pendente</span>
+                            </div>
+                        </group>
+                    </group>
+                    <separator string="Detalhes da Alocação"/>
+                    <group>
+                        <group>
+                            <field name="amount" widget="monetary" string="Valor a Alocar" readonly="id"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                            <field name="allocation_date"/>
+                        </group>
+                        <group string="Observações">
+                            <field name="notes" nolabel="1" placeholder="Adicione observações opcionais..."/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Allocation Search View -->
+    <record id="view_proforma_payment_allocation_search" model="ir.ui.view">
+        <field name="name">proforma.payment.allocation.search</field>
+        <field name="model">proforma.payment.allocation</field>
+        <field name="arch" type="xml">
+            <search string="Pesquisar Alocações">
+                <field name="payment_id"/>
+                <field name="sale_order_id"/>
+                <field name="payment_partner_id"/>
+                <separator/>
+                <filter string="Hoje" name="today"
+                        domain="[('allocation_date', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00'))]"/>
+                <filter string="Esta Semana" name="this_week"
+                        domain="[('allocation_date', '&gt;=', (context_today() - relativedelta(days=7)))]"/>
+                <filter string="Este Mês" name="this_month"
+                        domain="[('allocation_date', '&gt;=', (context_today() - relativedelta(months=1)))]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Pagamento" name="payment"
+                            context="{'group_by': 'payment_id'}"/>
+                    <filter string="Cotação" name="order"
+                            context="{'group_by': 'sale_order_id'}"/>
+                    <filter string="Cliente" name="partner"
+                            context="{'group_by': 'payment_partner_id'}"/>
+                    <filter string="Data" name="date"
+                            context="{'group_by': 'allocation_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_proforma_payment_allocation" model="ir.actions.act_window">
+        <field name="name">Alocações de Recibo</field>
+        <field name="res_model">proforma.payment.allocation</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Criar nova Alocação
+            </p>
+            <p>
+                Aloque pagamentos proforma para cotações específicas.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================== Shop Page: Product Items ==================== -->
+    <template id="as_shop_info" inherit_id="website_sale.products_item" name="Shop Page">
+        <!-- Load More: START -->
+        <xpath expr="//form" position="inside">
+            <input type="hidden" name="product_ref_id" class="product_ref_id" t-att-value="product.id"/>
+            <input type="hidden" name="product_template_id" class="product_template_id" t-att-value="product.id"/>
+        </xpath>
+
+        <!-- Product Brand / Rating Info: Before Product Title -->
+        <xpath expr="//h2[hasclass('o_wsale_products_item_title')]" position="before">
+            <t t-if="website.active_shop_brand_info">
+                <t t-call="theme_alan.product_brand"/>
+            </t>
+        </xpath>
+        <!-- Product SKU: After Product Title -->
+        <xpath expr="//h2[hasclass('o_wsale_products_item_title')]" position="after">
+            <div class="as-product-sku" t-if="website.active_shop_product_reference and product.product_variant_id.default_code">
+                <b>SKU:</b><span t-esc="product.product_variant_id.default_code" />
+            </div>
+        </xpath>
+        <!-- Product Offer Timer -->
+        <xpath expr="//div[hasclass('o_wsale_product_information_text')]" position="inside">
+            <t t-if="website.active_shop_offer_timer">
+                <t t-call="theme_alan.as_offer_timer">
+                    <t t-set="product" t-value="product.sudo().product_variant_id"/>
+                </t>
+            </t>
+        </xpath>
+
+        <!-- Stock Info: START -->
+        <xpath expr="//div[hasclass('o_wsale_product_sub')]" position="after">
+            <t t-if="website.active_shop_stock_info">
+                <t t-call="theme_alan.as_shop_out_of_stock_info">
+                    <t t-set="product" t-value="product"/>
+                </t>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[hasclass('product_price')]/t[@name='product_base_price']/del" position="after">
+            <t t-set="base" t-value="template_price_vals['base_price']"/>
+            <t t-set="price" t-value="template_price_vals['price_reduce']"/>
+            <t t-if="base and price and website.active_shop_page_discount">
+                <div class="as-product-discounted">
+                    <span class="as-product-discount">
+                        <t t-set="discount" t-value="((base - price) / base) * 100"/>
+                        <t t-esc="'%0.2f' % discount"/>%
+                    </span>
+                </div>
+            </t>
+        </xpath>
+
+    </template>
+
+    <!-- ==================== Shop Page: Button Action ==================== -->
+    <template id="as_shop_btn_action" inherit_id="website_sale.shop_product_buttons" name="AS Shop Button" priority="99">
+        <xpath expr="//div[hasclass('o_wsale_product_action_row')]" position="inside">
+            <!-- Product Card Actions: Similar Product Button -->
+            <a t-if="website.active_shop_similar_product" href="#"
+                role="button" class="btn btn-light as_similar_product" data-bs-toggle="offcanvas" data-bs-target="#o_wsale_offcanvas_similar_product"
+                t-att-data-product_tmpl_id="product.id" title="Similar Product">
+                <span class="asi asi-copy"/>
+                <span class="o_label small ms-2">Similar Products</span>
+            </a>
+            <!-- Product Card Actions: Quick View Button -->
+            <a t-if="website.active_shop_quick_view" href="#" role="button" class="btn btn-light as_quick_view" t-att-data-product_tmpl_id="product.id" title="Quick View">
+                <span class="asi asi-eye"/>
+                <span class="o_label small ms-1">Quick View</span>
+            </a>
+
+        </xpath>
+    </template>
+
+    <!-- ==================== Shop Page: Lazy Load More Products ==================== -->
+
+    <template id="as_load_more_pager" name="Lazy Load More Pager" inherit_id="website.pager">
+        <xpath expr="//ul/t/li[contains(@t-attf-class, 'page-item')]" position="attributes">
+            <attribute name="t-att-data-prd_ids">page.get('prd_ids')</attribute>
+            <attribute name="t-att-data-ppr">ppr</attribute>
+            <attribute name="t-att-data-ppg">ppg</attribute>
+        </xpath>
+    </template>
+
+    <!-- Main shop products modification -->
+    <template id="as_shop_products" name="As Lazy Load More Products" inherit_id="website_sale.products">
+        <!-- Replace the product grid wrapper to add custom class -->
+        <xpath expr="//div[contains(@t-attf-class, 'o_wsale_product_grid_wrapper')]" position="replace">
+            <div t-attf-class="o_wsale_product_grid_wrapper position-relative h-100 o_wsale_product_grid_wrapper_#{td_product['x']}_#{td_product['y']}">
+                <t t-call="website_sale.products_item">
+                    <t t-set="product" t-value="td_product['product']"/>
+                    <t t-set="design_field" t-value="website.shop_opt_products_design_classes"/>
+                    <t t-set="product_href" t-value="product._get_product_url(category, product_query_params, grouped_attributes_values)"/>
+                </t>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[contains(@t-attf-class, 'products_pager')]" position="before">
+            <t t-if="website.active_load_more">
+                <t t-if="total_product != 0">
+                    <div class="as-product-progress-counter mb-3">
+                        <div class="as-product-counter mb-2">
+                            Showing <span class="product-count-value">0</span> of
+                            <span class="total-product-count"><t t-esc="total_product"/></span> results
+                        </div>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar as-progress-bar bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="as-shop-load-more text-center mb-4">
+                        <t t-set="pager" t-value="alan_pager"/>
+                        <t t-if="pager.get('page_count', 1) &gt; 1">
+                            <a href="#" class="btn btn-primary" id="loadMoreproducts">Load More Products</a>
+                            <span class="all_loaded d-none text-muted"/>
+                        </t>
+                        <t t-else="">
+                            <span class="all_loaded text-muted">
+                                All products are loaded.
+                            </span>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[contains(@t-attf-class, 'products_pager')]" position="attributes">
+            <attribute name="t-attf-style">#{'display:none !important;' if as_shop and website.active_load_more else ''}</attribute>
+        </xpath>
+
+        <!-- Hidden pager for load more functionality -->
+        <xpath expr="//div[contains(@t-attf-class, 'products_pager')]" position="after">
+            <div class="alan_pager d-none">
+                <t t-call="website.pager">
+                    <t t-set="pager" t-value="alan_pager"/>
+                </t>
+            </div>
+        </xpath>
+
+        <!-- Add similar product offcanvas -->
+        <xpath expr="//div[hasclass('o_wsale_products_main_row')]" position="after">
+            <t t-call="theme_alan.o_wsale_offcanvas_similar_product"/>
+            <t t-call="theme_alan.as_offcanvas_categories"/>
+        </xpath>
+
+        <xpath expr="//t[contains(@t-call, 'website_sale.sidebar_dropzone_at_top')]" position="after">
+            <div class="as-shop-sidebar-header">
+                <h5 class="mb-0">Filters</h5>
+                <div class="as_hide_sidebar">
+                    <img src="/theme_alan/static/src/img/sidebar-hide-icon.svg" />
+                    <span>Hide</span>
+                </div>
+            </div>
+        </xpath>
+
+
+        <xpath expr="//h1[hasclass('o_wsale_shop_title')]" position="replace">
+            <div class="as-shop-sidebar-header">
+                <div class="as_show_sidebar d-none">
+                    <img src="/theme_alan/static/src/img/sidebar-hide-icon.svg" />
+                    <span>Show</span>
+                </div>
+            </div>
+            <div class="as-category-title">
+                <h1
+                    t-if="category or search"
+                    t-attf-class="o_wsale_category_title d-flex gap-1 align-items-center mb-0 lh-lg {{search and bool(category) and 'mb-2'}} {{search and 'o_wsale_category_title_is_search base-fs font-sans-serif' or 'fs-3'}}"
+                >
+                    <t t-if="search and category">
+                        <span class="text-muted">Searching</span>
+                        <span class="badge text-bg-info fw-normal base-fs">
+                            <t t-out="search"/>
+                            <a
+                                title="Clear search for this category"
+                                t-att-href="keep(search=0)"
+                                class="link-info"
+                            >
+                                <i class="oi oi-close" role="img"/>
+                            </a>
+                        </span>
+                        <span class="text-muted">in</span>
+                        <span class="badge text-bg-primary fw-normal base-fs">
+                            <t t-out="category.name"/>
+                            <a
+                                title="Search globally"
+                                t-att-href="keep(shop_path, search=search)"
+                            >
+                                <i class="oi oi-close" role="img"/>
+                            </a>
+                        </span>
+                    </t>
+                    <span t-elif="search">
+                        <span class="text-muted">Search results for </span>'<strong t-out="search"/>' <small t-if="search_count" class="text-muted"> (<t t-out="search_count"/>)</small>
+                    </span>
+                    <t t-elif="category">
+                        <span t-field="category.name"/>
+                    </t>
+                </h1>
+                <h1
+                    class="o_wsale_shop_title h4-fs d-none d-lg-flex"
+                    t-if="not category and not search"
+                >
+                    All products
+                </h1>
+                <h1
+                    class="o_wsale_shop_title h4-fs d-flex d-lg-none"
+                    t-if="not category and not search"
+                >
+                    All Categories
+                </h1>
+                <a href="#" class="as-category-action btn-primary d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#as_offcanvas_categories">View All</a>
+            </div>
+        </xpath>
+
+        <xpath expr="//h1[contains(@t-attf-class, 'o_wsale_category_title')]" position="replace"/>
+
+    </template>
+
+    <!-- ====================Alan Shop Page: Neaxt Product Load More ==================== -->
+    <template id="shop_page_next_products" name="Shop next Products">
+        <t t-set="opt_wsale_categories" t-value="is_view_active('website_sale.products_categories')"/>
+        <t t-set="opt_wsale_attributes" t-value="is_view_active('website_sale.products_attributes')"/>
+        <t t-set="hasLeftColumn" t-value="opt_wsale_categories or opt_wsale_attributes"/>
+        <t t-set="grid_md_allow_custom_cols" t-value="hasLeftColumn"/>
+        <t t-foreach="bins" t-as="tr_product">
+            <t t-foreach="tr_product" t-as="td_product">
+                <t t-if="td_product">
+                    <t t-set="col_height" t-value="td_product['y']"/>
+                    <t t-set="col_width"
+                        t-value="12 // ppr * td_product['x']"/>
+                    <t t-set="col_class" t-valuef="g-col-6"/>
+                    <t t-set="col_class_lg"
+                        t-value="'g-col-lg-' + str(col_width)"/>
+                    <t t-set="col_class_md"
+                        t-value="grid_md_allow_custom_cols and ('g-col-md-' + str(col_width)) or grid_md_use_3col and 'g-col-md-4' or 'g-col-md-6'"/>
+                    <t t-set="col_is_stretched"
+                        t-value="(td_product['x'] &gt;= td_product['y'] * 2)"/>
+                    <t t-set="col_is_custom_portrait"
+                        t-value="not col_is_stretched and (col_height &gt; td_product['x'])"/>
+                    <t t-set="product" t-value="td_product['product']"/>
+                    <t t-set="template_price_vals" t-value="get_product_prices(product)"/>
+                    <t
+                        t-set="ribbon"
+                        t-value="product._get_ribbon(
+                            price_vals=template_price_vals,
+                            auto_assign_ribbons=auto_assign_ribbons,
+                            variant=product_variants[product],
+                        )"
+                    />
+                    <div
+                        t-attf-class="oe_product {{col_is_custom_portrait and 'oe_product_custom_portrait'}} {{col_class}} {{col_class_md}} {{col_class_lg}} {{col_is_stretched and 'oe_product_size_stretch'}}"
+                        t-attf-style="--o-wsale-products-grid-product-col-height: {{col_height}};"
+                        t-att-data-colspan="td_product['x'] != 1 and td_product['x']"
+                        t-att-data-rowspan="td_product['y'] != 1 and td_product['y']"
+                        t-att-data-name="product_block_name"
+                    >
+                        <div t-attf-class="o_wsale_product_grid_wrapper position-relative h-100 o_wsale_product_grid_wrapper_#{td_product['x']}_#{td_product['y']}">
+                            <t t-call="website_sale.products_item">
+                                <t
+                                    t-set="design_field"
+                                    t-value="website.shop_opt_products_design_classes"
+                                />
+                                <t
+                                    t-set="product_href"
+                                    t-value="product._get_product_url(category, product_query_params, grouped_attributes_values)"
+                                />
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ===================== B2B Login ==============================  -->
+    <template id="theme_alan.login" inherit_id="web.login" name="Sign up">
+        <xpath expr="//a[@t-if='signup_enabled']" position="replace">
+            <t t-if="website.active_b2b_signup and website.active_b2b_mode">
+                <a href="/web/b2b_signup" class="btn btn-link btn-sm">B2B Signup</a>
+            </t>
+            <t t-else="">
+                <a t-if="signup_enabled" class="btn btn-link btn-sm mt-2" t-attf-href="/web/signup?{{ keep_query() }}">Don't have an account?</a>
+            </t>
+        </xpath>
+    </template>
+    <!-- ===================== End B2B Login ==============================  -->
+
+    <!-- ===================== Radio and Multi Attribute Deafult Search Remove ==============================  -->
+    <template id="filter_radio_and_multi_attributes_extend" inherit_id="website_sale.filter_radio_and_multi_attributes" name="Radio and Multi attributes in Filter Theme Alan">
+        <xpath expr="//input[contains(@class, 'o_wsale_attribute_search_bar')]" position="replace"/>
+    </template>
+    <!-- ===================== End Radio and Multi Attribute Deafult Search Remove ==============================  -->
+
+    <!-- ===================== All Product Section ==============================  -->
+    <template id="all_products_section" name="All Products Section" inherit_id="website_sale.products" priority="99999">
+        <xpath expr="//div[hasclass('products_header')]" position="inside">
+            <div class="d-lg-none me-auto w-100 d-flex align-items-center me-auto" t-if="not search">
+                <h2 class="o_wsale_shop_title h6-fs fw-medium mb-0 pe-2">All products</h2>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ==================== Compare Page Extends==================== -->
+    <template id="as_product_compare_extends" inherit_id="website_sale_comparison.product_compare" name="Theme Alan Comparator Page Extends">
+        <!-- Show Only Diffrences-->
+        <xpath expr="//div[@t-foreach='attrib_categories']" position="before">
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="showOnlyDifferences" />
+                <label class="form-check-label" for="showOnlyDifferences">
+                    Show Only Differences
+                </label>
+            </div>
+        </xpath>
+        <!-- Ratings -->
+        <xpath expr="//div[@id='o_comparelist_product_name']/span" position="after">
+            <div class="mb-3">
+                <t
+                    t-if="is_view_active('website_sale.product_comment') and website.active_rating_filter"
+                    t-call="website_sale.product_tile_element_visibility"
+                >
+                    <t t-set="visible_element_class" t-value="'o_wsale_products_opt_has_rating'"/>
+
+                    <div class="o_wsale_product_rating_wrapper">
+                        <t t-call="portal_rating.rating_widget_stars_static">
+                            <t t-set="rating_avg" t-value="product.product_tmpl_id.sudo().rating_avg"/>
+                            <t t-set="rating_count" t-value="product.product_tmpl_id.rating_count"/>
+                        </t>
+                    </div>
+                </t>
+            </div>
+        </xpath>
+        <!-- Brands-->
+        <xpath expr="//div[@t-foreach='attrib_categories']" position="after">
+            <t t-if="any([product.product_brand_id for product in products])">
+                <div class="w-100 py-3 bg-light bg-opacity-50">
+                    <h6 class="d-table position-sticky start-0 mb-0 ps-2">Brand</h6>
+                </div>
+                <ul class="list-unstyled d-flex border-bottom mb-0 py-3">
+                    <li
+                        t-foreach="products"
+                        t-as="product"
+                        class="o_wsale_compare_table_column d-flex flex-column flex-shrink-0"
+                    >
+                        <div id="o_comparelist_brand">
+                            <t t-if="product.product_brand_id and (product.product_brand_id.website_id == request.website or not product.product_brand_id.website_id)">
+                                <div class="small text-muted">Brand</div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div>
+                                        <h6 class="mb-0 small" t-field="product.product_brand_id.name"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="small text-muted">Brand</div>
+                                <h6 class="small text-muted mb-0">-</h6>
+                            </t>
+                        </div>
+                    </li>
+                </ul>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

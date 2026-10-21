@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mm_att_raw_event_list" model="ir.ui.view">
+        <field name="name">mm.att.raw.event.list</field>
+        <field name="model">mm.att.raw.event</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="event_datetime"/>
+                <field name="event_type"/>
+                <field name="source"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_att_raw_event_form" model="ir.ui.view">
+        <field name="name">mm.att.raw.event.form</field>
+        <field name="model">mm.att.raw.event</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_validate" type="object" string="Validate" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_ignore" type="object" string="Ignore" invisible="state == 'ignored'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,ignored"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="employee_id"/>
+                            <field name="device_id"/>
+                        </group>
+                        <group>
+                            <field name="event_datetime"/>
+                            <field name="event_type"/>
+                            <field name="source"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_att_raw_event" model="ir.actions.act_window">
+        <field name="name">Marcações</field>
+        <field name="res_model">mm.att.raw.event</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_att_result_list" model="ir.ui.view">
+        <field name="name">mm.att.result.list</field>
+        <field name="model">mm.att.result</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="date"/>
+                <field name="state"/>
+                <field name="scheduled_hours"/>
+                <field name="worked_hours"/>
+                <field name="extra_hours"/>
+                <field name="missing_punch"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_att_result_form" model="ir.ui.view">
+        <field name="name">mm.att.result.form</field>
+        <field name="model">mm.att.result</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_process" type="object" string="Process" invisible="state == 'closed'" class="btn-primary"/>
+                    <button name="action_close" type="object" string="Close" invisible="state not in ('processed', 'exception')"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,processed,exception,closed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="employee_id"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="scheduled_hours"/>
+                            <field name="worked_hours" readonly="1"/>
+                            <field name="extra_hours" readonly="1"/>
+                            <field name="missing_punch" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="raw_event_ids" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_att_result" model="ir.actions.act_window">
+        <field name="name">Resultados</field>
+        <field name="res_model">mm.att.result</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_att_missing_punch_list" model="ir.ui.view">
+        <field name="name">mm.att.missing.punch.list</field>
+        <field name="model">mm.att.missing.punch</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="employee_id"/>
+                <field name="date"/>
+                <field name="state"/>
+                <field name="note"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_att_missing_punch_form" model="ir.ui.view">
+        <field name="name">mm.att.missing.punch.form</field>
+        <field name="model">mm.att.missing.punch</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" type="object" string="Submit" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_approve" type="object" string="Approve" invisible="state != 'submitted'"/>
+                    <button name="action_reject" type="object" string="Reject" invisible="state != 'submitted'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,rejected"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_att_missing_punch" model="ir.actions.act_window">
+        <field name="name">Marcações em Falta</field>
+        <field name="res_model">mm.att.missing.punch</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_att_processing_batch_list" model="ir.ui.view">
+        <field name="name">mm.att.processing.batch.list</field>
+        <field name="model">mm.att.processing.batch</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_att_processing_batch_form" model="ir.ui.view">
+        <field name="name">mm.att.processing.batch.form</field>
+        <field name="model">mm.att.processing.batch</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_run" type="object" string="Run" invisible="state != 'draft'" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,running,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                        <group>
+                            <field name="employee_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_att_processing_batch" model="ir.actions.act_window">
+        <field name="name">Processamento</field>
+        <field name="res_model">mm.att.processing.batch</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_external_service_request_list" model="ir.ui.view">
+        <field name="name">mm.external.service.request.list</field>
+        <field name="model">mm.external.service.request</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="service_type_id"/>
+                <field name="start_datetime"/>
+                <field name="end_datetime"/>
+                <field name="duration_hours"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_external_service_request_form" model="ir.ui.view">
+        <field name="name">mm.external.service.request.form</field>
+        <field name="model">mm.external.service.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" type="object" string="Submit" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_approve" type="object" string="Approve" invisible="state != 'submitted'"/>
+                    <button name="action_reject" type="object" string="Reject" invisible="state != 'submitted'"/>
+                    <button name="action_done" type="object" string="Mark Done" invisible="state != 'approved'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,rejected,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="employee_id"/>
+                            <field name="supervisor_id"/>
+                            <field name="service_type_id"/>
+                        </group>
+                        <group>
+                            <field name="start_datetime"/>
+                            <field name="end_datetime"/>
+                            <field name="duration_hours" readonly="1"/>
+                            <field name="location_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="cost_center_id"/>
+                        <field name="attachment_ids" widget="many2many_binary"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_external_service_request" model="ir.actions.act_window">
+        <field name="name">Serviço Externo</field>
+        <field name="res_model">mm.external.service.request</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_att_bank_account_list" model="ir.ui.view">
+        <field name="name">mm.att.bank.account.list</field>
+        <field name="model">mm.att.bank.account</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="employee_id"/>
+                <field name="balance_hours"/>
+                <field name="company_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_att_bank_account_form" model="ir.ui.view">
+        <field name="name">mm.att.bank.account.form</field>
+        <field name="model">mm.att.bank.account</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="balance_hours"/>
+                        <field name="company_id" readonly="1"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_att_bank_account" model="ir.actions.act_window">
+        <field name="name">Banco de Horas</field>
+        <field name="res_model">mm.att.bank.account</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

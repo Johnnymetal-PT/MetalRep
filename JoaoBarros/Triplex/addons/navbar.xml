@@ -1,0 +1,7 @@
+<t name="Navbar Nav" t-name="website.navbar_nav">
+    <div t-att-style="'display: flex; align-items: center; height: 100px;' if not is_mobile else 'display: flex; align-items: center;'">
+        <ul id="top_menu" t-att-id="not is_mobile and 'top_menu'" t-attf-class="nav navbar-nav top_menu #{'' if _no_autohide_menu_mobile else 'o_menu_loading'} #{_nav_class}" role="menu" t-att-style="'width: 100%; margin-left:85px; margin-top: 40px;' if not is_mobile else 'width: 100%; margin-left:85px;'">
+            <t t-out="0"/>
+        </ul>
+    </div>
+</t>

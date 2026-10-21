@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--
+            Cotação Detalhada (sale.order)
+            Extraído do backup: ID 2270
+
+            Template em: other_reports.xml
+        -->
+
+        <record id="action_report_detailed_quotation" model="ir.actions.report">
+            <field name="name">Cotação detalhada</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_sale_detailed_quotation</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="mh_stone_reports.paperformat_stone_cotacao"/>
+            <field name="attachment_use" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

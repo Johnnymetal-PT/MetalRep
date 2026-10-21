@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Restringe o Cliente/Contacto da oportunidade a entidades de topo
+        (parent_id = False), espelhando o domínio da sale.order.
+        Há dois campos partner_id na crm.crm_lead_view_form, distinguidos pelo
+        grupo que os contém (não se pode usar @string como seletor de herança):
+          - group name="lead_partner"        (secção do lead)
+          - group name="opportunity_partner" (secção da oportunidade → cotação)
+        Aplicamos o domínio aos dois.
+    -->
+    <record id="crm_lead_view_form_partner_domain" model="ir.ui.view">
+        <field name="name">crm.lead.form.partner.domain (MH)</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='lead_partner']//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('parent_id', '=', False), '|', ('customer_rank', '&gt;', 0), '&amp;', ('supplier_rank', '=', 0), ('customer_rank', '=', 0)]</attribute>
+            </xpath>
+            <xpath expr="//group[@name='opportunity_partner']//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('parent_id', '=', False), '|', ('customer_rank', '&gt;', 0), '&amp;', ('supplier_rank', '=', 0), ('customer_rank', '=', 0)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--
+        Quick-create de oportunidade (cartão rápido no pipeline).
+        Também tem partner_id editável e sem domínio.
+    -->
+    <record id="quick_create_opportunity_form_partner_domain" model="ir.ui.view">
+        <field name="name">crm.lead.quick.create.partner.domain (MH)</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('parent_id', '=', False), '|', ('customer_rank', '&gt;', 0), '&amp;', ('supplier_rank', '=', 0), ('customer_rank', '=', 0)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

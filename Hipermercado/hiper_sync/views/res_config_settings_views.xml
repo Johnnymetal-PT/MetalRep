@@ -1,0 +1,34 @@
+<odoo>
+    <record id="view_res_config_settings_hiper_sync" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.hiper.sync</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='stock']" position="inside">
+                <block title="Hiper Sync">
+                    <setting string="Legacy Sync Stock Location">
+                        <field name="hiper_sync_stock_location_id"/>
+                    </setting>
+                    <setting string="Disable Products When Total Sellable Qty Is Zero">
+                        <field name="hiper_sync_disable_out_of_stock"/>
+                    </setting>
+                    <setting string="Publish Zero Price Products">
+                        <field name="hiper_sync_publish_zero_price"/>
+                    </setting>
+                    <setting string="OpenAI API Key">
+                        <field name="hiper_sync_translate_openai_api_key" password="True"/>
+                    </setting>
+                    <setting string="Google Translate API Key">
+                        <field name="hiper_sync_translate_google_api_key" password="True"/>
+                    </setting>
+                    <setting string="OpenAI Translation Model">
+                        <field name="hiper_sync_translate_openai_model"/>
+                    </setting>
+                    <setting string="Remote Crawler Upload Token">
+                        <field name="hiper_sync_remote_crawler_upload_token" password="True"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

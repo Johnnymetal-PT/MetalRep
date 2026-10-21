@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--
+        Especificacoes do tecido na seccao "Specifications" da pagina de produto.
+
+        Defeito reportado pelo Miguel Guedes (HMD) a 24/09/2026, tarefa #7542:
+        em /fabrics/mpfe-25014 apareciam Category e Composition, em
+        /shop/mpfe-25014 nao. A pagina de produto so mostrava os atributos.
+
+        Herda-se a tabela do website_sale_comparison e nao o website_sale.product
+        directamente, porque e essa vista que desenha o #product_specifications
+        — e a que o site actual e o tema novo usam. As linhas vem de
+        _hmd_fabric_spec_items(), a mesma fonte da pagina do tecido.
+
+        So para tecidos (_hmd_is_fabric): nos moveis nada muda.
+    -->
+    <template id="product_fabric_specs" inherit_id="website_sale_comparison.product_attributes_body"
+              name="Especificacoes do tecido na pagina de produto">
+        <xpath expr="//div[@id='product_specifications']/div[hasclass('row')]/t[@t-foreach='attrib_categories']"
+               position="before">
+            <t t-if="product._hmd_is_fabric()">
+                <t t-set="hmd_items" t-value="product._hmd_fabric_spec_items()"/>
+                <div class="col-lg-6 hmd-fabric-specs"
+                     t-if="hmd_items or product.sudo().hmd_fabric_care_image">
+                    <table class="table">
+                        <tr>
+                            <th class="text-start" colspan="2"><span>Fabric</span></th>
+                        </tr>
+                        <tr class="d-flex" t-foreach="hmd_items" t-as="hmd_item">
+                            <td class="w-25"><span t-out="hmd_item[0]"/></td>
+                            <td class="w-75 text-muted hmd-fabric-specs__value" t-out="hmd_item[1]"/>
+                        </tr>
+                        <tr class="d-flex" t-if="product.sudo().hmd_fabric_care_image">
+                            <td class="w-25"><span>Care instructions</span></td>
+                            <td class="w-75 hmd-fabric-care">
+                                <img t-att-src="website.image_url(product, 'hmd_fabric_care_image')"
+                                     alt="Care instructions" loading="lazy"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

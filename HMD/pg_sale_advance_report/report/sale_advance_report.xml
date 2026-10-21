@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Formato de pagina: A4 paisagem (10 colunas nao cabem em retrato) -->
+    <record id="paperformat_advance_landscape" model="report.paperformat">
+        <field name="name">Adiantamentos A4 Paisagem</field>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <!-- margin_top/header_spacing altos para o corpo comecar ABAIXO da banda
+             do cabecalho (logo + morada) e nao se sobrepor (valores alinhados
+             com base.paperformat_euro). -->
+        <field name="margin_top">40</field>
+        <!-- margin_bottom alto: o rodape da HMD tem 3 linhas (nome + morada +
+             contactos) e estava a ser cortado com margens pequenas. -->
+        <field name="margin_bottom">28</field>
+        <field name="margin_left">6</field>
+        <field name="margin_right">6</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_sale_advances" model="ir.actions.report">
+        <field name="name">Controlo de Adiantamentos</field>
+        <field name="model">sale.advance.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pg_sale_advance_report.report_advances</field>
+        <field name="report_file">pg_sale_advance_report.report_advances</field>
+        <field name="print_report_name">'Controlo de Adiantamentos'</field>
+        <field name="paperformat_id" ref="paperformat_advance_landscape"/>
+    </record>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <!-- Per-product editable gallery area on the product page -->
+    <template id="website_sale_product_images_editable" inherit_id="website_sale.product">
+      <xpath expr="//div[@id='product_detail_main']" position="before">
+
+        <!-- Resolve the product template -->
+        <t t-set="product_tmpl"
+           t-value="product_template or (product and (product.product_tmpl_id if product._name == 'product.product' else product))"/>
+
+        <t t-if="product_tmpl">
+          <!-- Always render a section so the website editor sees a block to click -->
+          <section class="pt-5 pb-5 o_colored_level">
+            <div class="container">
+              <!-- IMPORTANT: This wrapper carries the data-oe-* and contains a DIV with t-field -->
+              <div class="row g-3 oe_structure"
+                   data-oe-model="product.template"
+                   t-att-data-oe-id="product_tmpl.id"
+                   data-oe-field="website_gallery_html"
+                   data-oe-type="html">
+
+                <!-- Render the field with t-field on a REAL HTML node (div), not on <t> -->
+                <div t-field="product_tmpl.website_gallery_html"/>
+                <!-- Studio will let you edit inside this area and persist per product_tmpl -->
+              </div>
+            </div>
+          </section>
+        </t>
+
+      </xpath>
+    </template>
+
+  </data>
+</odoo>

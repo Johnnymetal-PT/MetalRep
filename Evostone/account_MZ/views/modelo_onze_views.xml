@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_modelo11_form" model="ir.ui.view">
+        <field name="name">modelo.onze.form</field>
+        <field name="model">modelo.onze</field>
+        <field name="arch" type="xml">
+<form string="Modelo 11">
+                <sheet>
+                    <group>
+                        <field name="employee_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Dependentes">
+                            <field name="dependente">
+                                <list>
+                                    <field name="dependente"/>
+                                    <field name="colaborador"/>
+                                    <field name="data_de_nascimento"/>
+                                    <field name="tipodocumento"/>
+                                    <field name="numero_do_documento"/>
+                                    <field name="grau_parentesco"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_modelo_onze_tree" model="ir.ui.view">
+        <field name="name">modelo.onze.list</field>
+        <field name="model">modelo.onze</field>
+        <field name="arch" type="xml">
+<list>
+                <field name="display_name"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>

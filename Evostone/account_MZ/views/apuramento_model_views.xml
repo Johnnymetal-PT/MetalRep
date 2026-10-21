@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="apuramento1" model="ir.ui.view">
+        <field name="name">Apuramentos.form.view</field>
+        <field name="model">apuramento.model</field>
+        <field name="arch" type="xml">
+<form>
+                <header>
+                    <button name="apurar_iva_primeiro_passo" type="object" string="PRÓXIMO" invisible="steps != 'passo1' or not id or state=='determined' " class="oe_highlight"/>
+                    <button name="apurar_iva_segundo_passo" type="object" string="PRÓXIMO" invisible="steps != 'passo2' or not id or state=='determined' or fecho_abertura== True " class="oe_highlight"/>
+                    <button name="apurar_terceiro_passo" type="object" string="PRÓXIMO" invisible="tipo_apuramento == 'IVA' or steps != 'passo3' or not id or state=='determined' or fecho_abertura == True" class="oe_highlight"/>
+                    <button name="apurar_quarto_passo" type="object" string="PRÓXIMO" invisible="tipo_apuramento == 'IVA' or steps != 'passo4' or not id or state=='determined' or fecho_abertura == True" class="oe_highlight"/>
+
+
+                    
+                    <button name="fazer_abertura" type="object" string="Fazer Abertura" class="oe_highlight" invisible="not id or fecho_abertura != True or steps != 'done' or aberto == True"/>
+                    <!-- <button name="return_to_step1" type="object" string="Voltar etapa 1" invisible="steps != 'passo2' or not id" class="oe_highlight"  />
+                    <button name="return_to_step2" type="object" string="Voltar etapa 2" invisible="steps != 'passo3' or not id" class="oe_highlight"  />  -->
+
+                    <button name="recuperar_iva" type="object" string="Recuperar" invisible="recuperavel ==1 or not id or steps!='passo3'" class="oe_highlight"/>
+                    
+                    <button name="concluir_apuramento" string="Concluir" class="oe_highlight" invisible="not id or steps != 'passo2' or fecho_abertura != True" type="object"/>
+                    <button name="concluir_apuramento" string="Concluir" class="oe_highlight" invisible="not id or steps == 'passo1' or steps == 'passo2' or state == 'determined'" type="object"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+
+                <sheet>
+
+                    <div name="button_box" class="oe_button_box" invisible="not id">
+                        <button class="oe_stat_button" type="object" icon="fa-book" name="action_view_moves">
+                            <field name="move_count" string="Movimentos" widget="statinfo"/>
+                        </button>
+                    </div>
+
+                    <!-- <div>
+                        <button name="action_view_moves" type="object" icon="fa-book" class="oe_stat_button">
+                            <field name="move_count" widget="statinfo" />
+                        </button>
+                    <div> -->
+
+                    <div class="oe_title"> 
+                        <h1> 
+                            <field name="texto_apuramento" string="Name " readonly="1"/>
+                            
+                        </h1> 
+                         <h3> 
+                            <field name="name" string="Name " readonly="1"/>
+                         </h3> 
+                    </div>
+                     <group>
+                        <group>
+
+
+                            
+                            <field name="ano" string="Ano"/>
+                            <field name="mes" string="Mês"/>
+                            <label for="date_start" string="Periodo"/>
+                            <div>
+                                <field name="date_start" class="oe_inline"/>
+                                <span> to </span>
+                                <field name="date_stop" class="oe_inline"/>
+                            </div>
+                            <!-- <field name="frequency"  string="Frequencia"/> -->
+                            <field name="tipo_apuramento" string="Tipo de apuramento" readonly="state != 'new'" options="{'no_open': True}"/> 
+                           
+                        </group>
+
+                        <group>
+                            <field name="journal_id" string="Diario"/>
+                            <field name="company_id" string="Empresa"/>
+                            <field name="steps" string="Etapa"/> 
+                            <field name="data_cessao" string="Data de cessação"/>
+                            <field name="cae" string="Codígo CAE"/>
+                            <field name="entrega" string="Entrega"/>
+                            <field name="areaFiscal" string="Area Fiscal"/>
+                            <field name="tipo_declaracao" string="Tipo de Declaração"/> 
+                            <!-- <field name="recuperavel"  readonly="1"/>  -->
+                            <!-- <field name="periodo_anterior"/>  -->
+                            
+                            
+                        </group> 
+                    </group>
+
+
+
+                    <!-- Passo 1 -->
+               
+
+                
+                <!-- Passo 2-->             
+
+                
+
+                <!-- Etapa 4-->             
+
+                
+                <!-- Etapa 5-->             
+
+                <!-- Recuperaçao-->             
+
+
+
+
+                <!-- Diversos-->             
+               
+
+                
+                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="apuramentos_view_list" model="ir.ui.view">
+        <field name="name">record.name.list</field>
+        <field name="model">apuramento.model</field>
+        <field name="arch" type="xml">
+<list>
+            <field name="name"/>
+                <field name="name"/>
+                <field name="tipo_apuramento"/> 
+                <field name="total_saldos_anteriores" string="Saldos anteriores"/> 
+                <field name="areaFiscal" string="Área Fiscal"/>
+                <field name="tipo_declaracao" string="Tipo de Declaraçao"/>
+                <field name="data_cessao" string="Data de Cessão"/>
+                
+            </list>
+        </field>
+    </record>
+
+</odoo>

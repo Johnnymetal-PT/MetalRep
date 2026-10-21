@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="collection_map_pdf_main">
+        <html>
+            <head>
+                <base t-att-href="base_url"/>
+                <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+                <t t-call-assets="account_reports.assets_pdf_export" t-js="False"/>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        font-size: 10pt;
+                        color: #2c3e50;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .page {
+                        padding: 15px 20px;
+                    }
+
+                    /* Info boxes */
+                    .info-box {
+                        border: 1px solid #bdc3c7;
+                        border-radius: 4px;
+                        padding: 6px 12px;
+                        text-align: center;
+                        font-size: 9pt;
+                        background-color: #fafafa;
+                    }
+                    .info-box strong {
+                        display: block;
+                        font-size: 7pt;
+                        text-transform: uppercase;
+                        color: #7f8c8d;
+                        letter-spacing: 0.5px;
+                        margin-bottom: 2px;
+                    }
+
+                    /* Tabela principal - wrapper */
+                    .data-table-wrapper {
+                        background-color: #f8f9fa;
+                        border-left: 3px solid #3498db;
+                        border-radius: 0 4px 4px 0;
+                        padding: 10px 12px;
+                        margin-top: 15px;
+                    }
+
+                    .data-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        font-size: 8.5pt;
+                        background-color: #fff;
+                        border-radius: 3px;
+                        overflow: hidden;
+                    }
+                    .data-table thead th {
+                        background-color: #f0f0f0;
+                        color: #333;
+                        font-size: 7pt;
+                        padding: 7px 6px;
+                        text-align: center;
+                        white-space: nowrap;
+                        font-weight: bold;
+                        letter-spacing: 0.3px;
+                        text-transform: uppercase;
+                        border-bottom: 2px solid #3498db;
+                        border-right: 1px solid #e0e0e0;
+                    }
+                    .data-table thead th:first-child {
+                        text-align: left;
+                    }
+                    .data-table thead th:last-child {
+                        border-right: none;
+                    }
+                    .data-table tbody td {
+                        padding: 5px 6px;
+                        text-align: right;
+                        border-bottom: 1px solid #eee;
+                        border-right: 1px solid #f0f0f0;
+                        font-size: 8pt;
+                    }
+                    .data-table tbody td:last-child {
+                        border-right: none;
+                    }
+                    .data-table tbody td.td-name {
+                        text-align: left;
+                        color: #2c3e50;
+                    }
+                    .data-table tbody td.td-text {
+                        text-align: left;
+                    }
+
+                    /* Linhas alternadas */
+                    .data-table tbody tr.tr-detail:nth-child(even) td {
+                        background-color: #fafbfc;
+                    }
+
+                    /* Linha de parceiro */
+                    .data-table tbody tr.tr-partner td {
+                        background-color: #eef3f7;
+                        font-weight: bold;
+                        font-size: 8.5pt;
+                        color: #2c3e50;
+                        border-bottom: 1px solid #ccc;
+                        padding: 7px 6px;
+                    }
+                    .data-table tbody tr.tr-partner td:first-child {
+                        border-left: 3px solid #3498db;
+                    }
+
+                    /* Linha total */
+                    .data-table tbody tr.tr-total td {
+                        font-weight: bold;
+                        font-size: 8.5pt;
+                        background-color: #e8e8e8;
+                        border-top: 1.5px solid #999;
+                        border-bottom: 1.5px solid #999;
+                        color: #2c3e50;
+                        padding: 7px 6px;
+                    }
+
+                    /* Cores do aging */
+                    .aging-overdue {
+                        color: #e74c3c;
+                        font-weight: bold;
+                        font-size: 7.5pt;
+                    }
+                    .aging-today {
+                        color: #e67e22;
+                        font-weight: bold;
+                        font-size: 7.5pt;
+                    }
+                    .aging-ok {
+                        color: #27ae60;
+                        font-size: 7.5pt;
+                    }
+
+                    /* Cabeçalho título */
+                    .report-title {
+                        font-size: 16pt;
+                        font-weight: bold;
+                        color: #2c3e50;
+                        letter-spacing: 0.5px;
+                    }
+                    .report-date {
+                        display: inline-block;
+                        font-size: 9pt;
+                        font-weight: bold;
+                        border: 2px solid #2c3e50;
+                        padding: 3px 15px;
+                        border-radius: 3px;
+                        margin-top: 5px;
+                        color: #2c3e50;
+                    }
+
+                    /* Empresa info */
+                    .company-info {
+                        font-size: 10px;
+                        line-height: 1.6;
+                        color: #555;
+                    }
+                    .company-info strong {
+                        color: #2c3e50;
+                    }
+
+                    /* Cliente info */
+                    .client-info {
+                        font-size: 10px;
+                        line-height: 1.6;
+                        color: #555;
+                        background-color: #f8f9fa;
+                        border-left: 3px solid #3498db;
+                        padding: 8px 12px;
+                        border-radius: 0 4px 4px 0;
+                    }
+
+                    /* Separador */
+                    .separator {
+                        border: none;
+                        border-top: 1px solid #ddd;
+                        margin: 12px 0;
+                    }
+
+                    /* Dados bancários */
+                    .bank-box {
+                        border: 1.5px solid #2c3e50;
+                        border-radius: 6px;
+                        padding: 12px 15px;
+                        max-width: 480px;
+                        margin-top: 25px;
+                        page-break-inside: avoid;
+                        break-inside: avoid;
+                    }
+                    .bank-box table,
+                    .bank-box tr,
+                    .bank-box tbody {
+                        page-break-inside: avoid;
+                        break-inside: avoid;
+                    }
+                    .bank-box-title {
+                        text-align: center;
+                        margin-bottom: 8px;
+                        font-size: 9pt;
+                        font-weight: bold;
+                        color: #2c3e50;
+                        border-bottom: 1px solid #ddd;
+                        padding-bottom: 5px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                    }
+                    .bank-table {
+                        width: 100%;
+                        font-size: 8.5pt;
+                        border-collapse: collapse;
+                    }
+                    .bank-table th {
+                        text-align: left;
+                        padding: 3px 5px;
+                        color: #7f8c8d;
+                        font-size: 7pt;
+                        text-transform: uppercase;
+                        letter-spacing: 0.3px;
+                        border-bottom: 1px solid #eee;
+                        border: none;
+                    }
+                    .bank-table td {
+                        padding: 4px 5px;
+                        color: #2c3e50;
+                        border: none;
+                        border-bottom: 1px solid #f5f5f5;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="page">
+                    <!-- Watermark -->
+                    <div style="position: absolute; opacity: 0.04; width: 100%; text-align: center; top: 30%; z-index: -1;">
+                        <t t-if="env.company.report_watermark">
+                            <img t-att-src="image_data_uri(env.company.report_watermark)" style="width: 60%;"/>
+                        </t>
+                    </div>
+
+                    <!-- Cabeçalho: Logo + Título -->
+                    <div class="row">
+                        <div class="col-7">
+                            <t t-if="env.company.logo_report">
+                                <img t-att-src="image_data_uri(env.company.logo_report)" style="width: 45%; margin-bottom: 5px;"/>
+                            </t>
+                            <t t-elif="env.company.logo">
+                                <img t-att-src="image_data_uri(env.company.logo)" style="width: 45%; margin-bottom: 5px;"/>
+                            </t>
+                        </div>
+                        <div class="col-5 text-end">
+                            <br/>
+                            <span class="report-title">Mapa de Cobranças</span>
+                        </div>
+                    </div>
+
+                    <hr class="separator"/>
+
+                    <!-- Dados da Empresa e Cliente -->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="company-info">
+                                <strong style="font-size: 12px;"><t t-out="env.company.name"/></strong><br/>
+                                <t t-if="env.company.street"><t t-out="env.company.street"/><br/></t>
+                                <t t-if="env.company.street2"><t t-out="env.company.street2"/><br/></t>
+                                <t t-if="env.company.city"><t t-out="env.company.city"/></t>
+                                <t t-if="env.company.country_id"> - <t t-out="env.company.country_id.name"/></t><br/>
+                                <t t-if="env.company.vat"><strong>NUIT: </strong><t t-out="env.company.vat"/><br/></t>
+                                <t t-if="env.company.phone">Tel: <t t-out="env.company.phone"/><br/></t>
+                                <t t-if="env.company.email">Email: <t t-out="env.company.email"/></t>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <t t-if="options.get('partner_ids')">
+                                <t t-set="partners" t-value="env['res.partner'].browse(options['partner_ids'])"/>
+                                <t t-foreach="partners" t-as="partner">
+                                    <div class="client-info">
+                                        <span style="font-size: 8px; text-transform: uppercase; color: #7f8c8d; letter-spacing: 0.5px;">Cliente</span><br/>
+                                        <strong style="font-size: 12px; color: #2c3e50;"><t t-out="partner.name"/></strong><br/>
+                                        <t t-if="partner.street"><t t-out="partner.street"/><br/></t>
+                                        <t t-if="partner.street2"><t t-out="partner.street2"/><br/></t>
+                                        <t t-if="partner.city"><t t-out="partner.city"/></t>
+                                        <t t-if="partner.country_id"> - <t t-out="partner.country_id.name"/></t>
+                                        <t t-if="partner.city or partner.country_id"><br/></t>
+                                        <t t-if="partner.vat"><strong>NUIT: </strong><t t-out="partner.vat"/><br/></t>
+                                        <t t-if="partner.phone">Tel: <t t-out="partner.phone"/></t>
+                                    </div>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+
+                    <!-- Info boxes -->
+                    <div class="row" style="margin-top: 12px;">
+                        <div class="col-3">
+                            <div class="info-box">
+                                <strong>Data Relatório</strong>
+                                <t t-out="options['date']['string']"/>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="info-box">
+                                <strong>Tipo</strong>
+                                Facturas a Cliente
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="info-box">
+                                <strong>Moeda</strong>
+                                <t t-out="options.get('company_currency', {}).get('currency_name', 'MZN')"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Colunas a excluir no PDF (esconder aging buckets) -->
+                    <t t-set="pdf_exclude_labels" t-value="('period0', 'period1', 'period2', 'period3', 'period4', 'period5')"/>
+                    <t t-set="pdf_rename" t-value="{'amount_residual': 'VALOR EM DÍVIDA', 'total': 'TOTAL EM DÍVIDA'}"/>
+
+                    <!-- Tabela de Dados -->
+                    <div class="data-table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left; min-width: 180px;">CLIENTE / DOCUMENTO</th>
+                                <t t-foreach="options['columns']" t-as="col">
+                                    <t t-if="col.get('expression_label') not in pdf_exclude_labels">
+                                        <th>
+                                            <t t-if="col.get('expression_label') in pdf_rename">
+                                                <t t-out="pdf_rename[col['expression_label']]"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-out="col.get('name', '').upper()"/>
+                                            </t>
+                                        </th>
+                                    </t>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="lines" t-as="line">
+                                <t t-set="line_id_str" t-value="str(line.get('id', ''))"/>
+                                <t t-set="is_detail" t-value="'account.move.line' in line_id_str"/>
+                                <t t-set="is_partner" t-value="'res.partner' in line_id_str and not is_detail"/>
+                                <t t-set="is_total" t-value="not is_detail and not is_partner"/>
+
+                                <tr t-att-class="('tr-partner' if is_partner else '') + (' tr-total' if is_total else '') + (' tr-detail' if is_detail else '')">
+                                    <td class="td-name" t-att-style="'padding-left: %spx;' % (max(line.get('level', 0) * 12, 5))">
+                                        <t t-out="line.get('name')"/>
+                                    </td>
+                                    <t t-foreach="line.get('columns', [])" t-as="cell">
+                                        <t t-if="cell.get('expression_label') not in pdf_exclude_labels">
+                                            <t t-set="cell_name" t-value="str(cell.get('name', '') or '')"/>
+                                            <t t-set="cell_label" t-value="cell.get('expression_label')"/>
+                                            <t t-set="is_aging" t-value="cell_label == 'aging_days'"/>
+                                            <td t-att-class="'td-text' if cell.get('figure_type') in ('string', 'date') else ''">
+                                                <t t-if="is_aging and 'em atraso' in cell_name">
+                                                    <span class="aging-overdue"><t t-out="cell.get('name')"/></span>
+                                                </t>
+                                                <t t-elif="is_aging and cell_name == 'Hoje'">
+                                                    <span class="aging-today"><t t-out="cell.get('name')"/></span>
+                                                </t>
+                                                <t t-elif="is_aging and 'A vencer' in cell_name">
+                                                    <span class="aging-ok"><t t-out="cell.get('name')"/></span>
+                                                </t>
+                                                <t t-elif="cell_label == 'amount_residual' and not is_detail">
+                                                    <!-- Valor em Dívida só nas linhas de factura -->
+                                                </t>
+                                                <t t-elif="cell_label == 'total' and is_detail">
+                                                    <!-- Total em Dívida só nas linhas de grupo (cliente/total) -->
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-out="cell.get('name')"/>
+                                                </t>
+                                            </td>
+                                        </t>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    </div>
+
+                    <!-- Dados Bancários (da empresa) -->
+                    <t t-set="banks" t-value="env.company.mh_bank_ids.filtered(lambda b: b.active)"/>
+                    <t t-if="banks">
+                        <div class="bank-box">
+                            <div class="bank-box-title">Dados Bancários</div>
+                            <table class="bank-table">
+                                <thead>
+                                    <tr>
+                                        <th>Banco</th>
+                                        <th>NIB</th>
+                                        <th>Conta</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="banks" t-as="bank">
+                                        <tr>
+                                            <td style="font-weight: bold;"><t t-out="bank.name"/></td>
+                                            <td><t t-out="bank.nib"/></td>
+                                            <td><t t-out="bank.account_number"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </div>
+            </body>
+        </html>
+    </template>
+</odoo>

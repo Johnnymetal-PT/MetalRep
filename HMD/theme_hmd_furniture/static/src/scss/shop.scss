@@ -1,0 +1,2393 @@
+// E-commerce: grelha de catalogo e pagina de produto.
+// Origem: Products.svg (desktop) e Mobile/{GRELHA PRODUTOS,PRODUTO}.svg
+
+// --- Grelha de catalogo --------------------------------------------------
+// Collection.pdf: fundo #EDEDED em toda a pagina, 5 colunas, imagem com muito
+// ar, nome em Prata maiusculas e preco em Inter. Sem barra lateral, sem
+// ordenacao e sem alternador grelha/lista.
+//
+// Tudo pende de .hmd-shop-page (no #wrap): o #products_grid recebe o class
+// via t-attf-class do Odoo e nao aceita o nosso.
+// O fundo da pagina tem de passar POR TRAS do cabecalho: no XD o cinza da
+// Collection cobre tambem a faixa do cabecalho, e o veu de 20% assenta em cima.
+// O <header> vive fora do #wrap, por isso a cor tem de ir ao body.
+body:has(.hmd-shop-page) { background: var(--hmd-grey); }
+
+.hmd-shop-page {
+    background: var(--hmd-grey);
+
+    #products_grid {
+        padding: clamp(1rem, 2.5vw, 48px) var(--hmd-pad-x-nav) clamp(2.5rem, 6vw, 115px);
+    }
+
+    // Feedback Monica 18/09/2026, PDF "MIGALHAS", ponto 1: "Cortar" o titulo
+    // grande da categoria. E o <h1> que o website_sale.products escreve dentro
+    // do #products_grid, logo a seguir as migalhas
+    // (addons/website_sale/views/templates.xml ~l.377).
+    //
+    // Escondido, nao apagado. E o unico <h1> da pagina: e ele que a nomeia
+    // para quem usa leitor de ecra e para os motores de busca. Tirado do
+    // fluxo, deixa de ocupar espaco — e dai que venha, sozinho, o "um pouco
+    // mais para cima" do ponto 2 do mesmo PDF.
+    #products_grid > h1 {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    // Idem, pontos 2 e 3: as migalhas passam a Inter, com o nivel actual a
+    // Bold, e "sempre no #222120" — estavam no roxo de ligacao do Odoo.
+    .breadcrumb {
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-micro);
+        // Com o titulo fora do fluxo, e esta a unica folga entre as migalhas e
+        // a grelha. Na prancha anotada a grelha sobe ate quase lhes encostar.
+        margin-bottom: clamp(0.75rem, 1.5vw, 28px);
+
+        .breadcrumb-item,
+        .breadcrumb-item::before,
+        .breadcrumb-item > a {
+            color: var(--hmd-ink-2);
+            font-weight: 400;
+            text-decoration: none;
+        }
+
+        // O ultimo nivel e a pagina onde estamos e vai a Bold. O template
+        // nativo nao lhe poe .active — o que o distingue e ser um <span> em
+        // vez de um <a>, e ser o ultimo da lista.
+        .breadcrumb-item:last-child,
+        .breadcrumb-item:last-child > span { font-weight: 700; }
+    }
+
+    // O alternador grelha/lista nao existe no desenho
+    .o_wsale_apply_layout { display: none !important; }
+
+    // O Odoo 18 monta a grelha com --o-wsale-ppr numa grelha de 12 colunas e
+    // atribui g-col-2 a cada produto: 12/2 = 6 por linha, mesmo com ppr=5
+    // (5 nao e divisor de 12). Forcamos as 5 colunas do desenho.
+    #o_wsale_products_grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+
+        // As 5 colunas sao do desenho de ecra grande. Sem estas duas regras
+        // ficavam 5 tambem no telemovel: imagens de 57px e nomes partidos letra
+        // a letra (analise de responsividade de 24/09/2026). A regra de 2
+        // colunas que existia mais abaixo apontava para .hmd-shop__grid, uma
+        // classe que nenhuma vista usa.
+        @media (max-width: 991.98px) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        // Mobile/GRELHA PRODUTOS.svg: duas colunas a 393px.
+        @media (max-width: 575.98px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    #o_wsale_products_grid .oe_product {
+        grid-column: span 1 !important;
+    }
+
+    // O desenho tem so uma seta para a direita, nao numeros de pagina.
+    // A marcacao e .products_pager > ul.pagination > li.page-item, em que o
+    // primeiro item e a seta "anterior" e o ultimo a "seguinte".
+    //
+    // Feedback Monica 18/09/2026, PDF "BOTAO EM FALTA": "Falta botao para
+    // tras". O XD so desenhava a seta para a frente e era isso que estava
+    // implementado; a partir da segunda pagina nao havia como recuar. Passam
+    // a ver-se as duas pontas e continuam escondidos os numeros de pagina.
+    .products_pager .pagination > .page-item { display: none; }
+    .products_pager .pagination > .page-item:first-child,
+    .products_pager .pagination > .page-item:last-child { display: block; }
+
+    // Na primeira pagina o Odoo marca a seta "anterior" com .disabled. Sem
+    // isto ficava um simbolo apagado mas ainda clicavel a pedir o clique.
+    .products_pager .pagination > .page-item.disabled { display: none; }
+
+    .products_pager .page-link {
+        border: 0;
+        background: transparent;
+        color: var(--hmd-ink);
+        font-size: 1.25rem;
+    }
+
+    // Monica, 16/10/2026 (#8277, PDF "SETAS GRELHA PRODUTOS"): as setas saem
+    // de baixo da grelha (onde ficavam por cima do COMPARE) e passam para os
+    // lados, a altura dos nomes da primeira fila, como setas compridas e
+    // finas. Os desenhos vem do .eps dela (img/hmd_seta_esq|dir.svg).
+    //
+    // A altura acompanha a largura das colunas: com container-type, 20cqw e
+    // um quinto da grelha, ou seja a imagem quadrada da primeira fila.
+    #products_grid { position: relative; container-type: inline-size; }
+
+    @media (min-width: 992px) {
+        #products_grid .products_pager {
+            position: absolute;
+            left: calc(-42px - 3rem);
+            right: calc(-42px - 3rem);
+            top: calc(20cqw + 3rem);
+            padding: 0 !important;      // tira o pt-5 pb-3 do Odoo
+            pointer-events: none;       // so as setas apanham o clique
+        }
+        #products_grid .products_pager .pagination {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+
+    // Na primeira pagina so ha a seta "seguinte": fica na mesma a direita.
+    #products_grid .products_pager .pagination > .page-item:last-child { margin-left: auto; }
+
+    #products_grid .products_pager .page-link {
+        pointer-events: auto;
+        box-sizing: content-box;
+        width: 42px;
+        height: 9px;
+        padding: 0.75rem 0;   // area de clique maior do que o traco
+    }
+
+    #products_grid .products_pager .page-link > .fa {
+        display: block;
+        width: 42px;
+        height: 9px;
+        background: var(--hmd-ink);
+        -webkit-mask: url("/theme_hmd_furniture/static/src/img/hmd_seta_esq.svg") center / contain no-repeat;
+        mask: url("/theme_hmd_furniture/static/src/img/hmd_seta_esq.svg") center / contain no-repeat;
+
+        &::before { content: none; }   // o chevron do Font Awesome
+    }
+
+    #products_grid .products_pager .page-item:last-child .page-link > .fa {
+        -webkit-mask-image: url("/theme_hmd_furniture/static/src/img/hmd_seta_dir.svg");
+        mask-image: url("/theme_hmd_furniture/static/src/img/hmd_seta_dir.svg");
+    }
+
+    .o_wsale_products_grid_table_wrapper > .row {
+        --bs-gutter-x: clamp(0.75rem, 1.6vw, 30px);
+        --bs-gutter-y: clamp(1rem, 2.4vw, 46px);
+    }
+
+    .oe_product_cart,
+    .oe_product,
+    .o_wsale_product_information { background: transparent; border: 0 !important; }
+
+    .oe_product_image { background: transparent; }
+
+    // Accoes do cartao: carrinho, wishlist, comparar.
+    //
+    // O Odoo desenha-lhes uma caixa e pinta-as de roxo ao passar o rato:
+    //   .oe_product_cart .o_wsale_product_btn .btn        -> border + padding
+    //   .oe_product_cart .o_wsale_product_btn .btn:hover  -> background #714B67
+    // Essa regra tem especificidade 0,3,0 e vem depois da nossa no ficheiro,
+    // por isso ganhava. Acrescentamos .oe_product_cart para subir a 0,4,0.
+    //
+    // No XD sao tres icones simples, alinhados a esquerda por baixo da imagem.
+    // A linha e position:absolute com left:0.5rem no Odoo (website_sale.scss
+    // ~l.345), ou seja JA nasce alinhada a esquerda como no desenho — nao lhe
+    // mexemos na posicao.
+    //
+    // A folga vem da utilitaria .gap-2 do Bootstrap, que o template escreve no
+    // proprio div (`o_wsale_product_btn d-flex gap-2`). E `gap:.5rem!important`,
+    // por isso nenhuma especificidade a vence — so outro !important.
+    //
+    // Medido em Website_Design/Desktop/.../Collection: os tres glifos tem os
+    // centros a 52,5px um do outro. Como cada glifo tem largura de avanco
+    // diferente (carrinho/coracao/comparar), fixamos a largura da caixa: assim
+    // os centros ficam equidistantes seja qual for o glifo.
+    //   1.1rem (17,6px) + 2.2rem (35,2px) = 52,8px entre centros.
+    .oe_product_cart .o_wsale_product_btn {
+        gap: 2.2rem !important;
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.1rem;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+            color: var(--hmd-black);
+            line-height: 1;
+        }
+
+        .btn:hover,
+        .btn:focus,
+        .btn:focus-visible,
+        .btn:active,
+        .btn.active {
+            padding: 0;
+            border: 0;
+            background: transparent;
+            background-color: transparent;
+            box-shadow: none;
+            color: var(--hmd-black);
+        }
+
+        .fa { font-size: 1.05rem; }
+    }
+
+
+    // Segunda imagem ao passar o rato, so no cartao do catalogo.
+    // Feedback Monica 18/09/2026, PDF "Opcao 2a imagem carrossel produtos".
+    // A marcacao vem de theme_hmd_furniture.products_item_hover_hmd, e so e
+    // escrita quando o produto tem imagem extra.
+    //
+    // As duas imagens estao empilhadas em position:absolute dentro do
+    // .oe_product_image, que o Odoo ja da como position:relative. O que muda
+    // e a opacidade — nao o display: assim ha transicao, e a imagem de hover
+    // ja esta carregada quando o rato la chega.
+    .hmd-product-image-hover {
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        // Sobre a primeira, nao ao lado dela.
+        inset: 0;
+        // Sem isto o rato "entra" na imagem de cima e o :hover do cartao
+        // ficava a piscar nas bordas.
+        pointer-events: none;
+    }
+
+    .oe_product_cart:hover .hmd-product-image-hover { opacity: 1; }
+
+    // Em ecras de toque nao ha rato: o hover do CSS fica "colado" depois do
+    // primeiro toque e a segunda imagem nunca mais saia. Nesses, mostra-se
+    // sempre a primeira.
+    @media (hover: none) {
+        .oe_product_cart:hover .hmd-product-image-hover { opacity: 0; }
+    }
+
+    // Nome do produto. O Odoo aplica-lhe .text-primary-emphasis, cuja regra do
+    // Bootstrap e "color: #65435c !important" — o roxo. So se vence com
+    // !important tambem.
+    // XD: 12px, entrelinha 15 — o mesmo corpo do preco logo abaixo. Estava a
+    // 20px. Mantem-se a Prata: na prancha o nome do produto e serifado, e o
+    // que foi pedido foi o tamanho, nao a familia.
+    .o_wsale_products_item_title {
+        font-family: var(--hmd-product-font);
+        font-size: var(--hmd-fs-micro);
+        line-height: 1.25;    // 15/12
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.01em;
+        margin-bottom: 0.15rem;
+
+        a {
+            color: var(--hmd-black) !important;
+            text-decoration: none;
+        }
+
+        a:hover { text-decoration: underline; text-underline-offset: 4px; }
+    }
+
+    // XD: Inter 12 Regular, AV 0, entrelinha 15, opacidade 41%. Estava a 16px
+    // e a preto pleno.
+    //
+    // A opacidade do XD vem como cor com alfa e nao como `opacity`: assim a
+    // regra afeta so o texto do preco e nao arrasta nada que venha a ser
+    // aninhado la dentro.
+    // #7874 (Monica, 06/10/2026): o preco e o "Price on request" com o mesmo
+    // tipo de letra do nome do artigo. Era a Inter do XD.
+    // Monica, reuniao de 15/10/2026: preco e "Price on request" em Inter
+    // ("por tudo em Inter"). Os nomes dos artigos ficam em Prata.
+    .product_price {
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-micro);
+        line-height: 1.25;    // 15/12
+        letter-spacing: var(--hmd-ls-none);
+        color: rgba(2, 2, 2, 0.41);
+    }
+
+    // O "Price on request" da grelha e um <span class="h6">: os titulos h6
+    // usam a Prata do tema e venciam a regra de cima. Segue o preco.
+    .product_price .h6 {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: 400;
+    }
+}
+
+// --- Cabecalho da pagina de produto -------------------------------------
+body:has(.hmd-product-page) { background: var(--hmd-grey); }
+
+// As seccoes que a HMD monta no Construtor de Website (website_gallery_html do
+// produto) trazem uma combinacao de cores do Odoo. A o_cc1 e BRANCA, e no meio
+// de uma pagina a #EDEDED aparece como uma faixa branca que o desenho nao tem.
+//
+// Isto NAO se resolve apagando conteudo do produto: o tema tem de aguentar o
+// que la esta, seja qual for o produto. Neutralizamos so a cor de fundo.
+//
+// Deliberadamente nao se toca em background-image: os snippets podem ter uma
+// fotografia de fundo posta a mao, e um !important aqui apagava-a.
+// Tambem nao se toca nas cores de texto da combinacao.
+.hmd-product-page {
+    .o_cc1, .o_cc2, .o_cc3, .o_cc4, .o_cc5 {
+        background-color: transparent !important;
+    }
+}
+
+// O "OTHER OPTIONS" antigo nao vem de nenhuma vista: esta gravado no HTML do
+// campo website_description de ~190 produtos, como snippet dinamico
+// (s_dynamic_snippet_products, data-name="OTHER OPTIONS", com "See all").
+// Confirmado por SQL: nos CONGO 90 e CONGO 110 aparece a partir do caracter 36.
+//
+// NAO se apaga dos produtos. Esse bloco pertence ao site que esta no ar: a
+// vista website.s_dynamic_snippet_products_46017d41... esta registada no
+// website 1. Limpar as descricoes arrumava o site novo e partia o site vivo.
+//
+// Esconde-se apenas dentro do nosso tema. A nossa seccao .hmd-options, essa
+// sim igual a prancha, fica a unica visivel na pagina do produto.
+.hmd-product-page {
+    .s_dynamic_snippet_products { display: none !important; }
+}
+
+.hmd-product-page {
+    background: var(--hmd-grey);
+
+    // A navegacao auxiliar nativa (breadcrumb, pesquisa e lista de precos)
+    // nao existe na prancha de produto. A pesquisa global continua no header.
+    .oe_website_sale > .row:first-child { display: none; }
+}
+
+.hmd-product-hero {
+    text-align: center;
+    padding: clamp(1.5rem, 3vw, 58px) var(--hmd-pad-x) 0;
+
+    &__name {
+        font-family: var(--hmd-display);
+        font-size: clamp(2.5rem, 4.64vw, 5.5625rem);  // 89px
+        text-transform: uppercase;   // "CONGO" no XD
+        margin: 0;
+        color: var(--hmd-ink-2);
+    }
+
+    &__cat {
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-body);
+        letter-spacing: var(--hmd-ls-tight);
+        text-transform: uppercase;
+        margin: 0.4rem 0 clamp(1.5rem, 3vw, 58px);
+        color: var(--hmd-ink-2);
+    }
+
+    &__media {
+        // Medido em Website_Design/.../design da pagina de produto (1920 de
+        // largura): a imagem ocupa x=602..1380, ou seja 778px = 40,5%. Estava
+        // a 438px, menos de metade do desenho.
+        width: 40.5vw;
+        max-width: 778px;
+        margin-inline: auto;
+
+        img { display: block; width: 100%; height: auto; }
+
+        // No XD a legenda alinha pela margem esquerda da imagem (x=602), nao
+        // pelo centro. A figura e centrada; a legenda alinha a esquerda dentro
+        // dela, o que da exactamente esse x.
+        figcaption { text-align: left; }
+    }
+
+    &__lead {
+        font-family: var(--hmd-mono);
+        font-size: var(--hmd-fs-body);
+        letter-spacing: var(--hmd-ls-tight);
+        line-height: var(--hmd-lh-mono);
+        text-align: left;
+        max-width: 58ch;
+        margin: clamp(1.5rem, 2.4vw, 46px) 0 0;
+
+        &:empty { display: none; }
+    }
+}
+
+// --- Galeria de ambiente com paginacao ----------------------------------
+.hmd-lifestyle {
+    // Sem min(): o compilador do Odoo (libsass) calcula min()/max() como
+    // funcoes de Sass -> "Incompatible units: 'px' and 'vw'", e falha o
+    // bundle inteiro. O dart-sass aceita, por isso testar so localmente
+    // nao deteta o problema.
+    width: 60vw;
+    max-width: 1152px;
+    margin-inline: auto;
+    padding: clamp(2rem, 4vw, 77px) 0;
+
+    &__frame img { display: block; width: 100%; height: auto; }
+
+    &__dots {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+        font-family: var(--hmd-mono);
+        font-size: var(--hmd-fs-meta);
+        font-weight: 700;
+        letter-spacing: var(--hmd-ls-tight);
+    }
+
+    &__dot {
+        background: none;
+        border: 0;
+        padding: 0 0 0.15rem;
+        color: var(--hmd-ink);
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+
+        &.is-active { border-bottom-color: var(--hmd-ink); }
+    }
+}
+
+// --- Galeria de imagens do Construtor, vestida como a prancha ------------
+//
+// As fotografias dos produtos NAO estao no campo de imagens do produto: estao
+// dentro de snippets "Galeria de imagens" (s_image_gallery) montados no
+// Construtor, produto a produto. Medido a 03/09/2026 no 211 MODULO ABERTO 70:
+// tres fotografias no snippet, zero no campo do produto.
+//
+// Por isso nao se esconde este carrossel — sem ele o produto ficava sem
+// fotografia nenhuma. Ajusta-se a apresentacao para coincidir com a prancha:
+// imagem mais estreita e centrada, numeros a direita, sem setas.
+//
+// A largura e a MESMA da nossa .hmd-lifestyle (60vw / 1152px), medida no XD.
+// Assim, um produto com fotografias no snippet e outro com fotografias no
+// campo do produto ficam com a mesma geometria, e a pagina nao muda de ritmo
+// de produto para produto.
+//
+// Sem min(): o libsass do Odoo avalia min()/max() como funcoes Sass e falha
+// com unidades mistas.
+.hmd-product-page section.s_image_gallery {
+    width: 60vw;
+    max-width: 1152px;
+    margin-inline: auto;
+
+    // A prancha nao tem setas: a navegacao e pelos numeros.
+    .carousel-control-prev,
+    .carousel-control-next { display: none !important; }
+
+    // Nao vale a pena mexer no .o_carousel_controllers: o Odoo da-lhe
+    // display:contents, logo nao e uma caixa e nao aceita alinhamento. Os
+    // filhos sobem para a flex do pai, e e neles que se manda.
+    //
+    // Na variante "setas a direita" o Odoo empurra as SETAS com margin-left
+    // auto e deixa os indicadores a margin: 0. Escondendo as setas, foi-se o
+    // que empurrava — e os numeros ficaram encostados a esquerda. O auto passa
+    // para eles.
+    //
+    // O !important e por especificidade: a regra do Odoo esta encadeada em tres
+    // classes da propria seccao, e sem ele a nossa perdia.
+    .o_carousel_controllers .carousel-indicators {
+        justify-content: flex-end;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+    }
+
+    // Os numeros, como no desenho: cinzento claro, monoespaçados, e uma linha
+    // curta depois de CADA um. O nativo desenha o numero num contador CSS e a
+    // linha num :after com largura zero, que so cresce no indicador activo —
+    // na prancha todos a tem, e o activo distingue-se pela cor.
+    // Os numeros e os tracinhos, como na prancha: "1_2_3_4_5" — cada numero
+    // seguido de um traco curto e claro, todos iguais, e o activo distingue-se
+    // pela COR do numero e nao pelo comprimento do traco.
+    //
+    // O nativo faz o contrario: traco de largura ZERO em todos, que cresce a
+    // 1.5rem so no activo, e a preto por causa da variante .carousel-dark.
+    //
+    // O !important aqui e obrigatorio, nao e atalho. O selector do Odoo e
+    //
+    //   .s_image_gallery.o_slideshow.s_image_gallery_indicators_numbers[data-vcss="002"]
+    //       .carousel-indicators button:after
+    //
+    // — tres classes mais um selector de atributo. Qualquer regra nossa presa a
+    // .hmd-product-page fica abaixo disso em especificidade. Ou se copiava a
+    // cadeia inteira do Odoo, incluindo o [data-vcss="002"] que muda de versao
+    // para versao, ou se usa !important. A segunda envelhece melhor.
+    .carousel-indicators button {
+        font-family: var(--hmd-mono);
+        font-size: var(--hmd-fs-meta);
+        letter-spacing: var(--hmd-ls-none);
+        gap: 0.45rem;
+        padding: 0 0 0 0.45rem;
+        color: #9C9A98;
+
+        &:after,
+        &.active:after {
+            width: 1.1rem !important;
+            // Shorthand de proposito: o Odoo escreve border-color, e um
+            // border-top-color nosso nao o venceria de forma fiavel.
+            border-top: 1px solid #C9C6C3 !important;
+
+            // Na prancha o traco fica a altura da base do numero, como um
+            // sublinhado — nao a meia altura. O Odoo alinha os dois ao centro
+            // (align-items: center no botao); em vez de mudar o alinhamento,
+            // que arrastava tambem o numero, desce-se so o traco. O numero
+            // fica onde esta.
+            margin-top: 0.5em;
+        }
+
+        &.active { color: var(--hmd-ink-2); }
+    }
+}
+
+// Indice numerado sob a fotografia de ambiente, escrito pelo HmdGalleryIndex.
+// Mesma linguagem visual dos indicadores da galeria do Construtor: numero em
+// cinzento claro, traco curto depois de cada um a altura da base, alinhado a
+// direita. O activo distingue-se pela cor do numero.
+.hmd-gallery-index {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.9rem;
+    font-family: var(--hmd-mono);
+    font-size: var(--hmd-fs-meta);
+    letter-spacing: var(--hmd-ls-none);
+
+    &__n {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        color: #9C9A98;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 1.1rem;
+            border-top: 1px solid #C9C6C3;
+            margin-top: 0.5em;
+        }
+
+        &.is-active { color: var(--hmd-ink-2); }
+    }
+}
+
+// --- Bloco de "Maconaria" com uma imagem so, centrado ---------------------
+//
+// Medido no CONGO 110 a 04/09/2026: a fotografia CONGO.jpg vive num
+// s_masonry_block cujo item de grelha tem, em estilo INLINE:
+//
+//   class="o_grid_item … justify-content-start … g-col-lg-9 col-lg-9"
+//   style="grid-column-start: 1; grid-column-end: 10;"
+//
+// Ocupa 9 das 12 colunas e alinha ao inicio — sobram tres colunas vazias a
+// direita e a imagem fica desencostada do centro, ao contrario das outras
+// seccoes da galeria, que sao s_picture com o container centrado.
+//
+// A posicao esta em estilo inline, por isso venci-la exige !important. Isso
+// tem um custo conhecido e aceite pela HMD a 04/09: este bloco deixa de poder
+// ser reposicionado no Construtor — se alguem o mover la, o site nao reflete
+// a mudanca. Fica na lista dos blocos que o Construtor ja nao comanda.
+//
+// O :has(:only-child) NAO e enfeite. Ha 190 produtos, e alguns podem ter
+// maconarias com varias imagens dispostas em grelha de proposito. Desmontar
+// essas seria estragar o que esta bem. A regra so entra onde ha um unico item.
+.hmd-product-page section.s_masonry_block
+    .row.o_grid_mode:has(> .o_grid_item:only-child) {
+    display: block !important;
+
+    > .o_grid_item {
+        grid-column: auto !important;
+        grid-row: auto !important;
+        justify-content: center !important;
+        padding-inline: 0 !important;
+        text-align: center;
+    }
+
+    img {
+        display: inline-block;
+        margin-inline: auto;
+    }
+}
+
+// --- "SEEN IN PROJECTS" do Construtor, vestido como a prancha -------------
+//
+// A seccao e conteudo da HMD: o snippet s_key_images guardado como
+// "LAYOUT_MONICA", dentro do website_gallery_html do produto. Nao se toca no
+// conteudo — so na apresentacao, que e onde estava a diferenca.
+//
+// Na prancha tudo aqui e monoespaçado e pequeno: o titulo da seccao, o texto
+// de apresentacao, o nome do projecto e o "PROJECT BY". O que o site fazia:
+// titulo na serifa de display, grande, e o nome do projecto enorme, porque o
+// conteudo lhe da a classe .h1-fs do editor do Odoo.
+//
+// Sem !important: .h1-fs e uma classe so, e esta cadeia tem tres.
+.hmd-product-page section.s_key_images {
+
+    h2 {
+        font-family: var(--hmd-mono);
+        font-size: var(--hmd-fs-meta);
+        font-weight: 700;
+        letter-spacing: var(--hmd-ls-none);
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+    }
+
+    // O texto de apresentacao tem coluna estreita na prancha; no site
+    // atravessava quase metade da pagina em duas linhas.
+    > .container > .row > .col-lg-12 p {
+        max-width: 52ch;
+    }
+
+    // Nome do projecto: pequeno, monoespaçado, em maiusculas.
+    .h1-fs {
+        font-family: var(--hmd-mono);
+        font-size: var(--hmd-fs-meta);
+        font-weight: 400;
+        line-height: 1.4;
+        letter-spacing: var(--hmd-ls-none);
+        text-transform: uppercase;
+        margin-bottom: 0.9rem;
+    }
+
+    // "DESIGN BY" e o nome do atelier, por baixo da fotografia.
+    p {
+        font-family: var(--hmd-mono);
+        font-size: var(--hmd-fs-meta);
+        margin-bottom: 0.2rem;
+    }
+
+    strong a { text-decoration: none; color: var(--hmd-ink-2); }
+
+    img { width: 100%; height: auto; }
+}
+
+// --- "SEEN IN PROJECTS" --------------------------------------------------
+.hmd-seen {
+    padding: clamp(2rem, 4vw, 77px) var(--hmd-pad-x);
+
+    &__title {
+        font-family: var(--hmd-mono);
+        font-weight: 700;
+        font-size: clamp(0.9375rem, 1.15vw, 1.375rem);  // 22px
+        letter-spacing: var(--hmd-ls-tight);
+        text-transform: uppercase;
+        margin: 0 0 0.6rem;
+    }
+}
+
+// --- Bloco de configuracao / compra -------------------------------------
+// GEOMETRIA — medida no XD a 03/09/2026, em percentagem da largura da pagina:
+//
+//   coluna esquerda (titulo + foto)   13,4%  ->  30%
+//   intervalo                            30%  ->  36%
+//   coluna direita (descricao, etc.)     36%  ->  65%
+//   vazio a direita                      65%  -> 100%   (e do desenho)
+//
+// Antes o bloco comecava a 32%, com um terco da pagina vazio a ESQUERDA, e o
+// titulo partia em duas linhas por falta de largura. A causa nao era a fonte:
+// o #product_detail_main esta dentro de <section class="container">, que o
+// limita a 1320px e centra, e o tema aplicava a sua margem editorial (ate
+// 207px) POR DENTRO desse limite. As duas margens somavam-se.
+//
+// A saida e o bloco deixar de obedecer ao container e passar a definir a sua
+// propria geometria: 100vw com a margem negativa que o tira de la, e as
+// medidas do desenho em vw.
+.hmd-buy {
+    display: grid;
+    position: relative;
+    z-index: 2;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    grid-template-columns: minmax(0, 0.364fr) minmax(0, 0.636fr);
+    column-gap: 6vw;
+    // Baixou de 96px: com a faixa de cabecalho a grelha passou a ter tres
+    // linhas, e o valor calibrado para UMA separacao entrava duas vezes. A
+    // folga original entre o bloco de compra e o resto e reposta com padding
+    // no proprio formulario, mais abaixo.
+    row-gap: clamp(1.25rem, 2.5vw, 40px);
+    padding: clamp(2.5rem, 6vw, 115px) 35vw clamp(2.5rem, 6vw, 115px) 13.4vw;
+    background: var(--hmd-white);
+    align-items: start;
+
+    // O bloco ja tem 100vw e cobre toda a largura. A combinacao anterior de
+    // box-shadow + clip-path era redundante e recortava o dropdown de
+    // acabamentos quando este ultrapassava o fundo da seccao.
+
+    // O template standard usa uma .row com colunas Bootstrap. Neste bloco a
+    // grelha HMD assume o layout e neutraliza apenas as dimensoes das colunas.
+    > .hmd-buy__media,
+    > .hmd-buy__details,
+    > .hmd-buy__form {
+        width: auto;
+        max-width: none;
+        min-width: 0;
+        margin: 0 !important;
+        padding: 0;
+    }
+
+    // As posicoes sao TODAS explicitas. Isso e deliberado — a colocacao
+    // automatica poe cada filho novo na primeira celula livre, e um bloco que
+    // ocupe as duas colunas nao cabe em nenhuma linha ja usada, indo parar ao
+    // fim. Foi o que aconteceu a faixa de cabecalho a 07/09/2026: ficou por
+    // baixo do bloco de compra. Quem acrescentar um filho aqui tem de lhe dar
+    // linha e coluna, e empurrar os seguintes.
+    > .hmd-buy__header { grid-column: 1 / -1; grid-row: 1; }
+    > .hmd-buy__media { grid-column: 1; grid-row: 2; }
+    > .hmd-buy__details { grid-column: 2; grid-row: 2; }
+    > .hmd-buy__form {
+        grid-column: 1;
+        grid-row: 3;
+        // Repoe a folga que o row-gap deixou de dar. Padding e nao margin
+        // porque a regra acima zera as margens destes tres com !important.
+        padding-top: clamp(1.25rem, 2.5vw, 56px);
+    }
+}
+
+.hmd-buy__name {
+    font-family: var(--hmd-display);
+    font-size: var(--hmd-fs-display-s);
+    text-transform: uppercase;   // "CONGO 110" no XD
+    margin: 0 0 clamp(1rem, 2vw, 38px);
+    color: var(--hmd-ink);
+}
+
+.hmd-buy__name--native { display: none; }
+
+.hmd-buy__identity { width: 100%; }
+
+.hmd-buy__media {
+    align-self: start;
+
+    // No desenho, a segunda aparicao do produto e uma miniatura, nao uma
+    // segunda galeria de grandes dimensoes.
+    .o_wsale_product_images_list,
+    .carousel {
+        width: clamp(150px, 15vw, 288px);
+        margin: 0;
+    }
+
+    .o_wsale_product_image,
+    .o_carousel_product_indicators,
+    .carousel-indicators,
+    .carousel-control-prev,
+    .carousel-control-next { display: none !important; }
+
+    .o_wsale_product_image:first-child,
+    .carousel-item:first-child {
+        display: block !important;
+        position: relative;
+        opacity: 1;
+        transform: none;
+    }
+
+    #o-grid-product {
+        width: clamp(150px, 15vw, 288px);
+        margin: 0;
+
+        > .container { padding: 0; }
+        .o_wsale_product_page_grid_column { display: none !important; }
+        .o_wsale_product_page_grid_column:first-child {
+            display: flex !important;
+
+            > :not(:first-child) { display: none !important; }
+        }
+    }
+
+    img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+.hmd-buy__details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.hmd-buy__desc {
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-fs-body);
+    line-height: var(--hmd-lh-ui);
+    color: var(--hmd-ink);
+    max-width: 46ch;
+    margin: 0 0 clamp(1.25rem, 2vw, 38px);
+
+    &:empty { display: none; }
+}
+
+.hmd-buy__downloads {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: clamp(1.25rem, 2vw, 38px) 0;
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-fs-body);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+
+    a { color: var(--hmd-black); text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 4px; }
+}
+
+// Documentos do produto — bloco nativo #product_documents do website_sale,
+// com o aspecto do desenho: "DOWNLOAD TECHNICAL SHEET" / "DOWNLOAD 3D FILES"
+// em Inter maiusculas, sem titulo nem icones.
+// PRESO a .hmd-product-page de proposito. Os estilos do tema sao declarados
+// no __manifest__.py como ir.asset normais, e por isso carregam em TODOS os
+// websites da base de dados, nao so naquele onde o tema esta aplicado. Todas as
+// outras regras deste ficheiro estao presas a classes nossas (.hmd-*), que so
+// existem nas nossas paginas. Esta era a excecao: #product_documents e um id do
+// Odoo, e a regra escondia o titulo e os icones do bloco de documentos em
+// qualquer pagina de produto — incluindo as do site que esta no ar.
+.hmd-product-page #product_documents {
+    margin: clamp(1.25rem, 2vw, 38px) 0;
+
+    h5 { display: none; }
+    .fa { display: none; }
+
+    a {
+        display: block;
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-body);
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: var(--hmd-black);
+        text-decoration: none;
+
+        &:hover { text-decoration: underline; text-underline-offset: 4px; }
+    }
+}
+
+.hmd-buy__form { width: 100%; max-width: 430px; }  // idem: sem min()
+
+.hmd-buy__commerce {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    // Ordem do XD: variantes -> quantidade -> ADD TO CARD -> preco ->
+    // wishlist -> comparar.
+    //
+    // Ja NAO se faz por 'order' de flexbox. A tentativa anterior apontava
+    // .css_quantity como filho directo daqui, mas ele vive dentro do
+    // #o_wsale_cta_wrapper — a regra nunca chegou a aplicar-se. Agora a ordem
+    // vem do proprio DOM: o views/shop.xml move o preco para dentro do
+    // wrapper, mesmo antes do #product_option_block.
+    //
+    // So falta o wrapper deixar de ser uma linha: o nativo e
+    // "d-flex flex-wrap align-items-center".
+    #o_wsale_cta_wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        width: 100%;
+    }
+
+    // No desenho isto e texto simples, nao botoes: preto, maiusculas, sem
+    // caixa nem fundo. Mesma logica dos icones do catalogo.
+    #add_to_cart,
+    #product_option_block .btn,
+    .o_add_compare_dyn {
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        font-family: var(--hmd-ui);
+        font-size: clamp(0.8125rem, 0.89vw, 1.0625rem);
+        text-transform: uppercase;
+        color: var(--hmd-black);
+        text-align: left;
+
+        &:hover, &:focus, &:focus-visible, &:active {
+            background: transparent;
+            background-color: transparent;
+            box-shadow: none;
+            color: var(--hmd-black);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        // O carrinho tem um <i class="fa fa-shopping-cart"> que o XD nao mostra
+        .fa { display: none; }
+    }
+
+    #add_to_cart_wrap,
+    #product_option_block { width: 100%; margin: 0; }
+
+    #add_to_cart_wrap { margin-top: 1.6rem; }
+    #product_option_block { margin-top: 1.4rem; }
+    .o_add_compare_dyn { margin-top: 1.1rem; }
+
+    .product_price {
+        margin: 0.2rem 0 1.4rem;
+        font-family: var(--hmd-ui);
+        font-size: clamp(0.8125rem, 0.89vw, 1.0625rem);
+        color: var(--hmd-black);
+
+        .h4 { font: inherit; color: inherit; }
+    }
+
+    .js_add_cart_variants {
+        width: 100%;
+        margin: 0 0 1.1rem;
+        padding: 0;
+        list-style: none;
+    }
+
+    .variant_attribute {
+        margin-bottom: 1rem;
+
+        .attribute_name {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-family: var(--hmd-ui);
+            font-size: var(--hmd-fs-meta);
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        // O "Select " so entra quando o produto tem UM unico atributo — e ai
+        // le-se "SELECT FINISH", como no XD.
+        //
+        // Com mais do que um, o prefixo estorva: a HMD pediu a 04/09/2026
+        // que aparecesse "o nome da variante e nao so select finish, porque
+        // alguns produtos tem mais que um acabamento", e a prancha da pagina
+        // de produto mostra os rotulos limpos — TOP e BASE, nao "SELECT TOP".
+        //
+        // Dos 268 produtos publicados, 90 tem mais do que um atributo; os
+        // nomes sao especificos (Tampo, Acabamento, Latao, Aro, Espuma,
+        // Metal, Base) e nenhum produto repete o mesmo nome duas vezes, pelo
+        // que o nome sozinho chega para distinguir.
+        //
+        // O :only-of-type funciona porque a lista de atributos so tem <li>
+        // de .variant_attribute — verificado no HTML servido a 16/09/2026.
+        &:only-of-type .attribute_name::before { content: 'Select '; }
+    }
+
+    // "SELECT FINISH" do XD.
+    //
+    // O modulo pg_attr_dropdown (vista 4574) esconde o <select> nativo com
+    // .d-none e desenha no lugar um dropdown com amostra + nome + chevron —
+    // que e exactamente o que o desenho pede. So falta tirar-lhe o aspecto
+    // de botao do Bootstrap (.btn-outline-secondary) e dar-lhe a mesma linha
+    // inferior que o select nativo ja tinha.
+    .pg_attr_dropdown_toggle {
+        padding: 0 0 0.35rem;
+        border: 0;
+        border-bottom: 1px solid var(--hmd-black);
+        border-radius: 0;
+        background: transparent;
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-body);
+        color: var(--hmd-black);
+
+        &:hover, &:focus, &:focus-visible, &:active, &.show {
+            border-color: var(--hmd-black);
+            background: transparent;
+            background-color: transparent;
+            box-shadow: none;
+            color: var(--hmd-black);
+        }
+    }
+
+    // Amostra quadrada de 40px, como no XD
+    .pg_attr_dropdown_value_img,
+    .pg_attr_dropdown_item_img {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0;
+        object-fit: cover;
+    }
+
+    .pg_attr_dropdown_menu {
+        border-radius: 0;
+        z-index: 1080;
+        max-height: 60vh;
+        overflow-y: auto;
+
+        .pg_attr_dropdown_item {
+            font-family: var(--hmd-ui);
+            font-size: var(--hmd-fs-body);
+        }
+    }
+
+    select.form-select {
+        min-height: 2rem;
+        padding: 0 2rem 0.35rem 0;
+        border: 0;
+        border-bottom: 1px solid var(--hmd-black);
+        border-radius: 0;
+        background-color: transparent;
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-body);
+        text-transform: uppercase;
+        box-shadow: none;
+    }
+
+    // O :not(.d-none) NAO e decorativo. O Odoo esconde a quantidade a quem nao
+    // tem conta pondo-lhe .d-none (display:none!important) — a mesma bandeira
+    // prevent_zero_price_sale que esconde o preco e o carrinho. Como este
+    // seletor tem duas classes e o .d-none tem uma, um display forcado aqui
+    // vencia por especificidade e mostrava o seletor de quantidade ao publico,
+    // sem erro nenhum no log. Excluindo o .d-none, a protecao nativa mantem-se.
+    .css_quantity:not(.d-none) {
+        display: grid !important;
+        grid-template-columns: 1fr auto auto;
+        width: 100%;
+        margin: 0 0 1.5rem !important;
+        border-bottom: 1px solid var(--hmd-black);
+
+        input.quantity {
+            grid-column: 1;
+            grid-row: 1;
+            width: 100%;
+            border: 0;
+            background: transparent;
+            text-align: left !important;
+            box-shadow: none;
+        }
+
+        .js_add_cart_json {
+            border: 0;
+            padding-inline: 0.65rem;
+            color: var(--hmd-black);
+            text-decoration: none;
+        }
+    }
+
+    #o_wsale_cta_wrapper {
+        display: flex !important;
+        flex-direction: column;
+        align-items: flex-start !important;
+        width: 100%;
+    }
+
+    #add_to_cart_wrap { margin: 0 !important; }
+
+    #add_to_cart {
+        border: 0;
+        padding: 0;
+        background: transparent;
+        color: var(--hmd-black);
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-body);
+        text-transform: uppercase;
+        box-shadow: none;
+
+        .fa { display: none; }
+    }
+
+    #product_option_block {
+        display: flex !important;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 1.25rem;
+    }
+
+    .o_add_wishlist_dyn,
+    .o_add_compare_dyn {
+        display: block !important;
+        border: 0;
+        padding: 0 !important;
+        background: transparent;
+        color: var(--hmd-black);
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-body);
+        text-transform: uppercase;
+        text-decoration: none;
+
+        .fa { display: none; }
+    }
+}
+
+// A lista de acabamentos empurra o conteudo em vez de o tapar.
+//
+// O Bootstrap tira a .dropdown-menu do fluxo (position:absolute) e o Popper
+// escreve-lhe inset/transform em estilo inline. Resultado: a lista aberta
+// ficava por cima do preco e do "ADD TO WISHLIST" e, quando nao cabia em
+// baixo, o Popper virava-a para cima e tapava o menu de topo.
+//
+// O desenho pede o contrario: ao abrir, a lista ocupa espaco e arrasta o
+// resto do bloco de compra para baixo. Para isso basta devolve-la ao fluxo.
+//
+// Duas notas sobre a forma da regra:
+//   - o !important nao e decorativo: o Popper escreve em estilo inline e so
+//     um !important de folha de estilo o vence;
+//   - o seletor exige .show para a regra so valer com a lista aberta. Sem
+//     isso estariamos a mexer no menu fechado, que tem de continuar a nao
+//     ocupar espaco nenhum (o Bootstrap trata disso com display:none).
+.hmd-buy__commerce .pg_attr_image_dropdown > .pg_attr_dropdown_menu.show {
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    float: none;
+    width: 100%;
+    margin: 0.5rem 0 0 !important;
+
+    // Em fluxo nao faz sentido uma barra de scroll interna: a lista cresce e
+    // e a propria pagina que rola, que e o que se pede ao "arrastar tudo
+    // para baixo". O max-height de 60vh definido acima ficaria a cortar a
+    // lista a meio sem necessidade.
+    max-height: none;
+    overflow: visible;
+}
+
+.hmd-buy__dimensions {
+    margin: clamp(1.25rem, 2vw, 38px) 0;
+
+    // Sem min(): min() e max() sao funcoes de CSS e de Sass ao mesmo tempo,
+    // e o compilador do Odoo tenta calcula-las -> "Incompatible units:
+    // 'px' and '%'", que faz falhar o bundle inteiro.
+    img { display: block; width: 100%; max-width: 420px; height: auto; }
+
+    figcaption {
+        font-family: var(--hmd-mono);
+        font-size: var(--hmd-fs-micro);
+        letter-spacing: var(--hmd-ls-tight);
+        text-transform: uppercase;
+        margin-top: 0.4rem;
+    }
+}
+
+// Selector de variante ("SELECT FINISH" + amostra de cor)
+.hmd-variant {
+    margin-bottom: 1.1rem;
+
+    &__label {
+        display: block;
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-body);
+        text-transform: uppercase;
+        color: var(--hmd-black);
+        margin-bottom: 0.3rem;
+    }
+
+    &__row {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        border-bottom: 1px solid var(--hmd-black);
+        padding-bottom: 0.35rem;
+        max-width: 340px;
+    }
+
+    &__swatch {
+        width: 22px;
+        height: 22px;
+        flex: 0 0 auto;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    select {
+        flex: 1;
+        min-width: 0;
+        border: 0;
+        background: transparent;
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-body);
+        text-transform: uppercase;
+        color: var(--hmd-black);
+        appearance: none;
+        cursor: pointer;
+
+        &:focus { outline: none; }
+    }
+}
+
+// Quantidade
+.hmd-qty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--hmd-black);
+    padding-bottom: 0.35rem;
+    max-width: 340px;
+    margin-bottom: 1.5rem;
+
+    input {
+        width: 4ch;
+        border: 0;
+        background: transparent;
+        font-family: 'Helvetica Neue', var(--hmd-ui);
+        font-size: clamp(1.125rem, 1.56vw, 1.875rem);  // 30px
+        color: var(--hmd-black);
+        text-align: left;
+
+        &:focus { outline: none; }
+    }
+
+    &__btns { display: flex; gap: 1.1rem; }
+
+    button {
+        background: none;
+        border: 0;
+        font-family: 'Helvetica Neue', var(--hmd-ui);
+        font-size: clamp(1.125rem, 1.56vw, 1.875rem);
+        line-height: 1;
+        color: var(--hmd-black);
+        cursor: pointer;
+        padding: 0;
+    }
+}
+
+// Accoes
+.hmd-buy__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-fs-body);
+    text-transform: uppercase;
+    color: var(--hmd-black);
+
+    button, a {
+        background: none;
+        border: 0;
+        padding: 0;
+        text-align: left;
+        font: inherit;
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover { text-decoration: underline; text-underline-offset: 4px; }
+    }
+}
+
+.hmd-buy__price {
+    font-family: var(--hmd-ui);
+    font-size: clamp(0.8125rem, 0.89vw, 1.0625rem);  // 17px
+    color: var(--hmd-black);
+    margin: 0.15rem 0 1.35rem;
+}
+
+.hmd-buy__secondary { margin-top: 1.25rem; }
+
+// Desenho de dimensoes, depois de o widget HmdDimensions o trazer da galeria
+// para debaixo da fotografia. Na prancha e uma caixa branca, centrada, com a
+// legenda "Dimensions in cm" por baixo em monoespaçado pequeno.
+.hmd-dimensions {
+    width: 100%;
+    // A mesma largura da fotografia do produto (ver .hmd-buy__media): o
+    // desenho passou a ficar por baixo dela, e dois blocos empilhados com
+    // larguras diferentes leem-se como um desalinhamento.
+    max-width: clamp(220px, 26vw, 460px);
+    margin-top: clamp(2rem, 4vw, 76px);
+
+    figure { margin: 0; }
+
+    img {
+        display: block;
+        width: 100%;
+        height: auto;
+        background: var(--hmd-white);
+    }
+
+    figcaption {
+        margin-top: 0.75rem;
+        font-family: var(--hmd-mono);
+        font-size: var(--hmd-fs-meta);
+        color: var(--hmd-ink-2);
+        text-align: center;
+    }
+}
+
+// A descricao acompanha agora a largura da coluna. O 46ch vinha de quando ela
+// estava noutro sitio e travava-a a um filete de texto.
+.hmd-buy__desc { max-width: 58ch; }
+
+// --- Bloco de produto conforme a prancha (03/09/2026) -------------------
+// Seis diferencas levantadas na comparacao com o XD. As restantes que se
+// veem na pagina sao conteudo do produto, traducao, ou comportamento de
+// visitante — essas nao se tocam.
+
+// 1 e 2. O titulo e maior e leva um filete a atravessar a pagina por baixo.
+//        No XD o filete comeca na margem esquerda e vai ate a direita, a
+//        separar o titulo do corpo.
+// O maximo baixou de 5rem para 4.25rem: a 5rem o "CONGO 110" partia em duas
+// linhas dentro da coluna, e na prancha esta numa so.
+.hmd-buy__name {
+    font-family: var(--hmd-product-font);   // #7874: a mesma do preco
+    font-size: clamp(2rem, 3.6vw, 4.25rem);
+    line-height: 1.05;
+}
+
+// Faixa de cabecalho: titulo e descricao lado a lado, filete por baixo dos
+// dois. O filete estava pendurado no bloco do titulo, na coluna da fotografia,
+// e atravessava a descricao a meio — a descricao vive na outra coluna e e mais
+// alta. Postos na mesma faixa, passa a ser uma borda e o problema deixa de
+// poder acontecer.
+.hmd-buy__header {
+    // A posicao na grelha esta definida no bloco .hmd-buy, junto das dos
+    // irmaos, para nao haver dois sitios a decidir a mesma coisa.
+
+    // As colunas sao as MESMAS do .hmd-buy, para o titulo e a descricao
+    // assentarem sobre a fotografia e o bloco de compra. A primeira declaracao
+    // e a rede para browsers sem subgrid; a segunda vence onde ha, e ai as
+    // pistas vem do pai e nao se podem dessincronizar.
+    display: grid;
+    grid-template-columns: minmax(0, 0.364fr) minmax(0, 0.636fr);
+    grid-template-columns: subgrid;
+    column-gap: 6vw;
+    align-items: start;
+
+    position: relative;
+    // So padding: o espaco ate a fotografia ja vem do row-gap da grelha, e um
+    // margin-bottom aqui somava-se a ele.
+    padding-bottom: clamp(0.75rem, 1.5vw, 28px);
+
+    // O titulo e a descricao traziam margens de baixo pensadas para quando
+    // cada um vivia na sua coluna, com conteudo por baixo. Aqui o que os
+    // separa do filete e o padding da faixa; as margens so somavam espaco
+    // morto entre o texto e a linha.
+    .hmd-buy__name,
+    .hmd-buy__desc { margin-bottom: 0; }
+
+    // O filete que atravessava a pagina por baixo do titulo e da descricao
+    // foi retirado.
+    //
+    // Estava no XD e chegou a ser trabalhado para nao cortar a descricao ao
+    // meio, mas o feedback da Monica de 18/09/2026 marca-o com uma cruz e
+    // "Apagar esta linha" (PDF "PRODUTO_DESCRICAO_MEDIDAS_CHECKOUT", painel
+    // "Versao atual (18 set) Login"). O ::after com as medidas do desenho
+    // (left: calc(4.5vw - 13.4vw), width: 91.2vw) sai daqui inteiro.
+    //
+    // O padding-bottom da faixa fica: e ele que separa o cabecalho do corpo,
+    // e sem a linha continua a ser preciso.
+}
+
+.hmd-buy__identity {
+    // O filete saiu daqui para o .hmd-buy__header. Este bloco fica so com o
+    // titulo.
+    min-width: 0;
+}
+
+// 3. O acordeao "Documentos" nao existe na prancha, que tem duas ligacoes
+//    simples em maiusculas. Vem do modulo pg_web_attach_pdf_view, traz
+//    estilos inline e um <script> no meio da pagina, e esta VAZIO — medido a
+//    03/09/2026 no CONGO 110, no 211 MODULO ABERTO 70 e no BRICK 2 NIVEIS:
+//    accordion-body sem conteudo nos tres.
+//
+//    Nao se apaga o modulo: pode estar em uso no site que esta no ar.
+//    Esconde-se nas nossas paginas. O mecanismo que fica e o nativo
+//    #product_documents, que o tema ja estiliza como as ligacoes do desenho e
+//    que aparece quando o produto tiver documentos anexados.
+.hmd-product-page #product_accordion { display: none !important; }
+
+// 4. A descricao e mais clara e maior do que o nativo.
+.hmd-buy__desc {
+    color: #7A7876;
+    font-size: clamp(0.9375rem, 1.05vw, 1.125rem);
+    line-height: 1.55;
+}
+
+// 5. O seletor de acabamento leva o chevron do desenho — grande e fino — em
+//    vez da setinha do sistema. background-image em SVG inline: nao ha
+//    ficheiro para manter e escala com a cor do texto.
+.hmd-buy .js_main_product select.form-select,
+.hmd-buy__commerce select.form-select {
+    appearance: none;
+    padding-right: 2.2rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 14'%3E%3Cpath d='M1 1l11 11L23 1' fill='none' stroke='%231C1B1A' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.15rem center;
+    background-size: 1.15rem auto;
+}
+
+// 6. A fotografia do produto e maior na prancha e alinha com o corpo do
+//    texto, nao com o topo. O valor anterior (150-288px) vinha de uma leitura
+//    da miniatura; no ecra de produto ela ocupa boa parte da coluna esquerda.
+.hmd-buy__media {
+    // O Odoo poe o carrossel em position:sticky com um top de ~366px, o que o
+    // faz flutuar para o meio da coluna. Na prancha a fotografia fica logo
+    // abaixo do filete. Nenhum alinhamento de grelha vence um sticky — tem de
+    // se desligar o sticky.
+    #o-carousel-product {
+        position: static !important;
+        top: auto !important;
+    }
+
+    // align-self: start, nao center. Na prancha a fotografia fica logo abaixo
+    // do filete, ao lado do inicio da descricao. Centrada verticalmente numa
+    // coluna alta, descia para o meio e deixava um vazio sob o titulo.
+    align-self: start;
+
+    .o_wsale_product_images_list,
+    .carousel {
+        width: clamp(220px, 26vw, 460px);
+    }
+}
+
+// Bloco B2B da versao sem sessao iniciada.
+// Na prancha os dois botoes tem a mesma largura e empilham: o de entrar e
+// preenchido a preto, o de pedir conta e cinzento claro. Ambos em maiusculas,
+// na letra de interface.
+// O Odoo mostra um bloco "Contact Us" proprio quando o preco esta escondido
+// (#contact_us_wrapper, website_sale). A intencao dele e a mesma do nosso bloco
+// B2B: dar ao visitante um caminho quando nao pode comprar. Com os dois botoes
+// da prancha no lugar, o nativo fica a mais e desalinha o desenho.
+//
+// Escondido apenas nas NOSSAS paginas: e conteudo oe_structure, editavel no
+// Construtor, e pode estar a ser usado no site que esta no ar.
+.hmd-product-page #contact_us_wrapper { display: none !important; }
+
+// O bloco "CONGO / Coffee Tables" com a fotografia, no topo da galeria, nao
+// existe na prancha: o nome e a categoria ja vem do nosso .hmd-product-hero,
+// e assim apareciam duas vezes na mesma pagina.
+//
+// Onde vive: no campo website_gallery_html do produto — NAO no
+// website_description, como a primeira analise supos. E um snippet
+// "Titulo - Imagem" (s_picture) que e a primeira secao da galeria.
+//
+// Porque se esconde e nao se apaga: website_gallery_html e um campo do produto,
+// partilhado com o site que esta no ar, onde este bloco faz sentido porque la
+// nao existe o nosso cabecalho de produto. Apagar arrumava o site novo e
+// estragava o antigo — a mesma razao do "OTHER OPTIONS".
+//
+// O :has() nao e enfeite. Sem ele, a regra escondia a primeira secao da galeria
+// de QUALQUER produto, incluindo aqueles cuja galeria comeca por uma fotografia
+// que deve ficar. Com ele, so cai a primeira secao que traz titulo.
+// A regra anterior usava :has(> .o_container_small > h2) para so apanhar a
+// primeira seccao QUANDO ela trouxesse titulo. Verificou-se a 04/09/2026 que
+// nao produzia efeito no browser, apesar de:
+//   - chegar completa e bem formada ao CSS servido (verificado no bundle)
+//   - a cadeia do DOM corresponder, nivel a nivel (verificado com parser)
+// Ficou sem explicacao. Em vez de insistir, troca-se por um selector que nao
+// depende de :has().
+//
+// O criterio novo: a PRIMEIRA seccao da galeria, quando e um snippet de
+// titulo-com-imagem. Medido em cinco produtos de familias diferentes — CONGO,
+// 211, BRICK, SERA e ROLO — a primeira seccao e sempre um destes, com um h2
+// no topo que repete o nome do produto:
+//
+//   "Título - Imagem"                    (CONGO, 211, BRICK, ROLO)
+//   "Personalizar Título - Imagem (5)"   (SERA)
+//
+// O *= apanha os dois. O :first-child garante que so cai na primeira: nas
+// seguintes ha fotografias e o desenho de dimensoes, que ficam.
+// Duas tentativas anteriores falharam, e a culpa nao era do :has() nem do
+// data-name — era da CADEIA. Lido no inspector a 04/09/2026:
+//
+//   <div class="row g-3 oe_structure" data-oe-type="html">    <- SEM data-oe-field
+//     <div … data-oe-field="website_gallery_html" …>          <- e aqui
+//       <section class="s_picture" data-name="Título – Imagem">  <- filho DIRECTO
+//
+// Os meus selectores tinham "> div >" a mais no caminho, por isso nunca
+// encontraram nada. O HTML servido tem o atributo no wrapper de fora; o DOM
+// que o browser constroi tem-no na div de dentro. Foi a diferenca que me
+// escapou, e que nenhuma leitura do HTML cru mostrava.
+//
+// Este selector nao depende de nada disso:
+//   - combinador de descendencia, logo indiferente a quantos niveis existem
+//   - :first-of-type entre <section>, logo so apanha um bloco de titulo que
+//     esteja no INICIO da galeria
+//   - data-snippet em vez de data-name: nao depende do nome que a HMD deu ao
+//     snippet, nem de o separador ser hifen ou travessao
+//
+// Se um dia a primeira seccao de um produto for uma maconaria ou outra coisa,
+// esta regra nao lhe toca.
+.hmd-product-page [data-oe-field="website_gallery_html"]
+    section[data-snippet="s_picture"]:first-of-type {
+    display: none !important;
+}
+
+.hmd-b2b {
+    margin-top: clamp(1.5rem, 3vw, 58px);
+
+    &__lead {
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-body);
+        line-height: 1.5;
+        color: var(--hmd-ink-2);
+        margin: 0 0 1.25rem;
+        max-width: 34ch;
+    }
+
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        max-width: 430px;   // igual ao .hmd-buy__form, para alinhar a coluna
+    }
+
+    &__btn {
+        display: block;
+        padding: 0.85rem 1rem;
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-meta);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        text-align: center;
+        text-decoration: none;
+        border: 0;
+        background: #E9E7E5;
+        color: var(--hmd-ink-2);
+
+        &:hover { background: #DEDBD8; color: var(--hmd-ink-2); }
+
+        &--solid {
+            background: var(--hmd-black);
+            color: var(--hmd-white);
+
+            &:hover { background: #2B2A28; color: var(--hmd-white); }
+        }
+    }
+}
+
+// --- "OTHER OPTIONS" -----------------------------------------------------
+.hmd-options {
+    position: relative;
+    z-index: 1;
+    background: var(--hmd-grey);
+    padding: clamp(2rem, 4vw, 77px) var(--hmd-pad-x) clamp(2.5rem, 5vw, 96px);
+
+    &__title {
+        font-family: var(--hmd-mono);
+        font-size: clamp(1.0625rem, 1.56vw, 1.875rem);  // 30px
+        letter-spacing: var(--hmd-ls-tight);
+        text-transform: uppercase;
+        margin: 0 0 clamp(1.5rem, 3vw, 58px);
+    }
+
+    // As regras do carrossel nativo (.container, .carousel-inner, .card,
+    // .carousel-control-*) foram REMOVIDAS em 01/09/2026: o views/shop.xml
+    // substituiu o s_dynamic_snippet_products por marcacao propria, e esses
+    // elementos deixaram de existir na pagina.
+
+    // Medido no XD: quatro colunas, duas preenchidas no caso do CONGO.
+    // As imagens nao enchem a coluna — ocupam cerca de 220px de 405.
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: clamp(1rem, 2vw, 38px);
+    }
+}
+
+.hmd-option {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+
+    &__media {
+        width: 100%;
+        max-width: 220px;
+        margin-bottom: clamp(1rem, 2.4vw, 46px);
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &__name {
+        font-family: var(--hmd-display);
+        font-size: clamp(1.5rem, 2.3vw, 2.75rem);  // 44px
+        font-weight: 400;
+        line-height: 1.1;
+        // Com o espacamento negativo dos titulos, na Prata o espaco entre
+        // palavras quase desaparecia: "LARICALOW", "LOTOSIDE".
+        word-spacing: 0.2em;
+        text-transform: uppercase;
+        margin: 0 0 0.35rem;
+        color: var(--hmd-ink-2);
+    }
+
+    &__price {
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-meta);
+        margin: 0;
+        color: #7A7876;
+    }
+
+    &:hover &__name { text-decoration: underline; text-underline-offset: 4px; }
+}
+
+// --- Mobile --------------------------------------------------------------
+// Website_Design/Mobile/PRODUTO.svg: tudo em coluna e centrado; os selectores
+// de acabamento e a quantidade ocupam a largura toda; "ADD TO CARD" e o preco
+// ficam no fim, depois de wishlist e comparar.
+@media (max-width: 991.98px) {
+    .hmd-options__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .hmd-lifestyle {
+        width: auto;
+        margin-inline: var(--hmd-pad-x);
+    }
+
+    .hmd-buy {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+        // As margens do desenho (13,4vw / 35vw) sao de ecra grande. Aqui
+        // voltam as margens normais da pagina, senao sobrava uma coluna de
+        // conteudo com um terco do ecra.
+        padding-inline: var(--hmd-pad-x);
+
+        > .hmd-buy__header,
+        > .hmd-buy__media,
+        > .hmd-buy__details,
+        > .hmd-buy__form {
+            grid-column: 1;
+            grid-row: auto;
+        }
+
+        // Em ecra pequeno o titulo e a descricao empilham. O subgrid ja seguia
+        // o pai, mas a declaracao de rede — a que vale onde nao ha subgrid —
+        // continuava com duas colunas; sem isto, nesses browsers a descricao
+        // ficava espremida ao lado do titulo.
+        > .hmd-buy__header {
+            grid-template-columns: 1fr;
+            row-gap: clamp(1rem, 4vw, 2rem);
+        }
+    }
+
+    .hmd-dimensions { margin-inline: auto; }
+
+    // O filete volta a ser da largura do conteudo.
+    .hmd-buy__header::after {
+        left: 0;
+        width: 100%;
+    }
+
+    .hmd-buy__name { text-align: center; }
+    .hmd-buy__media .o_wsale_product_images_list,
+    .hmd-buy__media .carousel { margin-inline: auto; }
+    .hmd-buy__details { align-items: stretch; }
+    // Descricoes em Courier alinhadas a esquerda: centradas, as linhas curtas e
+    // desiguais liam-se mal no telemovel (#8114, a pedido da HMD; o PRODUTO.svg
+    // mobile desenha-as centradas — a HMD valida).
+    .hmd-buy__desc { text-align: left; margin-inline: auto; }
+    .hmd-buy__downloads { align-items: center; }
+    .hmd-buy__dimensions img { margin-inline: auto; }
+    .hmd-buy__dimensions figcaption { text-align: center; }
+
+    .hmd-variant {
+        text-align: left;
+
+        &__row { max-width: none; }
+    }
+
+    .hmd-qty { max-width: none; }
+
+    .hmd-buy__actions { text-align: left; }
+
+    .hmd-product-hero__lead { text-align: left; }
+
+    // Vazios da pagina de artigo (#8114). A seccao editavel do meio junta
+    // padding do snippet (pt-5/pb-5 = 48px, galeria pt168, key_images pb72) e
+    // do tema, pensados para desktop: a 390px deixavam ~230px em branco entre a
+    // descricao e as miniaturas. Os utilitarios do Odoo trazem !important, logo
+    // o override tambem. A galeria passa a largura util em vez de 60vw (234px).
+    .hmd-product-page {
+        section.pt-5 { padding-top: 1.5rem !important; }
+        section.pb-5 { padding-bottom: 1.5rem !important; }
+        section.s_image_gallery {
+            padding-top: 1.5rem !important;
+            width: auto;
+            margin-inline: var(--hmd-pad-x);
+        }
+        section.s_key_images { padding-bottom: 2rem !important; }
+        section.s_masonry_block { padding-top: 0 !important; padding-bottom: 0 !important; }
+    }
+
+    // Grelha do catalogo: as colunas por largura estao junto da regra das 5
+    // colunas (#o_wsale_products_grid, no inicio do ficheiro). A regra que
+    // aqui estava apontava para .hmd-shop__grid, que nao existe em vista
+    // nenhuma, e nunca teve efeito.
+
+    // A imagem principal ficava a 40,5vw tambem no telemovel: 158px a 390.
+    // A proporcao do desenho so faz sentido em ecra grande.
+    .hmd-product-hero__media { width: 100%; }
+}
+
+// --- Botoes do modal "Configurar o seu artigo" ---------------------------
+//
+// Pedido da HMD (07/09/2026): tirar o roxo.
+//
+// O roxo e o $primary por defeito do Odoo. A causa de raiz nao e este modal:
+// e que a paleta 'hmd' declarada em scss/primary_variables.scss nunca foi
+// ativada — o tema seleciona-a com $o-theme-color-palettes-number, variavel
+// do Odoo <= 15 que no 18 nao e lida por ninguem (a chave passou a ser
+// 'color-palettes-name' dentro de $o-website-values-palettes). Enquanto isso
+// nao for corrigido, o $primary e o roxo e reaparece em todos os componentes
+// do Bootstrap: checkout, portal, /my.
+//
+// Aqui trata-se so deste modal, que e o que foi pedido. As cores sao as
+// mesmas dos botoes do bloco B2B (.hmd-b2b__btn) para o parceiro reconhecer
+// o mesmo par dos dois lados do salto.
+//
+// Ancora-se com :has() no proprio modal para nao apanhar mais nada da pagina.
+// O mesmo componente existe no backend, mas esta folha vive apenas no
+// web.assets_frontend, por isso o Odoo interno fica intacto.
+//
+// Quando a paleta for ativada, estas regras tornam-se redundantes — nao
+// nocivas, porque nao fazem mais do que fixar as mesmas cores.
+.modal:has(.o_sale_product_configurator_table) {
+
+    // "Prosseguir para o checkout"
+    .btn-primary {
+        border-radius: 0;
+        border-color: var(--hmd-black);
+        background-color: var(--hmd-black);
+        color: var(--hmd-white);
+
+        &:hover, &:focus, &:focus-visible, &:active {
+            border-color: #2B2A28;
+            background-color: #2B2A28;
+            color: var(--hmd-white);
+            box-shadow: none;
+        }
+    }
+
+    // "Continuar a Comprar" e o "Adicionar" de cada opcao
+    .btn-secondary {
+        border-radius: 0;
+        border-color: transparent;
+        background-color: #E9E7E5;
+        color: var(--hmd-ink-2);
+
+        &:hover, &:focus, &:focus-visible, &:active {
+            border-color: transparent;
+            background-color: #DEDBD8;
+            color: var(--hmd-ink-2);
+            box-shadow: none;
+        }
+    }
+
+    // Os radios do acabamento, que o Bootstrap tambem pinta de $primary
+    .form-check-input:checked {
+        border-color: var(--hmd-black);
+        background-color: var(--hmd-black);
+    }
+
+    .form-check-input:focus {
+        border-color: var(--hmd-black);
+        box-shadow: none;
+    }
+}
+
+// "Price on request" e agora um link para os contactos. Herda o aspeto do
+// preco — Prata em italico, na cor da tinta — e so se assume como clicavel ao
+// passar o rato. Sem isto o Bootstrap pintava-o de azul e sublinhava-o.
+.hmd-price-request {
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
+
+    // Monica, 15/10/2026: era um h3 em Prata italico e grande ("uma fonte
+    // classica gigante"). Passa a Inter, direito, do tamanho do preco. O
+    // !important vence o .fst-italic do Bootstrap, que tambem o tem.
+    h3 {
+        margin: 0;
+        color: inherit;
+        font-family: var(--hmd-ui);
+        font-size: 1rem;
+        font-weight: 400;
+        font-style: normal !important;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+    }
+
+    &:hover, &:focus {
+        color: inherit;
+        h3 { text-decoration: underline; text-underline-offset: 6px; }
+    }
+}
+
+
+// =========================================================================
+// Bloco de compra — tipografia e espacamento
+// Feedback Monica 18/09/2026, PDF "CHECK OUT".
+//
+// A prancha anotada pede, em palavras dela:
+//   "Todos os textos; com o mesmo tamanho de letra excepto o preco
+//    (Eu diria 12px) INTER MEDIUM — todos alinhados a esquerda"
+//   "INTER 22 light"            (sobre o preco)
+//   "4 px de espaco vertical entre cada bloco."
+//
+// So tipografia e espacamento. A largura a 50%, as caixas com borda nos
+// selectores, a ordem dos elementos e as duas ligacoes novas (ficha tecnica e
+// 2D&3D) ficam para a fase seguinte — sao estrutura, nao folha de estilos.
+//
+// Duas notas sobre o que se escolheu aqui:
+//
+// 1. O peso 500 da Inter NAO vem no conjunto que o Odoo carrega por omissao
+//    (300,300i,400,400i,700,700i). Foi acrescentado em primary_variables.scss;
+//    sem isso o browser sintetizava-o e o resultado nao era a Medium.
+//
+// 2. Os seletores sao os do Odoo nativo — .variant_attribute, .css_quantity,
+//    #add_to_cart, .o_add_wishlist_dyn — e nao as classes .hmd-variant,
+//    .hmd-qty e .hmd-buy__actions que aparecem mais acima neste ficheiro.
+//    Essas nao existem na pagina servida: so a maqueta estatica em
+//    Website_Design/preview/build_preview.py as escreve. Estilos presos a
+//    elas nunca chegam ao site.
+//
+// O !important aparece onde a regra que estamos a vencer tambem o tem (o
+// bloco nativo do Odoo obriga-o em varios sitios); nos restantes basta esta
+// seccao vir depois no ficheiro.
+// =========================================================================
+
+.hmd-buy__form {
+    // 12px em toda a coluna. Os tamanhos que aqui estavam vinham do XD e iam
+    // dos 17px das accoes aos 30px da quantidade; a Monica quer tudo igual.
+    --hmd-buy-fs: 12px;
+    // "4 px de espaco vertical entre cada bloco" — o numero e dela.
+    --hmd-buy-gap: 4px;
+
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-buy-fs);
+    font-weight: 500;
+    text-align: left;
+
+    // --- Atributos: FINISH, TOP, SELECT FABRIC PRICE RANGE ---------------
+    .js_add_cart_variants { margin: 0 0 var(--hmd-buy-gap); }
+
+    .variant_attribute {
+        margin-bottom: var(--hmd-buy-gap);
+
+        .attribute_name {
+            font-size: var(--hmd-buy-fs);
+            font-weight: 500;
+            margin-bottom: var(--hmd-buy-gap);
+        }
+    }
+
+    // O valor de cada atributo. Alem do <select> nativo ha o menu do
+    // pg_website_attribute_image, que desenha as amostras de cor e substitui
+    // o select quando o atributo tem imagem.
+    select.form-select,
+    .pg_attr_dropdown_toggle,
+    .pg_attr_dropdown_menu {
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-buy-fs);
+        font-weight: 500;
+    }
+
+    // --- Quantidade ------------------------------------------------------
+    // O nativo tem "margin: 0 0 1.5rem !important" aqui em cima; para o
+    // vencer e preciso !important tambem.
+    .css_quantity:not(.d-none) {
+        margin: 0 0 var(--hmd-buy-gap) !important;
+
+        input.quantity,
+        .js_add_cart_json {
+            font-family: var(--hmd-ui);
+            font-size: var(--hmd-buy-fs);
+            font-weight: 500;
+        }
+    }
+
+    // --- Preco -----------------------------------------------------------
+    // A unica excepcao ao corpo unico: "INTER 22 light" = 22px, peso 300.
+    // O 300 ja vinha carregado pelo Odoo.
+    .hmd-buy__price,
+    .product_price,
+    .product_price .h4,
+    .product_price .oe_price,
+    .product_price .oe_default_price {
+        font-family: var(--hmd-ui);   // Monica 15/10: preco em Inter (era Prata, #7874)
+        font-size: 22px;
+        font-weight: 300;
+        line-height: 1.2;
+    }
+
+    .hmd-buy__price,
+    .product_price { margin: 0 0 var(--hmd-buy-gap); }
+
+    // --- Accoes: ADD TO CART, ADD TO WISHLIST, COMPARE -------------------
+    #add_to_cart,
+    .o_add_wishlist_dyn,
+    .o_add_compare_dyn,
+    #product_option_block .btn {
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-buy-fs);
+        font-weight: 500;
+        text-align: left;
+    }
+
+    // Estes traziam 1.25rem e 1.5rem de afastamento, medidos no XD para um
+    // bloco bem mais espacado do que este.
+    #add_to_cart_wrap { margin: var(--hmd-buy-gap) 0 0 !important; }
+    #product_option_block { margin-top: var(--hmd-buy-gap); }
+    .o_add_compare_dyn { margin-top: var(--hmd-buy-gap); }
+}
+
+
+// =========================================================================
+// Bloco de compra — campos em caixa e largura a 50%
+// Feedback Monica 18/09/2026, PDF "CHECK OUT".
+//
+// O "50%" anotado na prancha aponta para a caixa do atributo e para a da
+// quantidade, nao para o bloco inteiro: as duas linhas vermelhas saem do
+// numero e acabam no <select> "CATEGORY 1" e no campo "QUANTITY". O bloco
+// mantem a largura que tem.
+//
+// E os campos deixam de ser uma linha por baixo do texto (o estilo do XD) e
+// passam a caixas com moldura, com a amostra de cor encostada a esquerda
+// dentro da caixa e o rotulo pequeno e cinzento por cima.
+// =========================================================================
+
+.hmd-buy__form {
+    // Metade da coluna, como anotado. Em ecra pequeno a coluna ja e estreita
+    // e metade dela deixava o campo sem espaco para o valor.
+    --hmd-field-w: 50%;
+    --hmd-field-border: 1px solid #C8C6C4;
+
+    @media (max-width: 575.98px) {
+        --hmd-field-w: 100%;
+    }
+
+    // Rotulo por cima do campo: mais pequeno, cinzento e em maiusculas.
+    // O #7A7876 e o mesmo cinzento que a descricao do produto ja usa.
+    .variant_attribute .attribute_name {
+        color: #7A7876;
+        letter-spacing: 0.04em;
+    }
+
+    // --- Campos em caixa -------------------------------------------------
+    select.form-select {
+        width: var(--hmd-field-w);
+        border: var(--hmd-field-border);
+        border-radius: 0;
+        background-color: var(--hmd-white);
+        padding: 0.5rem 2rem 0.5rem 0.6rem;
+        // A seta do tema e desenhada em background-image (ver a regra
+        // .hmd-buy .js_main_product select.form-select mais acima); com a
+        // caixa, encosta-se a moldura em vez de flutuar sobre o texto.
+        background-position: right 0.6rem center;
+    }
+
+    // O menu de amostras do pg_website_attribute_image, que substitui o
+    // <select> nos atributos com imagem. E ele que traz o quadrado de cor a
+    // esquerda que a prancha mostra dentro da caixa.
+    .pg_attr_image_dropdown {
+        width: var(--hmd-field-w);
+
+        .pg_attr_dropdown_toggle {
+            width: 100%;
+            border: var(--hmd-field-border);
+            border-radius: 0;
+            background-color: var(--hmd-white);
+            padding: 0.5rem 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-align: left;
+        }
+    }
+
+    // --- Quantidade ------------------------------------------------------
+    // Era uma linha inferior a toda a largura; passa a caixa de meia largura,
+    // com o valor a esquerda e os sinais encostados a direita, como na
+    // prancha. O !important acompanha o do bloco nativo mais acima.
+    .css_quantity:not(.d-none) {
+        width: var(--hmd-field-w);
+        border: var(--hmd-field-border);
+        border-bottom: var(--hmd-field-border);
+        background: var(--hmd-white);
+        padding: 0.5rem 0.6rem;
+    }
+
+    // --- Downloads -------------------------------------------------------
+    // O #product_documents desceu para o fim da pilha (ver views/shop.xml) e
+    // passa a ler-se como mais duas accoes, nao como um bloco a parte: o
+    // mesmo corpo, o mesmo peso e a mesma folga das linhas acima.
+    #product_documents {
+        margin: var(--hmd-buy-gap) 0 0;
+
+        a {
+            font-size: var(--hmd-buy-fs);
+            font-weight: 500;
+            letter-spacing: inherit;
+            margin-top: var(--hmd-buy-gap);
+        }
+
+        a:first-child { margin-top: 0; }
+    }
+}
+
+// =========================================================================
+// Etiquetas de produto fora da pagina de produto (ponto 18, feedback da
+// Monica de 18/09/2026: a referencia de projeto por baixo de COMPARE sai).
+//
+// Esconde-se aqui, no tema, e nao desmarcando "Visivel no eCommerce" nas
+// etiquetas. Essa marca e da base toda: desliga-la tirava as etiquetas
+// tambem do site actual, onde 68 delas sao links para a pagina do projeto
+// no portfolio (modulo hmd_product_tag_project_link, pedido da HMD de
+// 05/2026). E filtrar so as de projeto nao chega: 10 delas nao tem link, e a
+// SOFITEL MALABO que a Monica apontou e uma dessas.
+//
+// Sai o bloco inteiro porque o desenho do bloco de compra nao tem etiquetas
+// nenhumas: ADD TO CART, ADD TO WISHLIST, COMPARE, THECNICAL SHEET e
+// 2D&3D DOWNLOAD, por esta ordem (PDF "PRODUTO_ DESCRICAO_MEDIDAS_CHECKOUT").
+// =========================================================================
+#product_detail .o_product_tags {
+    display: none !important;
+}
+
+// Tarefa #8115 (13/10/2026) — correcoes da pagina de artigo reportadas pela Monica.
+//
+// 1. A descricao aparecia duas vezes: no cabecalho editorial
+//    (.hmd-product-hero__lead) e no bloco de compra (.hmd-buy__desc), os dois
+//    a ler description_ecommerce. Fica a do cabecalho, que e a do desenho.
+.hmd-product-page .hmd-buy__desc { display: none; }
+
+// 2. As caixas de escolha (aro, tampo...) ajustavam-se ao conteudo do
+//    wrapper do pg_attr_dropdown e cortavam textos como "Carvalho Natural".
+//    O wrapper, o botao e o menu passam a ocupar a largura da coluna e o
+//    texto do valor a ocupar o espaco que sobra.
+.hmd-buy {
+    .pg_attr_dropdown_wrapper,
+    .pg_attr_dropdown_wrapper > .dropdown { width: 100%; }
+
+    .pg_attr_dropdown_toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        width: 100%;
+        min-width: 0;
+        text-align: left;
+        white-space: normal;
+    }
+
+    .pg_attr_dropdown_value_label {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .pg_attr_dropdown_menu {
+        min-width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    // Nomes compridos ("Epoxy RAL + Stainless Steel Rim") saiam da caixa do
+    // menu: o item passa a quebrar linha dentro da largura da coluna.
+    .pg_attr_dropdown_item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        max-width: 100%;
+        white-space: normal;
+
+        > :not(img) {
+            flex: 1 1 auto;
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        // A opcao escolhida ficava em letra branca (.active do Bootstrap) sem
+        // o fundo da cor primaria, que o tema anula: o nome nao se via
+        // (GEO EXTENSION D150, 13/10/2026).
+        &.active, &:active {
+            color: var(--hmd-black);
+            background-color: #ECEBEA;
+        }
+    }
+}
+
+// --- Botao COMPARE (painel fixo em baixo) --------------------------------
+// Monica, 16/10/2026 (#8266, PDF "MELHORAR BOTAO COMPARE"): era a caixa
+// branca com contorno do Odoo. Passa a barra escura, "COMPARE" em Inter
+// pequena e branca, e o icone das setas a direita, mais fino — tirado do
+// .eps dela (img/hmd_compare.svg). Sem o numero no circulo, como no desenho:
+// o painel so aparece quando ja ha artigos escolhidos, e ao abri-lo veem-se.
+.o_product_feature_panel {
+    background: var(--hmd-ink-2) !important;   // bg-white do Odoo
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    color: var(--hmd-white);
+
+    .o_product_panel_header {
+        display: flex;
+        align-items: center;
+        gap: 1.1rem;
+        padding: 0.7rem 1.6rem;
+        font-family: var(--hmd-ui);
+        font-size: 0.6875rem;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--hmd-white);
+        cursor: pointer;
+    }
+
+    .o_product_text { order: 1; }
+
+    .o_product_icon {
+        order: 2;
+        display: block;
+        width: 14px;
+        height: 15px;
+        background: currentColor;
+        -webkit-mask: url("/theme_hmd_furniture/static/src/img/hmd_compare.svg") center / contain no-repeat;
+        mask: url("/theme_hmd_furniture/static/src/img/hmd_compare.svg") center / contain no-repeat;
+
+        > .fa { display: none; }
+    }
+
+    .o_product_circle { display: none; }
+
+    .o_product_panel_content {
+        background: var(--hmd-white);
+        color: var(--hmd-ink);
+    }
+}
+// --- Caixa que abre ao clicar no COMPARE (popover do Odoo) ---------------
+// Monica, 19/10/2026 (#8277, PDF "pop up COMPARE"): todo o texto em Inter,
+// com o tamanho que tinha, e nunca no lilas do Odoo; o botao igual a barra
+// nova (preto, COMPARE e o icone fino a direita). O cabecalho vinha em Prata
+// branca sobre cinzento claro, ilegivel; os nomes e o caixote em lilas,
+// porque a paleta do tema nao estava ativa (ver primary_variables.scss).
+.comparator-popover {
+    border: 0;
+    border-radius: 0;
+    font-family: var(--hmd-ui);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+
+    .popover-header {
+        background: var(--hmd-white);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 0;
+        color: var(--hmd-ink);
+        font-family: var(--hmd-ui);
+        font-size: 0.6875rem;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .o_product_row h6 { font-weight: 400; }
+
+    .o_product_row h6,
+    .o_product_row h6 a {
+        font-family: var(--hmd-ui);
+        color: var(--hmd-ink);
+        text-decoration: none;
+    }
+
+    .o_product_row h6 a:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .o_remove { color: var(--hmd-ink); }
+
+    // O mesmo desenho da barra (.o_product_feature_panel): o texto da barra
+    // fica a 16px porque o Odoo da esse tamanho ao .o_product_text.
+    .o_comparelist_button .btn {
+        display: flex !important;   // vence o d-block do proprio botao
+        align-items: center;
+        justify-content: center;
+        gap: 1.1rem;
+        border: 0;
+        border-radius: 0;
+        padding: 0.7rem 1.6rem;
+        background: var(--hmd-ink-2);
+        color: var(--hmd-white);
+        font-family: var(--hmd-ui);
+        font-size: 1rem;
+        font-weight: 400;
+        letter-spacing: 0.44px;
+        text-transform: uppercase;
+
+        &:hover { background: var(--hmd-black); color: var(--hmd-white); }
+
+        > .fa { display: none; }   // o fa-exchange, a esquerda
+
+        &::after {
+            content: "";
+            display: block;
+            flex: 0 0 14px;
+            width: 14px;
+            height: 15px;
+            background: currentColor;
+            -webkit-mask: url("/theme_hmd_furniture/static/src/img/hmd_compare.svg") center / contain no-repeat;
+            mask: url("/theme_hmd_furniture/static/src/img/hmd_compare.svg") center / contain no-repeat;
+        }
+    }
+}
+
+// --- Pagina de artigo: tres colunas (#8289) -------------------------------
+// Pedido da Monica, PDF "CHECK OUT" de 16/10/2026: as imagens dos artigos
+// sao PNG sem fundo, num quadrado de 2000x2000, e a imagem aparecia
+// deslocada porque o titulo, a imagem e o bloco de compra partilhavam duas
+// colunas com larguras diferentes. A proposta dela, que aqui se segue:
+//
+//   cabecalho: nome numa linha e descricao por baixo
+//   corpo:     desenho de dimensoes | fotografia | configurador, em 3 colunas
+//   por baixo: bloco B2B (login / pedir conta)
+//   telemovel: as mesmas pecas em coluna, pela mesma ordem
+//
+// Nao se mexe na marcacao nem no JS. O .hmd-buy__media passa a
+// display: contents, o que faz da fotografia (#o-carousel-product) e do
+// desenho (.hmd-dimensions, acrescentado pelo HmdDimensions) filhos
+// diretos da grelha, e assim colocam-se por coluna. O formulario ja e filho
+// direto (HmdBuyLayout move-o para o fim do .hmd-buy).
+//
+// Estas regras vem no FIM do ficheiro de proposito: tem a mesma
+// especificidade das antigas e vencem pela ordem.
+
+// A fotografia ocupa a coluna toda e e sempre um quadrado, seja qual for o
+// tamanho do ficheiro. Vale tambem no telemovel: antes ficava com 220px.
+.hmd-buy #o-carousel-product {
+    width: 100%;
+    max-width: none;
+    margin: 0 0 0 !important;
+
+    // O carrossel do Odoo fixa a altura pela largura antiga (460px) e deixava
+    // por baixo da imagem quadrada uma faixa vazia de uns 160px. A altura
+    // passa a ser a da propria imagem.
+    .o_carousel_product_outer,
+    .carousel-inner,
+    .carousel-item {
+        height: auto !important;
+        min-height: 0 !important;
+    }
+
+    img.product_detail_img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        object-fit: contain;
+    }
+}
+
+// O desenho de dimensoes assenta na mesma linha da fotografia: sem a margem
+// de cima nem o limite de largura da disposicao anterior (empilhado por baixo).
+.hmd-buy .hmd-dimensions {
+    max-width: none;
+    margin-top: 0;
+}
+
+@media (min-width: 992px) {
+    .hmd-buy {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        column-gap: clamp(1rem, 2vw, 38px);
+    }
+
+    // Nome e descricao empilhados, a toda a largura: o nome deixa de partir
+    // em tres linhas dentro de uma coluna de 304px.
+    .hmd-buy > .hmd-buy__header {
+        display: block;
+        grid-column: 1 / -1;
+        grid-row: 1;
+        padding-bottom: 0;
+    }
+    .hmd-buy__header .hmd-buy__name { margin-bottom: clamp(0.75rem, 1.2vw, 22px); }
+    .hmd-buy__header .hmd-buy__desc { max-width: 62ch; }
+
+    .hmd-buy > .hmd-buy__media { display: contents; }
+    .hmd-buy .hmd-dimensions { grid-column: 1; grid-row: 2; align-self: start; }
+    .hmd-buy #o-carousel-product { grid-column: 2; grid-row: 2; align-self: start; }
+    .hmd-buy > .hmd-buy__form { grid-column: 3; grid-row: 2; padding-top: 0; }
+
+    // O bloco B2B desce para debaixo das tres colunas.
+    .hmd-buy > .hmd-buy__details { grid-column: 1 / 3; grid-row: 3; }
+
+    // Sem desenho de dimensoes nao se deixa a primeira coluna vazia.
+    .hmd-buy:not(:has(.hmd-dimensions)) #o-carousel-product { grid-column: 1; }
+    .hmd-buy:not(:has(.hmd-dimensions)) > .hmd-buy__form { grid-column: 2; }
+}
+
+@media (max-width: 991.98px) {
+    // Ordem da versao mobile da Monica: desenho, fotografia, configurador,
+    // B2B. O form e os detalhes ja estao com grid-row: auto no bloco mobile
+    // acima, por isso a ordem faz-se com order.
+    .hmd-buy > .hmd-buy__media { display: contents; }
+    .hmd-buy > .hmd-buy__header { order: 0; }
+    .hmd-buy .hmd-dimensions { order: 1; }
+    .hmd-buy #o-carousel-product { order: 2; }
+    .hmd-buy > .hmd-buy__form { order: 3; }
+    .hmd-buy > .hmd-buy__details { order: 4; }
+}
+
+// --- Pagina de artigo: ajustes de 19/10 (#8289) ---------------------------
+// Monica, PDF "pedido alteracoes site 16 out 2026" (comentarios sobre o TANTO
+// SIDEBOARD, versao de computador):
+//   1. "PRICE ON REQUEST": o mesmo tamanho de letra do ADD TO WISHLIST e a 50%
+//      de cor.
+//   2. Aumentar o bloco das tres colunas em largura: o desenho tecnico e a
+//      fotografia ficam um pouco maiores.
+//   3. Texto do bloco B2B ("HMD is a business to business..."): menor e com
+//      menos espaco entre linhas, como na imagem da direita dela.
+
+// 1. O .hmd-price-request vive dentro do .hmd-buy__form, onde --hmd-buy-fs
+//    (12px) esta definido e e o tamanho do ADD TO WISHLIST: usa-se a mesma
+//    variavel para os dois nunca divergirem. So afeta o texto "Price on
+//    request"; o preco real de quem tem sessao (.product_price) fica como esta.
+.hmd-buy__form .hmd-price-request {
+    color: rgba(0, 0, 0, 0.5);
+
+    h3 { font-size: var(--hmd-buy-fs); }
+}
+
+// 2. As tres colunas repartem o espaco que sobra entre a margem esquerda
+//    (13,4vw) e a direita; com 35vw de margem direita cada coluna ficava com
+//    ~305px a 1920. Com 12vw ficam com ~450px (a proporcao da simulacao dela:
+//    desenho e fotografia ~1,5x maiores). Em ecra pequeno a margem e a normal
+//    da pagina (bloco mobile acima).
+@media (min-width: 992px) {
+    .hmd-buy { padding-right: 12vw; }
+}
+
+// 3. O texto era do tamanho do corpo (20px, entrelinha 30px) e ficava em tres
+//    linhas estreitas (34ch). Passa a 12px com entrelinha curta e a largura dos
+//    botoes (430px, a do .hmd-b2b__actions), o que o deixa em duas linhas.
+.hmd-b2b__lead {
+    font-size: 0.75rem;
+    line-height: 1.3;
+    max-width: 430px;
+    margin-bottom: 0.75rem;
+}
+
+// --- Downloads da pagina do artigo (#8378) ---------------------------------
+// TECHNICAL SHEET e 3D FILES, por baixo do COMPARE e com o mesmo aspeto
+// (Inter, --hmd-buy-fs, 500, maiusculas). Visiveis tambem no telemovel, ao
+// contrario do COMPARE (d-none d-md-block do Odoo).
+.hmd-buy__form .hmd-downloads {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--hmd-buy-gap, 0.5rem);
+    margin-top: var(--hmd-buy-gap, 0.5rem);
+}
+
+.hmd-buy__form .hmd-downloads__link {
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-buy-fs, 12px);
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--hmd-ink);
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; text-underline-offset: 3px; color: var(--hmd-ink); }
+}
+
+// --- Pagina de comparacao (/shop/compare) --------------------------------
+// Monica, 20/10/2026 (#8277): a linha "Tags" (etiquetas de projeto e de
+// familia de material, uteis por dentro mas nao ao visitante) ficava confusa
+// e ruidosa; e os nomes e os botoes "Contact Us" vinham no lilas do Odoo.
+// As etiquetas continuam nos dados: a pagina Materials agrupa por elas.
+#o_comparelist_table {
+    tr.o_ws_tags,
+    tr[data-bs-target=".o_ws_tags"] { display: none; }
+
+    a.o_product_comparison_table,
+    .o_comparelist_remove,
+    .o_product_comparison_collpase { color: var(--hmd-ink); }
+
+    a.o_product_comparison_table {
+        font-family: var(--hmd-ui);
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: var(--hmd-ink-2);
+        border-color: var(--hmd-ink-2);
+        border-radius: 0;
+        padding: 0.6rem 1.4rem;
+        color: var(--hmd-white);
+        font-family: var(--hmd-ui);
+        font-size: 0.6875rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+
+        &:hover {
+            background-color: var(--hmd-black);
+            border-color: var(--hmd-black);
+            color: var(--hmd-white);
+        }
+    }
+}

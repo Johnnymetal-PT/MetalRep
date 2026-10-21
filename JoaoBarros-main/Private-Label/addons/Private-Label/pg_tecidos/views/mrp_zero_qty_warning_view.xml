@@ -1,0 +1,20 @@
+<odoo>
+    <record id="view_mrp_zero_qty_warning_form" model="ir.ui.view">
+        <field name="name">mrp.production.zero.qty.warning.form</field>
+        <field name="model">mrp.production.zero.qty.warning</field>
+        <field name="arch" type="xml">
+            <form string="Components with zero quantity">
+                <sheet>
+                    <group>
+                        <label for="zero_component_message" string="The following components have a quantity of 0:"/>
+                        <field name="zero_component_message" nolabel="1" readonly="1" widget="text_monospaced"/>
+                    </group>
+                    <footer>
+                        <button name="action_confirm_mo" string="Continue" type="object" class="btn-primary"/>
+                        <button string="Cancel" special="cancel" class="btn-secondary"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

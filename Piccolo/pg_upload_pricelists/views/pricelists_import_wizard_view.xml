@@ -1,0 +1,32 @@
+<odoo>
+<record id="pricelist_import_wizard_form" model="ir.ui.view">
+    <field name="name">pricelist.import.wizard.form</field>
+    <field name="model">pricelist.import.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Import Pricelist">
+            <group>
+                <field name="file" filename="filename"/>
+            </group>
+            <footer>
+                <button string="Import" type="object" name="import_pricelist" class="btn-primary"/>
+                <button string="Cancel" class="btn-secondary" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+
+<record id="pricelist_form_inherit" model="ir.ui.view">
+    <field name="name">product.pricelist.form.inherit</field>
+    <field name="model">product.pricelist</field>
+    <field name="inherit_id" ref="product.product_pricelist_view"/>
+    <field name="arch" type="xml">
+        <!-- Insert the button within the group 'pricelist_settings' -->
+        <xpath expr="//group[@name='pricelist_settings']" position="inside">
+            <button name="action_import_pricelist" type="object" string="Import Pricelist" class="btn-primary"/>
+        </xpath>
+    </field>
+</record>
+
+</odoo>
+

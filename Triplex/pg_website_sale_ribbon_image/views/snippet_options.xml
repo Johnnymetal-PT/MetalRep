@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Acrescenta ao painel de edicao do distintivo ("Distintivo" / Badge) a possibilidade
+        de usar uma imagem em vez de texto.
+
+        As opcoes standard que nao fazem sentido num selo com imagem (texto, cores, forma
+        inclinada/etiqueta) recebem aqui um `data-name`, para que o JS as possa esconder
+        atraves de `_computeWidgetVisibility`.
+    -->
+    <template id="snippet_options_ribbon_image"
+              name="PG Ribbon Image: opcoes do editor"
+              inherit_id="website_sale.snippet_options">
+
+        <xpath expr="//div[@data-name='ribbon_customize_opt']//we-input[@data-set-ribbon-html]"
+               position="attributes">
+            <attribute name="data-name">pg_ribbon_text_opt</attribute>
+        </xpath>
+
+        <xpath expr="//div[@data-name='ribbon_customize_opt']//we-colorpicker[@data-css-property='background-color']"
+               position="attributes">
+            <attribute name="data-name">pg_ribbon_bg_opt</attribute>
+        </xpath>
+
+        <xpath expr="//div[@data-name='ribbon_customize_opt']//we-colorpicker[@data-css-property='color']"
+               position="attributes">
+            <attribute name="data-name">pg_ribbon_color_opt</attribute>
+        </xpath>
+
+        <xpath expr="//div[@data-name='ribbon_customize_opt']//we-select[we-button[@data-set-ribbon-mode]]"
+               position="attributes">
+            <attribute name="data-name">pg_ribbon_shape_opt</attribute>
+        </xpath>
+
+        <xpath expr="//div[@data-name='ribbon_customize_opt']" position="inside">
+            <we-row string="Imagem" class="o_we_sublevel_1">
+                <we-button data-set-ribbon-image=""
+                           data-no-preview="true"
+                           class="fa fa-fw fa-picture-o"
+                           title="Escolher a imagem do selo"/>
+                <we-button data-remove-ribbon-image=""
+                           data-name="pg_ribbon_image_remove_opt"
+                           data-no-preview="true"
+                           class="fa fa-fw fa-times text-danger ms-1"
+                           title="Remover a imagem e voltar a distintivo de texto"/>
+            </we-row>
+            <we-select string="Tamanho do selo"
+                       class="o_we_sublevel_1"
+                       data-name="pg_ribbon_stamp_size_opt">
+                <we-button data-set-ribbon-stamp-size="pg_stamp_sm">Pequeno</we-button>
+                <we-button data-set-ribbon-stamp-size="">Médio</we-button>
+                <we-button data-set-ribbon-stamp-size="pg_stamp_lg">Grande</we-button>
+            </we-select>
+        </xpath>
+
+    </template>
+
+</odoo>

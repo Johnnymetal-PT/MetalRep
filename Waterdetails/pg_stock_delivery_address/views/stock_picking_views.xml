@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_picking_form_pg_delivery_address" model="ir.ui.view">
+        <field name="name">stock.picking.form.pg.delivery.address</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="pg_delivery_street" placeholder="Rua..."
+                       invisible="picking_type_code != 'outgoing'"
+                       readonly="state in ['cancel', 'done']"/>
+                <field name="pg_delivery_zip" placeholder="Código Postal"
+                       invisible="picking_type_code != 'outgoing'"
+                       readonly="state in ['cancel', 'done']"/>
+                <field name="pg_delivery_city" placeholder="Cidade"
+                       invisible="picking_type_code != 'outgoing'"
+                       readonly="state in ['cancel', 'done']"/>
+                <field name="pg_delivery_state_id" placeholder="Distrito"
+                       invisible="picking_type_code != 'outgoing'"
+                       options="{'no_open': True, 'no_create': True}"
+                       readonly="state in ['cancel', 'done']"/>
+                <field name="pg_delivery_country_id"
+                       invisible="picking_type_code != 'outgoing'"
+                       options="{'no_open': True, 'no_create': True}"
+                       readonly="state in ['cancel', 'done']"/>
+                <field name="pg_delivery_address_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

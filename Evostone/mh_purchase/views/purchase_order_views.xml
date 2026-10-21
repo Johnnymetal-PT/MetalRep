@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Purchase Order Form View Extension -->
+    <record id="view_purchase_order_form_inherit_pcmp" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit.pcmp</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="service_type_id" readonly="state in ['cancel', 'done', 'purchase', 'to approve']" domain="[('active', '=', True)]" options="{'no_create': True, 'no_edit': True}"/>
+                <field name="is_product_type" invisible="1"/>
+                <field name="service_type_color" invisible="1"/>
+                <field name="import_document_ids" widget="many2many_tags" readonly="1"
+                       invisible="not import_document_ids"/>
+            </field>
+
+            <!-- Restringir botão Cancelar apenas a Purchase Admin -->
+            <xpath expr="//button[@name='button_cancel']" position="attributes">
+                <attribute name="groups">purchase.group_purchase_manager</attribute>
+            </xpath>
+
+            <!-- Tornar coluna Descrição opcional na tabela de linhas -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='name']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+
+            <!-- Adicionar campos de controle de peso -->
+            <notebook position="before">
+                <group name="weight_control" string="Controle de Peso por Contentor"
+                       invisible="not is_product_type">
+                    <group>
+                        <field name="container_qty" readonly="state in ['cancel', 'done', 'purchase']"/>
+                        <field name="partner_container_max_weight" readonly="1"/>
+                        <field name="weight_exceeded" invisible="1"/>
+                        <field name="weight_per_container" readonly="1" invisible="not weight_exceeded"/>
+                        <field name="total_weight" readonly="1" invisible="not weight_exceeded"/>
+                    </group>
+                    <group>
+                        <field name="weight_per_container" readonly="1" invisible="weight_exceeded or not is_product_type"/>
+                        <field name="total_weight" readonly="1" invisible="weight_exceeded or not is_product_type"/>
+                        <div class="alert alert-danger d-flex align-items-center" role="alert"
+                             style="padding: 15px; margin-top: 10px;"
+                             invisible="not weight_exceeded or not is_product_type">
+                            <i class="fa fa-exclamation-triangle" title="Alerta de Excesso de Peso"
+                               style="font-size: 64px; color: #dc3545; margin-right: 20px;"/>
+                            <div>
+                                <strong style="font-size: 16px;">ALERTA DE EXCESSO DE PESO!</strong><br/>
+                                O peso por contentor (<field name="weight_per_container" readonly="1" class="oe_inline"/> KG) excede o limite permitido (<field name="partner_container_max_weight" readonly="1" class="oe_inline"/> KG).<br/>
+                                <strong>Contentores sugeridos:</strong> <field name="suggested_container_qty" readonly="1" class="oe_inline"/><br/>
+                                <strong>Ação necessária:</strong> Aumente a quantidade de contentores ou ajuste as quantidades dos produtos.
+                            </div>
+                        </div>
+                    </group>
+                </group>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- Purchase Order Tree View Extension -->
+    <record id="view_purchase_order_tree_inherit_pcmp" model="ir.ui.view">
+        <field name="name">purchase.order.tree.inherit.pcmp</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="amount_total_cc" position="attributes">
+                <attribute name="string">Total (MZN)</attribute>
+            </field>
+            <!-- Datas agrupadas: create_date, date_approve, date_planned -->
+            <field name="name" position="after">
+                <field name="create_date" string="Data de Criação" optional="show"/>
+            </field>
+            <field name="date_approve" position="after">
+                <field name="date_planned" position="move"/>
+            </field>
+            <field name="amount_total" position="after">
+                <field name="service_type_id" optional="show"/>
+                <field name="container_qty" optional="hide"/>
+                <field name="total_weight" optional="hide"/>
+                <field name="weight_per_container" optional="hide"/>
+                <field name="weight_exceeded" optional="hide"
+                       decoration-danger="weight_exceeded == True"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Purchase Order KPIs Tree View Extension -->
+    <record id="view_purchase_order_kpis_tree_inherit_pcmp" model="ir.ui.view">
+        <field name="name">purchase.order.kpis.tree.inherit.pcmp</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+        <field name="arch" type="xml">
+            <field name="amount_total_cc" position="attributes">
+                <attribute name="string">Total (MZN)</attribute>
+            </field>
+            <!-- Datas agrupadas: create_date, date_approve, date_planned -->
+            <field name="name" position="after">
+                <field name="create_date" string="Data de Criação" optional="show"/>
+            </field>
+            <field name="date_approve" position="after">
+                <field name="date_planned" position="move"/>
+            </field>
+            <field name="invoice_status" position="after">
+                <field name="service_type_color" column_invisible="1"/>
+                <field name="service_type_id" widget="badge" optional="show"
+                       decoration-primary="service_type_color == 'primary'"
+                       decoration-info="service_type_color == 'info'"
+                       decoration-success="service_type_color == 'success'"
+                       decoration-warning="service_type_color == 'warning'"
+                       decoration-danger="service_type_color == 'danger'"
+                       decoration-muted="service_type_color == 'muted'"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Purchase Order Tree View Extension (purchase_order_tree) -->
+    <record id="view_purchase_order_tree_inherit_pcmp_2" model="ir.ui.view">
+        <field name="name">purchase.order.tree.inherit.pcmp.2</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="service_type_color" column_invisible="1"/>
+                <field name="service_type_id" widget="badge" optional="show"
+                       decoration-primary="service_type_color == 'primary'"
+                       decoration-info="service_type_color == 'info'"
+                       decoration-success="service_type_color == 'success'"
+                       decoration-warning="service_type_color == 'warning'"
+                       decoration-danger="service_type_color == 'danger'"
+                       decoration-muted="service_type_color == 'muted'"/>
+            </field>
+            <field name="amount_total" position="after">
+                <field name="company_currency_id" column_invisible="1"/>
+                <field name="amount_total_cc" widget="monetary" options="{'currency_field': 'company_currency_id'}" string="Total (MZN)" optional="show"/>
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Adicionar configuração nas Configurações de Vendas -->
+    <record id="res_config_settings_view_form_inherit_sale_validity" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sale.validity</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Adicionar configuração após quotation_validity_days -->
+            <xpath expr="//setting[@id='quotation_validity_days']" position="after">
+                <setting id="auto_cancel_expired" string="Cancelar Automaticamente Cotações Expiradas" help="Cancelar automaticamente cotações quando expiram">
+                    <field name="auto_cancel_expired_quotations"/>
+                    <div class="text-muted">
+                        Quando ativado, o sistema cancelará automaticamente as cotações que expirarem.
+                        Caso contrário, apenas adicionará uma notificação às cotações expiradas.
+                    </div>
+                </setting>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

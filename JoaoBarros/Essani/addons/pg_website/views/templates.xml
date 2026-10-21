@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="homepage_test" name="HomePage Customization" inherit_id="website.homepage">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <section class="s_three_columns pt32 pb32 o_colored_level o_cc o_cc1" style="position: relative; background-image: none;">
+                <div class="o_we_shape o_web_editor_Airy_05_001 o_we_animated"/>
+                <div class="container">
+                    <div class="row d-flex align-items-stretch">
+                        <t t-if="visible_categories">
+                            <t t-foreach="visible_categories" t-as="category" t-key="category.id">
+                                <!-- Ensure uniqueness by attaching ID -->
+                                <t t-set="product_category" t-value="request.env['product.category'].search([('name', '=', category.name)], limit=1)"/>
+                                <div class="col-lg-4 s_col_no_bgcolor pt0 pb64 o_anim_fade_in o_animate o_visible" t-attf-id="cat-#{category.id}">
+                                    <div class="card text-bg-white h-100">
+                                        <a t-att-href="'/shop/category/' + str(category.id)">
+                                            <div class="img-container">
+                                                <t t-if="product_category.cat_image_1">
+                                                    <img t-att-src="'/web/image/product.category/' + str(product_category.id) + '/cat_image_1'" alt="" class="custom-category-image primary-image" loading="eager"/>
+                                                    <t t-if="product_category.cat_image_2">
+                                                        <img t-att-src="'/web/image/product.category/' + str(product_category.id) + '/cat_image_2'" alt="" class="custom-category-image secondary-image" loading="eager"/>
+                                                    </t>
+                                                </t>
+                                                <t t-else="">
+                                                    <img t-att-src="'/web/image/placeholder.jpg'" alt="" class="custom-category-image primary-image" loading="eager"/>
+                                                </t>
+                                            </div>
+                                        </a>
+                                        <div class="card-body">
+                                            <h3 class="card-title o_default_snippet_text">
+                                                <t t-esc="category.name"/>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </xpath>
+    </template>
+
+    <template id="product_template_inherit" inherit_id="website_sale.products_item">
+        <xpath expr="//a[contains(@class, 'oe_product_image_link')]" position="inside">
+            <xpath expr=".//span" position="inside">
+                <xpath expr=".//img" position="replace">
+                    <div class="image-container_shop">
+                        <img t-att-src="'/web/image/product.template/' + str(product.id) + '/image_1920'" alt="Main Product Image" class="img img-fluid h-100 w-100 main-image"/>
+                        <t t-if="product.extra_image_ids and len(product.extra_image_ids) > 0">
+                            <img t-att-src="'data:image/png;base64,' + product.extra_image_ids[0].image_base64" alt="Extra Image" class="img img-fluid h-100 w-100 extra-image"/>
+                        </t>
+                    </div>
+                </xpath>
+            </xpath>
+        </xpath>
+    </template>
+
+    <template id="products_categories_list_inherit" inherit_id="website_sale.products_categories_list">
+        <xpath expr="//t[@t-foreach='categories']" position="replace">
+            <t t-set="allowed_names" t-value="request.env['website'].get_current_website().is_website_product_visibility and (request.env.user._is_public() and request.env['website'].get_current_website().visitor_product_categ_ids.mapped('name') or request.env.user.partner_id.product_categ_ids.mapped('name')) or []"/>
+            <t t-set="todas_category" t-value="request.env['product.public.category'].search([('name', '=', 'Todas')], limit=1)"/>
+            <t t-if="todas_category">
+                <t t-foreach="todas_category.child_id" t-as="c">
+                    <t t-if="c.name in allowed_names">
+                        <t t-call="website_sale.categories_recursive"/>
+                    </t>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+<template id="filmstrip_categories_inherit" inherit_id="website_sale.filmstrip_categories">
+    <!-- Define the allowed category names from product.category, filtered based on user or visitor -->
+    <xpath expr="//t[@t-set='entries']" position="before">
+        <t t-set="allowed_names"
+           t-value="request.env['website'].get_current_website().is_website_product_visibility and 
+                     (request.env.user._is_public() 
+                      and request.env['website'].get_current_website().visitor_product_categ_ids.mapped('name') 
+                      or request.env.user.partner_id.product_categ_ids.mapped('name')) 
+                     or []"/>
+    </xpath>
+
+    <!-- Replace logic that sets 'entries' with filtered categories -->
+    <xpath expr="//t[@t-set='entries']" position="replace">
+        <t t-if="category.id">
+            <t t-set="entries"
+               t-value="(not search and category.child_id or category.child_id.filtered(lambda c: category.id in search_categories_ids)).filtered(lambda c: c.name in allowed_names)"/>
+            <t t-if="not entries">
+                <t t-set="parent" t-value="category.parent_id"/>
+                <t t-set="entries"
+                   t-value="(not search and parent.child_id or parent.child_id.filtered(lambda c: parent.id in search_categories_ids)).filtered(lambda c: c.name in allowed_names)"/>
+            </t>
+        </t>
+        <t t-else="">
+            <t t-set="entries" t-value="categories.filtered(lambda c: c.name in allowed_names)"/>
+        </t>
+    </xpath>
+</template>
+
+</odoo>
+

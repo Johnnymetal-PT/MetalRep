@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Sale Order Form View -->
+    <record id="view_sale_order_form_credit_control" model="ir.ui.view">
+        <field name="name">sale.order.form.credit.control</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <!-- Adicionar botão no header para resolver bloqueio de crédito -->
+            <xpath expr="//header/button[@id='action_confirm']" position="after">
+                <!-- Botão quando há bloqueio de crédito não resolvido -->
+                <button name="action_open_credit_wizard"
+                        string="Resolver Bloqueio de Crédito"
+                        type="object"
+                        class="btn-danger"
+                        icon="fa-exclamation-triangle"
+                        invisible="not credit_blocked or state not in ('draft', 'sent')"/>
+            </xpath>
+
+            <!-- Banner de alerta quando bloqueado por crédito -->
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning" role="alert"
+                     invisible="not credit_blocked or state not in ('draft', 'sent')">
+                    <strong><i class="fa fa-exclamation-triangle"/> Cotação Bloqueada</strong>
+                    <div class="mt-2">
+                        <span class="badge text-bg-warning me-1" invisible="not has_credit_limit_block or credit_limit_approved">Limite de Crédito</span>
+                        <span class="badge text-bg-danger me-1" invisible="not has_overdue_block or overdue_approved">Facturas Vencidas</span>
+                        <span class="badge text-bg-info" invisible="not has_pending_block or pending_approved">Facturas Pendentes</span>
+                    </div>
+                    <p class="mt-2 mb-0 text-muted">
+                        Um gestor com permissões adequadas deve aprovar os bloqueios de crédito.
+                    </p>
+                </div>
+            </xpath>
+
+            <!-- Campos hidden para computados -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="credit_blocked" invisible="1"/>
+                <field name="has_credit_limit_block" invisible="1"/>
+                <field name="has_overdue_block" invisible="1"/>
+                <field name="has_pending_block" invisible="1"/>
+                <field name="credit_limit_approved" invisible="1"/>
+                <field name="overdue_approved" invisible="1"/>
+                <field name="pending_approved" invisible="1"/>
+                <field name="can_approve_credit_limit" invisible="1"/>
+                <field name="can_approve_overdue" invisible="1"/>
+                <field name="can_approve_pending" invisible="1"/>
+            </xpath>
+
+            <!-- Esconder botões do mh_sale quando há bloqueio de crédito NÃO aprovado -->
+            <xpath expr="//header/button[@name='action_approve_quotation']" position="attributes">
+                <attribute name="invisible">state not in ['draft', 'sent'] or approval_state != 'pending' or is_fully_covered or amount_total == 0 or is_expired or credit_blocked</attribute>
+            </xpath>
+            <xpath expr="//header/button[@name='action_reject_quotation']" position="attributes">
+                <attribute name="invisible">state not in ['draft', 'sent'] or approval_state != 'pending' or is_fully_covered or amount_total == 0 or is_expired or credit_blocked</attribute>
+            </xpath>
+            <xpath expr="//header/button[@name='action_reset_approval']" position="attributes">
+                <attribute name="invisible">state not in ['draft', 'sent'] or approval_state == 'pending' or is_fully_covered or is_expired or credit_blocked</attribute>
+            </xpath>
+            <xpath expr="//header/button[@name='action_create_proforma_payment']" position="attributes">
+                <attribute name="invisible">is_fully_covered or state == 'cancel' or invoice_status == 'invoiced' or approval_state in ['rejected'] or credit_blocked or amount_total &lt;= 0</attribute>
+            </xpath>
+            <!-- Botão Confirmar para state='sent' (com id) -->
+            <xpath expr="//header/button[@id='action_confirm']" position="attributes">
+                <attribute name="invisible">state != 'sent' or (approval_state != 'approved' and not is_fully_covered) or credit_blocked</attribute>
+                <attribute name="groups">sales_team.group_sale_manager,mh_sale.group_sale_approver</attribute>
+            </xpath>
+            <!-- Botão Confirmar para state='draft' (sem id) -->
+            <xpath expr="//header/button[@name='action_confirm'][not(@id)]" position="attributes">
+                <attribute name="invisible">state != 'draft' or (approval_state != 'approved' and not is_fully_covered) or credit_blocked</attribute>
+                <attribute name="groups">sales_team.group_sale_manager,mh_sale.group_sale_approver</attribute>
+            </xpath>
+
+            <!-- Esconder banner de pagamentos disponíveis quando bloqueado por crédito -->
+            <xpath expr="//div[.//strong[contains(text(),'Recibos Pró-forma Disponíveis')]]" position="attributes">
+                <attribute name="invisible">not suggested_payment_count or is_fully_covered or invoice_status == 'invoiced' or approval_state in ['rejected'] or state in ['cancel'] or is_expired or credit_blocked</attribute>
+            </xpath>
+
+            <!-- Nova aba de Aprovação de Crédito -->
+            <xpath expr="//page[@name='other_information']" position="after">
+                <page string="Aprovação de Crédito" name="credit_approval"
+                      invisible="not has_credit_limit_block and not has_overdue_block and not has_pending_block">
+
+                    <!-- Bloqueio: Limite de Crédito -->
+                    <group string="Limite de Crédito Excedido" invisible="not has_credit_limit_block">
+                        <group>
+                            <field name="partner_credit_limit" string="Limite" readonly="1"/>
+                            <field name="partner_current_credit" string="Crédito Actual" readonly="1"/>
+                            <field name="amount_total" string="Valor do Pedido" readonly="1"/>
+                        </group>
+                        <group>
+                            <div class="d-flex align-items-center">
+                                <span class="badge text-bg-warning me-2" invisible="credit_limit_approved">⏳ Pendente</span>
+                                <span class="badge text-bg-success me-2" invisible="not credit_limit_approved">✓ Aprovado</span>
+                                <button name="action_approve_credit_limit"
+                                        string="Aprovar"
+                                        type="object"
+                                        class="btn-sm btn-success ms-2"
+                                        invisible="not can_approve_credit_limit or credit_limit_approved"/>
+                                <button name="action_approve_credit_limit"
+                                        string="Desaprovar"
+                                        type="object"
+                                        class="btn-sm btn-secondary ms-2"
+                                        invisible="not can_approve_credit_limit or not credit_limit_approved"/>
+                                <span class="text-muted ms-2" invisible="can_approve_credit_limit">(sem permissão)</span>
+                            </div>
+                            <field name="credit_limit_approved_by" readonly="1" invisible="not credit_limit_approved"/>
+                            <field name="credit_limit_approved_date" readonly="1" invisible="not credit_limit_approved"/>
+                        </group>
+                    </group>
+
+                    <!-- Bloqueio: Facturas Vencidas -->
+                    <group string="Facturas Vencidas" invisible="not has_overdue_block">
+                        <group>
+                            <field name="partner_overdue_amount" string="Total Vencido" readonly="1"/>
+                            <field name="partner_overdue_count" string="Nº Facturas" readonly="1"/>
+                        </group>
+                        <group>
+                            <div class="d-flex align-items-center">
+                                <span class="badge text-bg-danger me-2" invisible="overdue_approved">⏳ Pendente</span>
+                                <span class="badge text-bg-success me-2" invisible="not overdue_approved">✓ Aprovado</span>
+                                <button name="action_approve_overdue"
+                                        string="Aprovar"
+                                        type="object"
+                                        class="btn-sm btn-success ms-2"
+                                        invisible="not can_approve_overdue or overdue_approved"/>
+                                <button name="action_approve_overdue"
+                                        string="Desaprovar"
+                                        type="object"
+                                        class="btn-sm btn-secondary ms-2"
+                                        invisible="not can_approve_overdue or not overdue_approved"/>
+                                <span class="text-muted ms-2" invisible="can_approve_overdue">(sem permissão)</span>
+                            </div>
+                            <field name="overdue_approved_by" readonly="1" invisible="not overdue_approved"/>
+                            <field name="overdue_approved_date" readonly="1" invisible="not overdue_approved"/>
+                        </group>
+                    </group>
+
+                    <!-- Bloqueio: Facturas Pendentes -->
+                    <group string="Facturas Pendentes" invisible="not has_pending_block">
+                        <group>
+                            <field name="partner_pending_amount" string="Total Pendente" readonly="1"/>
+                            <field name="partner_pending_count" string="Nº Facturas" readonly="1"/>
+                        </group>
+                        <group>
+                            <div class="d-flex align-items-center">
+                                <span class="badge text-bg-info me-2" invisible="pending_approved">⏳ Pendente</span>
+                                <span class="badge text-bg-success me-2" invisible="not pending_approved">✓ Aprovado</span>
+                                <button name="action_approve_pending"
+                                        string="Aprovar"
+                                        type="object"
+                                        class="btn-sm btn-success ms-2"
+                                        invisible="not can_approve_pending or pending_approved"/>
+                                <button name="action_approve_pending"
+                                        string="Desaprovar"
+                                        type="object"
+                                        class="btn-sm btn-secondary ms-2"
+                                        invisible="not can_approve_pending or not pending_approved"/>
+                                <span class="text-muted ms-2" invisible="can_approve_pending">(sem permissão)</span>
+                            </div>
+                            <field name="pending_approved_by" readonly="1" invisible="not pending_approved"/>
+                            <field name="pending_approved_date" readonly="1" invisible="not pending_approved"/>
+                        </group>
+                    </group>
+
+                    <!-- Botão para resetar todas aprovações -->
+                    <group invisible="state not in ('draft', 'sent')">
+                        <button name="action_reset_credit_approvals"
+                                string="Resetar Todas Aprovações"
+                                type="object"
+                                class="btn-warning"
+                                icon="fa-refresh"
+                                groups="mh_credit_control.group_credit_manager"
+                                invisible="not credit_limit_approved and not overdue_approved and not pending_approved"/>
+                    </group>
+                </page>
+            </xpath>
+
+            <!-- Info resumida de crédito na tab Other Info -->
+            <xpath expr="//page[@name='other_information']//group[@name='sale_info']" position="after">
+                <group string="Controle de Crédito" name="credit_control_info">
+                    <field name="partner_credit_limit" readonly="1"/>
+                    <field name="partner_current_credit" readonly="1"/>
+                    <field name="partner_has_overdue" readonly="1" widget="boolean"/>
+                    <field name="partner_has_pending" readonly="1" widget="boolean"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend Sale Order List View (Quotations) -->
+    <record id="view_sale_order_list_credit_control" model="ir.ui.view">
+        <field name="name">sale.order.list.credit.control</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="credit_blocked" string="Bloq. Crédito" widget="boolean" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Extend Sale Order List View (Sales Orders) -->
+    <record id="view_sale_order_list_credit_control_2" model="ir.ui.view">
+        <field name="name">sale.order.list.credit.control.2</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="credit_blocked" string="Bloq. Crédito" widget="boolean" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_sale_order_search_credit_control" model="ir.ui.view">
+        <field name="name">sale.order.search.credit.control</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_sale"/>
+        <field name="arch" type="xml">
+            <filter name="my_sale_orders_filter" position="after">
+                <separator/>
+                <filter string="Bloqueados por Crédito"
+                        name="credit_blocked"
+                        domain="[('credit_blocked', '=', True)]"/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>

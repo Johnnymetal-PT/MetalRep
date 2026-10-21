@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_order_tree_lot" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='order_line']/list/field[@name='product_template_id']"
+                position="after"
+            >
+                <field name="lot_required" column_invisible="1"/>
+                <field name="can_edit_price" column_invisible="1"/>
+                <field name="dimensions_editable" column_invisible="1"/>
+                <field
+                    name="lot_id"
+                    domain="[('product_id','=', product_id)]"
+                    context="{'default_product_id': product_id}"
+                    required="lot_required"
+                    readonly="1"
+                    force_save="1"
+                    groups="stock.group_production_lot"
+                />
+                <field name="units_qty" readonly="not units_qty_editable" force_save="1" optional="show"/>
+                <!-- Campos de dimensões (editáveis em cotação manual: draft/sent sem lote) -->
+                <field name="length" readonly="not dimensions_editable" force_save="1" optional="show"/>
+                <field name="width" readonly="not dimensions_editable" force_save="1" optional="show"/>
+                <field name="thickness" readonly="not thickness_editable" force_save="1" optional="show"/>
+                
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/list/field[@name='product_uom_qty']"
+                position="after"
+            >
+                <!-- Fields needed for widget but hidden -->
+                <field name="virtual_available_at_date" column_invisible="1"/>
+                <field name="free_qty_today" column_invisible="1"/>
+                <!-- Our custom availability widget after quantity -->
+                <widget name="lot_availability_widget"/>
+            </xpath>
+            <!-- Tornar product_uom_qty readonly na list view -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_qty']" position="attributes">
+                <attribute name="readonly">True</attribute>
+                <attribute name="string">Volume/Área/Unidade</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <!-- Tornar price_unit readonly (excepto para quem tem permissão) -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='price_unit']" position="attributes">
+                <attribute name="readonly">not can_edit_price</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <!-- Tornar tax_id readonly na list view -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='tax_id']" position="attributes">
+                <attribute name="readonly">True</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <!-- Tornar customer_lead readonly na list view -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='customer_lead']" position="attributes">
+                <attribute name="readonly">True</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <!-- Tornar route_id readonly na list view -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='route_id']" position="attributes">
+                <attribute name="readonly">True</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form/group/group/div/field[@name='product_id']"
+                position="after"
+            >
+                <field name="lot_required" invisible="1"/>
+                <field name="can_edit_price" invisible="1"/>
+                <field
+                    name="lot_id"
+                    domain="[('product_id','=', product_id)]"
+                    context="{'default_product_id': product_id}"
+                    required="lot_required"
+                    groups="stock.group_production_lot"
+                />
+            </xpath>
+            <!-- Adicionar campos de dimensões no formulário detalhado -->
+            <xpath
+                expr="//field[@name='order_line']/form//field[@name='product_uom_qty']"
+                position="before"
+            >
+                <field name="dimensions_editable" invisible="1"/>
+                <label for="length" string="Dimensões"
+                       invisible="not product_id or product_id.product_form not in ['block', 'slab', 'strip', 'tiles']"/>
+                <div invisible="not product_id or product_id.product_form not in ['block', 'slab', 'strip', 'tiles']">
+                    <field name="length" readonly="not dimensions_editable" force_save="1" class="oe_inline" style="width: 100px;"/> m (C) ×
+                    <field name="width" readonly="not dimensions_editable" force_save="1" class="oe_inline" style="width: 100px;"/> m (L)
+                    <span invisible="product_id.product_form != 'block'">
+                        × <field name="thickness" readonly="not thickness_editable" force_save="1" class="oe_inline" style="width: 100px;"/> m (E)
+                    </span>
+                </div>
+                <field name="units_qty"
+                       readonly="not units_qty_editable"
+                       invisible="not product_id or product_id.product_form not in ['block', 'slab', 'strip', 'tiles']"
+                       string="Qtd. Unidades"/>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form/group/group/div/field[@name='product_id']"
+                position="before"
+            >
+                <!-- Campo auxiliar invisível para controle de visibilidade -->
+                <field name="product_id" invisible="1"/>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//field[@name='product_uom_qty']"
+                position="after"
+            >
+                <!-- Fields needed for widget but hidden -->
+                <field name="virtual_available_at_date" invisible="1"/>
+                <field name="free_qty_today" invisible="1"/>
+                <!-- Our custom availability widget after quantity in form -->
+                <widget name="lot_availability_widget"/>
+            </xpath>
+            <!-- Tornar product_uom_qty readonly no form view -->
+            <xpath expr="//field[@name='order_line']/form//field[@name='product_uom_qty']" position="attributes">
+                <attribute name="readonly">True</attribute>
+                <attribute name="string">Volume/Área/Unidade</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <!-- Tornar price_unit readonly no form view (excepto para quem tem permissão) -->
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
+                <attribute name="readonly">not can_edit_price</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <!-- Tornar tax_id readonly no form view -->
+            <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="attributes">
+                <attribute name="readonly">True</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <!-- Tornar customer_lead readonly no form view -->
+            <xpath expr="//field[@name='order_line']/form//field[@name='customer_lead']" position="attributes">
+                <attribute name="readonly">True</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <!-- Tornar route_id readonly no form view -->
+            <xpath expr="//field[@name='order_line']/form//field[@name='route_id']" position="attributes">
+                <attribute name="readonly">True</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <!-- Forçar product_id visível e product_template_id escondido -->
+            <!-- Mostrar sempre product_id (variante) -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_id']" position="attributes">
+                <attribute name="readonly">not units_qty_editable</attribute>
+                <attribute name="domain">[('sale_ok', '=', True)]</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="optional">show</attribute>
+                <attribute name="string">Produto</attribute>
+            </xpath>
+
+            <!-- Esconder sempre product_template_id (template) -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_template_id']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+
+            <!-- product_id editável em cotação (qualquer product_form); restrição via units_qty_editable -->
+            <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="attributes">
+                <attribute name="readonly">not units_qty_editable</attribute>
+                <attribute name="domain">[('sale_ok', '=', True)]</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Sale Order Form View - Add Approval System -->
+    <record id="view_order_form_approval_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.approval.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Adicionar campos invisíveis primeiro para estarem disponíveis -->
+            <xpath expr="//header" position="before">
+                <field name="is_locked" invisible="1"/>
+                <field name="amount_total" invisible="1"/>
+                <field name="can_create_invoice" invisible="1"/>
+                <field name="is_proforma" invisible="1"/>
+            </xpath>
+            <!-- Tornar campos readonly quando is_locked -->
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="readonly">is_locked</attribute>
+            </xpath>
+            <!-- Adicionar campo is_proforma após partner_id -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_proforma" widget="boolean_toggle"
+                       readonly="invoice_status in ['invoiced']"
+                       string="Fatura Proforma"
+                       help="Quando ativo: pagamentos validam SEM impostos e NÃO permite faturação"/>
+                <field name="location_id"
+                       readonly="state not in ['draft', 'sent']"
+                       options="{'no_create': True, 'no_open': True}"
+                       placeholder="Selecione localização interna..."/>
+            </xpath>
+            <xpath expr="//field[@name='pricelist_id']" position="before">
+                <field name="can_edit_pricelist" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='pricelist_id']" position="attributes">
+                <attribute name="readonly">is_locked or not can_edit_pricelist</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                <attribute name="readonly">is_locked</attribute>
+            </xpath>
+            <!-- Adicionar botões no header -->
+            <xpath expr="//header" position="inside">
+                <button name="action_approve_quotation"
+                        string="Aprovar Cotação"
+                        type="object"
+                        class="btn-success"
+                        invisible="state not in ['draft', 'sent'] or approval_state != 'pending' or is_fully_covered or amount_total == 0 or is_expired"
+                        groups="mh_sale.group_sale_approver"/>
+                <button name="action_reject_quotation"
+                        string="Rejeitar Cotação"
+                        type="object"
+                        class="btn-danger"
+                        invisible="state not in ['draft', 'sent'] or approval_state != 'pending' or is_fully_covered or amount_total == 0 or is_expired"
+                        groups="mh_sale.group_sale_approver"/>
+                <button name="action_reset_approval"
+                        string="Resetar Aprovação"
+                        type="object"
+                        invisible="state not in ['draft', 'sent'] or approval_state == 'pending' or is_fully_covered or is_expired"
+                        groups="mh_sale.group_sale_approver"/>
+                <button name="action_deallocate_payments"
+                        string="Desalocar Pagamentos"
+                        type="object"
+                        class="btn-warning"
+                        invisible="invoice_status == 'invoiced' or allocation_count == 0 or is_expired"
+                        confirm="Tem certeza que deseja desalocar todos os pagamentos desta cotação?"
+                        groups="account.group_account_invoice"/>
+                <button name="action_create_proforma_payment"
+                        string="Fazer Recibo"
+                        type="object"
+                        class="btn-info"
+                        icon="fa-credit-card"
+                        invisible="is_fully_covered or state == 'cancel' or invoice_status == 'invoiced' or approval_state in ['rejected'] or amount_total &lt;= 0"
+                        groups="account.group_account_invoice"/>
+            </xpath>
+
+            <!-- Adicionar smart buttons para pagamentos -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_payment_allocations"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-money"
+                        invisible="allocation_count == 0"
+                        groups="account.group_account_invoice">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="allocation_count"/>
+                        </span>
+                        <span class="o_stat_text">Pagamentos</span>
+                    </div>
+                </button>
+                <button name="action_view_suggested_payments"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-plus-circle"
+                        invisible="suggested_payment_count == 0 or is_fully_covered or invoice_status == 'invoiced' or is_expired or approval_state in ['rejected']"
+                        groups="account.group_account_invoice">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="suggested_payment_count"/>
+                        </span>
+                        <span class="o_stat_text">Disponíveis</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <!-- Adicionar botão Selecionar Stock antes de Adicionar um artigo -->
+            <xpath expr="//field[@name='order_line']/list/control/create[@name='add_product_control']" position="before">
+                <button name="action_open_stock_wizard"
+                        string="Selecionar Stock"
+                        type="object"
+                        icon="fa-cubes"
+                        class="px-4 btn-link"
+                        context="{'order_id': parent.id}"/>
+            </xpath>
+            <!-- Adicionar alerta informativo sobre pagamentos disponíveis -->
+            <xpath expr="//sheet/*[1]" position="before">
+                <div class="alert alert-info d-flex align-items-center" role="alert"
+                     name="mh_alert_proforma_available"
+                     invisible="not suggested_payment_count or is_fully_covered or invoice_status == 'invoiced' or approval_state in ['rejected'] or state in ['cancel'] or is_expired or amount_total &lt;= 0">
+                    <div class="text-center flex-grow-1">
+                        <i class="fa fa-info-circle fa-2x mb-2" style="color: #17a2b8;" title="Informação"/>
+                        <h5 class="mb-2">
+                            <strong>Recibos Pró-forma Disponíveis</strong>
+                        </h5>
+                        <p class="mb-2">
+                            Existem <strong><field name="suggested_payment_count" readonly="1"/> pagamento(s)</strong>
+                            disponíveis para alocar. Valor pendente: <strong><field name="amount_pending" readonly="1" widget="monetary"/></strong>
+                        </p>
+                        <button name="action_create_allocation" type="object" class="btn btn-primary">
+                            <i class="fa fa-plus"/> Alocar Recibo
+                        </button>
+                    </div>
+                </div>
+                <div class="alert alert-success d-flex align-items-center" role="alert"
+                     name="mh_alert_fully_covered"
+                     invisible="not is_fully_covered or amount_total == 0 or state in ['cancel'] or is_expired">
+                    <div class="text-center flex-grow-1">
+                        <i class="fa fa-check-circle fa-2x mb-2" style="color: #28a745;" title="Sucesso"/>
+                        <h5 class="mb-2">
+                            <strong>Totalmente Coberto!</strong>
+                        </h5>
+                        <p class="mb-0">
+                            Esta cotação está totalmente coberta por recibos pró-forma.
+                        </p>
+                    </div>
+                </div>
+                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                     name="mh_alert_quotation_rejected"
+                     invisible="approval_state != 'rejected' or is_expired">
+                    <div class="text-center flex-grow-1">
+                        <i class="fa fa-times-circle fa-2x mb-2" style="color: #dc3545;" title="Rejeitado"/>
+                        <h5 class="mb-2">
+                            <strong>Cotação Rejeitada</strong>
+                        </h5>
+                        <p class="mb-2">
+                            Esta cotação foi rejeitada e não pode receber pagamentos.
+                            Para alocar pagamentos, é necessário resetar a aprovação primeiro.
+                        </p>
+                    </div>
+                </div>
+            </xpath>
+
+            <!-- Adicionar campos de aprovação e pagamentos após informações gerais -->
+            <xpath expr="//group[@name='order_details']" position="after">
+                <group string="Informações de Aprovação" name="approval_info" col="4">
+                    <field name="approval_state" widget="badge"
+                           decoration-success="approval_state == 'approved'"
+                           decoration-danger="approval_state == 'rejected'"
+                           decoration-warning="approval_state == 'pending'"/>
+                    <field name="has_proforma_receipt" invisible="1"/>
+                    <field name="is_fully_covered" invisible="1"/>
+                    <field name="approved_by" invisible="not approved_by"/>
+                    <field name="approval_date" invisible="not approval_date"/>
+                    <field name="rejected_by" invisible="not rejected_by"/>
+                    <field name="rejection_date" invisible="not rejection_date"/>
+                    <field name="rejection_reason" invisible="not rejection_reason" colspan="4"/>
+                </group>
+                <group string="Recibos Pró-forma" name="payment_info" col="4">
+                    <field name="amount_covered" widget="monetary"/>
+                    <field name="amount_pending" widget="monetary"
+                           string="Valor Pendente"
+                           help="Validado contra valor COM impostos (normal) ou SEM impostos (proforma)"/>
+                    <field name="coverage_percentage" widget="progressbar"/>
+                    <field name="currency_id" invisible="1"/>
+                    <!-- Mostrar valor de referência para proforma -->
+                    <label for="amount_untaxed" string="Valor de Referência (s/ impostos)"
+                           invisible="not is_proforma" colspan="2"/>
+                    <div invisible="not is_proforma">
+                        <field name="amount_untaxed" readonly="1" widget="monetary"/>
+                        <span class="text-muted"> (usado na validação)</span>
+                    </div>
+                </group>
+            </xpath>
+
+            <!-- Esconder TODOS os botões de Create Invoice -->
+            <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d']"
+                   position="attributes">
+                <attribute name="invisible">invoice_status != 'to invoice' or is_proforma</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Sale Order List View - Add Approval State -->
+    <record id="view_order_list_approval_inherit" model="ir.ui.view">
+        <field name="name">sale.order.list.approval.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="is_proforma" widget="boolean_toggle" readonly="1" optional="show"/>
+                <field name="delivery_status"
+                       widget="badge"
+                       decoration-warning="delivery_status == 'partial'"
+                       decoration-danger="delivery_status == 'pending'"
+                       decoration-success="delivery_status == 'full'"
+                       decoration-info="delivery_status == 'started'"
+                       optional="show"/>
+                <field name="sale_status" widget="badge"
+                       decoration-warning="sale_status == 'action_required'"
+                       decoration-info="sale_status == 'ready_to_sell'"
+                       decoration-success="sale_status == 'invoiced'"
+                       decoration-danger="sale_status == 'blocked'"
+                       optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Sale Order Tree View -->
+    <record id="view_order_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="is_proforma" widget="boolean_toggle" readonly="1" optional="show"/>
+                <field name="sale_status" widget="badge"
+                       decoration-warning="sale_status == 'action_required'"
+                       decoration-info="sale_status == 'ready_to_sell'"
+                       decoration-success="sale_status == 'invoiced'"
+                       decoration-danger="sale_status == 'blocked'"
+                       optional="show"/>
+            </xpath>
+             <!-- Modificar delivery_status existente (adicionado pelo sale_stock) -->
+            <xpath expr="//field[@name='delivery_status']" position="attributes">
+                <attribute name="decoration-warning">delivery_status == 'partial'</attribute>
+                <attribute name="decoration-danger">delivery_status == 'pending'</attribute>
+                <attribute name="decoration-success">delivery_status == 'full'</attribute>
+                <attribute name="decoration-info">delivery_status == 'started'</attribute>
+                <attribute name="optional">show</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Sale Order Tree View - Add Margin Fields -->
+    <record id="view_order_tree_margin_inherit" model="ir.ui.view">
+        <field name="name">sale.order.tree.margin.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="amount_margin"
+                       string="Margem"
+                       widget="monetary"
+                       decoration-danger="margin_percent &lt; 0.20"
+                       decoration-info="margin_percent &gt;= 0.20 and margin_percent &lt; 0.50"
+                       decoration-success="margin_percent &gt;= 0.50"
+                       optional="show"/>
+                <field name="margin_percent"
+                       string="Margem %"
+                       widget="percentage"
+                       decoration-danger="margin_percent &lt; 0.20"
+                       decoration-info="margin_percent &gt;= 0.20 and margin_percent &lt; 0.50"
+                       decoration-success="margin_percent &gt;= 0.50"
+                       optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Sale Order Search View - Add Approval Filters -->
+    <record id="view_sales_order_filter_approval_inherit" model="ir.ui.view">
+        <field name="name">sale.order.search.approval.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/filter[1]" position="after">
+                <separator/>
+                <filter string="Necessário Ação" name="action_required"
+                        domain="[('sale_status', '=', 'action_required')]"/>
+                <filter string="Pronta para Venda" name="ready_to_sell"
+                        domain="[('sale_status', '=', 'ready_to_sell')]"/>
+                <filter string="Faturadas" name="invoiced_status"
+                        domain="[('sale_status', '=', 'invoiced')]"/>
+                <filter string="Bloqueadas" name="blocked"
+                        domain="[('sale_status', '=', 'blocked')]"/>
+                <separator/>
+                <filter string="Aprovadas" name="approved"
+                        domain="[('approval_state', '=', 'approved')]"/>
+                <filter string="Rejeitadas" name="rejected"
+                        domain="[('approval_state', '=', 'rejected')]"/>
+                <filter string="Pendente Aprovação" name="pending_approval"
+                        domain="[('approval_state', '=', 'pending')]"/>
+                <separator/>
+                <filter string="Com Proforma" name="has_proforma"
+                        domain="[('has_proforma_receipt', '=', True)]"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter string="Estado de Venda" name="group_sale_status"
+                        context="{'group_by': 'sale_status'}"/>
+                <filter string="Estado de Aprovação" name="group_approval_state"
+                        context="{'group_by': 'approval_state'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Ocultar botões Catalog nas linhas de pedido (list e kanban) -->
+    <record id="view_order_form_hide_catalog" model="ir.ui.view">
+        <field name="name">sale.order.form.hide.catalog</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Ocultar na list view -->
+            <xpath expr="//field[@name='order_line']/list/control/button[@name='action_add_from_catalog']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- Ocultar na kanban view -->
+            <xpath expr="//field[@name='order_line']/kanban/control/button[@name='action_add_from_catalog']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Filtrar partner_id para mostrar clientes e contactos neutros (exclui fornecedores puros) -->
+    <record id="view_order_form_partner_domain" model="ir.ui.view">
+        <field name="name">sale.order.form.partner.domain</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('parent_id', '=', False), '|', ('customer_rank', '>', 0), '&amp;', ('supplier_rank', '=', 0), ('customer_rank', '=', 0)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Esconder botão Cancelar para utilizadores no grupo de bloqueio -->
+    <record id="view_order_form_block_cancel" model="ir.ui.view">
+        <field name="name">sale.order.form.block.cancel</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="can_cancel" invisible="1"/>
+            </field>
+            <xpath expr="//button[@name='action_cancel']" position="attributes">
+                <attribute name="invisible">state not in ['draft', 'sent', 'sale'] or not id or locked or not can_cancel</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Esconder botões "Criar Fatura" para utilizadores sem grupo de Faturação.
+         Standard Odoo: o botão aparece a qualquer Salesman, mas o wizard usa sudo()
+         para criar a fatura (ver sale/models/sale_order.py:1514). Resultado: a UI
+         confunde — utilizadores que não devem facturar conseguem fazê-lo.
+         Solução: esconder o botão a quem não tem account.group_account_invoice. -->
+    <record id="view_order_form_hide_create_invoice" model="ir.ui.view">
+        <field name="name">sale.order.form.hide.create.invoice</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@id='create_invoice']" position="attributes">
+                <attribute name="groups">account.group_account_invoice</attribute>
+            </xpath>
+            <xpath expr="//button[@id='create_invoice_percentage']" position="attributes">
+                <attribute name="groups">account.group_account_invoice</attribute>
+            </xpath>
+            <!-- Smart button "Invoices" (standard Odoo, sem groups) -->
+            <xpath expr="//button[@name='action_view_invoice']" position="attributes">
+                <attribute name="groups">account.group_account_invoice</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Restaurar domain original (sem is_proforma) - actualizar módulo e depois comentar -->
+    <record id="sale.action_orders" model="ir.actions.act_window">
+        <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel'))]</field>
+    </record>
+
+    <record id="sale.action_orders_to_invoice" model="ir.actions.act_window">
+        <field name="domain">[('invoice_status', '=', 'to invoice')]</field>
+    </record>
+
+    <!-- Readonly na aba Outra Informação quando faturada e user não é admin -->
+    <record id="view_order_form_readonly_other_info" model="ir.ui.view">
+        <field name="name">sale.order.form.readonly.other.info</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='other_information']" position="before">
+                <field name="is_erp_manager" invisible="1"/>
+            </xpath>
+            <!-- payment_term_id está no topo do formulário -->
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group[@name='sales_person']/field[@name='user_id']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group[@name='sales_person']/field[@name='team_id']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group[@name='sales_person']/field[@name='client_order_ref']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group[@name='sales_person']/field[@name='tag_ids']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group[@name='sales_person']/field[@name='require_signature']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//field[@name='require_payment']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//field[@name='fiscal_position_id']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//field[@name='commitment_date']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group[@name='sale_reporting']/field[@name='origin']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group[@name='sale_reporting']/field[@name='campaign_id']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group[@name='sale_reporting']/field[@name='medium_id']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group[@name='sale_reporting']/field[@name='source_id']" position="attributes">
+                <attribute name="readonly">invoice_status == 'invoiced' and not is_erp_manager</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

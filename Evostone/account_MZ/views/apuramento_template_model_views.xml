@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="apuramento_template" model="ir.ui.view">
+        <field name="name">record.name.form</field>
+        <field name="model">apuramento.template.model</field>
+        <field name="arch" type="xml">
+<form>
+                <header>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" string="Name " readonly="0"/>
+                        </h1>
+                     </div>
+                     <group>
+                        <group>                            
+                            <field name="nr_of_steps" string="Nr de passos"/>
+                            <field name="frequency" string="Frequencia"/>
+                        </group>
+                        <group>
+                            <field name="diario_id" string="Diário" domain="[('type', '=', 'general')]"/>
+                            <field name="fecho_abertura" string="Fecho/Abertura"/>
+                            <field name="sequence" string="Código Curto"/>
+                            
+                        </group>
+                    </group>
+                
+                <notebook colspan="4">
+                    <page string="Passo1">
+                              
+                            <group> 
+                            <field name="step_name1" placeholder="Nome do Passo"/> 
+                            
+                                <group string="Source"> 
+                                    <field name="source_accounts" nolabel="1" colspan="2"/>                                               
+                                </group>
+                                <group>
+                                                                      
+                                </group> 
+                            </group>    
+
+                            <group> 
+                                <group string="Destination -"> 
+                                    <field name="destination_copy1" nolabel="1" colspan="2"> 
+                                        <list editable="bottom">
+                                            <field name="account"/>
+                                            <!-- <field name="percentagem" />                                             -->
+                                        </list>
+                                    </field>                                                              
+                                </group>
+                                <group string="Destination +">
+                                    <field name="destination_copy2" nolabel="1" colspan="2">  
+                                        <list editable="bottom">
+                                            <field name="account"/>
+                                            <!-- <field name="percentagem" />                                             -->
+                                        </list>
+                                    </field>                                                 
+                                </group> 
+                            </group>
+
+                    </page> 
+                     <page string="Passo 2" invisible="nr_of_steps == '1'">
+                            
+                            <group> 
+                            <field name="step_name2" placeholder="Nome do Passo"/> 
+                                <group> 
+                                    <field name="destination_copy3" nolabel="1" colspan="2">  
+                                        <list editable="bottom">
+                                            <field name="account"/>                                           
+                                        </list>
+                                    </field>                                                                                        
+                                </group>
+                                <group>
+                                    <!-- <field name="destination_accounts1" />                                     -->
+                                </group> 
+                            </group>   
+
+                            <group> 
+                                <group string="Destination">                                 
+                                    <field name="destination_copy4" nolabel="1" colspan="2">  
+                                        <list editable="bottom">
+                                            <field name="account"/>
+                                            <!-- <field name="percentagem" />                                             -->
+                                        </list>
+                                    </field>                                                                   
+                                </group>
+                                <group string="Destination">
+                                    <field name="destination_copy5" nolabel="1" colspan="2">   
+                                        <list editable="bottom">
+                                            <field name="account"/>
+                                            <!-- <field name="percentagem" />                                             -->
+                                        </list>
+                                    </field>                                                     
+                                </group> 
+                            </group>               
+                    </page>
+                     <page string="Passo 3" invisible="nr_of_steps == '1' or nr_of_steps == '2'">
+                            
+                            <group> 
+                            <field name="step_name3" placeholder="Nome do Passo"/> 
+                                <group string="Destination"> 
+                                    <field name="destination_copy6" nolabel="1" colspan="2">  
+                                        <list editable="bottom">
+                                            <field name="account"/>                                          
+                                        </list>
+                                    </field>                                                                                    
+                                </group>
+                               
+                            </group>      
+
+                            <group> 
+                                <group string="Destination"> 
+                                     <field name="destination_copy7" nolabel="1" colspan="2">    
+                                        <list editable="bottom">
+                                            <field name="account"/>
+                                            <!-- <field name="percentagem" />                                             -->
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                                <group string="Destination"> 
+                                     <field name="destination_copy8" nolabel="1" colspan="2">    
+                                        <list editable="bottom">
+                                            <field name="account"/>
+                                            <!-- <field name="percentagem" />                                             -->
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                            </group>
+
+                    </page>
+
+                    <page string="Passo 4" invisible="nr_of_steps == '1' or nr_of_steps == '2' or nr_of_steps == '3'">
+                            
+                            <group> 
+                            <field name="step_name4" placeholder="Nome do Passo"/> 
+                                <group string="Destination"> 
+                                    <field name="destination_copy9" nolabel="1" colspan="2">  
+                                        <list editable="bottom">
+                                            <field name="account"/>                                          
+                                        </list>
+                                    </field>                                                                                    
+                                </group>
+                               
+                            </group>      
+
+                            <group> 
+                                <group string="Destination"> 
+                                     <field name="destination_copy10" nolabel="1" colspan="2">    
+                                        <list editable="bottom">
+                                            <field name="account"/>
+                                            <!-- <field name="percentagem" />                                             -->
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                                <group string="Destination"> 
+                                     <field name="destination_copy11" nolabel="1" colspan="2">    
+                                        <list editable="bottom">
+                                            <field name="account"/>
+                                            <!-- <field name="percentagem" />                                             -->
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                            </group>
+
+                    </page>
+                    <page string="Recuperaçao" invisible="name != 'IVA'">
+                        
+                        <group> 
+                            <group> 
+                                <label for="nr_limite_meses" string="Limite de meses"/>
+                                <div>
+                                    <field name="nr_limite_meses" class="oe_inline"/>
+                                    <span> Meses </span>
+                                   
+                                </div>                                                                                    
+                            </group>
+                            <group>
+                            </group>
+                            
+                        </group>      
+                    </page>
+
+
+                    <!-- Fim dos passos  -->
+
+                       <page string="Extra Config">
+                            <group> 
+                                <group string="Campo 1"> 
+                                
+                                    <field name="campo1" nolabel="1" colspan="2">  
+                                        <list>
+                                            <field name="name"/>   
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                        
+                                        </list>
+                                    </field>                                                                                    
+                                </group>
+                                <group string="Campo 2"> 
+                                    <field name="campo2" nolabel="1" colspan="2">  
+                                        <list>
+                                            <field name="name"/>    
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                       
+                                        </list>
+                                    </field>                                                                                    
+                                </group>
+                               
+                            </group>      
+
+                            <group> 
+                                <group string="Campo 3"> 
+                                     <field name="campo3" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/>        
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                    
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                                <group string="Campo 4"> 
+                                     <field name="campo4" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/>   
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                        
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                            </group>
+                             <group> 
+                                <group string="Campo 5"> 
+                                     <field name="campo5" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/>  
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                          
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                                <group string="Campo 6"> 
+                                     <field name="campo6" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/>   
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                        
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                            </group>
+                            <group> 
+                                <group string="Campo 7"> 
+                                     <field name="campo7" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/>  
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                          
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                                <group string="Campo 8"> 
+                                     <field name="campo8" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/>  
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                         
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                            </group> 
+                            <group> 
+                                <group string="Campo 9"> 
+                                     <field name="campo9" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/>        
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                    
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                                <group string="Campo 10"> 
+                                     <field name="campo10" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/>      
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                     
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                            </group>    
+                             <group> 
+                                <group string="Campo 11"> 
+                                     <field name="campo11" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/> 
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                           
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                                <group> 
+                                     <field name="campo12" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/> 
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                           
+                                        </list>
+                                    </field>                                                   
+                                </group>
+                            </group>    
+                            <group> 
+                                <group string="Campo 13"> 
+                                     <field name="campo11" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/> 
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                           
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                                <group string="Campo 14"> 
+                                     <field name="campo14" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/> 
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                           
+                                        </list>
+                                    </field>                                                   
+                                </group>
+                            </group>    
+
+                             <group> 
+                                <group string="Campo 15"> 
+                                     <field name="campo15" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/> 
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                           
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                                <group string="Campo 16"> 
+                                     <field name="campo16" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/> 
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                           
+                                        </list>
+                                    </field>                                                   
+                                </group>
+                            </group>    
+                            <group> 
+                                <group string="Campo 17"> 
+                                     <field name="campo17" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/> 
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                           
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                                <group string="Campo 18"> 
+                                     <field name="campo18" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/> 
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                           
+                                        </list>
+                                    </field>                                                   
+                                </group>
+                            </group>    
+                             <group> 
+                                <group string="Campo 19"> 
+                                     <field name="campo19" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/> 
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                           
+                                        </list>
+                                    </field>                                                                 
+                                </group>
+                                <group string="Campo 20"> 
+                                     <field name="campo20" nolabel="1" colspan="2">    
+                                        <list>
+                                            <field name="name"/> 
+                                            <field name="formula"/> 
+                                            <field name="contas"/>                                           
+                                        </list>
+                                    </field>                                                   
+                                </group>
+                            </group>    
+ 
+
+                    </page>
+                    
+
+                </notebook>
+                 
+              </sheet>   
+            </form>
+        </field>
+    </record>
+
+    <record id="apuramentos_template_view_list" model="ir.ui.view">
+        <field name="name">record.name.list</field>
+        <field name="model">apuramento.template.model</field>
+        <field name="arch" type="xml">
+<list>
+            <field name="name"/>
+                <field name="name"/>
+                <!-- <field name="tipo_apuramento"/> -->
+            </list>
+        </field>
+    </record>
+
+</odoo>

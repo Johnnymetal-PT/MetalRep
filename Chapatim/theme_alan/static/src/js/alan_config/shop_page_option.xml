@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- ==================== Products List Page Options ==================== -->
+    <t t-name="theme_alan.ProductsListPageOption" t-inherit="website_sale.ProductsListPageOption" t-inherit-mode="extension">
+        <xpath expr="//BuilderContext/BuilderRow[@label.translate='Tags']" position="after">
+            <BuilderRow label.translate="Brands"  tooltip.translate="Alan - Brand Filter" level="1" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'as_brand_filter_opt'" action="'setAlanConfig'" actionParam="{fields: ['active_brand_filter']}" preview="false"/>
+            </BuilderRow>
+
+            <BuilderRow label.translate="Ratings" level="1" tooltip.translate="Alan - Rating Filter" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'as_rating_filter_opt'" action="'setAlanConfig'" actionParam="{fields: ['active_rating_filter']}" preview="false"/>
+            </BuilderRow>
+
+            <BuilderRow label.translate="Atrr Count" level="1" tooltip.translate="Alan - Attribute Counts" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'as_attr_count_opt'" action="'setAlanConfig'" actionParam="{fields: ['active_attribute_count']}" preview="false"/>
+            </BuilderRow>
+
+            <BuilderRow label.translate="Clear Filter" level="1" tooltip.translate="Alan - Clear Filter" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'as_clear_filter_opt'" action="'setAlanConfig'" actionParam="{fields: ['active_shop_clear_filter']}" preview="false"/>
+            </BuilderRow>
+
+            <BuilderRow label.translate="Stock Only" level="1" tooltip.translate="Alan - Stock Only Filter" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'as_stock_filter_opt'" action="'setAlanConfig'" actionParam="{fields: ['active_stock_only']}" preview="false"/>
+            </BuilderRow>
+
+            <BuilderRow label.translate="Attr Search" level="1" tooltip.translate="Alan - Attribute Search" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'as_attr_search_opt'" action="'setAlanConfig'" actionParam="{fields: ['active_attribute_search']}" preview="false"/>
+            </BuilderRow>
+
+            <BuilderRow label.translate="Hide Extra Attr" level="1" tooltip.translate="Alan - Hide Zero/Extra Attribute" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'as_hide_extra_attr_opt'" action="'setAlanConfig'" actionParam="{fields: ['active_hide_zero_attribute']}" preview="false"/>
+            </BuilderRow>
+
+            <BuilderRow label.translate="Discount" level="1" tooltip.translate="Enable the discount % badge on product listings." extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_shop_page_discount'" action="'setAlanConfig'" actionParam="{fields: ['active_shop_page_discount']}" preview="false"/>
+            </BuilderRow>
+
+            <BuilderRow label.translate="Style" tooltip.translate="Alan - Attribute Filter" level="1" extraLabelClass="'as-builder-icon'">
+                <BuilderSelect action="'websiteConfig'">
+                    <BuilderSelectItem actionParam="{views: ['as_attribute_layout_default']}" title.translate="Default">
+                        <Img
+                            src="'/website_sale/static/src/img/filmstrips/default.svg'"
+                            style="'width:120px;'"
+                        />
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                        actionParam="{views: ['theme_alan.as_attribute_layout_1']}"
+                        title.translate="Alan Layout- 1"
+                    >
+                        <Img
+                            src="'/theme_alan/static/src/img/snippets/snippets_icon/sidebar1.svg'"
+                            style="'width:120px;'"
+                        />
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                        actionParam="{views: ['theme_alan.as_attribute_layout_2']}"
+                        title.translate="Alan Layout- 2"
+                    >
+                        <Img
+                            src="'/theme_alan/static/src/img/snippets/snippets_icon/sidebar2.svg'"
+                            style="'width:120px;'"
+                        />
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                        actionParam="{views: ['theme_alan.as_attribute_layout_3']}"
+                        title.translate="Alan Layout- 3"
+                    >
+                        <Img
+                            src="'/theme_alan/static/src/img/snippets/snippets_icon/sidebar3.svg'"
+                            style="'width:120px;'"
+                        />
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                        actionParam="{views: ['theme_alan.as_attribute_layout_4']}"
+                        title.translate="Alan Layout- 4"
+                    >
+                        <Img
+                            src="'/theme_alan/static/src/img/snippets/snippets_icon/sidebar4.svg'"
+                            style="'width:120px;'"
+                        />
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                        actionParam="{views: ['theme_alan.as_attribute_layout_5']}"
+                        title.translate="Alan Layout- 5"
+                    >
+                        <Img
+                            src="'/theme_alan/static/src/img/snippets/snippets_icon/sidebar5.svg'"
+                            style="'width:120px;'"
+                        />
+                    </BuilderSelectItem>
+                </BuilderSelect>
+            </BuilderRow>
+        </xpath>
+        <xpath expr="//t[@t-set='CollapsibleSidebarViews']" position="replace">
+            <t t-set="CollapsibleSidebarViews" t-value="['website_sale.products_categories_list_collapsible', 'website_sale.products_attributes_collapsible', 'theme_alan.as_products_brands_collapsible', 'theme_alan.as_products_ratings_collapsible', 'theme_alan.as_products_tags_collapsible', 'theme_alan.as_products_price_range_collapsible', 'theme_alan.as_products_stock_collapsible']"/>
+        </xpath>
+    </t>
+
+    <t t-name="theme_alan.AlanShopPageConfigOptionPlugin">
+        <BuilderContext>
+            <BuilderRow label.translate="Offer Timer"  tooltip.translate="Show Offer Timer In Product Card" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_shop_offer_timer'" action="'setAlanConfig'" actionParam="{fields: ['active_shop_offer_timer']}" preview="false"/>
+            </BuilderRow>
+
+            <BuilderRow label.translate="Brand Info" tooltip.translate="Show Brand In Product Card" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_shop_brand_info'" action="'setAlanConfig'" actionParam="{fields: ['active_shop_brand_info']}" preview="false"/>
+            </BuilderRow>
+
+            <BuilderRow label.translate="Reference/SKU" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_shop_product_reference'" action="'setAlanConfig'" actionParam="{fields: ['active_shop_product_reference']}" preview="false"/>
+            </BuilderRow>
+
+            <BuilderRow label.translate="Load More" tooltip.translate="Show a 'Load More' button to reveal additional products without reloading the page." extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_load_more'" action="'setAlanConfig'" actionParam="{fields: ['active_load_more']}" preview="false"/>
+            </BuilderRow>
+
+            <BuilderRow label.translate="Stock Info" tooltip.translate="Show Stock Info" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_shop_stock_info'" action="'setAlanConfig'" actionParam="{fields: ['active_shop_stock_info']}" preview="false"/>
+            </BuilderRow>
+
+        </BuilderContext>
+    </t>
+
+    <t t-name="theme_alan.custom_products_design_panel" t-inherit="website_sale.ProductsDesignPanelPresets" t-inherit-mode="primary">
+        <xpath expr="//t[@t-set='catalogStyles']" position="inside">
+            <t t-set="suggestedClassesCatalogExtra">
+                o_wsale_products_opt_has_similar o_wsale_products_opt_has_quick_view
+            </t>
+            <t t-foreach="catalogStyles" t-as="style">
+                <t t-set="style.suggestedClasses" t-value="style.suggestedClasses + ' ' + suggestedClassesCatalogExtra"/>
+            </t>
+        </xpath>
+    </t>
+
+    <t t-name="theme_alan.ProductsDesignPanel" t-inherit="website_sale.ProductsDesignPanel" t-inherit-mode="extension">
+        <BuilderRow id="'o_wsale_buttons_opt'" position="after">
+            <BuilderRow t-if="props.recordName === 'shop_opt_products_design_classes'" label.translate="Quick View" level="1" extraLabelClass="'as-builder-icon'">
+                <BuilderButton
+                    action="'setAlanConfig'"
+                    actionParam="{fields: ['active_shop_quick_view'], classAction: 'o_wsale_products_opt_has_quick_view'}"
+                    title.translate="Quick View"
+                    icon="'fa-eye'"
+                />
+            </BuilderRow>
+            <BuilderRow t-if="props.recordName === 'shop_opt_products_design_classes'" label.translate="Similar View" level="1" extraLabelClass="'as-builder-icon'">
+                <BuilderButton
+                    action="'setAlanConfig'"
+                    actionParam="{fields: ['active_shop_similar_product'], classAction: 'o_wsale_products_opt_has_similar'}"
+                    title.translate="Similar View"
+                    icon="'fa-copy'"
+                />
+            </BuilderRow>
+        </BuilderRow>
+    </t>
+
+</templates>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Acao de relatorio ligada a purchase.order: aparece no menu
+         Imprimir da List View (e do formulario) das encomendas de compra. -->
+    <record id="action_report_listagem_compras" model="ir.actions.report">
+        <field name="name">Listagem Compras</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pg_listagem_report.report_listagem_compras</field>
+        <field name="report_file">pg_listagem_report.report_listagem_compras</field>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Listagem Compras - %s' % (object.name or '')</field>
+    </record>
+
+    <!-- Listagem para Compras: descricao, imagem, data da compra e cliente
+         (vindo da encomenda de venda na origem). Sem precos. -->
+    <template id="report_listagem_compras">
+        <t t-call="web.html_container">
+            <!-- Layout (cabecalho/rodape da empresa) chamado UMA vez: as
+                 encomendas saem em lista continua na mesma pagina, sem uma
+                 PO por pagina. Company explicita porque nao ha um 'o' unico. -->
+            <t t-set="company" t-value="docs[:1].company_id or res_company"/>
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 class="mb16">Listagem para Compras</h2>
+
+                    <t t-foreach="docs" t-as="o">
+                        <!-- mt16 separa visualmente cada encomenda na lista;
+                             sem page-break para nao deixar espaco em branco. -->
+                        <div t-attf-class="#{'mt16' if not o_first else ''}">
+                            <div class="row mb4">
+                                <div class="col-6">
+                                    <strong>Encomenda de compra:</strong>
+                                    <span t-field="o.name"/>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Data da compra:</strong>
+                                    <span t-field="o.date_order" t-options='{"widget": "date"}'/>
+                                </div>
+                            </div>
+                            <div class="row mb8">
+                                <div class="col-12">
+                                    <strong>Cliente:</strong>
+                                    <span t-out="o._pg_listagem_partner_names() or '—'"/>
+                                </div>
+                            </div>
+
+                            <!-- Imagens resolvidas de uma vez por encomenda:
+                                 foto do produto ou, nos produtos especiais
+                                 (cascos), a foto carregada na linha de venda
+                                 de origem. -->
+                            <t t-set="imagens_linha" t-value="o._pg_listagem_line_images()"/>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 90px;">Imagem</th>
+                                        <th>Descrição</th>
+                                        <th class="text-end" style="width: 120px;">Quantidade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.order_line.filtered(lambda l: not l.display_type)" t-as="line">
+                                        <tr>
+                                            <td>
+                                                <t t-set="imagem" t-value="imagens_linha.get(line.id)"/>
+                                                <img t-if="imagem"
+                                                     t-att-src="image_data_uri(imagem)"
+                                                     style="max-height: 64px; max-width: 80px;"
+                                                     alt="Imagem"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.name"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.product_qty"/>
+                                                <span t-field="line.product_uom.name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

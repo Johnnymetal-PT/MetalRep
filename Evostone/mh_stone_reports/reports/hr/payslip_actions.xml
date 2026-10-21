@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--
+            HR Payslip Reports - ir.actions.report
+            Extraídos do backup Stone Trading
+        -->
+
+        <!--
+            ID 1933: Recibo de Vencimento (principal)
+            - Com binding (aparece no menu Print)
+            - Usa paperformat A4 padrão (ID 1)
+        -->
+        <record id="action_report_payslip" model="ir.actions.report">
+            <field name="name">Recibo de Vencimento</field>
+            <field name="model">hr.payslip</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_4f99666c-6109-43c6-bd02-86e171d4d872</field>
+            <field name="binding_model_id" ref="hr_payroll.model_hr_payslip"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">' %s' % (object.name)</field>
+        </record>
+
+        <!--
+            ID 2174: Relatório de Lotes de Recibos de Vencimento
+            - Com binding (hr.payslip.run)
+            - Usa paperformat ID 15
+        -->
+        <record id="action_report_payslip_run" model="ir.actions.report">
+            <field name="name">Relatório de Lotes de Recibos de Vencimento</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_dbc90457-5e86-41f4-9e34-3389f0a7b4ae</field>
+            <field name="binding_model_id" ref="hr_payroll.model_hr_payslip_run"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!--
+            ID 2372: Payslip copy(2)
+            - Sem binding
+            - Usa paperformat A4 padrão (ID 1)
+        -->
+        <record id="action_report_payslip_copy2" model="ir.actions.report">
+            <field name="name">Payslip (Alternativo)</field>
+            <field name="model">hr.payslip</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll.report_payslip_lang_copy_2</field>
+            <field name="report_file">hr_payroll.report_payslip_lang_copy_2</field>
+            <field name="print_report_name">'Payslip - %s' % (object.name)</field>
+            <field name="attachment_use" eval="False"/>
+            <field name="multi" eval="False"/>
+        </record>
+
+        <!--
+            ID 1891: Payslip (Odoo padrão)
+            - Sem binding
+            - Usa paperformat A4 padrão (ID 1)
+        -->
+        <record id="action_report_payslip_lang" model="ir.actions.report">
+            <field name="name">Payslip</field>
+            <field name="model">hr.payslip</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll.report_payslip_lang</field>
+            <field name="report_file">hr_payroll.report_payslip_lang</field>
+            <field name="print_report_name">'Payslip - %s' % (object.name)</field>
+            <field name="multi" eval="False"/>
+        </record>
+
+        <!--
+            ID 1892: Registos de Contribuição
+            - Com binding (hr.payslip.line)
+        -->
+        <record id="action_report_contribution_register" model="ir.actions.report">
+            <field name="name">Registos de Contribuição</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll.contribution_register</field>
+            <field name="report_file">hr_payroll.contribution_register</field>
+            <field name="binding_model_id" ref="hr_payroll.model_hr_payslip_line"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

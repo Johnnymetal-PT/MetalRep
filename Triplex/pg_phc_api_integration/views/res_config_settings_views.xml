@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherited" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.pgci.phc.api.intergation</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='storno']" position="after">
+                <block title="PHC Credentials" id="phc_credentials">
+                    <setting id="phc_credencials_settings" help="PHC Credencials" title="credencials for sync invoice to PHC.">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="phc_username" string="Username" class="col-lg-3" />
+                                <field name="phc_username" />
+                            </div>
+                            <div class="row mt16">
+                                <label for="phc_password" string="Password" class="col-lg-3" />
+                                <field name="phc_password" />
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

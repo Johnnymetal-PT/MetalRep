@@ -1,0 +1,347 @@
+/* Product Label For Product Page */
+.te_prod_label{
+    font-size: 0.8125rem !important;
+    padding: 2px 8px !important;
+    font-weight: 400;
+    transform: unset !important;
+    &:before {
+        content: "\f02b";
+        font-family: fontAwesome, sans-serif;
+        font-size: nth($f_sizes,9);
+        margin-right: 5px;
+    }
+    &:after {
+        content: "";
+        @include position(absolute,0px, auto, 0px, -9px);
+        width: 22px;
+        background-color: nth($f_color,5);
+        filter: blur(6px) opacity(0.5);
+        @include transform(skewX(-25deg));
+        @include animation(0.2s, 1s, shine_label, linear, infinite);
+        opacity: 0;
+    }
+}
+section {
+    .s_dynamic_snippet_container {
+        .dynamic_snippet_template {
+            & .o_ribbons {
+                &.o_product_label_style_1_left,
+                &.o_product_label_style_2_left,
+                &.o_product_label_style_4_left,
+                &.o_product_label_style_5_left,
+                &.o_product_label_style_6_left,
+                &.o_product_label_style_7_left,
+                &.o_product_label_style_8_left{
+                   top: 12px !important;
+                   right: auto !important;
+                   left: 12px !important;
+                }
+                &.o_product_label_style_3_left{
+                   left: 0px !important;
+                   top: 15px !important;
+                }
+            }
+        }
+    }
+}
+section {
+    .s_dynamic_snippet_container {
+        .dynamic_snippet_template {
+            & .o_ribbons {
+                &.o_product_label_style_1_right:not(.o_product_label_style_1_left),
+                &.o_product_label_style_2_right:not(.o_product_label_style_2_left),
+                &.o_product_label_style_4_right:not(.o_product_label_style_4_left),
+                &.o_product_label_style_5_right:not(.o_product_label_style_5_left),
+                &.o_product_label_style_6_right:not(.o_product_label_style_6_left),
+                &.o_product_label_style_7_right:not(.o_product_label_style_7_left),
+                &.o_product_label_style_8_right:not(.o_product_label_style_8_left){
+                   top: 12px !important;
+                   left: auto !important;
+                   right: 12px !important;
+                }
+                &.o_product_label_style_3_right:not(.o_product_label_style_3_left){
+                   right: 0px !important;
+                   top: 15px !important;
+                }
+            }
+        }
+    }
+}
+/* Product Label For Shop Page */
+#products_grid, .te_product_ind, .dynamic_snippet_template {
+    .o_product_label_style_1_right{
+        display: inline-block;
+        width: auto;
+        font-size: nth($f_sizes,3);
+        padding: 2px 8px !important;
+        @include position(absolute,8px,8px,unset,unset);
+        z-index: 1;
+        overflow: hidden;
+        font-weight: 500;
+        &:before {
+            content: "\f02b";
+            font-family: fontAwesome, sans-serif;
+            margin-right: 5px;
+            font-size: nth($f_sizes,9);
+        }
+        &:after {
+            content: "";
+            @include position(absolute,0px, auto, 0px, -9px);
+            width: 22px;
+            background-color: nth($f_color,5);
+            filter: blur(6px) opacity(0.5);
+            @include transform(skewX(-25deg));
+            @include animation(0.2s, 1s, shine_label, linear, infinite);
+            opacity: 0;
+        }
+    }
+    .o_product_label_style_1_left {
+        @extend .o_product_label_style_1_right;
+        position: absolute !important;
+        top: 8px !important;
+        right: unset !important;
+        bottom: unset !important;
+        left: 8px !important;
+    }
+
+    .o_product_label_style_2_right{
+        @include position(absolute,8px, 6px, auto, unset);
+        font-size: nth($f_sizes,3);
+        line-height: 1;
+        @include box-shadow(4px 4px 0px rgba(nth($f_color,3),0.1));
+        text-align: center;
+        z-index: 1;
+        padding: 3px 8px !important;
+        font-weight: 500;
+    }
+
+    .o_product_label_style_2_left{
+        @extend .o_product_label_style_2_right;
+        position: absolute !important;
+        top: 8px !important;
+        right: auto !important;
+        bottom: auto !important;
+        left: 6px !important;
+    }
+
+    .o_product_label_style_3_right{
+        @include position(absolute,10px, 0px, null, null);
+        z-index: 1;
+        padding: 1px 8px 1px 8px;
+        font-weight: 500;
+        &:before {
+            content: "";
+            @include position(absolute,0px, null, 0px, 0px);
+            width: 10px;
+            z-index: -1;
+            background: inherit;
+            transform: skew(-33deg, 0deg);
+        }
+        &:after {
+            content: "";
+            @include position(absolute,0px, null, 0px, 0px);
+            width: 47px;
+            z-index: -1;
+            background: inherit;
+            transform: skew(33deg, 0deg);
+        }
+    }
+
+    .o_product_label_style_3_left {
+        @extend .o_product_label_style_3_right;
+        position: absolute !important;
+        top: 10px !important;
+        right: unset !important;
+        left: 0px !important;
+        &:before,
+        &:after {
+            position: absolute !important;
+            top: 0px !important;
+            right: 0px !important;
+            bottom: 0px !important;
+            left: unset !important;
+        }
+    }
+
+    .o_product_label_style_4_left{
+        @include position(absolute,12px, auto, auto, 12px);
+        font-weight: 500;
+        font-size: 12px;
+        display: flex;
+        padding: unset;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 46px;
+        width: 46px;
+        border-radius: 23px !important;
+        z-index: 1;
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    .o_product_label_style_4_right{
+        @extend .o_product_label_style_4_left;
+        position: absolute !important;
+        top: 12px !important;
+        right: 12px !important;
+        bottom: auto !important;
+        left: auto !important;
+    }
+
+    .o_product_label_style_left_badge{
+        font-size: 0.8rem;
+        white-space: nowrap;
+        text-align: center;
+        pointer-events: none;
+        font-weight: 500;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.4rem !important;
+    }
+
+    .o_product_label_style_right_badge{
+        @extend .o_product_label_style_left_badge;
+        right: 0.5rem !important;
+        left: auto !important;
+    }
+    .o_product_label_style_left_badge,
+    .o_product_label_style_5_left,
+    .o_product_label_style_6_left,
+    .o_product_label_style_7_left,
+    .o_product_label_style_8_left{
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        bottom: auto;
+        right: auto;
+        margin: 0;
+        text-transform: uppercase;
+        white-space: nowrap;
+        text-align: center;
+        font-weight: 600;
+        pointer-events: none;
+    }
+    .o_product_label_style_5_left{
+        font-size: 11px;
+        padding: 0.28rem 1rem 0.24rem;
+        border-radius: 0.9rem !important;
+        letter-spacing: 1.6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .o_product_label_style_5_right{
+        @extend .o_product_label_style_5_left;
+        right: 0.5rem !important;
+        left: auto !important;
+    }
+
+    .o_product_label_style_6_left{
+        font-size: 11px;
+        border: 2px solid;
+        padding: 0.25rem 1rem;
+        line-height: 1.5;
+        border-radius: 1rem !important;
+        letter-spacing: 1.6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: color-mix(in srgb, var(--ribbon-bg) 20%, transparent);
+        border-color: color-mix(in srgb, var(--ribbon-bg) 40%, transparent);
+    }
+
+    .o_product_label_style_6_right{
+        @extend .o_product_label_style_6_left;
+        right: 0.5rem !important;
+        left: auto !important;
+    }
+
+    .o_product_label_style_7_left{
+        font-size: 11px;
+        border: 2px solid;
+        padding: 0.25rem 1rem;
+        font-weight: 600;
+        border-radius: 0.75rem !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    .o_product_label_style_7_right{
+        @extend .o_product_label_style_7_left;
+        right: 0.5rem !important;
+        left: auto !important;
+    }
+
+    .o_product_label_style_8_left{
+        font-size: 10px;
+        padding: 0.28rem 0.75rem;
+        font-weight: 800;
+        border-radius: 0.75rem !important;
+        letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+         &:before {
+            content: "";
+            width: 0.375rem;
+            height: 0.375rem;
+            background-color: var(--ribbon-text);
+            animation: pulse 1s infinite ease-in-out;
+            display: inline-block;
+            margin-right: 8px;
+            border-radius: 99px !important;
+        }
+    }
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(1.10);
+        opacity: 1;
+      }
+    }
+
+    .o_product_label_style_8_right{
+        @extend .o_product_label_style_8_left;
+        right: 0.5rem !important;
+        left: auto !important;
+    }
+
+    .o_ribbon_left, .o_ribbon_right{
+        font-weight: 500;
+        z-index: 1;
+    }
+}
+.o_ribbon_right,
+.o_ribbon_left {
+   &.o_product_label_style_left_badge, &.o_product_label_style_right_badge,
+   &.o_product_label_style_1_left, &.o_product_label_style_2_left,
+   &.o_product_label_style_3_left, &.o_product_label_style_4_left,
+   &.o_product_label_style_1_right, &.o_product_label_style_2_right,
+   &.o_product_label_style_3_right, &.o_product_label_style_4_right{
+       transform: unset;
+       left: auto;
+   }
+}
+.o_ribbon{
+    font-size: nth($f_sizes,3);
+}
+#product_details {
+    .o_ribbon_left, .o_ribbon_right{
+        transform: unset;
+        font-weight: 500;
+    }
+}
+/* Prevent to show default product label on product gallery/carousel */
+.o_wsale_product_images span.o_ribbon {
+    display: none !important;
+}

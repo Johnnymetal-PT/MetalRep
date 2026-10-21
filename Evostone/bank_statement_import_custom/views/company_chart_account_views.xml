@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View for Company Chart Account -->
+    <record id="view_company_chart_account_list" model="ir.ui.view">
+        <field name="name">company.chart.account.list</field>
+        <field name="model">company.chart.account</field>
+        <field name="arch" type="xml">
+            <list string="Plano de Contas Global" create="false" delete="true">
+                <field name="prefix" string="Prefixo"/>
+                <field name="name" string="Nome da Conta"/>
+                <field name="account_type" string="Tipo de Conta"/>
+                <field name="reconcile" string="Reconciliação" widget="boolean_toggle" optional="show"/>
+                <field name="non_trade" string="Não Comercial" widget="boolean_toggle" optional="hide"/>
+                <field name="deprecated" string="Descontinuada" widget="boolean_toggle" optional="show"/>
+                <field name="adiantamento" string="Adiantamento" widget="boolean_toggle" optional="show"/>
+                <field name="group_id" string="Grupo" optional="show"/>
+                <field name="tag_ids" string="Etiquetas" widget="many2many_tags" optional="show"/>
+                <field name="currency_id" string="Moeda" optional="show"/>
+                <field name="allowed_journal_ids" string="Diários" widget="many2many_tags" optional="hide"/>
+                <field name="partner_limite" string="Limite Parceiro" widget="monetary" optional="show"/>
+                <field name="country_id" string="País" options="{'no_create': True}" optional="show"/>
+                <field name="company_ids" string="Empresas" widget="many2many_tags" optional="show"/>
+                <field name="active" string="Ativo" widget="boolean_toggle" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View for Company Chart Account -->
+    <record id="view_company_chart_account_form" model="ir.ui.view">
+        <field name="name">company.chart.account.form</field>
+        <field name="model">company.chart.account</field>
+        <field name="arch" type="xml">
+            <form string="Conta do Plano">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="prefix" string="Prefixo"/>
+                        <h1>
+                            <field name="prefix" placeholder="Ex: 110010"/>
+                        </h1>
+                        <label for="name" string="Nome da Conta"/>
+                        <h2>
+                            <field name="name" placeholder="Ex: Caixa Geral"/>
+                        </h2>
+                    </div>
+                    <notebook>
+                        <page string="Configuração Geral" name="general">
+                            <group>
+                                <group string="Tipo e Reconciliação">
+                                    <field name="account_type" required="1"/>
+                                    <field name="reconcile"/>
+                                    <field name="non_trade" invisible="account_type not in ['asset_receivable', 'liability_payable']"/>
+                                    <field name="deprecated"/>
+                                    <field name="adiantamento"/>
+                                </group>
+                                <group string="Moeda e Grupo">
+                                    <field name="currency_id" options="{'no_create': True}"/>
+                                    <field name="group_id" options="{'no_create': True}"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Configurações Adicionais">
+                                    <field name="partner_limite" widget="monetary"/>
+                                    <field name="country_id" options="{'no_create': True}"/>
+                                    <field name="active"/>
+                                </group>
+                                <group string="Empresas">
+                                    <field name="company_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Configuração Avançada" name="advanced">
+                            <group>
+                                <group string="Etiquetas">
+                                    <field name="tag_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                                </group>
+                                <group string="Diários Permitidos">
+                                    <field name="allowed_journal_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

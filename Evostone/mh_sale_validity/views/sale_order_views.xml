@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========== FORM VIEW - Adicionar Campos e Badges ========== -->
+    <record id="view_order_form_validity" model="ir.ui.view">
+        <field name="name">sale.order.form.validity</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Badge de Status de Validade no topo (após badges existentes) -->
+            <xpath expr="//form/sheet/div[@name='button_box']" position="before">
+                <div class="alert alert-success text-center" role="alert"
+                     invisible="validity_state != 'valid' or state not in ('draft', 'sent')"
+                     style="margin-bottom: 0px;">
+                    <strong>✓ Cotação Válida</strong> - Expira em <field name="days_until_expiry" readonly="1"/> dias
+                </div>
+                <div class="alert alert-warning text-center" role="alert"
+                     invisible="validity_state != 'expiring_soon' or state not in ('draft', 'sent')"
+                     style="margin-bottom: 0px;">
+                    <strong>⚠ Expirando em Breve</strong> - Resta(m) <field name="days_until_expiry" readonly="1"/> dia(s)
+                </div>
+                <div class="alert alert-danger text-center" role="alert"
+                     invisible="validity_state != 'expired' or state not in ('draft', 'sent')"
+                     style="margin-bottom: 0px;">
+                    <strong>✗ Cotação Expirada</strong> - Expirou há <field name="days_until_expiry" readonly="1" style="display:inline;"/> dias
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ========== TREE VIEW - Adicionar Coluna e Decoração ========== -->
+    <record id="view_order_tree_validity" model="ir.ui.view">
+        <field name="name">sale.order.tree.validity</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+
+            <!-- Adicionar coluna de Data de Validade -->
+            <xpath expr="//field[@name='sale_status']" position="after">
+                <field name="validity_state" optional="show"
+                       widget="badge"
+                       decoration-success="validity_state == 'valid'"
+                       decoration-warning="validity_state == 'expiring_soon'"
+                       decoration-danger="validity_state == 'expired'"/>
+                <field name="days_until_expiry" optional="hide"/>
+            </xpath>
+
+            <!-- Adicionar decoração por cores nas linhas -->
+            <xpath expr="//list" position="attributes">
+                <attribute name="decoration-danger">validity_state == 'expired' and state in ('draft', 'sent')</attribute>
+                <attribute name="decoration-warning">validity_state == 'expiring_soon' and state in ('draft', 'sent')</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ========== SEARCH VIEW - Adicionar Filtros ========== -->
+    <record id="view_sales_order_filter_validity" model="ir.ui.view">
+        <field name="name">sale.order.search.validity</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+
+            <!-- Adicionar filtros de validade -->
+            <xpath expr="//search/filter[1]" position="after">
+                <separator/>
+                <filter string="Válidas"
+                        name="filter_valid"
+                        domain="[('validity_state', '=', 'valid'), ('state', 'in', ['draft', 'sent'])]"
+                        help="Cotações válidas"/>
+                <filter string="Expirando em Breve"
+                        name="filter_expiring_soon"
+                        domain="[('validity_state', '=', 'expiring_soon'), ('state', 'in', ['draft', 'sent'])]"
+                        help="Cotações expirando nos próximos 7 dias"/>
+                <filter string="Expiradas"
+                        name="filter_expired"
+                        domain="[('validity_state', '=', 'expired'), ('state', 'in', ['draft', 'sent'])]"
+                        help="Cotações expiradas"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

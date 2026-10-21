@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Main wrapper for Cotacao Detalhada report -->
+        <record id="view_report_sale_detailed_quotation" model="ir.ui.view">
+            <field name="name">Detailed Quotation Report - Main Wrapper</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_sale_detailed_quotation</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_sale_detailed_quotation">
+                    <t t-foreach="docs" t-as="doc">
+                        <!-- Original -->
+                        <t t-call="web.basic_layout">
+                            <t t-set="copy_type" t-value="'ORIGINAL'"/>
+                            <t t-call="mh_stone_reports.report_sale_detailed_quotation_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                        <!-- Duplicado -->
+                        <!-- <t t-call="web.basic_layout">
+                            <t t-set="copy_type" t-value="'DUPLICADO'"/>
+                            <t t-call="mh_stone_reports.report_sale_detailed_quotation_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t> -->
+                        <!-- Triplicado -->
+                        <!-- <t t-call="web.basic_layout">
+                            <t t-set="copy_type" t-value="'TRIPLICADO'"/>
+                            <t t-call="mh_stone_reports.report_sale_detailed_quotation_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t> -->
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <!-- Document template for Cotacao Detalhada report -->
+        <record id="view_report_sale_detailed_quotation_document" model="ir.ui.view">
+            <field name="name">Detailed Quotation Report - Document Template</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_sale_detailed_quotation_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_sale_detailed_quotation_document">
+                    <div class="page"/>
+                    <style>
+                        td{
+                            <!--border: 1px solid #DCDCDC;; -->
+                            border: 1px solid #DCDCDC;;
+                            border-collapse: collapse;
+                            padding: 4px;
+                            &lt;!--font-size: 8pt;--&gt;
+                        }
+                        &lt;!--div{--&gt;
+                        &lt;!--color:#DCDCDC;--&gt;
+                        &lt;!--}--&gt;
+                        .tb{
+                            margin-left: 5px;
+                        }
+                    </style>
+                    <!-- Banner DOCUMENTO INVÁLIDO quando is_proforma = False -->
+                    <t t-if="doc.is_proforma or doc.state in ('sale', 'cancel')">
+                        <div style="background-color: #dc3545; color: white; text-align: center; padding: 15px; margin-bottom: 20px; font-family: Arial, sans-serif;">
+                            <span style="font-size: 24px; font-weight: bold; letter-spacing: 3px;">
+                                DOCUMENTO INVÁLIDO - SEM VALOR FISCAL
+                            </span>
+                        </div>
+                    </t>
+                    <!-- Cabecalho com Logo e Titulo -->
+                    <div class="row">
+                        <div class="col-8">
+                            <img class="img-fluid" style="width: 50%;" t-att-src="image_data_uri(doc.company_id.logo_report)"/>
+                        </div>
+                        <br/>
+                        <div class="col-4 text-end">
+                            <br/>
+                            <span style="color:#000000"/>
+                            Cotação Detalhada
+                            <span t-field="doc.name" class="o_bold"/>
+                            <br/>
+                            <span t-if="copy_type" t-esc="copy_type"
+                                  style="font-size: 11pt; font-weight: bold; border: 2px solid #333; padding: 2px 12px;"/>
+                        </div>
+                    </div>
+
+                    <!-- Dados da Empresa e Cliente -->
+                    <div class="row" style="font-size: 11px; font-family: Arial, sans-serif;">
+                        <div class="col-6">
+                            <strong><span t-field="doc.company_id.name"/></strong><br/>
+                            <span t-field="doc.company_id.street"/><br/>
+                            <t t-if="doc.company_id.street2"><span t-field="doc.company_id.street2"/><br/></t>
+                            <span t-field="doc.company_id.zip"/> <span t-field="doc.company_id.city"/> - <span t-field="doc.company_id.country_id.name"/><br/>
+                            <strong>NIF: </strong><span t-field="doc.company_id.vat"/><br/>
+                            <span>c. </span><span t-field="doc.company_id.phone"/><br/>
+                            <span>e. </span><span t-field="doc.company_id.email"/>
+                        </div>
+                        <div class="col-4">
+                            <br/><br/>
+                            <span>Exmo.(s) Sr.(s)</span><br/>
+                            <strong><span t-field="doc.partner_id.name"/></strong><br/>
+                            <span t-field="doc.partner_id.street"/><br/>
+                            <t t-if="doc.partner_id.street2">
+                                <span t-field="doc.partner_id.street2"/><br/>
+                            </t>
+                            <span t-field="doc.partner_id.city"/><br/>
+                            <t t-if="doc.partner_id.country_id">
+                                <span t-field="doc.partner_id.country_id.name"/><br/>
+                            </t>
+                            <strong>NIF: </strong><span t-field="doc.partner_id.vat"/>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <!-- Informacoes do Documento -->
+                    <div class="col-12">
+                        <table style="text-align: center; font-family: Arial, sans-serif; font-size: 11px;" width="70%">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>DATA EMISSÃO</strong><br/>
+                                        <span t-field="doc.date_order"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>DATA VALIDADE</strong><br/>
+                                        <span t-field="doc.validity_date"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>CONDIÇÕES PAG.</strong><br/>
+                                        <span t-field="doc.payment_term_id"/>
+                                    </td>
+                                    <t t-if="doc.client_order_ref">
+                                        <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                            <strong>REFERÊNCIA DO CLIENTE</strong><br/>
+                                            <span t-field="doc.client_order_ref"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+                    <!--<table style="align:center">-->
+                    <t t-foreach="doc.order_line" t-as="linha"/>
+                    <!-- Tabela de Produtos -->
+                    <table class="table table">
+                        <div class="watermark_logo" style="position:absolute;opacity:0.05;font-size:8em;width:100%;text-align:center;z-index:100;">
+                            <t t-if="doc.company_id.report_watermark">
+                                <img class="img-fluid" t-att-src="image_data_uri(doc.company_id.report_watermark)" width="55%"/>
+                            </t>
+                        </div>
+                        
+                        <tr style="background-color: #F8F8FF;color:#000000;font-Family: arial;font-size:11px;margin-right:2px;margin-left:2px; border:; text-align: center ">
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: left; white-space: nowrap"><b>PRODUTO</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>S/N</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>QTD</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>COMP.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>LAR.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>ESP.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>VOL./ÁREA/UNID.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>UN</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>PREÇO</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>DESC.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>SUBTOTAL</b></th>
+                        </tr>
+                        <t t-set="current_subtotal" t-value="0"/>
+                        <t t-foreach="doc.order_line" t-as="line">
+                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"/>
+                            <tr t-att-class="'bg-200 fw-bold fst-italic o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''" style="font-family: Times New Roman; font-size: 8pt; text-align: center">
+                                <t t-if="not line.display_type">
+                                    <td style="border-left: 1px solid #ccc; text-align: left; border: 1px solid #DED9D9;">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <td style=" border-left: #ccc; text-align: left; border: 1px solid #DED9D9;">
+                                        <span t-field="line.lot_id"/>
+                                    </td>
+                                    <td style="border-left: none; border-right: 1px solid #ccc; border: 1px solid #DED9D9;">
+                                        <span t-esc="line.units_qty"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="'%.3f'% line.length"/>
+                                    </td>
+                                    <td style="border-left: 1px solid #ccc">
+                                        <span t-esc="'%.3f'% line.width"/>
+                                    </td>
+                                    <td style="border-left: 1px solid #ccc">
+                                        <span t-esc="'%.3f'% line.thickness"/>
+                                    </td>
+                                    <td style="border-left: 1px solid #ccc">
+                                        <span t-esc="'%.4f'% line.product_uom_qty"/>
+                                    </td>
+                                    <td style="border-left: 1px solid #ccc">
+                                        <span t-field="line.product_uom"/>
+                                    </td>
+                                    <td style="border-left: 1px solid #ccc">
+                                        <span t-field="line.price_unit"/>
+                                    </td>
+                                    <td style="border-left: 1px solid #ccc">
+                                        <span t-field="line.discount"/>
+                                    </td>
+                                    <td style="border-left: 1px solid #ccc">
+                                        <span t-field="line.price_subtotal"/>
+                                    </td>
+                                </t>
+                                <t t-elif="line.display_type == 'line_section'">
+                                    <td name="td_section_line" colspan="99" style="text-align: left; font-weight: bold; font-size: 9pt; background-color: #f0f0f0;">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <t t-set="current_section" t-value="line"/>
+                                    <t t-set="current_subtotal" t-value="0"/>
+                                </t>
+                                <t t-elif="line.display_type == 'line_note'">
+                                    <td name="td_note_line" colspan="99" style="text-align: left; font-style: italic; font-size: 8pt; border: none;">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                    </table>
+                    <!-- Totais -->
+                    <div class="clearfix mb-4" style="font-family: Arial, sans-serif; font-size: 11px; page-break-inside: avoid;">
+                        <div class="row text-start">
+                            <div class="col-8">
+                                <t t-set="tot_unid" t-value="sum(doc.order_line.filtered(lambda l: not l.display_type).mapped('units_qty'))"/>
+                                <div style="font-size: 10px; padding-top: 2px;">
+                                    <b>TOTAIS:</b>
+                                    unidades <span t-esc="tot_unid"/>
+                                    &#160;|&#160; area <span t-esc="'%.3f' % doc.total_area"/> m&#178;
+                                    &#160;|&#160; peso <span t-esc="'%.2f' % doc.total_weight"/> kg
+                                </div>
+                            </div>
+                            <div class="col-2 text-start">
+                                <span>SUBTOTAL</span><br/>
+                                <span>DESC.</span><br/>
+                                <span>SUBTOTAL - DESC.</span><br/>
+                                <span>IVA</span><br/>
+                                <span><strong>TOTAL</strong></span>
+                            </div>
+                            <div class="col-2 text-end">
+                                <span t-field="doc.amount_undiscounted" t-options="{'widget': 'float', 'precision': 2}"/>
+                                <span t-field="doc.currency_id.symbol"/><br/>
+                                <span t-field="doc.amount_discount" t-options="{'widget': 'float', 'precision': 2}"/>
+                                <span t-field="doc.currency_id.symbol"/><br/>
+                                <span t-field="doc.amount_untaxed"/><br/>
+                                <span t-field="doc.amount_tax"/><br/>
+                                <strong><span t-field="doc.amount_total"/></strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/><br/>
+                    <div class="col-10">
+                        <div class="footer" height="100%">
+                            <div style="font-Family: arial; font-size:8pt">
+                                <i>Documento processado por computador</i>
+                            </div>
+                            <br/>
+                            <div style="font-size:11px; font-Family:arial;">
+                                ---------------------------------------------
+                                <b> Dados Bancarios </b>-------------------------------------------------
+                            </div>
+                            <div class="row" style="font-size:11px; font-Family:arial;">
+                                <t t-foreach="doc.company_id.partner_id.bank_ids" t-as="conta">
+                                    <div class="col-4">
+                                        <b>IBAN</b><br/>
+                                        <span t-field="conta.acc_number"/>
+                                    </div>
+                                    <div class="col-3">
+                                        <b>BANCO</b><br/>
+                                        <span t-field="conta.bank_id.name"/>
+                                    </div>
+                                </t>
+                            </div>
+                            <div style="border-top: 1px solid #999; margin-top:6px; padding-top:3px; font-Family: arial; font-size:6pt; text-align:left;">
+                                <i>TODOS OS BENS E SERVIÇOS FORNECIDOS SÃO PROPRIEDADE DA <span t-field="doc.company_id.name"/>, ATÉ AO SEU INTEGRAL PAGAMENTO.</i><br/>
+                                <i>SÓ SERÃO ACEITES RECLAMAÇÕES NO ACTO DE ENTREGA DOS MATERIAIS.</i>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

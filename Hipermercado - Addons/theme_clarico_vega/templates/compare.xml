@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--========================= Compare Page ==========================-->
+    <template id="product_compare_ext" inherit_id="website_sale_comparison.product_compare">
+        <xpath expr="//div[hasclass('product_summary')]//span[1]" position="attributes">
+            <attribute name="t-if">not combination_info['prevent_zero_price_sale'] and website.display_product_price()
+            </attribute>
+        </xpath>
+        <xpath expr="//button[@name='comparison_add_to_cart']" position="attributes">
+            <attribute name="t-else" remove=" " separator=" "/>
+            <attribute name="t-elif">website.display_add_to_cart()</attribute>
+        </xpath>
+        <xpath expr="//button[@name='comparison_add_to_cart']//i" position="attributes">
+            <attribute name="class" add="emipro-icon ept-cart" remove="fa fa-shopping-cart" separator=" "/>
+        </xpath>
+        <xpath expr="//div[hasclass('mt-auto')]" position="before">
+            <t t-if="website.display_b2b_message()" t-call="theme_clarico_vega.b2b_hide_details_msg"/>
+        </xpath>
+    </template>
+</odoo>

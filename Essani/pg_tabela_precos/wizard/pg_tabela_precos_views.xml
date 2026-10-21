@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pg_tabela_precos_form" model="ir.ui.view">
+        <field name="name">pg.tabela.precos.form</field>
+        <field name="model">pg.tabela.precos</field>
+        <field name="arch" type="xml">
+            <form string="Tabela de preços">
+                <group>
+                    <group>
+                        <field name="categoria_ids" widget="many2many_tags"
+                               options="{'no_create': True}"
+                               placeholder="Vazio inclui todas"/>
+                        <field name="lista_preco_id" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="detalhe" widget="radio"/>
+                        <field name="apenas_vendaveis"/>
+                        <field name="incluir_imagens"/>
+                    </group>
+                </group>
+                <field name="diagnostico" readonly="1" nolabel="1"
+                       invisible="not diagnostico"/>
+                <footer>
+                    <button name="action_gerar" type="object" string="Gerar tabela"
+                            class="btn-primary"/>
+                    <button special="cancel" string="Cancelar" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pg_tabela_precos" model="ir.actions.act_window">
+        <field name="name">Tabela de preços</field>
+        <field name="res_model">pg.tabela.precos</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_pg_tabela_precos"
+              name="Tabela de preços"
+              parent="sale.product_menu_catalog"
+              action="action_pg_tabela_precos"
+              sequence="90"/>
+</odoo>

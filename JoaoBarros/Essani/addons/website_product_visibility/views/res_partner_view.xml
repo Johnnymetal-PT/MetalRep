@@ -1,0 +1,108 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+         <record id="res_partner_view" model="ir.ui.view">
+            <field name="name">res.partner.product.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='sales_purchases']" position="inside" >
+                    <notebook>
+                        <page string="Products">    
+                            <field name="product_ids">
+                                <list string="Payments">
+                                    <field name="default_code"/>
+                                    <field name="name"/>
+                                    <field name="website_id"/>
+                                    <field name="list_price"/>
+                                    <field name="standard_price"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Product Variants">    
+                            <field name="product_variant_ids">
+                                <list string="Payments">
+                                    <field name="default_code"/>
+                                    <field name="name"/>
+                                    <field name="website_id"/>
+                                    <field name="product_template_variant_value_ids" widget="many2many_tags" string="Attribute Values"/>
+                                    <field name="list_price"/>
+                                    <field name="standard_price"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Products Category">   
+                            <field name="product_categ_ids">
+                                <list string="Payments">
+                                    <field name="complete_name" string="Product Category"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>    
+            </field>
+        </record> 
+
+        <record id="product_template_attribute_visibility_value" model="ir.ui.view">
+            <field name="name">product.template.attribute.value.form</field>
+            <field name="model">product.template.attribute.value</field>
+            <field name="inherit_id" ref="product.product_template_attribute_value_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='price_extra']" position="after" >
+                        <field name="attr_active" invisible="1"/>
+                </xpath>    
+            </field>
+        </record>
+
+        <record id="product_template_visibility_view" model="ir.ui.view">
+            <field name="name">product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='standard_price']" position="after" >
+                        <field name="product_attr_active" invisible="1"/>
+                </xpath>    
+            </field>
+        </record>
+
+        <record id="res_config_inherrit_view" model="ir.ui.view">
+            <field name="name">res.config.setting.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="website.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//block[@id='website_email_marketing']" position="after">
+                    <h2 >Visitor Products</h2>
+                    <div class="row mt16 o_settings_container" id="visitor_settings">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="visitor_product_ids" string='Products'/>
+                                <div class="content-group mt16">
+                                    <field name="visitor_product_ids" domain="[('website_published', '=', True)]" widget="many2many_tags"/><br/>
+                                </div>
+                                <label for="visitor_product_variant_ids" string='Product Variants'/>
+                                <div class="content-group mt16">
+                                    <field name="visitor_product_variant_ids" domain="[('website_published', '=', True)]" widget="many2many_tags"/><br/>
+                                </div>
+                                <label for="visitor_product_categ_ids" string='Product Category'/>
+                                <div class="content-group mt16">
+                                    <field name="visitor_product_categ_ids" widget="many2many_tags"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="is_website_product_visibility"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="is_website_product_visibility"/>
+                                <div class="text-muted">
+                                    check boolean to add only selected product on shop page.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>   
+    </data>
+</odoo>

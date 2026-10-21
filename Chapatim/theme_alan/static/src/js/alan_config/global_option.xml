@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- ==================== Products List Page Options ==================== -->
+    <t t-name="theme_alan.ThemeAlanGlobalConfig">
+        <BuilderContext>
+            <BuilderRow label.translate="Login Popup" preview="false" tooltip.translate="Alan Login Popup" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_login_popup'" action="'setAlanConfig'" actionParam="{fields: ['active_login_popup']}"/>
+            </BuilderRow>
+            <BuilderRow label.translate="User Dashboard" preview="false" tooltip.translate="Alan User Dashboard Popup" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_user_dashboard_popup'" action="'setAlanConfig'" actionParam="{fields: ['active_user_dashboard_popup']}"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Mini Cart" preview="false" tooltip.translate="Alan Mini Cart" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_mini_cart'" action="'setAlanConfig'" actionParam="{fields: ['active_mini_cart']}"/>
+            </BuilderRow>
+            <BuilderRow label.translate="B2B Mode" preview="false" tooltip.translate="Alan B2B Mode" extraLabelClass="'as-builder-icon'">
+                <BuilderCheckbox id="'active_b2b_mode'" action="'setAlanConfig'" actionParam="{fields: ['active_b2b_mode']}"/>
+            </BuilderRow>
+            <BuilderRow t-if="this.isActiveItem('active_b2b_mode')" label.translate="B2B Signup" tooltip.translate="Alan B2B Signup" extraLabelClass="'as-builder-icon'" preview="false">
+                <BuilderCheckbox id="'active_b2b_signup'" action="'setAlanConfig'" actionParam="{fields: ['active_b2b_signup']}"/>
+            </BuilderRow>
+            <BuilderRow label.translate="Free Shipping" tooltip.translate="Alan Free Shipping In Mini Cart" extraLabelClass="'as-builder-icon'" preview="false">
+                <BuilderCheckbox id="'active_free_shipping'" action="'setAlanConfig'" actionParam="{fields: ['active_free_shipping']}"/>
+            </BuilderRow>
+        </BuilderContext>
+    </t>
+
+</templates>

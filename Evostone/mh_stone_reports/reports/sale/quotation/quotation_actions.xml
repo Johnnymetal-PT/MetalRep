@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--
+            Relatório de Cotação / Ordem de Venda (sale.order)
+
+            Este action usa o template principal:
+            - mh_stone_reports.report_sale_quotation
+
+            Que internamente chama:
+            - mh_stone_reports.report_sale_quotation_document
+        -->
+
+        <record id="action_report_quotation" model="ir.actions.report">
+            <field name="name">Cotação / Ordem de venda</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_sale_quotation</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="mh_stone_reports.paperformat_stone_cotacao"/>
+            <field name="print_report_name">('Cotação' if object.state in ('draft', 'sent') else 'Ordem de Venda' if object.state in ('sale') else 'Documento') + "_ " + object.name + " [" + str(object.partner_id.name) + "]"</field>
+            <field name="attachment_use" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

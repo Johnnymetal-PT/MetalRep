@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- ================================================================
+             RELATÓRIO DE LISTAGEM DE STOCK - Template Principal
+             ================================================================ -->
+
+        <record id="view_report_stone_stock_listing" model="ir.ui.view">
+            <field name="name">Stone Stock Listing Report - Main Wrapper</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_stock_listing</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_stock_listing">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_stone_stock_listing_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="view_report_stone_stock_listing_document" model="ir.ui.view">
+            <field name="name">Stone Stock Listing Report - Document</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_stock_listing_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_stock_listing_document">
+                    <div class="page"/>
+                    <style>
+                        td {
+                            border: 1px solid #DCDCDC;
+                            border-collapse: collapse;
+                            padding: 4px;
+                        }
+                        .product-row {
+                            background-color: #F8F8FF;
+                            font-weight: bold;
+                        }
+                        .detail-header {
+                            background-color: #E8E8E8;
+                            font-size: 7pt;
+                        }
+                        .detail-row {
+                            font-size: 7pt;
+                        }
+                        .totals-row {
+                            background-color: #e0e0e0;
+                            font-weight: bold;
+                        }
+                    </style>
+
+                    <!-- Cabeçalho com Logo e Título -->
+                    <div class="row">
+                        <div class="col-8">
+                            <img class="img-fluid" style="width: 50%;" t-att-src="image_data_uri(company.logo_report)"/>
+                        </div>
+                        <br/>
+                        <div class="col-4 text-end">
+                            <br/>
+                            <span style="color:#000000; font-size: 14pt; font-weight: bold;">
+                                <t t-esc="title"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Dados da Empresa -->
+                    <div class="row" style="font-size: 11px; font-family: Arial, sans-serif;">
+                        <div class="col-6">
+                            <strong><t t-esc="company.name"/></strong><br/>
+                            <t t-if="company.street"><span t-esc="company.street"/><br/></t>
+                            <t t-if="company.street2"><span t-esc="company.street2"/><br/></t>
+                            <t t-if="company.city"><span t-esc="company.city"/><br/></t>
+                            <t t-if="company.country_id"><span t-esc="company.country_id.name"/><br/></t>
+                            <t t-if="company.vat"><strong>NIF: </strong><span t-esc="company.vat"/><br/></t>
+                            <t t-if="company.phone"><span>c. </span><span t-esc="company.phone"/><br/></t>
+                            <t t-if="company.email"><span>e. </span><span t-esc="company.email"/></t>
+                        </div>
+                        <div class="col-6 text-end">
+                            <br/>
+                            <span style="font-size: 10pt;">
+                                <b>Data:</b> <t t-esc="report_date.strftime('%d/%m/%Y %H:%M') if report_date else ''"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <!-- Informações dos Filtros -->
+                    <div class="col-12">
+                        <table style="text-align: center; font-family: Arial, sans-serif; font-size: 10px;" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>PRODUTOS</strong><br/>
+                                        <span t-esc="filters.get('products', 'Todos')"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>FORMA</strong><br/>
+                                        <span t-esc="filters.get('form', 'Todas')"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>LOCALIZAÇÕES</strong><br/>
+                                        <span t-esc="filters.get('locations', 'Todas')"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br/>
+
+                    <!-- Tabela de dados com Watermark -->
+                    <t t-set="records" t-value="stock_data.get('records', [])"/>
+
+                    <!-- Mensagem se não houver registros -->
+                    <t t-if="not records">
+                        <div class="alert alert-warning" style="margin: 20px 0; padding: 15px; background-color: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; font-family: Arial, sans-serif;">
+                            <strong>Sem dados para mostrar.</strong><br/>
+                            Não foram encontrados registros de stock disponível com os filtros selecionados.
+                        </div>
+                    </t>
+
+                    <table width="100%" style="border-collapse: collapse; font-family: Arial, sans-serif;">
+                        <!-- Watermark -->
+                        <div class="watermark_logo" style="position:absolute;opacity:0.05;font-size:8em;width:100%;text-align:center;z-index:100;">
+                            <t t-if="company.report_watermark">
+                                <img class="img-fluid" t-att-src="image_data_uri(company.report_watermark)" width="55%"/>
+                            </t>
+                        </div>
+
+                        <!-- Cabeçalho Principal (sempre visível) -->
+                        <tr style="background-color: #F8F8FF; color:#000000; font-size:8pt; text-align: center">
+                            <th style="font-size: 8pt; border: 1px solid #DED9D9; text-align: left; padding: 5px;"><b>PRODUTO</b></th>
+                            <th style="font-size: 8pt; border: 1px solid #DED9D9; padding: 5px;"><b>FORMA</b></th>
+                            <th style="font-size: 8pt; border: 1px solid #DED9D9; padding: 5px;"><b>STOCK PEDRA</b></th>
+                            <th style="font-size: 8pt; border: 1px solid #DED9D9; padding: 5px;"><b>ÁREA (m²)</b></th>
+                            <th style="font-size: 8pt; border: 1px solid #DED9D9; padding: 5px;"><b>VOLUME (m³)</b></th>
+                        </tr>
+
+                        <t t-set="total_count" t-value="0"/>
+                        <t t-set="total_area" t-value="0"/>
+                        <t t-set="total_volume" t-value="0"/>
+
+                        <t t-foreach="records" t-as="rec">
+                            <t t-set="total_count" t-value="total_count + rec.get('count', 0)"/>
+                            <t t-set="total_area" t-value="total_area + rec.get('area', 0)"/>
+                            <t t-set="total_volume" t-value="total_volume + rec.get('volume', 0)"/>
+
+                            <!-- Linha do Produto -->
+                            <tr class="product-row" style="font-size: 8pt; text-align: center;">
+                                <td style="border: 1px solid #DED9D9; text-align: left; padding: 4px;">
+                                    <t t-esc="rec.get('product_name', '-')"/>
+                                </td>
+                                <td style="border: 1px solid #DED9D9; padding: 4px;">
+                                    <t t-if="rec.get('product_form') == 'block'">Bloco</t>
+                                    <t t-elif="rec.get('product_form') == 'slab'">Placa</t>
+                                    <t t-elif="rec.get('product_form') == 'strip'">Banda</t>
+                                    <t t-elif="rec.get('product_form') == 'tiles'">Ladrilhos</t>
+                                    <t t-else="">-</t>
+                                </td>
+                                <td style="border: 1px solid #DED9D9; padding: 4px;">
+                                    <t t-esc="rec.get('count', 0)"/> Unidades
+                                </td>
+                                <td style="border: 1px solid #DED9D9; padding: 4px;">
+                                    <t t-esc="'%.4f' % rec.get('area', 0)"/>
+                                </td>
+                                <td style="border: 1px solid #DED9D9; padding: 4px;">
+                                    <t t-esc="'%.4f' % rec.get('volume', 0)"/>
+                                </td>
+                            </tr>
+
+                            <!-- Detalhes (S/N individuais) - só aparece se show_detail = True -->
+                            <t t-if="show_detail and rec.get('details')">
+                                <!-- Cabeçalho de Detalhe - uma única linha -->
+                                <tr class="detail-header" style="text-align: center;">
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>S/N</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>COMP.</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>LARG.</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>ESP.</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>ÁREA (m²)</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>VOL. (m³)</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>DISP.</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>PESO</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>LOCAL</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>PCMP</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>MARGEM</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>PREÇO</b></td>
+                                </tr>
+
+                                <t t-foreach="rec.get('details', [])" t-as="detail">
+                                    <!-- Linha de dados - uma única linha -->
+                                    <tr class="detail-row" style="text-align: center;">
+                                        <td style="border: 1px solid #DED9D9; padding: 2px; text-align: left;">
+                                            <t t-esc="detail.get('name', '-')"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.3f' % detail.get('length', 0)"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.3f' % detail.get('width', 0)"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.3f' % detail.get('thickness', 0)"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.4f' % detail.get('area', 0)"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.4f' % detail.get('volume', 0)"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.4f' % detail.get('qty_available', 0)"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.2f' % detail.get('peso', 0)"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="detail.get('location', '-')"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.2f' % detail.get('pcmp', 0)"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.1f' % detail.get('margin', 0)"/>%
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.2f' % detail.get('list_price', 0)"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </t>
+
+                        <!-- Linha de Totais -->
+                        <tr class="totals-row" style="font-size: 8pt; text-align: center;">
+                            <td style="border: 1px solid #DED9D9; text-align: left; padding: 5px;"><b>TOTAIS</b></td>
+                            <td style="border: 1px solid #DED9D9; padding: 5px;"/>
+                            <td style="border: 1px solid #DED9D9; padding: 5px;">
+                                <b><t t-esc="total_count"/> Unidades</b>
+                            </td>
+                            <td style="border: 1px solid #DED9D9; padding: 5px;">
+                                <b><t t-esc="'%.4f' % total_area"/></b>
+                            </td>
+                            <td style="border: 1px solid #DED9D9; padding: 5px;">
+                                <b><t t-esc="'%.4f' % total_volume"/></b>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <br/><br/>
+
+                    <!-- Rodapé -->
+                    <div style="font-Family: arial; font-size:8pt; text-align: center;">
+                        <i>Documento processado por computador - <t t-esc="company.name"/></i>
+                    </div>
+
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

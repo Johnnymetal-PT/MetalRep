@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product Category Form View Extension -->
+    <record id="view_product_category_form_inherit_pcmp" model="ir.ui.view">
+        <field name="name">product.category.form.inherit.pcmp</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <field name="property_cost_method" position="replace">
+                <field name="property_cost_method" widget="radio"/>
+            </field>
+        </field>
+    </record>
+</odoo>

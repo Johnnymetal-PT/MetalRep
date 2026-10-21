@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="s_brand_collection_showcase_slider" name="Brand Collection Showcase Slider">
+        <div class="container s_brand_collection_showcase">
+            <!-- HEADER -->
+            <div class="section-heading-wrapper">
+                <div class="row section-heading section-heading-v2 gap-sm-0 gap-2">
+                    <div class="col-lg-8 col-sm-7 head-content">
+                        <h2 class="mb-0 as-section-title as-active-brand-name">
+                            <t t-if="tab_ids">
+                                <t t-esc="tab_ids[0].name"/>
+                            </t>
+                        </h2>
+                        <p class="mb-0 as-brand-product-count"><t t-esc="len(tab_ids[0].brand_product_ids)"/> Products in this brand.</p>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 head-btn text-sm-end">
+                        <a href="#" class="btn-heading as-view-all-link" t-att-href="'/shop?brands=%s' % tab_ids[0].id">
+                            <span class="">View All</span>
+                            <span class="icon fa fa-angle-right"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4">
+                <!-- LEFT: BRAND LIST -->
+                <div class="col-xl-3 col-lg-4">
+                    <div class="brand-card-list h-100">
+                        <ul class="list-unstyled mb-0">
+                            <t t-set="is_first" t-value="True"/>
+                            <t t-foreach="tab_ids" t-as="tab">
+                                <li t-att-data-id="tab.id"
+                                    t-att-data-name="tab.name"
+                                    t-att-data-count="len(tab.brand_product_ids)"
+                                    t-attf-class="as-tab-name #{'active' if is_first else ''} d-flex align-items-center">
+                                    <div class="item">
+                                        <img t-att-src="request.website.image_url(tab,'image_1024')"
+                                            class="img-fluid"
+                                            style="max-height:40px;"/>
+                                        <span>
+                                            <t t-esc="tab.name"/>
+                                        </span>
+                                    </div>
+                                </li>
+                                <t t-set="is_first" t-value="False"/>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+                <!-- RIGHT: BRAND PRODUCTS -->
+                <div class="col-xl-9 col-lg-8">
+                    <div t-attf-class="as-tab-content as-sb-slides-view-{{configuration.get('default_col_desk') or ''}}">
+                        <t t-set="show_content" t-value="True"/>
+                        <t t-foreach="tab_ids" t-as="tab">
+                            <t t-set="rec_limit" t-value="configuration.get('record_limit')"/>
+
+                            <div t-attf-data-tab-id="brand_{{tab.id}}"
+                                t-att-data-loaded="1 if show_content else 0"
+                                t-attf-class="as-tab-pane #{configuration.get('slider_style')} #{'active' if show_content else ''} oe_website_sale js_sale">
+                                <t t-if="show_content">
+                                    <t t-set="products" t-value="
+                                        request.env['product.template'].sudo().search(
+                                            [('product_brand_id.id','=', tab.id),
+                                            ('is_published','=',True),
+                                            ('sale_ok','=',True)]
+                                            + request.website.website_domain(),
+                                            limit=rec_limit
+                                        )
+                                    "/>
+                                    <t t-if="products">
+                                        <div class="swiper as_brand_products as_page_swiper">
+                                            <div class="swiper-button-prev asi asi-chevron-left"></div>
+                                            <div class="swiper-button-next asi asi-chevron-right"></div>
+                                            <div class="swiper-wrapper">
+                                                <t t-foreach="products" t-as="product">
+                                                    <div class="swiper-slide">
+                                                        <t t-call="theme_alan.as_product_base_slider"/>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                            <t t-if="configuration.get('pagination') != 'scroll_bar'">
+                                                <div class="swiper-pagination"></div>
+                                            </t>
+                                            <t t-else="">
+                                                <div class="swiper-scrollbar"></div>
+                                            </t>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="no_record_section">
+                                            <img src="/theme_alan/static/src/img/no_products_founds.svg" alt="icon" />
+                                            <span> We couldn’t find any products in this brand.</span>
+                                        </div>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <t t-call="theme_alan.as_tab_products_loader"/>
+                                </t>
+                                <t t-set="show_content" t-value="False"/>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="s_brand_collection_showcase_grid" name="Brand Collection Showcase Grid">
+        <div class="container s_brand_collection_showcase">
+            <!-- HEADER -->
+            <div class="section-heading-wrapper">
+                <div class="row section-heading section-heading-v2 gap-sm-0 gap-2">
+                    <div class="col-lg-8 col-sm-7 head-content">
+                        <h2 class="mb-0 as-section-title as-active-brand-name">
+                            <t t-if="tab_ids">
+                                <t t-esc="tab_ids[0].name"/>
+                            </t>
+                        </h2>
+                        <p class="mb-0 as-brand-product-count"><t t-esc="len(tab_ids[0].brand_product_ids)"/> Products in this brand.</p>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 head-btn text-sm-end">
+                        <a href="#" class="btn-heading as-view-all-link" t-att-href="'/shop?brands=%s' % tab_ids[0].id">
+                            <span class="">View All</span>
+                            <span class="icon fa fa-angle-right"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4">
+                <!-- LEFT: BRAND LIST -->
+                <div class="col-xl-3 col-lg-4">
+                    <div class="brand-card-list h-100">
+                        <ul class="list-unstyled mb-0">
+                            <t t-set="is_first" t-value="True"/>
+                            <t t-foreach="tab_ids" t-as="tab">
+                                <li t-att-data-id="tab.id"
+                                    t-att-data-name="tab.name"
+                                    t-att-data-count="len(tab.brand_product_ids)"
+                                    t-attf-class="as-tab-name #{'active' if is_first else ''} d-flex align-items-center">
+                                    <div class="item">
+                                        <img t-att-src="request.website.image_url(tab,'image_1024')"
+                                            class="img-fluid"
+                                            style="max-height:40px;"/>
+                                        <span>
+                                            <t t-esc="tab.name"/>
+                                        </span>
+                                    </div>
+                                </li>
+                                <t t-set="is_first" t-value="False"/>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- RIGHT: BRAND PRODUCTS -->
+                <div class="col-xl-9 col-lg-8">
+                    <div t-attf-class="as-tab-content as-sb-slides-view-{{configuration.get('default_col_desk') or ''}}">
+                        <t t-set="show_content" t-value="0"/>
+                        <t t-foreach="tab_ids" t-as="tab">
+                            <t t-set="rec_limit" t-value="configuration.get('record_limit')"/>
+                            <div t-attf-data-tab-id="brand_{{tab.id}}"
+                                t-att-data-loaded="1 if show_content == 0 else 0"
+                                t-attf-class="as-tab-pane #{configuration.get('grid_style')} #{'active' if show_content == 0 else ''}">
+                                <t t-if="show_content == 0">
+                                    <t t-set="products" t-value="request.env['product.template'].sudo().search(
+                                        [('product_brand_id.id', '=', tab.id),('is_published','=',True),('sale_ok','=',True)] + request.website.website_domain(), limit=rec_limit)"/>
+                                    <t t-if="products">
+                                        <t t-set="col_mob_size" t-value="configuration.get('default_col_mob')"/>
+                                        <t t-if="int(configuration.get('default_col_desk')) == 5">
+                                            <t t-set="col_size" t-value="'five'"/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-set="col_size" t-value="int(12/int(configuration.get('default_col_desk')))"/>
+                                        </t>
+                                        <div class="row g-2 g-md-3 as-snippets-row as_brand_products" contenteditable="false">
+                                            <t t-foreach="products" t-as="product">
+                                                <div t-attf-class="col-lg-#{col_size} mob-col-#{col_mob_size}">
+                                                    <t t-call="theme_alan.as_product_base_slider"/>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="no_record_section">
+                                            <img src="/theme_alan/static/src/img/no_products_founds.svg" alt="icon" />
+                                            <span> We couldn’t find any products in this brand.</span>
+                                        </div>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <t t-call="theme_alan.as_tab_products_loader"/>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

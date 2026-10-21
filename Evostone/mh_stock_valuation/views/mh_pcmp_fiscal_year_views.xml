@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- List View -->
+    <record id="mh_pcmp_fiscal_year_view_list" model="ir.ui.view">
+        <field name="name">mh.pcmp.fiscal.year.list</field>
+        <field name="model">mh.pcmp.fiscal.year</field>
+        <field name="arch" type="xml">
+            <list string="PCMP por Ano Fiscal" create="0" delete="0">
+                <field name="fiscal_year"/>
+                <field name="product_id"/>
+                <field name="lot_group_id" optional="show"/>
+                <field name="initial_stock"/>
+                <field name="initial_pcmp" widget="monetary"/>
+                <field name="initial_value" widget="monetary"/>
+                <field name="current_stock"/>
+                <field name="current_pcmp" widget="monetary"/>
+                <field name="current_value" widget="monetary"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="mh_pcmp_fiscal_year_view_form" model="ir.ui.view">
+        <field name="name">mh.pcmp.fiscal.year.form</field>
+        <field name="model">mh.pcmp.fiscal.year</field>
+        <field name="arch" type="xml">
+            <form string="PCMP Ano Fiscal" create="0" delete="0">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_recalculate_pcmp" type="object"
+                                class="oe_stat_button" icon="fa-refresh"
+                                string="Recalcular PCMP"/>
+                    </div>
+                    <group>
+                        <group string="Identificação">
+                            <field name="product_id"/>
+                            <field name="lot_group_id"/>
+                            <field name="fiscal_year"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Ponto de Partida (Início do Ano)">
+                            <field name="initial_stock"/>
+                            <field name="initial_pcmp" widget="monetary"/>
+                            <field name="initial_value" widget="monetary"/>
+                        </group>
+                        <group string="Valores Atuais">
+                            <field name="current_stock"/>
+                            <field name="current_pcmp" widget="monetary"/>
+                            <field name="current_value" widget="monetary"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter>
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </chatter>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="mh_pcmp_fiscal_year_view_search" model="ir.ui.view">
+        <field name="name">mh.pcmp.fiscal.year.search</field>
+        <field name="model">mh.pcmp.fiscal.year</field>
+        <field name="arch" type="xml">
+            <search string="PCMP Ano Fiscal">
+                <field name="product_id"/>
+                <field name="lot_group_id"/>
+                <field name="fiscal_year"/>
+                <filter name="current_year" string="Ano Atual"
+                        domain="[('fiscal_year', '=', (context_today()).year)]"/>
+                <filter name="products_only" string="Apenas Produtos"
+                        domain="[('lot_group_id', '=', False)]"/>
+                <filter name="lot_groups_only" string="Apenas Grupos de Lote"
+                        domain="[('lot_group_id', '!=', False)]"/>
+                <separator/>
+                <group expand="0" string="Agrupar Por">
+                    <filter name="group_by_year" string="Ano Fiscal"
+                            context="{'group_by': 'fiscal_year'}"/>
+                    <filter name="group_by_product" string="Produto"
+                            context="{'group_by': 'product_id'}"/>
+                    <filter name="group_by_lot_group" string="Grupo de Lote"
+                            context="{'group_by': 'lot_group_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="mh_pcmp_fiscal_year_action" model="ir.actions.act_window">
+        <field name="name">PCMP por Ano Fiscal</field>
+        <field name="res_model">mh.pcmp.fiscal.year</field>
+        <field name="view_mode">list,form</field>
+        <field name="groups_id" eval="[(4, ref('stock.group_stock_manager'))]"/>
+        <field name="search_view_id" ref="mh_pcmp_fiscal_year_view_search"/>
+        <field name="context">{'search_default_current_year': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Nenhum registo PCMP encontrado
+            </p>
+            <p>
+                Os registos PCMP são criados automaticamente quando:
+                <ul>
+                    <li>É feita a primeira compra de um produto com método PCMP</li>
+                    <li>É executada a transição de ano fiscal</li>
+                </ul>
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Principal Gestão PCMP -->
+    <menuitem id="menu_pcmp_management_root"
+              name="Gestão PCMP"
+              parent="stock.menu_stock_root"
+              groups="stock.group_stock_manager"
+              sequence="50"
+              active="False"/>
+
+    <!-- PCMP por Ano Fiscal -->
+    <menuitem id="mh_pcmp_fiscal_year_menu"
+              name="PCMP por Ano Fiscal"
+              parent="menu_pcmp_management_root"
+              action="mh_pcmp_fiscal_year_action"
+              groups="stock.group_stock_manager"
+              sequence="10"/>
+
+</odoo>

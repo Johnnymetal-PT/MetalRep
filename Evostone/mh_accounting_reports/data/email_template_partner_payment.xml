@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_partner_payment" model="mail.template">
+            <field name="name">Mapa de Pagamentos — Envio ao Fornecedor</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="subject">{{ user.company_id.name or '' }} — Mapa de Pagamentos</field>
+            <field name="email_from">{{ (user.company_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.id }}</field>
+            <field name="lang">{{ object.lang or 'pt_PT' }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333; line-height: 1.6;">
+                    <p>Caro(a) <strong t-out="object.name"/>,</p>
+
+                    <p>
+                        Em anexo segue o <strong>Mapa de Pagamentos</strong> com a posição actual
+                        das facturas pendentes da nossa empresa
+                        <strong t-out="user.company_id.name"/> para com V. Exas.
+                    </p>
+
+                    <p>
+                        Solicitamos a confirmação dos valores em aberto. Caso identifique
+                        qualquer divergência, agradecemos que entre em contacto connosco
+                        para o devido acerto.
+                    </p>
+
+                    <p style="margin-top: 15px;">
+                        <em>Nota: Este documento reflecte a posição contabilística à data indicada.</em>
+                    </p>
+
+                    <p>
+                        Com os melhores cumprimentos,<br/>
+                        <t t-out="user.signature">
+                            <strong t-out="user.name"/><br/>
+                            <span t-out="user.company_id.name"/>
+                        </t>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

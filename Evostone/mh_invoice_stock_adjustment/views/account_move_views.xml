@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Info de acerto no separador Outra Info da factura -->
+        <record id="view_move_form_stock_adjustment" model="ir.ui.view">
+            <field name="name">account.move.form.stock.adjustment</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="priority">50</field>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@id='other_tab']//group[@id='other_tab_group']" position="inside">
+                    <group string="Acerto de Stock"
+                           name="stock_adjustment_group"
+                           invisible="move_type != 'in_invoice' or stock_adjustment_state == 'none'">
+                        <field name="stock_adjustment_state" readonly="1"/>
+                        <field name="stock_adjustment_move_id" readonly="1"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

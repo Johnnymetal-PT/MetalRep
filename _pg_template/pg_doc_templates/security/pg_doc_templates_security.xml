@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="group_pg_doc_templates_author" model="res.groups">
+        <field name="name">PG Doc Templates Author</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_pg_doc_templates_reviewer" model="res.groups">
+        <field name="name">PG Doc Templates Reviewer</field>
+        <field name="implied_ids" eval="[(4, ref('group_pg_doc_templates_author'))]"/>
+    </record>
+
+    <record id="rule_pg_doc_templates_author_write_own" model="ir.rule">
+        <field name="name">PG Doc Templates Author Write Own</field>
+        <field name="model_id" ref="knowledge.model_knowledge_article"/>
+        <field name="groups" eval="[(4, ref('group_pg_doc_templates_author'))]"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="perm_read" eval="0"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+
+    <record id="rule_pg_doc_templates_reviewer_write_all" model="ir.rule">
+        <field name="name">PG Doc Templates Reviewer Write All</field>
+        <field name="model_id" ref="knowledge.model_knowledge_article"/>
+        <field name="groups" eval="[(4, ref('group_pg_doc_templates_reviewer'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="0"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+</odoo>

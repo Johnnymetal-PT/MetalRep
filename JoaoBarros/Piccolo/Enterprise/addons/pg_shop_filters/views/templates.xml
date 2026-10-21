@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="assets_frontend" inherit_id="website_sale.products" name="website_accordion assets">
+        <!-- Add the button in the desired location -->
+        <xpath expr="//div[@id='wsale_products_attributes_collapse']" position="before">
+            <button type="button" id="toggleAttributesButton" class="btn btn-toggle" onclick="toggleAttributes()">
+                <span class="text">Mais Opções</span>
+                <span class="symbol">+</span>
+            </button>
+        </xpath>
+        <!-- Set the initial visibility and include the script in the desired location -->
+        <xpath expr="//div[@id='wsale_products_attributes_collapse']" position="attributes">
+            <attribute name="style">display:none;</attribute>
+        </xpath>
+        <xpath expr="//div[@id='wsale_products_attributes_collapse']" position="inside">
+            <script type="text/javascript" src="/pg_shop_filters/static/src/js/accordion.js"></script>
+        </xpath>
+    </template>
+</odoo>

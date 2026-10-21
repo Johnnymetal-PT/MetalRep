@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Products Recommandation (AI) Configuration -->
+    <record id="res_config_settings_view_form_recommanded" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.ai.website.sale</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <block id="website_settings" position="before">
+                <block title="Products Recommandation (AI)" id="product_recommandation_settings">
+                    <setting string="Product Fields" help="Select the fields you want to use for training your recommendation model.">
+                        <field name="rmp_product_field_ids"
+                        widget="many2many_tags"
+                        domain="[('model_id.model','=','product.template'),('ttype','in',['char','text','many2one','many2many','selection'])]"/>
+                    </setting>
+                     <setting string="Set Recommandation Score"
+                    help="Set the recommendation score between 0.0 and 1.0 to maintain accuracy. A score close to 0 indicates a strong match, while a score closer to 1 signifies a poor match with the recommended model.">
+                        <field name="rmp_similar_score"/>
+                    </setting>
+                    <setting string="Recommanded Product on Shop Page"
+                    help="Display the recommanded product based on trigger points">
+                        <field name="rmp_allow_shop_page"/>
+                        <div invisible="rmp_allow_shop_page == False" class="mt-3 mb-2 fw-bold text-primary">Activation Recommandation Triggers:</div>
+                        <label invisible="rmp_allow_shop_page == False" for="rmp_trigger_on_product_page"/>
+                        <field invisible="rmp_allow_shop_page == False" name="rmp_trigger_on_product_page"  class="mx-3"/><br/>
+                        <label invisible="rmp_allow_shop_page == False" for="rmp_trigger_on_add_to_cart"/>
+                        <field invisible="rmp_allow_shop_page == False" name="rmp_trigger_on_add_to_cart" class="mx-3"/><br/>
+                        <label invisible="rmp_allow_shop_page == False" for="rmp_trigger_on_wishlist"/>
+                        <field invisible="rmp_allow_shop_page == False" name="rmp_trigger_on_wishlist" class="mx-3"/><br/>
+                        <label invisible="rmp_allow_shop_page == False" for="rmp_trigger_on_confirm_order"/>
+                        <field invisible="rmp_allow_shop_page == False" name="rmp_trigger_on_confirm_order" class="mx-3"/>
+                    </setting>
+
+                    <setting string="Recommanded Product on Product Page" help="Display recommanded product based on current product page">
+                        <field name="rmp_allow_product_page"/>
+                        <br/>
+                        <br/>
+                        <button class="btn btn-primary w-100 mb-2"
+                        type="object" name="create_product_json_file_data">Build Recommandation Dataset</button>
+                        <br/>
+                        <button class="btn btn-primary w-100 mb-2"
+                        type="object" name="pretrain_model_recommandation">Train Recommandation Model</button>
+                        <br/>
+                        <button class="btn btn-info w-100 mb-2"
+                        type="object" name="view_recommandation_trigger">View Recommandation Triggers</button>
+                    </setting>
+                    <setting>
+                    </setting>
+                </block>
+            </block>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_tag_form_view_hmd_project_link" model="ir.ui.view">
+        <field name="name">product.tag.form.hmd.project.link</field>
+        <field name="model">product.tag</field>
+        <field name="inherit_id" ref="product.product_tag_form_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="hmd_project_page_url" placeholder="/portfolio/project-slug"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="product_tag_tree_view_hmd_project_link" model="ir.ui.view">
+        <field name="name">product.tag.tree.hmd.project.link</field>
+        <field name="model">product.tag</field>
+        <field name="inherit_id" ref="product.product_tag_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="hmd_project_page_url" optional="hide"/>
+            </field>
+        </field>
+    </record>
+</odoo>
+

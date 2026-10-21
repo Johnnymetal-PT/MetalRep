@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- =============== Alan block tab extension ===============  -->
+    <t t-name="theme_alan.BlockTab" t-inherit="html_builder.BlockTab" t-inherit-mode="primary">
+        <xpath expr="//div[hasclass('o_block_tab')]/div[1]" position="before">
+            <!-- Alan snippets container -->
+            <div t-if="this.snippetModel.alanSnippetContents"
+                class="o_snippets_container" id="alan_snippets_block">
+                <!-- Header -->
+                <div class="o_snippets_container_header"><span>Theme Alan</span></div>
+                <!-- Body -->
+                <div class="o_snippets_container_body">
+                    <!-- Alan snippet items -->
+                    <t t-foreach="this.snippetModel.alanSnippetContents" t-as="snippet" t-key="snippet.id">
+                        <Snippet snippet="snippet"
+                            snippetModel="this.snippetModel"
+                            onClickHandler="() => this.onSnippetGroupClick(snippet)"
+                            disabledTooltip="disabledBlockTooltip"/>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Remover views de adiantamento que já não existem no modelo -->
+
+        <!-- Remover view herdada de adiantamento no formulário de pagamento -->
+        <delete model="ir.ui.view" search="[('name', '=', 'account.payment.form.inherit.advance')]"/>
+
+        <!-- Remover list view de adiantamentos -->
+        <delete model="ir.ui.view" search="[('name', '=', 'account.payment.advance.list')]"/>
+
+        <!-- Remover kanban view de adiantamentos -->
+        <delete model="ir.ui.view" search="[('name', '=', 'account.payment.advance.kanban')]"/>
+
+        <!-- Remover actions de adiantamento -->
+        <delete model="ir.actions.act_window" search="[('name', '=', 'Adiantamentos dos Clientes')]"/>
+        <delete model="ir.actions.act_window" search="[('name', '=', 'Adiantamentos dos Fornecedores')]"/>
+
+        <!-- Remover menus de adiantamento -->
+        <delete model="ir.ui.menu" search="[('name', '=', 'Adiantamentos'), ('parent_id.name', '=', 'Clientes')]"/>
+        <delete model="ir.ui.menu" search="[('name', '=', 'Adiantamentos'), ('parent_id.name', '=', 'Fornecedores')]"/>
+
+        <!-- Remover view herdada de adiantamento no account.move -->
+        <delete model="ir.ui.view" search="[('name', '=', 'account.move.form.inherit.advance')]"/>
+        <delete model="ir.ui.view" search="[('name', '=', 'account.move.form.advance.application')]"/>
+        <delete model="ir.ui.view" search="[('name', '=', 'account.move.tree.with.advances')]"/>
+    </data>
+</odoo>

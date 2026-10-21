@@ -1,0 +1,315 @@
+<t name="Carousel Product" t-name="website_sale.carousel_product_indicators">
+    <style>
+        .o_carousel_product_indicators .o-thumb-carousel {
+            max-width: 540px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        .o_carousel_product_indicators .o-thumb-carousel .carousel-inner {
+            padding: 0.75rem 0;
+        }
+
+        .o_carousel_product_indicators .o_thumb_row {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .o_carousel_product_indicators .o_thumb_cell {
+            flex: 1 1 0;
+            max-width: 160px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .o_carousel_product_indicators .o_thumb_btn {
+            position: relative;
+            background: none;
+            border: 0;
+            padding: 0;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: transform .18s ease;
+        }
+
+        .o_carousel_product_indicators .o_thumb_btn:focus {
+            outline: none;
+        }
+
+        .o_carousel_product_indicators .o_thumb_btn.active,
+        .o_carousel_product_indicators .o_thumb_btn:focus-visible {
+            transform: translateY(-2px);
+        }
+
+        .o_carousel_product_indicators .o_thumb_btn.active::after,
+        .o_carousel_product_indicators .o_thumb_btn:focus-visible::after {
+            content: "";
+            position: absolute;
+            inset: -6px;
+            border: 2px solid var(--o-brand-primary, #714b67);
+            border-radius: 10px;
+            pointer-events: none;
+        }
+
+        .o_carousel_product_indicators .o_thumb_img {
+            width: 100%;
+            height: 160px;
+            object-fit: contain;
+            display: block;
+            border-radius: 6px;
+            background: #f6f5f3;
+        }
+
+        .o_carousel_product_indicators .o-thumb-carousel .carousel-control-prev,
+        .o_carousel_product_indicators .o-thumb-carousel .carousel-control-next {
+            width: 3rem;
+            color: #6f6a61;
+            opacity: 0;
+            transition: opacity .2s ease;
+        }
+
+        .o_carousel_product_indicators .o-thumb-carousel:hover .carousel-control-prev,
+        .o_carousel_product_indicators .o-thumb-carousel:hover .carousel-control-next {
+            opacity: 1;
+        }
+
+        .o_carousel_product_indicators .o-thumb-carousel .carousel-control-prev-icon,
+        .o_carousel_product_indicators .o-thumb-carousel .carousel-control-next-icon {
+            width: 2rem;
+            height: 2rem;
+            background-image: none;
+            position: relative;
+        }
+
+        .o_carousel_product_indicators .o-thumb-carousel .carousel-control-prev-icon::before,
+        .o_carousel_product_indicators .o-thumb-carousel .carousel-control-next-icon::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1rem;
+            height: 1rem;
+            margin-top: -0.5rem;
+            margin-left: -0.5rem;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+        }
+
+        .o_carousel_product_indicators .o-thumb-carousel .carousel-control-prev-icon::before {
+            transform: rotate(135deg);
+        }
+
+        .o_carousel_product_indicators .o-thumb-carousel .carousel-control-next-icon::before {
+            transform: rotate(-45deg);
+        }
+
+        .o_carousel_product_indicators .o_thumb_btn .o_product_video_thumb {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @media (max-width: 575.98px) {
+            .o_carousel_product_indicators .o-thumb-carousel {
+                max-width: 100%;
+            }
+
+            .o_carousel_product_indicators .o_thumb_img {
+                height: 128px;
+            }
+        }
+    </style>
+
+    <div t-ignore="True" t-attf-class="o_carousel_product_indicators {{indicators_div_class}}">
+        <t t-if="len(product_images) &gt; 1">
+            <t t-set="thumb_items" t-value="list(enumerate(product_images))"/>
+            <t t-if="thumb_items">
+                <t t-set="thumb_chunks" t-value="[thumb_items[i:i + 3] for i in range(0, len(thumb_items), 3)]"/>
+                <div id="o-carousel-product-thumb-carousel" class="o-thumb-carousel carousel slide" data-bs-interval="false" data-bs-wrap="false">
+                    <div class="carousel-inner">
+                        <t t-foreach="thumb_chunks" t-as="chunk" t-foreach-index="chunk_index">
+                            <div t-attf-class="carousel-item{{' active' if chunk_index == 0 else ''}}">
+                                <ol class="o_thumb_row position-static pt-2 pt-lg-0 mx-0 my-0 text-start">
+                                    <t t-foreach="chunk" t-as="thumb">
+                                        <t t-set="img_index" t-value="thumb[0]"/>
+                                        <t t-set="product_image" t-value="thumb[1]"/>
+                                        <t t-set="src_field" t-value="'image_1920' if product_image.image_1920 else ('image_512' if product_image.image_512 else 'image_256')"/>
+                                        <t t-set="tw" t-value="162"/>
+                                        <t t-set="th" t-value="167"/>
+                                        <t t-set="tw2" t-value="tw * 2"/>
+                                        <t t-set="th2" t-value="th * 2"/>
+                                        <li class="o_thumb_cell">
+                                            <button type="button"
+                                                    class="o_thumb_btn"
+                                                    t-att-data-thumb-index="img_index"
+                                                    t-att-data-bs-target="'#o-carousel-product'"
+                                                    t-att-data-bs-slide-to="img_index"
+                                                    t-att-aria-label="'Slide %s' % (img_index + 1)">
+                                                <img class="o_thumb_img"
+                                                     decoding="async"
+                                                     loading="lazy"
+                                                     t-att-src="'/web/image/%s/%s/%s/%sx%s' % (product_image._name, product_image.id, src_field, tw, th)"
+                                                     t-att-srcset="'/web/image/%s/%s/%s/%sx%s 1x, /web/image/%s/%s/%s/%sx%s 2x' % (product_image._name, product_image.id, src_field, tw, th, product_image._name, product_image.id, src_field, tw2, th2)"
+                                                     t-att-alt="product_image.name or ''"/>
+                                                <i t-if="product_image._name == 'product.image' and product_image.embed_code"
+                                                   class="fa fa-2x fa-play-circle o_product_video_thumb bg-black-50 text-center"/>
+                                            </button>
+                                        </li>
+                                    </t>
+                                </ol>
+                            </div>
+                        </t>
+                    </div>
+                    <t t-if="len(thumb_chunks) &gt; 1">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#o-carousel-product-thumb-carousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"/>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#o-carousel-product-thumb-carousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"/>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </div>
+
+    <script>
+    (function () {
+        const root = document.currentScript.closest('.o_carousel_product_indicators');
+        if (!root) {
+            return;
+        }
+
+        const thumbCarouselEl = root.querySelector('#o-carousel-product-thumb-carousel');
+        const mainCarouselEl = document.getElementById('o-carousel-product');
+        if (!thumbCarouselEl || !mainCarouselEl) {
+            return;
+        }
+
+        const thumbButtons = Array.from(root.querySelectorAll('.o_thumb_btn[data-thumb-index]'));
+        if (!thumbButtons.length) {
+            return;
+        }
+
+        const mainSlides = Array.from(mainCarouselEl.querySelectorAll('.carousel-item'));
+        if (!mainSlides.length) {
+            return;
+        }
+
+        const bootstrapCarousel = window.bootstrap &amp;&amp; window.bootstrap.Carousel;
+        const mainCarousel = bootstrapCarousel ? bootstrapCarousel.getOrCreateInstance(mainCarouselEl) : null;
+        let thumbCarousel = null;
+
+        const thumbSlides = Array.from(thumbCarouselEl.querySelectorAll('.carousel-item'));
+        if (bootstrapCarousel &amp;&amp; thumbSlides.length > 1) {
+            thumbCarousel = bootstrapCarousel.getOrCreateInstance(thumbCarouselEl, { interval: false, ride: false, wrap: false });
+        }
+
+        let pendingZoomIndex = null;
+
+        const getActiveIndex = () => {
+            const activeItem = mainCarouselEl.querySelector('.carousel-item.active');
+            const index = mainSlides.indexOf(activeItem);
+            return index === -1 ? 0 : index;
+        };
+
+        function findZoomTrigger() {
+            const activeSlide = mainCarouselEl.querySelector('.carousel-item.active');
+            if (!activeSlide) {
+                return null;
+            }
+            return activeSlide.querySelector('[data-oe-lightbox], [data-zoomodoo], [data-oe-media-url]')
+                || activeSlide.querySelector('a, button');
+        }
+
+        function openZoomIfAvailable() {
+            const trigger = findZoomTrigger();
+            if (trigger &amp;&amp; typeof trigger.click === 'function') {
+                trigger.click();
+            }
+        }
+
+        function ensureThumbVisible(targetIndex) {
+            if (!thumbCarousel) {
+                return;
+            }
+            const activeButton = thumbButtons.find(btn => Number(btn.dataset.thumbIndex) === targetIndex);
+            if (!activeButton) {
+                return;
+            }
+            const parentSlide = activeButton.closest('.carousel-item');
+            const slideIndex = thumbSlides.indexOf(parentSlide);
+            if (slideIndex > -1 &amp;&amp; !parentSlide.classList.contains('active')) {
+                thumbCarousel.to(slideIndex);
+            }
+        }
+
+        function setActiveThumb(targetIndex) {
+            thumbButtons.forEach(btn => {
+                btn.classList.toggle('active', Number(btn.dataset.thumbIndex) === targetIndex);
+            });
+            ensureThumbVisible(targetIndex);
+        }
+
+        function handleSlideChange(index) {
+            setActiveThumb(index);
+            if (pendingZoomIndex !== null &amp;&amp; pendingZoomIndex === index) {
+                openZoomIfAvailable();
+            }
+            pendingZoomIndex = null;
+        }
+
+        thumbButtons.forEach(btn => {
+            btn.addEventListener('click', (ev) => {
+                ev.preventDefault();
+                const targetIndex = Number(btn.dataset.thumbIndex);
+                if (Number.isNaN(targetIndex)) {
+                    return;
+                }
+                const currentIndex = getActiveIndex();
+                pendingZoomIndex = targetIndex;
+                if (mainCarousel) {
+                    if (currentIndex === targetIndex) {
+                        handleSlideChange(targetIndex);
+                    } else {
+                        mainCarousel.to(targetIndex);
+                    }
+                } else if (window.jQuery &amp;&amp; typeof jQuery(mainCarouselEl).carousel === 'function') {
+                    if (currentIndex === targetIndex) {
+                        handleSlideChange(targetIndex);
+                    } else {
+                        jQuery(mainCarouselEl).carousel(targetIndex);
+                    }
+                } else {
+                    mainSlides.forEach((item, idx) => {
+                        item.classList.toggle('active', idx === targetIndex);
+                    });
+                    handleSlideChange(targetIndex);
+                }
+            });
+        });
+
+        mainCarouselEl.addEventListener('slid.bs.carousel', (ev) => {
+            const newIndex = typeof ev.to === 'number' ? ev.to : getActiveIndex();
+            handleSlideChange(Number.isNaN(newIndex) ? getActiveIndex() : newIndex);
+        });
+
+        if (window.jQuery &amp;&amp; typeof jQuery(mainCarouselEl).on === 'function') {
+            jQuery(mainCarouselEl).on('slid.bs.carousel', () => {
+                handleSlideChange(getActiveIndex());
+            });
+        }
+
+        setActiveThumb(getActiveIndex());
+    })();
+    </script>
+</t>

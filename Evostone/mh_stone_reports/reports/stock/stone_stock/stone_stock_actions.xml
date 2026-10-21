@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--
+            Relatórios de Stock de Pedras (stone.stock)
+
+            Templates em: stone_stock_reports.xml
+
+            3 Relatórios:
+            1. Relatório de Placa - Visão geral da pedra
+            2. Serial Nr. - Número de série com código de barras
+            3. Stickers de Placas - Etiquetas para impressão
+        -->
+
+        <!-- 1. Relatório de Placa -->
+        <record id="action_report_stone_stock_placa" model="ir.actions.report">
+            <field name="name">Relatório de Pedra</field>
+            <field name="model">stone.stock</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_stone_stock_placa</field>
+            <field name="report_file">mh_stone_reports.report_stone_stock_placa</field>
+            <field name="binding_model_id" ref="mh_stock_valuation.model_stone_stock"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- 2. Serial Nr. -->
+        <record id="action_report_stone_stock_serial" model="ir.actions.report">
+            <field name="name">Serial Nr.</field>
+            <field name="model">stone.stock</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_stone_stock_serial</field>
+            <field name="report_file">mh_stone_reports.report_stone_stock_serial</field>
+            <field name="binding_model_id" ref="mh_stock_valuation.model_stone_stock"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="mh_stone_reports.paperformat_stone_serial"/>
+        </record>
+
+        <!-- 3. Stickers de Placas (PDF) -->
+        <record id="action_report_stone_stock_stickers_pdf" model="ir.actions.report">
+            <field name="name">Stickers de Placas</field>
+            <field name="model">stone.stock</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_stone_stock_stickers</field>
+            <field name="report_file">mh_stone_reports.report_stone_stock_stickers</field>
+            <field name="paperformat_id" ref="mh_stone_reports.paperformat_stone_stickers"/>
+        </record>
+
+        <!-- 4. Stickers de Placas (ZPL) -->
+        <record id="action_report_stone_stock_stickers_zpl" model="ir.actions.report">
+            <field name="name">Stickers de Placas (ZPL)</field>
+            <field name="model">stone.stock</field>
+            <field name="report_type">qweb-text</field>
+            <field name="report_name">mh_stone_reports.report_stone_stock_stickers_zpl</field>
+            <field name="report_file">mh_stone_reports.report_stone_stock_stickers_zpl</field>
+        </record>
+    </data>
+</odoo>

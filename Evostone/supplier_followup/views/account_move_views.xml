@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add supplier follow-up info to bill list -->
+    <record id="view_invoice_list_supplier_followup" model="ir.ui.view">
+        <field name="name">account.move.list.supplier.followup</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='status_in_payment']" position="after">
+                <field name="supplier_followup_status" 
+                       widget="badge"
+                       optional="hide"
+                       decoration-danger="supplier_followup_status == 'in_need_of_action'"
+                       decoration-warning="supplier_followup_status == 'with_overdue_bills'"
+                       decoration-info="supplier_followup_status == 'no_action_needed'"
+                       groups="account.group_account_invoice"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

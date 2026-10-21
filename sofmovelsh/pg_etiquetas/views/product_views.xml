@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--
+    O tipo de etiqueta fica junto à referência interna: é onde quem trata do catálogo
+    já está quando define como o artigo é identificado. Na V17 este campo não estava
+    em vista nenhuma — a vista que o mostrava estava comentada no módulo — e só se
+    conseguia mudar por importação.
+
+    Ancorado em `default_code` da vista só-de-template, como no pg_product_reference:
+    a vista comum não tem esse campo, e o `barcode` no form do artigo vem do
+    point_of_sale, do qual não vale a pena depender para isto.
+-->
+<record id="product_template_form_view_pg_etiquetas" model="ir.ui.view">
+    <field name="name">product.template.form.pg.etiquetas</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_only_form_view"/>
+    <field name="arch" type="xml">
+        <field name="default_code" position="after">
+            <field name="pg_label_type"/>
+        </field>
+    </field>
+</record>
+
+<record id="product_normal_form_view_pg_etiquetas" model="ir.ui.view">
+    <field name="name">product.product.form.pg.etiquetas</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="product.product_normal_form_view"/>
+    <field name="arch" type="xml">
+        <field name="barcode" position="after">
+            <field name="pg_label_type"/>
+        </field>
+    </field>
+</record>
+
+<!--
+    Filtro para encontrar artigos sem tipo de etiqueta: são os que ficam de fora
+    quando alguém imprimir as etiquetas de uma recepção, e é melhor descobri-los antes
+    de estar com a mercadoria na bancada.
+-->
+<record id="product_template_search_view_pg_etiquetas" model="ir.ui.view">
+    <field name="name">product.template.search.pg.etiquetas</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_search_view"/>
+    <field name="arch" type="xml">
+        <filter name="filter_to_sell" position="after">
+            <separator/>
+            <filter name="pg_sem_etiqueta" string="Sem tipo de etiqueta"
+                    domain="[('pg_label_type', '=', False)]"/>
+            <separator/>
+            <filter name="pg_group_label_type" string="Tipo de etiqueta"
+                    context="{'group_by': 'pg_label_type'}"/>
+        </filter>
+    </field>
+</record>
+
+</odoo>

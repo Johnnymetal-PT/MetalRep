@@ -1,0 +1,1994 @@
+<t name="Homepage" t-name="website.homepage">
+    <t t-call="website.layout">
+        <t t-set="pageName" t-value="'homepage'"/>
+        <t t-set="product_popup_name" t-value="''"/>
+        <style>
+    body, html {
+        overflow-x: hidden;
+    }
+        .margens {
+            padding-left: 100px;
+            padding-right: 100px;
+        }
+            .bethany {
+                font-family: Bethany Avanue !important;
+            }
+            .card-home {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex
+;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #FFF;
+    background-clip: border-box;
+    border: 1px solid var(--o-border-color);
+    border-radius: 0;
+}
+
+    @media (max-width: 991.98px) {
+        .margens {
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+        .margens section {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        .margens .container,
+        .margens .o_container_small {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        .margens .s_cover .s_allow_columns {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        .margens .s_cover .display-1-fs {
+            font-size: clamp(2.5rem, 7vw, 3.75rem) !important;
+            line-height: 1.15 !important;
+        }
+        .mosaic {
+            gap: 16px;
+        }
+        .mosaic-right {
+            gap: 16px;
+        }
+        .mosaic-right-bottom {
+            gap: 16px;
+        }
+        .center-gallery {
+            gap: 16px;
+        }
+        .btn-responsive {
+            width: 100% !important;
+            max-width: 320px;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .margens {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+        #wrap,
+        .margens,
+        .margens section,
+        .margens .container,
+        .margens .o_container_small {
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+            box-sizing: border-box;
+        }
+        .margens .row {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        .margens .row &gt; [class*="col-"] {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        
+        .mosaic {
+            --tile-h: 220px;
+        }
+        .mosaic-right {
+            grid-template-rows: var(--tile-h) var(--tile-h);
+        }
+        .mosaic-right-bottom {
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(2, 1fr);
+        }
+        .center-gallery {
+            gap: 12px;
+        }
+        .center-gallery .gallery-col {
+            flex: 1 1 100%;
+            max-width: 100%;
+        }
+        .gallery-card .caption {
+            left: 16px;
+            right: 16px;
+            bottom: 16px;
+        }
+        .gallery-card .title {
+            font-size: clamp(20px, 6vw, 32px);
+        }
+        
+        .essence-collection-products .row {
+            gap: 10px;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .essence-collection-products .row &gt; div {
+            flex: 1 1 calc(50% - 12px);
+            max-width: calc(50% - 12px);
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .essence-collection-products .card {
+            height: 100%;
+        }
+
+        .mobile-text-spacing {
+            width:80% !important;
+        }
+
+    }
+
+    .essence-collection-products .row {
+        margin-left: -12px;
+        margin-right: -12px;
+    }
+
+    .essence-collection-products .row &gt; div {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .product-highlight-mosaic {
+        margin-bottom: 150px;
+        padding-left: 150px;
+        padding-right: 150px;
+    }
+
+    @media (max-width: 991.98px) {
+        .product-highlight-mosaic {
+            margin-bottom: 96px;
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .product-highlight-mosaic {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            overflow: visible !important;
+            margin-top: 0 !important:
+            margin-bottom: 0 !important
+        }
+
+        .product-highlight-mosaic::-webkit-scrollbar {
+            display: none;
+        }
+        @media (max-width: 767.98px) {
+  .essence-collection-products .row.d-flex.align-items-stretch {
+    margin-left: 20px !important;
+    margin-right: 10px !important;
+  }
+}
+
+
+    }
+    /* Mobile tweaks for "EXPLORE / ESSENCE COLLECTION" block */
+@media (max-width: 767.98px) {
+  /* Target the specific custom text section */
+  section.s_text_block.s_custom_snippet.pt104 {
+    padding-top: 20px !important;   /* kill top padding */
+    padding-bottom: 0 !important;/* ensure no bottom padding */
+  }
+
+  /* If the inner container adds spacing, neutralize it too */
+  section.s_text_block.s_custom_snippet.pt104 .mobile-text-spacing {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Force EXPLORE to exactly 14px (override inline clamp) */
+  section.s_text_block.s_custom_snippet.pt104 .o_container_small h6 span {
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Optional: tighten heading margins a touch */
+  section.s_text_block.s_custom_snippet.pt104 h6,
+  section.s_text_block.s_custom_snippet.pt104 h3 {
+    margin-top: 0 !important;
+    margin-bottom: 6px !important;
+  }
+    /* Remove vertical paddings from each column/card wrapper */
+  .essence-collection-products .col-lg-3 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+    /* Adjust font sizes inside product cards */
+  .essence-collection-products p span.o_small-fs {
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+    display: block;
+    margin-bottom: 4px;
+    margin-top:15px;
+  }
+
+  .essence-collection-products p span[style*="Cormorant Infant"] {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+    display: block;
+  }
+    .s_text_block.pb40.pt32 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Also ensure the inner div and button stay centered neatly */
+  .s_text_block.pb40.pt32 .s_allow_columns {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .s_text_block.pb40.pt32 .btn {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  
+  /* Kill the big top padding/margin and any filler */
+  .s_text_block.s_custom_snippet.pt104.pb32 {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  .s_text_block.s_custom_snippet.pt104.pb32 p { display: none !important; }
+
+  /* Show mobile title, hide desktop title */
+  .ph-title-desktop { display: none !important; }
+  .ph-title-mobile {
+    display: block !important;
+    text-align: center !important;
+    color: #302D27 !important; /* matches your palette */
+    font-size: clamp(2rem, 6vw, 3.1875rem) !important;
+    line-height: 1.15 !important;
+    margin: 0 !important;
+  }
+  }
+  .ph-title-mobile { display: none; }
+  
+@media (max-width: 767.98px) {
+    .product-highlight-mosaic .mosaic {
+        gap: clamp(8px, 4vw, 16px);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: minmax(0, 1fr);
+        margin-left: 20px !important;
+        margin-right: 20px !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .product-highlight-mosaic .container {
+        max-width: 520px;
+        margin: 0 auto;
+        background-color: #faf9f5 !important;
+    }
+}
+        </style>
+        <div id="wrap" class="oe_structure oe_empty margens"><section class="s_cover bg-black-50 o_colored_level s_parallax_no_overflow_hidden parallax s_parallax_is_fixed pb0 o_full_screen_height pt160" data-scroll-background-ratio="1" data-snippet="s_cover" data-name="Cover" style="background-image: none; margin-left: -100px; margin-right: -100px;"><span class="s_parallax_bg oe_img_bg o_bg_img_center" style="background-image: url(&quot;/web/image/24825-e658ee7a/04.00_00_10_15.Still001.webp&quot;);" data-mimetype="image/webp" data-original-id="24810" data-original-src="/web/image/24810-e658ee7a/04.00_00_10_15.Still001.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920" data-quality="100"/>
+        <div class="s_allow_columns container">
+            <p style="text-align: center;font-family: Bethany Avanue !important; font-size: clamp(2.75rem, 9vw, 5rem); font-color: #E8E1D6 !important; line-height: 1.15;"><span class="display-1-fs"><font style="color: rgb(232, 225, 230);">‘’Luxury is not defined by opulence, but<br/>by intention’’</font></span></p></div>
+    </section><section class="s_text_block o_colored_level s_custom_snippet pb0 pt104" data-snippet="s_text_block" style="background-image: none;" data-name="Custom Texto">
+        <div class="s_allow_columns o_container_small mobile-text-spacing">
+            <h6 style="text-align: center;"><span style="font-size: clamp(1rem, 3.8vw, 1.3125rem);">EXPLORE</span><br/></h6><h3 style="text-align: center;"><span style="font-size: clamp(2rem, 6vw, 3.1875rem);">ESSENCE COLLECTION</span></h3></div>
+    </section><section class="s_three_columns o_colored_level o_cc o_cc2 pb0 pt40 essence-collection-products" data-vcss="001" data-snippet="s_three_columns" data-name="Colunas" style="background-image: none;">
+        <div class="container" style="padding-left:100px; padding-right:100px;">
+            <div class="row d-flex align-items-stretch">
+                <div class="s_col_no_bgcolor pt16 pb24 col-lg-3">
+                    <div class="card text-bg-white border" style="border-width: 0px !important; background-color: rgb(242, 240, 236);">
+                        <img src="/web/image/29515-650aa614/CLEO%20280%20B%20VIEW01.webp" alt="" class="card-img-top img img-fluid o_we_custom_image" style="width: 100% !important;" data-mimetype="image/webp" data-original-id="29511" data-original-src="/web/image/29511-5ac7eeb3/CLEO%20280%20B%20VIEW01.png" data-mimetype-before-conversion="image/png" data-resize-width="690" loading="lazy"/>
+                        <div style="background-color:#faf9f5;">
+                            <p style="text-align: center;"><span class="o_small-fs"><font style="color: rgb(40, 39, 36);">SOFA</font><font style="color: rgb(40, 39, 36);" class="bg-o-color-1">​<br/></font></span><span style="font-family:'Cormorant Infant'; font-size: 1.3125rem;"><font style="font-family:'Cormorant Infant'; color: rgb(40, 39, 36);">CLEO</font></span></p></div>
+                    </div>
+                </div>
+                <div class="s_col_no_bgcolor pt16 pb0 col-lg-3">
+                    <div class="card text-bg-white border" style="border-width: 0px !important; background-color: rgb(242, 240, 236);">
+                        <img src="/web/image/29520-b2481442/DINING%20CHAIR%20INVICTA%20I%20B%20VIEW01.webp" alt="" class="card-img-top img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="29519" data-original-src="/web/image/29519-0d9ebc9e/DINING%20CHAIR%20INVICTA%20I%20B%20VIEW01.png" data-mimetype-before-conversion="image/png" data-resize-width="690" loading="lazy"/>
+                        <div style="background-color:#faf9f5;">
+                            <p style="text-align: center;"><span class="o_small-fs"><font style="color: rgb(40, 39, 36);">DINING CHAIR<br/></font></span><span style="font-family:'Cormorant Infant'; font-size: 1.3125rem;"><font style="font-family:'Cormorant Infant'; color: rgb(40, 39, 36);">INVICTA I</font></span></p></div>
+                    </div>
+                </div>
+                <div class="s_col_no_bgcolor pt16 pb24 col-lg-3">
+                    <div class="card text-bg-white border" style="background-color: rgb(242, 240, 236); border-width: 0px !important;">
+                        <img src="/web/image/29518-c3bc3cb9/BEDSIDE%20TABLE%20ETHEREAL%20OPB%20VIEW01.webp" alt="" class="card-img-top img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="29513" data-original-src="/web/image/29513-bd67f1da/BEDSIDE%20TABLE%20ETHEREAL%20OPB%20VIEW01.png" data-mimetype-before-conversion="image/png" data-resize-width="690" loading="lazy"/>
+                        <div style="background-color:#faf9f5;">
+                            <p style="text-align: center;"><span class="o_small-fs"><font style="color: rgb(40, 39, 36);">BEDSIDE TABLE<br/></font></span><span style="font-family:'Cormorant Infant'; font-size: 1.3125rem;"><font style="font-family:'Cormorant Infant'; color: rgb(40, 39, 36);">ETHEREAL</font></span></p></div>
+                    </div>
+                </div><div class="s_col_no_bgcolor pt16 pb24 col-lg-3">
+                    <div class="card text-bg-white border" style="border-width: 0px !important; background-color: rgb(242, 240, 236);">
+                        <img src="/web/image/29516-a7407b5c/DINING%20TABLE%20DOMUS%20B%20VIEW01.webp" alt="" class="card-img-top img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="29514" data-original-src="/web/image/29514-0843fd20/DINING%20TABLE%20DOMUS%20B%20VIEW01.png" data-mimetype-before-conversion="image/png" data-resize-width="690" loading="lazy"/>
+                        <div style="background-color:#faf9f5;">
+                            <p style="text-align: center;"><span class="o_small-fs"><font style="color: rgb(40, 39, 36);">DINING TABLE<br/></font></span><span style="font-family:'Cormorant Infant'; font-size: 1.3125rem;"><font style="font-family:'Cormorant Infant'; color: rgb(40, 39, 36);">DOMUS</font></span></p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><section class="s_text_block pb40 o_colored_level pt32" data-snippet="s_text_block" data-name="Texto" style="background-color: rgb(250, 249, 245); background-image: none;">
+        <div class="s_allow_columns o_container_small">
+            <div style="text-align: center;">
+  <a href="/shop" class="btn btn-custom flat btn-lg btn-responsive" style="width: 100%; max-width: 240px; display: inline-flex; align-items: center; justify-content: center; margin: 0px auto; border-width: 1px; border-style: solid; color: rgb(242, 240, 236); background-color: rgb(48, 45, 39); padding: 16px 32px;" title="" data-bs-original-title="">
+    ALL PRODUCTS​​​​
+  </a>
+</div>
+
+<br/><p/></div>
+    </section>
+<section class="s_text_block o_colored_level s_custom_snippet pt56 pb24" data-snippet="s_text_block" style="background-image: none;" data-name="Custom Texto">
+        <div class="s_allow_columns o_container_small mobile-text-spacing">
+            <h4 style="text-align: center;"><span style="font-size: clamp(1rem, 3.8vw, 1.3125rem);"/><font style="color: rgb(81, 76, 68);"><span style="font-size: clamp(1.75rem, 5.5vw, 2.375rem);">LUXURY, MADE ETERNAL</span></font><span style="font-size: clamp(1rem, 3.8vw, 1.3125rem);"/><br/></h4><p style="text-align: center;"><font style="color: rgb(48, 45, 39);"><span style="font-size: clamp(1rem, 3.8vw, 1.3125rem);">Essence Collection celebrates the timeless beauty of organic shapes by combining painted<br/>woods, natural stones, and a palette of neutral tones to create a luxurious aesthetic.</span></font><br/></p></div>
+    </section><section class="s_image_gallery o_spc-small pt24 pb24 o_colored_level o_masonry" data-vcss="001" data-columns="2" style="overflow: hidden; background-image: none;" data-snippet="s_images_wall" data-name="Images Wall">
+        <div class="container"><div class="row s_nb_column_fixed"><div class="o_masonry_col o_snippet_not_selectable col-lg-6"><img src="/web/image/29796-8aa1f733/S_%C2%A0Casa%20Magna_%20testrender_11_View01.webp" alt="" class="img img-fluid d-block o_we_custom_image o_we_image_cropped" data-mimetype="image/webp" data-original-id="29789" data-original-src="/web/image/29789-187bb279/S_%C2%A0Casa%20Magna_%20testrender_11_View01.png" data-mimetype-before-conversion="image/png" data-width="1440" data-height="1620.2926829268295" data-scale-x="1" data-scale-y="1" data-aspect-ratio="0/0" loading="lazy"/></div><div class="o_masonry_col o_snippet_not_selectable col-lg-6"><img src="/web/image/29795-7369cf08/S_%C2%A0Casa%20Magna_%20testrender_11_View04.webp" alt="" class="img img-fluid d-block o_we_custom_image o_we_image_cropped" data-mimetype="image/webp" data-original-id="29787" data-original-src="/web/image/29787-f16495b0/S_%C2%A0Casa%20Magna_%20testrender_11_View04.png" data-mimetype-before-conversion="image/png" data-index="1" data-width="1440" data-height="1620.798833157767" data-scale-x="1" data-scale-y="1" data-aspect-ratio="0/0" loading="lazy"/></div></div></div>
+    </section><section class="s_text_block o_colored_level s_custom_snippet pt104 pb32" data-snippet="s_text_block" style="background-image: none;" data-name="Custom Texto">
+       <div class="s_allow_columns o_container_small">
+  <!-- Desktop/tablet title (unchanged) -->
+  <h3 class="ph-title-desktop" style="text-align: center;">
+    <font style="color: rgb(48, 45, 39);">
+      <span style="font-size: clamp(2rem, 6vw, 3.1875rem);">PRODUCTS HIGHLIGHTS</span>
+    </font>
+  </h3>
+
+  <!-- Mobile-only title with forced line break -->
+  <h3 class="ph-title-mobile" aria-hidden="true">
+    PRODUCTS<br/>HIGHLIGHTS
+  </h3>
+</div>
+
+    </section>
+    <section class="s_custom_snippet o_colored_level pb0 product-highlight-mosaic" style="background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-image: none;">
+<style>
+  .mosaic {
+    --tile-h: 350px;                 /* base tile; left column = 2 * var(--tile-h) */
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* 50% + 50% */
+    grid-auto-rows: var(--tile-h);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .mosaic a,
+  .mosaic .tile {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0;
+  }
+
+  .mosaic img {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    max-width: none;
+  }
+
+  /* LEFT: spans two auto rows (2 * var(--tile-h)) */
+  .mosaic-left { grid-row: span 2; height: calc(var(--tile-h) * 2); /* remove fixed width */ }
+
+  /* RIGHT: make it the same total height as left and split 2/3 + 1/3 */
+  .mosaic-right {
+    grid-row: span 2;                       /* same overall height as left */
+    display: grid;
+    grid-template-rows:
+      calc(var(--tile-h) * 4 / 3)           /* top = 2/3 of total (2*tile-h) = 4/3 tile-h */
+      calc(var(--tile-h) * 2 / 3);          /* bottom = 1/3 of total = 2/3 tile-h */
+    gap: 24px;
+  }
+
+  .mosaic-right-bottom {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);   /* two images side by side on desktop */
+    gap: 24px;
+  }
+
+  /* Stack on small screens */
+  @media (max-width: 991px) {
+    .mosaic { grid-template-columns: 1fr; }
+    .mosaic-left { grid-row: auto; height: calc(var(--tile-h) * 2); }
+    .mosaic-right { grid-row: auto; grid-template-rows: var(--tile-h) var(--tile-h); }
+  }
+
+  .mosaic .fit-contain img { object-fit: contain; background: #f6f4ef; }
+@media (max-width: 768px) {
+  .mosaic-right-bottom {
+    grid-template-columns: 1fr;             /* stack images on mobile */
+    grid-template-rows: repeat(2, 1fr);
+  }
+
+  .s_custom_snippet:not(.product-highlight-mosaic) {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .s_custom_snippet:not(.product-highlight-mosaic)::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+}
+
+/* ============================
+   MOBILE: Remove top/bottom margins for mosaic section
+   ============================ */
+@media (max-width: 767.98px) {
+  .s_custom_snippet.product-highlight-mosaic {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Also remove extra spacing from inner container if any */
+  .s_custom_snippet.product-highlight-mosaic .container {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+/* ============================
+   MOBILE: Adjust "Know More" text and underline
+   ============================ */
+@media (max-width: 767.98px) {
+  /* Reduce text size */
+  .product-highlight-mosaic [style*="Know More"],
+  .product-highlight-mosaic div[style*="text-transform:uppercase"] {
+    font-size: 12px !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  /* Adjust underline width */
+  .product-highlight-mosaic div[style*="width:110px"] {
+    width: 90px !important;
+  }
+}
+
+</style>
+
+
+  <div class="container">
+    <div class="mosaic">
+      
+<a class="mosaic-left" href="/shop" aria-label="Know more" style="background:#f5f4ef; position:relative; display:block; overflow:hidden;" data-bs-original-title="" title="">
+  <img src="/web/image/29715-97c862c2/DINING%20TABLE%20DOMUS%20B%20VIEW01.webp" alt="Domus Dining Table" class="img img-fluid o_we_custom_image o_we_image_cropped" style="position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: contain; object-position: center center; margin: auto;" loading="lazy" data-mimetype="image/png" data-original-id="29514" data-original-src="/web/image/29514-0843fd20/DINING%20TABLE%20DOMUS%20B%20VIEW01.png" data-mimetype-before-conversion="image/png"/>
+
+  
+  <div style="       position:absolute;       left:50%;       bottom:56px;                 /* tweak vertical placement if needed */       transform:translateX(-50%);       text-align:center;       color:#302D27;       pointer-events:none;         /* entire tile stays clickable */     ">
+    <div style="text-transform:uppercase; font-size:16px; letter-spacing:.06em; font-weight:400; line-height:1.2; font-family: 'Open Sans';">
+      Know More
+    </div>
+    <div style="width:110px; height:2px; margin:3px auto 0; background:#302D27;"/>
+  </div>
+</a>
+
+      
+      <div class="mosaic-right">
+        
+<a href="#" style="background:#f5f4ef; position:relative; display:block; height:100%;" data-bs-original-title="" title="">
+  <img src="/web/image/35433-08a1c1a2/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEGAAAA.webp" alt="" class="img img-fluid o_we_custom_image" style="position: absolute; inset: 0px; width: 100%; height: 100%; object-position: center center; object-fit: cover !important; transform: none !important;" data-mimetype="image/webp" data-original-id="29858" data-original-src="/web/image/29858-fd6cc66c/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEGAAAA.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="690"/>
+</a>
+        <div class="mosaic-right-bottom">
+          <a href="#" data-bs-original-title="" title="" style="background: #f5f4ef">
+            <img src="/web/image/29520-b2481442/DINING%20CHAIR%20INVICTA%20I%20B%20VIEW01.webp" alt="" class="img img-fluid o_we_custom_image o_we_image_cropped" style="animation-play-state: paused; transition: none;" data-mimetype="image/webp" data-original-id="29519" data-original-src="/web/image/29519-0d9ebc9e/DINING%20CHAIR%20INVICTA%20I%20B%20VIEW01.png" data-mimetype-before-conversion="image/png" data-resize-width="690" loading="lazy"/>
+          </a>
+          <a href="#" data-bs-original-title="" title="" style="background: #f5f4ef">
+            <img src="/web/image/29775-18b45b23/MIRROR%20GOA%20II%20C%20VIEW01.webp" alt="" class="img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="29774" data-original-src="/web/image/29774-9cdf2bd6/MIRROR%20GOA%20II%20C%20VIEW01.png" data-mimetype-before-conversion="image/png" data-resize-width="690" loading="lazy"/>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s_text_block o_colored_level s_custom_snippet pb24 pt64" data-snippet="s_text_block" style="margin-left: -100px; margin-right: -100px; background-color: rgb(245, 244, 239);" data-name="Custom Texto">
+        <style>
+    /* ============================
+   MOBILE: Fix "SEE" font size
+   ============================ */
+@media (max-width: 767.98px) {
+  .s_text_block.s_custom_snippet.pb24.pt64 h6 span {
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Optional: tighten section spacing if needed */
+  .s_text_block.s_custom_snippet.pb24.pt64 {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+}
+</style>
+        <div class="s_allow_columns o_container_small">
+            <h6 style="text-align: center;"><span style="font-size: clamp(1rem, 3.8vw, 1.3125rem);"><font style="color: rgb(81, 76, 68);">SEE​</font></span><br/></h6><h3 style="text-align: center;"><span style="font-size: clamp(2rem, 6vw, 3.1875rem);">BY CATEGORY</span><br/></h3></div></section>
+<style>
+ @media (max-width: 767.98px) {
+  .see-category-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 5px;
+    padding: 0 12px 16px;
+    margin: 0 -12px;
+    justify-content: flex-start !important;
+
+    /* Oculta a barra mas mantém o scroll horizontal */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+
+  /* Chrome, Safari, Edge */
+  .see-category-scroll::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .see-category-scroll::-webkit-scrollbar-thumb {
+    background: transparent !important;
+  }
+
+  .see-category-scroll &gt; .col-lg-3 {
+    flex: 0 0 75%;
+    max-width: 75%;
+  }
+}
+@media (max-width: 767.98px) {
+  .btn-responsive {
+    max-width: 160px !important;
+    font-size: 0.9rem !important;
+    padding: 10px 20px !important;
+  }
+}
+
+/* Mobile-specific refinements */
+  @media (max-width: 767.98px) {
+    .product-highlight-mosaic {
+      background-color: #f5f4ef;
+      padding: clamp(16px, 6vw, 32px) 12px;
+    }
+
+    .product-highlight-mosaic .container {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .product-highlight-mosaic .mosaic {
+      gap: clamp(8px, 4vw, 16px);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: minmax(0, 1fr);
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
+    .product-highlight-mosaic .mosaic-left {
+      min-height: clamp(230px, 45vw, 240px);
+      grid-column: 1 / -1;
+      grid-row: 1;
+      height: auto;
+    }
+
+    .product-highlight-mosaic .mosaic-left &gt; div {
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      bottom: clamp(12px, 5vw, 28px) !important;
+      width: calc(100% - 32px);
+      max-width: 280px;
+    }
+
+    .product-highlight-mosaic .mosaic-left &gt; div &gt; div:first-child {
+      font-size: clamp(0.7rem, 3vw, 0.9rem);
+      letter-spacing: 0.12em;
+    }
+
+    .product-highlight-mosaic .mosaic-left &gt; div div:last-child {
+      width: clamp(90px, 16vw, 90px) !important;
+      height: 2px !important;
+    }
+
+    .product-highlight-mosaic .mosaic-right {
+      display: contents;
+    }
+
+    .product-highlight-mosaic .mosaic-right &gt; a {
+      grid-column: 1;
+      grid-row: 2;
+      min-height: clamp(110px, 38vw, 210px);
+      display: block;
+    }
+
+    .product-highlight-mosaic .mosaic-right-bottom {
+      grid-column: 2;
+      grid-row: 2;
+      display: grid;
+      grid-template-rows: repeat(2, 1fr);
+      gap: clamp(8px, 4vw, 16px);
+      height: 100%;
+    }
+
+    .product-highlight-mosaic .mosaic-right-bottom a {
+      min-height: clamp(80px, 30vw, 150px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f4ef;
+      height: 100%;
+    }
+
+    .product-highlight-mosaic .mosaic-right-bottom img {
+      object-fit: contain;
+    }
+  }
+
+
+</style>
+
+<section class="s_three_columns o_colored_level pt0 pb72 o_cc o_cc2" style="margin-left: -100px; margin-right: -100px; background-color: rgb(245, 244, 239); background-image: none;" data-name="Colunas">
+    <style>
+        /* ============================
+   MOBILE: Remove bottom margin from "SEE BY CATEGORY" section
+   ============================ */
+@media (max-width: 767.98px) {
+  .s_three_columns.o_cc.o_cc2 {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+    </style>
+    <div class="container">
+        <div class="row d-flex align-items-stretch  see-category-scroll" style="justify-content: center;">
+            
+            <div class="o_colored_level col-lg-3">
+                <div class="h-100 text-center">
+                    <img src="/web/image/29861-522ec7b9/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEG.webp" alt="" class="img img-fluid o_we_custom_image mx-auto d-block" data-mimetype="image/webp" data-original-id="29857" data-original-src="/web/image/29857-af99357b/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEG.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="690" loading="lazy"/>
+                    <h6 class="mt-2" style="color:#302D27; font-size:1.1rem;"><span style="font-size: 1.3125rem;">LIVING ROOM</span></h6>
+                </div>
+            </div>
+
+            <div class="o_colored_level col-lg-3">
+                <div class="h-100 text-center">
+                    <img src="/web/image/29862-08b0616f/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEGAAAA.webp" alt="" class="img img-fluid o_we_custom_image mx-auto d-block" data-mimetype="image/webp" data-original-id="29858" data-original-src="/web/image/29858-fd6cc66c/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEGAAAA.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="690" loading="lazy"/>
+                    <h6 class="mt-2" style="color:#302D27; font-size:1.1rem;"><span style="font-size: 1.3125rem;">DINING ROOM</span></h6>
+                </div>
+            </div>
+
+            <div class="o_colored_level col-lg-3">
+                <div class="h-100 text-center">
+                    <img src="/web/image/29863-d1e7cea7/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEGB.webp" alt="" class="img img-fluid o_we_custom_image mx-auto d-block" data-mimetype="image/webp" data-original-id="29859" data-original-src="/web/image/29859-a82dfdb4/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEGB.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="690" loading="lazy"/>
+                    <h6 class="mt-2" style="color:#302D27; font-size:1.1rem;"><span style="font-size: 1.3125rem;">BEDROOM</span></h6>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center;" class="o_colored_level pt40">
+            <a href="/shop" class="btn btn-custom flat btn-lg btn-responsive" style="width: 100%; max-width: 240px; display: inline-flex; align-items: center; justify-content: center; margin: 0px auto; border-width: 1px; border-style: solid; color: rgb(242, 240, 236); background-color: rgb(48, 45, 39); padding: 16px 32px;" title="" data-bs-original-title="">
+                ALL PRODUCTS​​​​
+            </a></div>
+    </div>
+</section>
+
+            <section class="s_text_block o_colored_level s_custom_snippet pb24 pt88" data-snippet="s_text_block" style="background-image: none;" data-name="Custom Texto">
+        <div class="s_allow_columns o_container_small mobile-text-spacing">
+            <h6 style="text-align: center;"><span style="font-size: 1rem, 3.8vw, 1.3125rem"><font style="color: rgb(81, 76, 68);">CASA MAGNA</font></span><br/></h6><h3 style="text-align: center;"><font style="color: rgb(48, 45, 39);"><span style="font-size: clamp(2rem, 6vw, 3.1875rem);">COSTUMIZED SERVICES</span></font><br/></h3></div></section>
+            
+<section class="s_image_gallery o_colored_level o_spc-small pt24 pb96 o_masonry" data-vcss="001" data-columns="4" style="overflow: hidden; background-image: none;" data-snippet="s_images_wall" data-name="Images Wall">
+
+  <style>
+    /* Center the two cards */
+    .center-gallery {
+      display: flex;               /* use flexbox */
+      justify-content: center;     /* center horizontally */
+      gap: 32px;                   /* space between the two cards */
+      flex-wrap: nowrap;
+    }
+    .center-gallery .gallery-col {
+      flex: 0 0 450px;             /* fixed 450px width */
+      max-width: 450px;
+    }
+
+    /* Card overlay */
+    .gallery-card {
+      position: relative;
+      display: block;
+      width: 100%;
+      color: #fff;
+      overflow: hidden;
+      text-decoration: none;
+    }
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .gallery-card .grad {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.45) 100%);
+      pointer-events: none;
+    }
+    .gallery-card .caption {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      pointer-events: none;
+    }
+    .gallery-card .title {
+      font-size: clamp(22px,3.2vw,38px);
+      line-height: 1.1;
+      font-weight: 400;
+      letter-spacing: .02em;
+      margin: 0 0 14px;
+    }
+    .gallery-card .cta {
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: .08em;
+      display: inline-block;
+      border-bottom: 2px solid rgba(255,255,255,.9);
+      padding-bottom: 4px;
+      opacity: .95;
+    }
+    .gallery-card:hover .cta {
+      opacity: 1;
+      border-bottom-color: #fff;
+    }
+
+    /* Stack on medium screens */
+    @media (max-width: 992px){
+      .center-gallery { flex-wrap: wrap; gap: 16px; }
+      .center-gallery .gallery-col { flex: 1 1 100%; max-width: 100%; }
+    }
+
+   @media (max-width: 768px) {
+  .center-gallery {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    gap: 16px;
+
+    justify-content: flex-start;
+    padding: 0;
+
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE e Edge antigos */
+  }
+
+  .center-gallery::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .center-gallery .gallery-col {
+    flex: 0 0 85%;
+    max-width: none;
+    scroll-snap-align: start;
+  }
+
+  .center-gallery .gallery-col:first-child {
+    margin-left: 16px;
+  }
+
+  .center-gallery .gallery-col:last-child {
+    margin-right: 16px;
+  }
+}
+
+
+  </style>
+
+  <div class="o_container_small">
+    <div class="center-gallery">
+      <div class="gallery-col">
+        <a class="gallery-card" href="/bespoke" title="">
+          <img src="/web/image/29866-ff9afa55/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEGaa.webp" alt="" class="img img-fluid o_we_custom_image" loading="lazy"/>
+          <span class="grad"/>
+          <div class="caption">
+            <div class="title" style="font-family: 'Cormorant Infant'">
+              CASA MAGNA<br/>BESPOKE
+            </div>
+            <div class="cta">DISCOVER MORE</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="gallery-col">
+        <a class="gallery-card" href="/interior-design-project" title="">
+          <img src="/web/image/29476-227513e4/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEG.webp" alt="Interior Design Project" class="img img-fluid" loading="lazy"/>
+          <span class="grad"/>
+          <div class="caption">
+            <div class="title" style="font-family: 'Cormorant Infant'">
+              INTERIOR DESIGN<br/>PROJECT
+            </div>
+            <div class="cta">DISCOVER MORE</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+    
+    <section class="s_text_block o_colored_level s_custom_snippet pb0 pt88" data-snippet="s_text_block" style="margin-left: -100px; margin-right: -100px; background-color: rgb(245, 244, 239); background-image: none;" data-name="Custom Texto">
+    <style>
+        /* ============================
+   MOBILE: Adjust "OUR LATEST CATALOGUES" section
+   ============================ */
+@media (max-width: 767.98px) {
+  /* Force line break after "LATEST" */
+  .s_custom_snippet h3 span {
+    display: inline-block;
+  }
+  .s_custom_snippet h3 span::after {
+    content: "\A";       /* Adds a newline */
+    white-space: pre;    /* Keeps the line break */
+  }
+
+  /* Remove top and bottom spacing */
+  .s_custom_snippet.pb0.pt88 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
+/* Mobile: force line break after "OUR LATEST" */
+@media (max-width: 767.98px) {
+  .s_custom_snippet.pb0.pt88 h3 .latest-break-part1::after {
+    content: "\A";            /* newline */
+    white-space: pre;         /* respect the newline */
+  }
+  .s_custom_snippet.pb0.pt88 h3 .latest-break-part1,
+  .s_custom_snippet.pb0.pt88 h3 .latest-break-part2 {
+    display: inline;          /* keep normal inline flow */
+  }
+    /* Font size fix */
+  .s_custom_snippet.pb0.pt88 h3 span {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+  }
+}
+
+    </style>
+    <div class="s_allow_columns o_container_small">
+        <h6 style="text-align: center;"><span style="font-size: 1rem, 3.8vw, 1.3125rem"><font style="color: rgb(81, 76, 68);">DISCOVER</font></span><br/></h6>
+        <h3 style="text-align: center;">
+  <span>
+    <span class="latest-break-part1">OUR LATEST</span>
+    <span class="latest-break-part2"> CATALOGUES</span>
+  </span>
+  <br/>
+</h3>
+
+    </div>
+</section>
+<style>
+@media (max-width: 767.98px) {
+  .catalogo-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    padding: 0 12px 16px;
+    margin: 0 -12px;
+    justify-content: flex-start !important;
+
+    /* Oculta a barra mas mantém o scroll horizontal */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+
+  .catalogo-scroll::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .catalogo-scroll::-webkit-scrollbar-thumb {
+    background: transparent !important;
+  }
+
+  .catalogo-scroll &gt; .col-lg-3 {
+    flex: 0 0 75%;
+    max-width: 75%;
+  }
+}
+</style>
+<section class="s_three_columns pt32 o_colored_level pb136 o_cc o_cc2" style="margin-left: -100px; margin-right: -100px; background-color: rgb(245, 244, 239); background-image: none;" data-name="Colunas">
+    <div class="container">
+        <div class="row d-flex justify-content-center text-center align-items-stretch catalogo-scroll">
+            
+            <div class="s_col_no_bgcolor col-lg-3">
+                <div class="card text-bg-white h-100 border rounded" style="border-width: 0px !important; border-radius: 0px !important; background-color: rgb(245, 244, 239);">
+                    <img src="/web/image/24821-744f590a/CAPAS%20CATALOGOS-02.webp" alt="" class="img-fluid o_we_custom_image" loading="lazy"/>
+                    <div class="s_hr pt16 pb8" data-name="Separador">
+                        <br/><br/><br/>
+                        <hr class="w-100 mx-auto" style="border-top-width: 2px;"/>
+                        <br/><br/>
+                    </div>
+                    <span class="fa fa-chevron-down" style="color: rgb(81, 76, 68);"/><br/>
+                    LIVING ROOM COLLECTION<br/><br/><strong><u class="download-btn" data-catalogo="Living Room Catalog">DOWNLOAD</u></strong>
+                </div>
+            </div>
+
+            <div class="s_col_no_bgcolor pb0 col-lg-3">
+                <div class="card text-bg-white h-100 border rounded" style="border-width: 0px !important; border-radius: 0px !important; background-color: rgb(245, 244, 239);">
+                    <img src="/web/image/24826-7e03a227/CAPAS%20CATALOGOS-03.webp" alt="" class="img-fluid o_we_custom_image" loading="lazy"/>
+                    <div class="s_hr pt16 pb8" data-name="Separador">
+                        <br/><br/><br/>
+                        <hr class="w-100 mx-auto" style="border-top-width: 2px;"/>
+                        <br/><br/>
+                    </div>
+                    <span class="fa fa-chevron-down" style="color: rgb(81, 76, 68);"/><br/>
+                    DINING ROOM COLLECTION<br/><br/><strong><u class="download-btn" data-catalogo="Dining Room Catalog">DOWNLOAD</u></strong>
+                </div>
+            </div>
+
+            <div class="s_col_no_bgcolor col-lg-3">
+                <div class="card text-bg-white h-100 border rounded" style="border-width: 0px !important; border-radius: 0px !important; background-color: rgb(245, 244, 239);">
+                    <img src="/web/image/24827-843e58ca/CAPAS%20CATALOGOS-01.webp" alt="" class="img-fluid o_we_custom_image" loading="lazy"/>
+                    <div class="s_hr pt16 pb8" data-name="Separador">
+                        <br/><br/><br/>
+                        <hr class="w-100 mx-auto" style="border-top-width: 2px;"/>
+                        <br/><br/>
+                    </div>
+                    <span class="fa fa-chevron-down" style="color: rgb(81, 76, 68);"/><br/>
+                    BEDROOM COLLECTION<br/><br/><strong><u class="download-btn" data-catalogo="Bedroom Catalog">DOWNLOAD</u></strong>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<style>
+@media (max-width: 768px) {
+  #openFormBtn {
+    width: 220px !important; /* mais estreito no mobile */
+  }
+}</style>
+<section class="s_cover parallax s_parallax_is_fixed bg-black-50 o_colored_level o_half_screen_height pt104 pb112" data-scroll-background-ratio="1" data-snippet="s_cover" data-name="Cover" style="background-image: none;background-image: none;margin-left: -100px;margin-right: -100px;height: 650px;">
+        <style>
+/* ============================
+   MOBILE: THE IDEAL PARTNER section
+   ============================ */
+@media (max-width: 767.98px) {
+  /* Restore correct title size and add top margin */
+  .s_cover.o_half_screen_height h4 span {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+    display: inline-block;     /* ensure margin applies properly */
+    margin-top: 16px !important;  /* adjust: try 12–20px as you prefer */
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+  }
+
+  /* Optional: keep layout tight */
+  .s_cover.o_half_screen_height {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+
+        </style>
+        <span class="s_parallax_bg oe_img_bg o_bg_img_center" style="background-image: url(&quot;/web/image/24828-8ee20488/04.00_01_42_10.Still025.webp&quot;); background-position: 50% 0px;" data-mimetype="image/webp" data-original-id="24820" data-original-src="/web/image/24820-8ee20488/04.00_01_42_10.Still025.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920" data-quality="100"/>
+        <div class="o_we_bg_filter bg-black-50"/>
+        <div class="s_allow_columns container">
+            <h4 style="text-align: center; font-weight: bold;">
+<span style="font-weight: normal; font-size: 2.375rem;"><font style="color: rgb(242, 240, 236);">THE IDEAL PARTNER FOR OUTSTANDING PROJECTS</font></span>
+
+<br/></h4><h4 style="text-align: center; font-weight: bold;">&amp;nbsp;<br/></h4>
+            <p class="lead" style="text-align: center; font-size: 20px; width: 60%; margin: 0 auto;">
+We combine experience, in-house production, and superior quality to support architects and designers in creating exclusive furniture with precision, flexibility, and attention to detail.</p><p class="lead" style="text-align: center;"><br/><br/></p>
+            <p style="text-align: center;">
+                <a class="btn btn-custom flat btn-lg" href="#" id="openFormBtn" style="border-style: solid; border-color: rgb(242, 240, 236); border-width: 1.5px; width: 343px; height: 54px; display: flex; align-items: center; justify-content: center; margin: 0 auto; color: rgb(242, 240, 236);" title="">
+  Contact Us
+</a>
+
+            </p>
+        </div>
+    </section>
+    <div class="modal fade" id="infoRequestModal" tabindex="-1" aria-labelledby="infoRequestLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content" style="border-radius: 10px; max-height: 90vh; overflow-y: auto;">
+          <div class="modal-header justify-content-center">
+            <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Fechar"/>
+          </div>
+          <div class="modal-body px-4 px-md-5">
+            <div class="info-request-popup-content">
+              <section class="s_title pt40 pb40 o_colored_level" data-vcss="001" data-snippet="s_title" data-name="Título" style="background-image: none;">
+                <div class="container s_allow_columns">
+                  <h2 class="display-3-fs" style="text-align: center;">Info Request Form</h2>
+                </div>
+              </section>
+              <section class="s_website_form pt16 pb16 o_colored_level" data-vcss="001" data-snippet="s_website_form" data-name="Formulário" style="background-image: none;">
+                <div class="container">
+                  <form action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-pre-fill="true" data-model_name="mail.mail" data-success-mode="message" data-role="product-popup-form" t-att-data-product-name="product_popup_name or ''">
+                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 col-lg-12 s_website_form_custom" data-type="selection">
+                        <label class="s_website_form_label d-none" style="width: 200px" for="opmobjbten2"><span class="s_website_form_label_content">Type</span></label>
+                        <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="Custom Text" data-display="horizontal">
+                          <div class="radio col-12 col-lg-4 col-md-6">
+                            <div class="form-check">
+                              <input type="radio" class="s_website_form_input form-check-input" id="opmobjbten20" name="Custom Text" value="Professional" data-fill-with="undefined"/>
+                              <label class="form-check-label s_website_form_check_label" for="opmobjbten20">Professional</label>
+                            </div>
+                          </div>
+                          <div class="radio col-12 col-lg-4 col-md-6">
+                            <div class="form-check">
+                              <input type="radio" class="s_website_form_input form-check-input" id="opmobjbten21" name="Custom Text" value="Private Client"/>
+                              <label class="form-check-label s_website_form_check_label" for="opmobjbten21">Private Client</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oa5legxki24"><span class="s_website_form_label_content">First Name</span><span class="s_website_form_mark"> *</span></label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="text" name="First Name" required="1" placeholder="" id="oa5legxki24" data-fill-with="name"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oyuyiohoxen"><span class="s_website_form_label_content">Last Name</span><span class="s_website_form_mark"> *</span></label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="text" name="Last Name" placeholder="" id="oyuyiohoxen" data-fill-with="undefined" required=""/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required" data-type="email">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ot0psduoytem"><span class="s_website_form_label_content">Email</span></label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="email" name="email_from" required="" placeholder="" id="ot0psduoytem" data-fill-with="email"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="tel">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oml59mmt6yt"><span class="s_website_form_label_content">Phone</span></label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="tel" name="Phone" required="1" placeholder="" id="oml59mmt6yt" data-fill-with="undefined"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="char" data-required-if-visible="1">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ohlysnrdpp7s"><span class="s_website_form_label_content">Country</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="text" name="Country" id="ohlysnrdpp7s"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="text">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="o1sbg012xio8"><span class="s_website_form_label_content">Message</span></label>
+                          <div class="col-sm">
+                            <textarea class="form-control s_website_form_input" name="Message" placeholder="" id="o1sbg012xio8" rows="5"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-visibility-dependency="First Name" data-visibility-comparator="equal" data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required s_website_form_field_hidden_if d-none" data-type="many2one" data-required-if-visible="1">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="onba4wbwmzl"><span class="s_website_form_label_content">Profession</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                          <div class="col-sm">
+                            <select class="form-select s_website_form_input" style="" name="Profession" required="1" id="onba4wbwmzl">
+                              <option value="Agent" selected="selected">Agent</option>
+                              <option value="Architect">Architect</option>
+                              <option value="Distributor">Distributor</option>
+                              <option value="Freelancer">Freelancer</option>
+                              <option value="Furniture Store">Furniture Store</option>
+                              <option value="Hotel">Hotel</option>
+                              <option value="Interior Desginer">Interior Desginer</option>
+                              <option value="Press">Press</option>
+                              <option value="Other">Other</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Custom Text" data-visibility-condition="Professional" data-visibility-comparator="selected" data-required-if-visible="1">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="odk5wra1ousd"><span class="s_website_form_label_content o_default_snippet_text">Company</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="text" name="Company" placeholder="" id="odk5wra1ousd" data-fill-with="commercial_company_name"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required s_website_form_field_hidden" data-type="char">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oogxyy4kqwu"><span class="s_website_form_label_content">Subject</span></label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="text" name="subject" required="" placeholder="" id="oogxyy4kqwu" data-fill-with="undefined" t-att-value="(product_popup_name and 'Info Request - %s' % product_popup_name) or 'Info Request'"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Custom Text" data-visibility-condition="Professional" data-visibility-comparator="selected">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="otuqhvkt79h"><span class="s_website_form_label_content">Website</span></label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="text" name="Website" placeholder="" id="otuqhvkt79h" data-fill-with="undefined"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px"><span class="s_website_form_label_content"/></label>
+                          <div class="col-sm">
+                            <input type="hidden" class="form-control s_website_form_input" name="email_to" value="info@casamagna.eu"/>
+                            <input type="hidden" class="form-control s_website_form_input" name="Product Name" t-att-value="product_popup_name or ''"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mb-0 py-2 col-12 s_website_form_submit" data-name="Submit Button">
+                        <div style="width: 200px;" class="s_website_form_label"/>
+                        <a href="#" role="button" class="btn btn-primary s_website_form_send o_default_snippet_text" data-bs-original-title="" title="">REQUEST</a>
+                        <span data-role="form-result"/>
+                      </div>
+                    </div>
+              </form>
+              <div class="d-none popup-thanks-container" data-role="thanks-container"/>
+              <div class="d-none" data-role="thanks-template">
+                <section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block">
+                  <div class="container s_allow_columns">
+                    <div class="row justify-content-center text-center">
+                      <div class="col-lg-7 col-xl-6 mx-auto">
+                        <img src="/web/image/30057" alt="Casa Magna logo" class="d-block mx-auto" style="width: 300px; object-fit: cover;"/><br/>
+                        <h1 class="text-center">Thank You!</h1>
+                        <div class="pb16 pt16 s_hr" data-snippet="s_hr" data-name="Separator">
+                          <hr class="mx-auto border-top w-50 border-dark text-center"/>
+                        </div>
+                        <h5 class="text-center">
+                          <span class="fa fa-check-circle"/>
+                          <span>Your message has been sent <b>successfully</b></span>
+                        </h5>
+                        <p class="text-center">We will get back to you shortly.</p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <input t-if="website.plausible_shared_key" type="hidden" class="js_plausible_push" data-event-name="Lead Generation" data-event-params="{'CTA': 'Contact Us'}"/>
+              </div>
+                </div>
+              </section>
+              <section class="s_text_block pb40 o_colored_level pt0" data-snippet="s_text_block" data-name="Texto" style="background-image: none;" data-role="privacy-notice">
+                <div class="s_allow_columns container">
+                  <p>
+                    I confirm that I authorize the use of the data sent, according to the <a data-bs-original-title="" title="" href="/privacy-policy">Privacy Policy</a>
+
+                  </p>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+(function () {
+  const escapeHtml = value =&gt; {
+    if (typeof value !== "string") {
+      return "";
+    }
+    return value;
+  };
+
+  function enhanceEmailBody(modalEl) {
+    if (!modalEl) {
+      return;
+    }
+    const forms = modalEl.querySelectorAll('form[data-role="product-popup-form"]');
+    forms.forEach(form =&gt; {
+      const bodyField = form.querySelector('[name="body_html"]');
+      if (!bodyField) {
+        return;
+      }
+      const messageField = form.querySelector('textarea[name="Message"]');
+      const productField = form.querySelector('input[name="Product Name"]');
+
+      const buildBody = () =&gt; {
+        const productNameRaw = (form.dataset.productName || (productField &amp;&amp; productField.value) || '').trim();
+        const messageRaw = messageField &amp;&amp; messageField.value ? messageField.value.trim() : '';
+        const bodyParts = [];
+        if (productNameRaw) {
+          bodyParts.push(`<p><strong>Product:</strong> ${escapeHtml(productNameRaw)}</p>`);
+        }
+        if (messageRaw) {
+          const safeMessage = escapeHtml(messageRaw).replace(/\r?\n/g, '<br/>');
+          bodyParts.push(`<p>${safeMessage}</p>`);
+        }
+        bodyField.value = bodyParts.join('') || '';
+      };
+
+      form.addEventListener('submit', buildBody);
+      if (messageField) {
+        messageField.addEventListener('input', buildBody);
+        messageField.addEventListener('change', buildBody);
+      }
+      buildBody();
+    });
+  }
+
+  function setupProductPopup(options) {
+    const modalEl = document.getElementById(options.modalId);
+    if (!modalEl) {
+      return;
+    }
+
+    enhanceEmailBody(modalEl);
+
+    const conditionalRequiredContainers = Array.from(modalEl.querySelectorAll('[data-required-if-visible]'));
+
+    const isElementVisible = element =&gt; {
+      if (!element) {
+        return false;
+      }
+      if (element.closest('.d-none')) {
+        return false;
+      }
+      let current = element;
+      while (current && current !== document.body) {
+        if (current.classList && current.classList.contains('d-none')) {
+          return false;
+        }
+        const style = window.getComputedStyle(current);
+        if (style.display === 'none' || style.visibility === 'hidden') {
+          return false;
+        }
+        current = current.parentElement;
+      }
+      return true;
+    };
+
+    const updateConditionalRequired = () =&gt; {
+      conditionalRequiredContainers.forEach(container =&gt; {
+        const field = container.matches('input, select, textarea')
+          ? container
+          : container.querySelector('input, select, textarea');
+        if (!field) {
+          return;
+        }
+        const marker = container.querySelector('[data-role="required-marker"]');
+        if (isElementVisible(container)) {
+          field.setAttribute('required', 'required');
+          field.setAttribute('aria-required', 'true');
+          container.classList.add('s_website_form_required');
+          if (marker) {
+            marker.classList.remove('d-none');
+          }
+        } else {
+          field.removeAttribute('required');
+          field.removeAttribute('aria-required');
+          container.classList.remove('s_website_form_required');
+          if (marker) {
+            marker.classList.add('d-none');
+          }
+        }
+      });
+    };
+
+    if (conditionalRequiredContainers.length) {
+      window.setTimeout(updateConditionalRequired, 0);
+      const visibilityControls = modalEl.querySelectorAll('input, select');
+      visibilityControls.forEach(control =&gt; {
+        control.addEventListener('change', () =&gt; window.setTimeout(updateConditionalRequired, 0));
+      });
+      modalEl.addEventListener('o_website_form_update_visibility', () =&gt; window.setTimeout(updateConditionalRequired, 0));
+      const mutationObserver = new MutationObserver(() =&gt; window.setTimeout(updateConditionalRequired, 0));
+      conditionalRequiredContainers.forEach(container =&gt; {
+        mutationObserver.observe(container, { attributes: true, attributeFilter: ['class', 'style'] });
+      });
+    }
+
+    const form = modalEl.querySelector("form.o_mark_required");
+    const successTarget = modalEl.querySelector(options.successSelector || "[data-role=\"form-result\"]");
+    const thanksContainer = modalEl.querySelector("[data-role=\"thanks-container\"]");
+    const thanksTemplate = modalEl.querySelector("[data-role=\"thanks-template\"]");
+    const privacyNotices = Array.from(modalEl.querySelectorAll("[data-role=\"privacy-notice\"]"));
+    const originalResultClass = successTarget ? successTarget.getAttribute("class") || "" : "";
+    const initDelay = typeof options.initDelay === "number" ? options.initDelay : 300;
+    let hasShownThanks = false;
+    let successAlertObserver = null;
+
+    const hasActiveErrors = () =&gt; {
+      if (!modalEl) {
+        return false;
+      }
+      const errorSelectors = options.errorSelectors || [
+        ".o_has_error",
+        ".o_invalid_field",
+        ".is-invalid",
+        ".invalid-feedback:not(.d-none)",
+        ".alert.alert-danger:not(.d-none)",
+        "[data-role=\"form-result\"].alert-danger",
+        "[data-role=\"form-result\"] .alert-danger"
+      ];
+      const hasSelectorErrors = errorSelectors.some(selector =&gt; modalEl.querySelector(selector));
+      if (hasSelectorErrors) {
+        return true;
+      }
+      if (form &amp;&amp; (form.classList.contains("o_has_error") || form.classList.contains("s_website_form_has_error"))) {
+        return true;
+      }
+      return false;
+    };
+
+    const showThanks = () =&gt; {
+      if (!form || !thanksContainer || !thanksTemplate || hasShownThanks) {
+        return;
+      }
+      hasShownThanks = true;
+      form.classList.add("d-none");
+      thanksContainer.innerHTML = thanksTemplate.innerHTML;
+      thanksContainer.classList.remove("d-none");
+      if (successAlertObserver) {
+        successAlertObserver.disconnect();
+        successAlertObserver = null;
+      }
+      privacyNotices.forEach(node =&gt; node.classList.add("d-none"));
+    };
+
+    const handleSuccess = () =&gt; {
+      if (hasShownThanks) {
+        return;
+      }
+      if (successTarget) {
+        successTarget.innerHTML = "";
+        successTarget.setAttribute("class", originalResultClass);
+      }
+      modalEl.querySelectorAll(".alert.alert-success").forEach(node =&gt; node.remove());
+      showThanks();
+    };
+
+    const observeSuccessAlerts = () =&gt; {
+      if (successAlertObserver) {
+        successAlertObserver.disconnect();
+      }
+      successAlertObserver = new MutationObserver(mutations =&gt; {
+        if (hasShownThanks) {
+          return;
+        }
+        const hasSuccess = mutations.some(mutation =&gt;
+          Array.from(mutation.addedNodes || []).some(node =&gt; {
+            if (node.nodeType !== Node.ELEMENT_NODE) {
+              return false;
+            }
+            if (node.classList &amp;&amp; node.classList.contains("alert") &amp;&amp; node.classList.contains("alert-success")) {
+              return true;
+            }
+            return !!(node.querySelector &amp;&amp; node.querySelector(".alert.alert-success"));
+          })
+        );
+        if (hasSuccess) {
+          handleSuccess();
+        }
+      });
+      successAlertObserver.observe(modalEl, { childList: true, subtree: true });
+    };
+
+    const resetPopupState = () =&gt; {
+      if (form) {
+        form.classList.remove("d-none");
+        form.reset();
+      }
+      hasShownThanks = false;
+      if (conditionalRequiredContainers.length) {
+        window.setTimeout(updateConditionalRequired, 0);
+      }
+      if (thanksContainer) {
+        thanksContainer.innerHTML = "";
+        thanksContainer.classList.add("d-none");
+      }
+      if (successTarget) {
+        successTarget.innerHTML = "";
+        successTarget.setAttribute("class", originalResultClass);
+      }
+      modalEl.querySelectorAll(".alert.alert-success").forEach(node =&gt; node.remove());
+      privacyNotices.forEach(node =&gt; node.classList.remove("d-none"));
+      observeSuccessAlerts();
+    };
+
+    if (form) {
+      if (window.jQuery) {
+        const $form = window.jQuery(form);
+        $form.on("o_website_form_success", handleSuccess);
+        $form.on("o_website_form_submit", () =&gt; {
+          if (thanksContainer) {
+            thanksContainer.innerHTML = "";
+            thanksContainer.classList.add("d-none");
+          }
+          privacyNotices.forEach(node =&gt; node.classList.remove("d-none"));
+          form.classList.remove("d-none");
+        });
+      }
+
+      form.addEventListener("o_website_form_success", handleSuccess, true);
+      form.addEventListener("o_website_form_submit", () =&gt; {
+        if (thanksContainer) {
+          thanksContainer.innerHTML = "";
+          thanksContainer.classList.add("d-none");
+        }
+        privacyNotices.forEach(node =&gt; node.classList.remove("d-none"));
+        form.classList.remove("d-none");
+      });
+
+      const submitButtons = modalEl.querySelectorAll(options.submitButtonSelector || ".s_website_form_send");
+      const submitCheckDelay = typeof options.submitCheckDelay === "number" ? options.submitCheckDelay : 300;
+      submitButtons.forEach(button =&gt; {
+        button.addEventListener("click", () =&gt; {
+          window.setTimeout(() =&gt; {
+            if (!hasActiveErrors()) {
+              handleSuccess();
+            }
+          }, submitCheckDelay);
+        });
+      });
+    }
+
+    if (successTarget) {
+      const resultObserver = new MutationObserver(() =&gt; {
+        if (hasShownThanks) {
+          return;
+        }
+        const hasMessage = successTarget.textContent &amp;&amp; successTarget.textContent.trim().length &gt; 0;
+        const hasSuccessAlert = !!(successTarget.querySelector &amp;&amp; successTarget.querySelector(".alert.alert-success"));
+        if (hasMessage || hasSuccessAlert) {
+          handleSuccess();
+        }
+      });
+      resultObserver.observe(successTarget, { childList: true, subtree: true });
+    }
+
+    modalEl.addEventListener("show.bs.modal", () =&gt; {
+      resetPopupState();
+    });
+
+    modalEl.addEventListener("shown.bs.modal", () =&gt; {
+      window.setTimeout(() =&gt; {
+        try {
+          if (window.odoo?.website?.website_form?.init) {
+            window.odoo.website.website_form.init();
+          }
+        } catch (err) {
+          console.error("Error initializing website_form in modal:", err);
+        }
+      }, initDelay);
+      if (conditionalRequiredContainers.length) {
+        window.setTimeout(updateConditionalRequired, initDelay);
+      }
+    });
+
+    modalEl.addEventListener("hidden.bs.modal", () =&gt; {
+      resetPopupState();
+    });
+
+    if (options.openButtonSelector) {
+      const showModal = () =&gt; {
+        if (typeof bootstrap !== "undefined" &amp;&amp; bootstrap.Modal) {
+          const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+          modalInstance.show();
+          return true;
+        }
+        if (window.jQuery &amp;&amp; typeof window.jQuery(modalEl).modal === "function") {
+          window.jQuery(modalEl).modal("show");
+          return true;
+        }
+        return false;
+      };
+
+      document.querySelectorAll(options.openButtonSelector).forEach(trigger =&gt; {
+        trigger.addEventListener("click", event =&gt; {
+          event.preventDefault();
+          if (!showModal()) {
+            console.warn("Modal dependencies missing for", options.modalId);
+          }
+        });
+      });
+    }
+
+    observeSuccessAlerts();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const popups = [
+      { modalId: "infoRequestModal", openButtonSelector: "#openFormBtn", initDelay: 300 },
+      { modalId: "requestCustomizationModal", initDelay: 300 },
+      { modalId: "modal3DForm", initDelay: 600 }
+    ];
+    popups.forEach(setupProductPopup);
+  });
+})();
+    </script>
+
+    <div id="popupCatalogo" class="popup-overlay" style="display:none;">
+  <div class="popup-content">
+    <span class="close-popup">×</span>
+    <div id="wrap" class="oe_structure oe_empty">
+      <section class="s_title pt40 pb40 o_colored_level" data-vcss="001" data-snippet="s_title" data-name="Título" style="background-image: none;">
+        <div class="container s_allow_columns">
+          <h2 class="display-3-fs" style="text-align: center;">Catalog Request</h2>
+        </div>
+      </section>
+      <section class="s_website_form pt16 pb16 o_colored_level" data-vcss="001" data-snippet="s_website_form" data-name="Formulário" style="background-image: none;">
+        <div class="container">
+          <form action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-pre-fill="true" data-model_name="mail.mail" data-success-mode="message">
+            <div class="s_website_form_rows row s_col_no_bgcolor">
+              
+              <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom col-lg-12 s_website_form_required" data-type="char">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oa5legxki24"><span class="s_website_form_label_content">First Name</span><span class="s_website_form_mark"> *</span></label>
+                  <div class="col-sm">
+                    <input class="form-control s_website_form_input" type="text" name="First Name" placeholder="" id="oa5legxki24" data-fill-with="name" required="required" aria-required="true"/>
+                  </div>
+                </div>
+              </div>
+              <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom col-lg-12 s_website_form_required" data-type="char">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oyuyiohoxen"><span class="s_website_form_label_content">Last Name</span><span class="s_website_form_mark"> *</span></label>
+                  <div class="col-sm">
+                    <input class="form-control s_website_form_input" type="text" name="Last Name" placeholder="" id="oyuyiohoxen" data-fill-with="undefined" required="required" aria-required="true"/>
+                  </div>
+                </div>
+              </div><div data-name="Field" class="s_website_form_field mb-3 col-12 col-lg-12 s_website_form_custom s_website_form_required" data-type="selection">
+                <label class="s_website_form_label d-none" style="width: 200px" for="opmobjbten2"><span class="s_website_form_label_content">Type</span></label>
+                <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="Custom Text" data-display="horizontal">
+                  <div class="radio col-12 col-lg-4 col-md-6">
+                    <div class="form-check">
+                      <input type="radio" class="s_website_form_input form-check-input" id="opmobjbten20" name="Custom Text" value="Professional" data-fill-with="undefined" required=""/>
+                      <label class="form-check-label s_website_form_check_label" for="opmobjbten20">Professional</label>
+                    </div>
+                  </div>
+                  <div class="radio col-12 col-lg-4 col-md-6">
+                    <div class="form-check">
+                      <input type="radio" class="s_website_form_input form-check-input" id="opmobjbten21" name="Custom Text" value="Private Client" required=""/>
+                      <label class="form-check-label s_website_form_check_label" for="opmobjbten21">Private Client</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required" data-type="email">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ot0psduoytem"><span class="s_website_form_label_content">Email</span></label>
+                  <div class="col-sm">
+                    <input class="form-control s_website_form_input" type="email" name="email_from" required="" placeholder="" id="ot0psduoytem" data-fill-with="email"/>
+                  </div>
+                </div>
+              </div>
+              <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="tel">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oml59mmt6yt"><span class="s_website_form_label_content">Phone</span><span class="s_website_form_mark"> *</span></label>
+                  <div class="col-sm">
+                    <input class="form-control s_website_form_input" type="tel" name="Phone" placeholder="" id="oml59mmt6yt" data-fill-with="undefined" required="required" aria-required="true"/>
+                  </div>
+                </div>
+              </div>
+              <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ohlysnrdpp7s"><span class="s_website_form_label_content">Country</span><span class="s_website_form_mark"> *</span></label>
+                  <div class="col-sm">
+                    <input class="form-control s_website_form_input" type="text" name="Country" id="ohlysnrdpp7s" required="required" aria-required="true"/>
+                  </div>
+                </div>
+              </div>
+              <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="text">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="o1sbg012xio8"><span class="s_website_form_label_content">Message</span></label>
+                  <div class="col-sm">
+                    <textarea class="form-control s_website_form_input" name="Message" placeholder="" id="o1sbg012xio8" rows="5"/>
+                  </div>
+                </div>
+              </div>
+              <div data-visibility-dependency="Custom Text" data-visibility-condition="Professional" data-visibility-comparator="selected" data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="many2one">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="onba4wbwmzl"><span class="s_website_form_label_content">Profession</span><span class="s_website_form_mark d-none" data-professional-mark="true"> *</span></label>
+                  <div class="col-sm">
+                    <select class="form-select s_website_form_input" name="Profession" id="onba4wbwmzl" data-professional-required="true">
+                      <option value="Agent" selected="selected">Agent</option>
+                      <option value="Architect">Architect</option>
+                      <option value="Distributor">Distributor</option>
+                      <option value="Freelancer">Freelancer</option>
+                      <option value="Furniture Store">Furniture Store</option>
+                      <option value="Hotel">Hotel</option>
+                      <option value="Interior Desginer">Interior Desginer</option>
+                      <option value="Press">Press</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Custom Text" data-visibility-condition="Professional" data-visibility-comparator="selected">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="odk5wra1ousd"><span class="s_website_form_label_content o_default_snippet_text">Company</span><span class="s_website_form_mark d-none" data-professional-mark="true"> *</span></label>
+                  <div class="col-sm">
+                    <input class="form-control s_website_form_input" type="text" name="Company" placeholder="" id="odk5wra1ousd" data-fill-with="commercial_company_name" data-professional-required="true"/>
+                  </div>
+                </div>
+              </div>
+              <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required s_website_form_field_hidden" data-type="char">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oogxyy4kqwu"><span class="s_website_form_label_content">Subject</span></label>
+                  <div class="col-sm">
+                    <input class="form-control s_website_form_input" type="text" name="subject" required="" placeholder="" id="oogxyy4kqwu" data-fill-with="undefined" value="Living Room Catalog Request"/>
+                  </div>
+                </div>
+              </div>
+              <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Custom Text" data-visibility-condition="Professional" data-visibility-comparator="selected">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="otuqhvkt79h"><span class="s_website_form_label_content">Website</span></label>
+                  <div class="col-sm">
+                    <input class="form-control s_website_form_input" type="text" name="Website" placeholder="" id="otuqhvkt79h" data-fill-with="undefined"/>
+                  </div>
+                </div>
+              </div>
+              <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px"><span class="s_website_form_label_content"/></label>
+                  <div class="col-sm">
+                    <input type="hidden" class="form-control s_website_form_input" name="Catalog" id="catalogName" value="Dining Room Catalog"/>
+                  </div>
+                </div>
+              </div>
+              <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px"><span class="s_website_form_label_content"/></label>
+                  <div class="col-sm">
+                    <input type="hidden" class="form-control s_website_form_input" name="email_to" value="info@casamagna.eu"/><input type="hidden" value="7a746d2a643d5d19062391c088e2aaef94bbe2bc084fe33d87bfea9af278fe6c" class="form-control s_website_form_input s_website_form_custom" name="website_form_signature"/>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-0 py-2 col-12 s_website_form_submit" data-name="Submit Button">
+                <div style="width: 200px;" class="s_website_form_label"/>
+                <a href="#" role="button" class="btn btn-primary s_website_form_send o_default_snippet_text" data-bs-original-title="" title="">REQUEST</a>
+                <span id="s_website_form_result"/>
+              </div>
+            </div>
+          </form>
+          <div id="popupThanksContainer" class="d-none popup-thanks-container"/>
+          <div id="popupThanksTemplate" class="d-none">
+            <section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block">
+              <div class="container s_allow_columns">
+                <div class="row justify-content-center text-center">
+                  <div class="col-lg-7 col-xl-6 mx-auto">
+                    <img src="/web/image/30057" alt="Casa Magna logo" class="d-block mx-auto" style="width: 300px; object-fit: cover;"/><br/>
+                    <h1 class="text-center">Thank You!</h1>
+                    <div class="pb16 pt16 s_hr" data-snippet="s_hr" data-name="Separator">
+                      <hr class="mx-auto border-top w-50 border-dark text-center"/>
+                    </div>
+                    <h5 class="text-center">
+                      <span class="fa fa-check-circle"/>
+                      Your message has been sent <b>successfully</b>
+                    </h5>
+                    <p class="text-center">We will get back to you shortly.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <input t-if="website.plausible_shared_key" type="hidden" class="js_plausible_push" data-event-name="Lead Generation" data-event-params="{'CTA': 'Contact Us'}"/>
+          </div>
+        </div>
+      </section>
+      <section id="privacyPolicyNotice" class="s_text_block pb40 o_colored_level pt0" data-snippet="s_text_block" data-name="Texto" style="background-image: none;">
+        <div class="s_allow_columns container">
+          <p>
+I confirm that I authorize the use of the data sent, according to the <a data-bs-original-title="" title="" href="/privacy-policy" style="color:rgb(48, 45, 39);">Privacy Policy</a>
+
+</p>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+
+<style>
+.popup-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.popup-content {
+  background: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+.close-popup {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.popup-thanks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const popup = document.getElementById("popupCatalogo");
+  if (!popup) {
+    return;
+  }
+
+  const close = popup.querySelector(".close-popup");
+  const catalogField = document.getElementById("catalogName");
+  const subjectField = document.getElementById("oogxyy4kqwu");
+  const form = popup.querySelector("form.o_mark_required");
+  const submitButton = form ? form.querySelector(".s_website_form_send") : null;
+  const successTarget = popup.querySelector("#s_website_form_result");
+  const thanksContainer = popup.querySelector("#popupThanksContainer");
+  const thanksTemplate = popup.querySelector("#popupThanksTemplate");
+  const privacyNotice = document.getElementById("privacyPolicyNotice");
+  const defaultSubjectValue = subjectField ? subjectField.value : "";
+  const defaultCatalogValue = catalogField ? catalogField.value : "";
+  const originalResultClass = successTarget ? successTarget.getAttribute("class") || "" : "";
+  let hasShownThanks = false;
+  let successAlertObserver = null;
+
+  const toggleProfessionalRequirements = () =&gt; {
+    if (!form) {
+      return;
+    }
+    const isProfessional = !!form.querySelector('input[name="Custom Text"][value="Professional"]:checked');
+    form.querySelectorAll('[data-professional-required="true"]').forEach(field =&gt; {
+      const fieldContainer = field.closest('.s_website_form_field');
+      const mark = fieldContainer ? fieldContainer.querySelector('.s_website_form_mark[data-professional-mark="true"]') : null;
+      if (isProfessional) {
+        field.setAttribute('required', 'required');
+        field.setAttribute('aria-required', 'true');
+        if (fieldContainer) {
+          fieldContainer.classList.add('s_website_form_required');
+        }
+        if (mark) {
+          mark.classList.remove('d-none');
+        }
+      } else {
+        field.removeAttribute('required');
+        field.removeAttribute('aria-required');
+        if (fieldContainer) {
+          fieldContainer.classList.remove('s_website_form_required');
+        }
+        if (mark) {
+          mark.classList.add('d-none');
+        }
+      }
+    });
+  };
+
+  if (form) {
+    toggleProfessionalRequirements();
+    form.querySelectorAll('input[name="Custom Text"]').forEach(radio =&gt; {
+      radio.addEventListener('change', toggleProfessionalRequirements);
+    });
+  }
+
+  const hasActiveErrors = () =&gt; {
+    if (!popup) {
+      return false;
+    }
+    const errorSelectors = [
+      ".o_has_error",
+      ".o_invalid_field",
+      ".is-invalid",
+      ".invalid-feedback:not(.d-none)",
+      ".alert.alert-danger:not(.d-none)",
+      "#s_website_form_result.alert-danger",
+      "#s_website_form_result .alert-danger"
+    ];
+    return errorSelectors.some(selector =&gt; popup.querySelector(selector));
+  };
+
+  const showThanks = () =&gt; {
+    if (!form || !thanksContainer || !thanksTemplate || hasShownThanks) {
+      return;
+    }
+    hasShownThanks = true;
+    form.classList.add("d-none");
+    thanksContainer.innerHTML = thanksTemplate.innerHTML;
+    thanksContainer.classList.remove("d-none");
+    if (successAlertObserver) {
+      successAlertObserver.disconnect();
+      successAlertObserver = null;
+    }
+    if (privacyNotice) {
+      privacyNotice.classList.add("d-none");
+    }
+  };
+
+  const handleSuccess = () =&gt; {
+    if (successTarget) {
+      successTarget.innerHTML = "";
+      successTarget.setAttribute("class", originalResultClass);
+    }
+    popup.querySelectorAll('.alert.alert-success').forEach(node =&gt; node.remove());
+    showThanks();
+  };
+
+  const observeSuccessAlerts = () =&gt; {
+    if (!popup) {
+      return;
+    }
+    if (successAlertObserver) {
+      successAlertObserver.disconnect();
+    }
+    successAlertObserver = new MutationObserver(mutations =&gt; {
+      if (hasShownThanks) {
+        return;
+      }
+      const hasSuccessAlert = mutations.some(mutation =&gt; {
+        return Array.from(mutation.addedNodes || []).some(node =&gt; {
+          if (node.nodeType !== Node.ELEMENT_NODE) {
+            return false;
+          }
+          const element = node;
+          if (element.classList &amp;&amp; element.classList.contains('alert') &amp;&amp; element.classList.contains('alert-success')) {
+            return true;
+          }
+          return !!(element.querySelector &amp;&amp; element.querySelector('.alert.alert-success'));
+        });
+      });
+      if (hasSuccessAlert) {
+        handleSuccess();
+      }
+    });
+    successAlertObserver.observe(popup, { childList: true, subtree: true });
+  };
+
+  const resetPopupState = () =&gt; {
+    if (form) {
+      form.classList.remove("d-none");
+      form.reset();
+      toggleProfessionalRequirements();
+    }
+    hasShownThanks = false;
+    if (catalogField) {
+      catalogField.value = defaultCatalogValue;
+    }
+    if (subjectField) {
+      subjectField.value = defaultSubjectValue;
+    }
+    if (thanksContainer) {
+      thanksContainer.innerHTML = "";
+      thanksContainer.classList.add("d-none");
+    }
+    if (successTarget) {
+      successTarget.innerHTML = "";
+      successTarget.setAttribute("class", originalResultClass);
+    }
+    popup.querySelectorAll('.alert.alert-success').forEach(node =&gt; node.remove());
+    if (privacyNotice) {
+      privacyNotice.classList.remove("d-none");
+    }
+    observeSuccessAlerts();
+  };
+
+  if (form) {
+    if (window.jQuery) {
+      const $form = window.jQuery(form);
+      $form.on("o_website_form_success", handleSuccess);
+      $form.on("o_website_form_submit", () =&gt; {
+        if (privacyNotice) {
+          privacyNotice.classList.remove("d-none");
+        }
+        if (thanksContainer) {
+          thanksContainer.innerHTML = "";
+          thanksContainer.classList.add("d-none");
+        }
+        form.classList.remove("d-none");
+      });
+    }
+
+    form.addEventListener("o_website_form_success", handleSuccess, true);
+
+    if (successTarget) {
+      const observer = new MutationObserver(() =&gt; {
+        const hasMessage = successTarget.textContent &amp;&amp; successTarget.textContent.trim().length &gt; 0;
+        if (hasMessage) {
+          handleSuccess();
+        }
+      });
+      observer.observe(successTarget, { childList: true, subtree: true });
+    }
+  }
+
+  if (submitButton) {
+    submitButton.addEventListener("click", () =&gt; {
+      window.setTimeout(() =&gt; {
+        if (!hasActiveErrors()) {
+          handleSuccess();
+        }
+      }, 300);
+    });
+  }
+
+  observeSuccessAlerts();
+
+  document.querySelectorAll(".download-btn").forEach(btn =&gt; {
+    btn.addEventListener("click", () =&gt; {
+      resetPopupState();
+      const nome = btn.dataset.catalogo;
+      if (catalogField &amp;&amp; nome) {
+        catalogField.value = nome;
+      }
+      if (subjectField &amp;&amp; nome) {
+        subjectField.value = `${nome} Request`;
+      }
+      popup.style.display = "flex";
+    });
+  });
+
+  if (close) {
+    close.addEventListener("click", () =&gt; {
+      popup.style.display = "none";
+    });
+  }
+
+  popup.addEventListener("click", event =&gt; {
+    if (event.target === popup) {
+      popup.style.display = "none";
+    }
+  });
+});
+</script>
+
+</div>
+    </t>
+</t>

@@ -1,0 +1,79 @@
+@if o-website-value('header-template') == 'as_header4' {
+	.as-top-header {
+        @include o-apply-colors('header-sales_four');
+        @include o-apply-colors('header-sales_four-custom');
+        @include o-add-gradient('menu-secondary-gradient');
+    }
+    .as-main-header{
+        padding: 0;
+
+    .as-middle-header {
+        padding: 20px 0;
+        background-color: var(--white);
+        .as-h-icon {
+			width: 50px;
+			height: 50px;
+			border-radius: var(--border-radius) !important;
+            color: var(--dark) !important;
+            border: 1px solid var(--border-color);
+            --NavLinkWithBackground-bg-color: var(--gray-100);
+			.fa-stack {
+                align-items: center;
+                justify-content: center;
+			}
+            &.as-h-sign{
+                &::before{
+                    font-size: 16px;
+                }
+            }
+		}
+    }
+}
+    .as-sign{
+        &::before{
+            font-size: 1.3rem;
+        }
+    }
+    .as-bottom-header{
+        .top_menu {
+            width: 100%;
+        }
+        .as-bottom{
+            justify-content: space-between;
+            &:has(> :only-child){
+                justify-content: center;
+            }
+        }
+        .as-hm-btn{
+            .btn_cta{
+                border-radius: var(--border-radius);
+                padding: 7px 12px;
+            }
+        }
+    }
+    .o_navlink_no_background {
+        .as-middle-header{
+            .as-h-icon{
+                --NavLinkWithBackground-bg-color: transparent;
+            }
+        }
+    }
+    #wrapwrap.o_header_overlay {
+        > header:not(.o_header_affixed):not(.o_header_sidebar):not(.o_top_menu_collapse_shown) {
+			> .as-main-header{
+                .as-middle-header{
+                    background-color: transparent;
+                }
+                
+			}
+            &:not(.o_navlink_no_background){
+                .as-middle-header {
+                    .as-h-icon{
+                        --NavLinkWithBackground-bg-color:color-mix(in srgb, currentColor 15%, transparent);
+                        color: inherit !important;
+                    }
+                }
+            }
+		}
+    }
+}

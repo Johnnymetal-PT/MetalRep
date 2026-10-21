@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <record id="module_category_pg_producao_armazem" model="ir.module.category">
+        <field name="name">PG Producao/Armazem</field>
+        <field name="description">Perfil de acesso Producao/Armazem (PG).</field>
+        <field name="sequence">91</field>
+    </record>
+
+    <!--
+      Grupo chave SO para "scoping" das vistas de Vendas:
+      torna o formulario/lista de Vendas read-only (edit/create/delete=0) e
+      esconde todos os montantes. Nao concede ACLs por si; o acesso de leitura
+      a Vendas vem do grupo standard sales_team.group_sale_salesman_all_leads.
+    -->
+    <record id="pg_group_sale_view_no_amount" model="res.groups">
+        <field name="name">PG Vendas: so leitura sem valores</field>
+        <field name="category_id" ref="module_category_pg_producao_armazem"/>
+        <field name="comment">Vendas em leitura, com montantes ocultos (via vistas scoped).</field>
+    </record>
+
+</odoo>

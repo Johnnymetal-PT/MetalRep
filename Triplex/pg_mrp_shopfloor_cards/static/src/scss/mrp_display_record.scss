@@ -1,0 +1,107 @@
+.o_mrp_display_record .o_finished_product {
+    flex-wrap: wrap;
+}
+
+.o_mrp_display_record .o_pg_shopfloor_origin_top {
+    color: inherit;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.3rem;
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.o_mrp_display_record .o_pg_shopfloor_origin_label {
+    color: inherit;
+    opacity: 0.9;
+}
+
+.o_mrp_display_record .o_pg_shopfloor_origin_text {
+    color: inherit;
+    word-break: break-word;
+}
+
+// Tecido da peça: informação crítica para não se dar baixa do tecido errado quando várias
+// peças diferem só nele. Mais discreto do que a origem, mas com destaque próprio.
+.o_mrp_display_record .o_pg_shopfloor_fabric {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.3rem;
+    font-size: 1.1rem;
+    padding: 0.25rem 0.5rem;
+    border-left: 4px solid var(--o-color-primary, #714b67);
+    background-color: rgba(0, 0, 0, 0.04);
+    word-break: break-word;
+}
+
+.o_mrp_display_record .o_pg_shopfloor_fabric_label {
+    font-weight: 700;
+    opacity: 0.85;
+}
+
+.o_mrp_display_record .o_pg_shopfloor_product_name {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    word-break: break-word;
+}
+
+.o_mrp_display_record .o_pg_shopfloor_preview_btn {
+    --pg-btn-color: var(--o-brand-primary, #875a7b);
+    color: var(--pg-btn-color);
+    background-color: transparent;
+    border-color: var(--pg-btn-color);
+    min-height: 3rem;
+    padding: 0.7rem 1.05rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-width: 2px;
+    border-radius: 0.55rem;
+}
+
+.o_mrp_display_record .o_pg_shopfloor_preview_btn:hover,
+.o_mrp_display_record .o_pg_shopfloor_preview_btn:focus,
+.o_mrp_display_record .o_pg_shopfloor_preview_btn:active {
+    color: #fff;
+    background-color: var(--pg-btn-color);
+    border-color: var(--pg-btn-color);
+}
+
+@media (max-width: 1024px) {
+    .o_mrp_display_record .o_pg_shopfloor_origin_top {
+        font-size: 1.6rem;
+    }
+}
+
+.o_pg_shopfloor_dialog_body {
+    min-height: 65vh;
+}
+
+.o_pg_shopfloor_pdf_iframe {
+    width: 100%;
+    min-height: 70vh;
+    border: 0;
+    background: #fff;
+}
+
+.o_pg_shopfloor_image_wrap {
+    max-height: 70vh;
+    overflow: auto;
+    border-radius: 4px;
+    background: #151515;
+    padding: 0.75rem;
+}
+
+.o_pg_shopfloor_preview_image {
+    display: block;
+    max-width: none;
+}
+
+.o_pg_shopfloor_zoom_label {
+    min-width: 3.5rem;
+    line-height: 1.75rem;
+    text-align: center;
+}

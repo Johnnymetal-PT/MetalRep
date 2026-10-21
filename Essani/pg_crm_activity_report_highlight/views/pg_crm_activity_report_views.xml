@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pg_crm_activity_report_view_tree_highlight" model="ir.ui.view">
+        <field name="name">crm.activity.report.list.pg.highlight</field>
+        <field name="model">crm.activity.report</field>
+        <field name="inherit_id" ref="crm.crm_activity_report_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="decoration-success">date != False</attribute>
+                <attribute name="class" add="pg_crm_activity_report_list" separator=" "/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

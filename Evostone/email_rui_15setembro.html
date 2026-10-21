@@ -1,0 +1,121 @@
+<!doctype html>
+<!--
+  NÃO copiar a partir do editor de código. O que está neste ficheiro é o HTML da
+  página de pré-visualização; colado em bruto, o Odoo mostra as etiquetas como texto.
+
+  Para colar no Odoo, dois caminhos:
+    1. o pg_copy_email_cliente.ps1 já deixou o corpo do email na área de
+       transferência — no compositor do Odoo é só Ctrl+V;
+    2. ou abrir este ficheiro no browser (não no editor) e usar o botão
+       "Copiar corpo".
+-->
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pode dar entrada de artigos — e o que falta para os preços</title>
+<style>
+:root { color-scheme: light dark; }
+body { margin: 0; padding: 24px; background: #f4f6f8;
+       font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #111827; }
+main { max-width: 760px; margin: 0 auto; }
+.meta { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+        padding: 16px 20px; margin-bottom: 8px; font-size: 13px; }
+.meta h1 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em;
+           color: #6b7280; margin: 0 0 10px; }
+.meta dl { display: grid; grid-template-columns: 90px 1fr; gap: 4px 12px; margin: 0; }
+.meta dt { color: #6b7280; } .meta dd { margin: 0; font-weight: 600; }
+.avisos { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+          padding: 12px 20px; margin-bottom: 8px; font-size: 13px; color: #92400e; }
+.avisos ul { margin: 6px 0 0; padding-left: 18px; }
+.barra { display: flex; align-items: center; gap: 12px; margin: 16px 0 8px; }
+button { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 6px;
+         border: 0; background: #009fe3; color: #fff; cursor: pointer; }
+button:hover { background: #007fb6; }
+.dica { font-size: 12px; color: #6b7280; }
+#corpo { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+         padding: 24px 28px; font-size: 14px; line-height: 1.55; }
+#corpo p { margin: 0 0 12px; }
+#corpo table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+#corpo th, #corpo td { border: 1px solid #d1d5db; padding: 6px 10px; text-align: left; }
+#corpo th { background: #f9fafb; }
+#corpo blockquote { margin: 0 0 12px; padding-left: 12px; border-left: 3px solid #d1d5db;
+                    color: #4b5563; }
+#corpo pre { background: #f3f4f6; padding: 12px; overflow-x: auto; }
+@media (prefers-color-scheme: dark) {
+  body { background: #0b1220; color: #e5e7eb; }
+  .meta, #corpo { background: #111827; border-color: #1f2937; }
+  #corpo th { background: #1f2937; } #corpo th, #corpo td { border-color: #374151; }
+  .avisos { background: #2b2411; border-color: #7c5e10; color: #fcd34d; }
+}
+</style>
+</head>
+<body>
+<main>
+<section class="meta"><h1>Email ao cliente</h1><dl><dt>Assunto</dt><dd>Pode dar entrada de artigos — e o que falta para os preços</dd><dt>Para</dt><dd>ceo@evostone.eu</dd><dt>Cc</dt><dd>financeiro@evostone.eu</dd></dl></section><section class="avisos"><strong>Avisos da conversão</strong><ul><li>Fecho e assinatura retirados do corpo, porque o compositor do Odoo já insere a assinatura do utilizador: «Cumprimentos,». Para os manter, correr com -ManterAssinatura.</li></ul></section><div class="barra"><button id="copiar" type="button">Copiar corpo</button><span class="dica" id="estado">Copia apenas o corpo — os metadados acima ficam de fora.</span></div>
+<article id="corpo">
+<p>Boa tarde Sr. Rui,</p>
+<p>Respondo às suas mensagens de hoje e fecho os pontos que ficaram em aberto.</p>
+<p><strong>Sim, pode começar a dar entrada de artigos</strong></p>
+<p>Perguntou-nos esta manhã se podia avançar. Pode.</p>
+<p>Havia três coisas a impedir a entrada, e estão as três resolvidas:</p>
+<ul><li>sete categorias de artigo exigiam contas de existências que não estavam<br>preenchidas, e por isso qualquer recepção era recusada;</li><li>o tipo de serviço «Bens» não cobria a classificação da maior parte do vosso<br>catálogo — em concreto, toda a compra de mercadoria era rejeitada;</li><li>as três encomendas já criadas tinham ficado com a configuração antiga<br>guardada, e foram actualizadas.</li></ul>
+<p>Testámos a recepção completa da sua ordem P00002 — as 23 linhas, 33.863,04 € —<br>e passa de ponta a ponta.</p>
+<p><strong>Há um passo que depende de vós: os lotes</strong></p>
+<p>As chapas estão configuradas com rastreio por lote. Cada chapa é um lote, com<br>as suas dimensões. Enquanto não existirem lotes criados, a recepção não conclui.</p>
+<p>Este mesmo ponto explica o problema dos preços, a seguir.</p>
+<p><strong>Os preços das chapas</strong></p>
+<p>Não é uma avaria nem uma permissão em falta, e é importante que fique claro.</p>
+<p>Nas chapas, o sistema não permite escrever um preço na ficha do artigo — nem na<br>ficha nem na variante. É uma regra que faz sentido no negócio da pedra: cada<br>chapa tem dimensões próprias, logo o preço não pode ser um valor fixo no artigo.</p>
+<p>O preço de uma chapa vem de um de dois sítios: do <strong>lote</strong> de cada chapa, ou de<br><strong>regras de lista de preços</strong> por grupo de lote.</p>
+<p>Hoje não existe nem uma coisa nem outra — as listas de preços estão sem regras<br>e ainda não há lotes. É por isso que, ao colocar uma chapa numa venda, aparece<br>1,00 €.</p>
+<p>Não falta desbloquear um campo. Falta definir como querem que as chapas sejam<br>valorizadas — por metro quadrado, por grupo de material, com que margens. Essa<br>é uma decisão comercial vossa e propomos tratá-la na sessão com a Maria, onde<br>também se define a criação dos lotes. Resolve as duas coisas de uma vez.</p>
+<p><strong>O NIB nos documentos</strong></p>
+<p>Está registado e já sai impresso. A conta de Moçambique deixou de aparecer.</p>
+<p>Ficou assim:</p>
+<ul><li>IBAN: <strong>PT50 0018 0003 6905 9608 020 90</strong></li><li>BIC/SWIFT: TOTAPTPL</li><li>Banco: Banco Santander Totta, S.A.</li></ul>
+<p>Antes de o registarmos confirmámos o número por três vias independentes: o<br>dígito de controlo da norma internacional, a coerência entre o código de banco<br>e o BIC, e o NIF do documento do banco contra o NIF da empresa no sistema.<br>Ainda assim, peço-lhe o favor de confirmar com os seus olhos que é este o<br>número — num IBAN não há verificação que substitua a sua.</p>
+<p><strong>«Os contactos ainda estão de Moçambique, onde se registam users»</strong></p>
+<p>Percebemos a que se referia e está corrigido.</p>
+<p>Era a página de contactos do vosso site — a página onde os visitantes deixam os<br>dados. Publicava a morada da Matola, três telefones moçambicanos e dois<br>endereços de email da marca anterior. Na prática, contactos comerciais podiam<br>estar a ser encaminhados para a empresa errada.</p>
+<p>Substituímos pelos dados da EVOSTONE. Fizemos também uma verificação a todo o<br>site e não ficou nenhuma referência à marca anterior.</p>
+<p><strong>Os campos que pediu nos documentos</strong></p>
+<p>Destes, já estão feitos e pode confirmar ao imprimir: peso, metros quadrados,<br>unidades, descrição do artigo e a linha de totais no fim do documento.</p>
+<p>Três não existem hoje no sistema e implicam desenvolvimento novo:</p>
+<ul><li>local de carga;</li><li>local de descarga;</li><li>matrícula da viatura.</li></ul>
+<p>Diga-nos se são para avançar e em que documentos os quer, que enviamos<br>orçamento.</p>
+<p><strong>Duas correcções que fizemos por nossa iniciativa</strong></p>
+<p>Ao testar a cadeia de facturação encontrámos dois problemas que ainda não lhe<br>tinham dado sinal, e preferimos dizer-lhe do que deixá-los à espera.</p>
+<p>O primeiro: os 22 artigos de chapa criados no dia 12 tinham o IVA de venda mas<br>não o IVA de compra. A factura do fornecedor sairia sem IVA, sem qualquer<br>aviso.</p>
+<p>O segundo: a factura, a nota de crédito e a nota de débito davam erro ao<br>imprimir. Os modelos pediam um campo que só existe na localização de<br>Moçambique, que naturalmente não está instalada no vosso sistema português.<br>Como ainda não emitiu nenhuma factura, não chegou a esbarrar nisto — mas<br>esbarraria na primeira.</p>
+<p>Ambos corrigidos, e verificámos documento a documento: os 15 documentos do<br>sistema imprimem, nenhum dá erro.</p>
+<p><strong>As datas</strong></p>
+<p>Falta-vos uma estimativa de datas e tem razão em insistir. Damos-lhe essa<br>resposta com o Pedro Coelho, que regressa quarta-feira, para que o compromisso<br>seja assumido com conhecimento de todo o plano e não apenas da parte técnica.</p>
+<p>Fico a aguardar o IBAN e a vossa indicação sobre os três campos novos.</p>
+</article>
+</main>
+<script>
+document.getElementById('copiar').addEventListener('click', async () => {
+  const corpo = document.getElementById('corpo');
+  const html = corpo.innerHTML;
+  const estado = document.getElementById('estado');
+  try {
+    await navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([html], {type: 'text/html'}),
+      'text/plain': new Blob([corpo.innerText], {type: 'text/plain'}),
+    })]);
+    estado.textContent = 'Copiado. Cola no compositor do Odoo com Ctrl+V.';
+  } catch (e) {
+    const range = document.createRange();
+    range.selectNodeContents(corpo);
+    const sel = window.getSelection();
+    sel.removeAllRanges(); sel.addRange(range);
+    const ok = document.execCommand('copy');
+    estado.textContent = ok
+      ? 'Copiado. Cola no compositor do Odoo com Ctrl+V.'
+      : 'Nao foi possivel copiar: seleciona o corpo e usa Ctrl+C.';
+  }
+});
+</script>
+</body>
+</html>

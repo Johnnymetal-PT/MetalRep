@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- =============== Alan AI Product Recommanded Template ===============  -->
+    <template id="ai_product_recommanded" name="AI Product Recommandation" inherit_id="website_sale.product">
+        <xpath expr="//div[@id='oe_structure_website_sale_product_2']" position="after">
+            <section class="product_recommanded_ai as-ai-product-recommanded" t-att-data-product-tmpl-id="product.id">
+                <div class="product_recommanded_container"></div>
+            </section>
+        </xpath>
+    </template>
+
+    <!-- =============== AI Product Recommanded Shop Page Floating Bar Template ===============  -->
+    <template id="as_floating_bar"
+        inherit_id="website_sale.floating_bar"
+        name="Shop Floating Bar"
+    >
+        <xpath expr="//nav[@id='o_wsale_floating_bar']" position="inside">
+            <div t-if="is_shop_rmp_active and not request.env.user._is_public()" class="as_rcp_header">
+                <a href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#o_wsale_offcanvas_recommanded_product" title="Recommanded Product">
+                    <div class="fa fa-box">
+                        <div class="ai-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="27" viewBox="0 0 25 27" fill="none">
+                                <path class="ai-icon-1" d="M7.50741 4.95996L9.07474 8.93393C9.21941 9.30077 9.2917 9.48418 9.40249 9.63885C9.50066 9.77594 9.62069 9.89597 9.75781 9.99416C9.91249 10.1049 10.0959 10.1773 10.4628 10.3219L14.4367 11.8892L10.4628 13.4566C10.0959 13.6012 9.91249 13.6735 9.75781 13.7843C9.62069 13.8825 9.50066 14.0025 9.40249 14.1396C9.2917 14.2943 9.21941 14.4777 9.07474 14.8446L7.50741 18.8185L5.9401 14.8446C5.79542 14.4777 5.72308 14.2943 5.61232 14.1396C5.51413 14.0025 5.3941 13.8825 5.25701 13.7843C5.10235 13.6735 4.91893 13.6012 4.55209 13.4566L0.578125 11.8892L4.55209 10.3219C4.91893 10.1773 5.10235 10.1049 5.25701 9.99416C5.3941 9.89597 5.51413 9.77594 5.61232 9.63885C5.72308 9.48418 5.79542 9.30077 5.9401 8.93393L7.50741 4.95996Z" fill="#7C3AED" stroke="#7C3AED" stroke-width="1.15495" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path class="ai-icon-2" d="M19.6802 17.4326L20.6624 19.923C20.7531 20.1529 20.7984 20.2678 20.8678 20.3647C20.9293 20.4506 21.0046 20.5258 21.0905 20.5874C21.1874 20.6568 21.3024 20.7021 21.5323 20.7928L24.0226 21.775L21.5323 22.7572C21.3024 22.8478 21.1874 22.8931 21.0905 22.9626C21.0046 23.0241 20.9293 23.0993 20.8678 23.1852C20.7984 23.2822 20.7531 23.3971 20.6624 23.627L19.6802 26.1173L18.6981 23.627C18.6074 23.3971 18.5621 23.2822 18.4927 23.1852C18.4311 23.0993 18.3559 23.0241 18.27 22.9626C18.1731 22.8931 18.0581 22.8478 17.8282 22.7572L15.3379 21.775L17.8282 20.7928C18.0581 20.7021 18.1731 20.6568 18.27 20.5874C18.3559 20.5258 18.4311 20.4506 18.4927 20.3647C18.5621 20.2678 18.6074 20.1529 18.6981 19.923L19.6802 17.4326Z" fill="black" stroke="black" stroke-width="0.635279" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path class="ai-icon-3" d="M20.2349 0.317383L21.2171 2.80774C21.3078 3.03762 21.3531 3.15256 21.4225 3.24948C21.484 3.33539 21.5593 3.41061 21.6452 3.47214C21.7421 3.54156 21.857 3.58689 22.0869 3.67755L24.5773 4.65973L22.0869 5.64193C21.857 5.73259 21.7421 5.77789 21.6452 5.84732C21.5593 5.90884 21.484 5.98406 21.4225 6.06999C21.3531 6.16692 21.3078 6.28184 21.2171 6.51175L20.2349 9.00209L19.2527 6.51175C19.1621 6.28184 19.1168 6.16692 19.0473 6.06999C18.9858 5.98406 18.9106 5.90884 18.8247 5.84732C18.7278 5.77789 18.6128 5.73259 18.3829 5.64193L15.8926 4.65973L18.3829 3.67755C18.6128 3.58689 18.7278 3.54156 18.8247 3.47214C18.9106 3.41061 18.9858 3.33539 19.0473 3.24948C19.1168 3.15256 19.1621 3.03762 19.2527 2.80774L20.2349 0.317383Z" fill="#EC4899" stroke="#EC4899" stroke-width="0.635279" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="ai-ef-02"/>
+                        <div class="ai-ef-03"/>
+                        <div class="ai-ef-in"></div>
+                    </div>
+                </a>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- =============== AI Product Recommanded Shop Page Template ===============  -->
+    <template id="ai_shop_product_recommanded" name="AI Shop Product Recommandation" inherit_id="website_sale.products" priority="99999">
+        <xpath expr="//div[hasclass('products_header')]" position="inside">
+            <div t-if="is_shop_rmp_active and not request.env.user._is_public()" class="as_rcp_header">
+                <a href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#o_wsale_offcanvas_recommanded_product" title="Recommanded Product">
+                    <div class="fa fa-box">
+                        <div class="ai-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="27" viewBox="0 0 25 27" fill="none">
+                                <path class="ai-icon-1" d="M7.50741 4.95996L9.07474 8.93393C9.21941 9.30077 9.2917 9.48418 9.40249 9.63885C9.50066 9.77594 9.62069 9.89597 9.75781 9.99416C9.91249 10.1049 10.0959 10.1773 10.4628 10.3219L14.4367 11.8892L10.4628 13.4566C10.0959 13.6012 9.91249 13.6735 9.75781 13.7843C9.62069 13.8825 9.50066 14.0025 9.40249 14.1396C9.2917 14.2943 9.21941 14.4777 9.07474 14.8446L7.50741 18.8185L5.9401 14.8446C5.79542 14.4777 5.72308 14.2943 5.61232 14.1396C5.51413 14.0025 5.3941 13.8825 5.25701 13.7843C5.10235 13.6735 4.91893 13.6012 4.55209 13.4566L0.578125 11.8892L4.55209 10.3219C4.91893 10.1773 5.10235 10.1049 5.25701 9.99416C5.3941 9.89597 5.51413 9.77594 5.61232 9.63885C5.72308 9.48418 5.79542 9.30077 5.9401 8.93393L7.50741 4.95996Z" fill="#7C3AED" stroke="#7C3AED" stroke-width="1.15495" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path class="ai-icon-2" d="M19.6802 17.4326L20.6624 19.923C20.7531 20.1529 20.7984 20.2678 20.8678 20.3647C20.9293 20.4506 21.0046 20.5258 21.0905 20.5874C21.1874 20.6568 21.3024 20.7021 21.5323 20.7928L24.0226 21.775L21.5323 22.7572C21.3024 22.8478 21.1874 22.8931 21.0905 22.9626C21.0046 23.0241 20.9293 23.0993 20.8678 23.1852C20.7984 23.2822 20.7531 23.3971 20.6624 23.627L19.6802 26.1173L18.6981 23.627C18.6074 23.3971 18.5621 23.2822 18.4927 23.1852C18.4311 23.0993 18.3559 23.0241 18.27 22.9626C18.1731 22.8931 18.0581 22.8478 17.8282 22.7572L15.3379 21.775L17.8282 20.7928C18.0581 20.7021 18.1731 20.6568 18.27 20.5874C18.3559 20.5258 18.4311 20.4506 18.4927 20.3647C18.5621 20.2678 18.6074 20.1529 18.6981 19.923L19.6802 17.4326Z" fill="black" stroke="black" stroke-width="0.635279" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path class="ai-icon-3" d="M20.2349 0.317383L21.2171 2.80774C21.3078 3.03762 21.3531 3.15256 21.4225 3.24948C21.484 3.33539 21.5593 3.41061 21.6452 3.47214C21.7421 3.54156 21.857 3.58689 22.0869 3.67755L24.5773 4.65973L22.0869 5.64193C21.857 5.73259 21.7421 5.77789 21.6452 5.84732C21.5593 5.90884 21.484 5.98406 21.4225 6.06999C21.3531 6.16692 21.3078 6.28184 21.2171 6.51175L20.2349 9.00209L19.2527 6.51175C19.1621 6.28184 19.1168 6.16692 19.0473 6.06999C18.9858 5.98406 18.9106 5.90884 18.8247 5.84732C18.7278 5.77789 18.6128 5.73259 18.3829 5.64193L15.8926 4.65973L18.3829 3.67755C18.6128 3.58689 18.7278 3.54156 18.8247 3.47214C18.9106 3.41061 18.9858 3.33539 19.0473 3.24948C19.1168 3.15256 19.1621 3.03762 19.2527 2.80774L20.2349 0.317383Z" fill="#EC4899" stroke="#EC4899" stroke-width="0.635279" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="ai-ef-02"/>
+                        <div class="ai-ef-03"/>
+                        <div class="ai-ef-in"></div>
+                    </div>
+                </a>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('o_wsale_products_main_row')]" position="after">
+            <div t-if="is_shop_rmp_active and not request.env.user._is_public()">
+                <t t-call="theme_alan.o_wsale_offcanvas_recommanded_product"/>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- =============== AI Product Recommanded Shop Page Offcanvas Template ===============  -->
+    <template id="o_wsale_offcanvas_recommanded_product" name="Product Recommandation Offcanvans">
+        <aside id="o_wsale_offcanvas_recommanded_product" class="o_website_offcanvas offcanvas offcanvas-end as-similar-product-modal as_recommanded_model as-ai-product-recommanded">
+            <div class="offcanvas-header">
+                <h5>AI-Powered Recommends
+                    <div class="ioh">
+                        <i class="i1 ii"></i>
+                        <i class="i2 ii"></i>
+                        <i class="i3 ii"></i>
+                    </div>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"/>
+            </div>
+            <div class="offcanvas_recommanded_product offcanvas-body">
+            </div>
+        </aside>
+    </template>
+
+    <!-- =============== AI Product Recommanded Shop Page Template ===============  -->
+    <template id="ai_recommanded_shop_tmpl" name="Recommanded Shop" >
+        <t t-set="product_ids" t-value="product.sudo().fetch_ai_recommanded_product()"/>
+        <div t-if="product_ids" class="as-similar-product-list">
+            <t t-foreach="product_ids" t-as="product">
+                <t t-set="combination_info" t-value="product._get_combination_info(combination, add_qty=1)"/>
+                <div class="as-similar-product">
+                    <div class="sim-pro-img">
+                        <img t-att-src="website.image_url(product, 'image_512')" title="" alt="" />
+                    </div>
+                    <div class="sim-pro-body">
+                        <div class="as-product-brand">
+                            <t t-if="product.product_brand_id">
+                                <span t-esc="product.product_brand_id.name"/>
+                            </t>
+                        </div>
+                        <div class="as-sp-product">
+                            <h4><a class="stretched-link text-decoration-none text-reset" t-att-href="product.website_url"><t t-esc="product.name"/></a></h4>
+                        </div>
+                        <div t-if="product.product_variant_ids" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" class="product_price">
+                            <div t-if="website.active_product_discount and not (request.env.user._is_public() and request.website.active_b2b_mode)" t-attf-class="as-price as-pc-price" >
+                                <span t-esc="combination_info['price']"
+                                    class="fw-bold"
+                                    name="product_price"
+                                    t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                <del t-attf-class="text-danger mr-2 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                                <t t-if="website.active_product_discount">
+                                    <span t-if="combination_info['has_discounted_price'] and website.active_product_discount" t-attf-class="as-product-discounted {{'' if combination_info['has_discounted_price'] else 'd-none'}}">
+                                        (<t t-esc="combination_info['as_offer_discount']"/> %)
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+        <div t-else="">
+            <div class="alert alert-info">
+                <p>We couldn't find any AI-Powered Recommends at the moment. Please explore products and add them to your cart, wishlist, or confirm your order.</p>
+            </div>
+        </div>
+    </template>
+
+    <!-- =============== AI Product Recommanded Product Page Template ===============  -->
+    <template id="ai_recommanded_product_tmpl" name="Recommanded Product" >
+        <t t-set="product_ids" t-value="product.sudo().fetch_ai_recommanded_product()"/>
+        <div t-if="product_ids" class="as-product-recommanded-ai mb-5 mt-2 as-product-alt-acc-products o_wsale_products_opt_name_color_regular o_wsale_products_opt_thumb_cover o_wsale_products_opt_img_secondary_show o_wsale_products_opt_img_hover_zoom_out_light o_wsale_products_opt_name_size_body o_wsale_products_opt_design_chips o_wsale_products_opt_layout_catalog o_wsale_products_opt_has_rating o_wsale_products_opt_rounded_2 ">
+            <div class="container">
+                <div class="as-alternative-product as-pd-extra-slider">
+                    <div class="as-pd-title">
+                        <h3 class="as-ai-title">AI-Powered Recommends
+                            <div class="ioh">
+                                <i class="i1 ii"></i>
+                                <i class="i2 ii"></i>
+                                <i class="i3 ii"></i>
+                            </div>
+                        </h3>
+                        <div class="end">
+                            <div class="swiper-button-alt-prev as-alt-cc-prev"><i class="asi asi-chevron-left"/></div>
+                            <div class="swiper-button-alt-next as-alt-cc-next"><i class="asi asi-chevron-right"/></div>
+                        </div>
+                    </div>
+                    <div class="swiper as-al-alt-swiper as-ai-recommanded-swiper " id="as_alternative">
+                        <div class="swiper-wrapper">
+                            <t t-foreach="product_ids" t-as="ai_product">
+                                <t t-set="as_combination_info" t-value="ai_product._get_combination_info()"/>
+                                <div class="swiper-slide">
+                                    <div class="o_wsale_product_grid_wrapper position-relative h-100">
+                                        <div class="oe_product_cart d-flex o_has_variations o_has_variations_onhover as-product-card as-sb-product-card">
+                                            <div class="oe_product_image position-relative flex-grow-0 overflow-hidden">
+
+                                                <t t-set="as_combination_info" t-value="ai_product._get_combination_info()"/>
+                                                <!-- Card Product img and hover image -->
+                                                <t
+                                                    t-set="variant"
+                                                    t-value="ai_product.product_variant_id or request.env['product.product'].browse(ai_product._get_first_possible_variant_id())"
+                                                />
+                                                <t
+                                                    t-if="variant and (variant.image_variant_1920 or variant.image_variant_128)"
+                                                    t-set="all_images_list"
+                                                    t-value="variant._get_images()"
+                                                />
+                                                <t
+                                                    t-else=""
+                                                    t-set="all_images_list"
+                                                    t-value="ai_product._get_images()"
+                                                />
+                                                <t
+                                                    t-set="primary_image_holder"
+                                                    t-value="(all_images_list[:1]+[ai_product])[0]"
+                                                />
+                                                <t
+                                                    t-set="secondary_image_holder"
+                                                    t-value="(all_images_list[1:2]+[False])[0]"
+                                                />
+                                                <a
+                                                    t-att-href="product_href"
+                                                    t-attf-class="oe_product_image_link position-relative {{secondary_image_holder and 'oe_product_image_link_has_secondary'}}"
+                                                    contenteditable="false"
+                                                    t-att-title="ai_product.name"
+                                                >
+                                                    <!-- Primary image -->
+                                                    <span
+                                                        t-field="primary_image_holder.image_1920"
+                                                        t-options="{'widget': 'image', 'preview_image': 'image_1024', 'class': 'oe_product_image_img h-100 w-100'}"
+                                                        class="oe_product_image_img_wrapper oe_product_image_img_wrapper_primary d-flex h-100 justify-content-center align-items-center"
+                                                    />
+
+                                                    <!-- Secondary image -->
+                                                    <span
+                                                        t-if="secondary_image_holder"
+                                                        t-field="secondary_image_holder.image_1920"
+                                                        t-options="{'widget': 'image', 'preview_image': 'image_1024', 'class': 'oe_product_image_img_secondary h-100 w-100'}"
+                                                        class="oe_product_image_img_wrapper oe_product_image_img_wrapper_secondary h-100 justify-content-center align-items-center"
+                                                    />
+                                                </a>
+                                            </div>
+                                            <div class="o_wsale_product_information flex-grow-1 flex-shrink-1">
+                                                <div class="o_wsale_product_info_attributes_wrapper">
+                                                    <div class="o_wsale_product_information_text">
+                                                        <!--Brand-->
+                                                        <t t-call="theme_alan.product_brand">
+                                                            <t t-set="product" t-value="ai_product"/>
+                                                        </t>
+                                                        <!-- Product Name-->
+                                                        <div class="o_wsale_products_item_title text-break">
+                                                            <a class="text-decoration-none" t-att-href="ai_product.website_url">
+                                                                <span t-att-title="ai_product.name" t-field="ai_product.name" style="display: block;" />
+                                                            </a>
+                                                        </div>
+                                                        <!-- Product Price -->
+                                                        <div t-if="not(request.env.user._is_public() and website.active_b2b_mode)" class="alt_price as-price as-pc-price product_price">
+                                                            <span class="aoe_price fw-bold" style="white-space: nowrap;" t-esc="as_combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                            <span t-attf-class=" soe_default_price {{'' if as_combination_info['has_discounted_price'] else 'd-none'}}" style="text-decoration: line-through; white-space: nowrap;"
+                                                                t-esc="as_combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                            <!-- <t t-if="is_view_active('website_sale.tax_indication')" t-call="website_sale.tax_indication"/> -->
+                                                            <del t-if="ai_product.compare_list_price">
+                                                                <span t-esc="ai_product.compare_list_price"
+                                                                    groups="website_sale.group_product_price_comparison"
+                                                                    t-options='{
+                                                                    "widget": "monetary",
+                                                                    "display_currency": ai_product.currency_id,
+                                                                }'/>
+                                                            </del>
+                                                        </div>
+                                                        <div class="as-pd-b2b-login-btn as-p-b2b-btns" t-if="request.env.user._is_public() and website.active_b2b_mode">
+                                                            <a href="/web/login" t-attf-class="btn btn-primary #{'as_login_popup' if website.active_login_popup else ''}"><i class="asi asi-lock"></i> <span> Login for Price </span></a>
+                                                        </div>
+                                                        <!-- SKU -->
+                                                        <div class="as-product-sku" t-if="website.active_shop_product_reference and ai_product.product_variant_id.default_code">
+                                                            <b>SKU:</b><span t-esc="ai_product.product_variant_id.default_code" />
+                                                        </div>
+                                                        <!-- Offer Timer -->
+                                                        <t t-if ="website.active_product_offer_timer">
+                                                            <t t-call="theme_alan.as_offer_timer">
+                                                                <t t-set="product" t-value="ai_product.sudo().product_variant_id"/>
+                                                            </t>
+                                                        </t>
+
+                                                        <!-- Rating -->
+                                                        <t
+                                                            t-if="is_view_active('website_sale.product_comment')"
+                                                            t-call="website_sale.product_tile_element_visibility"
+                                                        >
+                                                            <t t-set="visible_element_class" t-value="'o_wsale_products_opt_has_rating'"/>
+
+                                                            <div class="o_wsale_product_rating_wrapper">
+                                                                <t t-call="portal_rating.rating_widget_stars_static">
+                                                                    <t t-set="rating_avg" t-value="ai_product.sudo().rating_avg"/>
+                                                                    <t t-set="rating_count" t-value="ai_product.rating_count"/>
+                                                                </t>
+                                                            </div>
+                                                        </t>
+
+                                                        <!-- Out Of Stock -->
+                                                        <t t-if="website.active_shop_stock_info">
+                                                            <t t-call="theme_alan.as_product_out_of_stock_info">
+                                                                <t t-set="product" t-value="ai_product.sudo().product_variant_id"/>
+                                                            </t>
+                                                        </t>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

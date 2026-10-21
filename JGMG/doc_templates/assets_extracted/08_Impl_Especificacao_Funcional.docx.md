@@ -1,0 +1,199 @@
+# Extracted: 08_Impl_Especificacao_Funcional.docx
+
+ESPECIFICAÇÃO FUNCIONAL
+
+Desenvolvimento / Customização | Fase: Implementation
+
+Documento funcional para enquadrar uma necessidade de negocio, descrever comportamento esperado, regras, impacto tecnico, testes e criterios de aceitacao antes de desenvolvimento/customizacao.
+
+Cliente / Projeto
+
+Odoo Implementation
+
+Data
+
+02 de junho de 2026
+
+Versão
+
+1.0
+
+Preparado por Parâmetro Global
+
+Dados da Especificacao
+
+Identificacao do pedido, responsaveis, versao e data de criacao.
+
+Projeto
+
+Referência do Pedido
+
+Project Leader
+
+Developer
+
+Data de Criação
+
+Versão
+
+1. Necessidade de Negócio
+
+Descreve em 2-4 frases o PORQUÊ desta necessidade. Que problema de negócio resolve este desenvolvimento? Por que razão o standard do Odoo não é suficiente?
+
+Justificacao / necessidade de negocio
+
+2. Análise Funcional
+
+Descricao funcional da interacao esperada, mockup, regras de negocio e perfis afetados.
+
+2.1 Comportamento esperado
+
+Descreve passo a passo como o utilizador deve interagir com a nova funcionalidade:
+
+O utilizador acede a ___________________________________________
+
+O sistema deve ________________________________________________
+
+Em caso de erro, o sistema deve _________________________________
+
+O resultado final deve ser _______________________________________
+
+2.2 Mockup / Screenshot anotado
+
+Area para mockup / screenshot anotado
+
+[ Inserir mockup ou screenshot anotado aqui ]Altura mínima sugerida: 8 cm
+
+2.3 Regras de negócio e validações
+
+Campo X é obrigatório quando condição Y se verificar.
+
+O valor de Z não pode exceder _______________.
+
+Quando A acontece, o sistema deve notificar _____________.
+
+2.4 Perfis de utilizador afetados
+
+Perfil afetado
+
+Selecionar / detalhe
+
+[ ] Todos os utilizadores
+
+[ ] Apenas gestores
+
+[ ] SPoC / Administrador
+
+[ ] Outro: _______________
+
+3. Hints Técnicos para o Developer
+
+Informação relevante que o developer deve ter em conta:
+
+Item tecnico
+
+Informacao a considerar
+
+Módulos Odoo afetados
+
+___________________________________________
+
+Campos / modelos a modificar
+
+____________________________________
+
+Integrações com outros módulos
+
+__________________________________
+
+Restrições de performance ou volume de dados
+
+_____________________
+
+Outros
+
+__________________________________________________________
+
+4. Cenários de Teste
+
+Casos de teste a executar antes da aceitacao funcional do pedido.
+
+#
+
+Cenário de Teste
+
+Resultado Esperado
+
+Testado por
+
+OK?
+
+1
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+2
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+3
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+4
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+5
+
+_______________
+
+_______________
+
+_______________
+
+_______________
+
+5. Critérios de Aceitação
+
+Estimativa, deadline e aprovacoes necessarias para fechar a especificacao.
+
+Estimativa de desenvolvimento
+
+___ dias
+
+Deadline de entrega
+
+___________________________________
+
+Aprovação do PL
+
+[ ] Aprovado  Data: _____________
+
+Validação do SPoC
+
+[ ] Validado  Data: _____________

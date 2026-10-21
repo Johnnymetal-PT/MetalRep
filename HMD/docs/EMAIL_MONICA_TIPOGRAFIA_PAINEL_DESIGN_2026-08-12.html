@@ -1,0 +1,77 @@
+<!doctype html>
+<!--
+  NÃƒO copiar a partir do editor de cÃ³digo. O que estÃ¡ neste ficheiro Ã© o HTML da
+  pÃ¡gina de prÃ©-visualizaÃ§Ã£o; colado em bruto, o Odoo mostra as etiquetas como texto.
+
+  Para colar no Odoo, dois caminhos:
+    1. o pg_copy_email_cliente.ps1 jÃ¡ deixou o corpo do email na Ã¡rea de
+       transferÃªncia â€” no compositor do Odoo Ã© sÃ³ Ctrl+V;
+    2. ou abrir este ficheiro no browser (nÃ£o no editor) e usar o botÃ£o
+       "Copiar corpo".
+-->
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[WEB] Reorganizar o bloco da pÃ¡gina de produto (descriÃ§Ã£o, preÃ§o, desenhos tÃ©cnicos e documentos)</title>
+<style>
+:root { color-scheme: light dark; }
+body { margin: 0; padding: 24px; background: #f4f6f8;
+       font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #111827; }
+main { max-width: 760px; margin: 0 auto; }
+.meta { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+        padding: 16px 20px; margin-bottom: 8px; font-size: 13px; }
+.meta h1 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em;
+           color: #6b7280; margin: 0 0 10px; }
+.meta dl { display: grid; grid-template-columns: 90px 1fr; gap: 4px 12px; margin: 0; }
+.meta dt { color: #6b7280; } .meta dd { margin: 0; font-weight: 600; }
+.barra { display: flex; align-items: center; gap: 12px; margin: 16px 0 8px; }
+button { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 6px;
+         border: 0; background: #009fe3; color: #fff; cursor: pointer; }
+button:hover { background: #007fb6; }
+.dica { font-size: 12px; color: #6b7280; }
+#corpo { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+         padding: 24px 28px; font-size: 14px; line-height: 1.55; }
+#corpo p { margin: 0 0 12px; }
+#corpo ul { margin: 0 0 12px; padding-left: 22px; }
+@media (prefers-color-scheme: dark) {
+  body { background: #0b1220; color: #e5e7eb; }
+  .meta, #corpo { background: #111827; border-color: #1f2937; }
+}
+</style>
+</head>
+<body>
+<main>
+<section class="meta"><h1>Email ao cliente</h1><dl><dt>Assunto</dt><dd>[WEB] Reorganizar o bloco da pÃ¡gina de produto (descriÃ§Ã£o, preÃ§o, desenhos tÃ©cnicos e documentos)</dd><dt>Para</dt><dd>mch@hmdfurniture.com</dd></dl></section><div class="barra"><button id="copiar" type="button">Copiar corpo</button><span class="dica" id="estado">Copia apenas o corpo â€” os metadados acima ficam de fora.</span></div>
+<article id="corpo">
+<p>OlÃ¡ MÃ³nica,</p>
+<p>Obrigada pelo esclarecimento. Assim conseguimos fechar um recorte mais seguro e mais Ãºtil para si.</p>
+<p>A nossa sugestÃ£o Ã© separar o website em trÃªs tipos de conteÃºdo:</p>
+<ul><li><strong>Texto dinÃ¢mico vindo do backoffice</strong>: o conteÃºdo fica bloqueado, ou seja, continua a ser gerido no Odoo e nÃ£o Ã© editÃ¡vel no site.</li><li><strong>Texto dinÃ¢mico com ediÃ§Ã£o estÃ©tica</strong>: nestes casos, o texto continua bloqueado, mas pode ajustar localmente o aspeto visual do bloco â€” tipo de letra, tamanho, entrelinha e espaÃ§o entre letras.</li><li><strong>Blocos editoriais livres</strong>: aqui a ediÃ§Ã£o pode ser aberta, tanto no texto como no estilo.</li></ul>
+<p>Este modelo Ã© importante por uma razÃ£o prÃ¡tica: em elementos como nome de produto, breadcrumbs, preÃ§os ou outros textos gerados pelo sistema, o mais seguro Ã© deixar o conteÃºdo protegido e abrir apenas a camada visual. Assim evita-se que uma alteraÃ§Ã£o no site parta a ligaÃ§Ã£o ao backoffice ou crie diferenÃ§as entre o que estÃ¡ no Odoo e o que aparece no website.</p>
+<p>Na prÃ¡tica, a proposta fica assim:</p>
+<ul><li><strong>bloqueado no conteÃºdo, editÃ¡vel no estilo</strong>: menu principal, nome de produto, breadcrumbs, footer e outros textos automÃ¡ticos do sistema;</li><li><strong>livre no conteÃºdo e no estilo</strong>: subtÃ­tulos editoriais, texto corrido e restantes blocos de conteÃºdo criados diretamente no website;</li><li><strong>fora deste Ã¢mbito</strong>: campos estruturais como preÃ§o, variantes, botÃµes e restantes componentes funcionais do eCommerce, que devem manter comportamento standard.</li></ul>
+<p>Se este recorte fizer sentido para si, o passo seguinte Ã© simples: a lista que nos enviar jÃ¡ pode vir organizada por estas trÃªs categorias. Isso permite-nos distinguir logo:</p>
+<ul><li>o que fica apenas com controlo visual;</li><li>o que fica totalmente livre no editor;</li><li>e o que deve continuar protegido por ser conteÃºdo funcional do sistema.</li></ul>
+<p>Com essa base, conseguimos fechar consigo o recorte final e perceber exatamente que parte se resolve com organizaÃ§Ã£o de CSS e que parte exige desenvolvimento no editor do website.</p>
+<p>Aguardamos entÃ£o essa lista para avanÃ§armos.</p>
+</article>
+</main>
+<script>
+document.getElementById('copiar').addEventListener('click', async () => {
+  const corpo = document.getElementById('corpo');
+  const html = corpo.innerHTML;
+  const estado = document.getElementById('estado');
+  try {
+    await navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([html], {type: 'text/html'}),
+      'text/plain': new Blob([corpo.innerText], {type: 'text/plain'}),
+    })]);
+    estado.textContent = 'Copiado. Cola no compositor do Odoo com Ctrl+V.';
+  } catch (e) {
+    estado.textContent = 'Falhou a cÃ³pia automÃ¡tica. Seleciona o corpo e copia manualmente.';
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_product_supplierinfo_tree_purchase_button" model="ir.ui.view">
+            <field name="name">product.supplierinfo.tree.purchase.button</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="studio_customization.odoo_studio_product__583c8179-3ca5-41e1-a212-e18b0d97f25a"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='seller_ids']//list/field[@name='partner_id']" position="before">
+                    <button
+                        name="action_create_purchase_order"
+                        type="object"
+                        string="Create RFQ"
+                        class="btn btn-secondary"
+                        groups="base.group_user"
+                        attrs="{'invisible': ['|', ('partner_id', '=', False), '&amp;', ('product_id', '=', False), ('product_tmpl_id', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

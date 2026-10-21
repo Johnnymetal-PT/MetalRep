@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!--
+            Stickers de Placas ZPL - Template QWeb para impressão directa na Zebra ZD421
+
+            Gera código ZPL (texto) em vez de HTML/PDF.
+            Modelo: stock.move.line → lot_id
+
+            Layout aprovado (832x160 dots, área útil 0-800):
+                FO100     - Logo da empresa (GRF 50x40px, margem esquerda)
+                FO200-600 - Barcode Code128 (GRF 400x55px)
+                FB800,C   - Referência centrada (topo, lot_id.name)
+                FO635     - Código (CF0,25)
+                FB800,C   - Descrição centrada (fundo)
+        -->
+        <record id="view_report_stickers_zpl" model="ir.ui.view">
+            <field name="name">Stickers de Placas ZPL - Zebra ZD421</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stickers_zpl</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stickers_zpl"><t t-foreach="docs" t-as="doc"><t t-if="doc and doc.lot_id and doc.lot_id.price_group_id"><t t-set="grf" t-value="doc.lot_id.company_id.get_sticker_logo_grf()"/><t t-set="bc" t-value="barcode_to_grf(doc.lot_id.name, 400, 55)"/>
+^XA^MMT^PW832^LL160
+^FO0,18^FB800,1,0,C^CF0,16^FD<t t-esc="doc.lot_id.name"/>^FS
+^FO100,36^GFA,<t t-esc="grf['total']"/>,<t t-esc="grf['total']"/>,<t t-esc="grf['width']"/>,<t t-esc="grf['hex']"/>^FS
+^FO200,34^GFA,<t t-esc="bc['total']"/>,<t t-esc="bc['total']"/>,<t t-esc="bc['width']"/>,<t t-esc="bc['hex']"/>^FS
+^FO635,40^CF0,25^FD<t t-esc="doc.lot_id.code"/>^FS
+^FO0,98^FB800,1,0,C^CF0,14^FD<t t-esc="doc.lot_id.price_group_id.description"/>^FS
+^PQ1^XZ
+</t></t></t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

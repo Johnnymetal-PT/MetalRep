@@ -1,0 +1,64 @@
+// Variaveis primarias do Odoo sobrepostas pelo tema HMD.
+//
+// Declarado com "append" no manifesto (nao "prepend"): os map-merge abaixo
+// LEEM $o-color-palettes e $o-theme-font-configs, definidos em
+// website/static/src/scss/primary_variables.scss. A prepend corre antes
+// dessas definicoes e a compilacao do bundle falha com "Undefined variable",
+// deixando o site inteiro sem CSS.
+
+$o-color-palettes: map-merge($o-color-palettes,
+    (
+        'hmd': (
+            'o-color-1': #1F1C1C,   // tinta principal
+            'o-color-2': #222120,   // tinta secundaria / rodape
+            'o-color-3': #EDEDED,   // cinza de fundo
+            'o-color-4': #FFFFFF,   // branco
+            'o-color-5': #F80000,   // vermelho de destaque
+        ),
+    )
+);
+
+$o-theme-color-palettes-number: 'hmd';
+
+// Fontes do desenho.
+//
+// O 'url' usa a API v1 do Google Fonts (virgulas), como as restantes entradas
+// do Odoo. Com a sintaxe v2 ("Prata:wght@400;500") o ponto-e-virgula termina
+// a instrucao CSS que o Odoo gera, o @import fica malformado e o browser
+// descarta a folha de estilos inteira.
+//
+// A Inter ja existe em $o-theme-font-configs do Odoo, mas so nos pesos
+// 300,300i,400,400i,700,700i (website/static/src/scss/primary_variables.scss,
+// ~l.2293). O feedback da Monica de 18/09/2026 pede "INTER MEDIUM" para os
+// textos do bloco de compra, ou seja o peso 500, que NAO esta nessa lista.
+// Sem ele o browser sintetiza o intermedio a partir do 400 e o resultado nao
+// e a Medium — e a Regular esticada.
+//
+// Reescreve-se a entrada inteira (o map-merge substitui a chave, nao a
+// funde) mantendo os pesos que ja la estavam e acrescentando 500 e 500i.
+$o-theme-font-configs: map-merge($o-theme-font-configs,
+    (
+        'Inter': (
+            'family': ('Inter', sans-serif),
+            'url': 'Inter:300,300i,400,400i,500,500i,700,700i',
+        ),
+        'Prata': (
+            'family': ('Prata', Georgia, 'Times New Roman', serif),
+            'url': 'Prata:400',
+        ),
+    )
+);
+
+$o-website-values-palettes: (
+    (
+        'font':          'Inter',
+        'headings-font': 'Prata',
+        'navbar-font':   'Inter',
+        'buttons-font':  'Inter',
+        // Opcoes do editor (separador Tema > Titulos) com os valores do XD
+        // como ponto de partida (#7873). Sem estas duas linhas o editor
+        // mostrava 1.2 e vazio, e o tema ignorava o que la se escrevesse.
+        'headings-line-height':    1,       // Prata: 1.00 no XD
+        'headings-letter-spacing': -0.089,  // em; Prata 80 e 89 no XD
+    ),
+);

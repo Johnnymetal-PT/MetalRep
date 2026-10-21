@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Define the template for the dynamic mega menu -->
+    <template id="dynamic_menu_template" name="Dynamic Mega Menu">
+            <li class="nav-item dropdown position-static">
+                <a data-bs-toggle="dropdown" href="#" class="nav-link dropdown-toggle o_mega_menu_toggle" data-bs-display="static">
+                    <span>Famílias</span>
+                </a>
+                <div class="dropdown-menu o_mega_menu o_no_parent_editor">
+                    <section class="s_mega_menu_odoo_menu pt16 o_colored_level o_cc o_cc1" style="background-image: none;">
+                        <div class="container">
+                            <div class="row">
+                                <t t-set="todas_category" t-value="request.env['product.public.category'].search([('name', '=', 'Todas')], limit=1)"/>
+                                <t t-if="todas_category">
+                                    <t t-set="child_categories" t-value="todas_category.child_id"/>
+                                    <t t-foreach="child_categories" t-as="category">
+                                        <div class="col-md-6 o_colored_level col-lg-2 inside-div">
+                                            <h4 class="o_default_snippet_text text-uppercase h5 fw-bold mt-0">
+                                                <t t-esc="category.name"/>
+                                            </h4>
+                                            <div class="s_hr text-start pt4 pb16 text-o-color-3" style="--o-border-color: currentColor;" data-name="Separator">
+                                                <hr class="w-100 mx-auto" style="border-top-width: 2px; border-top-style: solid;"/>
+                                            </div>
+                                            <div class="col-md-6 col-lg-2">
+                                                <nav class="nav flex-column">
+                                                    <t t-set="products" t-value="request.env['product.template'].search([('public_categ_ids', 'in', category.id)], limit=5)"/>
+                                                    <t t-foreach="products" t-as="product">
+                                                        <a t-att-href="'/shop/product/%s' % product.id" class="nav-link px-0" data-name="Menu Item">
+                                                            <t t-esc="product.name"/>
+                                                        </a>
+                                                    </t>
+                                                    <a t-att-href="'/shop/category/%s' % category.id" class="nav-link px-0" data-name="Menu Item">
+                                                        Ver Todos...
+                                                    </a>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </li>
+
+    </template>
+
+    <!-- Inherit the specific mega menu view to replace it -->
+    <template id="custom_mega_menu_replacement" inherit_id="website.layout">
+        <xpath expr="//t[@t-call='website.placeholder_header_search_box']" position="before">
+            <t t-call="pg_website.dynamic_menu_template"/>
+        </xpath>
+    </template>
+
+</odoo>
+
+
+
+
+
+<!--
+        <template id="dynamic_menu_template" name="Dynamic Mega Menu" >
+
+            <xpath expr="//div[@id='o_main_nav']//ul[@id='top_menu']/li[last()]" position="after">
+                <li class="nav-item dropdown position-static">
+                    <a data-bs-toggle="dropdown" href="#" class="nav-link dropdown-toggle o_mega_menu_toggle" data-bs-display="static">
+                        <span>Famílias</span>
+                    </a>
+                    <div class="dropdown-menu o_mega_menu o_no_parent_editor">
+                        <section class="s_mega_menu_odoo_menu pt16 o_colored_level o_cc o_cc1" style="background-image: none;">
+                            <div class="container">
+                                <div class="row">
+                                    <t t-set="todas_category" t-value="request.env['product.public.category'].search([('name', '=', 'Todas')], limit=1)"/>
+                                    <t t-if="todas_category">
+                                        <t t-set="child_categories" t-value="todas_category.child_id"/>
+                                        <t t-foreach="child_categories" t-as="category">
+                                            <div class="col-md-6 o_colored_level col-lg-2">
+                                                <h4 class="o_default_snippet_text text-uppercase h5 fw-bold mt-0">
+                                                    <t t-esc="category.name"/>
+                                                </h4>
+                                                <div class="s_hr text-start pt4 pb16 text-o-color-3" style="-o-border-color: currentColor;" data-name="Separator">
+                                                    <hr class="w-100 mx-auto" style="border-top-width: 2px; border-top-style: solid;"/>
+                                                </div>
+                                                <nav class="nav flex-column">
+                                                    <t t-set="products" t-value="request.env['product.template'].search([('public_categ_ids', 'in', category.id)], limit=5)"/>
+                                                    <t t-foreach="products" t-as="product">
+                                                        <a t-att-href="'/shop/product/%s' % product.id" class="nav-link px-0" data-name="Menu Item">
+                                                            <t t-esc="product.name"/>
+                                                        </a>
+                                                    </t>
+                                                    <a t-att-href="'/shop/category/%s' % category.id" class="nav-link px-0" data-name="Menu Item">
+                                                        Ver Todos...
+                                                    </a>
+                                                </nav>
+                                            </div>
+                                        </t>
+                                    </t>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </li>
+            </xpath>
+
+
+            <xpath expr="//div[@id='top_menu_collapse_mobile']//ul[@class='navbar-nav']/li[last()]" position="after">
+                <li class="nav-item dropdown position-static">
+                    <a data-bs-toggle="dropdown" href="#" class="nav-link dropdown-toggle o_mega_menu_toggle" data-bs-display="static">
+                        <span>Famílias</span>
+                    </a>
+                    <div class="dropdown-menu o_mega_menu o_no_parent_editor">
+                        <section class="s_mega_menu_odoo_menu pt16 o_colored_level o_cc o_cc1" style="background-image: none;">
+                            <div class="container">
+                                <div class="row">
+                                    <t t-set="todas_category" t-value="request.env['product.public.category'].search([('name', '=', 'Todas')], limit=1)"/>
+                                    <t t-if="todas_category">
+                                        <t t-set="child_categories" t-value="todas_category.child_id"/>
+                                        <t t-foreach="child_categories" t-as="category">
+                                            <div class="col-md-6 o_colored_level col-lg-2">
+                                                <h4 class="o_default_snippet_text text-uppercase h5 fw-bold mt-0">
+                                                    <t t-esc="category.name"/>
+                                                </h4>
+                                                <div class="s_hr text-start pt4 pb16 text-o-color-3" style="-o-border-color: currentColor;" data-name="Separator"> 2 traços - -o-border-color
+                                                    <hr class="w-100 mx-auto" style="border-top-width: 2px; border-top-style: solid;"/>
+                                                </div>
+                                                <nav class="nav flex-column">
+                                                    <t t-set="products" t-value="request.env['product.template'].search([('public_categ_ids', 'in', category.id)], limit=5)"/>
+                                                    <t t-foreach="products" t-as="product">
+                                                        <a t-att-href="'/shop/product/%s' % product.id" class="nav-link px-0" data-name="Menu Item">
+                                                            <t t-esc="product.name"/>
+                                                        </a>
+                                                    </t>
+                                                    <a t-att-href="'/shop/category/%s' % category.id" class="nav-link px-0" data-name="Menu Item">
+                                                        Ver Todos...
+                                                    </a>
+                                                </nav>
+                                            </div>
+                                        </t>
+                                    </t>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </li>
+            </xpath>
+        </template>
+        -->
+

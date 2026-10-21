@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guia de validação — Protótipos — Essani</title>
+<style>
+/* Sem dependências externas: nada é carregado da internet, para o guia ficar
+   igual numa sala sem rede ou aberto offline pelo cliente. As famílias Outfit e
+   Plus Jakarta Sans são usadas quando existirem no sistema; caso contrário cai
+   numa pilha local equivalente. */
+:root{
+  --azul:#0099FF; --acento:#009FE3; --texto:#111827; --sec:#4B5563;
+  --linha:#E7EEF5; --banda:#F5F9FC; --ok:#0F7B4F; --aviso:#8A5A00;
+  --titulo:'Outfit','Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;
+  --corpo:'Plus Jakarta Sans','Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--texto);font-family:var(--corpo);
+     font-size:15px;line-height:1.55;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.folha{max-width:980px;margin:0 auto;padding:32px 40px 64px}
+h1,h2,h3{font-family:var(--titulo);color:var(--azul);margin:0 0 .4em;line-height:1.2}
+h1{font-size:2.1rem;letter-spacing:-.01em}
+h2{font-size:1.35rem;margin-top:2.2em;padding-bottom:.3em;border-bottom:2px solid var(--linha)}
+h3{font-size:1.05rem;color:var(--texto);margin-top:1.4em}
+p{margin:.6em 0}
+a{color:var(--acento)}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em;
+     background:var(--banda);border:1px solid var(--linha);border-radius:3px;padding:.05em .35em}
+
+/* Capa */
+.capa{border-top:6px solid var(--azul);padding-top:22px;margin-bottom:8px}
+.capa .marca{font-family:var(--titulo);font-weight:700;color:var(--azul);
+              letter-spacing:.14em;text-transform:uppercase;font-size:.78rem}
+.capa .meta{margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+            gap:8px 28px;font-size:.92rem}
+.capa .meta div{border-top:1px solid var(--linha);padding-top:6px}
+.capa .meta b{display:block;color:var(--sec);font-weight:600;font-size:.74rem;
+              text-transform:uppercase;letter-spacing:.06em}
+
+/* Blocos */
+.dor{background:var(--banda);border-left:4px solid var(--acento);
+     padding:14px 18px;margin:1em 0;border-radius:0 4px 4px 0}
+.antes-depois{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:1.1em 0}
+.antes-depois section{border:1px solid var(--linha);border-radius:5px;padding:14px 16px}
+.antes-depois section.depois{background:var(--banda)}
+.antes-depois h3{margin-top:0;font-size:.8rem;text-transform:uppercase;
+                 letter-spacing:.07em;color:var(--sec)}
+.antes-depois ul{margin:.4em 0 0;padding-left:1.1em}
+.antes-depois li{margin:.3em 0}
+
+/* Passos — nenhum passo pode ficar cortado entre páginas */
+.passo{page-break-inside:avoid;break-inside:avoid;border:1px solid var(--linha);
+       border-radius:5px;margin:14px 0;overflow:hidden}
+.passo>header{background:var(--banda);border-bottom:1px solid var(--linha);
+              padding:9px 16px;display:flex;gap:12px;align-items:baseline}
+.passo>header .n{font-family:var(--titulo);font-weight:700;color:var(--azul);
+                 font-size:1.05rem;min-width:1.6em}
+.passo>header .onde{font-size:.78rem;color:var(--sec);margin-left:auto;
+                    text-transform:uppercase;letter-spacing:.05em}
+.passo .corpo{padding:12px 16px}
+.passo .confirmar{margin-top:10px;padding-top:10px;border-top:1px dashed var(--linha)}
+.passo .confirmar b{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;
+                    color:var(--sec);display:block;margin-bottom:.3em}
+.caixa{display:inline-block;width:.85em;height:.85em;border:1.5px solid var(--sec);
+       border-radius:2px;margin-right:.5em;vertical-align:-1px}
+
+table{width:100%;border-collapse:collapse;margin:1em 0;font-size:.92rem}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--linha);vertical-align:top}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--sec);
+   border-bottom:2px solid var(--linha)}
+tbody tr:nth-child(even){background:var(--banda)}
+
+.nota{border:1px solid var(--linha);border-left:4px solid var(--aviso);
+      background:#FFFBF2;padding:12px 16px;margin:1em 0;border-radius:0 4px 4px 0}
+.nota b{color:var(--aviso)}
+.validar{font-size:.74rem;font-weight:700;letter-spacing:.05em;color:var(--aviso);
+         border:1px solid var(--aviso);border-radius:3px;padding:.05em .4em;white-space:nowrap}
+.rodape{margin-top:3em;padding-top:12px;border-top:2px solid var(--linha);
+        font-size:.8rem;color:var(--sec)}
+
+@media print{
+  @page{margin:16mm 14mm}
+  body{font-size:10.5pt}
+  .folha{max-width:none;padding:0}
+  h2{margin-top:1.3em}
+  /* Um titulo nunca fica sozinho no fim de uma pagina, separado do que anuncia. */
+  h2,h3{break-after:avoid;page-break-after:avoid}
+  .passo,.antes-depois section,table,.nota,.dor{break-inside:avoid;page-break-inside:avoid}
+  /* O contraste não pode depender da cor: a preto e branco, as bandas viram
+     contornos e os blocos mantêm a barra lateral. */
+  .passo>header{background:#fff;border-bottom:1px solid #000}
+  .antes-depois section.depois{background:#fff;border-width:2px}
+  tbody tr:nth-child(even){background:#fff}
+  .nota{background:#fff;border-left-width:5px}
+  .dor{background:#fff;border-left-width:5px}
+  a{color:#000;text-decoration:none}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:.82em;color:#333}
+  .so-ecra{display:none!important}
+}
+</style>
+</head>
+<body>
+<div class="folha">
+
+<header class="capa">
+  <div class="marca">Parâmetro Global</div>
+  <h1>Validação do circuito de protótipos</h1>
+  <p style="color:var(--sec);margin-top:-.2em">Guião de aceitação para correr na base de testes</p>
+  <div class="meta">
+    <div><b>Cliente</b>ESSANI — Inovação Tecnológica, Lda.</div>
+    <div><b>Projeto</b>Odoo-Essani Intranet/Extranet</div>
+    <div><b>Ambiente</b>Base de testes (staging) — <code>essani-test-37499236.dev.odoo.com</code></div>
+    <div><b>Data</b>17 de setembro de 2026</div>
+    <div><b>Âmbito</b>Criação de protótipos, especificações, versões e alertas</div>
+    <div><b>Autor</b>Parâmetro Global</div>
+  </div>
+</header>
+
+<h2>1. O que se vai validar, e porquê</h2>
+
+<div class="dor">
+<p><b>A dor de negócio.</b> O desenvolvimento de um produto por encomenda na Essani passa por
+CRM, Projeto e Produção — e hoje parte-se em três sítios. As especificações combinadas com o
+cliente vivem em conversas e não em campos; o versionamento é feito à mão no nome do projeto
+(<code>control_cabinas_V7.0_Medical</code>); e cada projeto de desenvolvimento inventa as suas
+etapas de raiz. Quando o cliente muda uma especificação a meio, não há forma fiável de isso
+chegar a quem gere a produção.</p>
+</div>
+
+<p>O que se pede nesta validação é que percorram o circuito completo na base de testes e digam
+se corresponde à forma como trabalham. <b>Nada disto está ainda em produção</b> — é
+precisamente essa a decisão que esta validação destranca.</p>
+
+<h2>2. Antes e depois</h2>
+
+<div class="antes-depois">
+  <section>
+    <h3>Como é hoje</h3>
+    <ul>
+      <li>Especificações combinadas por email ou telefone, sem registo estruturado.</li>
+      <li>Versão do produto escrita no nome do projeto, à mão.</li>
+      <li>Cada projeto de desenvolvimento com etapas próprias — <b>76 etapas</b> diferentes na base.</li>
+      <li>Referência do artigo atribuída manualmente, com risco de repetição.</li>
+      <li>Uma mudança de especificação chega ao gestor de produção por insistência, não por processo.</li>
+      <li>O protótipo e o futuro artigo de catálogo são coisas separadas: no fim, reintroduz-se tudo.</li>
+    </ul>
+  </section>
+  <section class="depois">
+    <h3>Como fica</h3>
+    <ul>
+      <li>Especificações em campos próprios, definidos por categoria de protótipo.</li>
+      <li>Versões ligadas entre si, com a origem registada no próprio projeto.</li>
+      <li><b>10 etapas</b> comuns a todos os protótipos, herdadas de um modelo.</li>
+      <li>Referência atribuída pelo sistema: <code>PROT-2026-0004</code> é a próxima.</li>
+      <li>Alteração de especificação gera nota no projeto e tarefa para o gestor.</li>
+      <li>O protótipo <b>já é</b> um artigo de catálogo: aprovado, não há nada a reintroduzir.</li>
+    </ul>
+  </section>
+</div>
+
+<h2>3. O circuito, passo a passo</h2>
+
+<p>Percorrer por esta ordem. Cada passo tem uma caixa de confirmação — é o que precisamos de
+volta, mesmo que seja para dizer que não corresponde ao vosso processo.</p>
+
+<div class="passo">
+  <header><span class="n">1</span><b>Criar o protótipo a partir da oportunidade</b><span class="onde">CRM</span></header>
+  <div class="corpo">
+    <p>Abrir uma oportunidade e carregar em <b>Criar protótipo</b>, no topo do ecrã.
+    O nome, o cliente e o gestor de projeto vêm já preenchidos da oportunidade.</p>
+    <div class="confirmar"><b>Confirmar</b>
+      <span class="caixa"></span>O botão está onde faz sentido para quem trabalha no CRM.<br>
+      <span class="caixa"></span>Os dados que vêm preenchidos são os certos.
+    </div>
+  </div>
+</div>
+
+<div class="passo">
+  <header><span class="n">2</span><b>Escolher a categoria e preencher o que o cliente pediu</b><span class="onde">Assistente</span></header>
+  <div class="corpo">
+    <p>Ao escolher a categoria <b>Protótipos / Fontes de alimentação</b>, aparecem sozinhos os
+    campos de especificação dessa família:</p>
+    <p><code>Tensão de entrada</code> · <code>Tensão de saída</code> · <code>Potência (W)</code> ·
+    <code>Corrente máxima (A)</code> · <code>Capacidade de carga</code> ·
+    <code>Grau de proteção IP</code> · <code>Notas do cliente</code></p>
+    <p>É este o ponto central: <b>cada família de produto tem as suas especificações</b>, e
+    acrescentar uma família nova é configuração — não é desenvolvimento nem espera por nós.</p>
+    <div class="confirmar"><b>Confirmar</b>
+      <span class="caixa"></span>Estas são as características que de facto se combinam com o cliente numa fonte de alimentação.<br>
+      <span class="caixa"></span>Falta alguma? Sobra alguma? <i>É a pergunta mais importante deste guião.</i><br>
+      <span class="caixa"></span>Que outras famílias de produto deviam ter a sua própria lista.
+    </div>
+  </div>
+</div>
+
+<div class="passo">
+  <header><span class="n">3</span><b>Confirmar e ver o protótipo criado</b><span class="onde">Projeto</span></header>
+  <div class="corpo">
+    <p>Ao confirmar, o sistema cria de uma vez o artigo e o projeto, atribui a referência e
+    abre o protótipo. O projeto traz as 10 etapas:</p>
+    <p style="font-size:.9rem;color:var(--sec)">Levantamento de requisitos → Estado da Arte →
+    Conceção e design → Desenvolvimento → Amostras → Testes e validação →
+    <b>Validação de Artigo</b> → Produção → Concluído · Recusado</p>
+    <div class="confirmar"><b>Confirmar</b>
+      <span class="caixa"></span>As etapas correspondem ao vosso processo de desenvolvimento.<br>
+      <span class="caixa"></span>A ordem está certa.<br>
+      <span class="caixa"></span>Que tarefas deviam já vir criadas em cada etapa — hoje o modelo traz etapas, não traz tarefas.
+    </div>
+  </div>
+</div>
+
+<div class="passo">
+  <header><span class="n">4</span><b>Mudar uma especificação e ver o alerta chegar</b><span class="onde">Artigo → Projeto</span></header>
+  <div class="corpo">
+    <p>Abrir o artigo do protótipo, alterar uma especificação (por exemplo a potência) e gravar.
+    Voltar ao projeto: deve encontrar uma nota nova com as especificações atualizadas e uma
+    <b>tarefa para o gestor de projeto</b>.</p>
+    <p>É a resposta ao requisito de que uma mudança acordada entre vendedor e cliente tem de
+    chegar a quem gere a produção.</p>
+    <div class="confirmar"><b>Confirmar</b>
+      <span class="caixa"></span>O gestor recebe o aviso como esperava.<br>
+      <span class="caixa"></span>Deve avisar mais alguém além do gestor de projeto.
+    </div>
+  </div>
+</div>
+
+<div class="passo">
+  <header><span class="n">5</span><b>Criar uma versão nova a partir desta</b><span class="onde">Projeto</span></header>
+  <div class="corpo">
+    <p>No protótipo, menu de engrenagem → <b>Nova versão</b>. Cria um artigo e um projeto novos,
+    com referência nova, <b>herdando as especificações, as etapas e as tarefas</b> da versão
+    anterior. O campo <i>Versão de origem</i> fica a apontar à anterior.</p>
+    <p>Já há um exemplo feito na base de testes:
+    <code>Fonte 48V 200W — ensaio staging</code> e a versão que dele saiu.</p>
+    <div class="confirmar"><b>Confirmar</b>
+      <span class="caixa"></span>É assim que pensam uma revisão de protótipo.<br>
+      <span class="caixa"></span>A herança traz o que devia trazer — e não traz o que não devia.
+    </div>
+  </div>
+</div>
+
+<h2>4. O que o Odoo passa a dar</h2>
+
+<table>
+  <thead><tr><th style="width:38%">Passa a existir</th><th>O que resolve</th></tr></thead>
+  <tbody>
+    <tr><td>Referência automática <code>PROT-AAAA-NNNN</code></td><td>Acaba a atribuição manual e o risco de repetir uma referência.</td></tr>
+    <tr><td>Especificações por categoria de produto</td><td>Cada família tem as suas características, em campos pesquisáveis e comparáveis.</td></tr>
+    <tr><td>Modelo de projeto com 10 etapas</td><td>Todos os protótipos partem do mesmo sítio; deixa de se inventar o processo de cada vez.</td></tr>
+    <tr><td>Árvore de versões</td><td>A linhagem fica registada em campo, não no nome do projeto.</td></tr>
+    <tr><td>Aviso automático ao gestor de projeto</td><td>Uma alteração combinada com o cliente deixa de depender de alguém se lembrar de a transmitir.</td></tr>
+    <tr><td>O protótipo é um artigo desde o início</td><td>Aprovado, entra no catálogo sem reintrodução de dados.</td></tr>
+  </tbody>
+</table>
+
+<h2>5. O que fica de fora, e o que falta decidir</h2>
+
+<p>Esta secção existe para não se tomar por prometido o que não foi feito.</p>
+
+<table>
+  <thead><tr><th style="width:34%">Assunto</th><th>Situação</th></tr></thead>
+  <tbody>
+    <tr><td>Tarefas-padrão nas etapas</td><td><span class="validar">POR VALIDAR</span> O modelo traz as 10 etapas, mas nenhuma tarefa. Faltam os passos que um protótipo percorre sempre — é informação vossa.</td></tr>
+    <tr><td>Outras famílias de produto</td><td><span class="validar">POR VALIDAR</span> Só <i>Fontes de alimentação</i> tem especificações definidas. As restantes ficam para quando estiverem escolhidas.</td></tr>
+    <tr><td>Manutenções periódicas por zona</td><td>Módulos instalados na base de testes, por configurar. Faltam as zonas, os responsáveis e as periodicidades.</td></tr>
+    <tr><td>Documentos de produto</td><td>Arrumação feita. Existe a pasta <i>Artigos</i> com uma sub-pasta por família e etiquetas por tipo, e as fichas técnicas já acompanham os orçamentos. <span class="validar">POR DECIDIR</span> os documentos que não aparecem no site, os certificados nos orçamentos, e o destino dos documentos sem artigo associado.</td></tr>
+    <tr><td>Gestão de alterações de engenharia (PLM)</td><td>Adiado de propósito. Só faz sentido quando existirem listas de materiais em uso.</td></tr>
+    <tr><td>Envio dos protótipos para o PHC</td><td>Os artigos não são sincronizados para o PHC — a integração atual trata de contactos e faturas. <span class="validar">POR VALIDAR</span> um protótipo faturado chega ao PHC dentro da fatura.</td></tr>
+  </tbody>
+</table>
+
+<div class="nota">
+<p><b>Antes de passar a produção.</b> Há dados da empresa por preencher que saem em todos os
+documentos enviados a clientes: o NIF está a <code>999999990</code>, o telefone a
+<code>000000000</code>, o email a <code>no-reply@example.com</code> e o formato de página está
+em <i>US Letter</i> em vez de A4. Não tem a ver com os protótipos, mas afeta qualquer orçamento
+que saia — e convém resolver antes de mais documentos começarem a circular.</p>
+</div>
+
+<h2>6. Próximos passos</h2>
+
+<table>
+  <thead><tr><th style="width:6%">#</th><th style="width:48%">O quê</th><th style="width:24%">Quem</th><th>Quando</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Percorrer os cinco passos na base de testes e devolver as confirmações</td><td>Essani</td><td>Até ao fim da próxima semana</td></tr>
+    <tr><td>2</td><td>Indicar as tarefas-padrão de cada etapa e as famílias de produto a configurar</td><td>Essani</td><td>Com o ponto 1</td></tr>
+    <tr><td>3</td><td>Corrigir os dados da empresa nos documentos</td><td>Essani</td><td>Independente</td></tr>
+    <tr><td>4</td><td>Promover para produção, depois da aprovação</td><td>Parâmetro Global</td><td>Após ponto 1</td></tr>
+    <tr><td>5</td><td>Recolher zonas, responsáveis e periodicidades da manutenção</td><td>Essani — Ana Valente</td><td>Sem urgência</td></tr>
+  </tbody>
+</table>
+
+<div class="rodape">
+  <p>Documento gerado a 17 de setembro de 2026 para validação interna da Essani. Todos os
+  números citados foram lidos do ambiente de testes à data de emissão.</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_move_form_pg_early_discount" model="ir.ui.view">
+        <field name="name">account.move.form.pg.early.discount.totals</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Mostra o desconto de pronto pagamento e o total liquido logo
+                 abaixo do bloco de totais, visivel no lancamento do documento
+                 sem ser preciso simular o pagamento. Alinhado com a grelha do
+                 rodape de totais (mesmo padrao do campo amount_residual). -->
+            <xpath expr="//field[@name='tax_totals']" position="after">
+                <field name="pg_has_early_discount" invisible="1"/>
+                <field name="pg_early_discount_amount"
+                       widget="monetary"
+                       options="{'currency_field': 'currency_id'}"
+                       invisible="not pg_has_early_discount"/>
+                <field name="pg_amount_after_early_discount"
+                       widget="monetary"
+                       options="{'currency_field': 'currency_id'}"
+                       class="oe_subtotal_footer_separator"
+                       invisible="not pg_has_early_discount"/>
+            </xpath>
+            <!-- Valor em Divida ja com o desconto p.p. deduzido: e o valor que
+                 o cliente efetivamente deve ao fornecedor. O campo nativo fica
+                 escondido apenas nos documentos com desconto p.p., para nao
+                 alterar faturas de cliente nem fornecedores sem desconto. -->
+            <xpath expr="//group[hasclass('oe_subtotal_footer')]/field[@name='amount_residual']" position="attributes">
+                <attribute name="invisible">pg_has_early_discount</attribute>
+            </xpath>
+            <xpath expr="//group[hasclass('oe_subtotal_footer')]/field[@name='amount_residual']" position="after">
+                <field name="pg_amount_residual_after_early_discount"
+                       widget="monetary"
+                       options="{'currency_field': 'currency_id'}"
+                       invisible="not pg_has_early_discount"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/list/field[@name='discount']" position="after">
+                <field name="pg_early_discount_eligible"
+                       string="Desc. P.P."
+                       optional="show"
+                       invisible="parent.move_type not in ('in_invoice', 'in_refund', 'in_receipt', 'out_invoice', 'out_refund', 'out_receipt') or display_type != 'product'"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/form//field[@name='discount']" position="after">
+                <field name="pg_early_discount_eligible"
+                       invisible="parent.move_type not in ('in_invoice', 'in_refund', 'in_receipt', 'out_invoice', 'out_refund', 'out_receipt') or display_type != 'product'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_invoice_tree_pg_early_discount" model="ir.ui.view">
+        <field name="name">account.invoice.list.pg.early.discount.totals</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <!-- Em Contabilidade > Fornecedores > Faturas de Fornecedor, a coluna
+                 "Valor em Divida" passa a refletir o desconto p.p.. Nas listas de
+                 faturas de cliente mantem-se a coluna nativa. O campo do modulo
+                 iguala o nativo quando nao ha desconto p.p., pelo que nao se perde
+                 informacao em nenhuma linha. -->
+            <xpath expr="//field[@name='amount_residual_signed']" position="attributes">
+                <attribute name="column_invisible">context.get('default_move_type') in ('in_invoice', 'in_refund', 'in_receipt')</attribute>
+            </xpath>
+            <xpath expr="//field[@name='amount_residual_signed']" position="after">
+                <field name="pg_amount_residual_signed_after_early_discount"
+                       string="Valor em Dívida"
+                       sum="Valor em Dívida"
+                       optional="show"
+                       column_invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund', 'in_receipt')"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

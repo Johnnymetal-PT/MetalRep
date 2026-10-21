@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Regras de registo: comerciais (user.x_studio_comercial = True) só veem os seus
+        próprios documentos; os restantes veem tudo. groups=[(5,0,0)] => regra global.
+        Uma regra para vendas, outra para compras.
+    -->
+    <record id="pg_sale_order_comercial_own_rule" model="ir.rule">
+        <field name="name">PG Comercial: Own Sale Orders Only</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="groups" eval="[(5, 0, 0)]"/>
+        <field name="domain_force">[(1, '=', 1)] if not user.x_studio_comercial else [('user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="pg_purchase_order_comercial_own_rule" model="ir.rule">
+        <field name="name">PG Comercial: Own Purchase Orders Only</field>
+        <field name="model_id" ref="purchase.model_purchase_order"/>
+        <field name="groups" eval="[(5, 0, 0)]"/>
+        <field name="domain_force">[(1, '=', 1)] if not user.x_studio_comercial else [('user_id', '=', user.id)]</field>
+    </record>
+</odoo>
+

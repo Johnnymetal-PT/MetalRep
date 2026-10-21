@@ -1,0 +1,220 @@
+/* PG Scroll Scenes.
+ *
+ * Duas camadas:
+ *  1. o estado normal (sem JS, ecrã estreito, "reduzir movimento", editor): os passos ficam
+ *     em coluna, todos visíveis;
+ *  2. `.pg-scene--live`, posta pelo script: a cena ocupa o ecrã, fica fixa e os passos
+ *     sobrepõem-se, a aparecer e a sair com o scroll.
+ */
+.pg-scene {
+    --pg-scene-bg: #060608;
+    --pg-scene-fg: #fff;
+    --pg-scene-font: 'Montserrat', 'Archivo', sans-serif;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: var(--pg-scene-fg);
+    background: var(--pg-scene-bg);
+    font-family: var(--pg-scene-font);
+}
+
+/* O script de entrada antigo do V4 mete `pg-reveal` em quase tudo; numa cena fixa isso
+   esconderia ou deslocaria o que o motor já anima. */
+#wrapwrap .pg-scene.pg-reveal,
+#wrapwrap .pg-scene .pg-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+}
+
+.pg-scene h1, .pg-scene h2, .pg-scene h3 {
+    color: inherit;
+    font-family: var(--pg-scene-font);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin: 0 0 1rem;
+}
+.pg-scene h1, .pg-scene h2 { font-size: clamp(2.2rem, 6vw, 5.5rem); }
+.pg-scene h3 { font-size: clamp(1.6rem, 3.6vw, 3rem); }
+.pg-scene p { max-width: 36rem; font-size: clamp(1rem, 1.5vw, 1.3rem); line-height: 1.5; margin: 0 0 1.25rem; }
+.pg-scene__eyebrow { display: block; margin-bottom: 1rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.8; }
+
+.pg-scene__bg {
+    position: absolute; inset: 0; z-index: 0;
+    background-size: cover; background-position: center;
+}
+.pg-scene__veil { position: absolute; inset: 0; z-index: 1; background: var(--pg-scene-bg); opacity: 0.5; pointer-events: none; }
+
+/* ---------- Estado normal: coluna ---------- */
+.pg-scene__stage { position: relative; z-index: 2; padding: 5rem 1.5rem; }
+.pg-scene__step { margin-bottom: 2.5rem; }
+.pg-scene__layers { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 2rem; }
+.pg-scene__layer img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; }
+.pg-scene__layer figcaption { margin-top: 0.4rem; font-size: 0.85rem; opacity: 0.8; }
+.pg-scene__dots, .pg-scene__bar { display: none; }
+
+/* ---------- Estado vivo: fixa, a avançar com o scroll ---------- */
+.pg-scene--live {
+    height: calc(100vh - var(--pg-hdr, 0px));
+    min-height: 520px;
+}
+.pg-scene--live .pg-scene__stage { position: absolute; inset: 0; padding: 0; }
+.pg-scene--live .pg-scene__layers { position: absolute; inset: 0; display: block; margin: 0; z-index: 0; }
+.pg-scene--live .pg-scene__layer { position: absolute; inset: 0; margin: 0; opacity: 0; visibility: hidden; }
+.pg-scene--live .pg-scene__layer img { width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; }
+.pg-scene--live .pg-scene__layer figcaption { display: none; }
+.pg-scene--live .pg-scene__step {
+    position: absolute; inset: 0; z-index: 3; margin: 0;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 8vw;
+    opacity: 0; visibility: hidden;
+}
+.pg-scene--live .pg-scene__step[data-pg-align="center"] { align-items: center; text-align: center; }
+.pg-scene--live .pg-scene__step[data-pg-align="center"] p { margin-left: auto; margin-right: auto; }
+.pg-scene--live .pg-scene__step[data-pg-align="bottom"] { justify-content: flex-end; padding-bottom: 12vh; }
+/* Os passos que são só uma camada de imagem não levam o preenchimento dos de texto. */
+.pg-scene--live .pg-scene__layer.pg-scene__step { padding: 0; }
+
+/* Título que fica sempre visível por cima das camadas de imagem. */
+.pg-scene--live .pg-scene__title { position: absolute; z-index: 4; top: 11vh; left: 8vw; right: 8vw; }
+.pg-scene--live .pg-scene__layers::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(rgba(6, 6, 8, 0.72), transparent 42%, transparent 52%, rgba(6, 6, 8, 0.88));
+}
+
+.pg-scene--live .pg-scene__dots {
+    display: flex; flex-direction: column; gap: 0.6rem;
+    position: absolute; right: 2rem; top: 50%; transform: translateY(-50%); z-index: 5;
+}
+.pg-scene__dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.35); transition: transform 0.3s, background 0.3s; }
+.pg-scene__dots span.on { background: #fff; transform: scale(1.5); }
+.pg-scene--live .pg-scene__bar { display: block; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255, 255, 255, 0.15); z-index: 5; }
+.pg-scene__bar i { display: block; height: 100%; background: #fff; transform-origin: left; transform: scaleX(0); }
+
+/* ---------- Elementos usados nas cenas da homepage ---------- */
+.pg-scene a.pg-link {
+    display: inline-block; color: inherit; text-decoration: none;
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    border-bottom: 1px solid currentColor; padding-bottom: 0.2rem;
+}
+.pg-scene a.pg-link:hover { opacity: 0.75; }
+.pg-scene__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.5rem; }
+.pg-scene--live .pg-scene__step[data-pg-align="center"] .pg-scene__actions { justify-content: center; }
+.pg-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
+.pg-scene--live .pg-scene__step[data-pg-align="center"] .pg-chips { justify-content: center; }
+.pg-chips li {
+    padding: 0.35rem 0.9rem; border: 1px solid rgba(255, 255, 255, 0.35); border-radius: 999px;
+    font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+}
+.pg-stat { display: block; font-size: clamp(4rem, 14vw, 11rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; }
+.pg-num { display: block; margin-bottom: 0.4rem; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.22em; opacity: 0.75; }
+/* `#wrapwrap` na frente: o tema do V5 tem `#wrap p { font-weight; line-height }` com mais peso. */
+#wrapwrap .pg-scene p.pg-quote { max-width: 56rem; font-size: clamp(1.8rem, 4.6vw, 3.8rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.01em; }
+/* Num passo alinhado à esquerda, links e botões não esticam à largura toda. */
+.pg-scene--live .pg-scene__step:not([data-pg-align="center"]) > a { align-self: flex-start; }
+
+/* Ilustrações de produto sobre fundo escuro: inteiras, sem recorte nem gradiente. */
+.pg-scene__layers--contain .pg-scene__layer { background: #000; }
+.pg-scene__layers--contain .pg-scene__layer img { object-fit: contain; background: #000; }
+.pg-scene--live .pg-scene__layers--contain .pg-scene__layer img { padding: 14vh 8vw 16vh 38vw; box-sizing: border-box; }
+.pg-scene--live .pg-scene__layers--contain::after { display: none; }
+
+/* ======================= Acabamento ======================= */
+.pg-scene {
+    --pg-accent: #C9A15B;
+    --pg-accent-2: #E9C983;
+    background:
+        radial-gradient(120% 90% at 85% -10%, rgba(201, 161, 91, 0.13), transparent 55%),
+        radial-gradient(90% 70% at 5% 105%, rgba(201, 161, 91, 0.07), transparent 60%),
+        var(--pg-scene-bg);
+}
+/* Grão fino e vinheta: tiram o ar chapado ao preto. */
+.pg-scene::before {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.08; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.pg-scene::after {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.5));
+}
+
+/* Brilho dourado que cresce com o scroll: a luz a acender. */
+.pg-scene__glow { display: none; }
+.pg-scene--live .pg-scene__glow {
+    display: block; position: absolute; z-index: 0; pointer-events: none;
+    left: 50%; top: 50%; width: 92vmin; height: 92vmin; margin: -46vmin 0 0 -46vmin; border-radius: 50%;
+    background: radial-gradient(circle, rgba(233, 201, 131, 0.5), rgba(201, 161, 91, 0.16) 42%, transparent 70%);
+    filter: blur(14px);
+}
+.pg-scene--live[data-pg-glow="right"] .pg-scene__glow { left: 76%; top: 46%; }
+.pg-scene--live[data-pg-glow="left"] .pg-scene__glow { left: 24%; top: 54%; }
+
+/* Palavras com máscara, para a revelação palavra a palavra. */
+.pg-scene h1, .pg-scene h2, .pg-scene h3, #wrapwrap .pg-scene p.pg-quote { text-wrap: balance; }
+.pg-w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+.pg-wi { display: inline-block; will-change: transform; }
+
+.pg-scene__eyebrow { color: var(--pg-accent-2); }
+.pg-scene__eyebrow::before {
+    content: ""; display: inline-block; width: 2.2rem; height: 1px; margin-right: 0.8rem;
+    background: currentColor; vertical-align: middle;
+}
+.pg-rule {
+    display: block; width: 4.5rem; height: 2px; margin: 1.2rem 0; transform-origin: left center;
+    background: linear-gradient(90deg, var(--pg-accent-2), var(--pg-accent));
+}
+.pg-scene--live .pg-scene__step[data-pg-align="center"] .pg-rule { margin-left: auto; margin-right: auto; transform-origin: center; }
+
+.pg-stat {
+    background: linear-gradient(180deg, #fff 25%, var(--pg-accent-2) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Números e aspas enormes, só contorno, por trás do texto. */
+.pg-ghost { display: none; }
+.pg-scene--live .pg-ghost {
+    display: block; position: absolute; z-index: -1; pointer-events: none; user-select: none;
+    font-weight: 800; line-height: 0.8; letter-spacing: -0.04em; color: transparent;
+    font-size: clamp(10rem, 30vw, 28rem); -webkit-text-stroke: 1px rgba(233, 201, 131, 0.32);
+    right: 5vw; bottom: 2vh;
+}
+.pg-scene--live .pg-ghost--quote { right: auto; bottom: auto; left: 50%; top: 46%; translate: -50% -50%; font-size: clamp(16rem, 48vw, 44rem); }
+
+/* Índice: lista de passos, com o atual aceso. */
+.pg-scene__index { display: none; list-style: none; margin: 0; padding: 0; }
+.pg-scene--live .pg-scene__index { display: block; }
+.pg-scene__index li { opacity: 0.38; transition: opacity 0.4s; }
+.pg-scene__index li.past { opacity: 0.6; }
+.pg-scene__index li.on { opacity: 1; }
+.pg-scene__index a, .pg-scene__index .it {
+    display: flex; gap: 1rem; align-items: baseline; padding: 0.6rem 0; color: inherit; text-decoration: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    font-size: 0.95rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    transition: color 0.4s, padding 0.4s;
+}
+.pg-scene__index b { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.2em; color: var(--pg-accent-2); }
+.pg-scene__index li.on a, .pg-scene__index li.on .it { color: var(--pg-accent-2); padding-left: 0.6rem; }
+.pg-scene--live .pg-scene__index--row {
+    display: flex; position: absolute; z-index: 4; left: 8vw; right: 8vw; bottom: 9vh; gap: 2rem;
+}
+.pg-scene__index--row li { flex: 1; }
+.pg-scene__index--row a, .pg-scene__index--row .it { justify-content: center; }
+
+/* Duas colunas: título e índice à esquerda, passos à direita. */
+.pg-scene--live .pg-scene__side {
+    position: absolute; z-index: 4; left: 8vw; top: 0; bottom: 0; width: 34vw;
+    display: flex; flex-direction: column; justify-content: center; gap: 1.6rem;
+}
+.pg-scene--live .pg-scene__side h2 { font-size: clamp(2rem, 3.8vw, 3.6rem); margin-bottom: 0.4rem; }
+.pg-scene--live .pg-scene__side p { font-size: clamp(0.95rem, 1.2vw, 1.1rem); opacity: 0.85; margin: 0; }
+.pg-scene--live[data-pg-layout="split"] .pg-scene__step { padding-left: 50vw; padding-right: 7vw; }
+.pg-scene--live[data-pg-layout="split"] .pg-scene__step h2 { font-size: clamp(2.2rem, 4.6vw, 4.4rem); }
+@media (max-width: 1199px) {
+    .pg-scene--live[data-pg-layout="split"] .pg-scene__step { padding-left: 46vw; }
+    .pg-scene--live .pg-scene__side { width: 36vw; }
+}
+
+.pg-scene--live .pg-ghost--left { right: auto; left: 4vw; bottom: -3vh; }
+.pg-scene--live .pg-scene__step p.pg-lead { font-size: clamp(1.2rem, 2vw, 1.7rem); line-height: 1.5; max-width: 34rem; }

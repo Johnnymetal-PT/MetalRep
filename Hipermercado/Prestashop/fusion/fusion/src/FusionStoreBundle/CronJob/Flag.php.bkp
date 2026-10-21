@@ -1,0 +1,36 @@
+<?php
+
+namespace FusionStoreBundle\CronJob;
+
+use Context;
+use Module;
+
+class Flag
+{
+    private $flagindicatorfile = null;
+
+    public function __construct( Context $context )
+    {
+        $this->context = $context;
+        $this->flagindicatorfile = _PS_ROOT_DIR_.'/modules/fusion/cron.flag';
+        return $this;
+    }
+
+    public function is_running()
+    {
+        $flag = file_get_contents($this->flagindicatorfile);
+        return (bool)$flag;
+    }
+
+    public function running()
+    {
+        file_put_contents($this->flagindicatorfile, '1');
+        return $this;
+    }
+
+    public function finish()
+    {
+        file_put_contents($this->flagindicatorfile, '0');
+        return $this;
+    }
+}

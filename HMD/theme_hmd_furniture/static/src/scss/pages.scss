@@ -1,0 +1,1391 @@
+// Seccoes editoriais das paginas estaticas.
+// Origem: Home.svg, We are.svg, Portfolio.svg, Collection.svg,
+//         Fabrics.svg, Materials.svg, Contact us.svg
+
+// --- Hero de imagem inteira ---------------------------------------------
+// Home: imagem 1928x2516 a sangrar, titulo vermelho a y=432,
+//       "CONTRACT US" branco a y=2071 com lead em Courier 24px.
+.hmd-hero {
+    position: relative;
+    // No XD o hero tem 2516px de altura para 1920 de largura. Capado a 1000px
+    // o texto de cima e o de baixo colidem, por isso damos-lhe mais altura e
+    // reduzimos o avanco superior.
+    // Proporcao do desenho: 1920x2516. Os avancos vao em percentagem, que em
+    // CSS se resolve sempre contra a LARGURA — logo as posicoes relativas do
+    // titulo (y=432 -> 22.5%) e do bloco inferior (236px de folga -> 12.3%)
+    // mantem-se em qualquer viewport.
+    aspect-ratio: 1920 / 2516;
+    min-height: 520px;
+
+    // No telemovel a altura minima de 520px, com a proporcao fixa, era
+    // convertida pelo browser numa largura minima de 397px (520 x 1920/2516):
+    // a pagina ganhava scroll para o lado num ecra de 390, e mais num de 360.
+    // Aqui a altura calcula-se a partir da largura e a largura fica livre.
+    @media (max-width: 575.98px) {
+        aspect-ratio: auto;
+        // 2516/1920 = 131,04vw. Entre aspas porque o Odoo compila com libsass,
+        // que trataria max() como a funcao do Sass e falhava com unidades mistas.
+        height: unquote("max(520px, 131.04vw)");
+    }
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 22.5% var(--hmd-pad-x-nav) 12.3%;
+    background-size: cover;
+    background-position: center;
+    color: var(--hmd-white);
+    overflow: hidden;
+
+    // No XD o texto assenta sobre zonas escuras do moodboard. Como o
+    // recorte da imagem varia com o viewport, um vela suave garante o
+    // contraste em qualquer altura sem escurecer a imagem onde ja e escura.
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.30) 0%,
+            rgba(0, 0, 0, 0) 30%,
+            rgba(0, 0, 0, 0) 52%,
+            rgba(0, 0, 0, 0.50) 100%);
+    }
+
+    > * { position: relative; z-index: 1; }
+}
+
+.hmd-hero__kicker {
+    font-family: var(--hmd-display);
+    font-size: var(--hmd-fs-display);
+    line-height: 1.05;
+    color: var(--hmd-red);
+    text-transform: uppercase;   // "SEND US YOUR IDEAS" no XD
+    max-width: none;             // a quebra vem de um <br/> no template
+    margin: 0 0 0 clamp(0.5rem, 7.76vw, 149px);
+}
+
+.hmd-hero__title {
+    font-family: var(--hmd-display);
+    font-size: var(--hmd-fs-display);
+    color: var(--hmd-white);
+    text-transform: uppercase;   // "CONTRACT US" no XD
+    text-align: center;
+    margin: 0 0 1.25rem;
+}
+
+.hmd-hero__lead {
+    font-family: var(--hmd-mono);
+    font-size: var(--hmd-fs-lead);
+    letter-spacing: var(--hmd-ls-tight);
+    line-height: var(--hmd-lh-mono);
+    text-align: center;
+    max-width: 62ch;
+    margin-inline: auto;
+    color: var(--hmd-white);
+}
+
+.hmd-hero__foot { align-self: center; text-align: center; }
+
+// O titulo da pagina inicial e texto do editor: os tres <span> levam
+// font-size: 4.0625rem (65px) e letter-spacing: -2.7px inline. A 390px a palavra
+// COMMITTED mede ~440px e sai do ecra, cortada pelo overflow do hero, e o titulo
+// bate no logotipo (medido na producao a 14/10/2026, #8114). O estilo inline so
+// se vence com !important. Ate 575px o corpo passa a fluido; acima fica o do
+// editor, que a 768px cabe.
+@media (max-width: 575.98px) {
+    .hmd-hero h1 span[style*="font-size"],
+    .hmd-hero h2 span[style*="font-size"] {
+        font-size: clamp(2rem, 9.5vw, 4.0625rem) !important;
+        letter-spacing: -0.04em !important;
+    }
+}
+
+// --- Home: imagem principal em 16:9 (#8317) -------------------------------
+// Pedido da Monica (PDF "alteracao proporcao imagem home", 19/10/2026):
+// diminuir a altura da imagem principal da Home, que passe a ser 16:9.
+//
+// Antes a proporcao vinha do desenho (1920x2516, quase vertical): a 1920px de
+// largura o hero tinha 2516px de altura e a imagem de fundo ocupava mais de
+// duas ecras. A seccao tambem leva o_full_screen_height (min-height: 100vh,
+// com !important), que numa janela mais alta do que 16:9 esticava o hero e,
+// com a proporcao fixa, ate o alargava para la do ecra (781px a 768px, com
+// scroll para o lado). Aqui o hero passa a ter so a proporcao 16:9.
+//
+// So na Home: o .hmd-hero tambem serve as paginas Contact us e We are, que
+// mantem o desenho do XD. A classe .homepage vem do #wrapwrap.
+// Ate 575px mantem-se a regra de cima (altura a partir da largura): 16:9 num
+// telemovel dava uma faixa de 220px, curta para o titulo.
+//
+// O texto fica centrado na vertical: as folgas em % da largura (22,5% em cima)
+// foram pensadas para os 2516px e empurravam o titulo para fora de um 16:9.
+//
+// LIMITE CONHECIDO: em ecra de computador o JavaScript do Odoo escreve em
+// linha min-height: <altura da janela> !important no hero (por causa do
+// o_full_screen_height) e uma regra de CSS nao vence um !important em linha.
+// Por isso, numa janela mais alta do que 16:9 (ex.: 1440x900) o hero fica com a
+// altura da janela e nao com 16:9 exato; em 16:9 ou mais larga fica 16:9.
+// A largura fixa a 100% e essencial: sem ela a proporcao convertia essa altura
+// minima em largura e o hero alargava para la do ecra (1600px num de 1440).
+@media (min-width: 576px) {
+    .homepage .hmd-hero {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        min-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        justify-content: center;
+    }
+    .homepage .hmd-hero.o_full_screen_height { min-height: 0 !important; }
+}
+
+// --- Seccao editorial a duas colunas -------------------------------------
+// "NEWS FROM PORTUGAL": imagem esquerda + titulo, coluna direita com
+// imagem e dois blocos de texto desalinhados na vertical.
+.hmd-editorial {
+    // No XD as duas colunas NAO estao alinhadas pelo topo: a imagem da
+    // esquerda comeca a y=2619 e o primeiro texto da direita a y=3274 — a
+    // coluna direita desce 655px de 1920 (34%). Na pagina We are o
+    // desfasamento e de 873px, por isso fica parametrizavel.
+    --hmd-editorial-offset: 34vw;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 5vw, 96px);
+    padding: clamp(2.5rem, 8vw, 154px) var(--hmd-pad-x);
+    align-items: start;
+
+    &--offset-lg { --hmd-editorial-offset: 45.5vw; }   // We are: 873px de 1920
+
+    > div:last-child {
+        padding-top: var(--hmd-editorial-offset);
+    }
+}
+
+.hmd-editorial__title {
+    font-family: var(--hmd-display);
+    font-size: var(--hmd-fs-display);
+    line-height: 1.0;
+    text-transform: uppercase;   // "NEWS FROM PORTUGAL" no XD
+    margin: clamp(1.5rem, 4.4vw, 85px) 0 clamp(1rem, 1.5vw, 29px);
+    max-width: 6ch;   // quebra em "NEWS" / "FROM" / "PORTUGAL", como no XD
+}
+
+.hmd-editorial__body,
+.hmd-prose {
+    font-family: var(--hmd-mono);
+    font-size: var(--hmd-fs-meta);
+    letter-spacing: var(--hmd-ls-tight);
+    line-height: var(--hmd-lh-mono);
+    color: var(--hmd-ink);
+    max-width: 58ch;
+}
+
+// Corpo da coluna DIREITA — Inter 18px, caixa normal.
+// No XD as duas colunas usam fontes diferentes: a esquerda em Courier
+// (.hmd-editorial__body) e a direita em Inter. Verificado no Home (y=3362) e
+// no We are (y=2511).
+.hmd-editorial__note {
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-fs-meta);
+    line-height: var(--hmd-lh-ui);
+    color: var(--hmd-ink);
+    max-width: 42ch;
+}
+
+// Bloco de chamada em maiusculas (Inter 18px)
+.hmd-standfirst {
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-fs-meta);
+    text-transform: uppercase;
+    line-height: var(--hmd-lh-ui);
+    max-width: 42ch;
+    margin-bottom: 1.25rem;
+}
+
+// Legenda de imagem — Inter 12px, MINUSCULAS.
+// No XD o texto e "legendas imagens", em caixa baixa: e a unica coisa do
+// desenho que nao esta em maiusculas. Eu tinha "uppercase" e estava errado.
+.hmd-caption {
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-fs-micro);
+    letter-spacing: var(--hmd-ls-tight);
+    text-transform: lowercase;
+    color: var(--hmd-ink);
+    margin-top: 0.6rem;
+}
+
+.hmd-figure {
+    margin: 0;
+
+    img { display: block; width: 100%; height: auto; }
+}
+
+// Larguras do XD: a figura da coluna esquerda tem 568px e a da direita 709px,
+// numa pagina de 1920 (29.6% e 36.9%). Sem isto ocupavam a coluna inteira e o
+// conjunto ficava com muito menos ar do que o desenho.
+.hmd-editorial > div:first-child .hmd-figure { max-width: 568px; }
+.hmd-editorial > div:last-child  .hmd-figure { max-width: 709px; }
+
+// --- Seccao de destaque de produto (fundo mauve) -------------------------
+// Home: fundo #908383, "CONGO" + "COFFEE TABLES" centrados, imagem 778x1038.
+.hmd-feature {
+    padding: clamp(2.5rem, 7vw, 134px) var(--hmd-pad-x);
+    text-align: center;
+}
+
+// Tarefa #8113: o fundo e a cor de texto padrao so valem enquanto o editor nao
+// escolheu outro (o editor poe .o_cc / .o_cc1... na seccao). Sem este :not, o
+// fundo do tema ganhava ao do editor por vir depois no bundle.
+.hmd-feature:not(.o_cc) {
+    background: var(--hmd-mauve);
+    color: var(--hmd-ink-2);
+
+    &.hmd-feature--grey  { background: var(--hmd-grey); }
+    &.hmd-feature--white { background: var(--hmd-white); }
+}
+.hmd-editorial:not(.o_cc) { background: var(--hmd-white); }
+
+.hmd-feature__title {
+    font-family: var(--hmd-display);
+    font-size: var(--hmd-fs-display);
+    text-transform: uppercase;   // "CONGO" no XD
+    margin: 0;
+}
+
+.hmd-feature__sub {
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-fs-body);
+    letter-spacing: var(--hmd-ls-tight);
+    text-transform: uppercase;
+    margin: 0.5rem 0 clamp(1.5rem, 4.3vw, 82px);
+}
+
+.hmd-feature__media {
+    max-width: clamp(280px, 40.5vw, 778px);
+    margin-inline: auto;
+
+    img { display: block; width: 100%; height: auto; }
+}
+
+.hmd-feature__body {
+    font-family: var(--hmd-mono);
+    font-size: var(--hmd-fs-meta);
+    letter-spacing: var(--hmd-ls-tight);
+    line-height: var(--hmd-lh-mono);
+    max-width: 62ch;
+    margin: clamp(1.5rem, 2vw, 38px) auto 0;
+    text-align: left;
+}
+
+// --- Grelha de projectos -------------------------------------------------
+// Home: 2 cartoes 426x581. Products/Portfolio: 3 cartoes.
+.hmd-projects:not(.o_cc) { background: var(--hmd-white); }
+.hmd-projects {
+    display: grid;
+    grid-template-columns: repeat(var(--hmd-projects-cols, 2), minmax(0, 1fr));
+    gap: clamp(1rem, 2.9vw, 56px);
+    justify-content: center;
+
+    // No XD os dois cartoes tem 426px cada e ocupam de x=516 a x=1424 — 908px
+    // centrados. O padding horizontal NAO pode entrar aqui: o max-width
+    // inclui-o, e as imagens ficavam com 276px em vez de 426.
+    max-width: 908px;
+    margin-inline: auto;
+    padding-block: clamp(2rem, 5vw, 96px);
+    padding-inline: 0;
+
+    &--3 { --hmd-projects-cols: 3; }
+}
+
+.hmd-project__caption {
+    font-family: var(--hmd-mono);
+    font-size: var(--hmd-fs-meta);
+    letter-spacing: var(--hmd-ls-tight);
+    text-transform: uppercase;
+    margin-top: 0.75rem;
+
+    strong { font-weight: 700; display: block; }
+}
+
+.hmd-project__body {
+    font-family: var(--hmd-mono);
+    font-size: var(--hmd-fs-meta);
+    letter-spacing: var(--hmd-ls-tight);
+    line-height: var(--hmd-lh-mono);
+    margin-top: 0.6rem;
+}
+
+// Cartao do Portfolio com ligacao para a pagina do projeto (#8379).
+.hmd-project__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+
+    img { transition: opacity 0.2s; }
+    &:hover, &:focus-visible { color: inherit; }
+    &:hover img, &:focus-visible img { opacity: 0.85; }
+}
+
+// Cartoes do Portfolio como os do site da Shopify (imagem enviada pela Monica
+// a 21/10/2026, #8116): nome do projeto POR CIMA da fotografia (ao alto) e,
+// por baixo, "DESIGN BY" e o estudio em negrito, em Inter. 3 por linha e letra
+// mais pequena, a pedido da Monica (#8379, 21/10): com 4 colunas e 18px os
+// nomes partiam em 2 linhas e as fotografias desalinhavam.
+.hmd-projects--portfolio {
+    --hmd-projects-cols: 3;
+    --hmd-fs-portfolio: clamp(0.75rem, 0.73vw, 0.875rem);   // 12-14px
+    // A grelha vai de margem a margem, a comecar onde comeca o titulo
+    // "OUR PARTNERS" (o mesmo recuo do .hmd-pagehead): fotografias maiores,
+    // pedido da Monica a 21/10 (#8379).
+    max-width: none;
+    padding-inline: clamp(1.25rem, 7.5vw, 144px);
+    column-gap: clamp(1rem, 2.2vw, 40px);
+    row-gap: clamp(2rem, 3.5vw, 56px);
+
+    .hmd-project__link { display: flex; flex-direction: column; height: 100%; }
+    .hmd-project__caption {
+        order: -1;
+        margin: 0 0 0.4rem;
+        // O nome encosta a fotografia: com 1 linha, o espaco reservado fica
+        // por cima dele e nao entre ele e a imagem.
+        display: flex;
+        align-items: flex-end;
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-portfolio);
+        letter-spacing: 0;
+        // Espaco para 2 linhas sempre: com nomes de 1 e de 2 linhas lado a
+        // lado, as fotografias ficavam desalinhadas.
+        line-height: 1.25;
+        min-height: 2.5em;
+
+        strong { font-weight: 400; }
+    }
+}
+
+.hmd-project__author {
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-fs-portfolio, var(--hmd-fs-meta));
+    text-transform: uppercase;
+    margin: 0.8rem 0 0;
+
+    strong { display: block; font-weight: 700; margin-top: 0.1rem; }
+}
+
+// --- Pagina de projeto (#8379) -------------------------------------------
+// Uma por projeto do Portfolio, com o mesmo endereco do site antigo. Usa o
+// .hmd-pagehead (titulo + autoria) e o fundo cinzento do .hmd-portfolio-page.
+// Os titulos sao frases inteiras ("QUIRAT RESTAURANT AT INTERCONTINENTAL
+// HOTEL, BARCELONA"): podem partir linha e sao mais pequenos do que o do
+// Portfolio, senao saiam do ecra.
+body:has(.hmd-projectpage) { background: var(--hmd-grey); }
+
+.hmd-projectpage {
+    .hmd-pagehead__title {
+        white-space: normal;
+        font-size: clamp(2rem, 4.2vw, 80px);
+    }
+    .hmd-pagehead__intro {
+        p { margin: 0 0 0.4rem; }
+        a { color: inherit; text-decoration: underline; }
+    }
+}
+
+.hmd-projectpage__back {
+    font-family: var(--hmd-mono);
+    font-size: var(--hmd-fs-meta);
+    letter-spacing: var(--hmd-ls-tight);
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+
+    a { color: inherit; text-decoration: none; }
+    a:hover, a:focus-visible { text-decoration: underline; }
+}
+
+// Fotografias: a primeira a toda a largura, as outras aos pares; se a ultima
+// ficar sozinha, tambem ocupa a largura toda.
+.hmd-projectpage__images {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 2.9vw, 56px);
+    max-width: 1180px;
+    margin-inline: auto;
+    padding: 0 clamp(1.25rem, 4vw, 48px) clamp(2rem, 5vw, 96px);
+
+    img { display: block; width: 100%; height: auto; }
+    img:first-child,
+    img:last-child:nth-child(even) { grid-column: 1 / -1; }
+}
+
+.hmd-projectpage__products {
+    max-width: 1180px;
+    margin-inline: auto;
+    padding: 0 clamp(1.25rem, 4vw, 48px) clamp(2rem, 5vw, 96px);
+}
+
+.hmd-projectpage__subtitle {
+    font-family: var(--hmd-mono);
+    font-size: var(--hmd-fs-meta);
+    font-weight: 700;
+    letter-spacing: var(--hmd-ls-tight);
+    text-transform: uppercase;
+    margin: 0 0 1.25rem;
+}
+
+.hmd-projectpage__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 32px);
+}
+
+.hmd-projectpage__product {
+    color: inherit;
+    text-decoration: none;
+    font-family: var(--hmd-mono);
+    font-size: var(--hmd-fs-meta);
+    letter-spacing: var(--hmd-ls-tight);
+    text-transform: uppercase;
+
+    img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: contain;
+        background: var(--hmd-white);
+        margin-bottom: 0.6rem;
+    }
+    &:hover, &:focus-visible { color: inherit; text-decoration: underline; }
+}
+
+// --- Pagina de cada familia de materiais (#8379) ------------------------
+// /materials/<familia>: titulo e introducao no .hmd-pagehead, fotografia e
+// texto (descricao, cuidados) que a Monica edita, e por baixo as amostras da
+// familia. Volta-se aos Materials pela ligacao do topo ou pelo botao do fim,
+// que levam a propria familia (#material-<familia>).
+body:has(.hmd-materialpage) { background: var(--hmd-grey); }
+
+.hmd-materialpage .hmd-pagehead__title { white-space: normal; }
+
+.hmd-materialpage__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 64px);
+    align-items: start;
+    max-width: 1180px;
+    margin-inline: auto;
+    padding: 0 clamp(1.25rem, 4vw, 48px) clamp(2rem, 5vw, 96px);
+
+    img { display: block; width: 100%; height: auto; }
+    p {
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-body);
+        line-height: 1.5;
+        margin: 0 0 1.5rem;
+    }
+}
+
+.hmd-materialpage__swatches .hmd-projectpage__product img { object-fit: cover; }
+
+.hmd-materialpage__return {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 48px) clamp(3rem, 6vw, 110px);
+}
+
+.hmd-materialpage__button {
+    display: inline-block;
+    padding: 0.9rem 1.6rem;
+    background: var(--hmd-ink);
+    color: var(--hmd-white);
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-fs-meta);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    &:hover, &:focus-visible { color: var(--hmd-white); opacity: 0.85; }
+}
+
+// Ligacao "Description & care" no cabecalho de cada familia dos Materials:
+// fica junto ao "View all", a direita. E o regresso cai no titulo da familia,
+// abaixo do cabecalho fixo do site.
+.hmd-material-about {
+    margin-left: auto;
+    margin-right: clamp(1rem, 3vw, 48px);
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-fs-meta);
+    text-transform: uppercase;
+    color: var(--hmd-ink);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+
+    &:hover, &:focus-visible { color: var(--hmd-ink); opacity: 0.7; }
+}
+.hmd-material-carousel { scroll-margin-top: 160px; }
+
+// --- Cabecalho de pagina interior ----------------------------------------
+// Portfolio/Fabrics/Materials: titulo em Prata a esquerda (x=144) e intro em
+// Courier a direita, na mesma linha de base (y~383/395).
+body:has(.hmd-portfolio-page),
+body:has(.hmd-fabrics-page),
+body:has(.hmd-materials-page),
+body:has(.hmd-contact-page) { background: var(--hmd-grey); }
+
+.hmd-portfolio-page,
+.hmd-fabrics-page,
+.hmd-materials-page {
+    min-height: 100vh;
+    background: var(--hmd-grey);
+}
+
+.hmd-pagehead {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(1.5rem, 4vw, 77px);
+    align-items: start;
+    padding: clamp(1.5rem, 3vw, 58px) var(--hmd-pad-x-nav) clamp(1.5rem, 3vw, 58px)
+             clamp(1.25rem, 7.5vw, 144px);
+
+    &__title {
+        font-family: var(--hmd-display);
+        font-size: var(--hmd-fs-display);
+        line-height: 1;
+        margin: 0;
+        text-transform: uppercase;   // "SEEN IN PROJECTS", "FABRICS", "MATERIALS"
+        white-space: nowrap;         // no XD "SEEN IN PROJECTS" fica numa linha
+    }
+
+    &__intro {
+        font-family: var(--hmd-mono);
+        font-size: var(--hmd-fs-body);
+        letter-spacing: var(--hmd-ls-tight);
+        line-height: var(--hmd-lh-mono);
+        max-width: 62ch;
+        margin: 0;
+    }
+}
+
+// Fabrics tem um titulo muito mais curto do que Portfolio. No XD, o texto
+// comeca em x=488: 344px depois do inicio do titulo em x=144.
+.hmd-fabrics-page .hmd-pagehead {
+    grid-template-columns: 344px minmax(0, 1fr);
+    gap: 0;
+
+    &__intro { max-width: 78ch; }
+}
+
+// Materials: titulo em x=144 e texto em x=619 na prancha XD.
+.hmd-materials-page .hmd-pagehead {
+    grid-template-columns: 475px minmax(0, 1fr);
+    gap: 0;
+
+    &__intro { max-width: 78ch; }
+}
+
+// --- Bandas de imagem empilhadas ----------------------------------------
+// Portfolio: 3 bandas ~1447x755. Fabrics: 4 (~1690x450). Materials: 3 (~1530x430).
+// Larguras entre 78% e 89% da pagina, centradas.
+.hmd-bands {
+    --hmd-band-max: 1713px;
+
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 2.4vw, 46px);
+    padding: 0 var(--hmd-pad-x-nav) clamp(2rem, 5vw, 96px);
+    align-items: center;
+
+    // Os JPG foram recortados diretamente da prancha: 1400px, duas imagens e
+    // as duas legendas por ficheiro. Nao os ampliamos para evitar suavizacao.
+    &--portfolio { --hmd-band-max: 1400px; }
+    &--materials { --hmd-band-max: 1400px; }
+    // Os recortes das quatro filas Fabrics ja incluem setas, nomes e "See
+    // all". A largura raster de referencia e 1400px; nao a ampliamos.
+    &--fabrics   { --hmd-band-max: 1400px; }
+}
+
+.hmd-band {
+    margin: 0;
+    width: 100%;
+    // Largura por pagina, medida no XD: Portfolio 1447px, Materials ~1530px,
+    // Fabrics ~1690px (de 1920). Sem min(): Sass calcularia px contra %.
+    max-width: var(--hmd-band-max, 1713px);
+
+    img { display: block; width: 100%; height: auto; }
+}
+
+// --- Fabrics: carrosseis alimentados por product.attribute.value --------
+.hmd-fabric-carousel {
+    width: 100%;
+    max-width: 1400px;
+}
+
+.hmd-fabric-carousel__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 11.5% clamp(1rem, 2vw, 28px);
+
+    h2,
+    button {
+        margin: 0;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        color: var(--hmd-ink);
+        font-family: var(--hmd-mono);
+        font-size: var(--hmd-fs-meta);
+        font-weight: 400;
+    }
+}
+
+.hmd-fabric-carousel__all,
+.hmd-fabric-carousel__arrow { cursor: pointer; }
+
+.hmd-fabric-carousel__all {
+    display: inline-flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.hmd-fabric-carousel__body {
+    display: grid;
+    grid-template-columns: 7% minmax(0, 1fr) 7%;
+    gap: 2.25%;
+    align-items: center;
+}
+
+.hmd-fabric-carousel__viewport { overflow: hidden; }
+
+.hmd-fabric-carousel__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 3rem) / 4);
+    gap: 1rem;
+    transition: transform 350ms ease;
+    will-change: transform;
+}
+
+.hmd-fabric-card {
+    min-width: 0;
+    text-align: center;
+
+    img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+    }
+
+    h3 {
+        margin: 0.75rem 0 0;
+        color: var(--hmd-ink);
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-micro);
+        // O espacamento negativo dos titulos (tokens.scss, h1-h3) e para a
+        // Prata em corpo grande. A 12px colava as palavras: "LUDE(14)".
+        letter-spacing: 0.01em;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+}
+
+.hmd-fabric-carousel__arrow {
+    width: 46px;
+    height: 24px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--hmd-ink);
+
+    svg {
+        display: block;
+        width: 46px;
+        height: 14px;
+        overflow: visible;
+    }
+
+    path {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.5;
+        stroke-linecap: square;
+        stroke-linejoin: miter;
+        vector-effect: non-scaling-stroke;
+    }
+
+    &--prev { transform: scaleX(-1); }
+
+    &:disabled { opacity: 0.25; cursor: default; }
+}
+
+.hmd-fabric-carousel.is-expanded {
+    // Aberto, as setas saem e o .hmd-fabric-carousel__body deixa de ser a
+    // grelha seta | amostras | seta. Sem margem, as amostras ocupavam tambem
+    // o lugar das setas: ficavam maiores (273 -> 338px a 1440) e saiam 130px
+    // para cada lado do titulo (#8366/#8367, video da Monica de 20/10/2026).
+    // A margem e a mesma coluna das setas (--hmd-fab-edge: 9,25% em ecra
+    // largo, 44px + 0.25rem no telemovel), por isso fica tudo alinhado.
+    .hmd-fabric-carousel__body {
+        display: block;
+        padding-inline: var(--hmd-fab-edge, 9.25%);
+    }
+    .hmd-fabric-carousel__viewport { overflow: visible; }
+    .hmd-fabric-carousel__track {
+        grid-auto-flow: row;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        transform: none !important;
+    }
+    .hmd-fabric-carousel__arrow { display: none; }
+}
+
+// Materials (#8367): o nome da familia e as amostras tambem abrem a lista
+// (ver hmd_fabrics.js); o cursor mostra que se pode carregar.
+.hmd-material-carousel .hmd-fabric-carousel__head h2,
+.hmd-material-carousel:not(.is-expanded) .hmd-fabric-card { cursor: pointer; }
+
+// --- Fabrics: afinacao de detalhes (#8366) --------------------------------
+// Pedido da Monica (PDF "pagina tecidos - afinar detalhes", 19/10/2026):
+//  1. titulo e texto da pagina alinhados com os elementos de baixo (o bordo
+//     esquerdo das amostras, nao o das setas);
+//  2. "CAT I": Inter medium; "View all fabrics": Inter regular, do mesmo
+//     tamanho que "CAT I", a 50% da cor;
+//  3. linhas muito finas, a 50% da cor, por cima de cada categoria.
+//
+// Vale para Fabrics e Materials: partilham o .hmd-fabric-carousel e a Monica
+// pediu o mesmo para as duas paginas (#8366 Fabrics, #8367 Materials, com
+// "View all" no lugar de "View all fabrics").
+//
+// O bordo esquerdo das amostras e 9,25% da largura do carrossel: coluna da
+// seta (7%) + intervalo (2,25%) de .hmd-fabric-carousel__body. A largura do
+// carrossel e a do .hmd-bands (limitada a 1400px, centrada), por isso o
+// cabecalho leva o mesmo limite (1400px + as duas margens laterais) e uma
+// grelha cuja primeira coluna e esses 9,25%: as percentagens de uma pista de
+// grelha resolvem-se contra a largura do proprio contentor, que e a certa.
+// Um padding em % resolver-se-ia contra a pagina inteira e nao alinhava.
+.hmd-fabrics-page,
+.hmd-materials-page {
+    --hmd-fab-edge: 9.25%;
+
+    .hmd-fabric-carousel__head {
+        margin-inline: var(--hmd-fab-edge);
+        padding-top: clamp(0.75rem, 1.2vw, 1.25rem);
+        // Hairline a 50% do --hmd-ink (#1F1C1C); em rgba para o Sass nao
+        // ter de resolver uma funcao de cor sobre uma variavel CSS.
+        border-top: 1px solid rgba(31, 28, 28, 0.5);
+
+        h2,
+        button {
+            font-family: var(--hmd-ui);
+            font-size: var(--hmd-fs-meta);
+            letter-spacing: 0;
+        }
+
+        h2 { font-weight: 500; }
+
+        button {
+            font-weight: 400;
+            color: rgba(31, 28, 28, 0.5);
+        }
+    }
+}
+
+// O titulo e o texto da pagina em producao nao estao no .hmd-pagehead do
+// modulo (la fica uma seccao vazia): a Monica refez-os no editor, como blocos
+// "Title" e "Text" dentro de #oe_structure_hmd_fabrics_1, cada um com um
+// .container do Bootstrap (1320px centrado, que deixava o titulo ~74px antes
+// das amostras). Tratam-se por isso com a mesma regra.
+@media (min-width: 992px) {
+    .hmd-fabrics-page .hmd-pagehead,
+    .hmd-fabrics-page #oe_structure_hmd_fabrics_1 .container,
+    .hmd-materials-page .hmd-pagehead,
+    .hmd-materials-page #oe_structure_hmd_materials_1 .container {
+        display: grid;
+        grid-template-columns: var(--hmd-fab-edge) minmax(0, 1fr);
+        gap: 0;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: calc(1400px + 2 * var(--hmd-pad-x-nav));
+        margin-inline: auto;
+        padding-inline: var(--hmd-pad-x-nav);
+
+        // Titulo e texto empilhados na segunda coluna, seja qual for o
+        // numero de blocos que o editor deixou na seccao.
+        > * { grid-column: 2; }
+    }
+}
+
+// Em ecra estreito as amostras comecam depois da coluna da seta (44px mais o
+// intervalo de 0.25rem de .hmd-fabric-carousel__body).
+@media (max-width: 991.98px) {
+    .hmd-fabrics-page,
+    .hmd-materials-page {
+        --hmd-fab-edge: calc(44px + 0.25rem);
+
+        // As amostras estao dentro do .hmd-bands, que ja tem o padding lateral
+        // --hmd-pad-x-nav; o titulo nao, por isso soma-se aqui (medido a 390 e
+        // 768px: titulo em x=48, amostras em x=68).
+        .hmd-pagehead { padding-left: calc(var(--hmd-pad-x-nav) + var(--hmd-fab-edge)); }
+
+        #oe_structure_hmd_fabrics_1 .container,
+        #oe_structure_hmd_materials_1 .container {
+            max-width: 100%;
+            padding-left: calc(var(--hmd-pad-x-nav) + var(--hmd-fab-edge));
+        }
+    }
+}
+
+// --- Contactos: os dois formularios do desenho ---------------------------
+// Fundo #EDEDED em toda a pagina, titulo em Inter alinhado com os campos, par
+// etiqueta/campo em duas colunas, botao alinhado a direita.
+.hmd-contact-page { background: var(--hmd-grey); }
+
+// O cabecalho vive fora do #wrap, por isso o cinzento tem de ir ao <body>
+// (ver o grupo la em cima, com Portfolio/Fabrics/Materials). Nao se pinta a
+// .hmd-header__bar: ela tem o veu rgba(255,255,255,.2) do desenho, e pinta-la
+// de cinzento opaco dava #EDEDED em vez do #F1F1F1 das outras paginas.
+
+// Monica, 16/10/2026 (#8282, PDF "LADING PAGE CREATE ACCOUNT"): o titulo
+// deixa de ser Prata centrado. Titulo e paragrafo em Inter 18, encostados a
+// esquerda e alinhados com a coluna dos campos (etiquetas de 200px + 1rem de
+// intervalo, ver .hmd-form__row), entrelinha apertada, espaco entre letras
+// -14 do XD (-0.014em) e o paragrafo a 50% da cor. Vale para os dois
+// formularios: "Create your customer account" e "Can we help?".
+.hmd-formblock {
+    padding: clamp(2.5rem, 6vw, 115px) var(--hmd-pad-x) clamp(1.5rem, 3vw, 58px);
+
+    &__title,
+    &__lead {
+        box-sizing: border-box;
+        max-width: 900px;   // a largura do .hmd-form
+        margin-inline: auto;
+        padding-left: calc(200px + 1rem);
+        font-family: var(--hmd-ui);
+        font-size: clamp(1rem, 0.94vw, 1.125rem);   // 18px @1920
+        font-weight: 400;
+        line-height: 1.15;
+        letter-spacing: -0.014em;
+        color: var(--hmd-ink);
+    }
+
+    &__title {
+        margin-bottom: 0;
+        text-transform: uppercase;
+    }
+
+    &__lead {
+        // No desenho o paragrafo parte em tres linhas, mais estreito do que os
+        // campos: ~42 caracteres. unquote: o libsass do Odoo avaliava max() e
+        // min() como funcoes Sass e falhava com unidades mistas (ver l. 27).
+        padding-right: unquote("max(0px, calc(min(100%, 900px) - 200px - 1rem - 42ch))");
+        margin-top: 0;
+        margin-bottom: clamp(1.5rem, 3vw, 58px);
+        opacity: 0.5;
+    }
+}
+
+.hmd-form {
+    max-width: 900px;
+    margin-inline: auto;
+    text-align: left;
+
+    &__row {
+        display: grid;
+        grid-template-columns: 200px minmax(0, 1fr);
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.85rem;
+    }
+
+    label {
+        font-family: var(--hmd-ui);
+        font-size: clamp(0.8125rem, 0.83vw, 1rem);
+        color: var(--hmd-ink);
+    }
+
+    input, select, textarea {
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.18);
+        border-radius: 3px;
+        background: #FBFAF9;
+        padding: 0.5rem 0.7rem;
+        font-family: var(--hmd-ui);
+        font-size: clamp(0.8125rem, 0.83vw, 1rem);
+        color: var(--hmd-ink);
+
+        &:focus { outline: none; border-color: var(--hmd-ink); }
+    }
+
+    textarea { resize: vertical; }
+
+    &__actions { text-align: right; margin-top: 0.5rem; }
+
+    .s_website_form_send {
+        background: none;
+        border: 0;
+        padding: 0;
+        font-family: var(--hmd-ui);
+        font-size: clamp(0.8125rem, 0.83vw, 1rem);
+        color: var(--hmd-ink);
+        cursor: pointer;
+
+        &:hover { text-decoration: underline; text-underline-offset: 4px; }
+    }
+
+    .s_website_form_mark { color: var(--hmd-ink); }
+}
+
+// --- Mobile --------------------------------------------------------------
+@media (max-width: 991.98px) {
+    .hmd-editorial {
+        grid-template-columns: 1fr;
+
+        > div:last-child { padding-top: 0; }   // empilhado: sem desfasamento
+    }
+    .hmd-pagehead,
+    .hmd-fabrics-page .hmd-pagehead,
+    .hmd-materials-page .hmd-pagehead { grid-template-columns: 1fr; gap: 1rem; }
+    // As secoes de Fabrics e Materials levam a classe pt0 do editor (padding-top
+    // zero, com !important). Em ecra estreito o titulo arrancava no pixel em que
+    // o cabecalho acaba e batia no logotipo (medido na producao a 14/10/2026,
+    // #8114): 0px de folga, contra 24px no Portfolio. Repoe-se a mesma folga.
+    .hmd-pagehead.pt0 { padding-top: 1.5rem !important; }
+    .hmd-form__row { grid-template-columns: 1fr; gap: 0.3rem; align-items: start; }
+    // Etiquetas por cima dos campos: o titulo encosta a margem, como eles.
+    .hmd-formblock__title,
+    .hmd-formblock__lead { padding-left: 0; padding-right: 0; }
+    .hmd-projects { --hmd-projects-cols: 1; }
+    .hmd-projects--3 { --hmd-projects-cols: 2; }
+    .hmd-projects--portfolio { --hmd-projects-cols: 2; }
+    // A 2 colunas no telemovel ha nomes com 3 linhas: reserva-se espaco para 3.
+    .hmd-projects--portfolio .hmd-project__caption { min-height: 3.75em; }
+    .hmd-projectpage__images { grid-template-columns: 1fr; }
+    .hmd-materialpage__body { grid-template-columns: 1fr; }
+    .hmd-material-about { margin-right: 1rem; }
+    .hmd-projectpage__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    // 62ch a 393px sao ~450px: o lead transbordava para fora do ecra
+    .hmd-hero__kicker { margin-left: 0; max-width: 100%; }
+    .hmd-hero__lead { max-width: 100%; }
+    .hmd-editorial__body, .hmd-prose, .hmd-standfirst,
+    .hmd-feature__body, .hmd-pagehead__intro { max-width: 100%; }
+    .hmd-feature__body { text-align: left; }
+    .hmd-fabric-carousel__track { grid-auto-columns: calc((100% - 1rem) / 2); }
+    // A seta tem 46px fixos e a coluna era de 7% — ~25px a 393px. A seta
+    // seguinte saia 1px fora do ecra e dava scroll horizontal a /fabrics; a
+    // anterior tapava o primeiro tecido (medido a 04/10/2026). Colunas de
+    // 44px, que e tambem a area minima de toque, e a seta desenhada a 28px.
+    .hmd-fabric-carousel__body {
+        grid-template-columns: 44px minmax(0, 1fr) 44px;
+        gap: 0.25rem;
+    }
+    .hmd-fabric-carousel__arrow {
+        width: 44px;
+        height: 44px;
+
+        svg { width: 28px; height: auto; margin-inline: auto; }
+    }
+    .hmd-fabric-carousel.is-expanded .hmd-fabric-carousel__track {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+// ===========================================================================
+// Pagina de entrada de parceiro — /web/login
+// ===========================================================================
+//
+// Decisao da HMD (07/09/2026): estilizar, aceitando que a alteracao apanha
+// tambem o site em producao, desde que seja SO estilo. Ponto 6 do documento
+// da reuniao. Nao existe prancha desta pagina em Website_Design/ — o desenho
+// abaixo e o sistema ja fechado nas outras pranchas aplicado a este ecra.
+//
+// Porque e so CSS, sem herdar uma unica vista
+// -------------------------------------------
+// A rota esta declarada sem website=True:
+//
+//   @http.route('/web/login', type='http', auth='none', readonly=False)
+//
+// Sem contexto de website, um xpath que nao encontre o alvo devolve 500 na
+// pagina por onde toda a gente entra, equipa incluida. Esse risco existia
+// enquanto se pensasse em herdar a vista. Aqui nao herdamos nenhuma, portanto
+// nao existe: o pior que uma regra errada faz e ficar feia.
+//
+// Da para faze-lo por CSS porque o web.login_layout chama o web.frontend_layout
+// (web/views/webclient_templates.xml ~l.112), que carrega o web.assets_frontend.
+// Duas consequencias, ambas verificadas a 07/09/2026:
+//   - esta folha de estilo ja e servida naquela pagina;
+//   - a Prata e a Inter tambem. O @import do Google Fonts gerado a partir dos
+//     nossos $o-theme-font-configs vive no website/static/src/scss/website.scss,
+//     que esta no mesmo bundle (website/__manifest__.py ~l.197).
+//
+// Ancoragem
+// ---------
+// Nao ha classe de website nesta pagina. Ancoramos no proprio formulario com
+// :has(), o mesmo mecanismo que o tema ja usa no body:has(.hmd-shop-page).
+//
+// Sao tres formularios porque tres paginas partilham o web.login_layout:
+// entrada, registo e recuperacao de palavra-passe. Um parceiro que carregue em
+// "Reset Password" nao pode cair numa pagina crua a meio do percurso.
+//
+// Nota para quem retomar: o formulario declara-se com t-attf-class, por isso um
+// hasclass('oe_login_form') em xpath NAO o encontra. Em CSS isso e irrelevante
+// — o atributo renderizado e um class normal.
+//
+// Os !important nao sao decorativos. As utilitarias do Bootstrap (.bg-100,
+// .border-bottom, .border-top) trazem !important de origem, e a largura de
+// 300px do cartao e um style inline escrito no template do Odoo.
+body:has(.oe_login_form),
+body:has(.oe_signup_form),
+body:has(.oe_reset_password_form) {
+    background: var(--hmd-grey) !important;
+    font-family: var(--hmd-ui);
+    color: var(--hmd-ink);
+
+    // Nesta pagina ha um so .card. O cartao branco desaparece: nas pranchas da
+    // HMD nao ha caixas com sombra, ha uma coluna centrada com ar a volta.
+    .card {
+        max-width: 26rem !important;
+        border: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .card-body { padding: 0; }
+
+    // --- Marca -------------------------------------------------------------
+    // O bloco do logotipo passa a ser o wordmark tipografico "hmd furniture",
+    // com os mesmos pesos do cabecalho (.hmd-brand em scss/layout.scss): 600
+    // no "hmd", 400 no "furniture". Sao dois pseudo-elementos porque um so nao
+    // consegue dois pesos.
+    //
+    // Esconde-se a <img> que o Odoo serve em /web/binary/company_logo: e o
+    // logotipo da empresa no ERP, que nao e a marca do site.
+    .card-body > .text-center.border-bottom {
+        margin-bottom: 2.5rem !important;
+        padding-bottom: 0 !important;
+        border-bottom: 0 !important;
+        text-align: left !important;
+        font-family: var(--hmd-ui);
+        font-size: 1.375rem;
+        letter-spacing: 0.02em;
+        color: var(--hmd-ink-2);
+        white-space: nowrap;
+
+        img { display: none; }
+
+        &::before { content: "hmd"; font-weight: 600; }
+        &::after { content: "furniture"; font-weight: 400; margin-left: 0.28em; }
+    }
+
+    // --- Campos ------------------------------------------------------------
+    // Etiqueta em monoespacado maiusculo e campo com uma linha em baixo — o
+    // mesmo par que o desenho usa no "SELECT FINISH" e na newsletter.
+    .form-label,
+    label {
+        margin-bottom: 0.35rem;
+        font-family: var(--hmd-mono);
+        font-size: var(--hmd-fs-micro);
+        letter-spacing: var(--hmd-ls-tight);
+        text-transform: uppercase;
+        color: var(--hmd-ink);
+    }
+
+    .form-control {
+        padding: 0 0 0.4rem;
+        border: 0;
+        border-bottom: 1px solid var(--hmd-black);
+        border-radius: 0;
+        background: transparent;
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-body);
+        color: var(--hmd-ink);
+        box-shadow: none;
+
+        &:focus {
+            border-color: var(--hmd-black);
+            background: transparent;
+            box-shadow: none;
+        }
+    }
+
+    // --- Botao -------------------------------------------------------------
+    // Igual ao "Log in as a HMD partner" do bloco B2B da pagina de produto
+    // (.hmd-b2b__btn--solid em scss/shop.scss), para o parceiro reconhecer o
+    // mesmo botao dos dois lados do salto.
+    .oe_login_buttons .btn-primary {
+        padding: 0.85rem 1rem;
+        border: 0;
+        border-radius: 0;
+        background: var(--hmd-black);
+        color: var(--hmd-white);
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-meta);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        box-shadow: none;
+
+        &:hover, &:focus, &:active {
+            background: #2B2A28;
+            color: var(--hmd-white);
+        }
+    }
+
+    // "Reset Password" (dentro da etiqueta da palavra-passe) e "Don't have an
+    // account?" (a seguir aos botoes) sao do auth_signup e ficam — sao o
+    // percurso do parceiro. So se lhes tira o aspecto de botao do Bootstrap.
+    .btn-link {
+        padding: 0;
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-micro);
+        letter-spacing: var(--hmd-ls-tight);
+        text-transform: uppercase;
+        color: var(--hmd-ink);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .alert {
+        border: 0;
+        border-radius: 0;
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-micro);
+    }
+
+    // --- Rodape do Odoo ----------------------------------------------------
+    // "Manage Databases" e "Powered by Odoo". E o unico filho directo do
+    // card-body com .border-top, por isso o seletor nao apanha mais nada.
+    // Os links do auth_signup vivem dentro do <form> e nao sao afectados.
+    .card-body > .border-top { display: none !important; }
+}
+
+// --- Pagina de especificacoes de um tecido -------------------------------
+//
+// /fabrics/<tecido>, servida pelo modulo hmd_website_fabrics. A HMD pediu que
+// fosse parecida com a pagina dos tecidos, por isso reaproveita o .hmd-pagehead
+// e o .hmd-fabric-card; aqui esta so o que e proprio dela.
+
+// As amostras passaram a ser <a> na pagina /fabrics para serem clicaveis. Sao
+// filhas de uma grelha, portanto o browser ja as trata como bloco — o que
+// falta e tirar-lhes o sublinhado e a cor de link.
+.hmd-fabric-card {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+
+    &:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
+}
+
+.hmd-fabric-detail {
+
+    &__swatches {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: clamp(1rem, 1.6vw, 30px);
+        padding: 0 var(--hmd-pad-x) clamp(2rem, 4vw, 77px);
+
+        @media (max-width: 991.98px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    &__specs {
+        padding: 0 var(--hmd-pad-x) clamp(2rem, 4vw, 77px);
+    }
+
+    // Etiqueta em monoespacado maiusculo e valor em Inter — o mesmo par que a
+    // pagina de produto usa nas especificacoes.
+    &__list {
+        margin: 0;
+        max-width: 60ch;
+
+        dt {
+            margin-top: 1.25rem;
+            font-family: var(--hmd-mono);
+            font-size: var(--hmd-fs-micro);
+            letter-spacing: var(--hmd-ls-tight);
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        dd {
+            margin: 0.35rem 0 0;
+            font-family: var(--hmd-ui);
+            font-size: var(--hmd-fs-body);
+            color: var(--hmd-ink);
+            white-space: pre-line;   // a composicao e um Text, respeita linhas
+        }
+    }
+
+    &__downloads {
+        margin-top: clamp(1.5rem, 3vw, 58px);
+
+        a {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-family: var(--hmd-ui);
+            font-size: var(--hmd-fs-body);
+            text-transform: uppercase;
+            color: var(--hmd-black);
+            text-decoration: none;
+
+            &::before { content: '\2193'; margin-right: 0.5rem; }
+            &:hover { text-decoration: underline; text-underline-offset: 4px; }
+        }
+    }
+
+    &__back {
+        padding: 0 var(--hmd-pad-x) clamp(2.5rem, 5vw, 96px);
+
+        a {
+            font-family: var(--hmd-mono);
+            font-size: var(--hmd-fs-meta);
+            letter-spacing: var(--hmd-ls-tight);
+            text-transform: uppercase;
+            color: var(--hmd-ink);
+            text-decoration: none;
+
+            &::before { content: '\2190'; margin-right: 0.5rem; }
+            &:hover { text-decoration: underline; text-underline-offset: 4px; }
+        }
+    }
+}
+
+// Tabela de especificacoes da pagina do tecido. Fundo cinza a toda a largura,
+// como a seccao "SPECIFICATIONS" da pagina de produto, para as duas paginas se
+// lerem como irmas.
+.hmd-fabric-detail__table {
+    background: var(--hmd-grey);
+    padding: clamp(2rem, 4vw, 77px) var(--hmd-pad-x);
+}
+
+.hmd-fabric-detail__table-title {
+    margin: 0 0 clamp(1rem, 2vw, 38px);
+    font-family: var(--hmd-mono);
+    font-size: clamp(1.0625rem, 1.56vw, 1.875rem);
+    letter-spacing: var(--hmd-ls-tight);
+    text-transform: uppercase;
+}
+
+
+// =========================================================================
+// Pagina de resultados de pesquisa (/website/search)
+// Feedback Monica 18/09/2026, PDF "LUPA".
+//
+// O titulo "Search Results" sai na vista (theme_hmd_furniture.page_search_hmd).
+// Aqui trata-se da cor: "Tudo a preto Hmd", apontado duas vezes — uma para o
+// nome do produto, outra para a linha "Categories: ...".
+//
+// O bordo que la esta nao vem de uma so regra: o nome e um .h6, que herda a
+// cor de titulo do Bootstrap, e as categorias sao um <button class="btn-link">,
+// que herda a cor de ligacao do Odoo. Sao caminhos diferentes para o mesmo
+// sitio, por isso apanham-se os dois a partir do item de resultado.
+//
+// A marcacao e website.one_hybrid (website/views/website_templates.xml ~l.2749).
+// =========================================================================
+
+.hmd-search-page {
+    .o_search_result_item {
+        color: var(--hmd-ink-2);
+
+        // O nome do produto. O .h6 do Bootstrap traz "color" proprio e o
+        // Odoo junta-lhe utilitarias de enfase, que sao !important.
+        .h6, h6 { color: var(--hmd-ink-2) !important; }
+
+        // "Categories: Chairs Poufs Collection". O .btn-link pinta-se de
+        // $primary e sublinha-se ao passar o rato.
+        .extra_link,
+        .btn-link {
+            color: var(--hmd-ink-2) !important;
+            text-decoration: none;
+
+            &:hover, &:focus { color: var(--hmd-ink-2) !important; }
+        }
+
+        // O termo pesquisado vem embrulhado em
+        // <span class="text-primary text-primary-emphasis"> (website/models,
+        // fuzzy search) e ficava lilas no nome ("DEDAL") e nas categorias.
+        // Mónica 21/10/2026 (#8399). Mantem-se o realce, mas sem cor.
+        .text-primary,
+        .text-primary-emphasis {
+            color: inherit !important;
+            font-weight: 500;
+        }
+    }
+
+    // O resultado inteiro e um <a class="dropdown-item">: ao passar o rato o
+    // Bootstrap pinta-lhe o fundo de cinzento-azulado, que nao e desta paleta.
+    .o_search_result_item,
+    a.dropdown-item:hover,
+    a.dropdown-item:focus {
+        background-color: transparent;
+        color: var(--hmd-ink-2);
+    }
+}
+
+// --- We are: secao FAMILY em tablet e telemovel (#8308) ------------------
+// A secao e um s_features_wall em modo grelha: em ecra largo cada legenda
+// fica posicionada por baixo da sua foto, mas abaixo de 992px o Odoo empilha
+// os blocos pela ordem do HTML (texto, foto Nina, foto Graca, legenda Nina,
+// legenda Monica, foto Monica, legenda Graca). Resultado medido a 21/10: as
+// legendas ficavam desencontradas das fotos, a primeira foto sem legenda, e
+// os dois recortes pequenos (290 e 327px) no tamanho original, encostados a
+// esquerda e sem folga entre eles.
+//
+// Aqui reordena-se por posicao (a ordem do HTML e a que o editor produz) e
+// as fotos passam todas a ocupar a coluna com a mesma proporcao. A ordem e a
+// de leitura do desktop (pela linha em que cada bloco comeca): Nina, Graca,
+// Monica. O seletor so apanha esta secao
+// (pt144 pb256 so existe na vista page_we_are).
+@media (max-width: 991.98px) {
+    .s_features_wall.pt144.pb256:has(.o_grid_item_image) > .container > .row.o_grid_mode {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr);
+        column-gap: 1rem;
+        row-gap: 0;
+
+        > .o_grid_item {
+            grid-area: auto !important;
+            width: auto !important;
+            max-width: none !important;
+        }
+
+        // Ordem: texto | Nina (foto, legenda) | Graca | Monica
+        > :nth-child(1) { order: 0; margin-bottom: 2rem; }
+        > :nth-child(2) { order: 1; }   // foto Nina
+        > :nth-child(4) { order: 2; }   // legenda Nina
+        > :nth-child(3) { order: 3; }   // foto Graca
+        > :nth-child(7) { order: 4; }   // legenda Graca
+        > :nth-child(6) { order: 5; }   // foto Monica
+        > :nth-child(5) { order: 6; }   // legenda Monica
+
+        // Fotos: todas na largura da coluna e na mesma proporcao. O recorte
+        // vem de cima para nao cortar as caras.
+        .o_grid_item_image img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            object-position: 50% 15%;
+        }
+
+        // Legendas: colam-se a foto de cima e deixam folga antes da seguinte.
+        > .o_grid_item:not(.o_grid_item_image):not(:first-child) {
+            padding-top: 0.75rem;
+            padding-bottom: 2.25rem;
+            p { margin-bottom: 0; }
+        }
+    }
+}
+
+// Tablet: as tres pessoas lado a lado, cada legenda na coluna da sua foto.
+@media (min-width: 576px) and (max-width: 991.98px) {
+    .s_features_wall.pt144.pb256:has(.o_grid_item_image) > .container > .row.o_grid_mode {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+
+        > :nth-child(1) { grid-column: 1 / -1 !important; }
+        > :nth-child(2) { grid-column: 1 !important; grid-row: 2 !important; }
+        > :nth-child(4) { grid-column: 1 !important; grid-row: 3 !important; }
+        > :nth-child(3) { grid-column: 2 !important; grid-row: 2 !important; }
+        > :nth-child(7) { grid-column: 2 !important; grid-row: 3 !important; }
+        > :nth-child(6) { grid-column: 3 !important; grid-row: 2 !important; }
+        > :nth-child(5) { grid-column: 3 !important; grid-row: 3 !important; }
+    }
+}

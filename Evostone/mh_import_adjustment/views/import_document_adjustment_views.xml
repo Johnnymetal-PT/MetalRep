@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form -->
+    <record id="view_import_document_adjustment_form" model="ir.ui.view">
+        <field name="name">import.document.adjustment.form</field>
+        <field name="model">import.document.adjustment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_apply" type="object" string="Aplicar"
+                            class="btn-primary"
+                            invisible="state != 'draft'"
+                            confirm="Confirma a aplicação deste ajuste? Vai criar Landed Cost e ajuste CMV."/>
+                    <button name="action_cancel" type="object" string="Cancelar"
+                            invisible="state != 'draft'"/>
+                    <button name="action_reset_draft" type="object" string="Voltar a Rascunho"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,applied"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_source_invoice" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Factura</span>
+                            </div>
+                        </button>
+                        <button name="action_view_landed_cost" type="object"
+                                class="oe_stat_button" icon="fa-truck"
+                                invisible="not landed_cost_id">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Landed Cost</span>
+                            </div>
+                        </button>
+                        <button name="action_view_cmv_move" type="object"
+                                class="oe_stat_button" icon="fa-balance-scale"
+                                invisible="not cmv_adjustment_move_id">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Ajuste CMV</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="import_id" readonly="1"/>
+                            <field name="source_invoice_id" readonly="1"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="amount" readonly="state != 'draft'"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="landed_cost_id" readonly="1"/>
+                            <field name="cmv_adjustment_move_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Linhas da Factura">
+                            <field name="source_invoice_line_ids" readonly="1">
+                                <list>
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="price_unit"/>
+                                    <field name="price_subtotal" string="Subtotal (moeda factura)"/>
+                                    <field name="company_currency_id" column_invisible="1"/>
+                                    <field name="balance" string="Valor (MZN)" sum="Total"/>
+                                    <field name="account_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notas">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree -->
+    <record id="view_import_document_adjustment_list" model="ir.ui.view">
+        <field name="name">import.document.adjustment.list</field>
+        <field name="model">import.document.adjustment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" decoration-bf="1"/>
+                <field name="date"/>
+                <field name="import_id"/>
+                <field name="source_invoice_id"/>
+                <field name="amount" sum="Total"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="company_currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'applied'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search -->
+    <record id="view_import_document_adjustment_search" model="ir.ui.view">
+        <field name="name">import.document.adjustment.search</field>
+        <field name="model">import.document.adjustment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="import_id"/>
+                <field name="source_invoice_id"/>
+                <filter string="Rascunho" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Aplicado" name="applied" domain="[('state', '=', 'applied')]"/>
+                <filter string="Cancelado" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter string="IMP" name="group_import" context="{'group_by': 'import_id'}"/>
+                    <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_import_document_adjustment" model="ir.actions.act_window">
+        <field name="name">Ajustes de Importação</field>
+        <field name="res_model">import.document.adjustment</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_draft': 1}</field>
+    </record>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Tarefa 8195: o QR com o ATCUD, no cabeçalho, tapa a numeração do documento, que o
+        bloco "docbox" (gen_key.1d9ac1) fixa em posição absoluta no mesmo sítio.
+
+        Desloca-se o QR/ATCUD 20 mm para a direita (ensaiado em teste com 15 mm, sem sobreposição; +5 mm de folga). Fica a cerca de 3 cm da morada da
+        empresa. Não altera o conteúdo do QR nem o ATCUD.
+    -->
+    <template id="pg_pt_features_top_shift"
+              inherit_id="ptplus.pt_features_top"
+              priority="99">
+        <xpath expr="//div[hasclass('pt_qr_code')]" position="attributes">
+            <attribute name="style">margin-left: 20mm;</attribute>
+        </xpath>
+    </template>
+</odoo>

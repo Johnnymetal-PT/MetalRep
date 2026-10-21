@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+<record id="hr_payroll_report_payslip_copy_1" model="ir.ui.view">
+    <field name="name">report_payslip copy(1)</field>
+    <field name="type">qweb</field>
+    <field name="key">hr_payroll.report_payslip_copy_1</field>
+    <field name="arch" type="xml">
+<t t-name="hr_payroll.report_payslip_copy_1">
+    <t t-call="web.external_layout">
+        <div class="page">
+            <h2 id="payslip_name" t-field="o.name"/>
+            <t t-set="is_invalid" t-value="o._is_invalid()"/>
+            <t t-if="is_invalid">
+                <strong id="invalid_warning"><t t-esc="is_invalid"/></strong>
+            </t>
+            <table name="employee-infos" id="employee_info_table_1" class="table table-sm table-bordered">
+                <tr id="employee_info_line_1">
+                    <td class="w-25"><strong>Employee</strong></td>
+                    <td class="w-25"><strong>Marital Status</strong></td>
+                    <td class="w-25"><strong>Designation</strong></td>
+                    <td class="w-25"><strong>Pay Period</strong></td>
+                </tr>
+                <tr id="employee_info_line_2">
+                    <td><span t-field="o.employee_id"/></td>
+                    <td><span t-field="o.employee_id.marital"/></td>
+                    <td><span t-field="o.employee_id.job_title"/></td>
+                    <td>
+                        <t t-if="o.date_from &lt; o.contract_id.date_start">
+                            <span t-field="o.contract_id.date_start"/>
+                        </t>
+                        <t t-else="">
+                            <span t-field="o.date_from"/>
+                        </t>
+                         - 
+                        <t t-if="o.contract_id.date_end and o.date_to &gt; o.contract_id.date_end">
+                            <span t-field="o.contract_id.date_end"/>
+                        </t>
+                        <t t-else="">
+                            <span t-field="o.date_to"/>
+                        </t>
+                    </td>
+                </tr>
+                <tr id="employee_info_line_3">
+                    <td><span t-field="o.employee_id.address_home_id.street"/></td>
+                    <td/>
+                    <td/>
+                    <td/>
+                </tr>
+                <tr id="employee_info_line_4">
+                    <td><span t-field="o.employee_id.address_home_id.city"/> <span t-field="o.employee_id.address_home_id.zip"/></td>
+                    <td><strong>Person in charge</strong></td>
+                    <td><strong>Identification</strong></td>
+                    <td><strong>Computed on </strong></td>
+                </tr>
+                <tr id="employee_info_line_5">
+                    <td><span t-field="o.employee_id.work_email"/></td>
+                    <td name="personne-in-charge"><t t-esc="o.employee_id.children"/></td>
+                    <td><span t-field="o.employee_id.identification_id"/></td>
+                    <td><span t-field="o.compute_date"/></td>
+                </tr>
+                <tr id="employee_info_line_6">
+                    <td class="w-25"><strong>Contract Start Date</strong></td>
+                    <td class="w-25"><strong>Contract Type</strong></td>
+                    <td class="w-25"><strong>Working Schedule</strong></td>
+                    <td class="w-25" name="company-car-title"/>
+                </tr>
+                <tr id="employee_info_line_7">
+                    <td><span t-field="o.employee_id.first_contract_date"/></td>
+                    <td><span t-field="o.employee_id.contract_id.contract_type_id"/></td>
+                    <td><span t-field="o.employee_id.contract_id.hours_per_week"/></td>
+                    <td class="w-25" name="company-car-model"/>
+                </tr>
+            </table>
+
+            <!-- YTI TODO master: Remove this horrible bidouille and add a field on the structure to display the basic
+                 salary on the payslip report -->
+            <t t-set="holiday_attest_n1" t-value="o.env.ref('l10n_be_hr_payroll.hr_payroll_structure_cp200_employee_departure_n1_holidays', raise_if_not_found=False)"/>
+            <t t-set="holiday_attest_n" t-value="o.env.ref('l10n_be_hr_payroll.hr_payroll_structure_cp200_employee_departure_n_holidays', raise_if_not_found=False)"/>
+            <table class="table table-sm" t-if="o.struct_id not in [holiday_attest_n, holiday_attest_n1]">
+                <tr>
+                    <td class="w-25"><strong>Basic Salary</strong></td>
+                    <td style="color:#875A7B" class="w-25">
+                        <span t-esc="o.contract_id._get_contract_wage()" t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}"/>
+                    </td>
+                    <td class="w-25"/>
+                    <td class="w-25"/>
+                </tr>
+            </table>
+            <div id="total">
+                <table class="table table-sm">
+                    <thead class="o_black_border">
+                        <tr>
+                            <th>Name</th>
+                            <th>Number of Hours</th>
+                            <th>Number of Days</th>
+                            <th class="text-end">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <span t-foreach="o.worked_days_line_ids" t-as="worked_days">
+                            <t t-if="worked_days.code != 'OUT'">
+                                <tr style="color:none">
+                                    <td>
+                                        <span t-field="worked_days.name"/>
+                                    </td>
+                                    <td><span t-field="worked_days.number_of_hours"/></td>
+                                    <td><span t-field="worked_days.number_of_days"/></td>
+                                    <td class="text-end"><span t-esc="worked_days.amount" digits="[42, 2]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}"/></td>
+                                </tr>
+                            </t>
+                        </span>
+                        <span t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+                            <t t-set="line_style"/>
+                            <t t-set="line_class"/>
+                            <t t-if="line.code == 'NET'">
+                                <t t-set="line_style" t-value="'color:#875A7B;'"/>
+                                <t t-set="line_class" t-value="'o_total o_border_bottom fw-bold'"/>
+                            </t>
+                            <t t-if="(line.code == 'BASIC') or (line.code == 'GROSS')">
+                                <t t-set="line_style" t-value="'color:#00A09D;'"/>
+                                <t t-set="line_class" t-value="'o_subtotal o_border_bottom'"/>
+                            </t>
+                            <tr t-att-class="line_class" t-att-style="line_style" id="line_display">
+                                <td><span t-field="line.name"/></td>
+                                <td/>
+                                <td><span t-if="line.quantity &gt; 1" t-esc="line.quantity"/></td>
+                                <td class="text-end"><span t-esc="line.total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}" t-att-style="'color:#875A7B;' if line.total &lt; 0 else ''"/></td>
+                            </tr>
+                        </span>
+                    </tbody>
+                </table>
+            </div>
+            <p t-if="o.net_wage &gt;= 0">To pay on <b><span t-field="o.employee_id.bank_account_id"/></b> of <i><span t-field="o.employee_id"/></i>: <span t-field="o.net_wage"/></p>
+            <p t-if="o.net_wage &lt; 0">The net amount will be recovered from the first positive remuneration established after this.</p>
+        </div>
+    </t>
+</t>
+    </field>
+</record>
+
+<record id="hr_payroll_report_payslip_copy_2" model="ir.ui.view">
+    <field name="name">report_payslip copy(2)</field>
+    <field name="type">qweb</field>
+    <field name="key">hr_payroll.report_payslip_copy_2</field>
+    <field name="arch" type="xml">
+<t t-name="hr_payroll.report_payslip_copy_2">
+                    <t t-call="web.external_layout">
+                        <!--<div class="page"/>-->
+                        
+       
+         
+          <style>
+                      .tab1{
+                            border: 1px solid gray;
+                            width: 100%;
+                             height: 10px;
+                            
+                       }
+                            .Tab2{
+                            border: 1px solid gray;
+                            width: 100%;
+                             height: 10px;
+                       }
+                       
+                       .Tab3{
+                            border: 1px solid gray;
+                            width: 100%;
+                             height: 10px;
+                       }
+                        .Tab4{
+                            border: 1px solid gray;
+                            width: 100%;
+                             height: 10px;
+                       }
+                        .Tab5{
+                        border: 1px solid gray;
+                        width: 100%;
+                        height: 10px;
+                    }
+                      .dc{
+                        border: 1px solid gray;
+                        width: 100%;
+                        height: 10px;   
+                    }
+                    .Tab6{
+                        border: 1px solid black;
+                        width: 100%;
+                        height: 10px;
+                    }
+                          .Tab7l{
+                         border: 1px solid black;
+                         width:100%;
+                          height: 10px;
+                        }
+                        .Tab9{
+                        border: 1px solid black;
+                        width: 100%;
+                        height: 10px;
+                    }
+                    
+                      }
+                        .Tab10{
+                        border: 1px solid black;
+                        width: 100%;
+                        height: 10px;
+                    }
+                    .alt{
+                     height: 10px;
+                    }
+                     .alt2{
+                     height: 10px;
+                    }
+                    .via
+                    {
+                     width: 100%;
+                    }
+                    
+                    
+                     #linha-horizontal1 {
+                            width: 830px;
+                            border: 1px solid black;
+                            border-style: dotted;
+                             height: 10px;
+                        }
+                        
+                                   table{
+                            border: 1px solid black;
+                            width: 100%;
+                             height: 10px;
+                       } 
+                      #alt{
+                        height: 10px;
+                         border: 1px solid black;
+                      }
+                       
+                    
+ .no-bottom-border {
+        border-bottom: none;
+    }
+     .table-striped tbody tr:nth-child(odd) {
+                       
+                           background-color: white;
+                    }
+                    .table-striped tbody tr:nth-child(even) {
+                      
+                     background-color: #f2f2f2; 
+                  
+                      body{
+                        font-family: cursive
+                           height: 10px;
+                    }
+                    
+                
+                    </style>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+    <!--                <div class="row">-->
+    <!--            <div class="col-8">-->
+    <!--<img class="img-fluid" src="/web/image/1149-54ea0f3e/trd.png; ; width: 35px" t-if="o.company_id.name == &quot;STONE TRADING&quot;"/>-->
+    <!--<img class="img-fluid" src="/web/image/1148-5d2ce4da/download%20%282%29.png; width: 35px" t-if="o.company_id.name == &quot;PEMARO S.A&quot;"/>-->
+    <!--                    </div>-->
+    <!--                    <div class="col-4">-->
+    <!--                        <br/>-->
+    <!--                        <strong/>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                  <table class="alt2">-->
+    <!--            </table>-->
+                   
+
+<!--<table class="table table-striped">  -->
+                    <table class="table table-striped" style="border-collapse: collapse; border: 1px solid black;">
+
+                        <tr style="solid black; text-align: ; font-Family: arial; font-size:9px">
+                            <td style="solid black; border: none;">
+                               
+                                <span t-if="o.company_id.id == 2"><strong>&amp;nbsp;&amp;nbsp;Stone Trading</strong></span>
+                                <span t-if="o.company_id.id == 1"><strong>&amp;nbsp;&amp;nbsp;Pemaro</strong></span>
+                                <br/>
+                                 <span>&amp;nbsp;&amp;nbsp;NIF:</span> <span t-field="o.company_id.vat"/>
+                                 
+                                <span>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+
+                            </td>
+
+                            <td style="solid black; text-align: center; border: none;">
+                                
+                                  
+                                <span t-field="o.display_name"/>
+                                <br/>
+                                <span>&amp;nbsp;&amp;nbsp;Apólice :</span> <span t-field="o.employee_id.x_studio_aplice"/>
+                                
+                                <!--<span>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<span t-firld="o.name"/></span>-->
+                            </td>
+                            
+                        </tr>
+                    </table>
+                    
+                    <table class="table table-striped" style="border-collapse: collapse; border: 1px solid black;">
+<!--<table class="table table-striped" style="border-collapse: collapse;">  -->
+                        <tr style="font-Family: arial; border-collapse: collapse; border-bottom: 1px solid white;">
+                          <td style="solid black; text-align: ; border: none; font-size:9px; border-collapse: collapse;"><span>Código</span> </td>
+                          <td style="solid black; text-align: center; border: none; font-size:9px; border-collapse: collapse;"><span>Nome do Funcionário</span></td>
+                          <td style="solid black; text-align: center; border: none; font-size:9px; border-collapse: collapse;"><span>Cargo</span></td>
+                          <td style="solid black; text-align: center; border: none; font-size:9px; border-collapse: collapse;"><span>Depto</span></td>
+                        </tr>  
+                            
+                        <tr style="border-collapse: collapse;"> 
+                          <td style="solid black; text-align: ; border: none; font-size:9px"><strong><span t-field="o.number"/></strong></td>
+                          <td style="solid black; text-align: center; border: none; font-size:9px"><strong><span t-field="o.employee_id"/></strong></td>
+                        <td style="solid black; text-align: center; border: none;  font-size:9px"><strong/><span t-field="o.job_id"/></td>
+                          <td style="solid black; text-align: center; border: none;  font-size:9px"><strong><span t-field="o.department_id"/></strong></td>
+                        </tr> 
+                      
+                    </table>
+                    
+                    
+                   
+                    
+                    <table class="table table-striped" style="border-collapse: collapse; border: 1px solid black;">
+
+                      <tr>
+                          <td style=" solid black; text-align: LEGHT; border: none; font-size:9px"><span>&amp;nbsp;&amp;nbsp;Número do INSS:</span> <strong><span t-field="o.employee_id.x_studio_nmero_do_inss"/></strong></td>
+                          <td style="text-align: leght; border: none; font-size:9px" width="270px"><span>&amp;nbsp;&amp;nbsp;NIF:</span><strong/> <span t-field="o.employee_id.x_studio_nuit_do_funcionrio"/></td>
+                          
+                      </tr>
+                  </table>
+                 <table class="alt">
+                </table>
+                
+                
+
+               
+                
+                
+                
+                                    <table class="table table-striped" style="border-collapse: collapse; border: 1px solid black;">
+
+<!--<table class="table table-striped">  -->
+<!--<thead>-->
+                        <tr style="background-color: white; height: 9px;">
+                            <th style="solid black; border: none;  text-align: left; font-size:11px">Nome</th>
+                            <th class="text-right" style=" solid black; border: none; border: none-top; text-align: right; font-size:11px">Valor</th>
+                        </tr> 
+                    <!--</thead>-->
+                    <!--<tbody>-->
+                        <span t-foreach="o.worked_days_line_ids" t-as="worked_days">
+                            <t t-if="worked_days.code != 'OUT'">
+                             
+                            </t>
+                        </span>
+                        <span t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+                            <t t-set="line_style"/>
+                            <t t-set="line_class"/>
+                            <t t-if="line.code == 'NET'">
+                                <t t-set="line_class" t-value="'o_total o_border_bottom font-weight-bold'"/>
+                            </t>
+                            <t t-if="(line.code == 'BASIC') or (line.code == 'GROSS')">
+                                <t t-set="line_style" t-value=""/>
+                                <t t-set="line_class" t-value="'o_subtotal o_border_bottom'"/>
+                            </t>
+                            
+                            <!--<t t-if="not('0' in line_class) and not('0' in line_style)">-->
+                            <!--<t t-if="line.total != 0">-->
+                                <tr t-att-class="line_class" t-att-style="line_style">
+                                    <td style=" solid black; text-align: LEGHT; font-size:10px; border: none;  padding-left:3px; border-bottom: 1px solid white;"><span t-field="line.salary_rule_id"/></td>
+                                    <td class="text-right" style=" solid black; text-align: right; font-size:10px; border: none; padding-left: 3px; border-bottom: 1px solid white;"><span t-esc="line.total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}" t-att-style="'color:#875A7B;' if line.total &lt; 0 else ''"/></td>
+                                </tr>
+                            <!--</t>-->
+                        </span>
+                    <!--</tbody>-->
+                </table>
+             
+    
+         
+                    <table class="table table-striped" style="border-collapse: collapse; border: 1px solid black;">
+
+<tr style="height: 39px;"> 
+                          <td style="solid black; text-align:center; font-size:9px; text-color: #ccc; border: none;"> <span>Salário Bruto</span> <br/><span t-field="o.x_studio_salario_bruto"/></td>
+                          
+                          <td style="solid black; text-align:center; font-size:9px; border: none;"><span>Valor INSS</span> <br/><span t-field="o.x_studio_inss"/></td>
+                          <td style="solid black; text-align: center; font-size:9px; border: none;"><span>Valor IRPS</span> <br/><span t-field="o.x_studio_irps_1"/>  </td>
+                            <!--<td style="solid black; text-align:center; font-size:9px"><span></span></td>-->
+                          
+                      </tr>
+                  </table> 
+                  
+           
+                    <table class="table table-striped" style="border-collapse: collapse; border: 1px solid black;">
+
+    <tbody>
+        <tr style="height:50pt;">
+            <td style="width:423.5pt; padding-right:3.12pt; padding-left:3.12pt; vertical-align:top;"> 
+                <p style="margin-top:0pt; margin-bottom:8pt; text-align:center; line-height:108%; font-size:10px;">Declare ter recebido a importancia liquida discriminada neste recibo</p><br/><br/>
+                <p style="margin-top:0pt; margin-bottom:8pt; text-align:center; line-height:108%; font-size:10px;">...................../...................../....................<span style="padding-left: 150px">________________________________________________</span></p>
+                <p style="margin-top:0pt; margin-bottom:8pt; text-align:center; line-height:108%; font-size:10px;">Data<span style="padding-left: 200px"><span>                     </span>ASSINATURA DO FUNCIONÁRIO</span></p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!--<p style="margin-top:0pt; margin-bottom:8pt;"/>-->
+<!--<p style="bottom: 10px; right: 10px; position: absolute;"><a href="https://wordtohtml.net" target="_blank" style="font-size:11px; color: #d0d0d0;">Converted to HTML with WordToHTML.net</a></p>-->
+                    
+                <!--</t>-->
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="hr_payroll_report_payslip_lang_copy_1" model="ir.ui.view">
+    <field name="name">report_payslip_lang copy(1)</field>
+    <field name="type">qweb</field>
+    <field name="key">hr_payroll.report_payslip_lang_copy_1</field>
+    <field name="arch" type="xml">
+<t t-name="hr_payroll.report_payslip_lang_copy_1">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-set="o" t-value="o.with_context(lang=o.employee_id.sudo().address_home_id.lang or o.env.lang)"/>
+            <t t-call="hr_payroll.report_payslip_copy_1" t-lang="o.env.lang"/>
+        </t>
+    </t>
+</t>
+    </field>
+</record>
+
+<record id="hr_payroll_report_payslip_lang_copy_2" model="ir.ui.view">
+    <field name="name">report_payslip_lang copy(2)</field>
+    <field name="type">qweb</field>
+    <field name="key">hr_payroll.report_payslip_lang_copy_2</field>
+    <field name="arch" type="xml">
+<t t-name="hr_payroll.report_payslip_lang_copy_2">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-set="o" t-value="o.with_context(lang=o.employee_id.sudo().address_home_id.lang or o.env.lang)"/>
+            <t t-call="hr_payroll.report_payslip_copy_2" t-lang="o.env.lang"/>
+        </t>
+    </t>
+</t>
+    </field>
+</record>
+
+<record id="view_report_4f99666c_6109_43c6_bd02_86e171d4d872" model="ir.ui.view">
+    <field name="name">mh_stone_reports.report_4f99666c-6109-43c6-bd02-86e171d4d872</field>
+    <field name="type">qweb</field>
+    <field name="key">mh_stone_reports.report_4f99666c-6109-43c6-bd02-86e171d4d872</field>
+    <field name="arch" type="xml">
+<t t-name="mh_stone_reports.report_main">
+                    <t t-call="web.html_container">
+                        <t t-foreach="docs" t-as="doc">
+                            <t t-call="mh_stone_reports.report_4f99666c-6109-43c6-bd02-86e171d4d872_document"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="view_report_dbc90457_5e86_41f4_9e34_3389f0a7b4ae" model="ir.ui.view">
+    <field name="name">mh_stone_reports.report_dbc90457-5e86-41f4-9e34-3389f0a7b4ae</field>
+    <field name="type">qweb</field>
+    <field name="key">mh_stone_reports.report_dbc90457-5e86-41f4-9e34-3389f0a7b4ae</field>
+    <field name="arch" type="xml">
+<t t-name="mh_stone_reports.report_main">
+                    <t t-call="web.html_container">
+                        <t t-foreach="docs" t-as="doc">
+                            <t t-call="mh_stone_reports.report_dbc90457-5e86-41f4-9e34-3389f0a7b4ae_document"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+    </data>
+</odoo>

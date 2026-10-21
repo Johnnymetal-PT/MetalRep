@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Partner Form View with Transformation/Carrier Fields -->
+    <record id="view_partner_form_transformation" model="ir.ui.view">
+        <field name="name">res.partner.form.transformation</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Add smart button for transformations -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" type="object"
+                        name="action_view_transformations"
+                        icon="fa-exchange"
+                        invisible="not is_transformer and not is_carrier">
+                    <field string="Transformações" name="transformation_count" widget="statinfo"/>
+                </button>
+            </xpath>
+
+            <!-- Add transformer/carrier checkboxes in Sales & Purchase tab -->
+            <xpath expr="//page[@name='sales_purchases']//group[@name='sale']" position="after">
+                <group string="Transformação e Transporte" name="transformation_transport">
+                    <field name="is_transformer" widget="boolean_toggle"/>
+                    <field name="is_carrier" widget="boolean_toggle"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Create action for Transformer Partners -->
+    <record id="action_transformer_partners" model="ir.actions.act_window">
+        <field name="name">Transformadores</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_transformer', '=', True)]</field>
+        <field name="context">{'default_is_transformer': True, 'default_supplier_rank': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Criar novo Transformador
+            </p>
+            <p>
+                Cadastre os fornecedores que realizam transformação de produtos.
+            </p>
+        </field>
+    </record>
+
+    <!-- Create action for Carrier Partners -->
+    <record id="action_carrier_partners" model="ir.actions.act_window">
+        <field name="name">Transportadores</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_carrier', '=', True)]</field>
+        <field name="context">{'default_is_carrier': True, 'default_supplier_rank': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Criar novo Transportador
+            </p>
+            <p>
+                Cadastre os transportadores responsáveis pela logística.
+            </p>
+        </field>
+    </record>
+</odoo>

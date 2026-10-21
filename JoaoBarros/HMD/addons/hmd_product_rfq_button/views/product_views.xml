@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="product_template_rfq_server_action" model="ir.actions.server">
+        <field name="name">RFQs</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="state">code</field>
+        <field name="code">
+ctx = env.context
+active_ids = ctx.get('active_ids') or []
+if not active_ids and ctx.get('active_id'):
+    active_ids = [ctx['active_id']]
+recordset = records
+if not recordset:
+    model_name = ctx.get('active_model')
+    if model_name == 'product.template':
+        recordset = env['product.template'].browse(active_ids)
+    elif model_name == 'product.product':
+        recordset = env['product.product'].browse(active_ids).product_tmpl_id
+    else:
+        recordset = env['product.template'].browse(active_ids)
+recordset = recordset.exists()[:1]
+action = recordset.action_view_rfq_purchase_orders() if recordset else {'type': 'ir.actions.act_window_close'}
+        </field>
+    </record>
+
+    <record id="product_product_rfq_server_action" model="ir.actions.server">
+        <field name="name">RFQs</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="state">code</field>
+        <field name="code">
+ctx = env.context
+active_ids = ctx.get('active_ids') or []
+if not active_ids and ctx.get('active_id'):
+    active_ids = [ctx['active_id']]
+recordset = records
+if not recordset:
+    model_name = ctx.get('active_model')
+    if model_name == 'product.product':
+        recordset = env['product.product'].browse(active_ids)
+    elif model_name == 'product.template':
+        recordset = env['product.template'].browse(active_ids).product_variant_ids
+    else:
+        recordset = env['product.product'].browse(active_ids)
+recordset = recordset.exists()[:1]
+if recordset and recordset._name == 'product.template':
+    recordset = recordset.product_variant_ids.exists()[:1]
+action = recordset.action_view_rfq_purchase_orders() if recordset else {'type': 'ir.actions.act_window_close'}
+        </field>
+    </record>
+
+    <record id="view_product_template_form_rfq_button" model="ir.ui.view">
+        <field name="name">product.template.form.rfq.button</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">
+                <button name="%(product_template_rfq_server_action)d"
+                        type="action"
+                        class="oe_stat_button"
+                        icon="fa-shopping-cart"
+                        invisible="rfq_purchase_order_count == 0">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="rfq_purchase_order_count" widget="statinfo"/>
+                        </span>
+                        <span class="o_stat_text">RFQs</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_product_form_rfq_button" model="ir.ui.view">
+        <field name="name">product.product.form.rfq.button</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">
+                <button name="%(product_product_rfq_server_action)d"
+                        type="action"
+                        class="oe_stat_button"
+                        icon="fa-shopping-cart"
+                        invisible="rfq_variant_purchase_order_count == 0">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="rfq_variant_purchase_order_count" widget="statinfo"/>
+                        </span>
+                        <span class="o_stat_text">RFQs</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

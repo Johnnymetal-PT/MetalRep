@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="product_template_rfq_server_action" model="ir.actions.server">
+        <field name="name">RFQs</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="state">code</field>
+        <field name="code">action = records.action_view_rfq_purchase_orders()</field>
+    </record>
+
+    <record id="product_product_rfq_server_action" model="ir.actions.server">
+        <field name="name">RFQs</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="state">code</field>
+        <field name="code">action = records.action_view_rfq_purchase_orders()</field>
+    </record>
+
+    <record id="product_template_form_view_hmd_purchase_rfq" model="ir.ui.view">
+        <field name="name">product.template.form.hmd.purchase.rfq</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">
+                <button name="%(product_template_rfq_server_action)d" type="action" class="oe_stat_button">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="hmd_purchase_rfq_count" widget="statinfo"/>
+                        </span>
+                        <span class="o_stat_text">RFQs</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_product_form_view_hmd_purchase_rfq" model="ir.ui.view">
+        <field name="name">product.product.form.hmd.purchase.rfq</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">
+                <button name="%(product_product_rfq_server_action)d" type="action" class="oe_stat_button">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="hmd_purchase_rfq_count" widget="statinfo"/>
+                        </span>
+                        <span class="o_stat_text">RFQs</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

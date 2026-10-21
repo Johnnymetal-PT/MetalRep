@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- B2B Signup Settings -->
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.base.setup</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="0"/>
+        <field name="inherit_id" ref="website.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='website_info_settings']" position="after">
+                <block title="B2B Applications" name="b2b_application_settings_block">
+                    <setting id="b2b_application" string="B2B Applications Approval"
+                            help="Internal admin users who can manage and approve B2B applications submitted via the website.">
+                        <div class="o_settings_container">
+                            <div>
+                                <field name="b2b_admin_user_ids"
+                                    widget="many2many_tags"
+                                    domain="[('share', '=', False)]"
+                                    options="{'no_create': True, 'no_open': True}"
+                                    placeholder="Select internal admin users..."/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="b2b_terms_and_conditions" string="B2B Terms and Conditions"
+                            help="Define terms and conditions for B2B application form.">
+
+                        <div class="col-12 o_setting_box">
+                            <div class="o_setting_left_pane"></div>
+                            <div class="o_setting_right_pane">
+                                <div class="text-muted mb-2">
+                                    Define terms and conditions for B2B application form
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt8">
+                            <a class="btn-link" href="/b2b_terms" role="button">
+                                <i class="oi oi-arrow-right"/>
+                                Update Terms
+                            </a>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- B2B Website Form -->
+    <record id="view_b2b_website_form" model="ir.ui.view">
+        <field name="name">b2b.website.form</field>
+        <field name="model">website</field>
+        <field name="inherit_id" ref="website.view_website_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <field name="b2b_terms_and_conditions" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

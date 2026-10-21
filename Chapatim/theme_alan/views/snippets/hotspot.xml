@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ====================Image Popover product Template ==================== -->
+    <template id="as_img_hotspot_product_popover" name="AS Image Dynamic Popover Template">
+        <div t-if='product' t-attf-class="{{style}}">
+            <div class="hp-media">
+                <t t-set="combination_info" t-value="product._get_combination_info(only_template=True, add_qty=add_qty or 1)"/>
+                <div class="hp-img"><img t-att-src='request.website.image_url(product, "image_1920")' alt='Image'/></div>
+                <div class="hp-media-body">
+                    <h3 class="hp-title"><t t-esc="product.name"/></h3>
+                    <div class="product_price" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
+                        <del t-attf-class="text-danger mr-2 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                        <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        <span itemprop="price" style="display:none;" t-esc="combination_info['price']" />
+                        <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name"/>
+                    </div>
+                    <a t-att-href="product.website_url" t-attf-class='btn btn-primary btn-sm'>Shop now</a>
+                </div>
+            </div>
+        </div>
+        <div t-else="">
+            <h3>No Product Selected</h3>
+        </div>
+    </template>
+</odoo>

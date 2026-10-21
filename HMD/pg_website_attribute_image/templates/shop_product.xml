@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="variants_image" inherit_id="website_sale.variants">
+        <xpath expr="//t[@t-elif=&quot;attribute.display_type in ('radio', 'multi')&quot;]" position="replace">
+            <t t-elif="attribute.display_type == 'radio'">
+                <div t-attf-class="o_wsale_product_attribute pg_attr_dropdown_wrapper #{'d-none' if single_and_custom else ''}">
+                    <select
+                        t-att-data-attribute_id="attribute.id"
+                        t-attf-class="form-select css_attribute_select o_wsale_product_attribute js_variant_change pg_attr_hidden_select #{attribute.create_variant} d-none"
+                        t-att-name="'ptal-%s' % ptal.id"
+                    >
+                        <t t-foreach="ptavs" t-as="ptav">
+                            <option
+                                t-att-value="ptav.id"
+                                t-att-data-attribute-value-id="ptav.product_attribute_value_id.id"
+                                t-att-data-value-id="ptav.id"
+                                t-att-data-value_id="ptav.id"
+                                t-att-data-value_name="ptav.name"
+                                t-att-data-attribute_name="attribute.name"
+                                t-att-data-is_custom="ptav.is_custom"
+                                t-att-data-image-url="ptav.image and ('/web/image/product.template.attribute.value/%s/image' % ptav.id) or ''"
+                                t-att-selected="ptav in combination"
+                                t-att-data-is_single="single"
+                                t-att-data-is_single_and_custom="single_and_custom"
+                            >
+                                <t t-esc="ptav.name"/>
+                            </option>
+                        </t>
+                    </select>
+                    <div class="dropdown pg_attr_image_dropdown">
+                        <button
+                            type="button"
+                            class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex align-items-center justify-content-between pg_attr_dropdown_toggle"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            <span class="pg_attr_dropdown_value d-flex align-items-center gap-2">
+                                <img class="pg_attr_dropdown_value_img d-none" alt=""/>
+                                <span class="pg_attr_dropdown_value_label"/>
+                            </span>
+                        </button>
+                        <div class="dropdown-menu w-100 pg_attr_dropdown_menu">
+                            <t t-foreach="ptavs" t-as="ptav">
+                                <button
+                                    type="button"
+                                    class="dropdown-item d-flex align-items-center gap-2 pg_attr_dropdown_item"
+                                    t-att-data-value-id="ptav.id"
+                                    t-att-data-value_id="ptav.id"
+                                    t-att-data-image-url="ptav.image and ('/web/image/product.template.attribute.value/%s/image' % ptav.id) or ''"
+                                >
+                                    <img
+                                        t-if="ptav.image"
+                                        class="pg_attr_dropdown_item_img"
+                                        t-att-src="'/web/image/product.template.attribute.value/%s/image' % ptav.id"
+                                        t-att-alt="ptav.name"
+                                    />
+                                    <span t-esc="ptav.name"/>
+                                </button>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-elif="attribute.display_type == 'multi'">
+                <ul t-att-data-attribute_id="attribute.id" t-attf-class="list-inline list-unstyled o_wsale_product_attribute #{'d-none' if single_and_custom else ''}">
+                    <t t-foreach="ptavs" t-as="ptav">
+                        <li class="list-inline-item mb-3 js_attribute_value" style="margin: 0;">
+                            <label class="col-form-label">
+                                <div class="form-check">
+                                    <input
+                                        type="checkbox"
+                                        t-attf-class="form-check-input js_variant_change #{attribute.create_variant}"
+                                        t-att-checked="ptav in combination"
+                                        t-att-name="'ptal-%s' % ptal.id"
+                                        t-att-value="ptav.id"
+                                        t-att-data-attribute-value-id="ptav.product_attribute_value_id.id"
+                                        t-att-data-value_id="ptav.id"
+                                        t-att-data-value_name="ptav.name"
+                                        t-att-data-attribute_name="attribute.name"
+                                        t-att-data-is_custom="ptav.is_custom"
+                                        t-att-data-is_single="False"
+                                        t-att-data-is_single_and_custom="single_and_custom"
+                                    />
+                                    <div class="radio_input_value form-check-label">
+                                        <span t-field="ptav.name"/>
+                                        <t t-call="website_sale.badge_extra_price"/>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+                    </t>
+                </ul>
+            </t>
+        </xpath>
+    </template>
+</odoo>
+

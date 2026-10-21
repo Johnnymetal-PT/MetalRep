@@ -1,0 +1,27 @@
+<odoo>
+    <record id="view_variant_update_wizard_form" model="ir.ui.view">
+        <field name="name">variant.update.wizard.form</field>
+        <field name="model">product.variant.update.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Update Product Variants">
+                <group>
+                    <field name="file" widget="binary"/>
+                    <field name="file_name"/>
+                </group>
+                <footer>
+                    <button string="Update" type="object" name="action_update_variants" class="oe_highlight"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_open_variant_update_wizard" model="ir.actions.act_window">
+        <field name="name">Update Product Variants</field>
+        <field name="res_model">product.variant.update.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_variant_update_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>
+

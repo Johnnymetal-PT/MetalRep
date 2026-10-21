@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Server Action para interceptar importação de bank statement lines -->
+    <record id="action_intercept_bank_import" model="ir.actions.server">
+        <field name="name">Import Bank Statement</field>
+        <field name="model_id" ref="account.model_account_bank_statement_line"/>
+        <field name="binding_model_id" ref="account.model_account_bank_statement_line"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+action = {
+    'type': 'ir.actions.act_window',
+    'res_model': 'bank.statement.import.wizard',
+    'view_mode': 'form',
+    'target': 'new',
+    'views': [[False, 'form']],
+    'name': 'Import Bank Statement',
+    'context': dict(env.context, default_bank_context=True),
+}
+        </field>
+    </record>
+    
+    <!-- Action Window para importação direta de extratos bancários -->
+    <record id="action_bank_statement_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import Bank Statement</field>
+        <field name="res_model">bank.statement.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_bank_context': True}</field>
+    </record>
+    
+    <!-- Menu Item para Dashboard de Accounting -->
+    <!-- Comentado temporariamente até identificar o menu parent correto
+    <menuitem
+        id="menu_bank_statement_import"
+        name="Import Bank Statement"
+        parent="account.menu_finance_entries_actions"
+        action="action_bank_statement_import_wizard"
+        sequence="5"
+        groups="account.group_account_user"/>
+    -->
+    
+    <!-- Server Action para Journal/Bank -->
+    <record id="action_bank_import_from_journal" model="ir.actions.server">
+        <field name="name">Import Bank Statement</field>
+        <field name="model_id" ref="account.model_account_journal"/>
+        <field name="binding_model_id" ref="account.model_account_journal"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+if record.type == 'bank':
+    action = {
+        'type': 'ir.actions.act_window',
+        'res_model': 'bank.statement.import.wizard',
+        'view_mode': 'form',
+        'target': 'new',
+        'views': [[False, 'form']],
+        'name': 'Import Bank Statement',
+        'context': dict(env.context, default_journal_id=record.id, default_bank_context=True),
+    }
+else:
+    action = {'type': 'ir.actions.act_window_close'}
+        </field>
+    </record>
+    
+    <!-- Server Action para Bank Statement -->
+    <record id="action_bank_import_from_statement" model="ir.actions.server">
+        <field name="name">Import Transactions</field>
+        <field name="model_id" ref="account.model_account_bank_statement"/>
+        <field name="binding_model_id" ref="account.model_account_bank_statement"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+action = {
+    'type': 'ir.actions.act_window',
+    'res_model': 'bank.statement.import.wizard',
+    'view_mode': 'form',
+    'target': 'new',
+    'views': [[False, 'form']],
+    'name': 'Import Bank Transactions',
+    'context': dict(env.context, default_statement_id=record.id, default_bank_context=True),
+}
+        </field>
+    </record>
+</odoo>

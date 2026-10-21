@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Restringir menus de relatórios sensíveis a administradores -->
+
+    <record id="stock.stock_move_line_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+    </record>
+
+    <record id="stock.stock_move_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+    </record>
+
+    <record id="stock.stock_picking_type_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+    </record>
+
+    <record id="stock_account.menu_valuation" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+    </record>
+
+    <record id="stock_enterprise.stock_dashboard_menuitem" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+    </record>
+
+    <record id="stock.menu_product_stock" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+    </record>
+</odoo>

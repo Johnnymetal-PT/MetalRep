@@ -1,0 +1,1390 @@
+<t name="Product" track="1" t-name="website_sale.product">
+    <t t-set="navClass" t-valuef="light"/>
+    <style>
+        .margens {
+            margin-left:100px;
+            margin-right:100px;
+        }
+        .btn-inquire {
+            background-color: #302D27 !important;
+            color: white !important;
+            border-color: #302D27 !important;
+        }
+
+        .btn-inquire:hover {
+            background-color: white !important;
+            color: #302D27 !important;
+            border-color: #302D27 !important;
+        }
+
+        #product_details{
+            width: 650px !important;
+        }
+
+        @media only screen and (max-width: 1614px) {
+            #product_details{
+                width: 550px !important;
+            }
+        }
+
+        @media only screen and (min-width: 1701px) {
+            #product_details{
+                width: 700px !important;
+            }
+        }
+
+        @media only screen and (max-width: 991.98px) {
+            .margens {
+                margin-left: 1.5rem;
+                margin-right: 1.5rem;
+            }
+
+            .info-request-btn-wrapper {
+                margin-top: 2.5rem;
+            }
+
+            #product_detail {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            #product_details {
+                width: 100% !important;
+            }
+
+            #product_detail_main {
+                gap: 2rem;
+            }
+
+            #product_detail_main .o_wsale_product_images {
+                width: 100% !important;
+            }
+
+            #openFormBtn {
+                width: 100% !important;
+                max-width: 320px;
+            }
+            header:not(.o_header_no_transition) .navbar-brand img {
+                margin-top: -20px !important;
+            }
+        }
+
+        @media only screen and (max-width: 575.98px) {
+            .margens {
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+
+            .info-request-btn-wrapper {
+                margin-top: 2rem;
+            }
+
+            #product_detail_main {
+                gap: 1.5rem;
+            }
+
+            #openFormBtn {
+                height: auto;
+                min-height: 54px;
+                padding: 0.75rem 1.5rem;
+            }
+        }
+    </style>
+
+    <t t-cache="pricelist,product,fiscal_position,request.env.user._is_public()">
+        <t t-set="combination" t-value="product._get_first_possible_combination()"/>
+        <t t-set="combination_info" t-value="product._get_combination_info(combination, add_qty=add_qty)"/>
+        <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
+        <t t-set="product_popup_name" t-value="product.x_studio_nome_produto_website or product.name"/>
+
+        <t t-call="website.layout">
+<script type="text/javascript">
+(function () {
+  if (typeof window !== 'undefined' &amp;&amp; typeof window.matchMedia !== 'function') {
+    window.matchMedia = function () {
+      return {
+        matches: false,
+        media: '',
+        addListener: function () {},
+        removeListener: function () {},
+        addEventListener: function () {},
+        removeEventListener: function () {},
+        dispatchEvent: function () { return false; }
+      };
+    };
+  }
+
+  if (typeof Element !== 'undefined' &amp;&amp; !Element.prototype.matches) {
+    Element.prototype.matches =
+      Element.prototype.msMatchesSelector ||
+      Element.prototype.webkitMatchesSelector ||
+      function (selector) {
+        const node = this;
+        const doc = node &amp;&amp; (node.document || node.ownerDocument);
+        if (!doc || !doc.querySelectorAll) {
+          return false;
+        }
+        const nodes = doc.querySelectorAll(selector);
+        let i = 0;
+        while (nodes[i] &amp;&amp; nodes[i] !== node) {
+          i++;
+        }
+        return Boolean(nodes[i]);
+      };
+  }
+
+  const isElementNode = node =&gt; {
+    if (!node) {
+      return false;
+    }
+    if (typeof Node !== 'undefined' &amp;&amp; node instanceof Node) {
+      return node.nodeType === Node.ELEMENT_NODE;
+    }
+    return !!node.tagName;
+  };
+
+  const patchBootstrapCarousel = () =&gt; {
+    const Carousel = window.bootstrap &amp;&amp; window.bootstrap.Carousel;
+    if (!Carousel || Carousel.__patchedSkipInvalidElements) {
+      return;
+    }
+
+    const originalGetOrCreateInstance = Carousel.getOrCreateInstance;
+    Carousel.getOrCreateInstance = function (element, ...args) {
+      if (!isElementNode(element)) {
+        return null;
+      }
+      return originalGetOrCreateInstance.call(this, element, ...args);
+    };
+
+    if (typeof Carousel.carouselInterface === 'function') {
+      const originalCarouselInterface = Carousel.carouselInterface;
+      Carousel.carouselInterface = function (config) {
+        let context = this;
+        if (context &amp;&amp; typeof context.filter === 'function') {
+          context = context.filter(function () {
+            return isElementNode(this);
+          });
+        }
+        if (!context || (context.length !== undefined &amp;&amp; !context.length)) {
+          return context;
+        }
+        return originalCarouselInterface.call(context, config);
+      };
+    }
+
+    Carousel.__patchedSkipInvalidElements = true;
+  };
+
+  const patchjQueryCarousel = () =&gt; {
+    if (!window.jQuery || !window.jQuery.fn || !window.jQuery.fn.carousel) {
+      return;
+    }
+    const originalCarousel = window.jQuery.fn.carousel;
+    if (originalCarousel.__patchedSkipInvalidElements) {
+      return;
+    }
+    const patchedCarousel = function (...args) {
+      const filtered = this.filter(function () {
+        return isElementNode(this);
+      });
+      if (!filtered.length) {
+        return filtered;
+      }
+      return originalCarousel.apply(filtered, args);
+    };
+    patchedCarousel.Constructor = originalCarousel.Constructor;
+    if (typeof originalCarousel.noConflict === 'function') {
+      patchedCarousel.noConflict = originalCarousel.noConflict.bind(originalCarousel);
+    }
+    patchedCarousel.__patchedSkipInvalidElements = true;
+    window.jQuery.fn.carousel = patchedCarousel;
+  };
+
+  // ✅ CHANGED HERE: compensateScrollbar patch (do NOT pass window to original plugin)
+  const patchCompensateScrollbar = () =&gt; {
+    const $ = window.jQuery;
+    if (!$ || !$.fn || !$.fn.compensateScrollbar) {
+      return;
+    }
+    const originalFn = $.fn.compensateScrollbar;
+    if (originalFn.__patchedSkipInvalidElements) {
+      return;
+    }
+
+    const safeMakeJq = elements =&gt; {
+      try {
+        return $(elements);
+      } catch (e) {
+        return $();
+      }
+    };
+
+    const patchedFn = function (...args) {
+      // Build a clean list of real DOM elements (and allow window).
+      const elements = [];
+      const raw = this &amp;&amp; this.toArray ? this.toArray() : [];
+      for (let i = 0; i &lt; raw.length; i++) {
+        const el = raw[i];
+        if (el === window) {
+          elements.push(el);
+          continue;
+        }
+        if (isElementNode(el)) {
+          elements.push(el);
+        }
+      }
+      const filtered = safeMakeJq(elements);
+      if (!filtered.length) {
+        return filtered;
+      }
+      try {
+        return originalFn.apply(filtered, args);
+      } catch (err) {
+        // Last-resort guard: don't break the page if a theme/module passes invalid nodes.
+        console.warn("compensateScrollbar guarded error:", err);
+        return filtered;
+      }
+    };
+
+    patchedFn.__patchedSkipInvalidElements = true;
+    $.fn.compensateScrollbar = patchedFn;
+  };
+
+    safeFn.__cmPatchedNoThrow = true;
+    safeFn.__cmOriginal = originalFn;
+    window.jQuery.fn.compensateScrollbar = safeFn;
+  };
+
+    patchedFn.__patchedSkipInvalidElements = true;
+    window.jQuery.fn.compensateScrollbar = patchedFn;
+  };
+
+  const applyPatches = () =&gt; {
+    patchBootstrapCarousel();
+    patchjQueryCarousel();
+    patchCompensateScrollbar();
+  };
+
+  let patchAttempts = 0;
+  const maxPatchAttempts = 20;
+
+  const ensurePatched = () =&gt; {
+    applyPatches();
+    if (window.bootstrap &amp;&amp; window.bootstrap.Carousel &amp;&amp; window.bootstrap.Carousel.__patchedSkipInvalidElements) {
+      return;
+    }
+    patchAttempts += 1;
+    if (patchAttempts &gt;= maxPatchAttempts) {
+      return;
+    }
+    window.setTimeout(ensurePatched, 200);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensurePatched, { once: true });
+  } else {
+    ensurePatched();
+  }
+})();
+</script>
+
+                <div class="margens">
+            <t t-set="additional_title" t-value="product.name"/>
+            <div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale o_wsale_product_page">
+                <div class="oe_structure oe_empty oe_structure_not_nearest" id="oe_structure_website_sale_product_1" data-editor-message="DROP BUILDING BLOCKS HERE TO MAKE THEM AVAILABLE ACROSS ALL PRODUCTS"/>
+
+                <section id="product_detail" style="padding-left:0px; padding-right:0px;" t-attf-class="container py-4 oe_website_sale #{'discount' if combination_info['has_discounted_price'] else ''}" t-att-data-view-track="view_track and '1' or '0'" t-att-data-product-tracking-info="'product_tracking_info' in combination_info and json.dumps(combination_info['product_tracking_info'])">
+
+                    <!-- Breadcrumbs Left-Aligned -->
+                    <div class="row" style="margin-left:0px;">
+                        <div class="col-12 mb-3" style="padding-left:0px;">
+                            <ol class="breadcrumb" style="padding-left:0px;">
+                                <li class="breadcrumb-item o_not_editable">
+                                    <a style="color: #a8a297;" t-att-href="keep(category=0)">ALL PRODUCTS</a>
+                                </li>
+                                <li t-if="category" class="breadcrumb-item">
+                                    <a style="color: #a8a297;" t-att-href="keep('/shop/category/%s' % slug(category), category=0)" t-field="category.name"/>
+                                </li>
+                                <li style="color: #514c44;" class="breadcrumb-item active">
+                                    <span t-field="product.x_studio_nome_produto_website"/>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="row" id="product_detail_main" data-name="Product Page" style="justify-content: space-between;" t-att-data-image_width="website.product_page_image_width" t-att-data-image_layout="website.product_page_image_layout">
+                        <t t-set="image_cols" t-value="website._get_product_page_proportions()"/>
+
+                        <div t-attf-class="col-lg-#{image_cols[0]} mt-lg-4 o_wsale_product_images position-relative" t-if="website.product_page_image_width != 'none'" style="width:55%;">
+                            <t t-call="website_sale.shop_product_images"/>
+                        </div>
+
+                        <div t-attf-class="col-lg-#{image_cols[1]} mt-md-4" id="product_details">
+                            <t t-set="base_url" t-value="product.get_base_url()"/>
+
+                            <!-- Subcategory + Product Name Centered -->
+                            <div class="text-center my-3">
+                                <small class="text-uppercase text-muted" style="font-size:21px; font-family: 'Cormorant Infant', serif;" t-if="product.public_categ_ids">
+                                    <t t-esc="product.public_categ_ids[0].name"/>
+                                </small>
+                                <h1 class="mt-2" itemprop="name" style="font-size:51px; font-family: 'Cormorant Infant', serif; font-weight:100; margin-top:-8px !important; padding-bottom:20px;" t-field="product.x_studio_nome_produto_website"/>
+                            </div>
+
+                            <span itemprop="url" style="display:none;" t-esc="base_url + product.website_url"/>
+                            <span itemprop="image" style="display:none;" t-esc="base_url + website.image_url(product, 'image_1920')"/>
+
+                            <t t-if="is_view_active('website_sale.product_comment')">
+                                <a href="#o_product_page_reviews" class="o_product_page_reviews_link text-decoration-none">
+                                    <t t-call="portal_rating.rating_widget_stars_static">
+                                        <t t-set="rating_avg" t-value="product.rating_avg"/>
+                                        <t t-set="trans_text_plural">%s reviews</t>
+                                        <t t-set="trans_text_singular">%s review</t>
+                                        <t t-set="rating_count" t-value="(trans_text_plural if product.rating_count &gt; 1 else trans_text_singular) % product.rating_count"/>
+                                    </t>
+                                </a>
+                            </t>
+
+                            <!-- Centered Sales Description -->
+                            <p t-field="product.description_sale" class="text-muted my-3 text-center"/>
+
+
+
+<!-- Botão que abre o popup -->
+<div class="text-center my-4 info-request-btn-wrapper" style="margin-top:70px;">
+  <a href="#" id="openFormBtn" style="width: 295px; height: 54px; display: flex; align-items: center; justify-content: center; margin: 0 auto; background-color: rgb(81, 76, 68); color: rgb(242, 240, 236); border: 1px solid;" class="btn btn-custom">
+    INFO REQUEST
+  </a>
+</div>
+
+
+
+<!-- Modal Bootstrap -->
+<div class="modal fade" id="infoRequestModal" tabindex="-1" aria-labelledby="infoRequestLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" style="border-radius: 10px; max-height: 90vh; overflow-y: auto;">
+      <div class="modal-header justify-content-center">
+        <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Fechar"/>
+      </div>
+      <div class="modal-body px-4 px-md-5">
+        <div class="info-request-popup-content">
+          <section class="s_title pt40 pb40 o_colored_level" data-vcss="001" data-snippet="s_title" data-name="Título" style="background-image: none;">
+            <div class="container s_allow_columns">
+              <h2 class="display-3-fs" style="text-align: center;">Info Request Form</h2>
+            </div>
+          </section>
+          <section class="s_website_form pt16 pb16 o_colored_level" data-vcss="001" data-snippet="s_website_form" data-name="Formulário" style="background-image: none;">
+            <div class="container">
+              <form action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-pre-fill="true" data-model_name="mail.mail" data-success-mode="message" data-role="product-popup-form" t-att-data-product-name="product_popup_name or ''" t-att-data-product-url="base_url + product.website_url">
+                <div class="s_website_form_rows row s_col_no_bgcolor">
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 col-lg-12 s_website_form_custom" data-type="selection">
+                    <label class="s_website_form_label d-none" style="width: 200px" for="opmobjbten2"><span class="s_website_form_label_content">Type</span></label>
+                    <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="Client Type" data-display="horizontal">
+                      <div class="radio col-12 col-lg-4 col-md-6">
+                        <div class="form-check">
+                          <input type="radio" class="s_website_form_input form-check-input" id="opmobjbten20" name="Client Type" value="Professional" data-fill-with="undefined"/>
+                          <label class="form-check-label s_website_form_check_label" for="opmobjbten20">Professional</label>
+                        </div>
+                      </div>
+                      <div class="radio col-12 col-lg-4 col-md-6">
+                        <div class="form-check">
+                          <input type="radio" class="s_website_form_input form-check-input" id="opmobjbten21" name="Client Type" value="Private Client"/>
+                          <label class="form-check-label s_website_form_check_label" for="opmobjbten21">Private Client</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oa5legxki24"><span class="s_website_form_label_content">First Name</span><span class="s_website_form_mark"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="First Name" required="1" placeholder="" id="oa5legxki24" data-fill-with="name"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oyuyiohoxen"><span class="s_website_form_label_content">Last Name</span><span class="s_website_form_mark"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="Last Name" placeholder="" id="oyuyiohoxen" data-fill-with="undefined" required=""/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required" data-type="email">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ot0psduoytem"><span class="s_website_form_label_content">Email</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="email" name="email_from" required="" placeholder="" id="ot0psduoytem" data-fill-with="email"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="tel">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oml59mmt6yt"><span class="s_website_form_label_content">Phone</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="tel" name="Phone" required="1" placeholder="" id="oml59mmt6yt" data-fill-with="undefined"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="char" data-required-if-visible="1">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ohlysnrdpp7s"><span class="s_website_form_label_content">Country</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="Country" id="ohlysnrdpp7s"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="text">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="o1sbg012xio8"><span class="s_website_form_label_content">Message</span></label>
+                      <div class="col-sm">
+                        <textarea class="form-control s_website_form_input" name="Message" placeholder="" id="o1sbg012xio8" rows="5"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-visibility-dependency="First Name" data-visibility-comparator="equal" data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required s_website_form_field_hidden_if d-none" data-type="many2one" data-required-if-visible="1">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="onba4wbwmzl"><span class="s_website_form_label_content">Profession</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                      <div class="col-sm">
+                        <select class="form-select s_website_form_input" style="" name="Profession" required="1" id="onba4wbwmzl">
+                          <option value="Agent" selected="selected">Agent</option>
+                          <option value="Architect">Architect</option>
+                          <option value="Distributor">Distributor</option>
+                          <option value="Freelancer">Freelancer</option>
+                          <option value="Furniture Store">Furniture Store</option>
+                          <option value="Hotel">Hotel</option>
+                          <option value="Interior Desginer">Interior Desginer</option>
+                          <option value="Press">Press</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Client Type" data-visibility-condition="Professional" data-visibility-comparator="selected" data-required-if-visible="1">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="odk5wra1ousd"><span class="s_website_form_label_content o_default_snippet_text">Company</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="Company" placeholder="" id="odk5wra1ousd" data-fill-with="commercial_company_name"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required s_website_form_field_hidden" data-type="char">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oogxyy4kqwu"><span class="s_website_form_label_content">Subject</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="subject" required="" placeholder="" id="oogxyy4kqwu" data-fill-with="undefined" t-att-value="(product_popup_name and 'Info Request - %s' % product_popup_name) or 'Info Request'"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Client Type" data-visibility-condition="Professional" data-visibility-comparator="selected">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="otuqhvkt79h"><span class="s_website_form_label_content">Website</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="Website" placeholder="" id="otuqhvkt79h" data-fill-with="undefined"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px"><span class="s_website_form_label_content"/></label>
+                      <div class="col-sm">
+                        <input type="hidden" class="form-control s_website_form_input" name="email_to" value="info@casamagna.eu"/>
+                        <input type="hidden" class="form-control s_website_form_input" name="Product Name" t-att-value="product_popup_name or ''"/>
+                        <input type="hidden" class="form-control s_website_form_input" name="Product Page" t-att-value="base_url + product.website_url"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-0 py-2 col-12 s_website_form_submit" data-name="Submit Button">
+                    <div style="width: 200px;" class="s_website_form_label"/>
+                    <a href="#" role="button" class="btn btn-primary s_website_form_send o_default_snippet_text" data-bs-original-title="" title="">REQUEST</a>
+                    <span data-role="form-result"/>
+                  </div>
+                </div>
+          </form>
+          <div class="d-none popup-thanks-container" data-role="thanks-container"/>
+          <div class="d-none" data-role="thanks-template">
+            <section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block">
+              <div class="container s_allow_columns">
+                <div class="row justify-content-center text-center">
+                  <div class="col-lg-7 col-xl-6 mx-auto">
+                    <img src="/web/image/30057" alt="Casa Magna logo" class="d-block mx-auto" style="width: 300px; object-fit: cover;"/><br/>
+                    <h1 class="text-center">Thank You!</h1>
+                    <div class="pb16 pt16 s_hr" data-snippet="s_hr" data-name="Separator">
+                      <hr class="mx-auto border-top w-50 border-dark text-center"/>
+                    </div>
+                    <h5 class="text-center">
+                      <span class="fa fa-check-circle"/>
+                      <span>Your message has been sent <b>successfully</b></span>
+                    </h5>
+                    <p class="text-center">We will get back to you shortly.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <input t-if="website.plausible_shared_key" type="hidden" class="js_plausible_push" data-event-name="Lead Generation" data-event-params="{'CTA': 'Contact Us'}"/>
+          </div>
+            </div>
+          </section>
+          <section class="s_text_block pb40 o_colored_level pt0" data-snippet="s_text_block" data-name="Texto" style="background-image: none;" data-role="privacy-notice">
+            <div class="s_allow_columns container">
+              <p>
+                I confirm that I authorize the use of the data sent, according to the <a data-bs-original-title="" title="" href="/privacy-policy">Privacy Policy</a>
+
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts Bootstrap
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"/> -->
+
+<script>
+(function () {
+  const escapeHtml = value =&gt; {
+    if (typeof value !== "string") {
+      return "";
+    }
+    const helper = document.createElement("div");
+    helper.textContent = value;
+    return helper.innerHTML;
+  };
+
+  function enhanceEmailBody(modalEl) {
+    if (!modalEl) {
+      return;
+    }
+    const forms = modalEl.querySelectorAll('form[data-role="product-popup-form"]');
+    forms.forEach(form =&gt; {
+      const bodyField = form.querySelector('[name="body_html"]');
+      if (!bodyField) {
+        return;
+      }
+      const messageField = form.querySelector('textarea[name="Message"]');
+      const productField = form.querySelector('input[name="Product Name"]');
+
+      const buildBody = () =&gt; {
+        const productNameRaw = (form.dataset.productName || (productField &amp;&amp; productField.value) || '').trim();
+        const productUrlRaw = (form.dataset.productUrl || '').trim();
+        const messageRaw = messageField &amp;&amp; messageField.value ? messageField.value.trim() : '';
+        const bodyParts = [];
+        if (productNameRaw) {
+          const safeProductName = escapeHtml(productNameRaw);
+          const safeProductUrl = escapeHtml(productUrlRaw);
+          bodyParts.push(`<p><strong>Product:</strong> ${safeProductName}</p>`);
+          if (productUrlRaw) {
+            bodyParts.push(`<p><a href="${safeProductUrl}">${safeProductUrl}</a></p>`);
+          }
+        }
+        if (messageRaw) {
+          const safeMessage = escapeHtml(messageRaw).replace(/\r?\n/g, '<br/>');
+          bodyParts.push(`<p>${safeMessage}</p>`);
+        }
+        bodyField.value = bodyParts.join('') || '';
+      };
+
+      form.addEventListener('submit', buildBody);
+      if (messageField) {
+        messageField.addEventListener('input', buildBody);
+        messageField.addEventListener('change', buildBody);
+      }
+      buildBody();
+    });
+  }
+
+  function setupProductPopup(options) {
+    const modalEl = document.getElementById(options.modalId);
+    if (!modalEl) {
+      return;
+    }
+
+    enhanceEmailBody(modalEl);
+
+    const conditionalRequiredContainers = Array.from(modalEl.querySelectorAll('[data-required-if-visible]'));
+
+    const isElementVisible = element =&gt; {
+      if (!element) {
+        return false;
+      }
+      if (element.closest('.d-none')) {
+        return false;
+      }
+      let current = element;
+      while (current &amp;&amp; current !== document.body) {
+        if (current.classList &amp;&amp; current.classList.contains('d-none')) {
+          return false;
+        }
+        const style = window.getComputedStyle(current);
+        if (style.display === 'none' || style.visibility === 'hidden') {
+          return false;
+        }
+        current = current.parentElement;
+      }
+      return true;
+    };
+
+    const updateConditionalRequired = () =&gt; {
+      conditionalRequiredContainers.forEach(container =&gt; {
+        const field = container.matches('input, select, textarea')
+          ? container
+          : container.querySelector('input, select, textarea');
+        if (!field) {
+          return;
+        }
+        const marker = container.querySelector('[data-role="required-marker"]');
+        if (isElementVisible(container)) {
+          field.setAttribute('required', 'required');
+          field.setAttribute('aria-required', 'true');
+          container.classList.add('s_website_form_required');
+          if (marker) {
+            marker.classList.remove('d-none');
+          }
+        } else {
+          field.removeAttribute('required');
+          field.removeAttribute('aria-required');
+          container.classList.remove('s_website_form_required');
+          if (marker) {
+            marker.classList.add('d-none');
+          }
+        }
+      });
+    };
+
+    if (conditionalRequiredContainers.length) {
+      window.setTimeout(updateConditionalRequired, 0);
+      const visibilityControls = modalEl.querySelectorAll('input, select');
+      visibilityControls.forEach(control =&gt; {
+        control.addEventListener('change', () =&gt; window.setTimeout(updateConditionalRequired, 0));
+      });
+      modalEl.addEventListener('o_website_form_update_visibility', () =&gt; window.setTimeout(updateConditionalRequired, 0));
+      const mutationObserver = new MutationObserver(() =&gt; window.setTimeout(updateConditionalRequired, 0));
+      conditionalRequiredContainers.forEach(container =&gt; {
+        mutationObserver.observe(container, { attributes: true, attributeFilter: ['class', 'style'] });
+      });
+    }
+
+    const form = modalEl.querySelector("form.o_mark_required");
+    const successTarget = modalEl.querySelector(options.successSelector || "[data-role=\"form-result\"]");
+    const thanksContainer = modalEl.querySelector("[data-role=\"thanks-container\"]");
+    const thanksTemplate = modalEl.querySelector("[data-role=\"thanks-template\"]");
+    const privacyNotices = Array.from(modalEl.querySelectorAll("[data-role=\"privacy-notice\"]"));
+    const originalResultClass = successTarget ? successTarget.getAttribute("class") || "" : "";
+    const initDelay = typeof options.initDelay === "number" ? options.initDelay : 300;
+    let hasShownThanks = false;
+    let successAlertObserver = null;
+
+    const hasActiveErrors = () =&gt; {
+      if (!modalEl) {
+        return false;
+      }
+      const errorSelectors = options.errorSelectors || [
+        ".o_has_error",
+        ".o_invalid_field",
+        ".is-invalid",
+        ".invalid-feedback:not(.d-none)",
+        ".alert.alert-danger:not(.d-none)",
+        "[data-role=\"form-result\"].alert-danger",
+        "[data-role=\"form-result\"] .alert-danger"
+      ];
+      const hasSelectorErrors = errorSelectors.some(selector =&gt; modalEl.querySelector(selector));
+      if (hasSelectorErrors) {
+        return true;
+      }
+      if (form &amp;&amp; (form.classList.contains("o_has_error") || form.classList.contains("s_website_form_has_error"))) {
+        return true;
+      }
+      return false;
+    };
+
+    const showThanks = () =&gt; {
+      if (!form || !thanksContainer || !thanksTemplate || hasShownThanks) {
+        return;
+      }
+      hasShownThanks = true;
+      form.classList.add("d-none");
+      thanksContainer.innerHTML = thanksTemplate.innerHTML;
+      thanksContainer.classList.remove("d-none");
+      if (successAlertObserver) {
+        successAlertObserver.disconnect();
+        successAlertObserver = null;
+      }
+      privacyNotices.forEach(node =&gt; node.classList.add("d-none"));
+    };
+
+    const handleSuccess = () =&gt; {
+      if (hasShownThanks) {
+        return;
+      }
+      if (successTarget) {
+        successTarget.innerHTML = "";
+        successTarget.setAttribute("class", originalResultClass);
+      }
+      modalEl.querySelectorAll(".alert.alert-success").forEach(node =&gt; node.remove());
+      showThanks();
+    };
+
+    const observeSuccessAlerts = () =&gt; {
+      if (successAlertObserver) {
+        successAlertObserver.disconnect();
+      }
+      successAlertObserver = new MutationObserver(mutations =&gt; {
+        if (hasShownThanks) {
+          return;
+        }
+        const hasSuccess = mutations.some(mutation =&gt;
+          Array.from(mutation.addedNodes || []).some(node =&gt; {
+            if (node.nodeType !== Node.ELEMENT_NODE) {
+              return false;
+            }
+            if (node.classList &amp;&amp; node.classList.contains("alert") &amp;&amp; node.classList.contains("alert-success")) {
+              return true;
+            }
+            return !!(node.querySelector &amp;&amp; node.querySelector(".alert.alert-success"));
+          })
+        );
+        if (hasSuccess) {
+          handleSuccess();
+        }
+      });
+      successAlertObserver.observe(modalEl, { childList: true, subtree: true });
+    };
+
+    const resetPopupState = () =&gt; {
+      if (form) {
+        form.classList.remove("d-none");
+        form.reset();
+      }
+      hasShownThanks = false;
+      if (conditionalRequiredContainers.length) {
+        window.setTimeout(updateConditionalRequired, 0);
+      }
+      if (thanksContainer) {
+        thanksContainer.innerHTML = "";
+        thanksContainer.classList.add("d-none");
+      }
+      if (successTarget) {
+        successTarget.innerHTML = "";
+        successTarget.setAttribute("class", originalResultClass);
+      }
+      modalEl.querySelectorAll(".alert.alert-success").forEach(node =&gt; node.remove());
+      privacyNotices.forEach(node =&gt; node.classList.remove("d-none"));
+      observeSuccessAlerts();
+    };
+
+    if (form) {
+      if (window.jQuery) {
+        const $form = window.jQuery(form);
+        $form.on("o_website_form_success", handleSuccess);
+        $form.on("o_website_form_submit", () =&gt; {
+          if (thanksContainer) {
+            thanksContainer.innerHTML = "";
+            thanksContainer.classList.add("d-none");
+          }
+          privacyNotices.forEach(node =&gt; node.classList.remove("d-none"));
+          form.classList.remove("d-none");
+        });
+      }
+
+      form.addEventListener("o_website_form_success", handleSuccess, true);
+      form.addEventListener("o_website_form_submit", () =&gt; {
+        if (thanksContainer) {
+          thanksContainer.innerHTML = "";
+          thanksContainer.classList.add("d-none");
+        }
+        privacyNotices.forEach(node =&gt; node.classList.remove("d-none"));
+        form.classList.remove("d-none");
+      });
+
+      const submitButtons = modalEl.querySelectorAll(options.submitButtonSelector || ".s_website_form_send");
+      const submitCheckDelay = typeof options.submitCheckDelay === "number" ? options.submitCheckDelay : 300;
+      submitButtons.forEach(button =&gt; {
+        button.addEventListener("click", () =&gt; {
+          window.setTimeout(() =&gt; {
+            if (!hasActiveErrors()) {
+              handleSuccess();
+            }
+          }, submitCheckDelay);
+        });
+      });
+    }
+
+    if (successTarget) {
+      const resultObserver = new MutationObserver(() =&gt; {
+        if (hasShownThanks) {
+          return;
+        }
+        const hasMessage = successTarget.textContent &amp;&amp; successTarget.textContent.trim().length &gt; 0;
+        const hasSuccessAlert = !!(successTarget.querySelector &amp;&amp; successTarget.querySelector(".alert.alert-success"));
+        if (hasMessage || hasSuccessAlert) {
+          handleSuccess();
+        }
+      });
+      resultObserver.observe(successTarget, { childList: true, subtree: true });
+    }
+
+    modalEl.addEventListener("show.bs.modal", () =&gt; {
+      resetPopupState();
+    });
+
+    modalEl.addEventListener("shown.bs.modal", () =&gt; {
+      window.setTimeout(() =&gt; {
+        try {
+          if (window.odoo?.website?.website_form?.init) {
+            window.odoo.website.website_form.init();
+          }
+        } catch (err) {
+          console.error("Error initializing website_form in modal:", err);
+        }
+      }, initDelay);
+      if (conditionalRequiredContainers.length) {
+        window.setTimeout(updateConditionalRequired, initDelay);
+      }
+    });
+
+    modalEl.addEventListener("hidden.bs.modal", () =&gt; {
+      resetPopupState();
+    });
+
+    if (options.openButtonSelector) {
+      const showModal = () =&gt; {
+        if (typeof bootstrap !== "undefined" &amp;&amp; bootstrap.Modal) {
+          const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+          modalInstance.show();
+          return true;
+        }
+        if (window.jQuery &amp;&amp; typeof window.jQuery(modalEl).modal === "function") {
+          window.jQuery(modalEl).modal("show");
+          return true;
+        }
+        return false;
+      };
+
+      document.querySelectorAll(options.openButtonSelector).forEach(trigger =&gt; {
+        trigger.addEventListener("click", event =&gt; {
+          event.preventDefault();
+          if (!showModal()) {
+            console.warn("Modal dependencies missing for", options.modalId);
+          }
+        });
+      });
+    }
+
+    observeSuccessAlerts();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const popups = [
+      { modalId: "infoRequestModal", openButtonSelector: "#openFormBtn", initDelay: 300 },
+      { modalId: "requestCustomizationModal", initDelay: 300 },
+      { modalId: "modal3DForm", initDelay: 600 }
+    ];
+    popups.forEach(setupProductPopup);
+  });
+})();
+</script>
+
+
+<!-- Materials & Dimensions with Separators -->
+<div class="mt-4 text-muted" style="padding-top:50px;">
+    <t>
+        <hr class="my-4"/>
+        <p class="fw-bold text-uppercase mb-2" style="text-align: left;">
+            <a href="/request-costumization" data-bs-original-title="" title="" data-bs-toggle="modal" data-bs-target="#requestCustomizationModal"><span class="fa fa-edit" style="color: rgb(109, 106, 100);"/></a>
+            <a href="/request-costumization" data-bs-original-title="" title="" data-bs-toggle="modal" data-bs-target="#requestCustomizationModal"><font style="color: rgb(81, 76, 68);">&amp;nbsp;REQUEST CUSTOMIZATION</font></a>
+        </p>
+      </t>
+
+  <div class="modal fade" id="requestCustomizationModal" tabindex="-1" aria-labelledby="requestCustomizationLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content" style="border-radius: 10px; max-height: 90vh; overflow-y: auto;">
+        <div class="modal-header justify-content-center">
+          <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"/>
+        </div>
+        <div class="modal-body px-4 px-md-5">
+          <div class="request-customization-popup-content">
+            <section class="s_title pt40 pb40 o_colored_level" data-vcss="001" data-snippet="s_title" data-name="Título" style="background-image: none;">
+              <div class="container s_allow_columns">
+                <h2 class="display-3-fs" style="text-align: center;">Request Customization</h2>
+              </div>
+            </section>
+            <section class="s_website_form pt16 pb16 o_colored_level" data-vcss="001" data-snippet="s_website_form" data-name="Formulário" style="background-image: none;">
+              <div class="container">
+                <form action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-pre-fill="true" data-model_name="mail.mail" data-success-mode="message" data-role="product-popup-form" t-att-data-product-name="product_popup_name or ''" t-att-data-product-url="base_url + product.website_url">
+                  <div class="s_website_form_rows row s_col_no_bgcolor">
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 col-lg-12 s_website_form_custom" data-type="selection">
+                    <label class="s_website_form_label d-none" style="width: 200px" for="opmobjbten2"><span class="s_website_form_label_content">Type</span></label>                      
+                      <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="Client Type" data-display="horizontal">
+                        <div class="radio col-12 col-lg-4 col-md-6">
+                          <div class="form-check">
+                            <input type="radio" class="s_website_form_input form-check-input" id="opmobjbten20_custom" name="Client Type" value="Professional" data-fill-with="undefined"/>
+                            <label class="form-check-label s_website_form_check_label" for="opmobjbten20_custom">Professional</label>
+                          </div>
+                        </div>
+                        <div class="radio col-12 col-lg-4 col-md-6">
+                          <div class="form-check">
+                            <input type="radio" class="s_website_form_input form-check-input" id="opmobjbten21_custom" name="Client Type" value="Private Client"/>
+                            <label class="form-check-label s_website_form_check_label" for="opmobjbten21_custom">Private Client</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                      <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oa5legxki24_custom"><span class="s_website_form_label_content">First Name</span><span class="s_website_form_mark"> *</span></label>
+                        <div class="col-sm">
+                          <input class="form-control s_website_form_input" type="text" name="First Name" required="1" placeholder="" id="oa5legxki24_custom" data-fill-with="name"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                      <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oyuyiohoxen_custom"><span class="s_website_form_label_content">Last Name</span><span class="s_website_form_mark"> *</span></label>
+                        <div class="col-sm">
+                          <input class="form-control s_website_form_input" type="text" name="Last Name" placeholder="" id="oyuyiohoxen_custom" data-fill-with="undefined" required=""/>
+                        </div>
+                      </div>
+                    </div>
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required" data-type="email">
+                      <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ot0psduoytem_custom"><span class="s_website_form_label_content">Email</span></label>
+                        <div class="col-sm">
+                          <input class="form-control s_website_form_input" type="email" name="email_from" required="" placeholder="" id="ot0psduoytem_custom" data-fill-with="email"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="tel">
+                      <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oml59mmt6yt_custom"><span class="s_website_form_label_content">Phone</span></label>
+                        <div class="col-sm">
+                          <input class="form-control s_website_form_input" type="tel" name="Phone" required="1" placeholder="" id="oml59mmt6yt_custom" data-fill-with="undefined"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="char" data-required-if-visible="1">
+                      <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ohlysnrdpp7s_custom"><span class="s_website_form_label_content">Country</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                        <div class="col-sm">
+                          <input class="form-control s_website_form_input" type="text" name="Country" id="ohlysnrdpp7s_custom"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="text">
+                      <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="o1sbg012xio8_custom"><span class="s_website_form_label_content">Message</span></label>
+                        <div class="col-sm">
+                          <textarea class="form-control s_website_form_input" name="Message" placeholder="" id="o1sbg012xio8_custom" rows="5"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div data-visibility-dependency="Client Type" data-visibility-condition="Professional" data-visibility-comparator="selected" data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="many2one" data-required-if-visible="1">
+                      <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oso1dw3qv3d"><span class="s_website_form_label_content">Profession</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                        <div class="col-sm">
+                          <select class="form-select s_website_form_input" style="" name="Select Industry" id="o7dmknfs4wlk">
+                            <option value="Agent">Agent</option>
+                            <option value="Architect">Architect</option>
+                            <option value="Distributor">Distributor</option>
+                            <option value="Freelancer">Freelancer</option>
+                            <option value="Furniture Store">Furniture Store</option>
+                            <option value="Hotel">Hotel</option>
+                            <option value="Interior Desginer">Interior Desginer</option>
+                            <option value="Press">Press</option>
+                            <option value="Other">Other</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Client Type" data-visibility-condition="Professional" data-visibility-comparator="selected" data-required-if-visible="1">
+                      <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="odk5wra1ousd_custom"><span class="s_website_form_label_content o_default_snippet_text">Company</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                        <div class="col-sm">
+                          <input class="form-control s_website_form_input" type="text" name="Company" placeholder="" id="odk5wra1ousd_custom" data-fill-with="commercial_company_name"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required s_website_form_field_hidden" data-type="char">
+                      <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="o62hgsx16n4a"><span class="s_website_form_label_content">Subject</span></label>
+                        <div class="col-sm">
+                          <input class="form-control s_website_form_input" type="text" name="subject" required="" placeholder="" id="o62hgsx16n4a" data-fill-with="undefined" t-att-value="(product_popup_name and 'Customization Request - %s' % product_popup_name) or 'Customization Request'"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Client Type" data-visibility-condition="Professional" data-visibility-comparator="selected">
+                      <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="otuqhvkt79h_custom"><span class="s_website_form_label_content">Website</span></label>
+                        <div class="col-sm">
+                          <input class="form-control s_website_form_input" type="text" name="Website" placeholder="" id="otuqhvkt79h_custom" data-fill-with="undefined"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone">
+                      <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px"><span class="s_website_form_label_content"/></label>
+                        <div class="col-sm">
+                          <input type="hidden" class="form-control s_website_form_input" name="email_to" value="info@casamagna.eu"/>
+                          <input type="hidden" value="683b8d1048eee3554426d01dc8ce6227596cfd8dc49481f5c3d86f45d05f80fa" class="form-control s_website_form_input s_website_form_custom" name="website_form_signature"/>
+                          <input type="hidden" class="form-control s_website_form_input" name="Product Name" t-att-value="product_popup_name or ''"/>
+                          <input type="hidden" class="form-control s_website_form_input" name="Product Page" t-att-value="base_url + product.website_url"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-0 py-2 col-12 s_website_form_submit" data-name="Submit Button">
+                      <div style="width: 200px;" class="s_website_form_label"/>
+                      <a href="#" role="button" class="btn btn-primary s_website_form_send o_default_snippet_text" data-bs-original-title="" title="">REQUEST</a>
+                      <span data-role="form-result"/>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </section>
+            <div class="d-none popup-thanks-container" data-role="thanks-container"/>
+            <div class="d-none" data-role="thanks-template">
+              <section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block">
+                <div class="container s_allow_columns">
+                  <div class="row justify-content-center text-center">
+                    <div class="col-lg-7 col-xl-6 mx-auto">
+                      <img src="/web/image/30057" alt="Casa Magna logo" class="d-block mx-auto" style="width: 300px; object-fit: cover;"/><br/>
+                      <h1 class="text-center">Thank You!</h1>
+                      <div class="pb16 pt16 s_hr" data-snippet="s_hr" data-name="Separator">
+                        <hr class="mx-auto border-top w-50 border-dark text-center"/>
+                      </div>
+                      <h5 class="text-center">
+                        <span class="fa fa-check-circle"/>
+                        <span>Your message has been sent <b>successfully</b></span>
+                      </h5>
+                      <p class="text-center">We will get back to you shortly.</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <input t-if="website.plausible_shared_key" type="hidden" class="js_plausible_push" data-event-name="Lead Generation" data-event-params="{'CTA': 'Contact Us'}"/>
+            </div>
+            <section class="s_text_block pb40 o_colored_level pt0" data-snippet="s_text_block" data-name="Texto" style="background-image: none;" data-role="privacy-notice">
+              <div class="s_allow_columns container">
+                <p>
+                  <font class="text-o-color-5">I confirm that I authorize the use of the data sent, according to the </font><a href="/privacy-policy"><font class="text-o-color-5">Privacy Policy</font></a>
+
+                </p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      <t t-if="product.x_studio_materials_1">
+        <hr class="my-4"/>
+        <p class="fw-bold text-uppercase mb-2">MATERIALS</p>
+        <div style="white-space: pre-wrap;"><t t-esc="product.x_studio_materials_1"/></div>
+    </t>
+    <t t-if="product.x_studio_dimenses">
+        <hr class="my-4"/>
+        <p class="fw-bold text-uppercase mb-2">DIMENSIONS</p>
+        <p><t t-esc="product.x_studio_dimenses"/> cm</p>
+        <p><t t-esc="product.x_studio_dimenses_inch"/> in</p>
+        <hr class="my-4"/>
+    </t>
+    <t>
+    <p class="fw-bold text-uppercase mb-2" style="text-align: left;">
+        DOWNLOAD 3D FILES
+        <a href="#" data-bs-toggle="modal" data-bs-target="#modal3DForm" title="Request 3D Files">
+            <span class="fa fa-download" style="color: rgb(109, 106, 100);"/>
+        </a>
+    </p>
+    <hr class="my-4"/>
+<!-- Modal 3D Form -->
+<div class="modal fade" id="modal3DForm" tabindex="-1" aria-labelledby="modal3DFormLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+      </div>
+
+      <div class="modal-body">
+        <div class="request-download-popup-content">
+          <section class="s_title pt40 pb40 o_colored_level" data-vcss="001" data-snippet="s_title" data-name="Título" style="background-image: none;">
+            <div class="container s_allow_columns">
+              <h2 class="display-3-fs" style="text-align: center;">Request Download 3D Files</h2>
+            </div>
+          </section>
+          <section class="s_website_form pt16 pb16 o_colored_level" data-vcss="001" data-snippet="s_website_form" data-name="Formulário" style="background-image: none;">
+            <div class="container">
+              <form action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-pre-fill="true" data-model_name="mail.mail" data-success-mode="message" data-role="product-popup-form" t-att-data-product-name="product_popup_name or ''" t-att-data-product-url="base_url + product.website_url">
+                <div class="s_website_form_rows row s_col_no_bgcolor">
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="selection">
+                    <label class="s_website_form_label d-none" style="width: 200px" for="ort4l0nv2ceo"><span class="s_website_form_label_content">Type</span></label>                    
+                    <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="Client Type" data-display="horizontal">
+                      <div class="radio col-12 col-lg-4 col-md-6">
+                        <div class="form-check">
+                          <input type="radio" class="s_website_form_input form-check-input" id="ort4l0nv2ceo0" name="Client Type" value="Professional" data-fill-with="undefined" required=""/>
+                          <label class="form-check-label s_website_form_check_label" for="ort4l0nv2ceo0">Professional</label>
+                        </div>
+                      </div>
+                      <div class="radio col-12 col-lg-4 col-md-6">
+                        <div class="form-check">
+                          <input type="radio" class="s_website_form_input form-check-input" id="ort4l0nv2ceo1" name="Client Type" value="Private Client" required=""/>
+                          <label class="form-check-label s_website_form_check_label" for="ort4l0nv2ceo1">Private Client</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oa5legxki24_download"><span class="s_website_form_label_content">First Name</span><span class="s_website_form_mark"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="First Name" required="1" placeholder="" id="oa5legxki24_download" data-fill-with="name"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oyuyiohoxen_download"><span class="s_website_form_label_content">Last Name</span><span class="s_website_form_mark"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="Last Name" placeholder="" id="oyuyiohoxen_download" data-fill-with="undefined" required=""/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required" data-type="email">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ot0psduoytem_download"><span class="s_website_form_label_content">Email</span><span class="s_website_form_mark"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="email" name="email_from" required="" placeholder="" id="ot0psduoytem_download" data-fill-with="email"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ohlysnrdpp7s_download"><span class="s_website_form_label_content">Country</span><span class="s_website_form_mark"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="Country" id="ohlysnrdpp7s_download" required="1"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="many2one" data-visibility-dependency="Client Type" data-visibility-condition="Professional" data-visibility-comparator="selected" data-required-if-visible="1">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="o7dmknfs4wlk_download"><span class="s_website_form_label_content">Select Industry</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                      <div class="col-sm">
+                        <select class="form-select s_website_form_input" style="" name="Select Industry" id="o7dmknfs4wlk_download">
+                          <option value="Agent">Agent</option>
+                          <option value="Architect">Architect</option>
+                          <option value="Distributor">Distributor</option>
+                          <option value="Freelancer">Freelancer</option>
+                          <option value="Furniture Store">Furniture Store</option>
+                          <option value="Hotel">Hotel</option>
+                          <option value="Interior Desginer">Interior Desginer</option>
+                          <option value="Press">Press</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Client Type" data-visibility-condition="Professional" data-visibility-comparator="selected" data-required-if-visible="1">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="o291di1too2s"><span class="s_website_form_label_content o_default_snippet_text">Company</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="Company" data-fill-with="commercial_company_name" id="o291di1too2s"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required s_website_form_field_hidden" data-type="char">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ok2f1poy5h8"><span class="s_website_form_label_content">Subject</span><span class="s_website_form_mark"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="subject" required="" placeholder="" id="ok2f1poy5h8" data-fill-with="undefined" t-att-value="(product_popup_name and '3D File Request - %s' % product_popup_name) or '3D File Request'"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-visibility-dependency="Client Type" data-visibility-condition="Professional" data-visibility-comparator="selected" data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="otuqhvkt79h_download"><span class="s_website_form_label_content">Website</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="Website" placeholder="" id="otuqhvkt79h_download" data-fill-with="undefined"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px"><span class="s_website_form_label_content"/></label>
+                      <div class="col-sm">
+                        <input type="hidden" class="form-control s_website_form_input" name="email_to" value="info@casamagna.eu"/>
+                        <input type="hidden" class="form-control s_website_form_input" name="Product Name" t-att-value="product_popup_name or ''"/>
+                        <input type="hidden" class="form-control s_website_form_input" name="Product Page" t-att-value="base_url + product.website_url"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-0 py-2 col-12 s_website_form_submit" data-name="Submit Button">
+                    <div style="width: 200px;" class="s_website_form_label"/>
+                    <a href="#" role="button" class="btn btn-primary s_website_form_send o_default_snippet_text" data-bs-original-title="" title="">REQUEST 3D</a>
+                    <span data-role="form-result"/>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </section>
+          <div class="d-none popup-thanks-container" data-role="thanks-container"/>
+          <div class="d-none" data-role="thanks-template">
+            <section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block">
+              <div class="container s_allow_columns">
+                <div class="row justify-content-center text-center">
+                  <div class="col-lg-7 col-xl-6 mx-auto">
+                    <img src="/web/image/30057" alt="Casa Magna logo" class="d-block mx-auto" style="width: 300px; object-fit: cover;"/><br/>
+                    <h1 class="text-center">Thank You!</h1>
+                    <div class="pb16 pt16 s_hr" data-snippet="s_hr" data-name="Separator">
+                      <hr class="mx-auto border-top w-50 border-dark text-center"/>
+                    </div>
+                    <h5 class="text-center">
+                      <span class="fa fa-check-circle"/>
+                      <span>Your message has been sent <b>successfully</b></span>
+                    </h5>
+                    <p class="text-center">We will get back to you shortly.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <section class="s_text_block pb40 o_colored_level pt0" data-snippet="s_text_block" data-name="Texto" style="background-image: none;" data-role="privacy-notice">
+            <div class="container s_allow_columns">
+              <p>
+                <font class="text-o-color-5">I confirm that I authorize the use of the data sent, according to the </font><a href="/privacy-policy"><font class="text-o-color-5">Privacy Policy</font></a><font class="text-o-color-5"/>
+
+              </p>
+            </div>
+          </section>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+</t>
+
+    
+</div>
+                                <h5 class="s_social_media_title d-none">Follow us</h5>
+<a href="/website/social/instagram" class="s_social_media_instagram" target="_blank" aria-label="Instagram">
+                                    <i class="fa o_editable_media fa-stack fa-instagram text-black" style="color:black !important;"/>
+                                </a>
+<a href="/website/social/linkedin" class="s_social_media_linkedin" target="_blank" aria-label="LinkedIn">
+                                    <i class="fa fa-linkedin o_editable_media fa-stack text-white" style="color:black !important;"/>
+                                </a>
+<a href="/website/social/youtube" class="s_social_media_youtube" target="_blank" aria-label="YouTube">
+                                    <i class="fa o_editable_media fa-stack fa-youtube text-white" style="background-color: rgba(255, 0, 0, 0); color: black !important;"/>
+                                </a>
+<a href="/website/social/facebook" class="s_social_media_facebook" target="_blank" aria-label="Facebook">
+                                    <i class="fa fa-facebook o_editable_media fa-stack text-white" style="color:black !important;"/>
+                                </a>
+
+                            <div t-field="product.description_ecommerce" class="oe_structure"/>
+
+                            <form t-if="product._is_add_to_cart_possible()" action="/shop/cart/update" method="POST">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" t-nocache="The csrf token must always be up to date."/>
+                                <div class="js_product js_main_product mb-3">
+    <div class="o_wsale_product_availability my-2">
+        <span class="availability_message d-none"/>
+    </div>
+
+                                    <div>
+                                        <t t-call="website_sale.product_price"/>
+                                        <small t-if="combination_info['base_unit_price']" class="ms-1 text-muted o_base_unit_price_wrapper d-none" groups="website_sale.group_show_uom_price">
+                                            <t t-call="website_sale.base_unit_price"/>
+                                        </small>
+                                    </div>
+                                    <t t-placeholder="select">
+                                        <input type="hidden" class="product_id" name="product_id" t-att-value="product_variant.id"/>
+                                        <input type="hidden" class="product_template_id" name="product_template_id" t-att-value="product.id"/>
+                                        <input t-if="product.public_categ_ids.ids" type="hidden" class="product_category_id" name="product_category_id" t-att-value="product.public_categ_ids.ids[0]"/>
+                                        <t t-call="website_sale.variants">
+                                            <t t-set="ul_class" t-valuef="flex-column"/>
+                                            <t t-set="parent_combination" t-value="None"/>
+                                        </t>
+                                    </t>
+                                    <p t-if="True" class="css_not_available_msg alert alert-warning">This combination does not exist.</p>
+                                    
+                                    <!-- Quantity hook kept hidden (prevents VariantMixin stock JS from crashing when it expects a quantity node) -->
+                                    <div class="css_quantity d-none">
+                                        <input type="hidden" name="add_qty" id="add_qty" class="js_quantity" value="1"/>
+                                    </div>
+<div id="o_wsale_cta_wrapper" class="d-flex flex-wrap align-items-center">
+                                        <t t-set="hasQuantities" t-value="false"/>
+                                        <t t-set="hasBuyNow" t-value="false"/>
+                                        <t t-set="ctaSizeBig" t-value="not hasQuantities or not hasBuyNow"/>
+
+                                        <div t-if="not request.env.user._is_public()" id="add_to_cart_wrap" class="d-inline-flex align-items-center mb-2 me-auto">
+                                            <a data-animation-selector=".o_wsale_product_images" role="button" id="add_to_cart" t-attf-class="btn btn-primary js_check_product a-submit flex-grow-1" href="#">
+                                                <i class="fa fa-shopping-cart me-2"/>
+                                                Add to cart
+                                            </a>
+                                        </div>
+                                        <div id="product_option_block" class="d-flex flex-wrap w-100"/>
+                                    </div>
+                                    <div id="contact_us_wrapper" t-attf-class="{{'d-flex' if combination_info['prevent_zero_price_sale'] else 'd-none'}} oe_structure oe_structure_solo #{_div_classes}">
+                                        <section class="s_text_block" data-snippet="s_text_block" data-name="Text">
+                                            <div class="container">
+                                                <a t-att-href="website.contact_us_button_url" class="btn btn-primary btn_cta">Contact Us</a>
+                                            </div>
+                                        </section>
+                                    </div>
+                                    <t t-if="is_view_active('website_sale.product_tags')" t-call="website_sale.product_tags">
+                                        <t t-set="all_product_tags" t-value="product_variant.all_product_tag_ids"/>
+                                    </t>
+                                </div>
+                            </form>
+                            <p t-elif="not product.active" class="alert alert-warning">This product is no longer available.</p>
+                            <p t-else="" class="alert alert-warning">This product has no valid combination.</p>
+
+                            <div id="product_attributes_simple">
+                                <t t-set="single_value_attributes" t-value="product.valid_product_template_attribute_line_ids._prepare_single_value_for_display()"/>
+                                <table t-attf-class="table table-sm text-muted {{'' if single_value_attributes else 'd-none'}}">
+                                    <t t-foreach="single_value_attributes" t-as="attribute">
+                                        <tr>
+                                            <td>
+                                                <span t-field="attribute.name"/>:
+                                                <t t-foreach="single_value_attributes[attribute]" t-as="ptal">
+                                                    <span t-field="ptal.product_template_value_ids._only_active().name"/>
+                                                    <t t-if="not ptal_last">, </t>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </table>
+                            </div>
+
+                            <t t-set="product_documents" t-value="product.sudo().product_document_ids.filtered(lambda doc: doc.shown_on_product_page)"/>
+                            <div id="product_documents" class="my-2" t-if="product_documents">
+                                <h5>Documents</h5>
+                                <t t-foreach="product_documents" t-as="document_sudo">
+                                    <t t-set="attachment_sudo" t-value="document_sudo.ir_attachment_id"/>
+                                    <t t-set="target" t-value="attachment_sudo.type == 'url' and '_blank' or '_self'"/>
+                                    <t t-set="icon" t-value="attachment_sudo.type == 'url' and 'fa-link' or 'fa-download'"/>
+                                    <div>
+                                        <a t-att-href="'/shop/' + slug(product) + '/document/' + str(document_sudo.id)" t-att-target="target">
+                                            <i t-att-class="'fa ' + icon"/>
+                                            <t t-out="attachment_sudo.name"/>
+                                        </a>
+                                    </div>
+                                </t>
+                            </div>
+
+                            <div id="o_product_terms_and_share" class="d-flex justify-content-between flex-column flex-md-row align-items-md-end mb-3"/>
+
+                        </div>
+                    </div>
+                </section>
+
+                <div itemprop="description" t-field="product.website_description" class="oe_structure oe_empty mt16" id="product_full_description"/>
+                <div class="oe_structure oe_empty oe_structure_not_nearest mt16" id="oe_structure_website_sale_product_2" data-editor-message="DROP BUILDING BLOCKS HERE TO MAKE THEM AVAILABLE ACROSS ALL PRODUCTS"/>
+            </div>
+                </div>
+        </t>
+    </t>
+</t>

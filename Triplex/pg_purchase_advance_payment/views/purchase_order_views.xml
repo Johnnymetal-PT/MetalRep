@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pg_purchase_order_form_advance" model="ir.ui.view">
+        <field name="name">purchase.order.form.pg.advance.payment</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Botões só para quem tem acesso aos pagamentos (Faturação). -->
+            <xpath expr="//header" position="inside">
+                <button name="action_pg_register_advance" type="object" string="Register Advance"
+                        invisible="state not in ('purchase', 'done')"
+                        groups="account.group_account_invoice"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_pg_view_advances" type="object" class="oe_stat_button" icon="fa-money"
+                        invisible="pg_advance_count == 0"
+                        groups="account.group_account_invoice">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="pg_advance_amount" widget="monetary"/>
+                        </span>
+                        <span class="o_stat_text">Paid</span>
+                    </div>
+                </button>
+            </xpath>
+            <!-- Visível a todos os utilizadores de Compras (cálculo em sudo). -->
+            <xpath expr="//group[hasclass('oe_subtotal_footer')]/field[@name='tax_totals']" position="after">
+                <field name="pg_advance_count" invisible="1"/>
+                <field name="pg_advance_amount" invisible="not pg_advance_amount"/>
+                <field name="pg_amount_after_advance" class="oe_subtotal_footer_separator"
+                       invisible="not pg_advance_amount"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

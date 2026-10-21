@@ -1,0 +1,52 @@
+// Diálogo do número de pessoas: alvos de toque para dedo, em tablet.
+// Mesmas medidas do trabalho de acessibilidade do Chão de Fábrica (pg_mrp_shopfloor_ux).
+
+$pg-pc-botao: 88px;
+$pg-pc-chip: 48px;
+
+// Botão do número de pessoas no cartão. Tem de ler-se de relance e ser tocável com o dedo,
+// mas sem competir com o cabeçalho, que é o comando de iniciar e parar.
+.o_mrp_display .pg_people_count_chip {
+    min-height: $pg-pc-chip;
+    padding: 0 1rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.04);
+
+    &:active {
+        background-color: rgba(0, 0, 0, 0.12);
+    }
+}
+
+// Tempo e pessoas na linha de operação: informação secundária, legível mas sem competir
+// com o nome do centro de trabalho.
+.o_mrp_display .pg_wo_line_effort {
+    font-size: 0.95rem;
+    opacity: 0.75;
+    font-variant-numeric: tabular-nums;
+}
+
+.pg_people_count_dialog {
+
+    .pg_people_count_hint {
+        font-size: 1.05rem;
+        margin-bottom: 1rem;
+    }
+
+    .pg_people_count_grid {
+        display: grid;
+        // Quatro por linha em tablet, duas linhas para os oito números. `auto-fit` deixa
+        // reduzir para duas colunas em ecrãs estreitos sem nada ficar cortado.
+        grid-template-columns: repeat(auto-fit, minmax($pg-pc-botao, 1fr));
+        gap: 0.75rem;
+    }
+
+    .pg_people_count_option {
+        min-height: $pg-pc-botao;
+        font-size: 2rem;
+        font-weight: 700;
+        // Dígitos de largura fixa: os botões ficam todos com o número no mesmo lugar.
+        font-variant-numeric: tabular-nums;
+    }
+}

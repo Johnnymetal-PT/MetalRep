@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="mh_stone_reports.StonePricelistReport">
+        <div class="o_action">
+            <Layout display="{ controlPanel: {} }">
+                <t t-set-slot="control-panel-always-buttons">
+                    <button t-on-click="onClickPrint" type="button" class="btn btn-primary" title="Print">Print</button>
+                    <select id="stone_pricelist_format" class="form-select border-1 w-auto">
+                        <option value="pdf">pdf</option>
+                        <option value="csv">csv</option>
+                        <option value="xlsx">xlsx</option>
+                    </select>
+                </t>
+                <t t-set-slot="layout-actions">
+                    <form class="d-flex flex-row gap-1">
+                        <div class="d-flex align-items-center gap-3 w-100">
+                            <div class="input-group w-auto" style="min-width:380px;">
+                                <div class="input-group-text fw-bold">Artigo</div>
+                                <input type="text"
+                                       class="form-control border-0"
+                                       list="stone_pricelist_products"
+                                       placeholder="Todos"
+                                       t-on-change="onSelectProduct"
+                                       t-on-input="onTypeProduct"/>
+                                <datalist id="stone_pricelist_products">
+                                    <t t-foreach="state.products" t-as="p" t-key="p.id">
+                                        <option t-att-value="p.name" t-att-data-id="p.id"/>
+                                    </t>
+                                </datalist>
+                            </div>
+                            <div class="input-group w-auto">
+                                <div class="input-group-text fw-bold">Pricelist</div>
+                                <select class="form-select border-0" t-on-change="onSelectPricelist">
+                                    <option value="">— Padrão —</option>
+                                    <t t-foreach="state.pricelists" t-as="pl" t-key="pl.id">
+                                        <option t-att-value="pl.id"
+                                                t-att-selected="state.selectedPricelistId === pl.id"
+                                                t-out="pl.name"/>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="form-check w-auto">
+                                <input class="form-check-input ms-0 me-2"
+                                       id="stone_show_name"
+                                       type="checkbox"
+                                       t-att-checked="state.displayPricelistTitle"
+                                       t-on-click="onToggleDisplayTitle"/>
+                                <label for="stone_show_name" class="form-check-label">Mostrar o nome</label>
+                            </div>
+                        </div>
+                    </form>
+                </t>
+                <div t-on-click="onClickLink">
+                    <t t-out="state.html"/>
+                </div>
+            </Layout>
+        </div>
+    </t>
+</templates>

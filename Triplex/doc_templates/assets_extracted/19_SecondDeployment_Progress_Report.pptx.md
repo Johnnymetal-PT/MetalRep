@@ -1,0 +1,156 @@
+# Extracted: 19_SecondDeployment_Progress_Report.pptx
+
+Digital Opportunities
+Progress Report — Revisão Pós Go-Live & Roadmap
+ODOO · SECOND DEPLOYMENT
+Cliente: _______________________     Período: ____________     Data: ____________
+Apresentado por: _______________________ (Project Leader, Odoo)
+Parâmetro Global · Global technology. Local insights.
+
+---
+
+01 — Recap da Fase 1
+O que foi entregue e está em produção
+Digital Opportunities | Second Deployment
+02
+Entregue
+•
+Sales / CRM — pipeline e propostas
+•
+Purchase + Inventory — compras e stock
+•
+Accounting — faturação e reconciliação
+•
+Reporting por departamento
+98%
+faturas emitidas
+no Odoo
+100%
+key-users
+autónomos
+−42%
+tempo de ciclo
+administrativo
+1
+fonte única
+de dados
+Objetivos da Fase 1 atingidos ou superados face às estimativas da Análise ROI. Sistema estável e adotado pela operação.
+
+---
+
+02 — Benefícios Realizados
+Estimado na ROI vs. realizado pós go-live
+Digital Opportunities | Second Deployment
+03
+Melhoria de eficiência por área (%)
+Tempo admin.
+35%
+42%
+Erros faturação
+50%
+65%
+Visibilidade stock
+60%
+80%
+Tempo reporting
+70%
+75%
+Estimado (ROI)
+Realizado
+Leitura executiva
+•
+Ganhos reais acima do estimado em 3 de 4 áreas
+•
+Maior impacto na visibilidade de stock
+•
+Faturação quase sem erros
+•
+Base sólida para alargar o âmbito
+Conclusão: a Fase 2 deve preservar o standard já estabilizado e ampliar valor em áreas com elevado retorno operacional.
+
+---
+
+03 — Oportunidades Digitais
+Áreas onde Odoo pode gerar mais valor — candidatas a Fase 2
+Digital Opportunities | Second Deployment
+04
+1
+Manufacturing / MRP
+Planeamento de produção e consumo de materiais integrado com stock
+2
+E-commerce & Portal
+Loja online e portal de cliente ligados ao inventário em tempo real
+3
+Automação (Studio)
+Aprovações, alertas e fluxos personalizados sem código
+4
+BI & Dashboards
+Indicadores de gestão em tempo real para decisão
+Critério de seleção
+Valor incremental, esforço de implementação, dependências de dados e clareza do owner de negócio.
+
+---
+
+04 — Priorização
+Impacto vs. esforço — onde começar
+Digital Opportunities | Second Deployment
+05
+Alto impacto
+Baixo impacto
+Baixo esforço
+Alto esforço
+Quick wins — fazer já
+•
+BI & Dashboards
+•
+Automação de aprovações (Studio)
+Estratégico — planear
+•
+Manufacturing / MRP
+•
+E-commerce & Portal de cliente
+Reavaliar
+•
+Integrações de nicho com sistemas legados
+•
+Itens do parking lot da Fase 1
+Evitar por agora
+•
+Customizações que rompem o standard
+•
+Pedidos sem dono de negócio claro
+
+---
+
+05 — Roadmap Proposto
+Sequência sugerida para a Fase 2
+Digital Opportunities | Second Deployment
+06
+T1
+Quick wins
+Dashboards + automação de aprovações
+T2
+E-commerce
+Loja online ligada ao stock
+T3
+Manufacturing
+Planeamento de produção (MRP)
+T4
+Otimização
+Refinamento, integrações e novos KPIs
+Roadmap indicativo — sequência e datas ajustáveis conforme prioridades de negócio. Cada bloco arranca com uma mini Análise ROI.
+
+---
+
+Próximos passos
+A Fase 1 entregou resultados acima do esperado. A Fase 2 transforma esses ganhos em vantagem competitiva.
+•
+Validar prioridades de negócio com os sponsors
+•
+Selecionar quick wins para arranque imediato
+•
+Preparar proposta detalhada de Fase 2
+•
+Definir equipa e calendário do próximo deployment
+Contacto: _______________________  ·  Email: _______________________
+Parâmetro Global · Global technology. Local insights.

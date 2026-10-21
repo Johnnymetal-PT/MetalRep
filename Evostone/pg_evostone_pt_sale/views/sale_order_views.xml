@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Esconde a interface do fluxo de Moçambique nas empresas portuguesas.
+        Tudo condicionado a `mh_stone_flow`, que é falso quando o país da
+        empresa é Portugal. Em Moçambique nada muda.
+    -->
+    <record id="view_order_form_pt_flow" model="ir.ui.view">
+        <field name="name">sale.order.form.pt.flow</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="mh_sale.view_order_form_approval_inherit"/>
+        <field name="arch" type="xml">
+
+            <!-- Campo de controlo, disponivel no formulario para as condicoes abaixo -->
+            <xpath expr="//header" position="before">
+                <field name="mh_stone_flow" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='is_proforma'][@widget='boolean_toggle']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow</attribute>
+            </xpath>
+
+            <!-- Botões do cabeçalho: aprovação da cotação e recibos proforma -->
+            <xpath expr="//button[@name='action_approve_quotation']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow or state not in ['draft', 'sent'] or approval_state != 'pending' or is_fully_covered or amount_total == 0 or is_expired</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_reject_quotation']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow or state not in ['draft', 'sent'] or approval_state != 'pending' or is_fully_covered or amount_total == 0 or is_expired</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_reset_approval']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow or state not in ['draft', 'sent'] or approval_state == 'pending' or is_fully_covered or is_expired</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_deallocate_payments']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow or invoice_status == 'invoiced' or allocation_count == 0 or is_expired</attribute>
+            </xpath>
+            <!-- "Fazer Recibo" no orçamento: não existe no fluxo português -->
+            <xpath expr="//button[@name='action_create_proforma_payment']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow or is_fully_covered or state == 'cancel' or invoice_status == 'invoiced' or approval_state in ['rejected'] or amount_total &lt;= 0</attribute>
+            </xpath>
+
+            <!-- Smart buttons de pagamentos proforma -->
+            <xpath expr="//button[@name='action_view_payment_allocations']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow or allocation_count == 0</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_view_suggested_payments']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow or suggested_payment_count == 0 or is_fully_covered or invoice_status == 'invoiced' or is_expired or approval_state in ['rejected']</attribute>
+            </xpath>
+
+            <!-- Selecção manual de lote nas linhas: em PT o lote é da entrega -->
+            <xpath expr="//button[@name='action_open_stock_wizard']" position="attributes">
+                <attribute name="invisible">not parent.mh_stone_flow</attribute>
+            </xpath>
+
+            <!-- Alertas de recibos proforma e de cotação rejeitada -->
+            <xpath expr="//div[@name='mh_alert_proforma_available']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow or not suggested_payment_count or is_fully_covered or invoice_status == 'invoiced' or approval_state in ['rejected'] or state in ['cancel'] or is_expired or amount_total &lt;= 0</attribute>
+            </xpath>
+            <xpath expr="//div[@name='mh_alert_fully_covered']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow or not is_fully_covered or amount_total == 0 or state in ['cancel'] or is_expired</attribute>
+            </xpath>
+            <xpath expr="//div[@name='mh_alert_quotation_rejected']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow or approval_state != 'rejected' or is_expired</attribute>
+            </xpath>
+
+            <!-- Grupo "Informações de Aprovação" (aprovação + cobertura proforma) -->
+            <xpath expr="//group[@name='approval_info']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow</attribute>
+            </xpath>
+            <xpath expr="//group[@name='payment_info']" position="attributes">
+                <attribute name="invisible">not mh_stone_flow</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

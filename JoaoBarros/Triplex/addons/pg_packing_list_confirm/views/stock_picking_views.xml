@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_picking_tree_packing_list_confirm" model="ir.ui.view">
+        <field name="name">stock.picking.tree.packing.list.confirm</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <!-- Decorations on the list -->
+            <xpath expr="//tree" position="attributes">
+                <attribute name="decoration-success">
+                    packing_list_confirmada and picking_type_code == 'outgoing'
+                </attribute>
+                <attribute name="decoration-danger">
+                    picking_type_code == 'outgoing' and not packing_list_confirmada
+                </attribute>
+            </xpath>
+
+            <!-- Add fields to the tree -->
+            <xpath expr="//tree/field[@name='name']" position="after">
+                <!-- make sure the fields used in decorations are present -->
+                <field name="picking_type_code" invisible="1"/>
+                <field name="packing_list_confirmada"
+                       string="Packing List Confirmada"
+                       widget="boolean_toggle"
+                       invisible="picking_type_code != 'outgoing'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_form_packing_list_confirm" model="ir.ui.view">
+        <field name="name">stock.picking.form.packing.list.confirm</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group/group/field[@name='partner_id']" position="after">
+                <field name="picking_type_code" invisible="1"/>
+                <field name="packing_list_confirmada"
+                       string="Packing List Confirmada"
+                       widget="boolean_toggle"
+                       invisible="picking_type_code != 'outgoing'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

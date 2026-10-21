@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- ==================== Snippet Paddings Option ==================== -->
+    <t t-name="as_snippet_padding.AsPaddingOption">
+        <BuilderRow label.translate="Padding" expand="false" extraLabelClass="'as-builder-icon'">
+            <BuilderCheckbox classAction="'as-theme-custom-padding'" id="'as_padding_enable_opt'"/>
+            <t t-set-slot="collapse" t-if="this.isActiveItem('as_padding_enable_opt')">
+                <BuilderRow label.translate="" level="0">
+                    <div class="d-flex justify-content-end align-items-center w-100 pe-2" style="gap: 11px;">
+                        <small class="d-block w-25 fw-bold">Top</small>
+                        <small class="d-block w-25 fw-bold">Bottom</small>
+                    </div>
+                </BuilderRow>
+                <BuilderRow label.translate="Desktop Padding" level="0">
+                    <BuilderNumberInput styleAction="'--as-padding-top-lg'" unit="'px'" placeholder="Top" title.translate="Top Padding"/>
+                    <BuilderNumberInput styleAction="'--as-padding-bottom-lg'" unit="'px'" placeholder="Bottom" title.translate="Bottom Padding"/>
+                </BuilderRow>
+                <BuilderRow label.translate="Tablet Padding" level="0">
+                    <BuilderNumberInput styleAction="'--as-padding-top-md'" unit="'px'" placeholder="Top" title.translate="Top Padding"/>
+                    <BuilderNumberInput styleAction="'--as-padding-bottom-md'" unit="'px'" placeholder="Bottom" title.translate="Bottom Padding"/>
+                </BuilderRow>
+                <BuilderRow label.translate="Mobile Padding" level="0">
+                    <BuilderNumberInput styleAction="'--as-padding-top'" unit="'px'" placeholder="Top" title.translate="Top Padding"/>
+                    <BuilderNumberInput styleAction="'--as-padding-bottom'" unit="'px'" placeholder="Bottom" title.translate="Bottom Padding"/>
+                </BuilderRow>
+            </t>
+        </BuilderRow>
+    </t>
+</templates>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================== Alan Snippets Block ==================== -->
+    <template id="as_snippets" inherit_id="website.snippets" name="Alan Snippets">
+        <!-- Insert Alan custom snippets before default snippets -->
+        <xpath expr="//t[@id='default_snippets']//snippets" position="before">
+            <snippets id="alan_snippets_block" string="Theme Alan">
+                <!-- Alan Website Builder snippet reference -->
+                <t t-snippet="theme_alan.website_builder" string="Website Builder" t-thumbnail="/theme_alan/static/src/img/icons/website_builder_1.svg"/>
+                <t t-snippet="theme_alan.as_snippet_builder" string="Snippet Builder" t-thumbnail="/theme_alan/static/src/img/icons/snippet_builder_1.svg"/>
+                <!-- Alan Home Page Demo wizard snippet -->
+                <t t-snippet="theme_alan.as_home_page_demo" string="Home Page Demo Builder" t-thumbnail="/theme_alan/static/src/img/icons/demo_builder_1.svg"/>
+            </snippets>
+        </xpath>
+    </template>
+
+    <!-- ==================== Alan Snippet Builder Preview ==================== -->
+    <template id="as_snippet_builder_preview" name="Preview: Body">
+        <t t-call="web.frontend_layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+            <t t-set="no_livechat" t-value="True"/>
+            <script type="text/javascript" src="/atharva_theme_base/static/bundles/swiper/swiper-bundle.min.js"></script>
+            <div id="as_sb_wrap">
+                <div class="as-snippet-preview">
+                    <div class="container" contenteditable="true">
+                        <div class="as-snippet-drop-container">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

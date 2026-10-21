@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================== Product Page Customization ==================== -->
+    <template id="as_product_customization" name="Product Page" inherit_id="website_sale.product" priority="9999">
+        <xpath expr="//div[hasclass('o_wsale_content_contained')]" position="replace">
+            <div class="as-product-next-prev-history">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item o_not_editable">
+                                    <a t-att-href="keep(category=0)">All Products</a>
+                                </li>
+                                <li t-if="category" class="breadcrumb-item">
+                                    <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)" t-field="category.name" />
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    <span t-field="product.name" />
+                                </li>
+                            </ol>
+                        </div>
+                        <div class="col as-pre-nxt-col" t-if="website.active_product_pager">
+                            <t t-if="previous_product or next_product">
+                                <div class="as-pre-nxt-prod">
+                                    <div t-if="previous_product" class="as-pre-prod-info as-pager-prod-info d-none">
+                                        <div class="as-np-card">
+                                            <div class="as-np-card-media">
+                                                <img t-att-src="request.website.image_url(previous_product, 'image_128')"/>
+                                            </div>
+                                            <div class="as-np-card-info">
+                                                <div class="as-pre-title">
+                                                    <span t-esc="previous_product.display_name"/>
+                                                </div>
+                                                <div class="as_pre_price as-pre-price">
+                                                    <t t-set="as_combination" t-value="previous_product._get_combination_info()"/>
+                                                    <span class="oe_price" style="white-space: nowrap;" t-esc="as_combination['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                    <span t-attf-class="text-danger oe_default_price ms-1 {{'' if as_combination['has_discounted_price'] else 'd-none'}}" style="text-decoration: line-through !important; white-space: nowrap;"
+                                                    t-esc="as_combination['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a id="as-pre-prod" data-type="pre" t-attf-href="/shop/#{slug(previous_product) if previous_product else None}" t-attf-class="as-pager-prod #{'inactive' if not previous_product else 'active'}">
+                                        <i class="fa fa-caret-left"></i>
+                                    </a>
+                                    <a href="/shop" class="as-shop-prod">
+                                        <i class="fa fa-home"></i>
+                                    </a>
+                                    <a id="as-next-prod" data-type="next" t-attf-href="/shop/#{slug(next_product) if next_product else None}" t-attf-class="as-pager-prod #{'inactive' if not next_product else 'active'}">
+                                        <i class="fa fa-caret-right"></i>
+                                    </a>
+                                    <div t-if="next_product" class="as-next-prod-info as-pager-prod-info d-none">
+                                        <div class="as-np-card">
+                                            <div class="as-np-card-media">
+                                                <img t-att-src="request.website.image_url(next_product, 'image_128')"/>
+                                            </div>
+                                            <div class="as-np-card-info">
+                                                <div class="as-pre-title">
+                                                    <span t-esc="next_product.display_name"/>
+                                                </div>
+                                                <div class="as_next_price as-pre-price">
+                                                    <t t-set="as_combination" t-value="next_product._get_combination_info()"/>
+                                                    <span class="oe_price" style="white-space: nowrap;" t-esc="as_combination['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                    <span t-attf-class="text-danger oe_default_price ms-1 {{'' if as_combination['has_discounted_price'] else 'd-none'}}" style="text-decoration: line-through !important; white-space: nowrap;"
+                                                    t-esc="as_combination['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+
+        <!-- Sticky Cart Section -->
+        <xpath expr="//div[@id='wrap']" position="after">
+            <t t-if="website.active_product_sticky" t-call="theme_alan.as_product_stick_cart"/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']" position="attributes">
+            <attribute name="class" add="as-sticky-cart-active" separator=" "/>
+        </xpath>
+
+
+        <!-- Sales Info Section (Offer Timer, Live Visitor ,Current Viewers) -->
+        <xpath expr="//div[hasclass('o_wsale_product_details_content_section_price')]" position="after">
+            <t t-if="website.active_product_bulk_save or website.active_product_offer_timer or website.active_product_visitor">
+                <div t-if="website.active_product_bulk_save" class="o_wsale_product_details_content_section as-wsale-product-details-extra-section d-none">
+                    <div class="as_product_bulk_save_offer d-none"/>
+                </div>
+                <div t-if="website.active_product_offer_timer or website.active_product_visitor" class="o_wsale_product_details_content_section as-wsale-product-details-ov-section">
+                    <t t-if="website.active_product_offer_timer" t-call="theme_alan.as_offer_timer">
+                        <t t-set="product" t-value="product_variant"/>
+                    </t>
+                    <div t-if="website.active_product_visitor" class="as_product_current_viewers d-none"/>
+                </div>
+            </t>
+        </xpath>
+
+
+        <!-- Replace CTA Section / Remove Terms and Conditions -->
+        <xpath expr="//div[hasclass('o_wsale_product_details_content_section_cta')]" position="replace">
+            <div class="o_wsale_product_details_content_section o_wsale_product_details_content_section_cta o_wsale_sticky_object mb-4">
+                <t t-call="website_sale.cta_wrapper"/>
+            </div>
+        </xpath>
+
+        <!-- Additional Product Info Section (Brand, T&C, Category, SKU) -->
+        <xpath expr="//div[hasclass('o_wsale_product_details_content_section_cta')]" position="after">
+            <div class="o_wsale_product_details_content_section as_product_details_content_section_sci_info mb-4">
+            
+                <!-- Product Brand -->
+                <t t-if="website.active_product_brand" t-call="theme_alan.as_product_brand_info"/>
+
+                <!-- Product Advance Info -->
+                <t t-if="website.active_product_advance_info" t-call="theme_alan.as_product_adavnce_info"/>
+
+                <!-- Product Category -->
+                <t t-set="show_categories" t-value="product.public_categ_ids.filtered(lambda x: x.website_id == request.website or not x.website_id)"/>
+                <div t-if="website.active_product_category and show_categories" class="as-pd-extra-info as_product_cat">
+                    <label>Category: </label>
+                    <span  t-esc="', '.join(show_categories.mapped('name'))"/>
+                </div>
+
+                <!-- Product SKU -->
+                <div t-if="website.active_product_reference" class="as-pd-extra-info as_product_sku d-none"/>
+
+                <!-- Product Barcode -->
+                <t t-if="website.active_shop_product_barcode">
+                    <div class="as-pd-extra-info as_product_barcode d-none"></div>
+                </t>
+            </div>
+            <!-- Terms and Conditions -->
+            <div class="o_wsale_product_details_content_section as_terms_and_conditions" t-if="is_view_active('website_sale.product_terms_and_conditions')">
+                <div class="as-terms">
+                    <div class="as-terms-block">
+
+                        <h6>Pay with</h6>
+                        <div
+                            class="s_supported_payment_methods o_not_editable"
+                            data-snippet="s_supported_payment_methods"
+                            data-name="Supported Payment Methods"
+                            data-limit="8"
+                            data-height="32px"
+                            data-oe-protected="true"
+                        />
+                    </div>
+                    <div class="as-term-col as-terms-condition">
+                        <a href="/terms">
+                            <span class="icon">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </span>
+                            <span class="">Terms and Conditions</span>
+                        </a>
+                    </div>
+                    <div class="as-term-col as-free-shipping">
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M14 18V6C14 5.46957 13.7893 4.96086 13.4142 4.58579C13.0391 4.21071 12.5304 4 12 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V17C2 17.2652 2.10536 17.5196 2.29289 17.7071C2.48043 17.8946 2.73478 18 3 18H5" stroke="#0078FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M15 18H9" stroke="#0078FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M19 18H21C21.2652 18 21.5196 17.8946 21.7071 17.7071C21.8946 17.5196 22 17.2652 22 17V13.35C21.9996 13.1231 21.922 12.903 21.78 12.726L18.3 8.376C18.2065 8.25888 18.0878 8.16428 17.9528 8.0992C17.8178 8.03412 17.6699 8.00021 17.52 8H14" stroke="#0078FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17 20C18.1046 20 19 19.1046 19 18C19 16.8954 18.1046 16 17 16C15.8954 16 15 16.8954 15 18C15 19.1046 15.8954 20 17 20Z" stroke="#0078FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M7 20C8.10457 20 9 19.1046 9 18C9 16.8954 8.10457 16 7 16C5.89543 16 5 16.8954 5 18C5 19.1046 5.89543 20 7 20Z" stroke="#0078FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                        <span>
+                            Free delivery <a href="#">Thrusday 11, December</a> on your first order.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ==================== Product Title (Add Product Label) ==================== -->
+    <template id="as_product_title" inherit_id="website_sale.product_title" priority="99">
+        <xpath expr="//div[1]" position="inside">
+            <div t-if="website.active_last_month_count" class="as_product_sold_out_info d-none"/>
+        </xpath>
+    </template>
+
+    <!-- ==================== CTA Wrapper add product inquiry and share ==================== -->
+    <template id="as_cta_wrapper_extend" inherit_id="website_sale.cta_wrapper">
+
+        <!-- Product Queries and Sharing -->
+        <xpath expr="//div[@id='product_option_block']" position="inside">
+
+            <!-- Ask Queries Button (Only for Logged-in Users) -->
+            <section t-if="website.active_product_inquiry or not (request.env.user._is_public())" class="product_queries">
+                <button type="button" role="button" class="btn as-btn-querie" id="any_queries">
+                    <i class="fa fa-comment-o" aria-hidden="true"/> <span>ASK?</span>
+                    <input id="product" type="hidden" class="form-control s_website_form_input" name="product" t-att-value="product.id"/>
+                    <input id="user" type="hidden" class="form-control s_website_form_input" name="product" t-att-value="request.env.user.partner_id.id"/>
+                </button>
+            </section>
+
+            <!-- Share Button -->
+            <section class="as_product_share">
+                <button type="button" role="button" class="btn as-btn-share" id="product_share">
+                    <i class="fa fa-share" aria-hidden="true"/> <span>Share</span>
+                </button>
+            </section>
+
+            <!-- Query Already Submitted Message -->
+            <span class="query-msg d-none alert alert-danger py-2 lh-sm small order-last">
+                You have already submitted a query for this product today.
+            </span>
+        </xpath>
+
+        <!-- Product Check Delivery-->
+        <xpath expr="//div[@id='product_option_block']" position="after">
+            <t t-if="website.active_delivery_check and not is_quick_view">
+                <div class="zip-check-wrapper">
+                    <label for="zip_code"><strong>Deliver To:</strong></label>
+                    <div class="d-flex gap-2 mt-1">
+                        <input type="text" id="zip_code" name="zip_code" class="form-control as_zip_code_input" placeholder="Enter ZIP / Pincode"/>
+                        <button type="button" class="btn btn-primary" id="check_zip_btn">
+                            Check
+                        </button>
+                    </div>
+                    <small id="zip_result" class="text-muted mt-1 d-block"/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- ==================== Remove Rating And Specification Section ==================== -->
+    <template id="as_product_comment" inherit_id="website_sale.product_comment">
+        <xpath expr="//div[hasclass('o_shop_discussion_rating')]" position="attributes">
+            <attribute name="t-attf-style">{{'display:none !important;'}}</attribute>
+        </xpath>
+    </template>
+    <template id="product_specification_custom" inherit_id="website_sale_comparison.product_attributes_body" name="Product Specification" priority="99">
+        <xpath expr="//section[@id='product_full_spec']" position="replace"/>
+    </template>
+
+    <!-- ==================== Product Accessory/Alternative And Product Tabs ==================== -->
+    <template id="product_attributes_body" inherit_id="website_sale.product" name="Product attributes table">
+        <xpath expr="//section[hasclass('o_wsale_alternative_products')]" position="replace"/>
+        <xpath expr="//div[@id='product_full_description']" position="after">
+            <!-- <t t-call="theme_alan.as_product_content_tabs"/> -->
+            <t t-call="theme_alan.as_accessory_and_alternative_products"/>
+        </xpath>
+    </template>
+
+    <!-- ==================== Product Variant Information ==================== -->
+    <template id="as_product_variants" name="Variant Extenda" inherit_id="website_sale.variants">
+        <xpath expr="//h6[hasclass('attribute_name')]" position="replace">
+            <h6  t-if="website.active_product_variant_info" class="attribute_name mb-2">
+                <span t-field="ptal.attribute_id.name"/>
+                <span t-if="attribute.display_type in ['color', 'image']" class="text-muted">
+                    -
+                    <t
+                        t-set="active_ptavs"
+                        t-value="[ptav for ptav in ptavs if ptav in combination]"
+                    />
+                    <t t-foreach="active_ptavs" t-as="ptav">
+                        <span class="attribute_value" name="attribute_value" t-field="ptav.name"/>
+                    </t>
+                </span>
+                <span t-if="ptal.sudo().attribute_id.attribute_extra_info_id" class="as_product_advance_att_info" t-att-data-info_id="ptal.attribute_id.attribute_extra_info_id.id"><t t-esc="ptal.attribute_id.attribute_extra_info_id.name"/> <i class="fa fa-angle-right"></i> </span>
+            </h6>
+        </xpath>
+    </template>
+
+    <!-- ==================== Product Discount% Information ==================== -->
+    <template id="as_product_price_discount" inherit_id="website_sale.product_price">
+        <xpath expr="//div[hasclass('css_editable_mode_hidden')]" position="inside">
+            <span t-if="combination_info['has_discounted_price'] and website.active_product_discount" t-attf-class="as-product-discounted {{'' if combination_info['has_discounted_price'] else 'd-none'}}">
+                <t t-esc="combination_info['as_offer_discount']"/> %
+            </span>
+        </xpath>
+    </template>
+
+</odoo>

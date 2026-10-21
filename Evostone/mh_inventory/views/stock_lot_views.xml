@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View para Stock Lot -->
+    <record id="view_stock_lot_form_inherit" model="ir.ui.view">
+        <field name="name">stock.lot.form.inherit.sale.price</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='main_group']" position="after">
+                <group string="Informação de Venda" name="sale_info">
+                    <group>
+                        <label for="list_price_lot"/>
+                        <div class="o_row">
+                            <field name="list_price_lot"
+                                   widget="monetary"
+                                   class="oe_inline"
+                                   options="{'currency_field': 'company_currency_id'}"/>
+                        </div>
+                        <label for="margin"/>
+                        <div class="o_row">
+                            <field name="margin"
+                                   class="oe_inline"/>
+                        </div>
+                    </group>
+
+                    <!-- Alert informativo para lotes do grupo -->
+                    <div class="alert alert-info" role="alert">
+                        <strong><i class="fa fa-info-circle me-2"/>Lote GRUPO DE PREÇO:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>Preço de Venda é herdado automaticamente do grupo associado</li>
+                            <li>Margem é herdada automaticamente do grupo associado</li>
+                            <li>Valores são atualizados quando o grupo muda</li>
+                        </ul>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tree View para Stock Lot -->
+    <record id="view_stock_lot_tree_inherit" model="ir.ui.view">
+        <field name="name">stock.lot.tree.inherit.sale.price</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="after">
+                <field name="standard_price" optional="hide" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                <field name="margin" optional="show" string="Margem (%)"/>
+                <field name="list_price_lot" optional="show" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Search View para Stock Lot -->
+    <record id="view_stock_lot_search_inherit" model="ir.ui.view">
+        <field name="name">stock.lot.search.inherit.sale.price</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.search_product_lot_filter"/>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <separator/>
+                <filter string="Com Preço de Venda" name="with_sale_price" domain="[('list_price_lot', '>', 0)]"/>
+                <filter string="Sem Preço de Venda" name="without_sale_price" domain="[('list_price_lot', '=', 0)]"/>
+                <separator/>
+            </search>
+        </field>
+    </record>
+</odoo>

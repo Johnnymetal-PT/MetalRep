@@ -1,0 +1,82 @@
+<odoo>
+    <!-- Venda: Subcontratacoes / Compras de componentes / Reposicoes (#8213) -->
+    <record id="view_sale_order_pg_subcontract_buttons" model="ir.ui.view">
+        <field name="name">sale.order.form.pg.subcontract.buttons</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_pg_subcontractions" type="object"
+                        class="oe_stat_button" icon="fa-handshake-o"
+                        groups="mrp.group_mrp_user"
+                        invisible="pg_subcontract_count == 0">
+                    <field name="pg_subcontract_count" widget="statinfo" string="Subcontratações"/>
+                </button>
+                <button name="action_view_pg_component_purchases" type="object"
+                        class="oe_stat_button" icon="fa-cubes"
+                        groups="purchase.group_purchase_user"
+                        invisible="pg_component_purchase_count == 0">
+                    <field name="pg_component_purchase_count" widget="statinfo" string="Compras de componentes"/>
+                </button>
+                <button name="action_view_pg_resupplies" type="object"
+                        class="oe_stat_button" icon="fa-truck"
+                        groups="stock.group_stock_user"
+                        invisible="pg_resupply_count == 0">
+                    <field name="pg_resupply_count" widget="statinfo" string="Transferências"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Compra: Vendas / Subcontratacoes / Consumida em -->
+    <record id="view_purchase_order_pg_links_buttons" model="ir.ui.view">
+        <field name="name">purchase.order.form.pg.links.buttons</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_pg_sale_orders" type="object"
+                        class="oe_stat_button" icon="fa-usd"
+                        groups="sales_team.group_sale_salesman"
+                        invisible="pg_sale_order_count == 0">
+                    <field name="pg_sale_order_count" widget="statinfo" string="Vendas"/>
+                </button>
+                <button name="action_view_pg_subcontractions" type="object"
+                        class="oe_stat_button" icon="fa-handshake-o"
+                        groups="mrp.group_mrp_user"
+                        invisible="pg_subcontract_count == 0">
+                    <field name="pg_subcontract_count" widget="statinfo" string="Subcontratações"/>
+                </button>
+                <button name="action_view_pg_consumers" type="object"
+                        class="oe_stat_button" icon="fa-industry"
+                        groups="mrp.group_mrp_user"
+                        invisible="pg_consumer_count == 0">
+                    <field name="pg_consumer_count" widget="statinfo" string="Consumida em"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Fabrico: Vendas / Compra ao subcontratado -->
+    <record id="view_mrp_production_pg_links_buttons" model="ir.ui.view">
+        <field name="name">mrp.production.form.pg.links.buttons</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_pg_sale_orders" type="object"
+                        class="oe_stat_button" icon="fa-usd"
+                        groups="sales_team.group_sale_salesman"
+                        invisible="pg_sale_order_count == 0">
+                    <field name="pg_sale_order_count" widget="statinfo" string="Vendas"/>
+                </button>
+                <button name="action_view_pg_source_purchase" type="object"
+                        class="oe_stat_button" icon="fa-shopping-cart"
+                        groups="purchase.group_purchase_user"
+                        invisible="pg_source_purchase_count == 0">
+                    <field name="pg_source_purchase_count" widget="statinfo" string="Compra ao subcontratado"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

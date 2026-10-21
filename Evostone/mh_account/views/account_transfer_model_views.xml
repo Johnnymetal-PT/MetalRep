@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_transfer_model_tree_inherit_sequence" model="ir.ui.view">
+        <field name="name">account.transfer.model.list.inherit.sequence</field>
+        <field name="model">account.transfer.model</field>
+        <field name="inherit_id" ref="account_auto_transfer.view_transfer_model_tree"/>
+        <field name="arch" type="xml">
+            <list position="attributes">
+                <attribute name="default_order">sequence, id</attribute>
+            </list>
+            <field name="name" position="before">
+                <field name="sequence" widget="handle"/>
+            </field>
+        </field>
+    </record>
+</odoo>

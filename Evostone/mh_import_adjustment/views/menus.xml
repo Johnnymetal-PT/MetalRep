@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Repõe acesso ao listing original de Documentos de Importação,
+         que ficou inacessível ao adicionar submenus a "Importações". -->
+    <menuitem id="menu_import_documents_list"
+              name="Documentos de Importação"
+              parent="mh_purchase.menu_purchase_import"
+              action="mh_purchase.action_import_document"
+              sequence="10"
+              groups="purchase.group_purchase_user"/>
+
+    <menuitem id="menu_import_adjustment_root"
+              name="Ajustes de Importação"
+              parent="mh_purchase.menu_purchase_import"
+              action="action_import_document_adjustment"
+              sequence="20"
+              groups="purchase.group_purchase_user"/>
+</odoo>

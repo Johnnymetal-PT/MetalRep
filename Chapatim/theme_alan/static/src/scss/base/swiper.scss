@@ -1,0 +1,121 @@
+:root {
+    --swiper-theme-color: var(--primary);
+}
+
+.as-snippet-builder {
+    .swiper-slide {
+        height: auto;
+    }
+}
+
+
+.swiper {
+    opacity: 0;
+    user-select: none;
+    &.swiper-initialized {
+        opacity: 1;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        color: black;
+        font-size: 1.5rem;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 10px;
+        right: auto;
+        margin: auto;
+        z-index: 2;
+        transition: ease all 0.35s;
+        opacity: 0 !important;
+        box-shadow: 0 4px 8px rgba(var(--dark-rgb), 0.12);
+        @media (max-width: 991px) {
+            opacity: 1 !important;
+        }
+        &:hover {
+            background: var(--primary);
+            color: white;
+        }
+        &.swiper-button-disabled {
+            opacity: 0.5 !important;
+        }
+        &:after {
+            display: none;
+        }
+    }
+    .swiper-button-next {
+        left: auto;
+        right: 10px;
+    }
+    &:hover {
+        .swiper-button-prev,
+        .swiper-button-next {
+            opacity: 1 !important;
+            &.swiper-button-disabled {
+                opacity: 0.5 !important;
+            }
+        }
+    }
+    &.swiper-cards {
+        overflow: hidden;
+        .swiper-wrapper{
+            .swiper-slide {
+                background-color: $white;
+            }
+        }
+        .swiper-button-prev,
+        .swiper-button-next {
+            display: none !important;
+        }
+    }
+
+    .swiper-pagination-bullets {
+        position: relative;
+        padding-top: 30px;
+        bottom: 0px;
+    }
+
+    .swiper-pagination-progressbar {
+        position: relative;
+        top: auto !important;
+        margin-top: 30px;
+    }
+
+    .swiper-pagination-fraction {
+        position: relative;
+        bottom: auto !important;
+        margin-top: 30px;
+        color: $gray-300;
+        font-size: 14px;
+        line-height: 1;
+        .swiper-pagination-total {
+            font-size: 13px;
+            color: $dark;
+            font-weight: 600;
+        }
+        .swiper-pagination-current {
+            font-size: 18px;
+            color: $primary;
+            font-weight: 600;
+        }
+    }
+
+}
+
+
+.s_dynamic_snippets {
+    .swiper-wrapper {
+        display: flex;
+        .swiper-slide {
+            height: auto;
+        }
+    }
+}

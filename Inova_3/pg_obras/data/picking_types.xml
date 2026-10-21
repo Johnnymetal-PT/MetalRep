@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <!-- ====== PICKING TYPE: OBRAS RECEIPTS (Incoming) ======= -->
+    <record id="picking_type_obras_in" model="stock.picking.type">
+      <field name="name">Obras: Receipts</field>
+      <field name="code">incoming</field>
+      <field name="warehouse_id" eval="ref('pg_obras.warehouse_obras')"/>
+      <field name="default_location_src_id" eval="ref('stock.stock_location_suppliers')"/>
+      <field name="default_location_dest_id" eval="ref('pg_obras.location_obr_stock')"/>
+      <field name="sequence_id" eval="ref('pg_obras.seq_obras_in')"/>
+      <field name="barcode">OBRIN</field>
+    </record>
+
+    <!-- ====== PICKING TYPE: ENTREGA EM OBRA (Outgoing/Delivery) ====== -->
+    <record id="picking_type_eobr" model="stock.picking.type">
+      <field name="name">Entrega em Obra</field>
+      <field name="code">outgoing</field>
+      <field name="default_location_src_id" eval="ref('stock.stock_location_stock')"/>
+      <field name="default_location_dest_id" eval="ref('pg_obras.location_obr_stock')"/>
+      <field name="sequence_id" eval="ref('pg_obras.seq_picking_type_entrega_obra')"/>
+      <field name="barcode">EOBR</field>
+      <field name="sequence_code">EOBR</field>
+    </record>
+
+  </data>
+</odoo>

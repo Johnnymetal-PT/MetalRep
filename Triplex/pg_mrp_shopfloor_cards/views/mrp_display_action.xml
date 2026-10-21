@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Aumenta o nº de registos carregados de uma vez no Shop Floor (default 40).
+         O Shop Floor pagina e filtra os cartões pela estação só do lado do cliente, pelo
+         que com 40/página ficam páginas em branco e as OTs da estação caem na última
+         página. Carregar mais de uma vez resolve. Lido em mrp_display.js (action.context.limit). -->
+    <record id="mrp_workorder.action_mrp_display" model="ir.actions.client">
+        <field name="context">{'search_default_filter_ready': True, 'limit': 500}</field>
+    </record>
+</odoo>

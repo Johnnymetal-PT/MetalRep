@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_supplier_type" model="ir.ui.view">
+        <field name="name">res.partner.form.supplier.type</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page string="Planeamento Oficina" name="planeamento_oficina">
+                    <group>
+                        <field name="x_supplier_type"/>
+                    </group>
+                    <p class="text-muted">
+                        Define a categoria do fornecedor para o painel de
+                        planeamento. Os componentes deste fornecedor aparecem
+                        na coluna correspondente (Tecido / Casco / Inox /
+                        Polidor / Embalagem) do painel de encomendas.
+                    </p>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_sale_approver" model="res.groups">
+        <field name="name">Aprovador de Cotações</field>
+        <field name="category_id" ref="base.module_category_sales_sales"/>
+        <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="comment">Utilizadores com permissão para aprovar, rejeitar e resetar cotações de venda.</field>
+    </record>
+
+    <record id="group_sale_price_edit" model="res.groups">
+        <field name="name">Editar Preços de Venda</field>
+        <field name="category_id" ref="base.module_category_sales_sales"/>
+        <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="comment">Utilizadores com permissão para alterar preços unitários nas linhas de venda.</field>
+    </record>
+    <record id="group_block_proforma_cancel" model="res.groups">
+        <field name="name">Bloquear Cancelamento de Pró-forma</field>
+        <field name="category_id" ref="base.module_category_sales_sales"/>
+        <field name="comment">Utilizadores neste grupo NÃO podem cancelar nem voltar a rascunho recibos pró-forma.</field>
+    </record>
+
+    <record id="group_proforma_to_payment" model="res.groups">
+        <field name="name">Transformar Pró-forma em Recibo</field>
+        <field name="category_id" ref="base.module_category_sales_sales"/>
+        <field name="comment">Utilizadores com permissão para transformar recibos pró-forma em recibos definitivos.</field>
+    </record>
+</odoo>

@@ -1,0 +1,54 @@
+# PG_SCOPE_INTAKE
+# Fonte estruturada local para ambito inicial do projeto.
+# Este ficheiro nao substitui o PG_CONTEXT.md.
+# Serve para semear e atualizar blocos auto-geridos do contexto.
+
+project_name: Waterdetails
+client_unit: Virgin Details, Lda.
+repository_summary: Implementação de Odoo Enterprise 19.0 em Odoo.sh para arranque mínimo viável integrado de contactos, produtos, vendas, faturação certificada PT, inventário, compras e multiempresa.
+project_phase: Comercial
+odoo_edition: Enterprise
+odoo_environment: Odoo.sh
+standard_allowed: Sim
+additional_modules_allowed: Sim (Contactos, Produtos, Vendas, Faturação, Localização PT, Inventário, Compras, Multi-company)
+studio_allowed: Restrito / Não prioritário nesta fase
+custom_allowed: Não permitido nesta fase
+additional_contract_restrictions: Pacote inicial de 40 horas (2800€ + IVA); subscrição do software em nome do cliente; licenciamento de software com prazo de pagamento de 20 dias; 50% adjudicação / 50% a meio das horas.
+business_goal: Centralizar a operação da Virgin Details e reduzir a dependência de PHC GO, folhas de Excel e processos paralelos.
+current_request: Realizar a sessão de revisão de âmbito para go-live seguro e arranque assistido do Odoo Enterprise.
+current_process: Faturação efetuada no PHC GO e gestão operacional descentralizada em folhas de Excel para stocks e compras.
+problem_or_need: Necessidade de integração de fluxos (venda-compra-stock-fatura) sob estrutura multiempresa com suporte a faturação portuguesa certificada.
+business_impact: Falta de controlo integrado de inventário, margens comerciais e processos manuais passíveis de erro.
+trigger: Decisão de adjudicação de um modelo híbrido com pacote mínimo de 40 horas de consultoria.
+frequency: Diária
+volumes: 6 utilizadores ativos, 2 empresas previstas (Virgin Details, Lda e Starplast SRLE na Fase 3).
+urgency: Urgente
+acceptance_criteria:
+  - Faturação certificada em Portugal operacional (Plugin AT e SAF-T validados)
+  - Estrutura base multiempresa configurada
+  - Fluxos principais de venda-compra-stock-fatura validados
+  - Dados migrados e limpos importados com sucesso (contactos, produtos, fornecedores, listas de preços)
+  - Go-live executado com sucesso e acompanhado
+users_and_roles:
+  - Nuno Magalhães (Diretor Comercial / Comercial)
+  - Daniela Martins (Administração / SPOC)
+  - Cláudio Pereira (Consultor / Parâmetro)
+  - Pedro Coelho (Gestor de Projeto / Parâmetro)
+known_exceptions:
+  - Starplast SRLE entra apenas em fase posterior (Fase 3)
+  - Exclusão de automatizações avançadas, CRM completo, relatórios complexos ou produção nesta fase inicial
+approvals:
+  - Aprovação manual de orçamentos e compras pela gerência
+documents:
+  - Orçamentos, Encomendas de Venda, Faturas, Faturas-Recibo, Notas de Crédito, Guias de Transporte, Recibos
+integrations:
+  - Comunicação AT (faturação e guias de transporte)
+  - Importação de extratos bancários standard
+reporting_needs:
+  - Vendas por empresa e consolidadas
+  - Stock disponível e pendentes de compras/vendas
+standard_attempted_or_validated:
+  - Fluxo standard de vendas e faturação validado
+why_standard_was_insufficient:
+  - Apenas as exigências da localização e certificação fiscal PT requerem configuração do plugin AT e SAF-T localizados.
+

@@ -1,0 +1,22 @@
+// Aviso do que falta concluir, ao lado do botão de fechar a produção.
+//
+// Discreto mas legível a um braço de distância, como o resto do trabalho de acessibilidade
+// do Chão de Fábrica. O botão desactivado já dá o sinal de "não podes"; esta linha dá o
+// "porque não" e o "o que fazer".
+.o_mrp_display .pg_close_blocked_hint {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    font-size: 1rem;
+    line-height: 1.3;
+    opacity: 0.85;
+}
+
+// O botão desactivado tem de PARECER desactivado num tablet, onde não há cursor a mudar de
+// forma. O Bootstrap já esmorece a cor; acrescenta-se o cadeado do cursor para rato e uma
+// opacidade mais marcada.
+.o_mrp_display .o_mrp_display_record button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}

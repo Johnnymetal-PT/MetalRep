@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- O construtor de formularios do Odoo poe TODOS os campos em lista
+             negra por defeito: um formulario publico so pode escrever no que
+             estiver explicitamente libertado. Sem isto, o formulario de
+             /partner-request era aceite, o lead nascia, e os dois campos que
+             interessam ficavam a falso sem erro nenhum — foi o que aconteceu
+             no primeiro teste, a 16/09/2026.
+
+             E o mesmo mecanismo que o website_crm usa para libertar
+             contact_name, description e companhia.
+
+             Os campos de morada vao aqui pela mesma razao, e essa e mais
+             antiga: o formulario da pagina de contactos ja pedia rua, codigo
+             postal, pais e website, e o Odoo descartava-os todos sem erro.
+             Ninguem dava por isso porque o lead nascia na mesma. -->
+        <function model="ir.model.fields" name="formbuilder_whitelist">
+            <value>crm.lead</value>
+            <value eval="[
+                'hmd_is_account_request',
+                'hmd_vat',
+                'street',
+                'zip',
+                'city',
+                'country_id',
+                'website',
+            ]"/>
+        </function>
+
+    </data>
+</odoo>

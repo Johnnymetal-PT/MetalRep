@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- ==================== Mini Cart Main Dialog Template ==================== -->
+    <t t-name="theme_alan.Minicart">
+        <div class="o_dialog">
+            <div role="dialog" class="modal as-mini-cart-modal d-block" tabindex="-1">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content as-mc-sidepannel">
+                        <div class="modal-header as-mc-head ">
+                            <div class="as-mc-head-grid">
+                                <h5>
+                                    <!-- <i class="asi asi-shopping-bag"></i>  -->
+                                    Your Cart <span class="text-primary">(<t t-esc="props.card_qty"/><t t-if="props.card_qty > 1"> items</t><t t-else=""> item</t>)</span>
+                                </h5>
+                                <span t-if="props.card_qty > 0" t-on-click="() => this.clearCart()" class="as_clr_cart">
+                                    Clear Cart
+                                </span>
+                            </div>
+                            <button type="button" class="btn-close" t-on-click="() => props.close()" aria-label="Close"/>
+                        </div>
+                        <div class="modal-body as-mc-body">
+                            <t t-if="!props.card_qty">
+                                <t t-call="theme_alan.as_empty_mini_cart"/>
+                            </t>
+                            <t t-else="">
+                                <!-- <div class="as-mc-clear ">
+                                    <p>
+                                        You have
+                                        <span><t t-esc="props.card_qty"/></span>
+                                        <span>
+                                            <t t-if="props.card_qty > 1"> items</t>
+                                            <t t-else=""> item</t>
+                                        </span>
+                                        in your cart
+                                    </p>
+                                    <span t-if="props.card_qty > 0" t-on-click="() => this.clearCart()" class="as_clr_cart">
+                                        Clear Cart
+                                    </span>
+                                </div> -->
+                                <div class="as-mc-main">
+                                    <ul class="as-mc-line-section oe_cart">
+                                        <t t-foreach="state.product_lines" t-as="line" t-key="line.product_id">
+                                            <MiniCartLine t-props="line" main_obj="this"/>
+                                        </t>
+                                    </ul>
+                                    <!-- Suggested Products -->
+                                    <t t-call="theme_alan.as_suggested_products"/>
+                                    <!-- Cart Summary-->
+                                    <t t-call="theme_alan.as_mini_cart_summary"/>
+                                    <!-- Coupon code-->
+                                    <div class="coupon-section p-3 pt-0">
+                                            <t t-if="!state.showCouponForm">
+                                                <button class="btn btn-link text-decoration-none p-0"
+                                                t-on-click="toggleCouponForm"
+                                                t-att-disabled="state.isProcessing">
+
+                                                <i class="fa fa-tag me-1"></i> Have a coupon code?
+                                                </button>
+                                            </t>
+
+                                        <div t-if="state.showCouponForm">
+                                            <t t-call="theme_alan.coupon_form"/>
+                                        </div>
+                                        <t t-call="theme_alan.coupon_rewards_display"/>
+                                    </div>
+                                    <!-- Free Shipping Detail-->
+                                    <t t-call="theme_alan.as_free_shipping_eligibility"/>
+
+                                    <div class="as-mc-checkout-section">
+                                        <a href="/shop/cart" class="btn as-btn btn-primary">View Cart</a>
+                                        <a href="/shop/checkout" class="as-btn btn btn-secondary">Checkout</a>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- ==================== Mini Cart Line (Product Row) Template==================== -->
+    <t t-name="theme_alan.Minicartline">
+        <li class="as-mc-product-line">
+            <div class="as-mcl-img">
+                <span>
+                    <img t-att-src="props.image_url" alt="Product Image" style="width: 132px;"/>
+                </span>
+            </div>
+            <div class="as-mcl-info">
+                <h6><a t-att-href="props.website_url"><t t-out="props.line_header"/></a></h6>
+                <!-- <div t-if="props.description_lines" class="text-muted small">
+                    <t t-foreach="props.description_lines" t-as="name_line" t-key="name_line">
+                        <span
+                            t-if="name_line"
+                            t-attf-class="d-block mb-1"
+                            t-out="name_line"
+                        />
+                    </t>
+                </div> -->
+                <t t-if="props.combination_name or props.has_multiple_uoms">
+                    <!-- <span>-</span>
+                    <span
+                        t-if="props.combination_name"
+                        class="h6 text-muted mb-1"
+                        t-out="props.combination_name"
+                    /> -->
+                    <span
+                        t-if="props.has_multiple_uoms"
+                        class="badge bg-light mb-1"
+                        t-out="props.product_uom"
+                    />
+                </t>
+                <div class="as-mcl-price">
+                    <del
+                        t-if="props.show_strikethrough_price"
+                        class="me-md-2 text-muted text-nowrap opacity-50"
+                        t-out="props.strikethrough_price"
+                    />
+                    <span t-if="props.formated_product_price" t-out="props.formated_product_price"/>
+                </div>
+
+                <div class="as-mcl-qty">
+                    <div class="input-group css_quantity">
+                        <!-- Decrease Quantity -->
+                        <button
+                            class="btn btn-secondary quantity-btn"
+                            type="button"
+                            aria-label="Decrease quantity"
+                            t-att-disabled="disableRemove"
+                            t-on-click="onDecreaseQuantity">
+                            <i class="oi oi-minus" aria-hidden="true"></i>
+                        </button>
+
+                        <!-- Quantity Input -->
+                        <input
+                            class="form-control quantity-input text-center"
+                            type="number"
+                            name="sale_quantity"
+                            t-att-value="state.add_quantity"
+                            t-on-change="onQuantityInputChange"
+                            min="1"
+                        />
+
+                        <!-- Increase Quantity -->
+                        <button
+                            class="btn btn-secondary quantity-btn"
+                            type="button"
+                            aria-label="Increase quantity"
+                            t-on-click="onIncreaseQuantity">
+                            <i class="oi oi-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <a href='#' aria-label="Remove" title="Remove from cart" t-on-click="removeProduct" class='no-decoration as-mcl-remove'><i class='fa fa-trash-o'></i></a>
+                    <a href='#' aria-label="Save For Later" title="Save For Later" t-on-click="saveForLater" class='as-mcl-save-later no-decoration'><i class='asi asi-heart'></i> <span>Save For Later</span></a>
+                </div>
+            </div>
+            <div>
+
+            </div>
+        </li>
+    </t>
+
+    <!-- ==================== Mini Cart Suggested Products Carousel ==================== -->
+    <t t-name="theme_alan.as_suggested_products">
+        <t>
+            <div class="as-mc-suggested" t-if="state.suggested_products and state.suggested_products.length">
+                <div id="suggestedProductControls" class="carousel slide" data-bs-ride="carousel" >
+                    <h5 class="as-mc-sp-title" t-if="state.suggested_products">Suggested Accessories</h5>
+                    <div class="carousel-inner">
+                        <t t-foreach="state.suggested_products" t-as="suggested_prod" t-key="suggested_prod.product_id">
+                            <div t-attf-class="carousel-item {{suggested_prod_first ? 'active' : ''}}">
+                                <div class="as-mc-sp-main">
+                                    <div class="as-mc-sp-img">
+                                        <a t-att-href="suggested_prod.website_url">
+                                            <img class="w-30" t-att-src="suggested_prod.image_url" alt="Product Image" style="width: 132px;"/>
+                                        </a>
+                                    </div>
+                                    <div class="as-mc-sp-info">
+                                        <h6>
+                                            <a t-att-href="suggested_prod.website_url"><t t-esc="suggested_prod.product_name"/></a>
+                                        </h6>
+                                        <div class="as-mc-sp-price">
+                                            <h6 class="oe_price_h4 css_editable_mode_hidden">
+                                                <del t-attf-class="text-danger mr8 {{suggested_prod.has_discounted_price ? '' : 'd-none'}}" t-esc="suggested_prod.list_price" style="white-space: nowrap;"/>
+                                                <span t-esc="suggested_prod.price" style="white-space: nowrap;"/>
+                                            </h6>
+                                        </div>
+                                        <div class="as-mc-sp-addtocart">
+                                            <button
+                                                class="btn btn-dark text-nowrap"
+                                                name="sp_add_cart_button"
+                                                t-att-id = "suggested_prod.product_id"
+                                                t-on-click="() => this.addSuggestedProduct(suggested_prod.product_id, suggested_prod.product_tmpl_id)">
+                                                <i class="asi asi-shopping-cart"/>
+                                                <span>Add to cart</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                    <t t-if="state.suggested_products and state.suggested_products.length > 1">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#suggestedProductControls" data-bs-slide="prev">
+                            <span class="oi oi-chevron-left oe_unmovable" role="img" aria-label="Previous" title="Previous"/>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#suggestedProductControls" data-bs-slide="next">
+                            <span class="oi oi-chevron-right oe_unmovable" role="img" aria-label="Next" title="Next"/>
+                        </button>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </t>
+
+    <!-- ==================== Mini Cart Summary Template ==================== -->
+    <t t-name="theme_alan.as_mini_cart_summary">
+        <div class="as-mc-summary">
+            <div class="as-mc-summary-inner" t-if="state.cart_summary and state.product_lines">
+            <table class="table mb-0">
+                <tr id="order_delivery" t-if="state.cart_summary.amount_delivery and state.cart_summary.carrier_id">
+                    <td colspan="2" class="ps-0 pt-0 pb-2 border-0 text-muted"
+                        title="Delivery will be updated after choosing a new delivery method">
+                        Delivery
+                    </td>
+                    <td class="text-end pe-0 pt-0 pb-2 border-0 text-muted">
+                        <span t-esc="state.cart_summary.amount_delivery"
+                            class="monetary_field"
+                            style="white-space: nowrap;"/>
+                    </td>
+                </tr>
+                <tr t-if="state.cart_summary.reward_amount">
+                    <td colspan="2" class="ps-0 pt-0 pb-2 border-0 text-muted">
+                        Discount:
+                    </td>
+                    <td class="text-end pe-0 pt-0 pb-2 border-0 text-muted">
+                        <span t-esc="state.cart_summary.reward_amount"
+                            class="monetary_field"
+                            style="white-space: nowrap;"/>
+                    </td>
+                </tr>
+                <tr t-if="state.cart_summary.amount_untaxed">
+                    <td id="cart_total_subtotal"
+                        class="border-0 pb-2 ps-0 pt-0 text-start text-muted"
+                        colspan="2">
+                        Subtotal
+                    </td>
+                    <td class="text-end border-0 pb-2 pe-0 pt-0">
+                        <span t-esc="state.cart_summary.amount_untaxed"
+                              class="monetary_field"
+                              style="white-space: nowrap;"/>
+                    </td>
+                </tr>
+                <tr t-if="state.cart_summary.amount_tax">
+                    <td colspan="2" class="text-muted border-0 ps-0 pt-0 pb-3">Taxes</td>
+                    <td class="text-end border-0 pe-0 pt-0 pb-3">
+                        <span t-esc="state.cart_summary.amount_tax"
+                              class="monetary_field"
+                              style="white-space: nowrap;"/>
+                    </td>
+                </tr>
+                <tr t-if="state.cart_summary.amount_total" class="border-top">
+                    <td colspan="2" class="border-0 ps-0 pt-3"><strong>Total</strong></td>
+                    <td class="text-end border-0 px-0 pt-3">
+                        <strong t-esc="state.cart_summary.amount_total"
+                                class="monetary_field text-end p-0"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        </div>
+    </t>
+
+    <!-- ==================== Mini Cart Free Shipping Eligibility Template ==================== -->
+    <t t-name="theme_alan.as_free_shipping_eligibility">
+        <div class="as_free_shipping_eligibility">
+            <t t-set="as_free_shipping_details" t-value="state.cart_summary.shipping_detail"/>
+            <t t-if="as_free_shipping_details.active_free_shipping">
+                <t t-if="as_free_shipping_details.any_ns_product == true">
+                        <t t-if="as_free_shipping_details.carries_amount != 0">
+                            <div class="as-mc-delivery">
+                                <t t-if="as_free_shipping_details.total_amount >= as_free_shipping_details.carries_amount">
+                                    <div class="mb-1">
+                                        <span class="as-cart-truck" style="left:94%;transition: ease left 0.35s;">
+                                            <svg class="as-truck-icon" xmlns="http://www.w3.org/2000/svg" width="33" height="21" viewBox="0 0 33 21" fill="none">
+                                                <g clip-path="url(#clip0_3094_250)">
+                                                    <path d="M21.8084 13.517H1.39956C1.00854 13.517 0.691589 13.2001 0.691589 12.8091V1.42592C0.691589 1.03491 1.00854 0.717957 1.39956 0.717957H21.1004C21.4914 0.717957 21.8083 1.03491 21.8083 1.42592V4.31589L21.8084 13.517Z" fill="white" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M7.31772 18.1303H4.26214C3.72418 18.1303 3.28809 17.6942 3.28809 17.1563V13.517H21.8084V18.1318" fill="white"/>
+                                                    <path d="M7.31772 18.1303H4.26214C3.72418 18.1303 3.28809 17.6942 3.28809 17.1563V13.517H21.8084V18.1318" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M9.24119 20.2822C10.31 20.2822 11.1765 19.4157 11.1765 18.3469C11.1765 17.2781 10.31 16.4116 9.24119 16.4116C8.17236 16.4116 7.30591 17.2781 7.30591 18.3469C7.30591 19.4157 8.17236 20.2822 9.24119 20.2822Z" fill="white" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M26.6881 20.2822C27.7569 20.2822 28.6234 19.4157 28.6234 18.3469C28.6234 17.2781 27.7569 16.4116 26.6881 16.4116C25.6193 16.4116 24.7528 17.2781 24.7528 18.3469C24.7528 19.4157 25.6193 20.2822 26.6881 20.2822Z" fill="white" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M28.6115 18.1319H30.623C31.1032 18.1319 31.4926 17.7429 31.4931 17.2627L31.5002 10.6552H25.9616C25.6596 10.6552 25.4149 10.4104 25.4149 10.1086V7.52035C25.4149 7.27325 25.6151 7.073 25.8622 7.073H29.847" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M4.60291 4.53815V9.78679" stroke="#33CCCC" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M9.00134 4.51996V9.7686" stroke="#33CCCC" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M13.3997 4.40979V9.65844" stroke="#33CCCC" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M17.798 4.48322V9.73192" stroke="#33CCCC" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M21.8084 3.20947H27.4762C27.8346 3.20947 28.1601 3.41784 28.3103 3.74315L31.5002 10.6552" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M24.7646 18.1319H11.1647" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_3094_250">
+                                                        <rect width="32.2547" height="21.0001" fill="white"/>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </span>
+                                        <p class="mb-0 text-muted">
+                                            Congratulations! You qualify for <strong class="text-primary">free shipping!</strong>
+                                        </p>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="mb-1 text-unsuccess">
+                                        <span class="as-cart-truck" t-attf-style="left: #{as_free_shipping_details['status']}%">
+                                            <svg class="as-truck-icon" xmlns="http://www.w3.org/2000/svg" width="33" height="21" viewBox="0 0 33 21" fill="none">
+                                                <g clip-path="url(#clip0_3094_250)">
+                                                    <path d="M21.8084 13.517H1.39956C1.00854 13.517 0.691589 13.2001 0.691589 12.8091V1.42592C0.691589 1.03491 1.00854 0.717957 1.39956 0.717957H21.1004C21.4914 0.717957 21.8083 1.03491 21.8083 1.42592V4.31589L21.8084 13.517Z" fill="white" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M7.31772 18.1303H4.26214C3.72418 18.1303 3.28809 17.6942 3.28809 17.1563V13.517H21.8084V18.1318" fill="white"/>
+                                                    <path d="M7.31772 18.1303H4.26214C3.72418 18.1303 3.28809 17.6942 3.28809 17.1563V13.517H21.8084V18.1318" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M9.24119 20.2822C10.31 20.2822 11.1765 19.4157 11.1765 18.3469C11.1765 17.2781 10.31 16.4116 9.24119 16.4116C8.17236 16.4116 7.30591 17.2781 7.30591 18.3469C7.30591 19.4157 8.17236 20.2822 9.24119 20.2822Z" fill="white" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M26.6881 20.2822C27.7569 20.2822 28.6234 19.4157 28.6234 18.3469C28.6234 17.2781 27.7569 16.4116 26.6881 16.4116C25.6193 16.4116 24.7528 17.2781 24.7528 18.3469C24.7528 19.4157 25.6193 20.2822 26.6881 20.2822Z" fill="white" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M28.6115 18.1319H30.623C31.1032 18.1319 31.4926 17.7429 31.4931 17.2627L31.5002 10.6552H25.9616C25.6596 10.6552 25.4149 10.4104 25.4149 10.1086V7.52035C25.4149 7.27325 25.6151 7.073 25.8622 7.073H29.847" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M4.60291 4.53815V9.78679" stroke="#33CCCC" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M9.00134 4.51996V9.7686" stroke="#33CCCC" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M13.3997 4.40979V9.65844" stroke="#33CCCC" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M17.798 4.48322V9.73192" stroke="#33CCCC" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M21.8084 3.20947H27.4762C27.8346 3.20947 28.1601 3.41784 28.3103 3.74315L31.5002 10.6552" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M24.7646 18.1319H11.1647" stroke="black" stroke-width="1.38324" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_3094_250">
+                                                        <rect width="32.2547" height="21.0001" fill="white"/>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </span>
+                                        <p class="mb-0 text-muted">
+                                            You're <strong class="text-primary" t-esc="as_free_shipping_details.pending_amount"/> away from earning <strong class="text-primary"> free shipping </strong> on your order!
+                                        </p>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-animated bg-success" role="progressbar" t-attf-style="width: #{as_free_shipping_details['status']}%"></div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                </t>
+            </t>
+        </div>
+    </t>
+
+    <!-- ==================== Mini Cart Empty Template ==================== -->
+    <t t-name="theme_alan.as_empty_mini_cart">
+        <div class="as-mini-cart-empty">
+            <div>
+                <svg width="527" height="405" viewBox="0 0 527 405" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 200px;height: auto;">
+                    <path d="M41.634 370.844C54.0624 393.893 80.44 403.787 80.44 403.787C80.44 403.787 86.6671 376.312 74.2387 353.263C61.8103 330.214 35.4327 320.319 35.4327 320.319C35.4327 320.319 29.2056 347.795 41.634 370.844Z" fill="#2F2E41" />
+                    <path d="M419.647 297.511C400.271 315.126 397.022 343.11 397.022 343.11C397.022 343.11 425.188 342.535 444.565 324.921C463.941 307.306 467.19 279.321 467.19 279.321C467.19 279.321 439.024 279.896 419.647 297.511Z" fill="#2F2E41" />
+                    <path d="M50.1765 363.261C72.6149 376.761 81.2567 403.575 81.2567 403.575C81.2567 403.575 53.5186 408.502 31.0802 395.002C8.64174 381.502 0 354.688 0 354.688C0 354.688 27.7381 349.761 50.1765 363.261Z" fill="var(--primary)" />
+                    <path d="M429.065 303.975C421.368 329.005 397.425 343.852 397.425 343.852C397.425 343.852 385.962 318.117 393.659 293.087C401.356 268.058 425.298 253.211 425.298 253.211C425.298 253.211 436.762 278.946 429.065 303.975Z" fill="var(--primary)" />
+                    <path d="M362.06 360.29H125.274V358.587H360.356V275.967H145.18L134.727 254.19L136.263 253.453L146.252 274.263H362.06V360.29Z" fill="#2F2E41" />
+                    <path d="M156.789 402.026C166.667 402.026 174.675 394.018 174.675 384.139C174.675 374.26 166.667 366.252 156.789 366.252C146.91 366.252 138.902 374.26 138.902 384.139C138.902 394.018 146.91 402.026 156.789 402.026Z" fill="#3F3D56" />
+                    <path d="M333.101 402.026C342.979 402.026 350.987 394.018 350.987 384.139C350.987 374.26 342.979 366.252 333.101 366.252C323.222 366.252 315.214 374.26 315.214 384.139C315.214 394.018 323.222 402.026 333.101 402.026Z" fill="#3F3D56" />
+                    <path d="M387.385 247.859H121.237L63.6484 59.6227H446.693L446.344 60.7302L387.385 247.859ZM122.497 246.156H386.136L444.37 61.3262H65.9508L122.497 246.156Z" fill="#2F2E41" />
+                    <path d="M366.61 238.064H132.842L82.26 71.121H418.701L418.395 72.104L366.61 238.064Z" fill="#F2F2F2" />
+                    <path d="M451.465 42.806L449.818 42.369L461.059 0H526.448V1.70398H462.37L451.465 42.806Z" fill="#2F2E41" />
+                    <path d="M427.552 116.69H82.2584V118.393H427.552V116.69Z" fill="#2F2E41" />
+                    <path d="M407.777 179.45H101.459V181.153H407.777V179.45Z" fill="#2F2E41" />
+                    <path d="M256.017 60.4744H254.314V247.007H256.017V60.4744Z" fill="#2F2E41" />
+                    <path d="M332.286 60.421L320.057 246.949L321.758 247.061L333.986 60.5324L332.286 60.421Z" fill="#2F2E41" />
+                    <path d="M178.081 60.419L176.38 60.5298L188.538 247.063L190.238 246.952L178.081 60.419Z" fill="#2F2E41" />
+                </svg>
+            </div>
+            <p>Your Shopping Cart is empty</p>
+            <div class="button">
+                <a href="/shop" class="btn as-btn btn-primary">Shop Now</a>
+            </div>
+        </div>
+    </t>
+
+    <!-- ==================== Mini Cart Apply Coupon Template ==================== -->
+    <t t-name="theme_alan.coupon_form">
+        <form class="mb-3 mt-3" t-on-submit.prevent="applyCoupon">
+            <div class="input-group w-100">
+                <input name="promo"
+                    class="form-control"
+                    type="text"
+                    placeholder="Gift card or discount code..."
+                    t-att-value="state.promo_code || ''"
+                    t-att-disabled="state.isProcessing"/>
+                <button type="submit"
+                    class="btn btn-light border"
+                    t-att-disabled="state.isProcessing">
+                    <t t-if="state.isProcessing">
+                        <i class="fa fa-spinner fa-spin me-1"/>
+                    </t>
+                    Apply
+                </button>
+            </div>
+        </form>
+
+        <!-- Display error message -->
+        <t t-if="state.coupon_error">
+            <div class="alert alert-danger text-start small" role="alert">
+                <t t-esc="state.coupon_error"/>
+            </div>
+        </t>
+
+        <!-- Display success message -->
+        <t t-if="state.coupon_success">
+            <div class="alert alert-success text-start small" role="alert">
+                You have successfully applied the following code: <strong t-esc="state.promo_code"/>
+            </div>
+        </t>
+    </t>
+
+    <!-- ==================== Mini Cart Coupon Rewards ==================== -->
+    <t t-name="theme_alan.coupon_rewards_display">
+        <t t-if="state.website_sale_order and state.website_sale_order.claimable_rewards and state.website_sale_order.claimable_rewards.length">
+            <div class="mt-3">
+                <t t-foreach="state.website_sale_order.claimable_rewards" t-as="coupon_reward" t-key="coupon_reward_index">
+                    <t t-set="coupon" t-value="coupon_reward[0]"/>
+                    <t t-set="rewards" t-value="coupon_reward[1]"/>
+                    <t t-set="is_loyalty" t-value="rewards[0].program_id.program_type === 'loyalty'"/>
+
+                    <!-- Loyalty Points Display -->
+                    <div
+                        t-if="is_loyalty"
+                        class="alert alert-primary d-flex justify-content-between align-items-center mb-0 p-2 rounded-bottom-0"
+                        role="alert"
+                    >
+                        <strong class="text-start small" t-esc="coupon.point_name"/>
+                        <strong class="small" name="o_loyalty_points" t-esc="coupon.points"/>
+                    </div>
+
+                    <!-- Rewards List -->
+                    <t t-foreach="rewards" t-as="reward" t-key="reward.id">
+                        <form t-on-submit.prevent="claimReward"
+                            class="o_claim_reward_form"
+                            method="post">
+                            <input type="hidden" name="reward_id" t-att-value="reward.id"/>
+                            <input type="hidden" name="code" t-att-value="coupon.code"/>
+
+                            <div t-attf-class="{{is_loyalty ? 'border border-primary-subtle border-top-0 p-2 text-start' : 'alert alert-primary p-2 text-start'}} {{is_loyalty and reward_last ? 'rounded-bottom mb-3' : 'mb-2'}}">
+                                <div class="d-flex gap-2 align-items-center">
+                                    <div class="flex-grow-1 text-break">
+                                        <t t-set="program" t-value="reward.program_id"/>
+                                        <t t-set="is_auto_applied" t-value="reward.reward_type === 'product' and !reward.multi_product"/>
+                                        <!-- Gift Card Display -->
+                                        <t t-if="program.program_type === 'gift_card'">
+                                            <strong class="small">
+                                                <t t-esc="reward.description"/>
+                                                <t t-if="coupon.points"> - <t t-esc="coupon.points"/></t>
+                                            </strong>
+                                            <div class="d-md-block small">
+                                                <span t-if="coupon.code and !program.is_nominative">
+                                                    Code: <t t-esc="'⋮'.repeat(10) + coupon.code.slice(-4)"/>
+                                                </span>
+                                                <t t-if="coupon.expiration_date">
+                                                    <br/>
+                                                    <span>
+                                                        Expired Date: <t t-esc="coupon.expiration_date"/>
+                                                    </span>
+                                                </t>
+                                            </div>
+                                            <!-- Info message for auto-applied free products -->
+                                            <div t-if="is_auto_applied" class="badge bg-success-subtle text-success mt-1">
+                                                <i class="fa fa-check-circle me-1"></i>
+                                                Free product added to cart
+                                            </div>
+                                        </t>
+
+                                        <!-- Coupons Display -->
+                                        <t t-elif="program.program_type === 'coupons'">
+                                            <strong class="small">
+                                                Coupons - <t t-esc="reward.description"/>
+                                            </strong>
+                                            <div t-if="is_auto_applied" class="badge bg-success-subtle text-success mt-1">
+                                                <i class="fa fa-check-circle me-1"></i>
+                                                Free product added to cart
+                                            </div>
+                                        </t>
+
+                                        <!-- Promo Code Display -->
+                                        <t t-elif="program.program_type === 'promo_code'">
+                                            <strong class="small" t-esc="reward.description"/>
+                                            <div t-if="is_auto_applied" class="badge bg-success-subtle text-success mt-1">
+                                                <i class="fa fa-check-circle me-1"></i>
+                                                Free product added to cart
+                                            </div>
+                                        </t>
+
+                                        <!-- eWallet Display -->
+                                        <t t-elif="program.program_type === 'ewallet'">
+                                            <div class="d-flex justify-content-between align-items-center h-100 me-2">
+                                                <strong class="small" t-esc="reward.description"/>
+                                                <strong class="small">
+                                                    <t t-esc="coupon.currency"/>
+                                                    <t t-esc="coupon.points"/>
+                                                </strong>
+                                            </div>
+                                        </t>
+
+                                        <!-- Loyalty Display -->
+                                        <t t-else="">
+                                            <strong class="small" t-esc="reward.description"/>
+                                            <div t-if="program.portal_visible">
+                                                <t t-if="!program.is_nominative">
+                                                    <span t-esc="coupon.points"/>
+                                                </t>
+                                                <small
+                                                    t-elif="program.program_type !== 'ewallet'"
+                                                    t-esc="reward.required_points + ' points'"
+                                                />
+                                            </div>
+                                            <div t-if="is_auto_applied" class="badge bg-success-subtle text-success mt-1">
+                                                <i class="fa fa-check-circle me-1"></i>
+                                                Free product added to cart
+                                            </div>
+                                        </t>
+
+                                        <!-- Multi-product selector (only if not auto-applied) -->
+                                        <select
+                                            t-if="reward.multi_product"
+                                            class="o_select w-100 form-select form-select-sm css_attribute_select mt-2"
+                                            name="product_id"
+                                            t-att-disabled="state.isProcessing"
+                                        >
+                                            <option
+                                                t-foreach="reward.reward_product_ids"
+                                                t-as="product"
+                                                t-att-value="product.id"
+                                                t-key="product.id"
+                                            >
+                                                <t t-esc="product.display_name"/>
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Claim/Use Button - Only show if not auto-applied or if multi-product -->
+                                    <div class="d-flex align-items-center">
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-primary"
+                                            name="o_loyalty_claim"
+                                            t-att-disabled="state.isProcessing"
+                                        >
+                                            <t t-if="state.isProcessing">
+                                                <i class="fa fa-spinner fa-spin"/>
+                                            </t>
+                                            <t t-elif="(program.trigger === 'with_code' and program.program_type !== 'promo_code') or (program.trigger === 'auto' and program.applies_on === 'future')">
+                                                Use
+                                            </t>
+                                            <t t-else="">Claim</t>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </t>
+
+</templates>

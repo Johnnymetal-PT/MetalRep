@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Extend the QtyAtDatePopover template to show lot information -->
+    <t t-name="mh_sale.QtyAtDatePopover" t-inherit="sale_stock.QtyAtDatePopover" t-inherit-mode="extension">
+        <!-- Replace the header to include lot information -->
+        <xpath expr="//h6" position="replace">
+            <h6>
+                Disponibilidade
+                <t t-if="lotName">
+                    <span class="badge bg-info ms-2">
+                        Lote: <t t-esc="lotName"/>
+                    </span>
+                </t>
+            </h6>
+        </xpath>
+
+        <!-- Add lot specific information if lot is selected -->
+        <xpath expr="//table/tbody/tr[1]" position="before">
+            <t t-if="props.calcData and props.calcData.has_lot">
+                <tr>
+                    <td colspan="2" class="border-bottom pb-2 mb-2">
+                        <div class="alert alert-info py-1 px-2 mb-0">
+                            <small>
+                                <i class="fa fa-info-circle"/> Disponibilidade específica do lote selecionado
+                            </small>
+                        </div>
+                    </td>
+                </tr>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

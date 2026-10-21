@@ -1,0 +1,70 @@
+<t t-name="studio_main_report">
+  <t t-foreach="docs" t-as="doc">
+    <t t-set="move" t-value="(doc.move_ids_without_package and doc.move_ids_without_package[0]) or (doc.move_ids and doc.move_ids[0]) or False"/>
+    <t t-set="production_candidates" t-value="('production_ids' in doc._fields and doc.production_ids) or ('group_id' in doc._fields and doc.group_id and 'mrp_production_ids' in doc.group_id._fields and doc.group_id.mrp_production_ids) or (move and 'move_dest_ids' in move._fields and 'raw_material_production_id' in move.move_dest_ids._fields and move.move_dest_ids.mapped('raw_material_production_id')) or []"/>
+    <t t-set="production" t-value="production_candidates and production_candidates[0] or False"/>
+    <t t-set="supplier_name" t-value="(('x_studio_supplier' in doc._fields and doc.x_studio_supplier and doc.x_studio_supplier.name) or (doc.partner_id and doc.partner_id.name) or '---')"/>
+    <t t-set="ecf_number" t-value="('x_studio_ecf_number_2' in doc._fields and doc.x_studio_ecf_number_2) or '---'"/>
+    <t t-set="ecf_date" t-value="('x_studio_ecf_date' in doc._fields and doc.x_studio_ecf_date and doc.x_studio_ecf_date.strftime('%d/%m/%Y')) or '---'"/>
+    <t t-set="fp_number" t-value="(('sale_id' in doc._fields and doc.sale_id and doc.sale_id.name) or doc.origin or '---')"/>
+    <t t-set="client_relations" t-value="('x_studio_client_relations' in doc._fields and doc.x_studio_client_relations and doc.x_studio_client_relations.name) or '---'"/>
+    <t t-set="product_name_source" t-value="(production and (production.product_id.display_name or production.product_id.name)) or (move and (move.product_id.display_name or move.product_id.name)) or ''"/>
+    <t t-set="product_name" t-value="product_name_source and product_name_source.split(']')[-1].strip() or '---'"/>
+    <t t-set="qty_text" t-value="(production and ('%g' % production.product_qty)) or (move and ('%g' % (move.product_uom_qty or 0))) or '0'"/>
+    <t t-set="fabric_source" t-value="(production and 'product_description_variants' in production._fields and (production.product_description_variants or '')) or (move and 'sale_line_id' in move._fields and move.sale_line_id and move.sale_line_id.name) or ''"/>
+    <t t-set="fabric_segments" t-value="[segment.strip() for segment in fabric_source.replace('\r', '\n').replace(', ', '\n').split('\n') if segment.strip()]"/>
+    <t t-set="fabric_lines" t-value="[segment for segment in fabric_segments if 'FABRIC' in segment.upper() or 'TECIDO' in segment.upper()]"/>
+    <t t-set="fabric_line" t-value="fabric_lines and fabric_lines[0] or (fabric_segments and fabric_segments[0] or '')"/>
+    <t t-set="remaining_description_lines" t-value="[segment for segment in fabric_segments if segment != fabric_line]"/>
+    <t t-set="extra_description_line" t-value="remaining_description_lines and remaining_description_lines[0] or ''"/>
+    <t t-set="move_note" t-value="((move and 'x_studio_notas' in move._fields and move.x_studio_notas) or '').replace('\r', ' ').replace('\n', ' ').strip()"/>
+    <t t-set="line1" t-value="('%s x %s' % (qty_text, product_name)).strip() if product_name != '---' else '---'"/>
+    <t t-set="line2" t-value="fabric_line or '---'"/>
+    <t t-set="line3" t-value="move_note or extra_description_line or '---'"/>
+    <t t-set="fabric_arrival_date" t-value="(('date_done' in doc._fields and doc.date_done and doc.date_done.strftime('%d/%m/%Y')) or ('scheduled_date' in doc._fields and doc.scheduled_date and doc.scheduled_date.strftime('%d/%m/%Y')) or '---')"/>
+    <t t-set="comments" t-value="((('x_studio_nota_1' in doc._fields and doc.x_studio_nota_1) or '').replace('\r', ' ').replace('\n', ' ').strip()) or '---'"/>
+    <t t-set="com_fabric_mark" t-value="('x_studio_com_fabric' in doc._fields and doc.x_studio_com_fabric) and 'X' or ''"/>
+
+    <pre>
+^XA
+^FO30,0^GFA,6364,6364,37,gV0FE,gU07FFE,gT01JF8,gT07JFE,gT0LF,gS01LF8,gS03LFC,gS07LF8,gS0MF8,gR01MF8,gR01MF,gR03MF,gR03LFE,gR07LFE,gR07LFC,::gR0MF8,:gR0MF,::gR0LFE08,gR0LFE1C,gR0LFC1E,:gR07KF83F,:gR07KF87F8,gR03KF07F8,:gR01JFE0FF8,gR01JFE0FFC,gS0JFE1FFC,gS0JFC1FFC,gS07IFC1FFC,gS03IF83FFC,gS01IF83FFC,gT0IF87FFC,gT03FF07FFC,gT03FF0IF8,gT03FE0IF8,gT07FE0IF8,gT07FC1IF,:gT0FFC3IF,gT0FF83FFE,:gS01FF07FFC,gS01FF07FF8,gS01FF0IF,gS03FE0FFE,gS03FE1FFC,gS03FC1FF8,gS07FC1FE,gS07F83FF,:gS0FF87FF,gS0FF07FF8,:gR01FE0IF8,gR01FE0IFC,gR01FE1IFC,gR03FC1IFC,gR03FC1IFE,gR03F83IFE,gR07F83IFE,gR07F87JF,gR07F07JF,gR0FF0KF8,gR0FE0KF8,:gQ01FC1KFC,:gQ01FC3KFC,gQ03F83KFE,:gQ03F07KFE,gQ07F07LF,gQ07E0MF,gT0MF,gT0MF8,gS01MF8,:gS03MFC,:gS07MFE,::gS0OF,:gR01OF,gR01OF8,,::::::::::::::::::::::::::FE7I07FF8001FF3FE01F8J03KF07IFEK07FCO07FF8003JF003FC,1C0F001E078003807800600200301E0301E006L0EL01I01E07I07003I0F,1C03801E01C003807800400300201E0101E002L0EL03I01E03C007001I0F,1C01C01E01E003803800400300201E0101E002L0EL03I01E01C007I0800F,1C01E01E00E003803CK0700201E0101EO0EL038001E01E007I0800F,1C00E01E00E003803CK0780201E0101EO0EL078001E00E007I0800F,1C00E01E00E003801C0080078I01E0101EO0EL078001E00E007L0F,1C00E01E00E003801EK0B80201E0101EO0EL03C001E00E007L0F,1C00E01E00E003801EK0BCI01EI01EO0EL0BC001E00E007L0F,1C00E01E01E003800E01I01CI01EI01EO0EL09C001E01C007L0F,1C01E01E01C003800FK01CI01EI01EO0EL01E001E01C007L0F,1C01C01E038003800FJ011EI01EI01E04M0EK011E001E03I0702J0F,1C01C01E0CI03800702J0EI01EI01E0CM0EK010E001E3CI0706J0F,1C03001E1EI0380078K0EI01EI01FFCM0EM0F001E0EI07FEJ0F,1F0E001E07800380078I020FI01EI01E04M0EM0F001E03800702J0F,1CJ01E03C003800384J07I01EI01E04M0EK0207001E01E007L0F,1CJ01E01C0038003C4J07I01EI01EO0EM07801E00E007L0F,1CJ01E01C0038003CI04078001EI01EO0EM07801E00F007L0F,1CJ01E01E0038001C8004078001EI01EO0EK0403801E00F007L0F,1CJ01E01E0038001E8J03C001EI01EO0EM03C01E00F007L0F,1CJ01E01E0038001EI0803C001EI01EI08K0EM03C01E00F007L0FI041CJ01E01E0038I0FI0801C001EI01EI08K0EK0801C01E00F007L0FI041CJ01E01E0038I0EK01E001EI01EI08K0EK0801E01E00E007I0400FI041CJ01E00E0038I0EK01E001EI01EI08K0EI08J0E01E01E007I0400FI041CJ01E00E0038I06001I0E001EI01E0018K0EI081I0E01E01C007I0C00FI0C1CJ01E00F0038I04001I0F001EI01E0038K0E00381I0F01E078007001C00F001CFF8I07F807C1FFI04007C06F405E8005JF8J07JF87E02FC5FFC003JFC03F7FFC,::::::::::::J01I0804020402J08300808I0108008002L08I0C03L04040040042,J01I0804010802J08J01J02M05L08I0801L0204004008,J01I0804011002J0808041J02M05L08I0A05N04004008,J01I0804009002J0808022J02M088K08I0A01L0104004008,J01I0804006002J080802K01M088K08I0909M084004004,J01I0804004002J0808014K06S07E00901007EJ040040018,J01I0804006002J081I08K01K0104K08I0891M044004I02,J01I0804009002J0FCI08L08J0104K08I0891M024004I01,J01K0401I02J082I08Q0202K08I0861M014004I01,J01I04I0108I02008J08Q0202K08I0861M014004I01,J01I0208020401040081I08J0208J0401K08I0801N0C0040082,J01F801E004J07800808008J01EK0401K07F00801007FJ04004003C,^FS
+
+^CF0,20
+^CI28
+
+^FO340,0^GB440,150,2^FS
+^FO350,10^A0N,22,22^FDCONFIRMING SIGNATURE:^FS
+
+^FO20,185^GB760,210,2^FS
+^FO25,200^A0N,20,20^FDSUPPLIER: <t t-esc="supplier_name"/>^FS
+^FO25,240^A0N,20,20^FDECF NUMBER: <t t-esc="ecf_number"/>^FS
+^FO25,280^A0N,20,20^FDECF DATE: <t t-esc="ecf_date"/>^FS
+^FO25,320^A0N,20,20^FDFP NUMBER: <t t-esc="fp_number"/>^FS
+^FO25,360^A0N,20,20^FDCLIENT RELATIONS: <t t-esc="client_relations"/>^FS
+
+^FO20,405^GB760,180,2^FS
+^FO25,420^A0N,20,20^FDITEM DESCRIPTION:^FS
+^FO25,448^A0N,18,18^FB730,1,0,L,0^FD<t t-esc="line1"/>^FS
+^FO25,478^A0N,18,18^FB730,1,0,L,0^FD<t t-esc="line2"/>^FS
+^FO25,508^A0N,18,18^FB730,2,0,L,0^FD<t t-esc="line3"/>^FS
+
+^FO20,595^GB500,50,2^FS
+^FO25,610^A0N,20,20^FDFABRIC ARRIVAL DATE: <t t-esc="fabric_arrival_date"/>^FS
+
+^FO530,595^GB250,50,2^FS
+^FO550,610^A0N,20,20^FDCOM FABRIC^FS
+^FO735,603^GB24,24,2^FS
+^FO742,606^A0N,20,20^FD<t t-esc="com_fabric_mark"/>^FS
+
+^FO20,655^GB760,115,2^FS
+^FO25,665^A0N,20,20^FDCOMMENTS:^FS
+^FO25,695^A0N,18,18^FB730,3,3,L,0^FD<t t-esc="comments"/>^FS
+
+^CI0
+
+^XZ
+    </pre>
+
+    <p style="page-break-after: always;"/>
+  </t>
+</t>

@@ -1,0 +1,92 @@
+{
+  "project": {
+    "allocated_hours": 0.0,
+    "assumptions": [],
+    "business_impact": "",
+    "client_name": "Momentos D Argumento, Lda",
+    "client_unit": "",
+    "current_process": "",
+    "current_request": "",
+    "deliverables": [],
+    "excluded_scope": [],
+    "factual_scope_backlog": [],
+    "governance": {
+      "additional_contract_restrictions": "",
+      "additional_modules_allowed": "unknown",
+      "custom_allowed": "unknown",
+      "frequency": "",
+      "odoo_edition": "unknown",
+      "odoo_environment": "unknown",
+      "odoo_version": "",
+      "standard_allowed": "unknown",
+      "studio_allowed": "unknown",
+      "trigger": "",
+      "urgency": "unknown",
+      "volumes": ""
+    },
+    "included_scope": [
+      "(Reencaminhar e-mail para bruno hoje sff) Olá Bruno Conforme falado pessoalmente relato todos os assuntos pendentes Servidor para SH: Recebemos a proposta pelo Odoo e queríamos saber se a quantidade está ajustada para tudo funcionar sem falhas. Odoo.sh Staging Branch 1.00 Odoo.sh Worker 2.00 Odoo.sh GB 300.00 Versão 17 para a 19: Quando conseguem ver este ponto de situação. Disseram-nos que faziam a vossa migração em Abril e a nossa em Maio. Isto falado no início do ano. Queremos saber a vossa disponibilidade. Falar connosco do que muda porque existe processos que queremos ver para melhorar ou alterar. Um deles é armazéns/logística. Website Filtros de produto Image Página de produto idêntica a esta Nome / Preço / Opções com as outras opções de medida / Cores / Envios e devolução / Serviço de Loja / Combina-o com / Especificações do produto / Pode interessar-lhe / Visto recentemente",
+      "Gestão de Projeto",
+      "Contexto e histórico Este trabalho tem origem no projeto Odoo — Sofmovel (Phase 1) onde foram registadas duas tarefas relacionadas Migrar Odoo para odoo.sh (task #2369) — criada em julho 2025, com 7,5h de trabalho registadas, responsáveis Bruno Pinheiro, João Barros e Vítor Costa. Prazo inicial: fevereiro 2026. Permanece aberta em Sprint in Progress. SOFTMOVEL ODOO Versão 19 / SH / Website (task #5857) — criada em junho 2026 a partir do helpdesk ticket #11295 (Andreia Silva / Momentos D Argumento). Contém o histório completo de comunicação com o cliente sobre o âmbito desta migração. Âmbito acordado Migração do ambiente Odoo 17 Enterprise on-premise para Odoo.sh, seguida de upgrade de versão de v17 para v19, mantendo todos os módulos custom, dados e processos de trabalho actuais. A abordagem técnica foi discutida e confirmada com o cliente (ver comunicações junho 2026 nas tarefas de referência acima) A branch de produção mantém-se em v17 durante todo o processo — o cliente continua a trabalhar normalmente. O upgrade é executado numa branch de staging separada (v19), usando o backup diário de produção como base de teste. Apenas após validação funcional completa em staging é que se promove o upgrade para produção, com janela de indisponibilidade pontual e reversão automática em caso de falha. Este é o workflow oficial do Odoo para upgrades em Odoo.sh e a razão pela qual a subscrição deve incluir 2 Staging Branches. Estado no arranque deste projeto Cliente (Andreia Silva) confirmou em junho 2026 que iria corrigir a subscrição para ter 2 Staging Branches. Equipa aguarda confirmação de que a subscrição está correta para agendar o início dos trabalhos. Servidor on-premise: o cliente solicitou que se coordene o acerto necessário no servidor antes de o desativar. Interlocutores Papel Nome Cliente Andreia Silva (Momentos D Argumento, Lda) Gestor de projeto Bruno Pinheiro Técnico João Barros Técnico Vítor Costa Referências Task Phase 1 — Migrar Odoo para odoo.sh: Task Phase 1 — SOFTMOVEL ODOO Versão 19 / SH / Website",
+      "Verificar que a subscrição Odoo.sh do cliente está correctamente configurada com 1 branch de produção 2 branches de staging (uma para testes de desenvolvimento contínuo; uma dedicada ao upgrade v19) Confirmar com o cliente que o acerto foi efectuado antes de iniciar qualquer trabalho técnico. Critérios de aceitação Subscrição confirmada com 2 staging branches activas Acesso ao projecto Odoo.sh validado pela equipa técnica Data de início dos trabalhos agendada com o cliente",
+      "Migrar o ambiente Odoo 17 Enterprise actual (on-premise) para a plataforma Odoo.sh, mantendo a versão 17 em produção. Inclui Importação da base de dados e filestore para a branch de produção no Odoo.sh Adaptação dos módulos custom (pg_*) ao ambiente Odoo.sh (sem dependências de filesystem local, sem cron externos, sem configurações on-premise específicas) Configuração dos acessos, domínios e SMTP Validação pós-migração com o cliente Critérios de aceitação Base de dados e filestore migrados sem perda de dados Todos os módulos custom instalados e operacionais em Odoo.sh (v17) Website eCommerce acessível e funcional POS operacional Importação de produtos testada Fluxos críticos validados pelo cliente (vendas, compras, stock, expedição) Email configurado e a enviar corretamente",
+      "Executar o processo de upgrade de versão em branch de staging, com base no backup diário de produção (já em Odoo.sh). Inclui Solicitar upgrade oficial ao Odoo via plataforma Odoo.sh (upgraded database) Adaptar os módulos custom pg para compatibilidade com v19 Resolver incompatibilidades e deprecações da API entre v17 e v19 Testes de regressão dos fluxos críticos em staging Critérios de aceitação Base de dados de staging actualizada para v19 sem erros críticos Todos os módulos custom instalados e funcionais em v19 Fluxos de importação de produtos (Sofmovel + Kave) operacionais Website eCommerce funcional em v19 POS operacional em v19 Descontos B2B / listas de preços a funcionar Etiquetas A5/ZPL a funcionar Sem regressões nos módulos pg identificados",
+      "Sessão(ões) de validação com o cliente sobre o ambiente staging v19 antes da promoção para produção. O cliente testa os seus fluxos de trabalho diários e confirma que não há bloqueadores. Critérios de aceitação Cliente validou fluxos de venda e eCommerce Cliente validou importação de catálogo Cliente validou stock e expedição Nenhum bloqueador crítico em aberto Sinal verde do cliente para promoção a produção",
+      "Janela de indisponibilidade planeada para promoção do ambiente v19 de staging para produção. Inclui Agendamento da janela de manutenção com o cliente Merge/promoção da branch de staging v19 para produção Verificação pós-go-live dos fluxos críticos Comunicação ao cliente de conclusão Critérios de aceitação Janela de manutenção comunicada ao cliente com antecedência Promoção executada sem erros Sistema em produção v19 operacional Fluxos críticos verificados em produção Cliente notificado e a trabalhar normalmente",
+      "Coordenar com o cliente e com os seus parceiros informáticos (referenciados nas comunicações de junho 2026) os passos necessários no servidor on-premise antes de o desactivar. Inclui Confirmar que não existem dados ou configurações locais que não foram migrados Exportar/arquivar backups finais Coordenar desactivação com os parceiros do cliente Critérios de aceitação Confirmação de que todos os dados estão no Odoo.sh Backup final do servidor on-premise arquivado Servidor desactivado / migração concluída formalmente",
+      "FW: Welcome to Odoo.sh!",
+      "Reunião de levantamento do Ponto de Situação",
+      "Criar Odoo sh v19 standard em staging de testes com documentação guia passo a passo na app Knowledge de apoio a todos os processos do cliente.",
+      "teste",
+      "Bom Tarde"
+    ],
+    "name": "Odoo - Sofmovel (Migração para odoo.sh v19)",
+    "objective": "",
+    "odoo_id": 289,
+    "odoo_model": "project.project",
+    "phase": false,
+    "planned_date_begin": null,
+    "planned_date_end": null,
+    "problem_or_need": "",
+    "progress": 0.0,
+    "project_manager": "Bruno Pinheiro",
+    "record_url": "https://parametroglobal.odoo.com/web#id=289&model=project.project",
+    "repository_branch": "brodoo",
+    "repository_full_name": "parametroglobaladmin/Sofmovel",
+    "repository_summary": "",
+    "restrictions": [],
+    "scope_quality_review": {
+      "curation_reason_counts": {},
+      "excluded_noise_count": 0,
+      "excluded_noise_feedback": false,
+      "excluded_noise_reason_counts": {},
+      "excluded_noise_reason_summary": false,
+      "factual_scope_backlog_count": 0,
+      "factual_scope_backlog_feedback": false,
+      "factual_scope_backlog_reason_summary": false,
+      "included_scope_count": 14,
+      "scope_signal_feedback": "Ambito curado pronto no espelho: 14 item(s). Itens factuais pendentes de curadoria no Odoo: 0. Ruido excluido na curadoria: 0."
+    },
+    "stage_name": "In Progress",
+    "stakeholders": [
+      "Momentos D Argumento, Lda",
+      "Bruno Pinheiro"
+    ],
+    "synced_at": "2026-07-10 09:09:22",
+    "tag_names": [
+      "Odoo"
+    ]
+  },
+  "schema_version": "1.1",
+  "source_metadata": {
+    "payload_hash": "sha256:8cec43a6ad64a7168bf7137f04520f4d3fe806e0c512ced001b55252ca567869",
+    "repo_branch": "brodoo",
+    "source_model": "project.task",
+    "source_record_id": 6380,
+    "source_record_url": "https://parametroglobal.odoo.com/web#id=6380&model=project.task",
+    "source_system": "odoo_parametro_global",
+    "sync_published_at": "2026-07-10 09:09:22",
+    "sync_published_by": "OdooBot",
+    "sync_trigger": "task_write"
+  }
+}

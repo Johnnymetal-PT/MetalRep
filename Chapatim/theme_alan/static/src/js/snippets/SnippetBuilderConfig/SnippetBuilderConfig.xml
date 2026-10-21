@@ -1,0 +1,1168 @@
+<templates xml:space="preserve">
+    <t t-name="theme_alan.snippet_builder_configuration">
+        <div class="as-sb-snippet-config-title p-3 d-none">
+            <t t-esc="props.config.name or 'Select a Snippet Templates'" />
+        </div>
+        <div t-if="props.config.name" class="as-sb-sidebar" t-att-key="`sidebar-${props.config.technical_name}`">
+            <div class="as-sb-sidebar-tabs">
+                <ul class="as-sb-tab nav m-0 as-sb-border" role="tablist" t-att-key="`tabs-${props.config.technical_name}`">
+                    <!-- Selection Tab -->
+                    <li class="nav-item" role="presentation" t-if="props.config.technical_name != 'product_spotlight'">
+                        <button
+                            t-att-class="'nav-link' + (currentActiveTab == 'selection' ? ' active' : '')"
+                            t-on-click="() => this.onTabClick('selection')"
+                            role="tab">
+                            Selection
+                        </button>
+                    </li>
+                    <!-- Design Tab -->
+                    <li class="nav-item" role="presentation">
+                        <button
+                            t-att-class="'nav-link' + (currentActiveTab == 'design' ? ' active' : '')"
+                            t-on-click="() => this.onTabClick('design')"
+                            role="tab">
+                            Design
+                        </button>
+                    </li>
+                    <!-- Extra Tab -->
+                    <li class="nav-item" role="presentation" t-if="props.snippet_type !== 'as_mega_menu'">
+                        <button
+                            t-att-class="'nav-link' + (currentActiveTab == 'extra' ? ' active' : '')"
+                            t-on-click="() => this.onTabClick('extra')"
+                            role="tab">
+                            Extra
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="as-sb-panel-content panel-content tab-content"
+                 t-att-id="`pills-panelContent-${props.config.technical_name}`"
+                 t-att-key="`tab-content-wrapper-${props.config.technical_name}`">
+                <!-- ========================================= -->
+                <!-- SELECTION TAB -->
+                <!-- ========================================= -->
+                <div
+                    t-if="props.config.technical_name != 'product_spotlight'"
+                    t-att-class="'tab-pane fade' + (currentActiveTab === 'selection' ? ' show active' : '')">
+
+                    <div t-if="props.config.technical_name == 'products' or props.config.technical_name == 'product_banner' or props.config.technical_name == 'highlighted_product_grid'" class="as-sp-selection-select as-sb-border-bottom pb-3 d-flex gap-2">
+                        <div t-if="props.config.technical_name == 'products' or props.config.technical_name == 'product_banner'" class="as-snippet-selection-mode flex-1">
+                            <div>
+                                <h6 class="as-sp-label">Selection Mode</h6>
+                            </div>
+                            <select name="selection_mode"
+                                class="form-select"
+                                t-model="props.config.selection_mode_default"
+                                t-on-change="onChangeSelection">
+                                <option value="manual">Manual</option>
+                                <option value="custom_rules">Custom Rules</option>
+                            </select>
+                        </div>
+                        <div t-if="props.config.technical_name == 'products'
+                                or props.config.technical_name == 'product_banner'
+                                or props.config.technical_name == 'highlighted_product_grid'"
+                            class="as-snippet-model-selection flex-1">
+
+                            <div>
+                                <h6 class="as-sp-label">Model</h6>
+                            </div>
+
+                            <select name="model_selection"
+                                    class="form-select"
+                                    t-on-change="onChangeModel">
+
+                                <option value="Products"
+                                        t-att-selected="props.config.active_model === 'Products'">
+                                    Products
+                                </option>
+
+                                <option value="Variants"
+                                        t-att-selected="props.config.active_model === 'Variants'">
+                                    Variants
+                                </option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Custom Rules Section -->
+                    <div t-if="props.config.selection_mode_default == 'custom_rules' and (props.config.technical_name == 'products' or props.config.technical_name == 'product_banner')" class="d-flex flex-column gap-2">
+                        <div class="as-sb-filter as-sb-frame">
+                            <div class="d-flex flex-column gap-3">
+                                <div class="d-flex justify-content-between align-items-center gap-2 as-sb-border-bottom pb-3">
+                                    <span>Selected Filter</span>
+                                    <button class="btn as-sb-btn-primary-outlined" t-on-click="addNewFilter">
+                                        + Add Filter
+                                    </button>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center gap-2">
+                                    <span class="flex-1">Match</span>
+                                    <select name="filter_match_selection"
+                                            class="form-select filter-match flex-1"
+                                            t-on-change="onMatchChange">
+                                        <option value="and"
+                                            t-att-selected="props.config.filter_match == 'and' ? true : undefined">
+                                            All
+                                        </option>
+                                        <option value="or"
+                                            t-att-selected="props.config.filter_match == 'or' ? true : undefined">
+                                            Any
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Filter Rows -->
+                            <t t-if="props.config.filters and props.config.filters.length" t-foreach="props.config.filters" t-as="f" t-key="f.id">
+                                <div class="as-filter-row as-sb-border-bottom" t-att-data-filter-id="f.id" t-att-data-content="props.config.filter_match">
+                                    <div class="as-filter-row-heading as-sb-border position-relative d-flex align-items-center justify-content-between gap-2">
+                                        <div class="">
+                                            <t t-esc="(props.config.filters.indexOf(f) + 1) +  '. ' + getFilterLabel(f)"/>
+                                        </div>
+                                        <div class="">
+                                            <button class="btn as-sb-btn-primary rounded-pill" t-if="!f.locked" t-on-click="(ev) => this.setFilter(ev, f)">Save</button>
+                                            <button class="btn as-sb-btn-primary rounded-pill" t-if="f.locked" t-on-click="(ev) => this.editFilter(ev, f)">Edit</button>
+                                        </div>
+                                        <button class="btn btn-cross" t-on-click="() => this.removeFilter(f)">
+                                            <span class="as-sb-btn-icon"></span>
+                                        </button>
+                                    </div>
+                                    <div t-attf-class="as-filter-row-body {{ f.locked ? 'hide' : 'show' }}">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <div class="as-sb-form-group flex-1">
+                                                <!-- Field Selector -->
+                                                <label class="d-block small">Field :</label>
+                                                <select class="form-select filter-field"
+                                                        t-att-value="f.field"
+                                                        t-att-disabled="f.locked ? true : false"
+                                                        t-on-change="(ev) => this.onFieldChange(ev, f)">
+
+                                                    <t t-foreach="filterFieldOptions" t-as="opt" t-key="opt.value">
+                                                        <option t-att-value="opt.value"
+                                                                t-esc="opt.label"
+                                                                t-att-selected="f.field === opt.value ? true : undefined"/>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="as-sb-form-group flex-1">
+                                                <label class="d-block small">Operators :</label>
+                                                <select class="form-select filter-operator"
+                                                        t-att-value="f.operator"
+                                                        t-att-disabled="f.locked ? true : false"
+                                                        t-on-change="(ev) => this.onOperatorChange(ev, f)">
+                                                    <t t-foreach="filterOperatorOptions(f)" t-as="opt" t-key="opt.value">
+                                                        <option t-att-value="opt.value"
+                                                                t-esc="opt.label"
+                                                                t-att-selected="f.operator === opt.value ? true : undefined"/>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="as-sb-form-group">
+                                            <label class="d-block small">Value :</label>
+                                            <div class="filter-search-wrapper position-relative">
+                                                <div class="input-group">
+                                                    <input type="text"
+                                                        t-attf-class="form-control filter-value bg-light {{ (['=', '!='].includes(f.operator) and f.field != 'list_price') ? 'border-end-0' : '' }}"
+                                                        placeholder="Enter value..."
+                                                        t-att-disabled="f.locked ? true : false"
+                                                        t-att-readonly="(f.operator == 'set' or f.operator == 'not_set' or f.locked) ? true : undefined"/>
+
+                                                    <button type="button"
+                                                            class="btn border border-start-0 bg-light px-3"
+                                                            style="pointer-events: none;"
+                                                            tabindex="-1"
+                                                            t-if="['=', '!='].includes(f.operator) and f.field != 'list_price'">
+                                                        <i class="fa fa-search text-muted"></i>
+                                                    </button>
+                                                    <div class="alan-select-dropdown"></div>
+                                                </div>
+                                            </div>
+                                            <div class="selected-filter-items mt-2" t-if="f.selected_items and f.selected_items.length">
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    <div t-foreach="f.selected_items" t-as="item" t-key="item.id"
+                                                        class="badge bg-light text-dark border d-inline-flex align-items-center gap-2 py-2 px-3 as-name-badge">
+                                                        <span t-esc="item.name"/>
+                                                        <button type="button"
+                                                                class="btn-close btn-close-sm"
+                                                                style="font-size: 0.7rem;"
+                                                                t-att-value="f.field"
+                                                                t-att-disabled="f.locked ? true : false"
+                                                                t-on-click="(ev) => this.removeFilterItem(f, item)">
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+
+                        <div class="as-sb-record as-sb-frame">
+                            <div class="as-sb-title-pill-wrapper" style="margin-bottom: 12px;">
+                                <label for="record_limit" class="form-label as-sp-label mb-0">Record Limit</label>
+                                <span id="record_limit_value" class="as-sb-title-pill as-range-value">
+                                    <t t-esc="props.config.record_limit || 5"/> / 20
+                                </span>
+                            </div>
+                            <input type="range"
+                                class="form-range"
+                                t-att-style="'--range-progress: ' + ((((props.config.record_limit || 5) - 5) * 100) / (20 - 5)) + '%;'"
+                                min="5"
+                                max="20"
+                                t-att-value="props.config.record_limit || 5"
+                                id="record_limit"
+                                t-on-input="onChangeRecordLimit"/>
+                        </div>
+
+                        <div class="as-sb-order as-sb-frame as-sb-form-group">
+                            <label class="d-block small">Order By</label>
+                            <select class="form-select" t-on-change="onChangeOrderBy">
+                                <t t-foreach="orderByOptions" t-as="opt" t-key="opt.id">
+                                    <option
+                                        t-att-value="opt.id"
+                                        t-att-selected="props.config.active_quick_selction == opt.id ? true : undefined">
+                                        <t t-esc="opt.name"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+
+                        <div class="as-sb-predefined as-sb-frame as-sb-form-group">
+                            <label class="d-block small">Predefined Templates</label>
+                            <select class="form-select" t-on-change="onSelectPreDefineTemplates">
+                                <t t-foreach="preDefineTemplates" t-as="pdt" t-key="pdt.id">
+                                    <option t-att-value="pdt.id">
+                                        <t t-esc="pdt.name"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Manual Selection Section -->
+                    <div t-elif="props.config.selection_mode_default == 'manual'" class="as-manual-selection">
+                        <div class="as-sb-frame">
+                            <div t-if="props.config.sections and (props.config.technical_name === 'megamenu_shop_navigator' or props.config.technical_name === 'megamenu_multi_category')" class="btn-group w-100 mb-3">
+                            <button
+                                t-foreach="Object.keys(props.config.sections)"
+                                t-as="sectionKey"
+                                t-key="sectionKey"
+                                type="button"
+                                class="btn"
+                                t-att-value = "sectionKey"
+                                t-att-class="state.mmActiveSection?.key === sectionKey
+                                    ? 'btn-primary'
+                                    : 'btn-outline-primary'"
+                                t-on-click.stop="() => this.setActiveSection(sectionKey)">
+
+                                <t t-esc="props.config.sections[sectionKey].label"/>
+                            </button>
+                            </div>
+
+                            <div t-if="!(state.mmActiveSection?.key == 'product') or (props.config.technical_name == 'megamenu_category' and props.config.active_view === 'slider')" class="form-group as-edit-search mb-3">
+                                <input id="as_search" t-ref="search_record" type="text" class="form-control as_search" placeholder="Search by name..." />
+                            </div>
+                            <div t-if="state.showWarning" class="as-warning text-danger fw-bold mb-3" t-esc="state.warningMessage"/>
+                            <div t-if="this.props.config.record_info and this.props.config.record_info.length"
+                                class="as-selected-records pt-3 as-sb-border-top">
+                                <div t-if="!(state.mmActiveSection?.key == 'product')" class="d-flex justify-content-between align-items-center" style="margin-bottom: 12px;">
+                                    <h6 class="h6 mb-0">
+                                        Selected Records (<t t-esc="this.props.config.record_info.length"/>)
+                                    </h6>
+                                    <button class="remove-all-button" t-on-click="removeAllRecords">Remove All</button>
+                                </div>
+                                <div t-if="!(state.mmActiveSection?.key == 'product')" class="list-group gap-2" t-ref="sortableContainer">
+                                    <div t-foreach="this.props.config.record_info"
+                                        t-as="record"
+                                        t-key="record.id"
+                                        t-att-data-index="record_index"
+                                        class="sortable-record-item list-group-item d-flex gap-2">
+                                        <div class="d-flex align-items-center">
+                                            <div class="as-sb-icon">
+                                                <img t-att-src="record.image" class="w-100"/>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column gap-2 sortable-record-content">
+                                            <span t-esc="record.name"/>
+                                        </div>
+
+                                        <t t-if="(props.config.technical_name == 'megamenu_category' and props.config.active_view === 'grid') or
+                                        (props.config.technical_name == 'megamenu_shop_navigator' and state.mmActiveSection?.key === 'category') or
+                                        (props.config.technical_name == 'megamenu_multi_category' and state.mmActiveSection?.key === 'category_2')">
+                                            <t t-set="sub_cat" t-value="getSubCategory(record.id)"/>
+                                            <button t-attf-class="as-selected" t-on-click="selectSubCategory" t-att-data-id="record.id" t-att-data-sub-cat="sub_cat[0]">
+                                                Childs <t t-esc="sub_cat[1]"/>
+                                                <i class="fa fa-plus-circle" t-att-data-id="record.id"></i>
+                                            </button>
+                                        </t>
+                                        <button class="btn btn-sm btn-danger btn-delete" t-on-click="() => this.removeRecord(record)">
+                                            <img src="/theme_alan/static/src/img/cross-icon-svg.svg" />
+                                        </button>
+                                        <button class="btn btn-sm btn-drag as-sb-border d-flex align-items-center drag-handle" style="cursor: grab; gap: 2px;">
+                                            <i class="fa fa-ellipsis-v"></i>
+                                            <i class="fa fa-ellipsis-v"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div t-else="" class="as-empty-state as-sb-frame text-center py-4">
+                                <img src="/theme_alan/static/src/img/sb-empty-image.svg" />
+                                <p class="mb-0 fw-semibold">No record added. Use the search above to add record.</p>
+                            </div>
+                            <div t-if="props.config.technical_name == 'megamenu_shop_navigator' and state.mmActiveSection?.key == 'product'" class="as-sb-record as-sb-frame">
+                                <div class="as-sb-title-pill-wrapper" style="margin-bottom: 12px;">
+                                    <label for="record_limit" class="form-label as-sp-label mb-0">Record Limit</label>
+                                    <span id="record_limit_megamenu" class="as-sb-title-pill as-range-value">
+                                        <t t-esc="props.config.sections.product.record_limit"/> / 5
+                                    </span>
+                                </div>
+                                <input type="range"
+                                    class="form-range"
+                                    min="1"
+                                    max="5"
+                                    t-att-style="'--range-progress: ' + (((props.config.sections.product.record_limit - 1) * 100) / (5 - 1)) + '%;'"
+                                    t-att-value="props.config.sections.product.record_limit"
+                                    id="record_limit_megamenu"
+                                    t-on-input="onChangeMenuRecordLimit"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================= -->
+                <!-- DESIGN TAB -->
+                <!-- ========================================= -->
+                <div
+                    t-att-class="'tab-pane fade' + (currentActiveTab === 'design' ? ' show active' : '')">
+                    <!-- Product Spotlight Specific Design Options -->
+                    <t t-if="props.config.technical_name == 'product_spotlight'">
+                        <div class="as-sp-design-container d-flex flex-column gap-3">
+                            <div class="as-sp-row d-flex gap-2">
+                                <div class="as-sp-col flex-1">
+                                    <!-- Style Selection -->
+                                    <label class="as-sp-label">STYLE :</label>
+                                    <select name="grid_styles" class="form-select as-sp-select" t-on-change="changeGridStyle">
+                                        <t t-foreach="gridLayouts" t-as="style" t-key="style[2]">
+                                            <option t-att-value="style[2]"
+                                                    t-att-data-template="style[1]"
+                                                    t-att-selected="props.config.grid_style === style[2] ? true : undefined">
+                                                <t t-esc="style[0]"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="as-sb-divider p-0 m-0" />
+                        <div class="as-sp-design-container d-flex flex-column gap-3">
+                            <!-- Display Tabs -->
+                            <div class="as-sb-frame">
+                                <label class="form-label fw-bold">Display Tabs</label>
+                                <div class="d-flex flex-column gap-3">
+                                    <t t-if="props.config.tab_names" t-foreach="props.config.tab_names" t-as="tab" t-key="tab.key">
+                                        <div class="as-sp-items as-sp-toggle-row d-flex align-items-center justify-content-between">
+                                            <label t-att-for="`tab_${tab.key}`" class="mb-0">
+                                                <t t-esc="tab.label"/>
+                                            </label>
+
+                                            <label class="switch as-switch">
+                                                <div class="checkbox-switch">
+                                                    <input
+                                                        type="checkbox"
+                                                        t-att-id="`tab_${tab.key}`"
+                                                        t-att-checked="tab.enabled !== false"
+                                                        t-on-change="() => this.toggleTab(tab.key)"
+                                                    />
+                                                    <label t-att-for="`tab_${tab.key}`"></label>
+                                                </div>
+                                                <span class="slider round"></span>
+                                            </label>
+
+                                        </div>
+                                    </t>
+                                </div>
+                                <t t-if="!this.hasVisibleTabs">
+                                    <small class="text-danger">At least one tab must be enabled</small>
+                                </t>
+                            </div>
+                            <!-- Record Limit -->
+                            <div class="as-sb-record as-sb-frame">
+                                <div class="as-sb-title-pill-wrapper" style="margin-bottom: 12px;">
+                                    <label for="record_limit_spotlight" class="form-label as-sp-label mb-0">Record Limit</label>
+                                    <span class="as-sb-title-pill as-range-value">
+                                        <t t-esc="props.config.record_limit"/> / 20
+                                    </span>
+                                </div>
+                                <input type="range"
+                                    class="form-range"
+                                    t-att-style="'--range-progress: ' + (((props.config.record_limit - 5) * 100) / (20 - 5)) + '%;'"
+                                    min="5"
+                                    max="20"
+                                    t-att-value="props.config.record_limit"
+                                    id="record_limit_spotlight"
+                                    t-on-input="onChangeRecordLimit"/>
+                            </div>
+                        </div>
+                    </t>
+
+                    <t t-elif="props.config.technical_name == 'megamenu_multi_category' or props.config.technical_name == 'megamenu_shop_navigator'">
+                        <div class="as-sp-col flex-1">
+                            <label class="as-sp-label">STYLE :</label>
+                            <select name="mm_styles" class="form-select" t-on-change="changeMegaMenuStyle">
+                                <t t-foreach="megaMenuLayouts" t-as="style" t-key="style[2]">
+                                    <option t-att-value="style[2]" t-att-data-template="style[1]"
+                                        t-att-selected="props.config.mm_style == style[2] ? true: undefined">
+                                        <t t-esc="style[0]"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <div t-if="props.config.technical_name == 'megamenu_shop_navigator' and state.mmActiveSection?.key == 'product'" class="as-product-filter-checks d-flex gap-3 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="check_on_sale"
+                                    t-att-checked="props.config.sections?.product?.record_config == 'on_sale' ? true : undefined"
+                                    t-on-change="(ev) => this.onChangeRecordConfig(ev, 'on_sale')"/>
+                                <label class="form-check-label" for="check_on_sale">On Sale</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="check_best_seller"
+                                    t-att-checked="props.config.sections?.product?.record_config == 'best_seller' ? true : undefined"
+                                    t-on-change="(ev) => this.onChangeRecordConfig(ev, 'best_seller')"/>
+                                <label class="form-check-label" for="check_best_seller">Best Seller</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="check_new_arrival"
+                                    t-att-checked="props.config.sections?.product?.record_config == 'new_arrival' ? true : undefined"
+                                    t-on-change="(ev) => this.onChangeRecordConfig(ev, 'new_arrival')"/>
+                                <label class="form-check-label" for="check_new_arrival">New Arrival</label>
+                            </div>
+                        </div>
+                    </t>
+
+                    <!-- Other Snippets Design Options -->
+                    <t t-else="">
+                        <div class="as-sp-design-container d-flex flex-column gap-3">
+                            <div class="as-sp-row d-flex gap-2">
+                                <div t-if="!['highlighted_product_grid'].includes(props.config.technical_name)" class="as-sp-col flex-1">
+                                    <label class="as-sp-label">MODE :</label>
+                                    <select class="form-select as-sp-select as-mode-select" t-on-change="onChangeMode">
+                                        <option value="slider"
+                                                t-att-selected="props.config.active_view === 'slider'">
+                                            Slider
+                                        </option>
+                                        <option value="grid"
+                                                t-att-selected="props.config.active_view === 'grid'">
+                                            Grid
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="as-sp-col flex-1">
+                                    <label class="as-sp-label">STYLE :</label>
+                                    <t t-if="props.config.active_view == 'slider'">
+                                        <select name="slider_styles" class="form-select" t-on-change="changeSliderStyle">
+                                            <t t-foreach="sliderLayouts" t-as="style" t-key="style[2]">
+                                                <option t-att-value="style[2]" t-att-data-template="style[1]"
+                                                    t-att-selected="props.config.slider_style == style[2] ? true: undefined">
+                                                    <t t-esc="style[0]"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </t>
+                                    <t t-elif="props.config.active_view == 'grid'">
+                                        <select name="grid_styles" class="form-select" t-on-change="changeGridStyle">
+                                            <t t-foreach="gridLayouts" t-as="style" t-key="style[2]">
+                                                <option t-att-value="style[2]"
+                                                        t-att-data-template="style[1]"
+                                                        t-att-selected="props.config.grid_style === style[2] ? true : undefined">
+                                                    <t t-esc="style[0]"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="as-sb-divider p-0 m-0"/>
+                        <!-- Desktop/Mobile Item Count -->
+                        <div t-if="!['highlighted_product_grid','megamenu_shop_navigator','megamenu_shop_navigator','megamenu_products','megamenu_category','megamenu_brand'].includes(props.config.technical_name)" class="as-sp-block">
+                            <label class="as-sp-label as-sp-desktop-label">Number of item on desktop</label>
+                            <select name="desktop_item" class="form-select as-sp-select-desktop as-desktop-items" t-on-change="changeColItem">
+                                <t t-foreach="desktopItem" t-as="col" t-key="col.value">
+                                    <option t-att-value="col.value" t-att-selected="props.config.default_col_desk == col.value ? true : undefined" data-view-type="desk">
+                                        <t t-esc="col.label"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+
+                        <div t-if="!['ProductBanner', 'product_banner', 'highlighted_product_grid','megamenu_shop_navigator','megamenu_products','megamenu_category','megamenu_brand'].includes(props.config.technical_name)" class="as-sp-block">
+                            <label class="as-sp-label as-sp-mobile-label">Number of item on mobile</label>
+                            <select name="mobile_item" class="form-select as-sp-select-mobile as-mobile-items" t-on-change="changeColItem">
+                                <t t-foreach="mobileItem" t-as="col" t-key="col.value">
+                                    <option t-att-value="col.value" t-att-selected="props.config.default_col_mob == col.value ? true : undefined" data-view-type="mob">
+                                        <t t-esc="col.label"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <div t-if="['megamenu_products','megamenu_category','megamenu_brand'].includes(props.config.technical_name)"  class="as-sp-block">
+                            <label class="as-sp-label as-sp-desktop-label">Number of columns</label>
+                            <select name="col_item"  class="form-select as-sp-select-desktop as-desktop-items"  t-on-change="changeColItem">
+                                <t t-foreach="desktopItem" t-as="col" t-key="col.value">
+                                    <option t-att-value="col.value"
+                                            t-att-selected="props.config.col_item == col.value ? true : undefined">
+                                        <t t-esc="col.label"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <!-- Slider Specific Options -->
+                        <t t-if="props.config.active_view == 'slider'">
+                            <hr class="as-sb-divider p-0 m-0"/>
+                            <div class="as-sp-design-container d-flex flex-column gap-3">
+                                <div t-if="props.snippet_type !== 'as_mega_menu'" class="as-sp-col flex-1">
+                                    <label class="as-sp-label">Pagination :</label>
+                                    <select name="pagination_item" class="form-select" t-on-change="changePagination">
+                                        <t t-foreach="sliderPagination" t-as="item" t-key="item[0]">
+                                            <option t-att-value="item[0]"
+                                                t-att-selected="props.config.pagination == item[0] ? true: undefined">
+                                                <t t-esc="item[1]"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+
+                                <div class="as-sp-range-section">
+                                    <div class="as-sp-range-top as-sb-title-pill-wrapper">
+                                        <label class="as-sp-label mb-0">Slide speed Range</label>
+                                        <span class="as-sb-title-pill as-range-value"><t t-esc="props.config.slider_time"/> / 06</span>
+                                    </div>
+                                    <input type="range" class="form-range" t-att-style="'--range-progress: ' + (((props.config.slider_time - 1) * 100) / (6 - 1)) + '%;'"
+                                     min="1" max="6" t-att-value="props.config.slider_time" id="slider_time" t-on-input="onChangeSliderSpeed"/>
+                                </div>
+
+                                <div class="as-sp-toggle-row as-sb-frame">
+                                    <label class="as-sp-label as-toggle-label" for="infy-switch">Infinity Loop</label>
+                                    <label class="as-switch">
+                                        <div class="checkbox-switch">
+                                            <input type="checkbox" id="infy-switch" t-att-checked="props.config.loop ? true: undefined" t-on-change="changeInfinityLoop"/>
+                                            <label for="infy-switch"></label>
+                                        </div>
+                                        <span class="as-slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr class="as-sb-divider p-0 m-0"/>
+                            <div class="as-sp-design-section d-flex flex-column gap-3">
+                                <div class="as-sb-scrolling as-sb-frame as-sb-frame-header d-flex flex-column">
+                                    <h6 class="mb-0 fw-bold">Scrolling Behaviors</h6>
+                                    <div class="as-sp-scroll as-sp-toggle-row">
+                                        <label class="as-toggle-label" for="auto-check">Auto-Scroll</label>
+                                        <div class="as-switch checkbox-switch">
+                                            <input type="checkbox" widget="radio" t-att-checked="props.config.auto_slider == true ? true: undefined" id="auto-check" t-on-change="changeAutoSlider"/>
+                                            <label for="auto-check"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+
+                        <hr class="as-sb-divider p-0 m-0"/>
+                        <!-- Record Limit for other snippets -->
+                        <div t-if="props.config.selection_mode_default == 'custom_rules' or ['categories_products','brand_products','CategoryProduct','BrandProduct', 'brand_collection_showcase'].includes(props.config.technical_name)" class="as-sb-record as-sb-frame">
+                            <div class="as-sb-title-pill-wrapper" style="margin-bottom: 12px;">
+                                <label for="record_limit_design" class="form-label as-sp-label mb-0">Record Limit</label>
+                                <span class="as-sb-title-pill as-range-value">
+                                    <t t-esc="props.config.record_limit || 5"/> / 20
+                                </span>
+                            </div>
+                            <input type="range"
+                                class="form-range"
+                                t-att-style="'--range-progress: ' + ((((props.config.record_limit || 5) - 5) * 100) / (20 - 5)) + '%;'"
+                                min="5"
+                                max="20"
+                                t-att-value="props.config.record_limit || 5"
+                                id="record_limit_design"
+                                t-on-input="onChangeRecordLimit"/>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- ========================================= -->
+                <!-- EXTRA TAB -->
+                <!-- ========================================= -->
+                <div t-att-class="'tab-pane fade' + (currentActiveTab === 'extra' ? ' show active' : '')">
+                    <t t-set="slider_config" t-value="['BrandSlider','BlogSlider','brands','blogs']"/>
+
+                    <!-- Product Spotlight Specific Extra Options -->
+                    <t t-if="props.config.technical_name == 'product_spotlight' and props.snippet_type !== 'as_mega_menu'">
+                        <div class="d-flex flex-column gap-3">
+                            <!-- Quick Actions for Product Spotlight -->
+
+
+                            <div class="as-sp-quick-action">
+                                <div class="as-sb-frame as-sb-frame-header">
+                                    <h6 class="as-sp-title fw-bold mb-0">Quick Actions</h6>
+                                    <div class="as-sb-grid-2 as-sp-schedule-grid d-block">
+                                        <ul class="nav nav-tabs as-sb-inner-tab" id="quickActionTabs" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active"
+                                                    id="desktop-tab"
+                                                    data-bs-toggle="tab"
+                                                    data-bs-target="#desktop"
+                                                    type="button"
+                                                    role="tab"
+                                                >
+                                                    <span class="as-sp-icon">
+                                                        <img src="/theme_alan/static/src/img/desktop-icon.svg" />
+                                                    </span>
+                                                    Desktop
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link"
+                                                    id="mobile-tab"
+                                                    data-bs-toggle="tab"
+                                                    data-bs-target="#mobile"
+                                                    type="button"
+                                                    role="tab"
+                                                >
+                                                    <span class="as-sp-icon">
+                                                        <img src="/theme_alan/static/src/img/mobile-icon.svg" />
+                                                    </span>
+                                                    Mobile
+                                                </button>
+                                            </li>
+                                        </ul>
+                                        <!-- Tab content -->
+                                        <div class="tab-content" id="quickActionTabsContent">
+                                            <div class="tab-pane fade show active"
+                                                id="desktop"
+                                                role="tabpanel">
+                                                <!-- Desktop Quick Actions -->
+                                                <div class="as-sb-grid-2 as-sp-quick-action-grid">
+                                                    <!-- Rating -->
+                                                    <div t-att-class="props.config.allow_rating ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="rating" type="checkbox" value="rating" id="qo_rating_spotlight"
+                                                            t-att-checked="props.config.allow_rating ? true: undefined"
+                                                            data-target="allow_rating" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_rating_spotlight" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-4.svg" />
+                                                        </span>
+                                                        <span class="as-sp-rt-label">Rating</span>
+                                                    </div>
+
+                                                    <!-- Brand Info -->
+                                                    <div t-att-class="props.config.allow_brand_info ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="brand_info" type="checkbox" value="brand_info" id="qo_brand_info_spotlight"
+                                                            t-att-checked="props.config.allow_brand_info ? true: undefined"
+                                                            data-target="allow_brand_info" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_brand_info_spotlight" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-9.svg" />
+                                                        </span>
+                                                        <span class="as-sp-bi-label">Brand Info</span>
+                                                    </div>
+
+                                                    <div t-att-class="props.config.allow_product_discount ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="product_discount" type="checkbox" value="product_discount" id="qo_product_discount"
+                                                            t-att-checked="props.config.allow_product_discount ? true: undefined"
+                                                            data-target="allow_product_discount" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_product_discount" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-11.svg" />
+                                                        </span>
+                                                        <span class="as-sp-cv-label">Discount</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade"
+                                                id="mobile"
+                                                role="tabpanel">
+                                                <!-- Mobile Quick Actions -->
+                                                <div class="as-sb-grid-2 as-sp-quick-action-grid">
+                                                    <!-- Rating -->
+                                                    <div t-att-class="props.config.mob_allow_rating ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="mob_rating" type="checkbox" value="mob_rating" id="qo_mob_rating_spotlight"
+                                                            t-att-checked="props.config.mob_allow_rating ? true: undefined"
+                                                            data-target="mob_allow_rating" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_mob_rating_spotlight" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-4.svg" />
+                                                        </span>
+                                                        <span class="as-sp-rt-label">Rating</span>
+                                                    </div>
+
+                                                    <!-- Brand Info -->
+                                                    <div t-att-class="props.config.mob_allow_brand_info ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="mob_brand_info" type="checkbox" value="mob_brand_info" id="qo_mob_brand_info_spotlight"
+                                                            t-att-checked="props.config.mob_allow_brand_info ? true: undefined"
+                                                            data-target="mob_allow_brand_info" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_mob_brand_info_spotlight" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-9.svg" />
+                                                        </span>
+                                                        <span class="as-sp-bi-label">Brand Info</span>
+                                                    </div>
+
+                                                    <!-- Product Discount -->
+                                                    <div t-att-class="props.config.mob_allow_product_discount ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="mob_product_discount" type="checkbox" value="mob_product_discount" id="qo_mob_product_discount_spotlight"
+                                                            t-att-checked="props.config.mob_allow_product_discount ? true: undefined"
+                                                            data-target="mob_allow_product_discount" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_mob_product_discount_spotlight" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-11.svg" />
+                                                        </span>
+                                                        <span class="as-sp-cv-label">Discount</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Scheduling Controls for Product Spotlight -->
+                            <div class="as-sp-scheduling">
+                                <div class="as-sb-frame as-sb-frame-header">
+                                    <h6 class="as-sp-title fw-bold">Scheduling Controls</h6>
+                                    <div class="as-sb-grid-2 as-sp-schedule-grid d-block">
+                                        <div class="as-sp-schedule-item mb-3">
+                                            <label class="as-sp-label">START DATE :</label>
+                                            <div class="as-sp-input">
+                                                <input type="datetime-local"
+                                                    class="as-start-datetime form-control"
+                                                    t-att-value="props.config.start_date or ''"
+                                                    t-on-change="onStartDateChange"/>
+                                            </div>
+                                        </div>
+                                        <div class="as-sp-schedule-item">
+                                            <label class="as-sp-label">END DATE :</label>
+                                            <div class="as-sp-input">
+                                                <input type="datetime-local"
+                                                    class="as-end-datetime form-control"
+                                                    t-att-value="props.config.end_date or ''"
+                                                    t-on-change="onEndDateChange"/>
+                                            </div>
+                                        </div>
+                                        <div class="text-muted small mt-2">
+                                            Show this snippet only between the selected start and end dates.
+                                            If no dates are selected, the snippet will remain visible.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+
+                    <!-- Other Snippets Extra Options -->
+                    <t t-else="">
+                        <div class="d-flex flex-column gap-3">
+                             <t t-set="other_slider_config" t-value="['CategorySlider','BrandSlider','BlogSlider','categories','brands','blogs']"/>
+                            <!-- Quick Actions for Other Snippets -->
+                            <div t-if="props.snippet_type !== 'as_mega_menu' and !other_slider_config.includes(props.config.technical_name) and props.snippet_type !== 'as_mega_menu'" class="as-sp-quick-action">
+                                <div class="as-sb-frame as-sb-frame-header">
+                                    <h6 class="as-sp-title fw-bold mb-0">Quick Actions</h6>
+                                    <div class="as-sb-grid-2 as-sp-schedule-grid d-block">
+                                        <ul class="nav nav-tabs as-sb-inner-tab" id="quickActionTabs" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active"
+                                                    id="desktop-tab"
+                                                    data-bs-toggle="tab"
+                                                    data-bs-target="#desktop"
+                                                    type="button"
+                                                    role="tab"
+                                                >
+                                                    <span class="as-sp-icon">
+                                                        <img src="/theme_alan/static/src/img/desktop-icon.svg" />
+                                                    </span>
+                                                    Desktop
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link"
+                                                    id="mobile-tab"
+                                                    data-bs-toggle="tab"
+                                                    data-bs-target="#mobile"
+                                                    type="button"
+                                                    role="tab"
+                                                >
+                                                    <span class="as-sp-icon">
+                                                        <img src="/theme_alan/static/src/img/mobile-icon.svg" />
+                                                    </span>
+                                                    Mobile
+                                                </button>
+                                            </li>
+                                        </ul>
+                                        <!-- Tab content -->
+                                        <div class="tab-content" id="quickActionTabsContent">
+                                            <div class="tab-pane fade show active"
+                                                id="desktop"
+                                                role="tabpanel">
+                                                <!-- Desktop Quick Actions -->
+                                                <div class="as-sb-grid-2 as-sp-quick-action-grid">
+                                                    <!-- Add to Cart -->
+                                                    <div t-att-class="props.config.allow_add_to_cart ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="add_to_cart" type="checkbox" value="add_to_cart" id="qo_add_to_cart"
+                                                            t-att-checked="props.config.allow_add_to_cart ? true: undefined"
+                                                            data-target="allow_add_to_cart" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_add_to_cart" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-1.svg" />
+                                                        </span>
+                                                        <span class="as-sp-ac-label">Add to cart</span>
+                                                    </div>
+
+                                                    <!-- Quick View -->
+                                                    <div t-if="props.config.active_model == 'Products'" t-att-class="props.config.allow_quick_view ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="quick_view" type="checkbox" value="quick_view" id="qo_quick_view"
+                                                            t-att-checked="props.config.allow_quick_view ? true: undefined"
+                                                            data-target="allow_quick_view" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_quick_view" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-2.svg" />
+                                                        </span>
+                                                        <span class="as-sp-qv-label">Quick View</span>
+                                                    </div>
+
+                                                    <!-- Wishlist -->
+                                                    <div t-att-class="props.config.allow_wishlist ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="wishlist" type="checkbox" value="wishlist" id="qo_wish_list"
+                                                            t-att-checked="props.config.allow_wishlist ? true: undefined"
+                                                            data-target="allow_wishlist" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_wish_list" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-3.svg" />
+                                                        </span>
+                                                        <span class="as-sp-wl-label">Wishlist</span>
+                                                    </div>
+
+                                                    <!-- Rating -->
+                                                    <div t-att-class="props.config.allow_rating ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="rating" type="checkbox" value="rating" id="qo_rating"
+                                                            t-att-checked="props.config.allow_rating ? true: undefined"
+                                                            data-target="allow_rating" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_rating" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-4.svg" />
+                                                        </span>
+                                                        <span class="as-sp-rt-label">Rating</span>
+                                                    </div>
+
+                                                    <!-- Compare -->
+                                                    <div t-att-class="props.config.allow_compare ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="compare" type="checkbox" value="compare" id="qo_compare"
+                                                            t-att-checked="props.config.allow_compare ? true: undefined"
+                                                            data-target="allow_compare" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_compare" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-5.svg" />
+                                                        </span>
+                                                        <span class="as-sp-cp-label">Compare</span>
+                                                    </div>
+
+                                                    <!-- Ribbon -->
+                                                    <div t-att-class="props.config.allow_label ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="tag" type="checkbox" value="tag" id="qo_tag"
+                                                            t-att-checked="props.config.allow_label ? true: undefined"
+                                                            data-target="allow_label" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_tag" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-6.svg" />
+                                                        </span>
+                                                        <span class="as-sp-cp-label">Ribbon</span>
+                                                    </div>
+
+                                                    <!-- Offer Time -->
+                                                    <div t-att-class="props.config.allow_offer_time ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="offer_timer" type="checkbox" value="offer_timer" id="qo_offer_timer"
+                                                            t-att-checked="props.config.allow_offer_time ? true: undefined"
+                                                            data-target="allow_offer_time" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_offer_timer" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-7.svg" />
+                                                        </span>
+                                                        <span class="as-sp-ot-label">Offer Time</span>
+                                                    </div>
+
+                                                    <!-- Stock Info -->
+                                                    <div t-att-class="props.config.allow_stock_info ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="stock_info" type="checkbox" value="stock_info" id="qo_stock_info"
+                                                            t-att-checked="props.config.allow_stock_info ? true: undefined"
+                                                            data-target="allow_stock_info" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_stock_info" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-8.svg" />
+                                                        </span>
+                                                        <span class="as-sp-si-label">Stock Info</span>
+                                                    </div>
+
+                                                    <!-- Brand Info -->
+                                                    <div t-att-class="props.config.allow_brand_info ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="brand_info" type="checkbox" value="brand_info" id="qo_brand_info"
+                                                            t-att-checked="props.config.allow_brand_info ? true: undefined"
+                                                            data-target="allow_brand_info" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_brand_info" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-9.svg" />
+                                                        </span>
+                                                        <span class="as-sp-bi-label">Brand Info</span>
+                                                    </div>
+
+                                                    <!-- Image Hover -->
+                                                    <div t-att-class="props.config.allow_hover_image ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="hover" type="checkbox" value="hover" id="qo_hover"
+                                                            t-att-checked="props.config.allow_hover_image ? true: undefined"
+                                                            data-target="allow_hover_image" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_hover" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-10.svg" />
+                                                        </span>
+                                                        <span class="as-sp-ih-label">Image Hover</span>
+                                                    </div>
+
+                                                    <!-- Color Variant -->
+                                                    <div t-if="props.config.active_model == 'Products'" t-att-class="props.config.allow_color_variant ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="color_variant" type="checkbox" value="color_variant" id="qo_color_variant"
+                                                            t-att-checked="props.config.allow_color_variant ? true: undefined"
+                                                            data-target="allow_color_variant" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_color_variant" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-11.svg" />
+                                                        </span>
+                                                        <span class="as-sp-cv-label">Variant</span>
+                                                    </div>
+
+                                                    <div t-att-class="props.config.allow_product_discount ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                        <input class="form-check-input d-none" name="product_discount" type="checkbox" value="product_discount" id="qo_product_discount"
+                                                            t-att-checked="props.config.allow_product_discount ? true: undefined"
+                                                            data-target="allow_product_discount" t-on-change="changeQuickOption"/>
+                                                        <label for="qo_product_discount" />
+                                                        <span class="fa-icon">
+                                                            <img src="/theme_alan/static/src/img/unique-12.svg" />
+                                                        </span>
+                                                        <span class="as-sp-cv-label">Discount</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade"
+                                                id="mobile"
+                                                role="tabpanel">
+                                                <!-- Mobile Quick Actions -->
+                                                <div class="as-sb-grid-2 as-sp-quick-action-grid">
+                                            <!-- Add to Cart -->
+                                            <div t-att-class="props.config.mob_allow_add_to_cart ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                <input class="form-check-input d-none" name="mob_add_to_cart" type="checkbox" value="mob_add_to_cart" id="qo_mob_add_to_cart"
+                                                    t-att-checked="props.config.mob_allow_add_to_cart ? true: undefined"
+                                                    data-target="mob_allow_add_to_cart" t-on-change="changeQuickOption"/>
+                                                <label for="qo_mob_add_to_cart" />
+                                                <span class="fa-icon">
+                                                    <img src="/theme_alan/static/src/img/unique-1.svg" />
+                                                </span>
+                                                <span class="as-sp-ac-label">Add to cart</span>
+                                            </div>
+
+                                            <!-- Quick View -->
+                                            <div t-if="props.config.active_model == 'Products'" t-att-class="props.config.mob_allow_quick_view ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                <input class="form-check-input d-none" name="mob_quick_view" type="checkbox" value="mob_quick_view" id="qo_mob_quick_view"
+                                                    t-att-checked="props.config.mob_allow_quick_view ? true: undefined"
+                                                    data-target="mob_allow_quick_view" t-on-change="changeQuickOption"/>
+                                                <label for="qo_mob_quick_view" />
+                                                <span class="fa-icon">
+                                                    <img src="/theme_alan/static/src/img/unique-2.svg" />
+                                                </span>
+                                                <span class="as-sp-qv-label">Quick View</span>
+                                            </div>
+
+                                            <!-- Wishlist -->
+                                            <div t-att-class="props.config.mob_allow_wishlist ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                <input class="form-check-input d-none" name="mob_wishlist" type="checkbox" value="mob_wishlist" id="qo_mob_wish_list"
+                                                    t-att-checked="props.config.mob_allow_wishlist ? true: undefined"
+                                                    data-target="mob_allow_wishlist" t-on-change="changeQuickOption"/>
+                                                <label for="qo_mob_wish_list" />
+                                                <span class="fa-icon">
+                                                    <img src="/theme_alan/static/src/img/unique-3.svg" />
+                                                </span>
+                                                <span class="as-sp-wl-label">Wishlist</span>
+                                            </div>
+
+                                            <!-- Rating -->
+                                            <div t-att-class="props.config.mob_allow_rating ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                <input class="form-check-input d-none" name="mob_rating" type="checkbox" value="mob_rating" id="qo_mob_rating"
+                                                    t-att-checked="props.config.mob_allow_rating ? true: undefined"
+                                                    data-target="mob_allow_rating" t-on-change="changeQuickOption"/>
+                                                <label for="qo_mob_rating" />
+                                                <span class="fa-icon">
+                                                    <img src="/theme_alan/static/src/img/unique-4.svg" />
+                                                </span>
+                                                <span class="as-sp-rt-label">Rating</span>
+                                            </div>
+
+                                            <!-- Compare -->
+                                            <div t-att-class="props.config.mob_allow_compare ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                <input class="form-check-input d-none" name="mob_compare" type="checkbox" value="mob_compare" id="qo_mob_compare"
+                                                    t-att-checked="props.config.mob_allow_compare ? true: undefined"
+                                                    data-target="mob_allow_compare" t-on-change="changeQuickOption"/>
+                                                <label for="qo_mob_compare" />
+                                                <span class="fa-icon">
+                                                    <img src="/theme_alan/static/src/img/unique-5.svg" />
+                                                </span>
+                                                <span class="as-sp-cp-label">Compare</span>
+                                            </div>
+
+                                            <!-- Ribbon -->
+                                            <div t-att-class="props.config.mob_allow_label ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                <input class="form-check-input d-none" name="mob_tag" type="checkbox" value="mob_tag" id="qo_mob_tag"
+                                                    t-att-checked="props.config.mob_allow_label ? true: undefined"
+                                                    data-target="mob_allow_label" t-on-change="changeQuickOption"/>
+                                                <label for="qo_mob_tag" />
+                                                <span class="fa-icon">
+                                                    <img src="/theme_alan/static/src/img/unique-6.svg" />
+                                                </span>
+                                                <span class="as-sp-cp-label">Ribbon</span>
+                                            </div>
+
+                                            <!-- Offer Time -->
+                                            <div t-att-class="props.config.mob_allow_offer_time ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                <input class="form-check-input d-none" name="mob_offer_timer" type="checkbox" value="mob_offer_timer" id="qo_mob_offer_timer"
+                                                    t-att-checked="props.config.mob_allow_offer_time ? true: undefined"
+                                                    data-target="mob_allow_offer_time" t-on-change="changeQuickOption"/>
+                                                <label for="qo_mob_offer_timer" />
+                                                <span class="fa-icon">
+                                                    <img src="/theme_alan/static/src/img/unique-7.svg" />
+                                                </span>
+                                                <span class="as-sp-ot-label">Offer Time</span>
+                                            </div>
+
+                                            <!-- Stock Info -->
+                                            <div t-att-class="props.config.mob_allow_stock_info ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                <input class="form-check-input d-none" name="mob_stock_info" type="checkbox" value="mob_stock_info" id="qo_mob_stock_info"
+                                                    t-att-checked="props.config.mob_allow_stock_info ? true: undefined"
+                                                    data-target="mob_allow_stock_info" t-on-change="changeQuickOption"/>
+                                                <label for="qo_mob_stock_info" />
+                                                <span class="fa-icon">
+                                                    <img src="/theme_alan/static/src/img/unique-8.svg" />
+                                                </span>
+                                                <span class="as-sp-si-label">Stock Info</span>
+                                            </div>
+
+                                            <!-- Brand Info -->
+                                            <div t-att-class="props.config.mob_allow_brand_info ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                <input class="form-check-input d-none" name="mob_brand_info" type="checkbox" value="mob_brand_info" id="qo_mob_brand_info"
+                                                    t-att-checked="props.config.mob_allow_brand_info ? true: undefined"
+                                                    data-target="mob_allow_brand_info" t-on-change="changeQuickOption"/>
+                                                <label for="qo_mob_brand_info" />
+                                                <span class="fa-icon">
+                                                    <img src="/theme_alan/static/src/img/unique-9.svg" />
+                                                </span>
+                                                <span class="as-sp-bi-label">Brand Info</span>
+                                            </div>
+
+                                            <!-- Image Hover -->
+                                            <div t-att-class="props.config.mob_allow_hover_image ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                <input class="form-check-input d-none" name="mob_hover" type="checkbox" value="mob_hover" id="qo_mob_hover"
+                                                    t-att-checked="props.config.mob_allow_hover_image ? true: undefined"
+                                                    data-target="mob_allow_hover_image" t-on-change="changeQuickOption"/>
+                                                <label for="qo_mob_hover" />
+                                                <span class="fa-icon">
+                                                    <img src="/theme_alan/static/src/img/unique-10.svg" />
+                                                </span>
+                                                <span class="as-sp-ih-label">Image Hover</span>
+                                            </div>
+
+                                            <!-- Color Variant -->
+                                            <div t-if="props.config.active_model == 'Products'" t-att-class="props.config.mob_allow_color_variant ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                <input class="form-check-input d-none" name="mob_color_variant" type="checkbox" value="mob_color_variant" id="qo_mob_color_variant"
+                                                    t-att-checked="props.config.mob_allow_color_variant ? true: undefined"
+                                                    data-target="mob_allow_color_variant" t-on-change="changeQuickOption"/>
+                                                <label for="qo_mob_color_variant" />
+                                                <span class="fa-icon">
+                                                    <img src="/theme_alan/static/src/img/unique-11.svg" />
+                                                </span>
+                                                <span class="as-sp-cv-label">Variant</span>
+                                            </div>
+
+                                            <!-- Product Discount -->
+                                            <div t-att-class="props.config.mob_allow_product_discount ? 'as-sp-qa-item active' : 'as-sp-qa-item'">
+                                                <input class="form-check-input d-none" name="mob_product_discount" type="checkbox" value="mob_product_discount" id="qo_mob_product_discount"
+                                                    t-att-checked="props.config.mob_allow_product_discount ? true: undefined"
+                                                    data-target="mob_allow_product_discount" t-on-change="changeQuickOption"/>
+                                                <label for="qo_mob_product_discount" />
+                                                <span class="fa-icon">
+                                                    <img src="/theme_alan/static/src/img/unique-12.svg" />
+                                                </span>
+                                                <span class="as-sp-cv-label">Discount</span>
+                                            </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Scheduling Controls for Other Snippets -->
+                            <div class="as-sp-scheduling">
+                                <div class="as-sb-frame as-sb-frame-header">
+                                    <h6 class="as-sp-title fw-bold">Scheduling Controls</h6>
+                                    <div class="as-sb-grid-2 as-sp-schedule-grid d-block">
+                                        <div class="as-sp-schedule-item mb-3">
+                                            <label class="as-sp-label">START DATE :</label>
+                                            <div class="as-sp-input">
+                                                <input type="datetime-local"
+                                                    class="as-start-datetime form-control"
+                                                    t-att-value="props.config.start_date or ''"
+                                                    t-on-change="onStartDateChange"/>
+                                            </div>
+                                        </div>
+                                        <div class="as-sp-schedule-item">
+                                            <label class="as-sp-label">END DATE :</label>
+                                            <div class="as-sp-input">
+                                                <input type="datetime-local"
+                                                    class="as-end-datetime form-control"
+                                                    t-att-value="props.config.end_date or ''"
+                                                    t-on-change="onEndDateChange"/>
+                                            </div>
+                                        </div>
+                                        <div class="text-muted small mt-2">
+                                            Show this snippet only between the selected start and end dates.
+                                            If no dates are selected, the snippet will remain visible.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="as-sp-user-visibility">
+                                <div class="as-sb-frame as-sb-frame-header">
+                                    <h6 class="as-sp-title fw-bold">User Visibility</h6>
+                                    <div class="as-sb-grid-2 as-sp-schedule-grid d-block">
+                                        <div class="as-sp-schedule-item">
+                                            <label class="as-sp-label">Display Snippet For :</label>
+                                            <div class="as-sp-input">
+                                                <select class="form-select"
+                                                        t-att-value="props.config.user_visibility || 'all'"
+                                                        t-on-change="onVisibilityChange">
+                                                    <option value="all">All Users</option>
+                                                    <option value="login">Logged-in Users</option>
+                                                    <option value="public">Public Users</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="text-muted small mt-2">
+                                            Control who can see this snippet on the website.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

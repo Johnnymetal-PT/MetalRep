@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Estende a vista de formulário do produto para adicionar as tabelas de consumo de tecido -->
+    <record id="product_template_form_view_fabric_consumption" model="ir.ui.view">
+        <field name="name">product.template.form.fabric.consumption</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Adiciona o campo is_fabric na aba Informações Gerais -->
+            <xpath expr="//page[@name='general_information']//group" position="inside">
+                    <group string="Configuração de Tecido" col="2">
+			<field name="is_fabric"/>
+			<field name="fabric_identifier_id"/>
+		    </group>
+            </xpath>
+            
+            <!-- Adiciona uma nova aba para as tabelas de consumo de tecido -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Aproveitamento de Tecido">
+                    <field name="fabric_variant_ids" context="{'default_product_tmpl_id': active_id}">
+                        <tree>
+                            <field name="variant_id"/>
+                            <field name="variant_name"/>
+                            <field name="subvariant_name"/>
+                            <field name="variant_reference"/>
+                        </tree>
+                    </field>
+                    
+                    <div class="alert alert-info" role="alert">
+                        <p>
+                            <strong>Instruções:</strong>
+                        </p>
+                        <ol>
+                            <li>Clique em "Buscar Variantes Automaticamente" para detectar as variantes dos atributos do produto principal</li>
+                            <li>Clique duas vezes em uma linha para editar a tabela de consumo</li>
+                            <li>Defina o consumo de tecido para cada quantidade (1 a 10)</li>
+                        </ol>
+                        <p>
+                            <strong>Formato esperado na descrição:</strong><br/>
+                            FABRIC 1: FABRIC SUPLIED BY PRIVATE LABEL: FABRIC USED IN 1: Assento: descrição<br/>
+                            FABRIC 2: FABRIC SUPLIED BY PRIVATE LABEL: FABRIC USED IN 2: Costa: descrição<br/>
+                            FABRIC 3: FABRIC SUPLIED BY PRIVATE LABEL: FABRIC USED IN 3: Braços: descrição
+                        </p>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- Estende a vista de formulário da ordem de fabricação para mostrar informações de consumo 
+    <record id="mrp_production_form_view_fabric_consumption" model="ir.ui.view">
+        <field name="name">mrp.production.form.fabric.consumption</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bom_id']" position="after">
+                <field name="bom_id" domain="[('origin_bom_id', '!=', False)]"/>
+                <field name="original_bom_id" readonly="1"/>
+                <field name="fabric_consumption_info" readonly="1"/>
+            </xpath>       </field>
+    </record>-->
+</odoo>
+
+
+

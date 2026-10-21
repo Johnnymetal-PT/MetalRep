@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="theme_clarico_vega.DynamicSnippetBrandsOption" t-inherit="website.DynamicSnippetCarouselOption">
+        <xpath expr="//BuilderRow[*[@id=&quot;'filter_opt'&quot;]]" position="after">
+            <BuilderRow label.translate="Brand" t-if="!this.domState.isAlternative and !isSingleMode">
+                <BuilderSelect dataAttributeAction="'brandId'" preview="false" id="'brand_opt'">
+                    <BuilderSelectItem dataAttributeActionValue="'all'">All Brands</BuilderSelectItem>
+                    <t t-foreach="state.brands" t-as="brand" t-key="`${brand.id}`">
+                        <BuilderSelectItem dataAttributeActionValue="`${brand.id}`" t-out="brand.name"/>
+                    </t>
+                </BuilderSelect>
+            </BuilderRow>
+        </xpath>
+    </t>
+
+</templates>

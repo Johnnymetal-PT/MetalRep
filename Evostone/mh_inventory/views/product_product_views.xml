@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="product_variant_easy_edit_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.variant.easy.edit.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_row')][field[@name='lst_price']]" position="after">
+                <label for="custom_lst_price" string="Preço Personalizado" invisible="not product_tmpl_id.use_custom_variant_pricing"/>
+                <div name="custom_price_uom" invisible="not product_tmpl_id.use_custom_variant_pricing">
+                    <field name="custom_lst_price" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                    <span name="custom_uom_span" groups="uom.group_uom">
+                        por
+                        <field name="uom_id" class="oe_inline" style="max-width:136px" options="{'no_create': True}" readonly="1"/>
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product Variant Form View -->
+    <record id="product_variant_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.form.inherit.mh_inventory</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Esconder standard_price + div "per uom" quando produto tem forma fisica -->
+            <xpath expr="//label[@for='standard_price']" position="attributes">
+                <attribute name="invisible">product_form and product_form != 'none'</attribute>
+            </xpath>
+            <xpath expr="//div[@name='standard_price_uom']" position="attributes">
+                <attribute name="invisible">product_form and product_form != 'none'</attribute>
+            </xpath>
+
+            <!-- lst_price readonly quando produto tem forma fisica -->
+            <xpath expr="//field[@name='lst_price']" position="attributes">
+                <attribute name="readonly">product_form and product_form != 'none'</attribute>
+            </xpath>
+
+            <!-- Add variant price fields after standard_price -->
+            <xpath expr="//field[@name='lst_price']/.." position="after">
+
+                <label for="use_variant_price" string="Usa Preço de Venda Próprio" invisible="1"/>
+                <div name="price_use" invisible="1">
+                    <field name="use_variant_price" class="oe_inline"/>
+                </div>
+
+                <!-- Preço Manual toggle (visível só para variantes com preço próprio) -->
+                <label for="use_manual_pricing" string="Preço Manual" invisible="not use_variant_price or (product_form and product_form != 'none')"/>
+                <div name="variant_manual_pricing" invisible="not use_variant_price or (product_form and product_form != 'none')">
+                    <field name="use_manual_pricing" widget="boolean_toggle"/>
+                </div>
+
+                <label for="custom_lst_price" string="Preço de Venda da Variante" invisible="not use_variant_price or (product_form and product_form != 'none')"/>
+                <div name="custom_price_uom" invisible="not use_variant_price or (product_form and product_form != 'none')">
+                    <field name="custom_lst_price" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}" required="use_variant_price"/>
+                    <span name="custom_uom_span" groups="uom.group_uom">
+                        por
+                        <field name="uom_id" class="oe_inline" style="max-width:136px" options="{'no_create': True}" readonly="1"/>
+                    </span>
+                </div>
+
+
+                <!-- Margin fields for variants -->
+                <label for="use_variant_margin" string="Usa Margem Própria" invisible="1"/>
+                <div name="margin_use" invisible="1">
+                    <field name="use_variant_margin" class="oe_inline"/>
+                </div>
+                <label for="margin" string="Margem da Variante (%)" invisible="not use_variant_margin or not use_variant_price or (product_form and product_form != 'none')"/>
+                <div name="variant_margin" invisible="not use_variant_margin or not use_variant_price or (product_form and product_form != 'none')">
+                    <field name="margin" class="oe_inline" widget="float"/>
+                    <span class="oe_inline">%</span>
+                </div>
+                <field name="margin_amount" widget="monetary"
+                       options="{'currency_field': 'currency_id'}"
+                       invisible="not use_variant_price or (product_form and product_form != 'none')" readonly="1"/>
+                <field name="margin_status" invisible="1"/>
+            </xpath>
+
+
+
+            
+        </field>
+    </record>
+
+    <!-- Product Variant Tree View -->
+    <record id="product_variant_tree_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.tree.inherit.mh_inventory</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="lst_price" position="replace">
+                <field name="use_variant_price" string="Preço Próprio" width="80px"/>
+                <field name="lst_price" string="Preço de Venda" widget="monetary" />
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Template Principal do Dashboard -->
+    <t t-name="mh_sale.ProformaDashboard">
+        <div class="o_proforma_dashboard h-100 overflow-auto bg-light">
+
+            <!-- Header -->
+            <div class="o_dashboard_header p-3 bg-white border-bottom shadow-sm">
+                <div class="container-fluid">
+                    <div class="row align-items-center mb-3">
+                        <div class="col-12">
+                            <h2 class="mb-0 fw-bold">
+                                <i class="fa fa-tachometer-alt me-2 text-primary"/>
+                                Análise de Recibos Pró-Forma
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted mb-1">Data Inicial</label>
+                            <input type="date"
+                                   class="form-control"
+                                   t-model="state.date_from"/>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted mb-1">Data Final</label>
+                            <input type="date"
+                                   class="form-control"
+                                   t-model="state.date_to"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted mb-1">Cliente (Opcional)</label>
+                            <select class="form-select"
+                                    t-model="state.partner_id">
+                                <option value="">Todos os Clientes</option>
+                                <t t-foreach="state.partners" t-as="partner" t-key="partner.id">
+                                    <option t-att-value="partner.id" t-esc="partner.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button"
+                                    class="btn btn-primary w-100"
+                                    t-on-click="onApplyFilters">
+                                <i class="fa fa-filter me-2"/>
+                                Aplicar Filtros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div t-if="state.loading" class="text-center p-5">
+                <i class="fa fa-spinner fa-spin fa-3x text-primary"/>
+                <p class="mt-3 text-muted">Carregando dados...</p>
+            </div>
+
+            <!-- Conteúdo do Dashboard -->
+            <div t-else="!state.loading" class="container-fluid p-4">
+
+                <!-- Totalizador Geral -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card shadow border-0 totalizador-geral">
+                            <div class="card-body p-4">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4 text-center border-end">
+                                        <div class="d-flex flex-column">
+                                            <div class="mb-2">
+                                                <i class="fa fa-calculator fa-2x text-primary"/>
+                                            </div>
+                                            <small class="text-muted text-uppercase fw-semibold">Valor Total</small>
+                                            <h2 class="mb-0 fw-bold text-primary">
+                                                <t t-esc="state.total_amount.toLocaleString('pt-MZ', {minimumFractionDigits: 2})"/>
+                                                <t t-esc="state.currency"/>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-center border-end">
+                                        <div class="d-flex flex-column">
+                                            <div class="mb-2">
+                                                <i class="fa fa-file-text-o fa-2x text-success"/>
+                                            </div>
+                                            <small class="text-muted text-uppercase fw-semibold">Total de Recibos</small>
+                                            <h2 class="mb-0 fw-bold text-success">
+                                                <t t-esc="state.total_count"/>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <div class="d-flex flex-column">
+                                            <div class="mb-2">
+                                                <i class="fa fa-line-chart fa-2x text-info"/>
+                                            </div>
+                                            <small class="text-muted text-uppercase fw-semibold">Ticket Médio</small>
+                                            <h2 class="mb-0 fw-bold text-info">
+                                                <t t-esc="state.average_ticket.toLocaleString('pt-MZ', {minimumFractionDigits: 2})"/>
+                                                <t t-esc="state.currency"/>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-12 text-center">
+                                        <small class="text-muted">
+                                            <i class="fa fa-filter me-1"/>
+                                            Período:
+                                            <strong>
+                                                <t t-if="state.date_from and state.date_to">
+                                                    <t t-esc="new Date(state.date_from).toLocaleDateString('pt-BR')"/> até
+                                                    <t t-esc="new Date(state.date_to).toLocaleDateString('pt-BR')"/>
+                                                </t>
+                                                <t t-else="">Todos os períodos</t>
+                                            </strong>
+                                            <t t-if="state.partner_id">
+                                                | Cliente: <strong><t t-esc="state.partners.find(p => p.id == state.partner_id)?.name || 'N/A'"/></strong>
+                                            </t>
+                                            <t t-else="">
+                                                | <strong>Todos os Clientes</strong>
+                                            </t>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recibos Prontos para Pagamento -->
+                <div class="row mb-4" t-if="state.count_ready > 0">
+                    <div class="col-12">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-gradient-warning text-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    <i class="fa fa-exclamation-circle me-2"/>
+                                    Recibos Prontos para Pagamento Definitivo
+                                    <span class="badge bg-white text-warning ms-2" t-esc="state.count_ready"/>
+                                </h5>
+                                <button class="btn btn-sm btn-light" t-on-click="onViewAllReady">
+                                    <i class="fa fa-list me-1"/>
+                                    Ver Todos
+                                </button>
+                            </div>
+                            <div class="card-body p-3">
+                                <div class="row g-3">
+                                    <t t-foreach="state.ready_payments" t-as="payment" t-key="payment.id">
+                                        <div class="col-12 col-md-6 col-lg-4">
+                                            <div class="mini-payment-card card h-100 border-warning cursor-pointer"
+                                                 t-on-click="() => this.onPaymentClick(payment.id)">
+                                                <div class="card-body p-3">
+                                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                                        <h6 class="mb-0 text-primary fw-bold" t-esc="payment.name"/>
+                                                        <span class="badge bg-warning">
+                                                            <i class="fa fa-clock me-1"/>
+                                                            Pronto
+                                                        </span>
+                                                    </div>
+                                                    <p class="mb-2 small text-muted">
+                                                        <i class="fa fa-user me-1"/>
+                                                        <t t-esc="payment.partner_name"/>
+                                                    </p>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <small class="text-muted d-block">Valor Total</small>
+                                                            <strong class="text-success">
+                                                                <t t-esc="payment.amount.toLocaleString('pt-MZ', {minimumFractionDigits: 2})"/>
+                                                                <t t-esc="state.currency"/>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <small class="text-muted d-block">Data</small>
+                                                            <small t-esc="payment.date"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-2" t-if="payment.amount_remaining > 0">
+                                                        <small class="text-info">
+                                                            <i class="fa fa-info-circle me-1"/>
+                                                            Restante: <t t-esc="payment.amount_remaining.toLocaleString('pt-MZ', {minimumFractionDigits: 2})"/>
+                                                            <t t-esc="state.currency"/>
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                                <!-- Ver Mais button -->
+                                <div class="text-center mt-3" t-if="state.count_ready > 5">
+                                    <button class="btn btn-outline-warning" t-on-click="onViewAllReady">
+                                        <i class="fa fa-plus-circle me-1"/>
+                                        Ver Mais (<t t-esc="state.count_ready - 5"/> restantes)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI Cards Row -->
+                <div class="row g-3 mb-4">
+                    <!-- Draft -->
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <KpiCard
+                            title="'Rascunho'"
+                            value="state.count_draft"
+                            icon="'fa-file-alt'"
+                            color="'secondary'"
+                            onClick="() => this.onCardClick('draft')"
+                        />
+                        <div class="text-center mt-2">
+                            <small class="text-muted">
+                                <t t-esc="state.amount_draft.toLocaleString('pt-MZ', {minimumFractionDigits: 2})"/>
+                                <t t-esc="state.currency"/>
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Posted -->
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <KpiCard
+                            title="'Confirmados'"
+                            value="state.count_posted"
+                            icon="'fa-check-circle'"
+                            color="'primary'"
+                            onClick="() => this.onCardClick('posted')"
+                        />
+                        <div class="text-center mt-2">
+                            <small class="text-muted">
+                                <t t-esc="state.amount_posted.toLocaleString('pt-MZ', {minimumFractionDigits: 2})"/>
+                                <t t-esc="state.currency"/>
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Paid -->
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <KpiCard
+                            title="'Pagos'"
+                            value="state.count_paid"
+                            icon="'fa-money-bill-wave'"
+                            color="'success'"
+                            onClick="() => this.onCardClick('paid')"
+                        />
+                        <div class="text-center mt-2">
+                            <small class="text-muted">
+                                <t t-esc="state.amount_paid.toLocaleString('pt-MZ', {minimumFractionDigits: 2})"/>
+                                <t t-esc="state.currency"/>
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Cancelled -->
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <KpiCard
+                            title="'Cancelados'"
+                            value="state.count_cancelled"
+                            icon="'fa-times-circle'"
+                            color="'danger'"
+                            onClick="() => this.onCardClick('cancelled')"
+                        />
+                        <div class="text-center mt-2">
+                            <small class="text-muted">
+                                <t t-esc="state.amount_cancelled.toLocaleString('pt-MZ', {minimumFractionDigits: 2})"/>
+                                <t t-esc="state.currency"/>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row g-3">
+                    <!-- Gráfico de Pizza - Por Método -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-white border-bottom">
+                                <h5 class="mb-0">
+                                    <i class="fa fa-chart-pie me-2 text-primary"/>
+                                    Distribuição por Método de Pagamento
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <ChartRenderer
+                                    type="'doughnut'"
+                                    title="'Por Método'"
+                                    data="state.methodChart"
+                                    onClick="(label, value, index) => this.onMethodChartClick(label, value, index)"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gráfico de Linha - Evolução Temporal -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-white border-bottom">
+                                <h5 class="mb-0">
+                                    <i class="fa fa-chart-line me-2 text-success"/>
+                                    Evolução Temporal (Últimos 6 Meses)
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <ChartRenderer
+                                    type="'line'"
+                                    title="'Evolução'"
+                                    data="state.timelineChart"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Segunda linha de gráficos -->
+                <div class="row g-3 mt-3">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-white border-bottom">
+                                <h5 class="mb-0">
+                                    <i class="fa fa-chart-bar me-2 text-info"/>
+                                    Distribuição por Tipo de Alocação
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <ChartRenderer
+                                    type="'bar'"
+                                    title="'Por Alocação'"
+                                    data="state.allocationChart"
+                                    onClick="(label, value, index) => this.onAllocationChartClick(label, value, index)"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </t>
+
+    <!-- Template KPI Card -->
+    <t t-name="mh_sale.KpiCard">
+        <div class="kpi_card card shadow-sm h-100"
+             t-att-class="'border-' + props.color"
+             t-on-click="onClick">
+            <div class="card-body p-4 text-center">
+                <div class="icon-container mb-3">
+                    <div class="rounded-circle p-3 d-inline-block"
+                         t-att-class="'bg-' + props.color + ' bg-opacity-10'">
+                        <i t-att-class="'fa ' + props.icon + ' fa-3x text-' + props.color"/>
+                    </div>
+                </div>
+                <p class="text-muted mb-2 text-uppercase small fw-semibold">
+                    <t t-esc="props.title"/>
+                </p>
+                <h2 class="mb-0 fw-bold" t-att-class="'text-' + props.color">
+                    <t t-esc="formattedValue"/>
+                </h2>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center pb-3">
+                <small class="text-muted">
+                    <i class="fa fa-hand-pointer me-1"/>
+                    Clique para detalhes
+                </small>
+            </div>
+        </div>
+    </t>
+
+    <!-- Template Chart Renderer -->
+    <t t-name="mh_sale.ChartRenderer">
+        <div class="chart-container" style="position: relative; height: 300px;">
+            <canvas t-ref="chart"/>
+        </div>
+    </t>
+
+</templates>

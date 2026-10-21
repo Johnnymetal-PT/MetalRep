@@ -1,0 +1,29 @@
+<t name="Shop Product Carousel" t-name="website_sale.shop_product_carousel">
+    <style>
+        #o-carousel-product .carousel-outer {
+    height: 600px !important;
+}
+    </style>
+        <t t-set="product_carousel_block_name">Product Carousel</t>
+        <div id="o-carousel-product" class="carousel slide position-sticky mb-3 overflow-hidden" data-bs-ride="carousel" data-bs-interval="0" t-att-data-name="product_carousel_block_name">
+            <div class="o_carousel_product_outer carousel-outer position-relative flex-grow-1 overflow-hidden w-100 mx-auto" style="width: min(100%, 605px); max-height: 610px; aspect-ratio: 605 / 610;">
+                <span t-if="len(product_images) &gt; 1" t-attf-class="o_ribbon #{ribbon['html_class']} z-index-1" t-attf-style="#{text_color and ('color: %s; ' % text_color)}#{bg_color and 'background-color:' + bg_color}" t-out="ribbon['html'] or ''"/>
+                <div class="carousel-inner h-100">
+                    <t t-set="image_classes" t-value="'d-flex align-items-center justify-content-center h-100'"/>
+                    <t t-foreach="product_images" t-as="product_image">
+                        <div t-attf-class="carousel-item h-100 text-center#{' active' if product_image_first else ''}">
+                            <t t-call="website_sale.shop_product_image"/>
+                        </div>
+                    </t>
+                </div>
+                <t t-if="len(product_images) &gt; 1">
+                    <a class="carousel-control-prev" href="#o-carousel-product" role="button" data-bs-slide="prev">
+                        <span class="oi oi-chevron-left fa-2x oe_unmovable" role="img" aria-label="Previous" title="Previous"/>
+                    </a>
+                    <a class="carousel-control-next" href="#o-carousel-product" role="button" data-bs-slide="next">
+                        <span class="oi oi-chevron-right fa-2x oe_unmovable" role="img" aria-label="Next" title="Next"/>
+                    </a>
+                </t>
+            </div>
+        </div>
+    </t>

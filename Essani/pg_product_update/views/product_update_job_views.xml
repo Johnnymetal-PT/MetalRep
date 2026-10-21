@@ -1,0 +1,91 @@
+<odoo>
+    <record id="pg_product_update_drive_job_tree_view" model="ir.ui.view">
+        <field name="name">product.update.drive.job.tree</field>
+        <field name="model">product.update.drive.job</field>
+        <field name="arch" type="xml">
+            <list string="Import Jobs" default_order="id desc" create="0" delete="0">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="phase"/>
+                <field name="progress_percent" widget="progressbar" string="Progress"/>
+                <field name="processed_count"/>
+                <field name="skipped_count"/>
+                <field name="unaccounted_count"/>
+                <field name="pending_count"/>
+                <field name="error_count"/>
+                <field name="started_at"/>
+                <field name="finished_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="pg_product_update_drive_job_form_view" model="ir.ui.view">
+        <field name="name">product.update.drive.job.form</field>
+        <field name="model">product.update.drive.job</field>
+        <field name="arch" type="xml">
+            <form string="Import Job" create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_force_start_processing"
+                            type="object"
+                            string="Force Start Import"
+                            class="btn-primary"
+                            invisible="state != 'running' or phase != 'discovery'"/>
+                    <button name="action_refresh_view" type="object" string="Refresh" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="running,done,failed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="phase" readonly="1"/>
+                            <field name="progress_percent" widget="progressbar" string="Overall Progress" readonly="1"/>
+                            <field name="processed_count" readonly="1"/>
+                            <field name="skipped_count" readonly="1"/>
+                            <field name="unaccounted_count" readonly="1"/>
+                            <field name="discovered_count" string="Discovered Products" readonly="1"/>
+                            <field name="pending_count" readonly="1"/>
+                            <field name="scan_remaining_count" readonly="1"/>
+                            <field name="total_count" string="Progress Total" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="error_count" readonly="1"/>
+                            <field name="current_item_display" readonly="1"/>
+                            <field name="current_item_attempts" readonly="1"/>
+                            <field name="duration_seconds" readonly="1"/>
+                            <field name="started_at" readonly="1"/>
+                            <field name="finished_at" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="last_error" readonly="1" nolabel="1" placeholder="No errors recorded."/>
+                    </group>
+                    <group>
+                        <field name="skipped_items_preview" readonly="1" nolabel="1" placeholder="No skipped items recorded."/>
+                    </group>
+                    <group>
+                        <field name="unaccounted_items_preview" readonly="1" nolabel="1" placeholder="No unaccounted items recorded."/>
+                    </group>
+                    <group>
+                        <field name="trace_events_preview" readonly="1" nolabel="1" placeholder="No trace events recorded."/>
+                    </group>
+                    <group>
+                        <field name="root_folder_id" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pg_action_product_update_drive_jobs" model="ir.actions.act_window">
+        <field name="name">Import Jobs</field>
+        <field name="res_model">product.update.drive.job</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="pg_product_update_drive_job_tree_view"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p>Track Drive product import jobs, progress, and errors.</p>
+        </field>
+    </record>
+</odoo>

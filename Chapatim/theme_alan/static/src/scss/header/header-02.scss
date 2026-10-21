@@ -1,0 +1,140 @@
+@if o-website-value('header-template') == 'as_header2' {
+	.as-top-header {
+        @include o-apply-colors('header-sales_four');
+        @include o-apply-colors('header-sales_four-custom');
+        @include o-add-gradient('menu-secondary-gradient');
+
+         li{
+            padding-right: 7px;
+            & + li{
+                padding: 0 7px 0 14px;
+            }
+            &::before{
+                height: 18px !important;
+                margin: auto !important;
+            }
+        }
+        .btn_cta{
+            padding: 0.2rem 0;
+            font-size: 0.875rem;
+            border-radius: 0;
+            border: none;
+            background: none;
+            box-shadow: none !important;
+            color: var(--nav-link-color);
+            line-height: 1;
+            display: flex;
+        }
+        .as-search-btn{
+            padding: 0 !important;
+        }
+    }
+    .as-main-header{
+        .as-middle-menu{
+            .top_menu {
+                width: 100%;
+            }
+        }
+        .as-hm-end{
+            @include media-breakpoint-up(lg) {
+                width: 200px;
+                flex: 0 0 200px;
+            }
+        }
+        .as-h-search{
+            position: relative;
+            margin-right: 7px;
+            padding-right: 7px !important;
+        }
+        .o_header_separator {
+            > :not(:last-child) {
+                &::before {
+                    width: 1px;
+                    background: currentColor;
+                    opacity: 0.3;
+                    inset: inherit;
+                    right: 0px;
+                    top: 0;
+                    bottom: 0;
+                    margin: auto;
+                }
+            }
+        }
+        .as-h-icon {
+			width: 50px;
+			height: 50px;
+			border-radius: 50px;
+            &.as-h-sign{
+                font-size: 0;
+                gap: 0 !important;
+                &::before{
+                    font-size: 16px;
+                }
+            }
+		}
+		.as-h-user {
+			> span {
+				max-width: 80px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+		}
+        .as-middle-header {
+            @if index(('default'), o-website-value('header-links-style')) {
+                @include media-breakpoint-up(md) {
+                    .navbar-nav {
+                        --navbar-nav-link-padding-x: 1rem;
+                        --nav-link-padding-y: 1.75rem;
+                    }
+                }
+            }
+            @if index(('outline', 'pills','fill'), o-website-value('header-links-style')) {
+                @include media-breakpoint-up(md) {
+                    .navbar-nav {
+                        --nav-link-padding-y: 0.75rem;
+                        > .nav-item {
+                          --as-nav-padding-y: 1rem;
+                        }
+                    }
+                }
+            }
+
+            @if index(('block','border-bottom','underline','bold'), o-website-value('header-links-style')) {
+                @include media-breakpoint-up(md) {
+                    .navbar-nav:where([role="menu"]) {
+                        .nav-link:not(.o_nav-link_secondary) {
+                            --as-nav-padding-y: 1.75rem;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    .o_navlink_no_background {
+        .as-middle-menu{
+           .as-h-wish,.as-cart , .as-drop-toggle,.as-h-user{
+                i{
+                    &::before{
+                        font-size: 24px;
+                    }
+                }
+           }
+           .as-h-sign{
+                &::before{
+                    font-size: 24px;
+                }
+           }
+        }
+    }
+    #wrapwrap.o_header_overlay {
+        > header:not(.o_header_affixed):not(.o_header_sidebar):not(.o_top_menu_collapse_shown):not(.o_navlink_no_background ) {
+            > .as-main-header{
+                .o_navlink_background {
+                    background: color-mix(in srgb, currentColor 15%, transparent) ;
+                }
+            }
+        }
+    }
+}

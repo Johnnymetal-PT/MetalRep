@@ -1,0 +1,194 @@
+# Traduções pt-PT em falta no `mrp_workorder` (Odoo 17 Enterprise).
+#
+# O ficheiro oficial `enterprise/mrp_workorder/i18n/pt.po` tem 41 termos com `msgstr ""`,
+# vários deles bem visíveis no Chão de Fábrica: "Add Operator", "All MO", "This Station",
+# "No workorders", "Connected Employees".
+#
+# ONDE ESTE FICHEIRO TEM DE FICAR NO SERVIDOR:
+#     <addons>/mrp_workorder/i18n_extra/pt.po
+#
+# Porque não dentro do módulo `pg_mrp_shopfloor_ux`: as traduções de código são carregadas
+# por módulo. O `get_po_paths(module_name, lang)` (`odoo/tools/translate.py:1648-1666`)
+# procura em `<módulo>/i18n/<lang>.po` e `<módulo>/i18n_extra/<lang>.po` — sempre dentro do
+# módulo a que o termo pertence. Um PO no nosso módulo só traduz termos nossos, por isso
+# não há forma de daqui traduzir termos do `mrp_workorder`. O `i18n_extra` é o mecanismo
+# suportado precisamente para acrescentar traduções sem alterar o `i18n/` original.
+#
+# ATENÇÃO — ISTO VIVE FORA DO NOSSO REPOSITÓRIO NO SERVIDOR: um upgrade do Odoo que
+# substitua a pasta do `mrp_workorder` apaga o `i18n_extra`. É a mesma armadilha das
+# correcções que existiam só na base de dados. Por isso o ficheiro é versionado aqui, que
+# é a cópia de referência, e a reposição é um passo de deploy a repetir depois de upgrades.
+#
+# Depois de copiar: Definições > Traduções > Recarregar traduções (ou reinstalar o idioma),
+# senão as traduções de código só entram no arranque seguinte.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Parametro Global\n"
+"Language-Team: \n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: mrp_workorder
+msgid "+ New Operator"
+msgstr "+ Novo operador"
+
+#. module: mrp_workorder
+msgid "< Back"
+msgstr "< Voltar"
+
+#. module: mrp_workorder
+msgid "Add By-Product"
+msgstr "Adicionar subproduto"
+
+#. module: mrp_workorder
+msgid "Add Operator"
+msgstr "Adicionar operador"
+
+#. module: mrp_workorder
+msgid "Add Workorder"
+msgstr "Adicionar ordem de trabalho"
+
+#. module: mrp_workorder
+msgid "Add workorder"
+msgstr "Adicionar ordem de trabalho"
+
+#. module: mrp_workorder
+msgid "Additional Product"
+msgstr "Produto adicional"
+
+#. module: mrp_workorder
+msgid "All MO"
+msgstr "Todas as OF"
+
+#. module: mrp_workorder
+msgid "By-Product"
+msgstr "Subproduto"
+
+#. module: mrp_workorder
+msgid "Component Qty To Do"
+msgstr "Quantidade de componente a produzir"
+
+#. module: mrp_workorder
+msgid "Connected Employees"
+msgstr "Operadores ligados"
+
+#. module: mrp_workorder
+msgid "Continue Consumption"
+msgstr "Continuar o consumo"
+
+#. module: mrp_workorder
+msgid "Continue consumption"
+msgstr "Continuar o consumo"
+
+#. module: mrp_workorder
+msgid "Fill in worksheet"
+msgstr "Preencher a folha de operação"
+
+#. module: mrp_workorder
+msgid "Google Slide Link"
+msgstr "Ligação do Google Slides"
+
+#. module: mrp_workorder
+msgid "Google doc URL"
+msgstr "URL do documento Google"
+
+#. module: mrp_workorder
+msgid "Has Description"
+msgstr "Tem descrição"
+
+#. module: mrp_workorder
+msgid "Measure:"
+msgstr "Medição:"
+
+#. module: mrp_workorder
+msgid "No connected employees"
+msgstr "Nenhum operador ligado"
+
+#. module: mrp_workorder
+msgid "No workorders"
+msgstr "Sem ordens de trabalho"
+
+#. module: mrp_workorder
+msgid "Open backend MO"
+msgstr "Abrir a ordem de fabrico no back office"
+
+#. module: mrp_workorder
+msgid "Please enter a Lot/SN."
+msgstr "Indique um lote ou número de série."
+
+#. module: mrp_workorder
+msgid "Please enter a positive quantity."
+msgstr "Indique uma quantidade positiva."
+
+#. module: mrp_workorder
+msgid "Pre-fill Lot/Serial Numbers in Shop Floor"
+msgstr "Pré-preencher lotes e números de série no Chão de Fábrica"
+
+#. module: mrp_workorder
+msgid "Product Uom"
+msgstr "Unidade de medida do produto"
+
+#. module: mrp_workorder
+msgid "Register additional product"
+msgstr "Registar produto adicional"
+
+#. module: mrp_workorder
+msgid "Remaining Quantity for Component"
+msgstr "Quantidade restante do componente"
+
+#. module: mrp_workorder
+msgid "Select Work Centers for this station"
+msgstr "Selecionar os centros de trabalho desta estação"
+
+#. module: mrp_workorder
+msgid "Select the concerning quality check"
+msgstr "Selecionar o controlo de qualidade em causa"
+
+#. module: mrp_workorder
+msgid "Skip >"
+msgstr "Ignorar >"
+
+#. module: mrp_workorder
+msgid "Specific Page of Operation Worksheet"
+msgstr "Página específica da folha de operação"
+
+#. module: mrp_workorder
+msgid "Step Document"
+msgstr "Documento do passo"
+
+#. module: mrp_workorder
+msgid "Suggest a Worksheet improvement"
+msgstr "Sugerir uma melhoria à folha de operação"
+
+#. module: mrp_workorder
+msgid "This Station"
+msgstr "Esta estação"
+
+#. module: mrp_workorder
+msgid "This employee is not allowed on this workcenter"
+msgstr "Este operador não tem acesso a este centro de trabalho"
+
+#. module: mrp_workorder
+msgid "Worksheet Page"
+msgstr "Página da folha de operação"
+
+#. module: mrp_workorder
+msgid "You need to supply a Lot/Serial Number for the final product."
+msgstr "Tem de indicar um lote ou número de série para o produto final."
+
+#. module: mrp_workorder
+msgid "BoM feedback %s (%s)"
+msgstr "Sugestão à lista de materiais %s (%s)"
+
+#. module: mrp_workorder
+msgid "Register %s"
+msgstr "Registar %s"
+
+#. module: mrp_workorder
+msgid "Your suggestion to delete the %s step was succesfully created."
+msgstr "A sua sugestão para eliminar o passo %s foi criada."

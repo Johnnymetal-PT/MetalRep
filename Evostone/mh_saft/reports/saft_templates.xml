@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saft_page">
+        <div class="o_saft_report">
+            <style>
+                .o_saft_report { font-size: 12.5px; color: #2b2f33; }
+                .o_saft_report .saft-head {
+                    display: flex; align-items: center; gap: 14px;
+                    height: 46px; box-sizing: border-box; padding: 0 14px; margin-bottom: 0;
+                    background: linear-gradient(90deg, #0f5c48, #157a5f);
+                    color: #fff; border-radius: 8px 8px 0 0;
+                    position: sticky; top: 0; z-index: 5;
+                }
+                .o_saft_report .saft-head .saft-title { font-size: 15px; font-weight: 700; }
+                .o_saft_report .saft-head .saft-pill {
+                    background: rgba(255,255,255,.18); padding: 2px 10px;
+                    border-radius: 999px; font-size: 12px; font-weight: 600;
+                }
+                .o_saft_report .saft-head .saft-grand { margin-left: auto; font-size: 14px; font-weight: 700; }
+                .o_saft_report table.saft-table {
+                    width: 100%; border-collapse: separate; border-spacing: 0;
+                    background: #fff; border: 1px solid #e6e9ec; border-top: none;
+                    border-radius: 0 0 8px 8px;
+                }
+                .o_saft_report .saft-table thead th {
+                    position: sticky; top: 46px; z-index: 4;
+                    background: #0f5c48; color: #fff; font-weight: 600;
+                    padding: 9px 10px; white-space: nowrap; border: none; font-size: 12px;
+                }
+                .o_saft_report .saft-table tbody td {
+                    padding: 6px 10px; border-bottom: 1px solid #eef0f2; vertical-align: middle;
+                }
+                .o_saft_report .saft-table tbody tr:nth-child(even) { background: #fafbfc; }
+                .o_saft_report .saft-table tbody tr:hover { background: #eaf5f0; }
+                .o_saft_report .num {
+                    text-align: right; white-space: nowrap;
+                    font-variant-numeric: tabular-nums; font-feature-settings: "tnum";
+                }
+                .o_saft_report .iva-badge {
+                    display: inline-block; min-width: 40px; text-align: center;
+                    padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 600;
+                    background: #e7f1ee; color: #0f5c48;
+                }
+                .o_saft_report .iva-zero { background: #f2f3f5; color: #8a9199; }
+                .o_saft_report .col-doc { font-weight: 600; color: #0f5c48; }
+                .o_saft_report .col-num { color: #6b7280; }
+                .o_saft_report .saft-table tfoot td {
+                    padding: 9px 10px; background: #0f5c48; color: #fff; font-weight: 700;
+                    border-top: 2px solid #0c4a3a;
+                }
+                .o_saft_report .mt-unit { color: #9aa3ab; font-size: 10px; margin-left: 2px; }
+            </style>
+
+            <div class="saft-head">
+                <span class="saft-title">Vendas AT (MZ) — Facturação</span>
+                <span class="saft-pill" t-esc="company.name"/>
+                <span class="saft-pill"><t t-esc="month"/>/<t t-esc="year"/></span>
+                <span class="saft-pill"><t t-esc="n_docs"/> docs · <t t-esc="n_lines"/> linhas</span>
+                <span class="saft-grand">
+                    Total: <t t-esc="'{:,.2f}'.format(doc_total)"/> MT
+                </span>
+            </div>
+
+            <t t-if="not rows">
+                <div class="alert alert-info">Sem facturas de venda no período seleccionado.</div>
+            </t>
+            <t t-else="">
+                <table class="saft-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Documento</th>
+                            <th>Número</th>
+                            <th>Nuit</th>
+                            <th>Nome do cliente</th>
+                            <th>Designação</th>
+                            <th class="num">Preço unit. <span class="mt-unit">MT</span></th>
+                            <th class="num">Total linha <span class="mt-unit">MT</span></th>
+                            <th class="num">IVA</th>
+                            <th class="num">Total ilíq. <span class="mt-unit">MT</span></th>
+                            <th class="num">Valor IVA <span class="mt-unit">MT</span></th>
+                            <th class="num">Total <span class="mt-unit">MT</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="rows" t-as="r" t-key="r_index">
+                            <td><t t-esc="r['data']"/></td>
+                            <td class="col-doc"><t t-esc="r['documento']"/></td>
+                            <td class="col-num"><t t-esc="r['numero']"/></td>
+                            <td><t t-esc="r['nuit']"/></td>
+                            <td><t t-esc="r['nome']"/></td>
+                            <td><t t-esc="r['designacao']"/></td>
+                            <td class="num"><t t-esc="'{:,.2f}'.format(r['preco_unitario'])"/></td>
+                            <td class="num"><t t-esc="'{:,.2f}'.format(r['total_linha'])"/></td>
+                            <td class="num">
+                                <span t-attf-class="iva-badge {{ 'iva-zero' if not r['iva'] else '' }}">
+                                    <t t-esc="'{:.0f}%'.format(r['iva'])"/>
+                                </span>
+                            </td>
+                            <td class="num"><t t-esc="'{:,.2f}'.format(r['total_iliquido'])"/></td>
+                            <td class="num"><t t-esc="'{:,.2f}'.format(r['valor_iva'])"/></td>
+                            <td class="num"><t t-esc="'{:,.2f}'.format(r['total'])"/></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="9" class="num">TOTAL (por documento)</td>
+                            <td class="num"><t t-esc="'{:,.2f}'.format(doc_net)"/></td>
+                            <td class="num"><t t-esc="'{:,.2f}'.format(doc_iva)"/></td>
+                            <td class="num"><t t-esc="'{:,.2f}'.format(doc_total)"/> MT</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </t>
+        </div>
+    </template>
+</odoo>

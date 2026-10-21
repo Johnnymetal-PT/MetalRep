@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form View do Wizard -->
+        <record id="view_account_advance_apply_wizard_form" model="ir.ui.view">
+            <field name="name">account.advance.apply.wizard.form</field>
+            <field name="model">account.advance.apply.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Aplicar Adiantamentos">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="invoice_id" invisible="1"/>
+                                <field name="partner_id"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="invoice_residual" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Adiantamentos Disponíveis" name="advances">
+                                <field name="advance_line_ids" nolabel="1">
+                                    <list editable="bottom" create="false" delete="false">
+                                        <field name="is_selected"/>
+                                        <field name="advance_number"/>
+                                        <field name="advance_date"/>
+                                        <field name="currency_id" column_invisible="True"/>
+                                        <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="amount_available" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="amount_to_apply" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="advance_payment_id" column_invisible="True"/>
+                                    </list>
+                                </field>
+                                
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="total_advances_selected" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="total_to_apply" widget="monetary" options="{'currency_field': 'currency_id'}" class="oe_subtotal_footer_separator"/>
+                                </group>
+                            </page>
+                        </notebook>
+                        
+                        <div class="alert alert-info" role="alert" invisible="not advance_line_ids">
+                            <p>
+                                <i class="fa fa-info-circle"/> Selecione os adiantamentos que deseja aplicar nesta fatura.
+                                O sistema irá criar automaticamente os lançamentos de transferência e reconciliação.
+                            </p>
+                        </div>
+                        
+                        <div class="alert alert-warning" role="alert" invisible="advance_line_ids">
+                            <p>
+                                <i class="fa fa-warning"/> Não foram encontrados adiantamentos disponíveis para este parceiro.
+                            </p>
+                        </div>
+                    </sheet>
+                    
+                    <footer>
+                        <button name="action_apply_advances" 
+                                string="Aplicar Adiantamentos" 
+                                type="object" 
+                                class="btn-primary"
+                                invisible="not advance_line_ids"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action do Wizard -->
+        <record id="action_account_advance_apply_wizard" model="ir.actions.act_window">
+            <field name="name">Aplicar Adiantamentos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.advance.apply.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_view_types">form</field>
+        </record>
+    </data>
+</odoo>

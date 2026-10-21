@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_internal_consumption_root"
+                  name="Consumo Interno"
+                  parent="stock.menu_stock_warehouse_mgmt"
+                  sequence="99"/>
+
+        <menuitem id="menu_internal_consumption"
+                  name="Consumo Interno"
+                  parent="menu_internal_consumption_root"
+                  action="action_internal_consumption"
+                  sequence="10"/>
+
+        <menuitem id="menu_material_consumption"
+                  name="Consumo de Material"
+                  parent="menu_internal_consumption_root"
+                  action="action_material_consumption"
+                  sequence="20"/>
+
+    </data>
+</odoo>

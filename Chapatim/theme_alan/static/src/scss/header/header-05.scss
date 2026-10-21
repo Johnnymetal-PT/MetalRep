@@ -1,0 +1,102 @@
+@if o-website-value('header-template') == 'as_header5' {
+	.as-top-header {
+        @include o-apply-colors('header-sales_four');
+        @include o-apply-colors('header-sales_four-custom');
+        @include o-add-gradient('menu-secondary-gradient');
+        .btn_cta{
+           padding: 0.2rem 0;
+           font-size: 0.875rem;
+           border-radius: 0;
+           border: none;
+           background: none;
+           box-shadow: none !important;
+           color: var(--nav-link-color);
+           line-height: 1;
+           display: flex;
+       }
+    }
+
+    .as-main-header {
+        .o_header_separator {
+            > li {
+                position: relative;
+            }
+        }
+
+        .as-hm-container {
+            display: flex;
+            .as-hm-logo {
+                flex: 0 0 30%;
+                width: 30%;
+                .navbar-brand {
+                    max-width: 100%;
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+            .as-hm-search-form{
+                max-width: 300px;
+                width: 100%;
+            }
+            .as-hm-search {
+                flex: 0 0 35%;
+                width: 35%;
+                .input-group{
+                    flex-direction: row-reverse !important;
+
+                }
+                .oe_search_box {
+                    border: none !important;
+                    box-shadow: none !important;
+                    background: none !important;
+                    color: inherit;
+                }
+                .oe_search_button {
+                    border: none;
+                    background: transparent;
+                    color: inherit;
+                }
+            }
+            .as-hm-end {
+                flex: 0 0 35%;
+                width: 35%;
+            }
+
+            .o_header_separator {
+                > li {
+                    padding: 0 20px;
+                    &:last-child {
+                        padding-right: 0;
+                    }
+                }
+                > :not(:last-child) {
+                    &::before {
+                        margin: auto 0;
+                        height: 25px;
+                    }
+                }
+            }
+
+            .as-h-icon {
+                sup{
+                    right: -5px !important;
+                }
+                background: transparent;
+                .fa {
+                    // width: auto;
+                    &::before {
+                        font-size: 24px;
+                    }
+                }
+
+                &.as-h-sign{
+                    gap: 4px;
+                    &::before{
+                        font-size: 22px;
+                    }
+                }
+            }
+        }
+
+    }
+}

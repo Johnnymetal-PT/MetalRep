@@ -1,0 +1,94 @@
+<!doctype html>
+<!--
+  NÃO copiar a partir do editor de código. O que está neste ficheiro é o HTML da
+  página de pré-visualização; colado em bruto, o Odoo mostra as etiquetas como texto.
+
+  Para colar no Odoo, dois caminhos:
+    1. o pg_copy_email_cliente.ps1 já deixou o corpo do email na área de
+       transferência — no compositor do Odoo é só Ctrl+V;
+    2. ou abrir este ficheiro no browser (não no editor) e usar o botão
+       "Copiar corpo".
+-->
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[WEB] Reorganizar o bloco da página de produto (descrição, preço, desenhos técnicos e documentos)</title>
+<style>
+:root { color-scheme: light dark; }
+body { margin: 0; padding: 24px; background: #f4f6f8;
+       font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #111827; }
+main { max-width: 760px; margin: 0 auto; }
+.meta { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+        padding: 16px 20px; margin-bottom: 8px; font-size: 13px; }
+.meta h1 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em;
+           color: #6b7280; margin: 0 0 10px; }
+.meta dl { display: grid; grid-template-columns: 90px 1fr; gap: 4px 12px; margin: 0; }
+.meta dt { color: #6b7280; } .meta dd { margin: 0; font-weight: 600; }
+.avisos { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+          padding: 12px 20px; margin-bottom: 8px; font-size: 13px; color: #92400e; }
+.avisos ul { margin: 6px 0 0; padding-left: 18px; }
+.barra { display: flex; align-items: center; gap: 12px; margin: 16px 0 8px; }
+button { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 6px;
+         border: 0; background: #009fe3; color: #fff; cursor: pointer; }
+button:hover { background: #007fb6; }
+.dica { font-size: 12px; color: #6b7280; }
+#corpo { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+         padding: 24px 28px; font-size: 14px; line-height: 1.55; }
+#corpo p { margin: 0 0 12px; }
+#corpo table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+#corpo th, #corpo td { border: 1px solid #d1d5db; padding: 6px 10px; text-align: left; }
+#corpo th { background: #f9fafb; }
+#corpo blockquote { margin: 0 0 12px; padding-left: 12px; border-left: 3px solid #d1d5db;
+                    color: #4b5563; }
+#corpo pre { background: #f3f4f6; padding: 12px; overflow-x: auto; }
+@media (prefers-color-scheme: dark) {
+  body { background: #0b1220; color: #e5e7eb; }
+  .meta, #corpo { background: #111827; border-color: #1f2937; }
+  #corpo th { background: #1f2937; } #corpo th, #corpo td { border-color: #374151; }
+  .avisos { background: #2b2411; border-color: #7c5e10; color: #fcd34d; }
+}
+</style>
+</head>
+<body>
+<main>
+<section class="meta"><h1>Email ao cliente</h1><dl><dt>Assunto</dt><dd>[WEB] Reorganizar o bloco da página de produto (descrição, preço, desenhos técnicos e documentos)</dd><dt>Para</dt><dd>mch@hmdfurniture.com</dd></dl></section><div class="barra"><button id="copiar" type="button">Copiar corpo</button><span class="dica" id="estado">Copia apenas o corpo — os metadados acima ficam de fora.</span></div>
+<article id="corpo">
+<p>Olá Mónica,</p>
+<p>Obrigada pelo esclarecimento. Assim a questão fica diferente, e mais precisa: o que a Mónica quer não são definições globais por elemento do site, mas sim conseguir selecionar um texto concreto e alterar só esse excerto, sem afetar mais nada — exatamente como num documento Word.</p>
+<p>Nesse modelo, o painel de Design deixa de ser a ferramenta certa, porque trabalha sobretudo definições globais do tema. Fomos rever isto com esse critério, e o que o Odoo dá hoje por seleção é muito limitado:</p>
+<ul><li><strong>tamanho</strong>: sim;</li><li><strong>estilo de bloco</strong> (título, parágrafo, normal, etc.): sim;</li><li><strong>tipo de letra</strong> por seleção: não;</li><li><strong>entrelinha</strong> por seleção: não;</li><li><strong>espaço entre letras</strong> por seleção: não.</li></ul>
+<p>Por isso, se o objetivo é mesmo esse controlo local, então a conclusão muda:</p>
+<ul><li>os <strong>níveis 1 e 2</strong> continuam a ser úteis para arrumar o CSS e reduzir conflitos;</li><li>mas <strong>não resolvem</strong> esta necessidade de autonomia local;</li><li>e o que responde a esta necessidade é desenvolvimento nosso na barra do editor, para acrescentar esses controlos à seleção de texto.</li></ul>
+<p>Ou seja: o tema já não é “abrir mais opções no painel de Design”, mas sim “dar ao editor do website ferramentas de formatação local que hoje ele não tem”.</p>
+<p>Se este é o caminho que quer seguir, a lista que nos enviar passa a servir para definir exatamente que controlos faz sentido criar. Nesse caso, o mais útil é recebermos:</p>
+<ul><li>os tipos de alteração que quer fazer por seleção;</li><li>exemplos concretos de páginas onde isso seria usado;</li><li>e, para cada caso, a combinação pretendida de fonte, tamanho, entrelinha e espaço entre letras.</li></ul>
+<p>Com essa base, conseguimos separar o que ainda vale a pena resolver por CSS global do que terá mesmo de ser tratado como desenvolvimento do editor.</p>
+<p>Aguardamos então essa lista para fecharmos esse recorte consigo.</p>
+</article>
+</main>
+<script>
+document.getElementById('copiar').addEventListener('click', async () => {
+  const corpo = document.getElementById('corpo');
+  const html = corpo.innerHTML;
+  const estado = document.getElementById('estado');
+  try {
+    await navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([html], {type: 'text/html'}),
+      'text/plain': new Blob([corpo.innerText], {type: 'text/plain'}),
+    })]);
+    estado.textContent = 'Copiado. Cola no compositor do Odoo com Ctrl+V.';
+  } catch (e) {
+    const range = document.createRange();
+    range.selectNodeContents(corpo);
+    const sel = window.getSelection();
+    sel.removeAllRanges(); sel.addRange(range);
+    const ok = document.execCommand('copy');
+    estado.textContent = ok
+      ? 'Copiado. Cola no compositor do Odoo com Ctrl+V.'
+      : 'Nao foi possivel copiar: seleciona o corpo e usa Ctrl+C.';
+  }
+});
+</script>
+</body>
+</html>

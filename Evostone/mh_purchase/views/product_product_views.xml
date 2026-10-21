@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product Product Form View Extension -->
+    <record id="view_product_product_form_inherit_pcmp" model="ir.ui.view">
+        <field name="name">product.product.form.inherit.pcmp</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='standard_price']/.." position="after">
+                <label for="pcmp" string="PCMP Atual" invisible="product_form and product_form != 'none'"/>
+                <div name="pcmp_atual" invisible="product_form and product_form != 'none'">
+                    <field name="pcmp" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}" readonly="1"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Filtrar seller_ids por variante na view do product.product -->
+    <record id="view_product_product_form_seller_variant_filter" model="ir.ui.view">
+        <field name="name">product.product.form.seller.variant.filter</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="purchase.view_product_product_supplier_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='seller_ids']" position="attributes">
+                <attribute name="domain">[('product_id', 'in', [id, False])]</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

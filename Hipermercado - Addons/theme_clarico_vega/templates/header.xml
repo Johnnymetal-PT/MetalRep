@@ -1,0 +1,1279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Search Box Input -->
+    <template id="website_search_box_input_ept" name="Search Box Input">
+        <t t-call="website.website_search_box_input">
+            <t t-set="search_type" t-valuef="products_only"/>
+            <t t-set="search" t-value="search or searches and searches['search']"/>
+            <t t-set="action" t-value="'/shop'"/>
+            <t t-set="limit" t-value="limit or '5'"/>
+            <t t-set="display_image" t-valuef="true"/>
+            <t t-set="display_description" t-valuef="false"/>
+            <t t-set="display_extra_link" t-valuef="true"/>
+            <t t-set="display_detail" t-valuef="true"/>
+            <t t-if="False if (request.website and request.website.b2b_hide_price and request.website.is_public_user()) else True">
+                <t t-set="display_detail" t-valuef="true"/>
+            </t>
+            <t t-else="">
+                <t t-set="display_detail" t-valuef="false"/>
+            </t>
+            <t t-if="attrib_values">
+                <t t-foreach="attrib_values" t-as="a">
+                    <input type="hidden" name="attrib" t-att-value="'%s-%s' % (a[0], a[1])"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Hide search bar on mobile view only for search page -->
+    <template id="list_hybrid_ept" inherit_id="website.list_hybrid">
+        <xpath expr="//t[@t-call='website.website_search_box_input']" position="attributes">
+            <attribute name="_classes.f" add="d-none d-lg-inline-flex" separator=" "/>
+        </xpath>
+    </template>
+
+    <template id="website_search_box_ept" inherit_id="website.website_search_box">
+        <xpath expr="//t[@t-set='search_placeholder']" position="replace">
+             <t t-set="website" t-value="request.env['website'].get_current_website().sudo()"/>
+             <t t-set="search_placeholder" t-valuef="#{'Search for Products, Category..' if website.is_view_active('theme_clarico_vega.template_header_style_8') else 'Search...'}"/>
+             <t t-set="placeholder_carousel_prefix" t-translation="on">Search for</t>
+             <t t-set="placeholder_carousel_items_raw" t-value="website.search_placeholder_items or ''"/>
+             <t t-set="placeholder_carousel_items"
+                t-value="[item.strip() for item in placeholder_carousel_items_raw.replace(',', '\n').splitlines() if item.strip()]"/>
+             <t t-set="placeholder_carousel_interval" t-value="2500"/>
+        </xpath>
+        <xpath expr="//input[@name='search']" position="attributes">
+            <attribute name="class" add="te_search_placeholder_input" separator=" "/>
+            <attribute name="t-att-placeholder">' ' if placeholder_carousel_items else (placeholder if placeholder else search_placeholder)</attribute>
+        </xpath>
+        <xpath expr="//input[@name='search']" position="after">
+            <t t-if="placeholder_carousel_items">
+                <div class="te_search_placeholder_carousel"
+                     t-att-data-interval="placeholder_carousel_interval or 2500"
+                     aria-hidden="true">
+                    <span class="te_search_placeholder_static" t-out="placeholder_carousel_prefix"/>
+                    <div class="te_search_placeholder_track">
+                        <t t-foreach="placeholder_carousel_items" t-as="item" t-key="item">
+                            <span class="te_search_placeholder_item">'<t t-out="item"/>'</span>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//button//i" position="replace">
+            <i t-if="header_style" class="emipro-icon ept-search"/>
+            <i t-else="" class="oi oi-search"/>
+        </xpath>
+    </template>
+
+    <!-- Dynamic Options Popup For Mobile Header -->
+    <template id="dynamic_offcanvas_popup">
+        <div class="offcanvas offcanvas-end offcanvas_dynamic_opt" tabindex="-1" id="dynamicOptoffcanvasWithBackdrop"
+             aria-labelledby="offcanvasWithBackdropLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel"/>
+                <button type="button" class="te_cross" data-bs-dismiss="offcanvas"
+                        aria-label="Close"/>
+            </div>
+            <div class="offcanvas-body pt-0"/>
+        </div>
+    </template>
+    <template id="dynamic_opt_popup" inherit_id="web.frontend_layout">
+        <xpath expr="//div[@id='wrapwrap']/header" position="before">
+            <t t-call="theme_clarico_vega.dynamic_offcanvas_popup"/>
+        </xpath>
+    </template>
+
+    <!--  Mobile Header Categories List Content -->
+    <template id="mobile_header_categories_list_container"
+              inherit_id="emipro_theme_base.mobile_header_categories_option_view_container"
+              name="Mobile Header Categories List View Template">
+        <xpath expr="//div[hasclass('mobile_header_categories_option_view_content')]" position="inside">
+            <div class="container w-100 ps-3 pe-3 scrollbar">
+                <div class="row justify-content-between">
+                    <ul class="style-cover">
+                        <t t-if="categories" t-foreach="categories" t-as="category">
+                            <a class="align-items-center justify-content-between list-group-item border-bottom py-1 d-flex text-decoration-none te-parent-category"
+                               t-att-title="category['current_category'].name"
+                               t-attf-style="background-image: url('/web/image/product.public.category/#{category['current_category'].id}/image_128')"
+                               t-att-href="'/shop/category/%s' %slug(category['current_category'])">
+                                <div>
+                                    <span class="curr_cat_name align-middle" t-out="category['current_category'].name"/>
+                                    <span class="fa fa-angle-right align-middle spn_arrow ms-2 px-3 py-2"
+                                          t-att-id="category['current_category'].id"/>
+                                    <small t-if="category['product_count'] > 0" class="d-block"
+                                           t-out="'%s Products' % category['product_count']"/>
+                                </div>
+                            </a>
+                            <ul class="style-cover te_child_category ps-0"
+                                t-att-id="'te_child_category_%s' % category['current_category'].id">
+                                <t t-if="category['current_category'].child_id"
+                                   t-foreach="category['current_category'].child_id" t-as="child_category">
+                                    <a class="align-items-center justify-content-between list-group-item border-bottom py-2 text-decoration-none d-flex"
+                                       t-att-title="child_category.name"
+                                       t-att-id="child_category.id"
+                                       t-att-href="'/shop/category/%s' %slug(child_category)">
+                                        <div class="d-flex align-items-center">
+                                            <img t-att-src="'/web/image/product.public.category/%s/image_128' % child_category.id"
+                                                 t-att-alt="child_category.name" class="o_image_30_cover"/>
+                                            <span class="ps-4" t-out="child_category.name"/>
+                                            <small t-if="len(child_category.product_tmpl_ids) > 0" class="d-block ps-2"
+                                                   t-out="'(%s)' % len(child_category.product_tmpl_ids)"/>
+                                        </div>
+                                    </a>
+                                </t>
+                            </ul>
+                        </t>
+                    </ul>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Mobile Header Style Block -->
+    <template id="mobile_header_style" name="Mobile Header Style">
+        <t t-set="index" t-value="0"/>
+        <t t-set="header_icons"
+           t-value="request.env['mobile.header.icon'].sudo().search([])"/>
+        <div class="mobile_header_style d-lg-none" t-if="len(header_icons) &gt; 0">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <t t-if="header_icons" t-foreach="header_icons" t-as="header_icon">
+                        <t t-set="image_url"
+                           t-value="'/web/image/%s/%s/header_icon' % (header_icon._name, header_icon.id)"/>
+                        <t t-if="index &lt; 5">
+                            <div class="col text-center align-middle mobile_icon_div">
+                                <a t-if="index != 2"
+                                   t-attf-class="{{'te_search_popover' if header_icon.is_dynamic_option and header_icon.dynamic_opt_type == 'search_opt' else ''}}{{'te_categories_list_popover' if header_icon.is_dynamic_option and header_icon.dynamic_opt_type == 'categories_opt' else ''}}"
+                                   t-att-href="header_icon.link_url if not header_icon.is_dynamic_option else '#'"
+                                   t-att-data-bs-toggle="'offcanvas' if header_icon.is_dynamic_option else None"
+                                   t-att-data-bs-target="'#dynamicOptoffcanvasWithBackdrop' if header_icon.is_dynamic_option else None"
+                                   t-att-aria-controls="'dynamicOptoffcanvasWithBackdrop' if header_icon.is_dynamic_option else None">
+                                    <img class="img align-middle" t-att-src="image_url"
+                                         t-att-alt="header_icon.name"/>
+                                    <small class="d-block icon_name" t-out="header_icon.name"/>
+                                </a>
+                                <t t-if="index == 2">
+                                    <a t-att-href="header_icon.link_url if not header_icon.is_dynamic_option else '#'"
+                                       t-attf-class="{{'te_search_popover' if header_icon.is_dynamic_option and header_icon.dynamic_opt_type == 'search_opt' else ''}}{{'te_categories_list_popover' if header_icon.is_dynamic_option and header_icon.dynamic_opt_type == 'categories_opt' else ''}}"
+                                       t-att-data-bs-toggle="'offcanvas' if header_icon.is_dynamic_option else None"
+                                       t-att-data-bs-target="'#dynamicOptoffcanvasWithBackdrop' if header_icon.is_dynamic_option else None"
+                                       t-att-aria-controls="'dynamicOptoffcanvasWithBackdrop' if header_icon.is_dynamic_option else None">
+                                        <img class="img align-middle"
+                                             t-att-alt="header_icon.name"
+                                             t-att-src="image_url"/>
+                                        <small class="d-block icon_name" t-out="header_icon.name"/>
+                                    </a>
+                                </t>
+                            </div>
+                        </t>
+                        <t t-set="index" t-value="index + 1"/>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Options for place language and currency switcher based on selection  -->
+    <template id="place_in_preheader" name="Language and Currency Switcher in Pre-Header"/>
+    <template id="place_in_header" name="Language and Currency Switcher in Header" active="False"/>
+    <!-- Offer text Block -->
+    <template id="te_header_offer_string" name="Header top offer text">
+        <section class="te_s_header_offer_text align-self-center">
+            <span class="align-middle d-inline-block">Free Shipping on above $50</span>
+        </section>
+    </template>
+    <template id="company_contact_number_ept" name="Company Contact Number">
+        <section class="te_s_header_contact_no align-self-center">
+            <span class="align-middle d-inline-block"><span class="fa fa-phone-square fa-fw me-2"/>OUR PHONE NUMBER:
+                <a href="tel:+1 555-555-5556">
+                    <span class="o_force_ltr">+1 555-555-5556</span>
+                </a>
+            </span>
+        </section>
+    </template>
+    <!-- Pre Header Block -->
+    <template id="pre_header" name="Pre Header" active="True">
+        <div class="oe_structure" t-if="not is_view_active('theme_clarico_vega.template_header_style_9')">
+            <section class="container-fluid pre_header">
+                <div t-att-class="'d-flex justify-content-center ' + current_container">
+                    <!-- Social Links -->
+                    <t t-call="website.placeholder_header_social_links"
+                       t-if="not is_view_active('theme_clarico_vega.template_header_style_5')"/>
+                    <!-- Offer Text String -->
+                    <t t-if="is_view_active('website.header_text_element')"
+                       t-call="theme_clarico_vega.te_header_offer_string"/>
+                    <!-- Language and Price-list Block -->
+                    <div class="te_header_before_right align-self-center"
+                         t-if="not is_view_active('theme_clarico_vega.template_header_style_5')">
+                        <t t-if="is_view_active('theme_clarico_vega.place_in_preheader')">
+                            <t t-call="theme_clarico_vega.lang_pricelist_block"/>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div aria-label="Top" t-if="is_view_active('theme_clarico_vega.template_header_style_9')"
+             class="o_header_hide_on_scroll border-bottom o_border_contrast pre_header">
+            <div t-attf-class="#{header_content_width} d-flex justify-content-between flex-wrap w-100">
+                <ul class="navbar-nav align-items-center flex-wrap gap-3 py-1 px-2">
+                    <!-- Company Contact Number -->
+                    <t t-call="theme_clarico_vega.company_contact_number_ept"/>
+                    <!-- Social -->
+                    <t t-call="website.placeholder_header_social_links"/>
+                </ul>
+                <ul class="list-unstyled navbar-nav align-items-center gap-3 py-1 px-2 d-none d-lg-flex top_links">
+                    <li class="d-flex align-items-center">
+                        <i class="fa fa-user fa-fw me-2"/>
+                        <a href="/my">My account</a>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <a href="/shop/cart">Cart</a>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <a href="#">Our Location</a>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <a href="/contactus">Contact Us</a>
+                    </li>
+                    <t t-call="theme_clarico_vega.lang_pricelist_block"/>
+                </ul>
+            </div>
+        </div>
+    </template>
+    <!-- Pre Header Shipping Block for Vega Style 4  -->
+    <template id="pre_header_shipping_block" name="Pre Header Shipping Block">
+        <section class="pre_header_shipping_block" style="background-color: #df1c2f;">
+            <div class="justify-content-center py-3">
+                <p class="text-center" style="color: #ffffff;">Hurry Up..!! Free Returns and Standard Shipping</p>
+            </div>
+        </section>
+    </template>
+    <!-- Header Icons Block -->
+    <template id="header_components" name="Header components">
+        <!-- Cart link -->
+        <t t-call="website_sale.header_cart_link">
+            <t t-set="_link_class" t-value="'position-relative'"/>
+            <t t-set="_icon" t-value="True"/>
+        </t>
+        <!-- Wishlist link -->
+        <t t-call="website_sale_wishlist.header_wishlist_link">
+            <t t-set="_icon" t-value="True"/>
+        </t>
+        <!-- User link -->
+        <t t-call="theme_clarico_vega.user_header_icon"/>
+    </template>
+    <!-- User dropdown menu -->
+    <template id="te_header_usermenu" name="Header user menu">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <a role="menuitem" class=" te_user_name text-decoration-none text-center">
+                    <i class="fa fa-user-o d-flex justify-content-center align-items-center rounded-circle mb-3 position-relative">
+                        <span class="te_user_drop_item_message bg-dark text-white px-2 py-1 rounded-pill small border">
+                            Hello
+                        </span>
+                    </i>
+                    <span class="te_user_drop_item"
+                          t-out="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name">
+                    </span>
+                </a>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body d-flex flex-column justify-content-between">
+                <div class="scrollbar">
+                    <a href="/shop/cart" role="menuitem" class="list-group-item d-flex align-items-center">
+                        <span class="fa fa-shopping-basket me-2 d-flex justify-content-center"/>
+                        <span class="te_user_drop_item text-center d-block text-decoration-none">My cart
+                        </span>
+                        <t t-set="website_sale_cart_quantity"
+                           t-value="request.session.get('website_sale_cart_quantity') if request.website or request.website.sale_get_order().cart_quantity else 0"/>
+                        <span class="my_cart_quantity d-flex justify-content-center text-center"
+                              t-out="website_sale_cart_quantity"
+                              t-att-data-order-id="request.session.get('sale_order_id', '')"/>
+                    </a>
+                    <a href="/shop/wishlist" role="menuitem"
+                       class="list-group-item d-flex align-items-center o_wsale_my_wish">
+                        <span class="fa fa-heart-o me-2 d-flex justify-content-center"/>
+                        <span class="te_user_drop_item text-center d-block text-decoration-none">My Wishlist
+                        </span>
+                        <t t-set="wishcount" t-value="len(request.env['product.wishlist'].current())"/>
+                        <span t-out="wishcount"
+                              t-attf-class="my_wish_quantity o_animate_blink d-flex justify-content-center text-center"/>
+                    </a>
+                    <a href="/my/home" role="menuitem" class="list-group-item d-flex align-items-center">
+                        <i class="fa fa-user-o me-2 d-flex justify-content-center"/>
+                        <span class="te_user_drop_item text-center d-block text-decoration-none">My Account
+                        </span>
+                    </a>
+                    <a href="/my/orders" role="menuitem" class="list-group-item d-flex align-items-center">
+                        <span class="fa fa-pie-chart me-2 d-flex justify-content-center"/>
+                        <span class="te_user_drop_item text-center d-block text-decoration-none">My orders
+                        </span>
+                    </a>
+                    <a href="/my/account" role="menuitem" class="list-group-item d-flex align-items-center">
+                        <span class="fa fa-pencil-square-o me-2 d-flex justify-content-center"/>
+                        <span class="te_user_drop_item text-center d-block text-decoration-none">Edit Profile
+                        </span>
+                    </a>
+                    <a href="/my/security" role="menuitem" class="list-group-item d-flex align-items-center">
+                        <span class="fa fa-shield me-2 d-flex justify-content-center"/>
+                        <span class="te_user_drop_item text-center d-block text-decoration-none">Change Password
+                        </span>
+                    </a>
+                </div>
+                <div>
+                    <a id="o_logout" class="list-group-item d-flex align-items-center" t-attf-href="/web/session/logout?redirect=/"
+                       role="menuitem">
+                        <span class="fa fa-sign-out me-2 d-flex justify-content-center"/>
+                        <span class="te_user_drop_item text-center d-block text-decoration-none">Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- Language & Pricelist Block -->
+    <template id="lang_pricelist_block" name="Language and pricelist block">
+        <t t-set="is_languages" t-value="is_view_active('website.header_language_selector')"></t>
+        <t t-set="language_selector_visible" t-value="len(frontend_languages) &gt; 1"/>
+        <div t-attf-class="ls-dv te_header_lang align-self-center align-middle #{'' if language_selector_visible and is_languages else 'd-none'}">
+            <t t-call="website.placeholder_header_language_selector" _div_classes.f="{{_div_classes or ''}} ml-2"/>
+        </div>
+        <t t-set="website_sale_pricelists"
+           t-value="website_sale_pricelists or website.get_pricelist_available(show_visible=True)"/>
+        <t t-set="hasPricelistDropdown"
+           t-value="hasPricelistDropdown or (website_sale_pricelists and len(website_sale_pricelists)&gt;1)"/>
+        <div class="ls-dv te_header_pricelist align-self-center align-middle" t-if="hasPricelistDropdown">
+            <t t-call="theme_clarico_vega.pricelist_list_ept"/>
+        </div>
+    </template>
+    <!-- Header Navigation Block -->
+    <template id="header_navigation_block" name="Header Bottom Navigation Block">
+        <div class="container-fluid header_bottom">
+            <div t-attf-class="#{header_content_width} d-flex justify-content-between">
+                <div id="top_menu_collapse" class="collapse navbar-collapse">
+                    <div class="close_top_menu d-block d-lg-none text-center">x</div>
+                    <t t-call="website.navbar_nav" _nav_class.f="justify-content-start flex-grow-1 #{is_view_active('website.template_header_vertical_align_center') and 'justify-content-center'} #{is_view_active('website.template_header_vertical_align_right') and 'justify-content-end'} " >
+                        <!-- Menu -->
+                        <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                            <t t-call="website.submenu"
+                               item_class.f="nav-item"
+                               link_class.f="nav-link"/>
+                        </t>
+                        <li class="te_header_lang_mobi d-none"
+                            t-if="is_view_active('website.header_language_selector') or is_view_active('website.header_language_selector_inline')">
+                            <t t-call="website.placeholder_header_language_selector" _div_classes.f="ml-2"/>
+                        </li>
+                        <t t-set="website_sale_pricelists"
+                           t-value="website_sale_pricelists or website.get_pricelist_available(show_visible=True)"/>
+                        <t t-set="hasPricelistDropdown"
+                           t-value="hasPricelistDropdown or (website_sale_pricelists and len(website_sale_pricelists)&gt;1)"/>
+                        <li class="te_header_pricelist_mobi d-none"
+                            t-if="hasPricelistDropdown">
+                            <t t-call="theme_clarico_vega.pricelist_list_ept"/>
+                        </li>
+                    </t>
+                    <div class="d-block d-lg-none">
+                        <t t-call="website.header_call_to_action" _item_class.f="list-unstyled p-3"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <t t-call="website.template_header_mobile" _extra_navbar_classes.f="d-none"/> <!-- Default odoo template -->
+    </template>
+    <!-- User Header Icon -->
+    <template id="user_header_icon" name="User Header icon">
+        <li class="te_header_account" t-if="is_view_active('portal.user_sign_in')" >
+            <div class="te_user_account" t-ignore="true" t-if="not request.env.user.sudo()._is_public()">
+                <a class="btn-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                   aria-controls="offcanvasRight">
+                    <i class="emipro-icon ept-user align-middle text-decoration-none"/>
+                </a>
+            </div>
+            <t t-call="theme_clarico_vega.signin_block_content" align_class.f="px-2" fa_classes.f="fa-user-o d-block"/>
+        </li>
+        <span class="user_welcome_info ps-2 d-none d-lg-inline-block" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                   aria-controls="offcanvasRight" t-if="not request.env.user.sudo()._is_public() and is_view_active('theme_clarico_vega.template_header_style_6')">
+            <span class="d-inline-block">
+                <p class="d-inline-block p1">Hi, Welcome</p>
+                <p class="d-block p2">
+                    <b class="text-capitalize" t-out="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"></b>
+                </p>
+            </span>
+            <span class="fa fa-chevron-down d-none d-xl-inline-block ps-2"/>
+        </span>
+    </template>
+    <!-- Sign In Block Template   -->
+    <template id="signin_block_content" name="User Sign in content">
+        <div groups="base.group_public" t-attf-class="#{align_class} te_signin"
+             t-if="is_view_active('portal.user_sign_in')">
+            <t t-if="is_view_active('theme_clarico_vega.login_popup_ept')">
+                <a href="#" t-attf-class="#{btn_class} btn-link">
+                    <span t-if="is_sign_in_text" class="te_user_account_name">Sign in</span>
+                    <i class="emipro-icon ept-user"/>
+                </a>
+            </t>
+            <t t-else="">
+                <a t-attf-href="/web/login" t-attf-class="#{btn_class} btn-link">
+                    <span t-if="is_sign_in_text" class="te_user_account_name">Sign in</span>
+                    <i class="emipro-icon ept-user"/>
+                </a>
+            </t>
+        </div>
+    </template>
+    <!-- Pricelist Dropdown -->
+    <template id="pricelist_list_ept" inherit_id="website_sale.pricelist_list" name="Pricelists Dropdown">
+        <xpath expr="//a[contains(@t-attf-class, 'dropdown-toggle')]" position="replace">
+            <!--            <t t-nocache="pricelist">-->
+            <t t-set="curr_pl" t-value="request.pricelist"/>
+            <a role="button" href="#" t-attf-class="dropdown-toggle border-0 p-0 btn px-0 te_currency_name"
+               data-bs-toggle="dropdown">
+                <span class="te_currency_name">
+                    <t t-out="curr_pl and curr_pl.name or ' - '"/>
+                </span>
+                <span class="d-none te_currency_symbol">
+                    <t t-out="curr_pl.currency_id.symbol"/>
+                </span>
+            </a>
+            <!--            </t>-->
+        </xpath>
+        <xpath expr="//span[hasclass('switcher_pricelist')]" position="attributes">
+            <attribute name="class" remove="small" separator=" "/>
+        </xpath>
+    </template>
+    <!-- Header Cart Icon -->
+    <template id="header_cart_link_ept" inherit_id="website_sale.header_cart_link">
+        <xpath expr="//li[contains(@t-attf-class, 'o_wsale_my_cart')]" position="attributes">
+            <attribute name="t-attf-class" remove="ml-auto" add="te_cart_icon_head" separator=" "/>
+        </xpath>
+        <xpath expr="//li[contains(@t-attf-class, 'o_wsale_my_cart')]//a" position="replace">
+            <t t-if="is_view_active('theme_clarico_vega.cart_popover')">
+                <a href="#" id="main_cart_popover_content" t-attf-class="#{_link_class}" data-bs-toggle="offcanvas" data-bs-target="#cartoffcanvasWithBackdrop" aria-controls="cartoffcanvasWithBackdrop"  aria-label="eCommerce cart">
+                    <div t-attf-class="#{_icon_wrap_class}">
+                        <i t-if="header_style and _icon" class="emipro-icon ept-cart"/>
+                        <i t-elif="_icon" class="fa fa-shopping-cart fa-stack"/>
+                        <sup t-if="not is_view_active('theme_clarico_vega.template_header_style_9')" t-attf-class="my_cart_quantity badge text-bg-primary #{_badge_class} #{'d-none' if (website_sale_cart_quantity == 0) else ''}" t-esc="website_sale_cart_quantity" t-att-data-order-id="request.session.get('sale_order_id', '')"/>
+                        <sup t-if="is_view_active('theme_clarico_vega.template_header_style_9')" t-attf-class="my_cart_quantity d-block d-lg-none badge text-bg-primary #{_badge_class} #{'d-none' if (website_sale_cart_quantity == 0) else ''}" t-esc="website_sale_cart_quantity" t-att-data-order-id="request.session.get('sale_order_id', '')"/>
+                        <t t-if="is_view_active('theme_clarico_vega.template_header_style_9')">
+                            <div class="d-none d-lg-inline-block">
+                                <span t-attf-class="my_cart_quantity position-relative d-inline-block top-0 ps-2"
+                                     t-esc="website_sale_cart_quantity"
+                                     t-att-data-order-id="request.session.get('sale_order_id', '')"/>
+                                <span class="px-0 separator_span">/</span>
+                                <b class="my_cart_total d-inline-block">
+                                    <t t-esc="website_sale_order and website_sale_order.amount_total or 0.0"
+                                       t-options="{'widget': 'monetary', 'display_currency': (website_sale_order or website).currency_id}"/>
+                                </b>
+                            </div>
+                        </t>
+                    </div>
+                    <span t-if="_text" t-attf-class="#{_text_class}">My Cart</span>
+                </a>
+            </t>
+            <t t-else="">
+                <a href="/shop/cart" t-attf-class="#{_link_class}" aria-label="eCommerce cart">
+                    <div t-attf-class="#{_icon_wrap_class}">
+                        <i t-if="header_style and _icon" class="emipro-icon ept-cart"/>
+                        <i t-elif="_icon" class="fa fa-shopping-cart fa-stack"/>
+                        <sup t-attf-class="my_cart_quantity badge text-bg-primary #{_badge_class} #{'d-none' if (website_sale_cart_quantity == 0) else ''}" t-esc="website_sale_cart_quantity" t-att-data-order-id="request.session.get('sale_order_id', '')"/>
+                    </div>
+                    <span t-if="_text" t-attf-class="#{_text_class}">My Cart</span>
+                </a>
+            </t>
+        </xpath>
+    </template>
+    <!-- Header Wishlist Link -->
+    <template id="header_wishlist_link_ept" inherit_id="website_sale_wishlist.header_wishlist_link">
+        <xpath expr="//li[contains(@t-attf-class, 'o_wsale_my_wish')]" position="attributes">
+            <attribute name="t-attf-class" add="te_wish_icon_head" separator=" "/>
+        </xpath>
+        <xpath expr="//li[contains(@t-attf-class, 'o_wsale_my_wish')]//i" position="attributes">
+            <attribute name="t-attf-class">
+                #{ 'emipro-icon ept-wishlist' if header_style == 'clarico-vega-header' else 'fa fa-heart fa-stack' }
+            </attribute>
+        </xpath>
+    </template>
+    <!-- Language Selector -->
+    <template id="language_selector_ept" inherit_id="portal.language_selector">
+        <xpath expr="//button[contains(@t-attf-class, 'dropdown-toggle')]" position="inside">
+            <span class="align-middle lang_code" t-esc="active_lang.url_code.split('_').pop(0).upper()"/>
+        </xpath>
+    </template>
+
+    <!-- Header style 1 -->
+    <template id="template_header_style_1" inherit_id="website.layout" name="Vega style 1" active="False">
+        <xpath expr="//header" position="before">
+            <t t-call="theme_clarico_vega.mobile_header_style"/>
+            <t t-call="theme_clarico_vega.te_header_usermenu"/>
+        </xpath>
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="header_style" t-value="'clarico-vega-header'"/>
+                <t t-set="_navbar_expand_class"
+                   t-valuef="navbar-expand-lg header_style_1 p-0 d-block c_shadow"/>
+                <t t-if="is_view_active('theme_clarico_vega.pre_header')" t-call="theme_clarico_vega.pre_header">
+                    <t t-set="current_container" t-valuef="justify-content-lg-between container"/>
+                </t>
+                <div class="container justify-content-md-between header_middle">
+                    <div class="middle_first">
+                        <button type="button"
+                                class="navbar-toggler ept_mobi_toggler header_sidebar collapsed ml-3 shadow-none">
+                            <span class="navbar-toggler-icon">
+                            </span>
+                        </button>
+                        <t t-call="website.placeholder_header_brand" _link_class.f="d-inline-block align-middle me-md-0"/>
+                    </div>
+                    <div class="col-md-5 te_header_style_right" t-if="is_view_active('website.header_search_box')">
+                        <div class="te_header_search w-lg-100 d-inline-block">
+                            <div class="te_search_popover" tabindex="-1">
+                                <t t-call="website.placeholder_header_search_box"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="te_header_right_icon">
+                        <div class="te_header_search">
+                            <div class="te_srch_icon_header">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="emipro-icon ept-search te_srch_icon"/>
+                                    <i class="emipro-icon ept-cross te_srch_close"/>
+                                </a>
+                            </div>
+                        </div>
+                        <t t-call="theme_clarico_vega.header_components"/>
+                        <t t-if="is_view_active('theme_clarico_vega.place_in_header')">
+                            <t t-call="theme_clarico_vega.lang_pricelist_block"/>
+                        </t>
+                        <t t-call="website.header_call_to_action"/>
+                    </div>
+                </div>
+                <t t-call="theme_clarico_vega.header_navigation_block"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Header style 2 -->
+    <template id="template_header_style_2" inherit_id="website.layout" name="Vega style 2"
+              active="False">
+        <xpath expr="//header" position="before">
+             <t t-call="theme_clarico_vega.mobile_header_style"/>
+            <t t-call="theme_clarico_vega.te_header_usermenu"/>
+        </xpath>
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="header_style" t-value="'clarico-vega-header'"/>
+                <t t-set="_navbar_expand_class"
+                   t-valuef="navbar-expand-lg header_style_2 p-0 d-block c_shadow"/>
+                <t t-if="is_view_active('theme_clarico_vega.pre_header')" t-call="theme_clarico_vega.pre_header">
+                    <t t-set="current_container" t-valuef="justify-content-lg-between container"/>
+                </t>
+                <div class="container justify-content-md-between header_middle">
+                    <div class="col-md-3 te_header_style_right" t-if="is_view_active('website.header_search_box')">
+                        <div class="te_header_search">
+                            <div class="te_search_popover" tabindex="-1">
+                                <t t-call="website.placeholder_header_search_box"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="middle_first">
+                        <button type="button"
+                                class="navbar-toggler ept_mobi_toggler header_sidebar collapsed ml-3 shadow-none">
+                            <span class="navbar-toggler-icon">
+                            </span>
+                        </button>
+                        <t t-call="website.placeholder_header_brand" _link_class.f="d-inline-block align-middle me-md-0"/>
+                    </div>
+                    <div class="te_header_right_icon">
+                        <div class="te_header_search">
+                            <div class="te_srch_icon_header">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="emipro-icon ept-search te_srch_icon"/>
+                                    <i class="emipro-icon ept-cross te_srch_close"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 te_header_style_right"
+                             t-if="is_view_active('website.header_search_box')">
+                            <div class="te_header_search">
+                                <div class="te_search_popover" tabindex="-1">
+                                    <t t-call="website.placeholder_header_search_box"/>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="theme_clarico_vega.header_components"/>
+                        <t t-if="is_view_active('theme_clarico_vega.place_in_header')">
+                            <t t-call="theme_clarico_vega.lang_pricelist_block"/>
+                        </t>
+                        <!-- Call To Action -->
+                        <t t-call="website.header_call_to_action"/>
+                    </div>
+                </div>
+                <t t-call="theme_clarico_vega.header_navigation_block"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Header style 3 -->
+    <template id="template_header_style_3" inherit_id="website.layout"
+              name="Vega style 3" active="False">
+        <xpath expr="//header" position="before">
+            <t t-call="theme_clarico_vega.mobile_header_style"/>
+            <t t-call="theme_clarico_vega.te_header_usermenu"/>
+        </xpath>
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="header_style" t-value="'clarico-vega-header'"/>
+                <t t-set="_navbar_expand_class"
+                   t-valuef="navbar-expand-lg header_style_3 p-0 d-block c_shadow"/>
+                <t t-if="is_view_active('theme_clarico_vega.pre_header') != False"
+                   t-call="theme_clarico_vega.pre_header">
+                    <t t-set="current_container" t-valuef="justify-content-lg-between container-fluid"/>
+                </t>
+                <div class="container-fluid justify-content-md-between header_middle">
+                    <div class="middle_first">
+                        <button type="button"
+                                class="navbar-toggler ept_mobi_toggler header_sidebar collapsed ml-3 shadow-none">
+                            <span class="navbar-toggler-icon">
+                            </span>
+                        </button>
+                        <t t-call="website.placeholder_header_brand" _link_class.f="d-inline-block align-middle me-md-0"/>
+                    </div>
+                    <div id="top_menu_collapse" class="collapse navbar-collapse">
+                        <div class="close_top_menu d-block d-lg-none text-center">x</div>
+                        <t t-call="website.navbar_nav" _nav_class.f="justify-content-start flex-grow-1 #{is_view_active('website.template_header_vertical_align_center') and 'justify-content-center'} #{is_view_active('website.template_header_vertical_align_right') and 'justify-content-end'} ">
+                            <!-- Menu -->
+                            <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                <t t-call="website.submenu"
+                                   item_class.f="nav-item"
+                                   link_class.f="nav-link"/>
+                            </t>
+                            <li class="te_header_lang_mobi d-none"
+                                t-if="is_view_active('website.header_language_selector') or is_view_active('website.header_language_selector_inline')">
+                                <t t-call="website.placeholder_header_language_selector">
+                                    <t t-set="_div_classes" t-value="'ml-2'"/>
+                                </t>
+                            </li>
+                            <t t-set="website_sale_pricelists"
+                               t-value="website_sale_pricelists or website.get_pricelist_available(show_visible=True)"/>
+                            <t t-set="hasPricelistDropdown"
+                               t-value="hasPricelistDropdown or (website_sale_pricelists and len(website_sale_pricelists)&gt;1)"/>
+                            <li class="te_header_pricelist_mobi d-none"
+                                t-if="hasPricelistDropdown">
+                                <t t-call="theme_clarico_vega.pricelist_list_ept"/>
+                            </li>
+                        </t>
+                        <div class="d-block d-lg-none">
+                            <t t-call="website.header_call_to_action" _item_class.f="list-unstyled pt-2"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 te_header_style_right" t-if="is_view_active('website.header_search_box')">
+                        <div class="te_header_search">
+                            <div class="te_search_popover" tabindex="-1">
+                                <t t-call="website.placeholder_header_search_box"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="te_header_right_icon">
+                        <div class="te_header_search">
+                            <div class="te_srch_icon_header">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="emipro-icon ept-search te_srch_icon"/>
+                                    <i class="emipro-icon ept-cross te_srch_close"/>
+                                </a>
+                            </div>
+                        </div>
+                        <t t-call="theme_clarico_vega.header_components"/>
+                        <t t-if="is_view_active('theme_clarico_vega.place_in_header')">
+                            <t t-call="theme_clarico_vega.lang_pricelist_block"/>
+                        </t>
+                        <!-- Call To Action -->
+                        <t t-call="website.header_call_to_action"/>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Header style 4 -->
+    <template id="template_header_style_4" inherit_id="website.layout"
+              name="Vega style 4" active="False">
+        <xpath expr="//header" position="before">
+            <t t-call="theme_clarico_vega.mobile_header_style"/>
+            <t t-call="theme_clarico_vega.te_header_usermenu"/>
+        </xpath>
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="theme_clarico_vega.pre_header_shipping_block"/>
+            <t t-call="website.navbar">
+                <t t-set="header_style" t-value="'clarico-vega-header'"/>
+                <t t-set="_navbar_expand_class"
+                   t-valuef="navbar-expand-lg header_style_4 p-0 d-block"/>
+                <div class="container-fluid justify-content-md-between header_middle">
+                    <div class="middle_first">
+                        <t t-call="website.placeholder_header_brand" _link_class.f="d-inline-block align-middle me-md-0"/>
+                    </div>
+                    <div id="top_menu_collapse" class="collapse navbar-collapse">
+                        <div class="close_top_menu d-block d-lg-none text-center">x</div>
+                        <t t-call="website.navbar_nav" _nav_class.f="justify-content-start flex-grow-1 #{is_view_active('website.template_header_vertical_align_center') and 'justify-content-center'} #{is_view_active('website.template_header_vertical_align_right') and 'justify-content-end'} " >
+                            <!-- Menu -->
+                            <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                               <t t-call="website.submenu"
+                                   item_class.f="nav-item"
+                                   link_class.f="nav-link"/>
+                            </t>
+                            <li class="te_header_lang_mobi d-none"
+                                t-if="is_view_active('website.header_language_selector') or is_view_active('website.header_language_selector_inline')">
+                                <t t-call="website.placeholder_header_language_selector">
+                                    <t t-set="_div_classes" t-value="'ml-2'"/>
+                                </t>
+                            </li>
+                            <t t-set="website_sale_pricelists"
+                               t-value="website_sale_pricelists or website.get_pricelist_available(show_visible=True)"/>
+                            <t t-set="hasPricelistDropdown"
+                               t-value="hasPricelistDropdown or (website_sale_pricelists and len(website_sale_pricelists)&gt;1)"/>
+                            <li class="te_header_pricelist_mobi d-none"
+                                t-if="hasPricelistDropdown">
+                                <t t-call="theme_clarico_vega.pricelist_list_ept"/>
+                            </li>
+                        </t>
+                        <div class="d-block d-lg-none">
+                            <t t-call="website.header_call_to_action">
+                                <t t-set="_item_class" t-valuef="list-unstyled pt-2"/>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="te_header_style_right" t-if="is_view_active('website.header_search_box')">
+                        <div class="te_header_search">
+                            <div class="te_search_popover" tabindex="-1">
+                                <t t-call="website.placeholder_header_search_box"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="te_header_right_icon">
+                        <div class="te_header_search">
+                            <div class="te_srch_icon_header">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="emipro-icon ept-search te_srch_icon"/>
+                                    <i class="emipro-icon ept-cross te_srch_close"/>
+                                </a>
+                            </div>
+                        </div>
+                        <t t-call="theme_clarico_vega.header_components"/>
+                        <t t-if="is_view_active('theme_clarico_vega.place_in_header')">
+                            <t t-call="theme_clarico_vega.lang_pricelist_block"/>
+                        </t>
+                        <!-- Call To Action -->
+                        <t t-call="website.header_call_to_action"/>
+                        <li class="navbar-toggler-li">
+                            <button type="button"
+                                    class="navbar-toggler ept_mobi_toggler header_sidebar collapsed ml-3 shadow-none">
+                                <span class="navbar-toggler-icon">
+                                </span>
+                            </button>
+                        </li>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Header style 5 -->
+    <template id="template_header_style_5" inherit_id="website.layout" name="Vega style 5"
+              active="False">
+        <xpath expr="//header" position="before">
+            <t t-call="theme_clarico_vega.mobile_header_style"/>
+            <t t-call="theme_clarico_vega.te_header_usermenu"/>
+        </xpath>
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="header_style" t-value="'clarico-vega-header'"/>
+                <t t-set="_navbar_expand_class"
+                   t-valuef="navbar-expand-lg header_style_5 p-0 d-block"/>
+                <t t-if="is_view_active('theme_clarico_vega.pre_header')" t-call="theme_clarico_vega.pre_header">
+                    <t t-set="current_container" t-valuef="container"/>
+                </t>
+                <div class="container justify-content-md-between header_middle">
+                    <div class="col-md-3 te_header_style_right search_bar_right5"
+                         t-if="is_view_active('website.header_search_box')">
+                        <div class="te_header_search">
+                            <div class="te_search_popover" tabindex="-1">
+                                <t t-call="website.placeholder_header_search_box"/>
+                                <span class="d-inline-block te_srch_close_5">&amp;times;</span>
+                            </div>
+                        </div>
+                        <div class="text-center text-muted search-text">
+                            <span>Enter keywords to see quick results</span>
+                        </div>
+                    </div>
+                    <div class="te_header_left_part">
+                        <div class="te_header_search ls-dv" t-if="is_view_active('website.header_search_box')">
+                            <div class="te_srch_icon_header">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="emipro-icon ept-search te_srch_icon_5"/>
+                                </a>
+                            </div>
+                        </div>
+                        <t t-call="theme_clarico_vega.lang_pricelist_block"/>
+                    </div>
+                    <div class="middle_first">
+                        <button type="button"
+                                class="navbar-toggler ept_mobi_toggler header_sidebar collapsed ml-3 shadow-none">
+                            <span class="navbar-toggler-icon">
+                            </span>
+                        </button>
+                        <t t-call="website.placeholder_header_brand" _link_class.f="d-inline-block align-middle me-md-0"/>
+                    </div>
+                    <div class="te_header_right_icon">
+                        <div class="te_header_search ls-dv d-lg-none">
+                            <div class="te_srch_icon_header">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="emipro-icon ept-search te_srch_icon_5"/>
+                                </a>
+                            </div>
+                        </div>
+                        <t t-call="theme_clarico_vega.header_components"/>
+                        <!-- Call To Action -->
+                        <t t-call="website.header_call_to_action"/>
+                    </div>
+                </div>
+                <t t-call="theme_clarico_vega.header_navigation_block"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Header style 6 -->
+    <template id="template_header_style_6" inherit_id="website.layout" name="Vega style 6"
+              active="False">
+        <xpath expr="//header" position="before">
+            <t t-call="theme_clarico_vega.mobile_header_style"/>
+            <t t-call="theme_clarico_vega.te_header_usermenu"/>
+        </xpath>
+         <xpath expr="//header//nav" position="replace">
+             <t t-call="website.navbar"
+                _navbar_classes.f="d-none d-lg-block shadow-sm header_style_6"
+                _navbar_expand_class.f="">
+                 <t t-set="header_style" t-value="'clarico-vega-header'"/>
+                 <div id="o_main_nav"
+                      t-attf-class="o_main_nav py-0 o_grid_header_3_cols container">
+                     <div class="d-flex justify-content-center w-100 justify-content-lg-between container align-items-center header_middle">
+                         <div class="section_left">
+                            <!-- Brand -->
+                             <t t-call="website.placeholder_header_brand"
+                                _link_class.f="mw-100 mx-auto d-inline-block align-middle"/>
+                            <!-- Nav Toggler -->
+                             <button type="button" t-attf-class="navbar-toggler btn me-auto p-2 d-inline-block align-middle ms-4 o_not_editable"
+                                     data-bs-toggle="offcanvas" data-bs-target="#top_menu_collapse"
+                                     aria-controls="top_menu_collapse">
+                                 <span class="navbar-toggler-icon">
+                                 </span>
+                                 <span class="ps-0 align-middle align-self-center nav_text ps-1 text-black d-none d-sm-inline-block">Menu</span>
+                             </button>
+                         </div>
+                         <div class="section_middle col-lg-5 align-self-center te_header_style_right" t-if="is_view_active('website.header_search_box')">
+                             <div class="te_header_search">
+                                 <div class="te_search_popover" tabindex="-1">
+                                     <t t-call="website.placeholder_header_search_box"/>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="d-flex section_right align-self-center">
+                             <div class="te_header_right_icon">
+                                 <div class="te_header_search">
+                                     <div class="te_srch_icon_header">
+                                         <a href="#" class="text-decoration-none">
+                                             <i class="emipro-icon ept-search te_srch_icon"/>
+                                             <i class="emipro-icon ept-cross te_srch_close"/>
+                                         </a>
+                                     </div>
+                                 </div>
+                                 <t t-call="theme_clarico_vega.header_components"/>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </t>
+             <t t-call="website.template_header_mobile"
+            _txt_elt_content.f="phone_mail"/>
+         </xpath>
+        <xpath expr="//header" position="before">
+            <div class="offcanvas offcanvas-start navbar-expand  o_navbar_mobile" id="top_menu_collapse">
+                <div class="offcanvas-header justify-content-end">
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            aria-label="Close"/>
+                </div>
+                <div class="offcanvas-body d-flex flex-column pt-0 justify-content-between w-100 h-100 header_style_6">
+                    <ul class="navbar-nav d-flex flex-column">
+                        <!-- Navbar -->
+                        <li>
+                            <t t-set="is_vertical_nav" t-valuef="True"/>
+                            <t t-call="website.navbar_nav"
+                               _nav_class.f="justify-content-start flex-column flex-grow-1 #{is_view_active('website.template_header_vertical_align_center') and 'justify-content-center'} #{is_view_active('website.template_header_vertical_align_right') and 'justify-content-end'} ">
+                                <t t-set="offcanvas_is_leftside" t-valuef="True"/>
+                                <!-- Menu -->
+                                <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                    <t t-call="website.submenu"
+                                       item_class.f="nav-item border-top #{submenu_last and 'border-bottom'}"
+                                       link_class.f="nav-link p-3 text-wrap"/>
+                                </t>
+                            </t>
+                        </li>
+                    </ul>
+                    <t t-call="theme_clarico_vega.lang_pricelist_block"/>
+                    <ul class="navbar-nav flex-column gap-2 mt-3 w-100 contact_us_btn">
+                        <!-- Call To Action -->
+                        <t t-call="website.header_call_to_action"/>
+                    </ul>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Header style 7 -->
+    <template id="template_header_style_7" inherit_id="website.layout" name="Vega style 7"
+              active="False">
+        <xpath expr="//header" position="before">
+            <t t-call="theme_clarico_vega.mobile_header_style"/>
+            <t t-call="theme_clarico_vega.te_header_usermenu"/>
+        </xpath>
+         <xpath expr="//header//nav" position="replace">
+             <div t-attf-class="#{header_content_width} py-3 px-0">
+                 <t t-call="website.navbar"
+                    _navbar_classes.f="navbar-expand-lg o_full_border rounded-pill px-3 shadow-sm header_style_7"
+                    _navbar_expand_class.f="">
+                     <t t-set="header_style" t-value="'clarico-vega-header'"/>
+                     <div id="o_main_nav" t-attf-class="#{header_content_width} o_main_nav w-100">
+                         <div class="d-flex justify-content-between container header_middle w-100">
+                            <!-- Navbar -->
+                             <div id="top_menu_collapse" class="collapse navbar-collapse flex-grow-0 justify-content-lg-start">
+                                 <div class="close_top_menu d-block d-lg-none text-center">x</div>
+                                 <t t-call="website.navbar_nav"
+                                    _nav_class.f="#{is_view_active('website.template_header_vertical_align_center') and 'justify-content-center'} #{is_view_active('website.template_header_vertical_align_right') and 'justify-content-end'} ">
+                                    <!-- Menu -->
+                                     <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                         <t t-call="website.submenu"
+                                            item_class.f="nav-item"
+                                            link_class.f="nav-link"/>
+                                     </t>
+                                     <li class="te_header_lang_mobi d-none"
+                                         t-if="is_view_active('website.header_language_selector') or is_view_active('website.header_language_selector_inline')">
+                                         <t t-call="website.placeholder_header_language_selector">
+                                             <t t-set="_div_classes" t-value="'ml-2'"/>
+                                         </t>
+                                     </li>
+                                     <t t-set="website_sale_pricelists"
+                                        t-value="website_sale_pricelists or website.get_pricelist_available(show_visible=True)"/>
+                                     <t t-set="hasPricelistDropdown"
+                                        t-value="hasPricelistDropdown or (website_sale_pricelists and len(website_sale_pricelists)&gt;1)"/>
+                                     <li class="te_header_pricelist_mobi d-none"
+                                         t-if="hasPricelistDropdown">
+                                         <t t-call="theme_clarico_vega.pricelist_list_ept"/>
+                                     </li>
+                                 </t>
+                                 <div class="d-block d-lg-none">
+                                     <t t-call="website.header_call_to_action" _item_class.f="list-unstyled pt-2 contact_cta d-none d-lg-inline-block"/>
+                                 </div>
+                             </div>
+                            <!-- Brand -->
+                             <div class="d-flex middle_first text-center">
+                                 <button type="button"
+                                         class="navbar-toggler ept_mobi_toggler header_sidebar collapsed ml-3 shadow-none">
+                                     <span class="navbar-toggler-icon">
+                                     </span>
+                                 </button>
+                                 <t t-call="website.placeholder_header_brand"
+                                    _link_class.f="d-flex align-items-center align-middle"/>
+                             </div>
+                             <div class="te_header_style_right"
+                                  t-if="is_view_active('website.header_search_box')">
+                                 <div class="te_header_search">
+                                     <div class="te_search_popover" tabindex="-1">
+                                         <t t-call="website.placeholder_header_search_box"/>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="d-flex section_right align-self-center">
+                                 <div class="te_header_right_icon">
+                                     <div class="te_header_search">
+                                         <div class="te_srch_icon_header">
+                                             <a href="#" class="text-decoration-none">
+                                                 <i class="emipro-icon ept-search te_srch_icon"/>
+                                                 <i class="emipro-icon ept-cross te_srch_close"/>
+                                             </a>
+                                         </div>
+                                     </div>
+                                     <t t-call="theme_clarico_vega.header_components"/>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </t>
+             </div>
+             <t t-call="website.template_header_mobile"
+                _txt_elt_content.f="phone_mail"/>
+         </xpath>
+    </template>
+
+    <!-- Header style 8 -->
+    <template id="template_header_style_8" inherit_id="website.layout" name="Vega style 8"
+              active="False">
+        <xpath expr="//header" position="before">
+            <t t-call="theme_clarico_vega.mobile_header_style"/>
+            <t t-call="theme_clarico_vega.te_header_usermenu"/>
+        </xpath>
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="header_style" t-value="'clarico-vega-header'"/>
+                <t t-set="_navbar_expand_class"
+                   t-valuef="navbar-expand-lg header_style_8 p-0 c_shadow"/>
+                <div id="o_main_nav"
+                     t-attf-class="o_main_nav #{header_content_width} d-flex align-items-center justify-content-between py-3 header_middle">
+                    <button type="button"
+                            class="navbar-toggler ept_mobi_toggler header_sidebar collapsed ml-3 shadow-none ps-2">
+                        <span class="navbar-toggler-icon">
+                        </span>
+                    </button>
+                    <t t-call="website.placeholder_header_brand"
+                       _link_class.f="d-inline-block align-middle me-md-0"/>
+                    <div id="top_menu_collapse" class="collapse navbar-collapse">
+                        <div class="close_top_menu d-block d-lg-none text-center">x</div>
+                        <t t-call="website.navbar_nav"
+                           _nav_class.f="justify-content-start flex-grow-1 #{is_view_active('website.template_header_vertical_align_center') and 'justify-content-center'} #{is_view_active('website.template_header_vertical_align_right') and 'justify-content-end'} ">
+                            <!-- Menu -->
+                            <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                <t t-call="website.submenu"
+                                   item_class.f="nav-item"
+                                   link_class.f="nav-link"/>
+                            </t>
+                            <li class="te_header_lang_mobi d-none"
+                                t-if="is_view_active('website.header_language_selector') or is_view_active('website.header_language_selector_inline')">
+                                <t t-call="website.placeholder_header_language_selector">
+                                    <t t-set="_div_classes" t-value="'ml-2'"/>
+                                </t>
+                            </li>
+                            <t t-set="website_sale_pricelists"
+                               t-value="website_sale_pricelists or website.get_pricelist_available(show_visible=True)"/>
+                            <t t-set="hasPricelistDropdown"
+                               t-value="hasPricelistDropdown or (website_sale_pricelists and len(website_sale_pricelists)&gt;1)"/>
+                            <li class="te_header_pricelist_mobi d-none"
+                                t-if="hasPricelistDropdown">
+                                <t t-call="theme_clarico_vega.pricelist_list_ept"/>
+                            </li>
+                        </t>
+                        <div class="d-block d-lg-none">
+                            <t t-call="website.header_call_to_action" _item_class.f="list-unstyled pt-2 px-2"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 te_header_style_right pe-lg-2" t-if="is_view_active('website.header_search_box')">
+                        <div class="te_header_search">
+                            <div class="te_search_popover" tabindex="-1">
+                                <t t-call="website.placeholder_header_search_box"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="te_header_right_icon">
+                        <div class="te_header_search">
+                            <div class="te_srch_icon_header">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="emipro-icon ept-search te_srch_icon"/>
+                                    <i class="emipro-icon ept-cross te_srch_close"/>
+                                </a>
+                            </div>
+                        </div>
+                        <t t-call="theme_clarico_vega.header_components"/>
+                        <!-- Call To Action -->
+                        <t t-call="website.header_call_to_action" _item_class.f="list-unstyled px-0 ps-lg-1 d-none d-lg-inline-block"/>
+                    </div>
+                </div>
+            </t>
+            <t t-call="website.template_header_mobile" _txt_elt_content.f="phone_mail"/>
+        </xpath>
+    </template>
+
+     <!-- Header style 9 -->
+    <template id="template_header_style_9" inherit_id="website.layout" name="Vega style 9"
+              active="False">
+        <xpath expr="//header" position="before">
+            <t t-call="theme_clarico_vega.mobile_header_style"/>
+            <t t-call="theme_clarico_vega.te_header_usermenu"/>
+        </xpath>
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar"
+               _navbar_classes.f="navbar navbar-expand-lg navbar-light d-block p-0 shadow-sm rounded-0 header_style_9" _navbar_expand_class.f="">
+                <t t-set="header_style" t-value="'clarico-vega-header'"/>
+                <div id="o_main_nav" t-attf-class="o_main_nav flex-wrap">
+                    <t t-if="is_view_active('theme_clarico_vega.pre_header')" t-call="theme_clarico_vega.pre_header">
+                        <t t-set="current_container" t-valuef="justify-content-lg-between #{header_content_width}"/>
+                    </t>
+                    <div aria-label="Bottom" t-attf-class="#{header_content_width} d-flex justify-content-between align-items-center py-2 header_middle">
+                        <!-- Navbar -->
+                        <div id="top_menu_collapse"
+                             class="collapse navbar-collapse flex-grow-0 justify-content-lg-start col-lg-4">
+                            <div class="close_top_menu d-block d-lg-none text-center">x</div>
+                            <t t-call="website.navbar_nav"
+                               _nav_class.f="#{is_view_active('website.template_header_vertical_align_center') and 'justify-content-center'} #{is_view_active('website.template_header_vertical_align_right') and 'justify-content-end'} ">
+                                <!-- Menu -->
+                                <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                    <t t-call="website.submenu"
+                                       item_class.f="nav-item"
+                                       link_class.f="nav-link"/>
+                                </t>
+                                <li class="te_header_lang_mobi d-none"
+                                    t-if="is_view_active('website.header_language_selector') or is_view_active('website.header_language_selector_inline')">
+                                    <t t-call="website.placeholder_header_language_selector">
+                                        <t t-set="_div_classes" t-value="'ml-2'"/>
+                                    </t>
+                                </li>
+                                <t t-set="website_sale_pricelists"
+                                   t-value="website_sale_pricelists or website.get_pricelist_available(show_visible=True)"/>
+                                <t t-set="hasPricelistDropdown"
+                                   t-value="hasPricelistDropdown or (website_sale_pricelists and len(website_sale_pricelists)&gt;1)"/>
+                                <li class="te_header_pricelist_mobi d-none"
+                                    t-if="hasPricelistDropdown">
+                                    <t t-call="theme_clarico_vega.pricelist_list_ept"/>
+                                </li>
+                            </t>
+                            <div class="d-block d-lg-none">
+                                <t t-call="website.header_call_to_action"
+                                   _item_class.f="list-unstyled pt-2 contact_cta d-none d-lg-inline-block"/>
+                            </div>
+                        </div>
+                        <!-- Brand -->
+                        <div class="middle_first text-center">
+                            <button type="button"
+                                    class="navbar-toggler ept_mobi_toggler d-inline-block d-lg-none align-middle pe-2 header_sidebar collapsed ml-3 shadow-none">
+                                <span class="navbar-toggler-icon">
+                                </span>
+                            </button>
+                            <t t-call="website.placeholder_header_brand"
+                               _link_class.f="d-inline-block d-lg-flex align-items-center align-middle"/>
+                        </div>
+                        <div class="te_header_style_right"
+                             t-if="is_view_active('website.header_search_box')">
+                            <div class="te_header_search">
+                                <div class="te_search_popover" tabindex="-1">
+                                    <t t-call="website.placeholder_header_search_box"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section_right d-flex align-self-center">
+                            <div class="header-links d-none d-lg-inline-block align-content-center" t-if="is_view_active('portal.user_sign_in')">
+                                <ul t-if="request.env.user.sudo()._is_public()" class="my-0 li_log_in">
+                                    <li t-if="is_view_active('theme_clarico_vega.login_popup_ept')" class="d-inline-block">
+                                        <a href="#" t-attf-class="te_signin #{_link_class}">Login / Register
+                                        </a>
+                                    </li>
+                                    <li t-else="" class="d-inline-block">
+                                        <a t-attf-class="te_signin #{_link_class}" href="/web/login">Login / Register</a>
+                                    </li>
+                                </ul>
+                                <ul t-else="" class="my-0 ps-0">
+                                    <li class="d-inline-block">
+                                        <a t-attf-class="#{btn_class} btn-link" href="/my">My Account</a>
+                                    </li>
+                                    <li class="d-inline-block">
+                                        <a t-attf-class="#{btn_class} btn-link" t-attf-href="/web/session/logout?redirect=/">Log out</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="te_header_right_icon">
+                                <div class="te_header_search">
+                                    <div class="te_srch_icon_header">
+                                        <a href="#" class="text-decoration-none">
+                                            <i class="emipro-icon ept-search te_srch_icon"/>
+                                            <i class="emipro-icon ept-cross te_srch_close"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <t t-call="theme_clarico_vega.header_components"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-call="website.template_header_mobile" _txt_elt_content.f="phone_mail"/>
+        </xpath>
+    </template>
+
+     <!-- Header style 10 -->
+    <template id="template_header_style_10" inherit_id="website.layout"
+              name="Vega style 10" active="False">
+        <xpath expr="//header" position="before">
+            <t t-call="theme_clarico_vega.mobile_header_style"/>
+            <t t-call="theme_clarico_vega.te_header_usermenu"/>
+        </xpath>
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="header_style" t-value="'clarico-vega-header'"/>
+                <t t-set="_navbar_expand_class"
+                   t-valuef="navbar-expand-lg header_style_10 p-0 d-block c_shadow"/>
+                <t t-if="is_view_active('theme_clarico_vega.pre_header') != False"
+                   t-call="theme_clarico_vega.pre_header">
+                    <t t-set="current_container" t-valuef="justify-content-lg-between container"/>
+                </t>
+                <div class="container justify-content-md-between header_middle">
+                    <div class="middle_first">
+                        <button type="button"
+                                class="navbar-toggler ept_mobi_toggler header_sidebar collapsed ml-3 shadow-none">
+                            <span class="navbar-toggler-icon">
+                            </span>
+                        </button>
+                        <t t-call="website.placeholder_header_brand" _link_class.f="d-inline-block align-middle me-md-0"/>
+                    </div>
+                    <div id="top_menu_collapse" class="collapse navbar-collapse">
+                        <div class="close_top_menu d-block d-lg-none text-center"><span class="align-middle">x</span></div>
+                        <t t-call="website.navbar_nav" _nav_class.f="justify-content-lg-center flex-grow-1 #{is_view_active('website.template_header_vertical_align_center') and 'justify-content-center'} #{is_view_active('website.template_header_vertical_align_right') and 'justify-content-end'} ">
+                            <!-- Menu -->
+                            <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                <t t-call="website.submenu"
+                                   item_class.f="nav-item"
+                                   link_class.f="nav-link"/>
+                            </t>
+                            <li class="te_header_lang_mobi d-none"
+                                t-if="is_view_active('website.header_language_selector') or is_view_active('website.header_language_selector_inline')">
+                                <t t-call="website.placeholder_header_language_selector">
+                                    <t t-set="_div_classes" t-value="'ml-2'"/>
+                                </t>
+                            </li>
+                            <t t-set="website_sale_pricelists"
+                               t-value="website_sale_pricelists or website.get_pricelist_available(show_visible=True)"/>
+                            <t t-set="hasPricelistDropdown"
+                               t-value="hasPricelistDropdown or (website_sale_pricelists and len(website_sale_pricelists)&gt;1)"/>
+                            <li class="te_header_pricelist_mobi d-none"
+                                t-if="hasPricelistDropdown">
+                                <t t-call="theme_clarico_vega.pricelist_list_ept"/>
+                            </li>
+                        </t>
+                        <div class="d-block d-lg-none">
+                            <t t-call="website.header_call_to_action" _item_class.f="list-unstyled pt-2"/>
+                        </div>
+                    </div>
+                    <div class="te_header_style_right"
+                         t-if="is_view_active('website.header_search_box')">
+                        <div class="te_header_search">
+                            <div class="te_search_popover" tabindex="-1">
+                                <t t-call="website.placeholder_header_search_box"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex section_right align-self-center">
+                        <div class="te_header_right_icon">
+                            <div class="te_header_search">
+                                <div class="te_srch_icon_header">
+                                    <a href="#" class="text-decoration-none">
+                                        <i class="emipro-icon ept-search te_srch_icon"/>
+                                        <i class="emipro-icon ept-cross te_srch_close"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <t t-call="theme_clarico_vega.header_components"/>
+                            <t t-if="is_view_active('theme_clarico_vega.place_in_header')">
+                                <t t-call="theme_clarico_vega.lang_pricelist_block"/>
+                            </t>
+                            <!-- Call To Action -->
+                            <t t-call="website.header_call_to_action"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-call="website.template_header_mobile" _txt_elt_content.f="phone_mail"/>
+        </xpath>
+    </template>
+</odoo>

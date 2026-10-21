@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_pg_transport" model="ir.ui.view">
+        <field name="name">sale.order.form.pg.transport.calculator</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@id='action_confirm']" position="before">
+                <button type="object"
+                        name="action_open_transport_calculator"
+                        string="Calcular Transporte"
+                        invisible="state not in ('draft', 'sent')"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--
+        O campo pg_transport_logistics_notes (observacoes de logistica:
+        sobretaxa + custo de paletes) e do modulo e escrito automaticamente
+        pelo wizard ao Aplicar. A COLOCACAO na aba Logistics e feita em
+        Studio (dono dessa aba), arrastando o campo para junto do
+        "Valor Orcamento". Nao e colocado aqui por XML porque a aba/campos
+        Logistics vivem numa view Studio separada, e um xpath para
+        x_studio_valor_oramento na view base falha no upgrade.
+    -->
+
+</odoo>

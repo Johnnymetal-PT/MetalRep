@@ -1,0 +1,91 @@
+/* Background overlay */
+.tcv-age-verification-modal-wrapper {
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(5px);
+}
+
+/* Modal content styling */
+.tcv-age-verification-content {
+    padding: 30px 25px;
+    border-radius: 14px;
+    background: #ffffff;
+    text-align: center;
+    animation: tcvFadeInScale 0.3s ease-out;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+}
+
+/* Animation */
+@keyframes tcvFadeInScale {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Message text */
+.tcv-age-verification-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* Buttons wrapper */
+.tcv-age-verification-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* YES button */
+#ageVerifyYes {
+    background: #28a745 !important;
+    color: #fff !important;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+#ageVerifyYes:hover {
+    background: #218838 !important;
+}
+
+/* NO button */
+#ageVerifyNo {
+    background: #dc3545 !important;
+    color: #fff !important;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+#ageVerifyNo:hover {
+    background: #c82333 !important;
+}
+
+/* Responsive improvements */
+@media (max-width: 480px) {
+    .tcv-age-verification-content {
+        padding: 20px 15px;
+    }
+    .tcv-age-verification-text {
+        font-size: 16px;
+    }
+    .tcv-age-verification-buttons {
+        flex-direction: column;
+    }
+}
+
+.ls-age-verification-logo {
+    margin-bottom: 40px;
+
+    img {
+        max-width: 200px;
+        height: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .ls-age-verification-logo img {
+        max-width: 150px;
+    }
+}

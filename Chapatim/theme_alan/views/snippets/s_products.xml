@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- ================= Product Snippet Slider Template ================= -->
+<template id="s_product_slider" name="Product Slider">
+    <div t-attf-class="swiper as_page_swiper oe_website_sale js_sale" contenteditable="false">
+        <div class="swiper-button-prev asi asi-chevron-left"></div>
+        <div class="swiper-button-next asi asi-chevron-right"></div>
+        <div t-att-class="'swiper-wrapper ' + (configuration.get('slider_style') or '') + ' as-sb-slides-view-'+ (configuration.get('default_col_desk') or '')">
+            <t t-foreach="records" t-as="product">
+                <div class="swiper-slide">
+                    <t t-if="configuration.get('active_model') == 'Variants'">
+                        <t t-call="theme_alan.as_product_variants_base_slider"/>
+                    </t>
+                    <t t-else="">
+                        <t t-call="theme_alan.as_product_base_slider"/>
+                    </t>
+                </div>
+            </t>
+        </div>
+        <t t-if="configuration.get('pagination') != 'scroll_bar'">
+            <div class="swiper-pagination"></div>
+        </t>
+        <t t-else="">
+            <div class="swiper-scrollbar"></div>
+        </t>
+    </div>
+</template>
+
+<!-- ================= Tab Snippet Inner Product Template ================= -->
+<template id="as_tab_product_inner" name="Tab Product Inner">
+    <t t-if="products">
+        <t t-if="configuration.get('active_view') == 'slider'">
+            <div t-attf-class="swiper as_page_swiper #{main_class}" contenteditable="false">
+                <div class="swiper-button-prev asi asi-chevron-left"></div>
+                <div class="swiper-button-next asi asi-chevron-right"></div>
+                <div class="swiper-wrapper">
+                    <t t-foreach="products" t-as="product">
+                        <div class="swiper-slide">
+                            <t t-call="theme_alan.as_product_base_slider"/>
+                        </div>
+                    </t>
+                </div>
+                <t t-if="configuration.get('pagination') != 'scroll_bar'">
+                    <div class="swiper-pagination"></div>
+                </t>
+                <t t-else="">
+                    <div class="swiper-scrollbar"></div>
+                </t>
+            </div>
+        </t>
+        <t t-else="">
+            <div t-attf-class="row g-2 g-md-3 as-snippets-row #{main_class}" contenteditable="false">
+                <t t-foreach="products" t-as="product">
+                    <div t-attf-class="col-lg-#{col_size} mob-col-#{col_mob_size}">
+                        <t t-call="theme_alan.as_product_base_slider"/>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </t>
+    <t t-else="">
+        <div class="no_record_section">
+            <img src="/theme_alan/static/src/img/no_products_founds.svg" alt="icon" />
+            <t t-if="main_class == 'as_brand_products'">
+                <span> We couldn’t find any products in this brand.</span>
+            </t>
+            <t t-else="">
+                <span> We couldn’t find any products in this category.</span>
+            </t>
+        </div>
+    </t>
+</template>
+
+<!-- ================= Product Snippet Grid Template ================= -->
+<template id="s_product_grid" name="Product Grid">
+    <div class="container oe_website_sale js_sale">
+        <div t-att-class="'row g-2 g-md-3 as-snippets-row row-cols-2 row-cols-lg-5 ' + (configuration.get('grid_style') or '')">
+            <t t-foreach="records" t-as="product">
+                <t t-set="col_mob_size" t-value="configuration.get('default_col_mob')"/>
+                <t t-if="int(configuration.get('default_col_desk')) == 5">
+                    <t t-set="col_size" t-value="'five'"/>
+                </t>
+                <t t-else="">
+                    <t t-set="col_size" t-value="int(12/int(configuration.get('default_col_desk')))"/>
+                </t>
+                <t t-if="configuration.get('active_model') == 'Variants'">
+                    <t t-call="theme_alan.as_product_variants_grid"/>
+                </t>
+                <t t-else="">
+                    <t t-call="theme_alan.as_product_grid"/>
+                </t>
+            </t>
+        </div>
+    </div>
+</template>
+
+<template id="as_product_grid" name="Product Grid">
+    <div t-attf-class="col-lg-#{col_size} mob-col-#{col_mob_size}">
+        <t t-call="theme_alan.as_product_base_slider"/>
+    </div>
+</template>
+
+<template id="as_product_variants_grid" name="Product Variants Grid">
+    <div t-attf-class="col-lg-#{col_size} mob-col-#{col_mob_size}">
+        <t t-call="theme_alan.as_product_variants_base_slider"/>
+    </div>
+</template>
+
+<!-- ================= Snippet Product Card Template ================= -->
+<template id="as_product_base_slider">
+    <div id="o_wsale_products_grid" class="as-product-card o_wsale_product_grid_wrapper position-relative h-100 o_wsale_product_grid_wrapper_1_1">
+        <form action="/shop/cart/update" method="post" class="oe_product_cart d-flex o_has_variations o_has_variations_onhover">
+            <t t-set="combination" t-value="product.sudo()._get_first_possible_combination()"/>
+            <t t-set="combination_info" t-value="product.sudo()._get_combination_info(combination, add_qty=add_qty or 1)"/>
+            <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+            <input name="product_id" t-att-value="product_variant.id" type="hidden"/>
+            <input name="product_template_id" t-att-value="product.id" type="hidden"/>
+            <!-- Product Img -->
+            <div class="oe_product_image position-relative flex-grow-0 overflow-hidden">
+                <!-- Hover Image -->
+                <t t-set="allow_hover_image" t-value="configuration.get('allow_hover_image')"/>
+                <t t-set="mob_allow_hover_image" t-value="configuration.get('mob_allow_hover_image')"/>
+
+                <t
+                    t-set="variant"
+                    t-value="product.product_variant_id or request.env['product.product'].browse(product._get_first_possible_variant_id())"
+                />
+                <t
+                    t-if="variant and (variant.image_variant_1920 or variant.image_variant_128)"
+                    t-set="all_images_list"
+                    t-value="variant._get_images()"
+                />
+                <t
+                    t-else=""
+                    t-set="all_images_list"
+                    t-value="product._get_images()"
+                />
+                <t
+                    t-set="primary_image_holder"
+                    t-value="all_images_list and all_images_list[0] or product"
+                />
+                <t
+                    t-set="secondary_image_holder"
+                    t-value="len(all_images_list) > 1 and all_images_list[1] or False"
+                />
+                <t t-set="product_href" t-value="product.website_url"/>
+                <a
+                    t-att-href="product_href"
+                    t-attf-class="oe_product_image_link position-relative {{secondary_image_holder and 'oe_product_image_link_has_secondary'}}"
+                    contenteditable="false"
+                    t-att-title="product.name"
+                >
+                    <!-- Primary image -->
+                    <span
+                        t-field="primary_image_holder.image_1920"
+                        t-options="{'widget': 'image', 'preview_image': 'image_1024', 'class': 'oe_product_image_img h-100 w-100'}"
+                        class="oe_product_image_img_wrapper oe_product_image_img_wrapper_primary d-flex h-100 justify-content-center align-items-center"
+                    />
+                    <!-- Secondary image with responsive classes -->
+                    <span
+                        t-if="secondary_image_holder"
+                        t-field="secondary_image_holder.image_1920"
+                        t-options="{'widget': 'image', 'preview_image': 'image_1024', 'class': 'oe_product_image_img_secondary h-100 w-100'}"
+                        t-attf-class="oe_product_image_img_wrapper oe_product_image_img_wrapper_secondary h-100 justify-content-center align-items-center {{'' if (allow_hover_image and mob_allow_hover_image) else 'as-visiblity-desktop' if (allow_hover_image and not mob_allow_hover_image) else 'as-visiblity-mobile' if (mob_allow_hover_image and not allow_hover_image) else ''}}"
+                    />
+                </a>
+                <!-- Label -->
+                <t t-set="allow_label" t-value="configuration.get('allow_label')"/>
+                <t t-set="mob_allow_label" t-value="configuration.get('mob_allow_label')"/>
+                <t t-if="allow_label or mob_allow_label">
+                    <t t-set="ribbon" t-value="product.sudo()._get_ribbon(price_vals=combination_info, variant=product_variant)"/>
+                    <t t-set="bg_color" t-value="ribbon.bg_color"/>
+                    <t t-set="text_color" t-value="ribbon.text_color"/>
+                    <span
+                        t-att-data-ribbon-id="ribbon.id"
+                        t-attf-class="o_ribbons o_not_editable #{ribbon._get_css_classes()} #{'' if (allow_label and mob_allow_label) else 'as-visiblity-desktop' if (allow_label and not mob_allow_label) else 'as-visiblity-mobile' if (mob_allow_label and not allow_label) else ''}"
+                        t-attf-style="#{text_color and ('color: %s;' % text_color)} #{bg_color and 'background-color:' + bg_color}"
+                        t-out="ribbon.name or ''"
+                    />
+                </t>
+            </div>
+            <div class="o_wsale_product_information flex-grow-1 flex-shrink-1">
+                <div class="o_wsale_product_info_attributes_wrapper">
+                    <div class="o_wsale_product_information_text">
+                        <!-- Rating -->
+                        <t t-set="allow_rating" t-value="configuration.get('allow_rating')"/>
+                        <t t-set="mob_allow_rating" t-value="configuration.get('mob_allow_rating')"/>
+                        <t
+                            t-if="is_view_active('website_sale.product_comment') and (allow_rating or mob_allow_rating)"
+                            t-call="website_sale.product_tile_element_visibility"
+                        >
+                            <t t-set="visible_element_class" t-value="'o_wsale_products_opt_has_rating'"/>
+
+                            <div t-attf-class="o_wsale_product_rating_wrapper #{'' if (allow_rating and mob_allow_rating) else 'as-visiblity-desktop' if (allow_rating and not mob_allow_rating) else 'as-visiblity-mobile' if (mob_allow_rating and not allow_rating) else ''}">
+                                <t t-call="portal_rating.rating_widget_stars_static">
+                                    <!-- sudo: product.product - visitor can access product average rating -->
+                                    <t t-set="rating_avg" t-value="product.sudo().rating_avg"/>
+                                    <t t-set="rating_count" t-value="product.rating_count"/>
+                                </t>
+                            </div>
+                        </t>
+                        <!-- Brand -->
+                        <t t-set="allow_brand_info" t-value="configuration.get('allow_brand_info')"/>
+                        <t t-set="mob_allow_brand_info" t-value="configuration.get('mob_allow_brand_info')"/>
+                        <t t-if="allow_brand_info or mob_allow_brand_info">
+                            <t t-set="brand_class" t-value="'as-visiblity-desktop'
+                            if (allow_brand_info and not mob_allow_brand_info) else 'as-visiblity-mobile'
+                            if (mob_allow_brand_info and not allow_brand_info) else ''"/>
+                            <t t-call="theme_alan.product_brand"/>
+                        </t>
+                        <!-- Product Name -->
+                        <div class="o_wsale_products_item_title text-break">
+                            <a class="text-decoration-none" t-attf-href="/shop/{{slug(product.sudo())}}" t-esc="product.name" />
+                        </div>
+                        <!-- Offer Timer -->
+                        <t t-set="allow_offer_time" t-value="configuration.get('allow_offer_time')"/>
+                        <t t-set="mob_allow_offer_time" t-value="configuration.get('mob_allow_offer_time')"/>
+                        <t t-if="allow_offer_time or mob_allow_offer_time">
+                            <t t-set="offer_class" t-value="'as-visiblity-desktop'
+                            if (allow_offer_time and not mob_allow_offer_time) else 'as-visiblity-mobile'
+                            if (mob_allow_offer_time and not allow_offer_time) else ''"/>
+                            <t t-call="theme_alan.as_offer_timer">
+                                <t t-set="product" t-value="product.sudo().product_variant_id"/>
+                                <t t-set="offer_class" t-value="offer_class"/>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+                <!-- Stock Info -->
+                <t t-set="allow_stock_info" t-value="configuration.get('allow_stock_info')"/>
+                <t t-set="mob_allow_stock_info" t-value="configuration.get('mob_allow_stock_info')"/>
+                <t t-if="allow_stock_info or mob_allow_stock_info">
+                    <t t-set="stock_class" t-value="'as-visiblity-desktop'
+                    if (allow_stock_info and not mob_allow_stock_info) else 'as-visiblity-mobile'
+                    if (mob_allow_stock_info and not allow_stock_info) else ''"/>
+                    <t t-call="theme_alan.as_shop_out_of_stock_info">
+                        <t t-set="product" t-value="product"/>
+                        <t t-set="stock_class" t-value="stock_class"/>
+                    </t>
+                </t>
+                <div class="o_wsale_product_sub justify-content-between gap-2">
+                    <!-- Product Price -->
+                    <div t-if="not (request.env.user._is_public() and request.website.active_b2b_mode)" class="product_price as-price as-pc-price" >
+                        <span t-esc="combination_info['price']"
+                            class="fw-bold"
+                            name="product_price"
+                            t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        <del t-if="combination_info.get('has_discounted_price')" class="ms-1 h6" style="white-space: nowrap;"
+                            t-esc="combination_info['list_price']"
+                            t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        <t t-set="allow_product_discount" t-value="configuration.get('allow_product_discount')"/>
+                        <t t-set="mob_allow_product_discount" t-value="configuration.get('mob_allow_product_discount')"/>
+                        <t t-if="allow_product_discount or mob_allow_product_discount">
+                            <t t-set="discount_class" t-value="'as-visiblity-desktop'
+                            if (allow_product_discount and not mob_allow_product_discount) else 'as-visiblity-mobile'
+                            if (mob_allow_product_discount and not allow_product_discount) else ''"/>
+                            <div t-attf-class="as-product-discount-wrapper #{discount_class or ''}">
+                                <span t-if="combination_info['has_discounted_price'] and website.active_product_discount" t-attf-class="as-product-discount {{'' if combination_info['has_discounted_price'] else 'd-none'}}">
+                                    <t t-esc="combination_info['as_offer_discount']"/> %
+                                </span>
+                            </div>
+                        </t>
+                    </div>
+                    <!-- Color Variant -->
+                    <t t-set="allow_color_variant" t-value="configuration.get('allow_color_variant')"/>
+                    <t t-set="mob_allow_color_variant" t-value="configuration.get('mob_allow_color_variant')"/>
+                    <t t-if="allow_color_variant or mob_allow_color_variant">
+                        <t
+                            t-set="product_ptavs_data"
+                            t-value="product._get_previewed_attribute_values()"
+                        />
+                        <t t-if="product_ptavs_data">
+                            <t t-foreach="product_ptavs_data.values()" t-as="ptav_group">
+                                <t
+                                    t-set="product_ptavs"
+                                    t-value="ptav_group.get('ptavs_data', [])"
+                                />
+                                <t
+                                    t-if="product_ptavs[0]['ptav'].attribute_id.preview_variants == 'hover'"
+                                    t-set="ptavs_classes"
+                                    t-value="'o_has_variations o_has_variations_onhover'"
+                                />
+                                <t
+                                    t-else=""
+                                    t-set="ptavs_classes"
+                                    t-value="'o_has_variations o_has_variations_static'"
+                                />
+                                <t t-set="color_variant_class" t-value="'' if (allow_color_variant and mob_allow_color_variant) else 'as-visiblity-desktop' if (allow_color_variant and not mob_allow_color_variant) else 'as-visiblity-mobile' if (mob_allow_color_variant and not allow_color_variant) else ''"/>
+                                <t t-call="website_sale.product_variant_preview">
+                                    <t t-set="ptavs_classes" t-value="ptavs_classes"/>
+                                    <t t-set="product_ptavs" t-value="product_ptavs"/>
+                                    <t t-set="product_ptavs_data" t-value="product_ptavs_data"/>
+                                </t>
+                            </t>
+                        </t>
+                    </t>
+
+                    <div class="o_wsale_product_btn">
+                        <div class="o_wsale_product_action_row">
+                            <t t-set="product_variant_id" t-value="product._get_first_possible_variant_id()"/>
+                            <!-- ADD TO CART Button  -->
+                            <t t-set="allow_add_to_cart" t-value="configuration.get('allow_add_to_cart')"/>
+                            <t t-set="mob_allow_add_to_cart" t-value="configuration.get('mob_allow_add_to_cart')"/>
+                            <t t-if="(allow_add_to_cart or mob_allow_add_to_cart) and not (request.env.user._is_public() and request.website.active_b2b_mode)">
+                                <input name="product_id" t-att-value="product_variant_id" type="hidden"/>
+                                <input name="product_template_id" t-att-value="product.id" type="hidden"/>
+                                <t t-set="free_qty" t-value="sum(website._get_product_available_qty(prod) for prod in product.sudo().product_variant_ids)"/>
+                                <t t-if="product.sudo().allow_out_of_stock_order or free_qty &gt; 0" >
+                                    <a id="add_to_cart" t-attf-class="#{'d-none' if combination_info['prevent_zero_price_sale'] else 'btn btn-primary o_wsale_product_btn_primary a-submit as-pc-cart-btn'} #{'' if (allow_add_to_cart and mob_allow_add_to_cart) else 'as-visiblity-desktop' if (allow_add_to_cart and not mob_allow_add_to_cart) else 'as-visiblity-mobile' if (mob_allow_add_to_cart and not allow_add_to_cart) else ''}"
+                                    href="#" role="button" class="btn btn-primary a-submit" aria-label="Shopping cart" title="Shopping cart">
+                                        <i class="asi asi-shopping-cart"/> <span class="o_label small ms-1">Add to Cart</span>
+                                    </a>
+                                </t>
+                            </t>
+                            <t t-elif="request.env.user._is_public() and request.website.active_b2b_mode">
+                                <div class="as-b2b-price">
+                                    <a href="/web/login" role="button" title="Login For Price" t-attf-class="btn btn-primary as-pc-login-btn #{'as_login_popup as-pc-login-btn' if request.website.active_login_popup else ''}">
+                                        <i class="asi asi-lock"/> <span class="o_label small ms-1">Login For Price</span>
+                                    </a>
+                                </div>
+                            </t>
+
+                            <!-- COMPARE Button  -->
+                            <t t-set="allow_compare" t-value="configuration.get('allow_compare')"/>
+                            <t t-set="mob_allow_compare" t-value="configuration.get('mob_allow_compare')"/>
+                            <t t-if="allow_compare or mob_allow_compare">
+                                <t t-set="categories" t-value="product.valid_product_template_attribute_line_ids._prepare_categories_for_display()"/>
+                                <button
+                                    t-if="product_variant_id and categories"
+                                    type="button"
+                                    role="button"
+                                    t-attf-class="btn as-pc-compare o_add_compare #{'' if (allow_compare and mob_allow_compare) else 'as-visiblity-desktop' if (allow_compare and not mob_allow_compare) else 'as-visiblity-mobile' if (mob_allow_compare and not allow_compare) else ''}"
+                                    title="Compare"
+                                    aria-label="Compare"
+                                    t-att-data-product-product-id="product_variant_id"
+                                    data-action="o_comparelist"
+                                    t-att-data-product-template-id="product.id"
+                                >
+                                    <!-- t-att-data-product-template-id="product.id" -->
+                                    <span class="asi asi-repeat"/>
+                                    <span class="o_label small ms-2">Compare</span>
+                                </button>
+                            </t>
+                            <!-- QUICK VIEW Button  -->
+                            <t t-set="allow_quick_view" t-value="configuration.get('allow_quick_view')"/>
+                            <t t-set="mob_allow_quick_view" t-value="configuration.get('mob_allow_quick_view')"/>
+                            <t t-if="allow_quick_view or mob_allow_quick_view">
+                                <a href="#"
+                                t-attf-class="btn btn-light as_quick_view #{'' if (allow_quick_view and mob_allow_quick_view) else 'as-visiblity-desktop' if (allow_quick_view and not mob_allow_quick_view) else 'as-visiblity-mobile' if (mob_allow_quick_view and not allow_quick_view) else ''}"
+                                t-att-data-product_tmpl_id="product.id"
+                                title="Quick View">
+                                <span class="asi asi-eye"/>
+                                <span class="o_label small ms-2">Quick View</span>
+                                </a>
+                            </t>
+                        </div>
+                        <!-- WISHLIST Button  -->
+                        <t t-set="allow_wishlist" t-value="configuration.get('allow_wishlist')"/>
+                        <t t-set="mob_allow_wishlist" t-value="configuration.get('mob_allow_wishlist')"/>
+                        <t t-if="allow_wishlist or mob_allow_wishlist">
+                            <t t-set="in_wish" t-value="product._is_in_wishlist()"/>
+                            <t t-set="product_variant_id" t-value="in_wish or product._get_first_possible_variant_id()"/>
+                            <button t-if="product_variant_id"
+                                    type="button"
+                                    role="button"
+                                    t-attf-class="btn as-pc-wishlist o_add_wishlist #{'disabled' if in_wish or None else ''} #{'' if (allow_wishlist and mob_allow_wishlist) else 'as-visiblity-desktop' if (allow_wishlist and not mob_allow_wishlist) else 'as-visiblity-mobile' if (mob_allow_wishlist and not allow_wishlist) else ''}"
+                                    t-att-disabled='in_wish or None' title="Add to Wishlist"
+                                    t-att-data-product-template-id="product.id"
+                                    t-att-data-product-product-id="product_variant_id"
+                                    data-action="o_wishlist">
+                                <span t-attf-class="fa o_not-animable  #{'fa-heart' if in_wish or None else 'fa-heart-o'}" role="img" aria-label="Add to wishlist"/>
+                                <span class="o_label small ms-2">Wishlist</span>
+                            </button>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</template>
+
+<template id="product_variant_preview_visibility" inherit_id="website_sale.product_variant_preview" name="Product Variant Preview">
+    <xpath expr="//div[contains(@t-attf-class, 'o_wsale_attribute_previewer')]" position="attributes">
+        <attribute name="t-attf-class" separator=" " add="{{ color_variant_class }}"></attribute>
+    </xpath>
+</template>
+
+
+<!-- ================= Snippet Product Variant Card Template ================= -->
+<template id="as_product_variants_base_slider" name="as_product_variants_base_slider">
+    <div id="o_wsale_products_grid" class="as-product-card as-sb-product-card o_wsale_product_grid_wrapper position-relative h-100 o_wsale_product_grid_wrapper_1_1">
+        <t t-set="product_variant_id" t-value="product"/>
+        <t t-set="product" t-value="product.product_tmpl_id"/>
+        <form action="/shop/cart/update" method="post" class="oe_product_cart d-flex o_has_variations o_has_variations_onhover">
+            <t t-set="combination" t-value="product.sudo()._get_first_possible_combination()"/>
+            <t t-set="combination_info" t-value="product.sudo()._get_combination_info(combination, add_qty=add_qty or 1)"/>
+            <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+            <input name="product_id" t-att-value="product_variant.id" type="hidden"/>
+            <input name="product_template_id" t-att-value="product.id" type="hidden"/>
+            <!-- Product Img -->
+            <div class="oe_product_image position-relative flex-grow-0 overflow-hidden">
+                <!-- Hover Image -->
+                <t t-set="allow_hover_image" t-value="configuration.get('allow_hover_image')"/>
+                <t t-set="mob_allow_hover_image" t-value="configuration.get('mob_allow_hover_image')"/>
+                <t
+                    t-set="variant"
+                    t-value="product_variant_id or request.env['product.product'].browse(product_variant_id._get_first_possible_variant_id())"
+                />
+                <t
+                    t-if="variant and (variant.image_variant_1920 or variant.image_variant_128)"
+                    t-set="all_images_list"
+                    t-value="variant._get_images()"
+                />
+                <t
+                    t-else=""
+                    t-set="all_images_list"
+                    t-value="product._get_images()"
+                />
+                <t
+                    t-set="primary_image_holder"
+                    t-value="all_images_list and all_images_list[0] or product_variant_id"
+                />
+                <t
+                    t-set="secondary_image_holder"
+                    t-value="len(all_images_list) > 1 and all_images_list[1] or False"
+                />
+                <t t-set="product_href" t-value="product_variant_id.website_url"/>
+                <a
+                    t-att-href="product_href"
+                    t-attf-class="oe_product_image_link position-relative {{secondary_image_holder and 'oe_product_image_link_has_secondary'}}"
+                    contenteditable="false"
+                    t-att-title="product_variant_id.name"
+                >
+                    <!-- Primary image -->
+                    <span
+                        t-field="primary_image_holder.image_1920"
+                        t-options="{'widget': 'image', 'preview_image': 'image_1024', 'class': 'oe_product_image_img h-100 w-100'}"
+                        class="oe_product_image_img_wrapper oe_product_image_img_wrapper_primary d-flex h-100 justify-content-center align-items-center"
+                    />
+                    <!-- Secondary image -->
+                    <span
+                        t-if="secondary_image_holder"
+                        t-field="secondary_image_holder.image_1920"
+                        t-options="{'widget': 'image', 'preview_image': 'image_1024', 'class': 'oe_product_image_img_secondary h-100 w-100'}"
+                        t-attf-class="oe_product_image_img_wrapper oe_product_image_img_wrapper_secondary h-100 justify-content-center align-items-center {{'' if (allow_hover_image and mob_allow_hover_image) else 'as-visiblity-desktop' if (allow_hover_image and not mob_allow_hover_image) else 'as-visiblity-mobile' if (mob_allow_hover_image and not allow_hover_image) else ''}}"
+                    />
+                </a>
+                <!-- Label -->
+                <t t-set="allow_label" t-value="configuration.get('allow_label')"/>
+                <t t-set="mob_allow_label" t-value="configuration.get('mob_allow_label')"/>
+                <t t-if="allow_label or mob_allow_label">
+                    <t t-set="ribbon" t-value="product_variant_id.variant_ribbon_id"/>
+                    <t t-set="bg_color" t-value="ribbon.bg_color"/>
+                    <t t-set="text_color" t-value="ribbon.text_color"/>
+                    <span
+                        t-att-data-ribbon-id="ribbon.id"
+                        t-attf-class="o_ribbons o_not_editable #{ribbon._get_css_classes()} #{'disabled' if in_wish or None else ''} #{'' if (allow_label and mob_allow_label) else 'as-visiblity-desktop' if (allow_label and not mob_allow_label) else 'as-visiblity-mobile' if (mob_allow_label and not allow_label) else ''}"
+                        t-attf-style="#{text_color and ('color: %s;' % text_color)} #{bg_color and 'background-color:' + bg_color}"
+                        t-out="ribbon.name or ''"
+                    />
+                </t>
+            </div>
+            <div class="o_wsale_product_information flex-grow-1 flex-shrink-1">
+                <div class="o_wsale_product_info_attributes_wrapper">
+                    <div class="o_wsale_product_information_text">
+                        <!-- Rating -->
+                        <t t-set="allow_rating" t-value="configuration.get('allow_rating')"/>
+                        <t t-set="mob_allow_rating" t-value="configuration.get('mob_allow_rating')"/>
+                        <t
+                            t-if="is_view_active('website_sale.product_comment') and (allow_rating or mob_allow_rating)"
+                            t-call="website_sale.product_tile_element_visibility"
+                        >
+                            <t t-set="visible_element_class" t-value="'o_wsale_products_opt_has_rating'"/>
+                            <div t-attf-class="o_wsale_product_rating_wrapper #{'disabled' if in_wish or None else ''} #{'' if (allow_rating and mob_allow_rating) else 'as-visiblity-desktop' if (allow_rating and not mob_allow_rating) else 'as-visiblity-mobile' if (mob_allow_rating and not allow_rating) else ''}">
+                                <t t-call="portal_rating.rating_widget_stars_static">
+                                    <t t-set="rating_avg" t-value="product_variant_id.product_tmpl_id.sudo().rating_avg"/>
+                                    <t t-set="rating_count" t-value="product_variant_id.product_tmpl_id.rating_count"/>
+                                </t>
+                            </div>
+                        </t>
+                        <!-- Brand -->
+                        <t t-set="allow_brand_info" t-value="configuration.get('allow_brand_info')"/>
+                        <t t-set="mob_allow_brand_info" t-value="configuration.get('mob_allow_brand_info')"/>
+                        <t t-if="allow_brand_info or mob_allow_brand_info">
+                            <t t-set="brand_class" t-value="'as-visiblity-desktop'
+                            if (allow_brand_info and not mob_allow_brand_info) else 'as-visiblity-mobile'
+                            if (mob_allow_brand_info and not allow_brand_info) else ''"/>
+                            <t t-call="theme_alan.product_brand">
+                                <t t-set="product" t-value="product_variant_id.product_tmpl_id"/>
+                            </t>
+                        </t>
+
+                        <!-- Product Name -->
+                        <div class="o_wsale_products_item_title text-break ">
+                            <a class="text-decoration-none" t-attf-href="/shop/{{slug(product_variant_id.sudo())}}" t-esc="product_variant_id.name" />
+                        </div>
+                        <!-- Offer Timer -->
+                        <t t-set="allow_offer_time" t-value="configuration.get('allow_offer_time')"/>
+                        <t t-set="mob_allow_offer_time" t-value="configuration.get('mob_allow_offer_time')"/>
+                        <t t-if="allow_offer_time or mob_allow_offer_time">
+                            <t t-set="offer_class" t-value="'as-visiblity-desktop'
+                            if (allow_offer_time and not mob_allow_offer_time) else 'as-visiblity-mobile'
+                            if (mob_allow_offer_time and not allow_offer_time) else ''"/>
+                            <t t-call="theme_alan.as_offer_timer">
+                                <t t-set="product" t-value="product_variant_id"/>
+                                <t t-set="offer_class" t-value="offer_class"/>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+                <!-- Stock Info -->
+                <t t-set="allow_stock_info" t-value="configuration.get('allow_stock_info')"/>
+                <t t-set="mob_allow_stock_info" t-value="configuration.get('mob_allow_stock_info')"/>
+                <t t-if="allow_stock_info or mob_allow_stock_info">
+                    <t t-set="stock_class" t-value="'as-visiblity-desktop'
+                    if (allow_stock_info and not mob_allow_stock_info) else 'as-visiblity-mobile'
+                    if (mob_allow_stock_info and not allow_stock_info) else ''"/>
+                    <t t-call="theme_alan.as_shop_out_of_stock_info">
+                        <t t-set="product" t-value="product"/>
+                        <t t-set="stock_class" t-value="stock_class"/>
+                    </t>
+                </t>
+                <div class="o_wsale_product_sub justify-content-between gap-2">
+                    <!-- Produuct Price -->
+                    <div t-if="not (request.env.user._is_public() and request.website.active_b2b_mode)" class="product_price as-price as-pc-price" >
+                        <span t-esc="combination_info['price']"
+                            class="fw-bold"
+                            name="product_price"
+                            t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        <del t-if="combination_info.get('has_discounted_price')" class="ms-1 h6" style="white-space: nowrap;"
+                            t-esc="combination_info['list_price']"
+                            t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        <t t-set="allow_product_discount" t-value="configuration.get('allow_product_discount')"/>
+                        <t t-set="mob_allow_product_discount" t-value="configuration.get('mob_allow_product_discount')"/>
+                        <t t-if="allow_product_discount or mob_allow_product_discount">
+                            <t t-set="discount_class" t-value="'as-visiblity-desktop'
+                            if (allow_product_discount and not mob_allow_product_discount) else 'as-visiblity-mobile'
+                            if (mob_allow_product_discount and not allow_product_discount) else ''"/>
+                            <div t-attf-class="as-product-discount-wrapper #{discount_class or ''}">
+                                <span t-if="combination_info['has_discounted_price'] and website.active_product_discount" t-attf-class="as-product-discount {{'' if combination_info['has_discounted_price'] else 'd-none'}}">
+                                    <t t-esc="combination_info['as_offer_discount']"/> %
+                                </span>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="o_wsale_product_btn">
+                        <div class="o_wsale_product_action_row">
+                            <t t-set="allow_add_to_cart" t-value="configuration.get('allow_add_to_cart')"/>
+                            <t t-set="mob_allow_add_to_cart" t-value="configuration.get('mob_allow_add_to_cart')"/>
+                            <!-- ADD TO CART Button -->
+                            <t t-if="(allow_add_to_cart or mob_allow_add_to_cart) and not (request.env.user._is_public() and request.website.active_b2b_mode)">
+                                <input name="product_id" t-att-value="product_variant_id" type="hidden"/>
+                                <input name="product_template_id" t-att-value="product.id" type="hidden"/>
+                                <t t-set="free_qty" t-value="website._get_product_available_qty(product_variant_id.sudo())"/>
+                                <t t-if="product_variant_id.sudo().allow_out_of_stock_order or free_qty &gt; 0" >
+                                    <a id="add_to_cart" t-attf-class="#{'d-none' if combination_info['prevent_zero_price_sale'] else 'btn btn-primary o_wsale_product_btn_primary a-submit as-pc-cart-btn'} #{'' if (allow_add_to_cart and mob_allow_add_to_cart) else 'as-visiblity-desktop' if (allow_add_to_cart and not mob_allow_add_to_cart) else 'as-visiblity-mobile' if (mob_allow_add_to_cart and not allow_add_to_cart) else ''}"
+                                    href="#" role="button" class="btn btn-primary a-submit" aria-label="Shopping cart" title="Shopping cart">
+                                        <i class="asi asi-shopping-cart"/> <span class="o_label small ms-1">Add to Cart</span>
+                                    </a>
+                                </t>
+                            </t>
+                            <t t-elif="request.env.user._is_public() and request.website.active_b2b_mode">
+                                     <a href="/web/login" role="button" title="Login For Price" t-attf-class="btn btn-primary as-pc-cart-btn #{'as_login_popup as-pc-login-btn' if request.website.active_login_popup else ''}">
+                                    <i class="asi asi-lock"/> <span class="o_label small ms-1">Login For Price</span>
+                                </a>
+                            </t>
+                            <!-- COMPARE Button -->
+                            <t t-set="allow_compare" t-value="configuration.get('allow_compare')"/>
+                            <t t-set="mob_allow_compare" t-value="configuration.get('mob_allow_compare')"/>
+                            <t t-if="allow_compare or mob_allow_compare">
+                                <t t-set="categories" t-value="product.valid_product_template_attribute_line_ids._prepare_categories_for_display()"/>
+                                <button
+                                    t-if="product_variant_id and categories"
+                                    type="button"
+                                    role="button"
+                                    t-attf-class="btn as-pc-compare o_add_compare #{'' if (allow_compare and mob_allow_compare) else 'as-visiblity-desktop' if (allow_compare and not mob_allow_compare) else 'as-visiblity-mobile' if (mob_allow_compare and not allow_compare) else ''}"
+                                    title="Compare"
+                                    aria-label="Compare"
+                                    t-att-data-product-product-id="product_variant_id"
+                                    data-action="o_comparelist"
+                                >
+                                    <span class="asi asi-repeat"/>
+                                    <span class="o_label small ms-2">Compare</span>
+                                </button>
+                            </t>
+                        </div>
+                        <!-- WHISHLIST Button -->
+                        <t t-set="allow_wishlist" t-value="configuration.get('allow_wishlist')"/>
+                        <t t-set="mob_allow_wishlist" t-value="configuration.get('mob_allow_wishlist')"/>
+                        <t t-if="allow_wishlist or mob_allow_wishlist">
+                            <t t-set="in_wish" t-value="product_variant_id._is_in_wishlist()"/>
+                            <button t-if="product_variant_id"
+                                    type="button"
+                                    role="button"
+                                    t-attf-class="btn as-pc-wishlist o_add_wishlist #{'disabled' if in_wish or None else ''}  #{'' if (allow_wishlist and mob_allow_wishlist) else 'as-visiblity-desktop' if (allow_wishlist and not mob_allow_wishlist) else 'as-visiblity-mobile' if (mob_allow_wishlist and not allow_wishlist) else ''}"
+                                    t-att-disabled='in_wish or None' title="Add to Wishlist"
+                                    t-att-data-product-template-id="product.id"
+                                    t-att-data-product-product-id="product_variant_id"
+                                    data-action="o_wishlist">
+                                <span t-attf-class="fa o_not-animable  #{'fa-heart' if in_wish or None else 'fa-heart-o'}" role="img" aria-label="Add to wishlist"/>
+                                <span class="o_label small ms-2">Wishlist</span>
+                            </button>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</template>
+
+<!-- ================= Snippet Tab Product Loader Template ================= -->
+<template id="as_tab_products_loader" name="Tab Products Loader">
+    <t t-set="col_desk" t-value="int(configuration.get('default_col_desk') or 4)"/>
+    <t t-if="col_desk == 5">
+        <t t-set="col_size" t-value="'five'"/>
+    </t>
+    <t t-else="">
+        <t t-set="col_size" t-value="int(12/col_desk)"/>
+    </t>
+    <t t-set="col_mob_size" t-value="configuration.get('default_col_mob') or 12"/>
+    <div class="row g-2 g-md-3 as-snippets-row as_tab_products_loader">
+        <t t-foreach="range(col_desk)" t-as="i">
+            <div t-attf-class="col-lg-#{col_size} mob-col-#{col_mob_size} mb-4">
+               <div class="as_tab_products_loader-inner">
+                    <div class="card placeholder-glow" aria-hidden="true">
+                        <div class="card-img-top placeholder"></div>
+                        <div class="card-body">
+                            <h5 class="card-title placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </h5>
+                            <p class="card-text placeholder-glow">
+                                <span class="placeholder col-7"></span>
+                                <span class="placeholder col-4"></span>
+                                <span class="placeholder col-4"></span>
+                                <span class="placeholder col-6"></span>
+                                <span class="placeholder col-8"></span>
+                            </p>
+                            <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </div>
+</template>
+</odoo>

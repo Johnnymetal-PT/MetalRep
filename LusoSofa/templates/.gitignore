@@ -1,0 +1,50 @@
+# Odoo source local (referência técnica; nunca versionar)
+/vendor/odoo_core
+/vendor/odoo_src
+/.pg_framework
+
+# Credenciais Brodoo — salvaguarda: nunca versionar num repo de projeto/cliente
+# (vivem apenas no _pg_template privado, lidas via symlink .pg_framework/credentials/)
+credentials/brodoo_credentials.json
+brodoo_credentials.json
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Logs / runtime
+*.log
+*.pid
+*.tmp
+*.sqlite*
+
+# IDEs
+.vscode/
+.idea/
+.claude/settings.local.json
+CLAUDE.local.md
+
+# OdooLS: configuracao e cache locais com paths absolutos da maquina
+/odools.toml
+/.pg/odools/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Migração de dados: log de chamadas do guard.
+# O args_preview pode conter dados de clientes (nomes, NIF, emails) e o *.log acima
+# não apanha a extensão .jsonl.
+.pg/migration/
+
+# Ficheiros de ligação do guard de migração — contêm API keys.
+# Antes eram protegidos só por um aviso no README; agora é mecânico.
+conn.json
+conn_*.json
+!conn.json.example
+
+# Estado local da máquina, regenerado a cada arranque por pg_preflight_context.ps1.
+# Traz o path absoluto de quem correu o preflight, por isso versioná-lo cria
+# conflitos entre máquinas sem qualquer ganho. O `_pg_template` já o ignorava; este
+# template, copiado para os projetos, não — e o ficheiro entrava nos repos de cliente.
+.pg/PREFLIGHT.json

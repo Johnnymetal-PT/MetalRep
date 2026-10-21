@@ -1,0 +1,51 @@
+[
+  {
+    "root_cause_id": "RC-0001",
+    "summary": "O caminho dos addons custom não estava configurado no addons_path do odoo.conf, impedindo o Odoo de carregar corretamente os módulos copiados.",
+    "status": "confirmed",
+    "related_errors": ["MIG-0001"],
+    "tags": ["install", "pending_state", "apps", "addons_path"]
+  },
+  {
+    "root_cause_id": "RC-0002",
+    "summary": "O serviço systemd odoo18 corre como User=adminpg e usa diretamente /ProgGest/Odoo18/python-venv/bin/python3.10 /ProgGest/Odoo18/Server/odoo-bin -c /ProgGest/Odoo18/odoo.conf; o alias/comando odoo-bin não está disponível no PATH do utilizador.",
+    "status": "confirmed",
+    "related_errors": ["MIG-0002"],
+    "tags": ["linux", "cli", "systemd", "path"]
+  },
+  {
+    "root_cause_id": "RC-0003",
+    "summary": "A dependência Python astor declarada no manifest de base_view_inheritance_extension não está instalada no venv do Odoo 18.",
+    "status": "confirmed",
+    "related_errors": ["MIG-0003"],
+    "tags": ["python_dependency", "astor", "external_dependencies"]
+  },
+  {
+    "root_cause_id": "RC-0004",
+    "summary": "O módulo BD_Geral é referenciado pela base/lista de módulos, mas não há evidência no repositório atual de um addon instalável com esse nome técnico.",
+    "status": "probable",
+    "related_errors": ["MIG-0004"],
+    "tags": ["not_installable", "bd_geral", "manifest"]
+  },
+  {
+    "root_cause_id": "RC-0005",
+    "summary": "A estrutura das subviews one2many em Odoo 18 usa list em vez de tree, quebrando XPaths herdados que apontam para tree.",
+    "status": "probable",
+    "related_errors": ["MIG-0005", "MIG-0007"],
+    "tags": ["xml", "xpath", "view_inheritance", "tree_to_list"]
+  },
+  {
+    "root_cause_id": "RC-0006",
+    "summary": "O override de stock.move.write em pg_tecidos registava uma condição normal em nível INFO, gerando ruído constante durante operações de stock/instalação.",
+    "status": "confirmed",
+    "related_errors": ["MIG-0006"],
+    "tags": ["logging", "stock", "write", "noise"]
+  },
+  {
+    "root_cause_id": "RC-0007",
+    "summary": "A BD migrada contém anexos de imagem para product.template 8639, mas pelo menos o ficheiro físico store_fname de image_128 não existe no filestore restaurado.",
+    "status": "confirmed",
+    "related_errors": ["MIG-0008"],
+    "tags": ["filestore", "attachment", "data_migration", "product_image"]
+  }
+]

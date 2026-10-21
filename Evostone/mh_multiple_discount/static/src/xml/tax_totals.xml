@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="account.TaxTotalsField" t-inherit-mode="extension" owl="1">
+        <!-- Add SUBTOTAL and Desc. at the beginning of tax totals -->
+        <xpath expr="//tbody/*[1]" position="before">
+            <tr t-if="totals.formatted_amount_undiscounted">
+                <td class="o_td_label">
+                    <label class="o_form_label">SUBTOTAL</label>
+                </td>
+                <td class="o_list_monetary">
+                    <span t-out="totals.formatted_amount_undiscounted" style="white-space: nowrap; font-weight: bold;"/>
+                </td>
+            </tr>
+            <tr t-if="totals.formatted_amount_discount">
+                <td class="o_td_label">
+                    <label class="o_form_label">DESC.</label>
+                </td>
+                <td class="o_list_monetary">
+                    <span t-out="totals.formatted_amount_discount" style="white-space: nowrap; font-weight: bold;"/>
+                </td>
+            </tr>
+        </xpath>
+
+        <!-- Rename "Untaxed Amount" to "SUBTOTAL DESC." -->
+        <xpath expr="//label[@t-out='subtotal.name']" position="replace">
+            <label class="o_form_label o_tax_total_label">SUBTOTAL DESC.</label>
+        </xpath>
+
+        <!-- Rename "Total" to "TOTAL" -->
+        <xpath expr="//label[text()='Total']" position="replace">
+            <label class="o_form_label o_tax_total_label">TOTAL</label>
+        </xpath>
+    </t>
+</templates>

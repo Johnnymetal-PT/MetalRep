@@ -1,0 +1,57 @@
+<odoo>
+    <record id="view_product_template_update_button" model="ir.ui.view">
+        <field name="name">product.template.form.update.button</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button"
+                        type="object"
+                        name="action_open_pg_import_dashboard"
+                        icon="fa-tasks">
+                    <field string="Import Jobs" name="pg_import_job_count" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button"
+                        type="object"
+                        name="action_pg_cleanup_duplicate_variants"
+                        icon="fa-clone"
+                        confirm="Archive duplicate logical variants for this product?">
+                    <field string="Duplicate Variants" name="pg_duplicate_variant_count" widget="statinfo"/>
+                </button>
+            </xpath>
+            <xpath expr="/form[@name='Product Template']//sheet[@name='product_form']" position="before">
+                <button name="update_product_data" type="object" string="Atualizar Produtos (Pastas)" class="btn-primary" />
+                <button name="action_pg_fetch_references_from_drive"
+                        type="object"
+                        string="Pescar referencias do Drive"
+                        class="btn-secondary"
+                        groups="pg_product_update.group_pg_references_sync_user"/>
+                <button name="action_pg_cleanup_duplicate_variants"
+                        type="object"
+                        string="Limpar Variantes Duplicadas (Produto)"
+                        class="btn-secondary"
+                        confirm="Archive duplicate logical variants for this product?"/>
+                <button name="action_pg_cleanup_duplicate_variants_all"
+                        type="object"
+                        string="Limpar Variantes Duplicadas (Tudo)"
+                        class="btn-secondary"
+                        confirm="Archive duplicate logical variants across all products?"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_product_pg_references_button" model="ir.ui.view">
+        <field name="name">product.product.form.pg.references.button</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <button name="action_pg_fetch_references_from_drive"
+                        type="object"
+                        string="Pescar referencia do Drive"
+                        class="btn-secondary"
+                        groups="pg_product_update.group_pg_references_sync_user"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

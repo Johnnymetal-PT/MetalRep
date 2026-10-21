@@ -1,0 +1,21 @@
+<odoo>
+    <record id="stock_picking_form_view" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_open_label_type']" position="after">
+                <button name="action_print_with_jasmim"
+                        string="Guia Transporte"
+                        type="object"
+                        class="btn-primary"
+                        icon="fa-print"
+                        invisible="state != 'done' or picking_type_code !='outgoing'"/>
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="is_jas_synced" invisible="state != 'done' or picking_type_code !='outgoing'" widget="boolean_toggle" readonly="1" />
+                <field name="doc_jasmin" invisible="state != 'done' or picking_type_code !='outgoing'" readonly="1" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

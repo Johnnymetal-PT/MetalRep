@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================================================= -->
+    <!-- RECIBO PRÓ-FORMA (MANTIDO DO ORIGINAL) -->
+    <!-- ========================================================================= -->
+
+    <!-- Definição do Report de Recibo Pró-forma -->
+    <record id="action_report_proforma_payment" model="ir.actions.report">
+        <field name="name">Recibo Pró-forma</field>
+        <field name="model">proforma.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mh_sale.report_proforma_payment_document</field>
+        <field name="report_file">mh_sale.report_proforma_payment_document</field>
+        <field name="print_report_name">'Recibo Pró-forma - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="mh_sale.model_proforma_payment"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Template QWeb para Recibo Pró-forma -->
+    <template id="report_proforma_payment_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Cabeçalho com marca RECIBO PRÓ-FORMA -->
+                        <div class="text-center" style="margin-bottom: 20px;">
+                            <h2 style="color: #875A7B; font-weight: bold; margin-bottom: 5px;">
+                                RECIBO PRÓ-FORMA
+                            </h2>
+                            <p style="font-style: italic; color: #666; font-size: 0.95em;">
+                                Este documento não é um recibo fiscal oficial
+                            </p>
+                        </div>
+
+                        <!-- Número e Dados do Recibo -->
+                        <div class="row mt-4 mb-4">
+                            <div class="col-6">
+                                <strong>Recibo Nº:</strong> <span t-field="doc.name"/><br/>
+                                <strong>Data:</strong> <span t-field="doc.date" t-options='{"widget": "date"}'/><br/>
+                                <strong>Estado:</strong>
+                                <span t-if="doc.state == 'draft'" class="badge badge-secondary">Rascunho</span>
+                                <span t-if="doc.state == 'posted'" class="badge badge-success">Confirmado</span>
+                                <span t-if="doc.state == 'cancelled'" class="badge badge-danger">Cancelado</span>
+                            </div>
+                            <div class="col-6 text-right">
+                                <h4 style="color: #875A7B; margin-bottom: 10px;">
+                                    <strong>Valor Total</strong>
+                                </h4>
+                                <h3 style="color: #875A7B;">
+                                    <span t-field="doc.amount" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                </h3>
+                            </div>
+                        </div>
+
+                        <!-- Informações do Cliente -->
+                        <div class="row mt-4 mb-4">
+                            <div class="col-12">
+                                <h5 style="border-bottom: 2px solid #875A7B; padding-bottom: 5px; margin-bottom: 15px;">
+                                    Recebido de
+                                </h5>
+                                <div style="padding-left: 15px;">
+                                    <strong><span t-field="doc.partner_id.name"/></strong><br/>
+                                    <span t-if="doc.partner_id.vat">
+                                        <strong>NIF:</strong> <span t-field="doc.partner_id.vat"/><br/>
+                                    </span>
+                                    <span t-if="doc.partner_id.street">
+                                        <span t-field="doc.partner_id.street"/><br/>
+                                    </span>
+                                    <span t-if="doc.partner_id.city">
+                                        <span t-field="doc.partner_id.city"/>
+                                        <span t-if="doc.partner_id.state_id">, <span t-field="doc.partner_id.state_id.name"/></span>
+                                        <br/>
+                                    </span>
+                                    <span t-if="doc.partner_id.phone">
+                                        <strong>Telefone:</strong> <span t-field="doc.partner_id.phone"/><br/>
+                                    </span>
+                                    <span t-if="doc.partner_id.email">
+                                        <strong>Email:</strong> <span t-field="doc.partner_id.email"/><br/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detalhes do Pagamento -->
+                        <div class="row mt-4 mb-4">
+                            <div class="col-12">
+                                <h5 style="border-bottom: 2px solid #875A7B; padding-bottom: 5px; margin-bottom: 15px;">
+                                    Detalhes do Recibo
+                                </h5>
+                                <table class="table table-sm" style="margin-left: 15px; width: 95%;">
+                                    <tr>
+                                        <td style="width: 30%;"><strong>Método de Pagamento:</strong></td>
+                                        <td>
+                                            <span t-if="doc.payment_method == 'cash'">Dinheiro</span>
+                                            <span t-if="doc.payment_method == 'bank_transfer'">Transferência Bancária</span>
+                                            <span t-if="doc.payment_method == 'check'">Cheque</span>
+                                            <span t-if="doc.payment_method == 'mobile_money'">Mobile Money</span>
+                                            <span t-if="doc.payment_method == 'credit_card'">Cartão de Crédito</span>
+                                            <span t-if="doc.payment_method == 'other'">Outro</span>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="doc.reference">
+                                        <td><strong>Referência:</strong></td>
+                                        <td><span t-field="doc.reference"/></td>
+                                    </tr>
+                                    <tr t-if="doc.bank_account_id">
+                                        <td><strong>Conta Bancária:</strong></td>
+                                        <td><span t-field="doc.bank_account_id.acc_number"/></td>
+                                    </tr>
+                                    <tr t-if="doc.has_payment">
+                                        <td><strong>Recibo Contábil:</strong></td>
+                                        <td>
+                                            <span class="badge badge-success">
+                                                <i class="fa fa-check-circle"/> Transformado em Pagamento Oficial
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Alocações (Cotações Associadas) -->
+                        <div class="row mt-4 mb-4" t-if="doc.allocation_ids">
+                            <div class="col-12">
+                                <h5 style="border-bottom: 2px solid #875A7B; padding-bottom: 5px; margin-bottom: 15px;">
+                                    Alocações para Cotações
+                                </h5>
+                                <table class="table table-sm table-bordered" style="margin-left: 15px; width: 95%;">
+                                    <thead style="background-color: #f8f9fa;">
+                                        <tr>
+                                            <th>Cotação</th>
+                                            <th>Cliente</th>
+                                            <th class="text-right">Valor Alocado</th>
+                                            <th>Data</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="doc.allocation_ids" t-as="allocation">
+                                            <td><span t-field="allocation.sale_order_id.name"/></td>
+                                            <td><span t-field="allocation.sale_order_partner_id.name"/></td>
+                                            <td class="text-right">
+                                                <span t-field="allocation.amount_allocated"
+                                                      t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                            </td>
+                                            <td><span t-field="allocation.allocation_date" t-options='{"widget": "date"}'/></td>
+                                            <td>
+                                                <span t-if="allocation.state == 'allocated'" class="badge badge-info">Alocado</span>
+                                                <span t-if="allocation.state == 'used'" class="badge badge-success">Usado</span>
+                                                <span t-if="allocation.state == 'cancelled'" class="badge badge-secondary">Cancelado</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot style="background-color: #f8f9fa; font-weight: bold;">
+                                        <tr>
+                                            <td colspan="2" class="text-right">Total Alocado:</td>
+                                            <td class="text-right">
+                                                <span t-field="doc.amount_allocated"
+                                                      t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                            </td>
+                                            <td colspan="2"></td>
+                                        </tr>
+                                        <tr t-if="doc.amount_remaining > 0">
+                                            <td colspan="2" class="text-right">Valor Remanescente:</td>
+                                            <td class="text-right" style="color: #28a745;">
+                                                <span t-field="doc.amount_remaining"
+                                                      t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                            </td>
+                                            <td colspan="2"></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Notas adicionais -->
+                        <div class="row mt-4" t-if="doc.notes">
+                            <div class="col-12">
+                                <h5 style="border-bottom: 2px solid #875A7B; padding-bottom: 5px; margin-bottom: 15px;">
+                                    Notas
+                                </h5>
+                                <p style="padding-left: 15px; white-space: pre-wrap;">
+                                    <span t-field="doc.notes"/>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Rodapé com aviso -->
+                        <div class="row mt-5">
+                            <div class="col-12 text-center" style="padding-top: 20px; border-top: 1px solid #dee2e6;">
+                                <p style="font-size: 0.85em; color: #666; font-style: italic;">
+                                    Este recibo pró-forma é apenas para efeitos de gestão interna e controle de pagamentos antecipados.<br/>
+                                    Não constitui documento fiscal válido para efeitos de IVA ou outros impostos.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

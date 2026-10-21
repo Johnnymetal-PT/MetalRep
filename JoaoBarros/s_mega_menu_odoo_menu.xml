@@ -1,0 +1,82 @@
+<t t-name="website.s_mega_menu_odoo_menu">
+    <section class="s_mega_menu_dynamic o_colored_level pt16 pb16" style="background-color:#3f3a34;">
+        <t t-set="living" t-value="request.env['product.public.category'].search([('parent_id.name','=','Living Room')])"/>
+        <t t-set="dining" t-value="request.env['product.public.category'].search([('parent_id.name','=','Dining Room')])"/>
+        <t t-set="bedroom" t-value="request.env['product.public.category'].search([('parent_id.name','=','Bedroom')])"/>
+        <div class="container">
+            <div class="row gx-4">
+                <div class="col-md-3 pb-3">
+                    <h4 class="fw-light text-uppercase text-white">Living Room</h4>
+                    <ul class="list-unstyled">
+                        <t t-foreach="living" t-as="category">
+                            <li>
+                                <a t-att-href="'/shop/category/%d' % category.id"
+                                   class="text-white d-block py-1 category-link"
+                                   t-att-data-image-url="website.image_url(category, 'image_1920')"
+                                   t-att-data-key="category.parent_id.name + '-' + category.name">
+                                    <t t-esc="category.name"/>
+                                </a>
+                            </li>
+                        </t>
+                    </ul>
+                    <a href="/shop" class="btn btn-outline-light mt-2 text-uppercase">Shop All</a>
+                </div>
+                <div class="col-md-3 pb-3">
+                    <h4 class="fw-light text-uppercase text-white">Dining Room</h4>
+                    <ul class="list-unstyled">
+                        <t t-foreach="dining" t-as="category">
+                            <li>
+                                <a t-att-href="'/shop/category/%d' % category.id"
+                                   class="text-white d-block py-1 category-link"
+                                   t-att-data-image-url="website.image_url(category, 'image_1920')"
+                                   t-att-data-key="category.parent_id.name + '-' + category.name">
+                                    <t t-esc="category.name"/>
+                                </a>
+                            </li>
+                        </t>
+                    </ul>
+                </div>
+                <div class="col-md-3 pb-3">
+                    <h4 class="fw-light text-uppercase text-white">Bedroom</h4>
+                    <ul class="list-unstyled">
+                        <t t-foreach="bedroom" t-as="category">
+                            <li>
+                                <a t-att-href="'/shop/category/%d' % category.id"
+                                   class="text-white d-block py-1 category-link"
+                                   t-att-data-image-url="website.image_url(category, 'image_1920')"
+                                   t-att-data-key="category.parent_id.name + '-' + category.name">
+                                    <t t-esc="category.name"/>
+                                </a>
+                            </li>
+                        </t>
+                    </ul>
+                </div>
+                <div class="col-md-3 d-flex align-items-start justify-content-center">
+                    <div class="category-preview" style="width:300px;height:300px;overflow:hidden;">
+                        <img src="" alt="" class="img-fluid h-100 w-100" style="object-fit:cover;"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+            .s_mega_menu_dynamic h4 {color:#eeeeee;}
+            .s_mega_menu_dynamic .category-link {color:#ffffff;}
+            .s_mega_menu_dynamic .category-link:hover {text-decoration:underline;color:#f8f8f8;}
+        </style>
+        <script type="text/javascript">
+            (function(){
+                var container = document.querySelector('.s_mega_menu_dynamic');
+                if(!container) return;
+                var preview = container.querySelector('.category-preview img');
+                container.querySelectorAll('.category-link').forEach(function(el){
+                    el.addEventListener('mouseenter', function(){
+                        var url = this.dataset.imageUrl;
+                        if(preview && url){
+                            preview.src = url;
+                        }
+                    });
+                });
+            })();
+        </script>
+    </section>
+</t>

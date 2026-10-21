@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Rodapé do cartão da ordem de fabrico: o botão "Fechar produção".
+         Herda-se o template específico do rodapé da ORDEM, não o do cartão inteiro, para
+         não haver confusão com o botão homónimo do cartão da OPERAÇÃO, que tem outro
+         handler (`onClickCloseProduction`) e outro propósito. -->
+    <t t-inherit="mrp_workorder.MrpDisplayProductionFooter" t-inherit-mode="extension">
+        <xpath expr="//button" position="attributes">
+            <attribute name="t-att-disabled">pgCloseBlocked or None</attribute>
+            <attribute name="t-att-title">pgCloseBlocked and pgPendingWorkorders or None</attribute>
+        </xpath>
+        <xpath expr="//button" position="before">
+            <span t-if="pgCloseBlocked" class="pg_close_blocked_hint me-2">
+                <i class="fa fa-lock me-1"/>
+                <span>Falta concluir: </span>
+                <span class="fw-bold" t-esc="pgPendingWorkorders"/>
+            </span>
+        </xpath>
+    </t>
+
+</templates>

@@ -1,0 +1,1255 @@
+<t name="Contact Us" t-name="website.interiordesign">
+    <t t-call="website.layout">
+<style>
+.s_map_embedded {
+  -webkit-filter: grayscale(100%) contrast(108%) brightness(96%);
+  filter: grayscale(100%) contrast(108%) brightness(96%);
+}
+
+.map_container iframe {
+  -webkit-filter: grayscale(100%) contrast(108%) brightness(96%);
+  filter: grayscale(100%) contrast(108%) brightness(96%);
+}
+
+.s_map_color_filter {
+  background: transparent !important;
+}
+
+.s_website_form input,
+.s_website_form textarea,
+.s_website_form select,
+.s_website_form label,
+.s_website_form .form-check-label,
+.s_website_form .form-control,
+.s_website_form .form-select {
+    font-family: 'Cormorant Infant', serif;
+    color: #302D27;
+}
+
+.s_website_form .form-control,
+.s_website_form .form-select,
+.s_website_form textarea,
+.s_website_form .form-check-input {
+    border: 1px solid #302D27;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 16px;
+}
+.s_website_form .form-check-input {
+    margin-left: 0;
+    margin-right: 4px;
+    float: none;
+}
+
+.s_website_form .form-check {
+    border: 1px solid #302D27;
+    border-radius: 0;
+    padding: 8px 12px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.s_website_form_field_description {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.s_website_form input[type="checkbox"],
+.s_website_form input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #302D27;
+    background: none;
+    vertical-align: middle;
+    margin-right: 4px;
+    position: relative;
+}
+
+.s_website_form input[type="checkbox"]:checked::after,
+.s_website_form input[type="radio"]:checked::after {
+    content: "\2713";
+    color: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    line-height: 1;
+}
+
+.s_website_form .s_website_form_submit .btn {
+    width: 100%;
+    border-radius: 0;
+    font-size: 16px;
+    background-color: #302D27;
+    color: white;
+    border: none;
+    padding: 12px 0;
+}
+
+.s_website_form_label {
+    width: auto !important;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #302D27;
+    margin-bottom: 5px;
+}
+
+.margens {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+/* estilo do traço acima dos titulos */
+.section-title {
+    position: relative;
+    display: inline-block;
+    padding-top: 20px;
+}
+.section-title::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 1.5px;
+    background-color: #756B5A;
+}
+
+/* ===== Popup form (match Request Customization design) ===== */
+.request-customization-popup-content .s_website_form_rows {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.request-customization-popup-content .row.s_col_no_resize {
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.request-customization-popup-content .s_website_form_label,
+.request-customization-popup-content .s_website_form_label .s_website_form_label_content {
+    width: 100% !important;
+    font-family: 'Cormorant Infant', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #514C44;
+}
+
+.request-customization-popup-content .form-control,
+.request-customization-popup-content .form-select,
+.request-customization-popup-content textarea {
+    border-radius: 6px;
+    border: 1px solid #d6d0c6;
+    background-color: #F8F6F2;
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1rem;
+    color: #302D27;
+    padding: 0.65rem 0.85rem;
+    box-shadow: none;
+}
+
+.request-customization-popup-content .form-control:focus,
+.request-customization-popup-content .form-select:focus,
+.request-customization-popup-content textarea:focus {
+    border-color: #514C44;
+    background-color: #FFFFFF;
+    box-shadow: none;
+}
+
+.request-customization-popup-content .form-check {
+    border: none;
+    padding: 0;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.request-customization-popup-content .form-check-input {
+    width: 1.15rem;
+    height: 1.15rem;
+    border-radius: 50%;
+    border: 1px solid #514C44;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.request-customization-popup-content .form-check-input:checked {
+    background-color: #514C44;
+    border-color: #514C44;
+}
+
+.request-customization-popup-content .form-check-label {
+    font-size: 0.95rem;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.request-customization-popup-content .s_website_form_submit .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 2.75rem;
+    border-radius: 999px;
+    border: none;
+    background-color: #514C44;
+    color: #F2F0EC;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+}
+
+.request-customization-popup-content .s_website_form_submit .btn:hover,
+.request-customization-popup-content .s_website_form_submit .btn:focus {
+    background-color: #302D27;
+    color: #F2F0EC;
+}
+
+.request-customization-popup-content .popup-thanks-container section {
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+@media (max-width: 991.98px) {
+  .request-customization-popup-content .s_website_form_rows {
+      padding: 0 0.5rem;
+  }
+
+  .request-customization-popup-content .row.s_col_no_resize {
+      flex-direction: column;
+      align-items: stretch;
+  }
+
+  .request-customization-popup-content .s_website_form_label {
+      text-align: left !important;
+  }
+
+  .request-customization-popup-content .s_website_form_submit {
+      text-align: center;
+  }
+}
+
+.btn-fill-secondary, .btn-secondary {
+    background-color: #E8E7E3;
+    border-color: #756B5A;
+    border-width: 2px;
+    height: 50px;
+    width:250px;
+    align-content: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #756B5A;
+    font-weight: 500;
+    }
+
+.btn-fill-secondary:hover, .btn-secondary:hover {
+    background-color: #756B5A;
+    color: #E8E7E3;
+}
+
+.card-body {
+  background-color: rgb(250, 249, 245) !important;
+  text-align: center;
+}
+
+.card {
+    width 500px;
+    border: none;
+    border-radius: 0 !important;
+}    
+
+.card-img-top{
+    width:100%;
+    height:350px;
+    object-fit:cover;
+    border-radius: 0 !important;
+}
+
+
+.open-sans{
+    font-family: open sans;
+    font-size:16px;
+}
+
+.line-topic{
+    border: none;           /* remove estilo padrão */
+    height: 1px;            /* espessura */
+    width: 50px;           /* comprimento */
+    background-color: #756B5A; /* cor */
+    opacity: 90%;
+    margin: 5px auto;
+    
+}
+
+.img.img-fluid.d-block {
+    max-width: 100%;
+    height: auto;
+}
+
+.s_image_gallery .carousel-inner img {
+    width: 70%;
+    height: 100%;
+    object-fit: cover; /* cobre todo o container, corta o excesso */
+}
+
+.carousel-indicators {
+  bottom: -140px !important; /* empurra para baixo */
+}
+
+
+.s_popup_default {
+   display: block !important;
+   opacity: 1 !important;
+   visibility: visible !important;
+   z-index: 9999 !important;
+}
+
+/* ============================
+   MOBILE OPTIMIZATION (≤768px)
+   ============================ */
+@media (max-width: 767.98px) {
+  /* General padding fixes */
+  .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* ==== HERO COVER ==== */
+  .s_title.o_full_screen_height {
+    min-height: 100vh !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .s_title.o_full_screen_height .s_parallax_bg {
+    background-size: cover !important;
+    background-position: center !important;
+  }
+  .s_title.o_full_screen_height h2 span {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* ==== IMAGE + TEXT SECTION ==== */
+  .s_text_image {
+    padding-top: 32px !important;
+    padding-bottom: 32px !important;
+  }
+  /* Reorder: image first, text second (mobile) */
+  .s_text_image .row.o_grid_mode {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .s_text_image .o_grid_item_image {
+    order: 1;
+    margin-bottom: 24px;
+  }
+  .s_text_image .o_grid_item.g-height-5 {
+    order: 2;
+    padding: 0 8px !important;
+  }
+  .s_text_image .o_grid_item.g-height-5 h2 {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+    text-align: center;
+  }
+  .s_text_image .o_grid_item.g-height-5 p {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    text-align: center;
+  }
+  .s_text_image .btn {
+    width: 100% !important;
+    max-width: 280px !important;
+    margin: 12px auto 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* ==== SECTION: STAGES OF AN INTERIOR DESIGN PROJECT ==== */
+  .s_title.pt136.pb0 {
+    padding-top: 40px !important;
+    padding-bottom: 0 !important;
+  }
+  .s_title.pt136.pb0 span[style*="3.1875rem"] {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* ==== CENTER PARAGRAPH ==== */
+  .s_text_block p {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+
+  /* ==== STAGES GRID ==== */
+  .s_three_columns {
+    padding-top: 0 !important;
+    padding-bottom: 24px !important;
+  }
+  .s_three_columns .row {
+    --bs-gutter-x: 0;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-direction: column !important;
+  }
+  .s_three_columns .col-lg-4 {
+    width: 100% !important;
+    max-width: 100%;
+    padding: 0 !important;
+    margin-bottom: 24px;
+  }
+  .s_three_columns .card {
+    border: none !important;
+  }
+  .s_three_columns .card-img-top {
+    height: 240px !important;
+    object-fit: cover;
+  }
+  .s_three_columns .card-body {
+    padding: 16px !important;
+  }
+  .s_three_columns .card-title {
+    font-size: 18px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* ==== FINAL SECTION “SOME OF OUR PROJECTS” ==== */
+  .s_title.pt72.pb32 {
+    padding-top: 24px !important;
+    padding-bottom: 16px !important;
+  }
+  .s_title.pt72.pb32 span[style*="3.1875rem"] {
+    font-size: 26px !important;
+  }
+
+  /* ==== IMAGE GALLERY ==== */
+  .s_image_gallery.o_slideshow {
+    height: auto !important;
+    padding-top: 16px !important;
+    padding-bottom: 48px !important;
+  }
+  .s_image_gallery.o_slideshow .carousel-inner img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+  }
+  .s_image_gallery.o_slideshow .carousel-indicators {
+    bottom: -20px !important;
+  }
+
+  /* ==== MARGINS and MISC ==== */
+  .margens {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .pb112, .pb168 { padding-bottom: 32px !important; }
+  .pt88, .pt136, .pt208 { padding-top: 32px !important; }
+}
+
+@media (max-width: 767.98px) {
+  /* Make the section stack cleanly on mobile */
+  .s_text_image .row.o_grid_mode { display: flex !important; flex-direction: column !important; }
+
+  /* Show mobile title, hide desktop title (but NOT the mobile one) */
+  .s_text_image .o_grid_item.g-height-5 h2:not(.mobile-interest-title) { display: none !important; }
+  .mobile-interest-title {
+    display: block !important;
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    margin: 16px 0 12px !important;
+    color: #302D27;
+    font-weight: 400;
+  }
+
+  /* Order: (1) mobile title (outside the row), (2) image, (3) copy/button */
+  .s_text_image .o_grid_item_image { order: 2; }
+  .s_text_image .o_grid_item.g-height-5 { order: 3; }
+
+  /* Reduce image height like the mock */
+  .s_text_image .o_grid_item_image img {
+    width: 86% !important;
+    max-width: 380px !important;
+    height: clamp(160px, 44vw, 240px) !important;
+    object-fit: cover !important;
+    display: block !important;
+    margin: 0 auto 12px !important;
+  }
+}
+
+/* Hidden by default so desktop is unchanged */
+.mobile-interest-title { display: none; }
+
+@media (max-width: 767.98px) {
+  /* Make the paragraph copy 14px on mobile */
+  #interested-section p,
+  .s_text_image .o_grid_item.g-height-5 p {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+}
+
+</style>
+
+<t t-set="logged_partner" t-value="request.env['website.visitor']._get_visitor_from_request().partner_id"/>
+<t t-set="contactus_form_values" t-value="{ 'email_to': res_company.email, 'name': request.params.get('name', ''), 'phone': request.params.get('phone', ''), 'email_from': request.params.get('email_from', ''), 'company': request.params.get('company', ''), 'subject': request.params.get('subject', ''), }"/>
+<span class="hidden" data-for="contactus_form" t-att-data-values="contactus_form_values"/>
+<div id="wrap" class="oe_structure oe_empty">
+
+    
+    <section class="s_title parallax s_parallax_is_fixed bg-black-50 pt24 pb24 o_colored_level o_full_screen_height" data-vcss="001" data-snippet="s_title" data-scroll-background-ratio="1" data-name="Título" style="background-image: none;">
+        <span class="s_parallax_bg oe_img_bg o_bg_img_center" style="background-image: url(&quot;/web/image/30116-3d504975/04.00_00_55_24.Still014.webp&quot;); background-position: 50% 0px;" data-mimetype="image/webp" data-original-id="30114" data-original-src="/web/image/30114-4a3e9a16/04.00_00_55_24.Still014.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920"/>
+        <div class="o_we_bg_filter bg-black-50"/>
+        <div class="container">
+            <h2 style="text-align: center;"><span style="font-size: 3.1875rem;">INTERIOR DESIGN PROJECT</span></h2></div>
+    </section>
+
+    
+    
+
+    
+<section id="interested-section" class="s_text_image o_colored_level pt88 pb88" data-snippet="s_image_text" data-name="Image - Text" style="background-color: rgb(232, 231, 227); background-image: none;">
+  <div class="container">
+    <!-- Mobile-only title (desktop stays hidden via CSS) -->
+    <h2 class="mobile-interest-title">ARE YOU INTERESTED IN WORKING WITH US ?</h2>
+
+    <div class="row o_grid_mode" data-row-count="10">
+      <div class="o_colored_level o_grid_item g-col-lg-6 o_grid_item_image g-height-10 col-lg-6" style="grid-area: 1 / 1 / 11 / 7; z-index: 1;">
+        <img src="/web/image/30976-d7abd443/Salone%20del%20Mobile_01.00_00_41_22.Still004.webp" alt="" class="img img-fluid mx-auto o_we_custom_image" data-mimetype="image/webp" data-original-id="30975" data-original-src="/web/image/30975-673be408/Salone%20del%20Mobile_01.00_00_41_22.Still004.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="750" loading="lazy"/>
+      </div>
+
+      <div class="o_colored_level o_grid_item g-height-5 g-col-lg-6 col-lg-6" style="z-index: 2; grid-area: 3 / 7 / 8 / 13; --grid-item-padding-x: 100px;">
+        <!-- Desktop title stays here; hidden on mobile by the :not(.mobile-interest-title) rule -->
+        <h2>ARE YOU INTERESTED IN WORKING WITH US ?</h2>
+
+        <p>At Casa Magna, we offer complete turnkey interior design services, managing every step
+        of your project from concept and planning to furniture production and final installation.
+        With years of experience, exceptional craftsmanship, and deep design expertise, we are able
+        to meet every need and expectation. Our team works closely with each client to create timeless
+        and distinctive spaces that reflect elegance, comfort, and individuality.</p>
+
+        <p><a href="#" id="openInfoRequestBtn" class="btn btn-secondary" title="">SCHEDULE A MEETING</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="s_title o_colored_level pt136 pb0" data-vcss="001" data-snippet="s_title" data-name="Título" style="background-image: none;">
+        <div class="container s_allow_columns">
+            <h2 class="display-3-fs" style="text-align: center;"><span style="font-size: 3.1875rem;">STAGES OF AN INTERIOR DESIGN PROJECT</span></h2>
+        </div>
+    </section><section class="s_text_block pb40 o_colored_level pt16" data-snippet="s_text_block" data-name="Texto" style="background-image: none;">
+        <div class="container s_allow_columns">
+            <p style="padding-left:150px; padding-right:150px; text-align: center;">
+<strong><font style="color: rgb(81, 76, 68);"/></strong><font style="color: rgb(81, 76, 68);">Every Casa Magna project is guided by a comprehensive and highly detailed interior design process. From the initial concept and moodboard creation to space planning, technical documentation, and 3D visualization, each stage reflects our commitment to precision and excellence. Through our integrated management of design, material selection, furniture production, and final installation, we deliver projects distinguished by refined aesthetics, functional harmony, and the signature quality of Casa Magna craftsmanship.</font>
+
+</p>
+        </div>
+    </section><section class="s_three_columns o_colored_level pb0 pt0" data-vcss="001" data-snippet="s_three_columns" data-name="Colunas">
+        <style>/* Mobile: make the 3-up sections render as 2 columns */
+@media (max-width: 767.98px) {
+  .s_three_columns .row.d-flex.align-items-stretch {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin-left: -8px !important;
+    margin-right: -8px !important;
+  }
+
+  .s_three_columns .row.d-flex.align-items-stretch &gt; .col-lg-4 {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  /* Tighten card visuals on mobile */
+  .s_three_columns .card-img-top {
+    height: 180px !important;   /* adjust to taste: 160–200px works well */
+    object-fit: cover !important;
+  }
+  .s_three_columns .card-body {
+    padding: 12px !important;
+  }
+  .s_three_columns .card-title {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Optional: visually reduce the gap between the two sections */
+  .s_three_columns.pb0.pt0,
+  .s_three_columns.pt0.pb112 {
+    padding-top: 0px !important;
+    padding-bottom: 24px !important;
+  }
+}
+/* === MOBILE: 3 rows × 2 columns for the 6 cards === */
+@media (max-width: 767.98px) {
+  /* Make the row wrap into 2 columns, not a single column */
+  .s_three_columns .row.d-flex.align-items-stretch {
+    display: flex !important;
+    flex-direction: row !important;     /* override previous "column" */
+    flex-wrap: wrap !important;
+    --bs-gutter-x: 0;                    /* optional: tighten gutter */
+    --bs-gutter-y: 0;
+    margin-left: -8px !important;
+    margin-right: -8px !important;
+  }
+
+  /* Each card takes 50% width on mobile */
+  .s_three_columns .row.d-flex.align-items-stretch &gt; .col-lg-4 {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    width: 50% !important;              /* override any 100% rule */
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    margin-bottom: 0 !important;         /* override any mb spacing */
+  }
+
+  /* Keep visuals tidy */
+  .s_three_columns .card-img-top {
+    height: 140px !important;            /* adjust 160–200px as you like */
+    object-fit: cover !important;
+  }
+  .s_three_columns .card-body {
+    padding: 12px !important;
+  }
+  .s_three_columns .card-title {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+  }
+}
+
+</style>
+        <div class="container">
+            <div class="row d-flex align-items-stretch">
+                <div class="col-lg-4 s_col_no_bgcolor pt16 pb16">
+                    <div class="card text-bg-white h-100">
+                        <img src="/web/image/31113-3d29506f/3.webp" alt="" class="card-img-top img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="27797" data-original-src="/web/image/27797-efa10ecd/3.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="690" loading="lazy"/>
+                        <div class="card-body">
+                            <p class="line-topic"/>
+                            <h3 class="card-title"><span style="font-size: 1.3125rem;"><span class="open-sans"><span style="font-family: cormorant infant; font-size:1.30rem; font-weight:600;"><font style="color: rgb(106, 101, 95);">01.</font></span><font style="color: rgb(106, 101, 95);"> CONCEPT &amp;amp; MOODBOARD</font></span></span></h3></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 s_col_no_bgcolor pt16 pb16">
+                    <div class="card text-bg-white h-100">
+                        <img src="/web/image/31121-3d3c7f87/declan-sun-OspMUpCBeqQ-unsplash%20%281%29.webp" alt="" class="card-img-top img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="31119" data-original-src="/web/image/31119-c991055e/declan-sun-OspMUpCBeqQ-unsplash%20%281%29.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="690" loading="lazy"/>
+                        <div class="card-body">
+                            <p class="line-topic"/>
+                            <h3 class="card-title"><span style="font-size: 1.3125rem;"><span class="open-sans"><span style="font-family: cormorant infant; font-size:1.30rem; font-weight:600;"><font style="color: rgb(106, 101, 95);">02.</font></span><font style="color: rgb(106, 101, 95);">&amp;nbsp;2D PROJECT EXECUTION</font></span></span></h3></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 s_col_no_bgcolor pt16 pb16">
+                    <div class="card text-bg-white h-100">
+                        <img src="/web/image/31122-6030649c/AMB%20Sala%20Jantar02_Conjunto01_view01_JPEG.webp" alt="" class="card-img-top img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="31120" data-original-src="/web/image/31120-a404f175/AMB%20Sala%20Jantar02_Conjunto01_view01_JPEG.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="690" loading="lazy"/>
+                        <div class="card-body">
+                            <p class="line-topic"/>
+                            <h3 class="card-title"><span style="font-size: 1.3125rem;"><span class="open-sans"><span style="font-family: cormorant infant; font-size:1.30rem; font-weight:600;"><font style="color: rgb(106, 101, 95);">03.</font></span><font style="color: rgb(106, 101, 95);"> 3D PROJECT EXECUTION</font></span></span></h3></div>
+                    </div>
+                </div>
+                                <div class="col-lg-4 s_col_no_bgcolor pt16 pb16">
+                    <div class="card text-bg-white h-100">
+                        <img src="/web/image/31130-2936e974/mina-rad-qFSQFSmfZkA-unsplash.webp" alt="" class="card-img-top img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="31125" data-original-src="/web/image/31125-f3ee1592/mina-rad-qFSQFSmfZkA-unsplash.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="690" loading="lazy"/>
+                        <div class="card-body">
+                            <p class="line-topic"/>
+                            <h3 class="card-title"><span style="font-size: 1.3125rem;"><span class="open-sans"><span style="font-family: cormorant infant; font-size:1.30rem; font-weight:600;"><font style="color: rgb(106, 101, 95);">04.</font></span><font style="color: rgb(106, 101, 95);"> BUDGET &amp;amp; APPROVAL</font></span></span></h3></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 s_col_no_bgcolor pt16 pb16">
+                    <div class="card text-bg-white h-100">
+                        <img src="/web/image/31138-169a2a5d/4.webp" alt="" class="card-img-top img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="30027" data-original-src="/web/image/30027-7165b32c/4.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="690" loading="lazy"/>
+                        <div class="card-body">
+                            <p class="line-topic"/>
+                            <h3 class="card-title"><span style="font-size: 1.3125rem;"><span class="open-sans"><span style="font-family: cormorant infant; font-size:1.30rem; font-weight:600;"><font style="color: rgb(106, 101, 95);">05.</font></span> <font style="color: rgb(106, 101, 95);">FURNITURE PRODUCTION</font></span></span></h3></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 s_col_no_bgcolor pt16 pb16">
+                    <div class="card text-bg-white h-100">
+                        <img src="/web/image/31139-5afc0056/mehdi-s-0dhrDQK2dWo-unsplash.webp" alt="" class="card-img-top img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="31133" data-original-src="/web/image/31133-de030fde/mehdi-s-0dhrDQK2dWo-unsplash.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="690" loading="lazy"/>
+                        <div class="card-body">
+                            <p class="line-topic"/>
+                            <h3 class="card-title"><span style="font-size: 1.3125rem;"><span class="open-sans"><span style="font-family: cormorant infant; font-size:1.30rem; font-weight:600;"><font style="color: rgb(106, 101, 95);">06.</font></span><font style="color: rgb(106, 101, 95);"> TRANSPORT &amp;amp; ASSEMBLY</font></span></span></h3></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><section class="s_title o_colored_level pt72 o_cc o_cc5 pb32" data-vcss="001" data-snippet="s_title" data-name="Título" style="background-color: rgb(232, 231, 227); background-image: none;">
+        <div class="s_allow_columns container">
+            <h2 class="display-3-fs" style="text-align: center;"><span style="font-size: 3.1875rem;"><font style="color: rgb(48, 45, 39);">SOME OF OUR PROJECTS</font></span><br/></h2>
+        </div>
+    </section><section class="s_image_gallery o_colored_level o_cc o_cc5 s_image_gallery_show_indicators pt0 pb168 o_slideshow" data-vcss="001" data-columns="3" style="overflow: hidden; background-color: rgb(232, 231, 227); background-image: none; height: 727px;" data-snippet="s_image_gallery" data-name="Image Gallery">
+  <div class="container-fluid">
+    <div id="slideshow_1761748912896" class="carousel slide" data-bs-ride="carousel" data-bs-interval="0" style="margin: 0 12px;">
+      <div class="carousel-inner" style="padding: 0;">
+        <!-- Make THIS the first (active) item -->
+        <div class="carousel-item active">
+          <img class="img img-fluid d-block o_we_custom_image" src="/web/image/35227-b85cf097/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEG.webp" alt="" data-name="Imagem" style="object-fit: cover; object-position: 100% 80%;" data-mimetype="image/webp" data-original-id="35218" data-original-src="/web/image/35218-d3a76c72/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEG.jpg" data-mimetype-before-conversion="image/jpeg" loading="lazy"/>
+        </div>
+
+        <div class="carousel-item">
+          <img class="img img-fluid d-block o_we_custom_image" src="/web/image/35226-250e13ef/AMB%20Sala%20Jantar03_Conjunto03_view01_JPEG.webp" alt="" data-name="Imagem" style="object-fit: cover; object-position: 100% 80%;" data-mimetype="image/webp" data-original-id="35219" data-original-src="/web/image/35219-94f7911b/AMB%20Sala%20Jantar03_Conjunto03_view01_JPEG.jpg" data-mimetype-before-conversion="image/jpeg" loading="lazy"/>
+        </div>
+
+        <div class="carousel-item">
+          <img class="img img-fluid d-block o_we_custom_image" src="/web/image/35223-537db652/AMB%20Sala%20Jantar03_Quarto_Conjunto02_view02_JPEG.webp" alt="" data-name="Imagem" style="object-fit: cover; object-position: 100% 80%;" data-mimetype="image/webp" data-original-id="35220" data-original-src="/web/image/35220-88505723/AMB%20Sala%20Jantar03_Quarto_Conjunto02_view02_JPEG.jpg" data-mimetype-before-conversion="image/jpeg" loading="lazy"/>
+        </div>
+
+        <div class="carousel-item">
+          <img class="img img-fluid d-block o_we_custom_image" src="/web/image/35224-e159969a/AMB%20Sala%20Jantar03_Conjunto02_view01B_JPEG.webp" alt="" data-name="Imagem" style="object-fit: cover; object-position: 100% 80%;" data-mimetype="image/webp" data-original-id="35221" data-original-src="/web/image/35221-4af12a0d/AMB%20Sala%20Jantar03_Conjunto02_view01B_JPEG.jpg" data-mimetype-before-conversion="image/jpeg" loading="lazy"/>
+        </div>
+
+        <div class="carousel-item">
+          <img class="img img-fluid d-block o_we_custom_image" src="/web/image/35225-ec3d8b3a/AMB%20Sala%20Jantar03_Quarto_Conjunto01_view01_JPEG.webp" alt="" data-name="Imagem" style="object-fit: cover; object-position: 100% 80%;" data-mimetype="image/webp" data-original-id="35222" data-original-src="/web/image/35222-4f3e04a1/AMB%20Sala%20Jantar03_Quarto_Conjunto01_view01_JPEG.jpg" data-mimetype-before-conversion="image/jpeg" loading="lazy"/>
+        </div>
+      </div>
+
+      <!-- Keep indicators count/index in sync with items (0..4) -->
+      <ul class="carousel-indicators">
+        <li class="o_indicators_left text-center d-none" aria-label="Previous" title="Anterior"><i class="oi oi-chevron-left">​</i></li>
+
+        <li data-bs-target="#slideshow_1761748912896" data-bs-slide-to="0" class="active" style="background-image: url('/web/image/35227-b85cf097/AMB%20Sala%20Jantar03_Conjunto01_view01_JPEG.webp');"/>
+        <li data-bs-target="#slideshow_1761748912896" data-bs-slide-to="1" style="background-image: url('/web/image/35226-250e13ef/AMB%20Sala%20Jantar03_Conjunto03_view01_JPEG.webp');"/>
+        <li data-bs-target="#slideshow_1761748912896" data-bs-slide-to="2" style="background-image: url('/web/image/35223-537db652/AMB%20Sala%20Jantar03_Quarto_Conjunto02_view02_JPEG.webp');"/>
+        <li data-bs-target="#slideshow_1761748912896" data-bs-slide-to="3" style="background-image: url('/web/image/35224-e159969a/AMB%20Sala%20Jantar03_Conjunto02_view01B_JPEG.webp');"/>
+        <li data-bs-target="#slideshow_1761748912896" data-bs-slide-to="4" style="background-image: url('/web/image/35225-ec3d8b3a/AMB%20Sala%20Jantar03_Quarto_Conjunto01_view01_JPEG.webp');"/>
+
+        <li class="o_indicators_right text-center d-none" aria-label="Next" title="Seguinte"><i class="oi oi-chevron-right">​</i></li>
+      </ul>
+
+      <a class="carousel-control-prev o_we_no_overlay o_not_editable" href="#slideshow_1761748912896" role="button" data-bs-slide="prev" aria-label="Previous" title="Anterior">
+        <span class="oi oi-chevron-left fa-2x text-white"/>
+        <span class="visually-hidden">Anterior</span>
+      </a>
+      <a class="carousel-control-next o_we_no_overlay o_not_editable" href="#slideshow_1761748912896" role="button" data-bs-slide="next" aria-label="Next" title="Seguinte">
+        <span class="oi oi-chevron-right fa-2x text-white"/>
+        <span class="visually-hidden">Seguinte</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="infoRequestModal" tabindex="-1" aria-labelledby="infoRequestLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" style="border-radius: 10px; max-height: 90vh; overflow-y: auto;">
+      <div class="modal-header justify-content-center">
+        <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Fechar"/>
+      </div>
+      <div class="modal-body px-4 px-md-5">
+        <div class="request-customization-popup-content">
+          <section class="s_title pt40 pb40 o_colored_level" data-vcss="001" data-snippet="s_title" data-name="Título" style="background-image: none;">
+            <div class="container s_allow_columns">
+              <h2 class="display-3-fs" style="text-align: center;">Request Customization</h2>
+            </div>
+          </section>
+          <section class="s_website_form pt16 pb16 o_colored_level" data-vcss="001" data-snippet="s_website_form" data-name="Formulário" style="background-image: none;">
+            <div class="container">
+              <form action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-pre-fill="true" data-model_name="mail.mail" data-success-mode="message" data-role="product-popup-form" data-product-name="Interior Design Project">
+                <div class="s_website_form_rows row s_col_no_bgcolor">
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 col-lg-12 s_website_form_custom" data-type="selection">
+                    <label class="s_website_form_label d-none" style="width: 200px" for="opmobjbten2"><span class="s_website_form_label_content">Type</span></label>
+                    <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="Custom Text" data-display="horizontal">
+                      <div class="radio col-12 col-lg-4 col-md-6">
+                        <div class="form-check">
+                          <input type="radio" class="s_website_form_input form-check-input" id="opmobjbten20" name="Custom Text" value="Professional" data-fill-with="undefined"/>
+                          <label class="form-check-label s_website_form_check_label" for="opmobjbten20">Professional</label>
+                        </div>
+                      </div>
+                      <div class="radio col-12 col-lg-4 col-md-6">
+                        <div class="form-check">
+                          <input type="radio" class="s_website_form_input form-check-input" id="opmobjbten21" name="Custom Text" value="Private Client"/>
+                          <label class="form-check-label s_website_form_check_label" for="opmobjbten21">Private Client</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oa5legxki24"><span class="s_website_form_label_content">First Name</span><span class="s_website_form_mark"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="First Name" required="1" placeholder="" id="oa5legxki24" data-fill-with="name"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oyuyiohoxen"><span class="s_website_form_label_content">Last Name</span><span class="s_website_form_mark"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="Last Name" placeholder="" id="oyuyiohoxen" data-fill-with="undefined" required=""/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required" data-type="email">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ot0psduoytem"><span class="s_website_form_label_content">Email</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="email" name="email_from" required="" placeholder="" id="ot0psduoytem" data-fill-with="email"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="tel">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oml59mmt6yt"><span class="s_website_form_label_content">Phone</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="tel" name="Phone" required="1" placeholder="" id="oml59mmt6yt" data-fill-with="undefined"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="char" data-required-if-visible="1">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ohlysnrdpp7s"><span class="s_website_form_label_content">Country</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="Country" id="ohlysnrdpp7s"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="text">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="o1sbg012xio8"><span class="s_website_form_label_content">Message</span></label>
+                      <div class="col-sm">
+                        <textarea class="form-control s_website_form_input" name="Message" placeholder="" id="o1sbg012xio8" rows="5"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-visibility-dependency="First Name" data-visibility-comparator="equal" data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required s_website_form_field_hidden_if d-none" data-type="many2one" data-required-if-visible="1">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="onba4wbwmzl"><span class="s_website_form_label_content">Profession</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                      <div class="col-sm">
+                        <select class="form-select s_website_form_input" name="Profession" required="1" id="onba4wbwmzl">
+                          <option value="Agent" selected="selected">Agent</option>
+                          <option value="Architect">Architect</option>
+                          <option value="Distributor">Distributor</option>
+                          <option value="Freelancer">Freelancer</option>
+                          <option value="Furniture Store">Furniture Store</option>
+                          <option value="Hotel">Hotel</option>
+                          <option value="Interior Desginer">Interior Desginer</option>
+                          <option value="Press">Press</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Custom Text" data-visibility-condition="Professional" data-visibility-comparator="selected" data-required-if-visible="1">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="odk5wra1ousd"><span class="s_website_form_label_content o_default_snippet_text">Company</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="Company" placeholder="" id="odk5wra1ousd" data-fill-with="commercial_company_name"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required s_website_form_field_hidden" data-type="char">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oogxyy4kqwu"><span class="s_website_form_label_content">Subject</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="subject" required="" placeholder="" id="oogxyy4kqwu" data-fill-with="undefined" value="Info Request - Interior Design"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Custom Text" data-visibility-condition="Professional" data-visibility-comparator="selected">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="otuqhvkt79h"><span class="s_website_form_label_content">Website</span></label>
+                      <div class="col-sm">
+                        <input class="form-control s_website_form_input" type="text" name="Website" placeholder="" id="otuqhvkt79h" data-fill-with="undefined"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone">
+                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                      <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px"><span class="s_website_form_label_content"/></label>
+                      <div class="col-sm">
+                        <input type="hidden" class="form-control s_website_form_input" name="email_to" value="info@casamagna.eu"/>
+                        <input type="hidden" class="form-control s_website_form_input" name="Product Name" value="Interior Design Project"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-0 py-2 col-12 s_website_form_submit" data-name="Submit Button">
+                    <div style="width: 200px;" class="s_website_form_label"/>
+                    <a href="#" role="button" class="btn btn-primary s_website_form_send o_default_snippet_text" data-bs-original-title="" title="">REQUEST</a>
+                    <span data-role="form-result"/>
+                  </div>
+                </div>
+              </form>
+              <div class="d-none popup-thanks-container" data-role="thanks-container"/>
+              <div class="d-none" data-role="thanks-template">
+                <section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block">
+                  <div class="container s_allow_columns">
+                    <div class="row justify-content-center text-center">
+                      <div class="col-lg-7 col-xl-6 mx-auto">
+                        <img src="/web/image/30057" alt="Casa Magna logo" class="d-block mx-auto rounded-circle" style="width: 110px; object-fit: cover;"/><br/>
+                        <h1 class="text-center">Thank You!</h1>
+                        <div class="pb16 pt16 s_hr" data-snippet="s_hr" data-name="Separator">
+                          <hr class="mx-auto border-top w-50 border-dark text-center"/>
+                        </div>
+                        <h5 class="text-center">
+                          <span class="fa fa-check-circle"/>
+                          <span>Your message has been sent <b>successfully</b></span>
+                        </h5>
+                        <p class="text-center">We will get back to you shortly.</p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+          <section class="s_text_block pb40 o_colored_level pt0" data-snippet="s_text_block" data-name="Texto" style="background-image: none;" data-role="privacy-notice">
+            <div class="s_allow_columns container">
+              <p>
+                I confirm that I authorize the use of the data sent, according to the <a data-bs-original-title="" title="" href="/privacy-policy">Privacy Policy</a>
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const escapeHtml = value =&gt; {
+    if (typeof value !== "string") {
+      return "";
+    }
+    return value;
+  };
+
+  function enhanceEmailBody(modalEl) {
+    if (!modalEl) {
+      return;
+    }
+    const forms = modalEl.querySelectorAll('form[data-role="product-popup-form"]');
+    forms.forEach(form =&gt; {
+      const bodyField = form.querySelector('[name="body_html"]');
+      if (!bodyField) {
+        return;
+      }
+      const messageField = form.querySelector('textarea[name="Message"]');
+      const productField = form.querySelector('input[name="Product Name"]');
+
+      const buildBody = () =&gt; {
+        const productNameRaw = (form.dataset.productName || (productField &amp;&amp; productField.value) || '').trim();
+        const messageRaw = messageField &amp;&amp; messageField.value ? messageField.value.trim() : '';
+        const bodyParts = [];
+        if (productNameRaw) {
+          bodyParts.push(`<p><strong>Product:</strong> ${escapeHtml(productNameRaw)}</p>`);
+        }
+        if (messageRaw) {
+          const safeMessage = escapeHtml(messageRaw).replace(/\r?\n/g, '<br/>');
+          bodyParts.push(`<p>${safeMessage}</p>`);
+        }
+        bodyField.value = bodyParts.join('') || '';
+      };
+
+      form.addEventListener('submit', buildBody);
+      if (messageField) {
+        messageField.addEventListener('input', buildBody);
+        messageField.addEventListener('change', buildBody);
+      }
+      buildBody();
+    });
+  }
+
+  function setupProductPopup(options) {
+    const modalEl = document.getElementById(options.modalId);
+    if (!modalEl) {
+      return;
+    }
+
+    enhanceEmailBody(modalEl);
+
+    const conditionalRequiredContainers = Array.from(modalEl.querySelectorAll('[data-required-if-visible]'));
+
+    const isElementVisible = element => {
+      if (!element) {
+        return false;
+      }
+      if (element.closest('.d-none')) {
+        return false;
+      }
+      let current = element;
+      while (current && current !== document.body) {
+        if (current.classList && current.classList.contains('d-none')) {
+          return false;
+        }
+        const style = window.getComputedStyle(current);
+        if (style.display === 'none' || style.visibility === 'hidden') {
+          return false;
+        }
+        current = current.parentElement;
+      }
+      return true;
+    };
+
+    const updateConditionalRequired = () => {
+      conditionalRequiredContainers.forEach(container => {
+        const field = container.matches('input, select, textarea')
+          ? container
+          : container.querySelector('input, select, textarea');
+        if (!field) {
+          return;
+        }
+        const marker = container.querySelector('[data-role="required-marker"]');
+        if (isElementVisible(container)) {
+          field.setAttribute('required', 'required');
+          field.setAttribute('aria-required', 'true');
+          container.classList.add('s_website_form_required');
+          if (marker) {
+            marker.classList.remove('d-none');
+          }
+        } else {
+          field.removeAttribute('required');
+          field.removeAttribute('aria-required');
+          container.classList.remove('s_website_form_required');
+          if (marker) {
+            marker.classList.add('d-none');
+          }
+        }
+      });
+    };
+
+    if (conditionalRequiredContainers.length) {
+      window.setTimeout(updateConditionalRequired, 0);
+      const visibilityControls = modalEl.querySelectorAll('input, select');
+      visibilityControls.forEach(control => {
+        control.addEventListener('change', () => window.setTimeout(updateConditionalRequired, 0));
+      });
+      modalEl.addEventListener('o_website_form_update_visibility', () => window.setTimeout(updateConditionalRequired, 0));
+      const mutationObserver = new MutationObserver(() => window.setTimeout(updateConditionalRequired, 0));
+      conditionalRequiredContainers.forEach(container => {
+        mutationObserver.observe(container, { attributes: true, attributeFilter: ['class', 'style'] });
+      });
+    }
+
+    const form = modalEl.querySelector("form.o_mark_required");
+    const successTarget = modalEl.querySelector(options.successSelector || "[data-role=\"form-result\"]");
+    const thanksContainer = modalEl.querySelector("[data-role=\"thanks-container\"]");
+    const thanksTemplate = modalEl.querySelector("[data-role=\"thanks-template\"]");
+    const privacyNotices = Array.from(modalEl.querySelectorAll("[data-role=\"privacy-notice\"]"));
+    const originalResultClass = successTarget ? successTarget.getAttribute("class") || "" : "";
+    const initDelay = typeof options.initDelay === "number" ? options.initDelay : 300;
+    let hasShownThanks = false;
+    let successAlertObserver = null;
+
+    const hasActiveErrors = () =&gt; {
+      if (!modalEl) {
+        return false;
+      }
+      const errorSelectors = options.errorSelectors || [
+        ".o_has_error",
+        ".o_invalid_field",
+        ".is-invalid",
+        ".invalid-feedback:not(.d-none)",
+        ".alert.alert-danger:not(.d-none)",
+        "[data-role=\"form-result\"].alert-danger",
+        "[data-role=\"form-result\"] .alert-danger"
+      ];
+      const hasSelectorErrors = errorSelectors.some(selector =&gt; modalEl.querySelector(selector));
+      if (hasSelectorErrors) {
+        return true;
+      }
+      if (form &amp;&amp; (form.classList.contains("o_has_error") || form.classList.contains("s_website_form_has_error"))) {
+        return true;
+      }
+      return false;
+    };
+
+    const showThanks = () =&gt; {
+      if (!form || !thanksContainer || !thanksTemplate || hasShownThanks) {
+        return;
+      }
+      hasShownThanks = true;
+      form.classList.add("d-none");
+      thanksContainer.innerHTML = thanksTemplate.innerHTML;
+      thanksContainer.classList.remove("d-none");
+      if (successAlertObserver) {
+        successAlertObserver.disconnect();
+        successAlertObserver = null;
+      }
+      privacyNotices.forEach(node =&gt; node.classList.add("d-none"));
+    };
+
+    const handleSuccess = () =&gt; {
+      if (hasShownThanks) {
+        return;
+      }
+      if (successTarget) {
+        successTarget.innerHTML = "";
+        successTarget.setAttribute("class", originalResultClass);
+      }
+      modalEl.querySelectorAll(".alert.alert-success").forEach(node =&gt; node.remove());
+      showThanks();
+    };
+
+    const observeSuccessAlerts = () =&gt; {
+      if (successAlertObserver) {
+        successAlertObserver.disconnect();
+      }
+      successAlertObserver = new MutationObserver(mutations =&gt; {
+        if (hasShownThanks) {
+          return;
+        }
+        const hasSuccess = mutations.some(mutation =&gt;
+          Array.from(mutation.addedNodes || []).some(node =&gt; {
+            if (node.nodeType !== Node.ELEMENT_NODE) {
+              return false;
+            }
+            if (node.classList &amp;&amp; node.classList.contains("alert") &amp;&amp; node.classList.contains("alert-success")) {
+              return true;
+            }
+            return !!(node.querySelector &amp;&amp; node.querySelector(".alert.alert-success"));
+          })
+        );
+        if (hasSuccess) {
+          handleSuccess();
+        }
+      });
+      successAlertObserver.observe(modalEl, { childList: true, subtree: true });
+    };
+
+    const resetPopupState = () =&gt; {
+      if (form) {
+        form.classList.remove("d-none");
+        form.reset();
+      }
+      hasShownThanks = false;
+      if (conditionalRequiredContainers.length) {
+        window.setTimeout(updateConditionalRequired, 0);
+      }
+      if (thanksContainer) {
+        thanksContainer.innerHTML = "";
+        thanksContainer.classList.add("d-none");
+      }
+      if (successTarget) {
+        successTarget.innerHTML = "";
+        successTarget.setAttribute("class", originalResultClass);
+      }
+      modalEl.querySelectorAll(".alert.alert-success").forEach(node =&gt; node.remove());
+      privacyNotices.forEach(node =&gt; node.classList.remove("d-none"));
+      observeSuccessAlerts();
+    };
+
+    if (form) {
+      if (window.jQuery) {
+        const $form = window.jQuery(form);
+        $form.on("o_website_form_success", handleSuccess);
+        $form.on("o_website_form_submit", () =&gt; {
+          if (thanksContainer) {
+            thanksContainer.innerHTML = "";
+            thanksContainer.classList.add("d-none");
+          }
+          privacyNotices.forEach(node =&gt; node.classList.remove("d-none"));
+          form.classList.remove("d-none");
+        });
+      }
+
+      form.addEventListener("o_website_form_success", handleSuccess, true);
+      form.addEventListener("o_website_form_submit", () =&gt; {
+        if (thanksContainer) {
+          thanksContainer.innerHTML = "";
+          thanksContainer.classList.add("d-none");
+        }
+        privacyNotices.forEach(node =&gt; node.classList.remove("d-none"));
+        form.classList.remove("d-none");
+      });
+
+      const submitButtons = modalEl.querySelectorAll(options.submitButtonSelector || ".s_website_form_send");
+      const submitCheckDelay = typeof options.submitCheckDelay === "number" ? options.submitCheckDelay : 300;
+      submitButtons.forEach(button =&gt; {
+        button.addEventListener("click", () =&gt; {
+          window.setTimeout(() =&gt; {
+            if (!hasActiveErrors()) {
+              handleSuccess();
+            }
+          }, submitCheckDelay);
+        });
+      });
+    }
+
+    if (successTarget) {
+      const resultObserver = new MutationObserver(() =&gt; {
+        if (hasShownThanks) {
+          return;
+        }
+        const hasMessage = successTarget.textContent &amp;&amp; successTarget.textContent.trim().length &gt; 0;
+        const hasSuccessAlert = !!(successTarget.querySelector &amp;&amp; successTarget.querySelector(".alert.alert-success"));
+        if (hasMessage || hasSuccessAlert) {
+          handleSuccess();
+        }
+      });
+      resultObserver.observe(successTarget, { childList: true, subtree: true });
+    }
+
+    modalEl.addEventListener("show.bs.modal", () =&gt; {
+      resetPopupState();
+    });
+
+    modalEl.addEventListener("shown.bs.modal", () =&gt; {
+      window.setTimeout(() =&gt; {
+        try {
+          if (window.odoo?.website?.website_form?.init) {
+            window.odoo.website.website_form.init();
+          }
+        } catch (err) {
+          console.error("Error initializing website_form in modal:", err);
+        }
+      }, initDelay);
+      if (conditionalRequiredContainers.length) {
+        window.setTimeout(updateConditionalRequired, initDelay);
+      }
+    });
+
+    modalEl.addEventListener("hidden.bs.modal", () =&gt; {
+      resetPopupState();
+    });
+
+    if (options.openButtonSelector) {
+      const showModal = () =&gt; {
+        if (typeof bootstrap !== "undefined" &amp;&amp; bootstrap.Modal) {
+          const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+          modalInstance.show();
+          return true;
+        }
+        if (window.jQuery &amp;&amp; typeof window.jQuery(modalEl).modal === "function") {
+          window.jQuery(modalEl).modal("show");
+          return true;
+        }
+        return false;
+      };
+
+      document.querySelectorAll(options.openButtonSelector).forEach(trigger =&gt; {
+        trigger.addEventListener("click", event =&gt; {
+          event.preventDefault();
+          if (!showModal()) {
+            console.warn("Modal dependencies missing for", options.modalId);
+          }
+        });
+      });
+    }
+
+    observeSuccessAlerts();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const popups = [
+      { modalId: "infoRequestModal", openButtonSelector: "#openInfoRequestBtn", initDelay: 300 }
+    ];
+    popups.forEach(setupProductPopup);
+  });
+})();
+</script>
+</div>
+</t>
+</t>

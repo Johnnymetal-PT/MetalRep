@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- 1. Margin total na ordem (após tax_totals) -->
+    <record model="ir.ui.view" id="sale_margin_sale_order">
+        <field name="name">sale.order.margin.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <!-- Margem após tax_totals -->
+            <xpath expr="//field[@name='tax_totals']" position="after">
+                <div class="d-flex float-end" colspan="2" groups="base.group_user">
+                    <label for="amount_margin"/>
+                    <div>
+                        <field name="amount_margin" class="oe_inline"/>
+                        <field name="amount_untaxed" invisible="1"/>
+                        <span class="oe_inline" invisible="amount_untaxed == 0">
+                            (<field name="margin_percent" nolabel="1" class="oe_inline" widget="percentage"/>)
+                        </span>
+                    </div>
+                </div>
+            </xpath>
+            <!-- Cubicagem antes do note -->
+            <xpath expr="//group[@name='note_group']//field[@name='note']" position="before">
+                <div class="d-flex float-start" colspan="2">
+                    <label for="total_area" string="Cubicagem"/>
+                    <div>
+                        <field name="total_area" class="oe_inline"/> m²
+                        <span class="mx-2">|</span>
+                        <field name="total_volume" class="oe_inline"/> m³
+                        <span class="mx-2">|</span>
+                        <field name="total_weight" class="oe_inline"/> KG
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 2. Purchase price no form da linha -->
+    <record model="ir.ui.view" id="sale_margin_sale_order_line">
+        <field name="name">sale.order.line.margin.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
+                <field name="purchase_price" groups="base.group_user"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 3. Campos na list view das linhas -->
+    <record model="ir.ui.view" id="sale_margin_sale_order_line_form">
+        <field name="name">sale.order.line.list.margin.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+           <xpath expr="//field[@name='order_line']/list//field[@name='price_unit']" position="after">
+                <field name="price_subtotal" column_invisible="True"/>
+                <field name="purchase_price" optional="hide"/>
+                <field name="margin_amount"
+                    invisible="price_subtotal == 0"
+                    optional="hide"/>
+                <field name="margin_percent"
+                    invisible="price_subtotal == 0"
+                    optional="hide" widget="percentage"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 4. Pivot view -->
+    <record model="ir.ui.view" id="sale_margin_sale_order_pivot">
+        <field name="name">sale.order.margin.view.pivot</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sale_order_pivot"/>
+        <field name="arch" type="xml">
+            <pivot position="inside">
+                <field name="margin_percent" invisible="1"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- 5. Graph view -->
+    <record model="ir.ui.view" id="sale_margin_sale_order_graph">
+        <field name="name">sale.order.margin.view.graph</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sale_order_graph"/>
+        <field name="arch" type="xml">
+            <graph position="inside">
+                <field name="margin_percent" invisible="1"/>
+            </graph>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Main Widget Template -->
+    <t t-name="mh_internal_consumption.ConsumptionAvailabilityWidget">
+        <div class="o_widget o_widget_qty_at_date_widget" t-if="shouldDisplay">
+            <a t-attf-class="fa fa-area-chart cursor-pointer {{ colorClass }}"
+               t-on-click="showPopover"
+               tabindex="0"
+               title="Ver disponibilidade"/>
+        </div>
+    </t>
+
+    <!-- Popover Template -->
+    <t t-name="mh_internal_consumption.ConsumptionAvailabilityPopover">
+        <div class="o_consumption_availability_popover p-3" style="min-width: 300px;">
+            <h6 class="mb-3">
+                <i class="fa fa-cube me-2"/>Disponibilidade de Stock
+            </h6>
+
+            <div t-attf-class="alert alert-{{ props.availability >= props.needed ? 'success' : props.availability > 0 ? 'warning' : 'danger' }} py-2 px-3 mb-3">
+                <div class="d-flex align-items-center">
+                    <i t-attf-class="fa {{ props.availability >= props.needed ? 'fa-check-circle' : props.availability > 0 ? 'fa-exclamation-circle' : 'fa-times-circle' }} fa-2x me-3"/>
+                    <div>
+                        <strong t-attf-class="{{ statusClass }}">
+                            <t t-esc="statusText"/>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-sm table-borderless mb-0">
+                <tbody>
+                    <tr>
+                        <td class="text-muted">Produto:</td>
+                        <td class="text-end">
+                            <strong><t t-esc="props.productName"/></strong>
+                        </td>
+                    </tr>
+                    <tr t-if="props.locationName">
+                        <td class="text-muted">Localização:</td>
+                        <td class="text-end">
+                            <strong><t t-esc="props.locationName"/></strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">Quantidade Livre:</td>
+                        <td class="text-end">
+                            <strong t-attf-class="{{ props.availability >= props.needed ? 'text-success' : 'text-danger' }}">
+                                <t t-esc="props.availability.toFixed(2)"/> <t t-esc="props.uom"/>
+                            </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">Quantidade Solicitada:</td>
+                        <td class="text-end">
+                            <strong><t t-esc="props.needed.toFixed(2)"/> <t t-esc="props.uom"/></strong>
+                        </td>
+                    </tr>
+                    <tr t-if="props.availability &lt; props.needed">
+                        <td class="text-muted">Falta:</td>
+                        <td class="text-end">
+                            <strong class="text-danger">
+                                <t t-esc="(props.needed - props.availability).toFixed(2)"/> <t t-esc="props.uom"/>
+                            </strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </t>
+
+</templates>

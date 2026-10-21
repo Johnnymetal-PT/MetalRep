@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="product_3d_model" inherit_id="website_sale.product">
+        <xpath expr="//div[@id='product_documents']" position="after">
+            <t
+                t-set="pg_has_previewable_3d_model"
+                t-value="product._fields.get('gltf_3d_model') and product.gltf_3d_model and (not product._fields.get('gltf_3d_model_is_previewable') or product.gltf_3d_model_is_previewable)"
+            />
+            <!--
+                2026-07-29 (tarefa 6604): removido o aviso amarelo "The uploaded 3D
+                file format is not previewable in browser". Era mostrado ao VISITANTE
+                da loja e nao ao gestor de conteudos, aparecendo em todos os artigos
+                cujo campo 3D tem um ZIP em vez de .glb/.gltf - o caso da HMD (ex.:
+                '3D_211.zip'). Reportado pelo cliente como erro a 23/07/2026.
+                Comportamento atual: sem 3D pre-visualizavel simplesmente nao aparece
+                visualizador; o ficheiro continua disponivel no bloco de downloads da
+                pagina de produto. Se voltar a ser preciso avisar, avisar no backoffice.
+            -->
+            <div
+                class="o_product_model_viewer_trigger mt-3"
+                t-if="pg_has_previewable_3d_model"
+            >
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary o_product_model_viewer_open"
+                    data-bs-toggle="modal"
+                    t-att-data-bs-target="'#pg_3d_viewer_modal_%s' % product.id"
+                >
+                    <i class="fa fa-cube me-2" role="img" aria-label="3D"/>
+                    <span>Visualizador 3D</span>
+                </button>
+            </div>
+            <div
+                class="modal fade o_pg_3d_viewer_modal"
+                t-if="pg_has_previewable_3d_model"
+                t-att-id="'pg_3d_viewer_modal_%s' % product.id"
+                tabindex="-1"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mb-0">
+                                <i class="fa fa-cube me-2" role="img" aria-label="3D"/>
+                                <span>Visualizador 3D</span>
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                        </div>
+                        <div class="modal-body p-0">
+                            <div
+                                class="o_product_model_viewer_container"
+                                style="width:100%; background-color: #FFFFFF;"
+                            >
+                                <model-viewer
+                                    t-attf-src="/web/content/product.template/{{product.id}}/gltf_3d_model"
+                                    t-attf-name="3D model {{product.name}}"
+                                    alt="3D model"
+                                    auto-rotate="1"
+                                    camera-controls="1"
+                                    ar="1"
+                                    style="width:100%; height:70vh; min-height:300px;"
+                                >
+                                    <div class="text-center mt-2 mb-2 me-2">
+                                        <button
+                                            type="button"
+                                            class="btn btn-link p-0 o_product_model_viewer_fullscreen"
+                                            title="View fullscreen"
+                                            aria-label="Fullscreen"
+                                        >
+                                            <i class="fa fa-arrows-alt fa-2x"/>
+                                        </button>
+                                    </div>
+                                </model-viewer>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

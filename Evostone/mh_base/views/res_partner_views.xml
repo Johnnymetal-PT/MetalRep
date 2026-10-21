@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Kanban view: add industry_id -->
+    <record id="res_partner_kanban_view_inherit_mh" model="ir.ui.view">
+        <field name="name">res.partner.kanban.inherit.mh</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='email']" position="after">
+                <field name="industry_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tree/List view: add industry_id -->
+    <record id="view_partner_tree_inherit_mh" model="ir.ui.view">
+        <field name="name">res.partner.list.inherit.mh</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="industry_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

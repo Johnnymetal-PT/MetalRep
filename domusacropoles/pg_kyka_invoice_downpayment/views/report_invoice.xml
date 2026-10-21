@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Tarefa 8262 (FT FA.2026/00077): a linha negativa "Acompte (réf : ...)" existe na
+        fatura mas não sai no PDF.
+
+        O ptplus escreve a condição da linha com uma variável `is_downpayment` definida por
+        um <t t-set> colocado dentro de um xpath position="attributes", que o Odoo ignora.
+        Com `source_billing` preenchido, a linha negativa fica então fora da tabela
+        principal e, por ser acompte, também fora da tabela-resumo.
+
+        Aqui a condição usa `line.is_downpayment` diretamente. Não toca nos totais.
+    -->
+    <template id="pg_report_invoice_document_downpayment_line"
+              inherit_id="account.report_invoice_document"
+              priority="99">
+        <xpath expr="//t[@name='account_invoice_line_accountable']" position="attributes">
+            <attribute name="t-if">line.display_type == 'product' and (not o.source_billing or ('is_downpayment' in line._fields and line.is_downpayment) or line.price_subtotal &gt;= 0)</attribute>
+        </xpath>
+    </template>
+</odoo>

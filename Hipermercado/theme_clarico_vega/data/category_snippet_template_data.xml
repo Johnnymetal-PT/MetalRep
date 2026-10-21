@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template for Dynamic Category Snippet -->
+    <template id="dynamic_filter_template_product_public_category_style_5" name="Category snippet Style 5">
+        <t t-foreach="records" t-as="category" data-number-of-elements="6" data-number-of-elements-sm="2">
+            <t t-set="is_parent" t-value="category['id'] == parentCategoryId"/>
+            <div
+                t-if="not is_parent or includeParent"
+                name="category_item"
+                class="s_dynamic_category_item position-relative bg-black overflow-hidden oe_unremovable oe_unmovable"
+                t-att-data-category-id="category['id']"
+                t-attf-style="grid-row: span {{ 4 if is_parent else size }}; grid-column: span {{ 2 if is_parent and colSpanTwo else 1 }}"
+                role="article"
+            >
+                <div class="overflow-hidden">
+                    <img
+                        name="category_image"
+                        loading="lazy"
+                        t-att-src="category['cover_image']"
+                        alt="Category Image"
+                        class="o_category_image img-fluid position-absolute w-100 h-100 object-fit-cover"
+                    />
+                </div>
+                <div
+                    name="category_overlay"
+                    t-attf-class="p-3 bg-black-25 position-relative w-100 h-100 d-flex flex-column justify-content-between {{alignmentClass}}"
+                >
+                    <h3 class="h4 text-black" t-out="category['name']"/>
+                    <a
+                        name="category_button"
+                        role="button"
+                        t-attf-href="/shop/category/{{category['id']}}"
+                        class="s_dynamic_category_button btn btn-primary align-self-start oe_unremovable"
+                        t-out="buttonText"
+                    />
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="dynamic_filter_template_product_public_category_style_1" name="Category snippet Style 1">
+        <t t-foreach="records" t-as="category" data-number-of-elements="6" data-number-of-elements-sm="2">
+            <div class="te_category_item item o_carousel_product_card s_product_public_category_styles_1">
+                <t t-set="page_url" t-value="'/shop/category/%s' % category['id']"/>
+                <a t-att-href="page_url" class="text-decoration-none" t-att-title="category['name']">
+                    <div class="te_category_img t_img_hover_1 te_img_effect2 d-flex align-items-center position-relative overflow-hidden d-inline-block">
+                            <img t-att-alt="category['name']" t-attf-src="/web/image/product.public.category/#{category['id']}/image_128" class="w-100 mx-auto"/>
+                    </div>
+                    <div class="te_category_name w-100 text-center">
+                        <div class=" text-truncate text-center cate_name p-2 text-black" t-att-title="category['name']" t-out="category['name']"/>
+                    </div>
+                </a>
+            </div>
+        </t>
+    </template>
+
+    <!--========================== categories 2 =========================-->
+    <template id="dynamic_filter_template_product_public_category_style_2" name="Category snippet Style 2">
+        <t t-foreach="records" t-as="category" data-number-of-elements="6" data-number-of-elements-sm="2">
+            <div class="item slider_cate_2 position-relative o_carousel_product_card s_product_public_category_styles_2">
+                <div class="te_category_item position-relative overflow-hidden">
+                    <img t-att-alt="category['name']" class="te_category_2_img" t-attf-src="/web/image/product.public.category/#{category['id']}/image_256"/>
+                </div>
+                <div class="category_2_name align-items-center category_2_name d-block text-center justify-content-center">
+                    <a t-att-href="'/shop/category/%s' % category['id']" class="text-decoration-none" t-att-title="category['name']">
+                        <div class="te_category_name text-center d-block text-truncate text-capitalize p-2 text-black" t-out="category['name']"/>
+                    </a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!--========================== categories 3 =========================-->
+    <template id="dynamic_filter_template_product_public_category_styles_3" name="Category snippet Style 3">
+        <t t-foreach="records" t-as="category" data-number-of-elements="6" data-number-of-elements-sm="2">
+            <div class="card-group s_product_public_category_styles_3 o_carousel_product_card">
+                <div class="te_category_item card h-100 border d-flex flex-row align-items-center pe-1">
+                    <t t-set="page_url" t-value="'/shop/category/%s' % category['id']"/>
+                    <div class="category_3_img pe-3 col-6">
+                        <a t-att-href="page_url" t-att-title="category['name']">
+                            <img t-att-alt="category['name']" t-attf-src="/web/image/product.public.category/#{category['id']}/image_256" class="rounded-0"/>
+                        </a>
+                    </div>
+                    <div class="category_details_3 col-6">
+                        <a t-att-href="page_url" class="d-block text-decoration-none" t-att-title="category['name']">
+                            <div class="te_category_name card-title mb-2 text-black" t-out="category['name']"/>
+                        </a>
+                        <a t-att-href="page_url" class="btn btn-primary px-2 py-1 explore_btn">
+                            Explore
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!--========================== categories 4 =========================-->
+    <template id="dynamic_filter_template_product_public_category_style_4" name="Category snippet Style 4">
+        <t t-foreach="records" t-as="category" data-number-of-elements="6" data-number-of-elements-sm="2">
+            <div class="card-group s_product_public_category_styles_4 o_carousel_product_card">
+                <div class="te_category_item cate_4 card h-100 border-0 align-items-center pe-1">
+                    <t t-set="page_url" t-value="'/shop/category/%s' % category['id']"/>
+                    <div class="category_4_img">
+                        <a t-att-href="page_url" class="category_conntent position-relative d-block mx-auto" t-att-title="category['name']">
+                            <img t-att-alt="category['name']" t-attf-src="/web/image/product.public.category/#{category['id']}/image_256" class="img img-fluid"/>
+                        </a>
+                    </div>
+                    <div class="category_details_4 mt-3">
+                        <a t-att-href="page_url" class="d-inline-flex text-decoration-none text-center position-relative" t-att-title="category['name']">
+                            <div class="te_category_name d-inline-block font-bold card-title position-relative text-black" t-out="category['name']"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!--========================== categories 6 =========================-->
+    <template id="dynamic_filter_template_product_public_category_style_6" name="Category snippet Style 6">
+        <t t-foreach="records" t-as="category" data-number-of-elements="6" data-number-of-elements-sm="2">
+            <div class="card-group s_product_public_category_styles_6 o_carousel_product_card">
+                <div class="te_category_item cate_6 card h-100 border-0 align-items-center">
+                    <t t-set="page_url" t-value="'/shop/category/%s' % category['id']"/>
+                    <a t-att-href="page_url" class="cat_url" t-att-title="category['name']">
+                        <div class="category_6_img">
+                            <img t-att-alt="category['name']"
+                                 t-attf-src="/web/image/product.public.category/#{category['id']}/image_256"
+                                 class="img img-fluid"/>
+                            <div class="category_details_6 d-grid align-items-end">
+                                <div class="category_details_6_inner_div">
+                                    <div class="te_category_name d-inline-block font-bold card-title position-relative text-black mb0"
+                                         t-att-title="category['name']" t-out="category['name']"/>
+                                    <div class="category_icon">
+                                        <i class="fa fa-angle-right fa-2"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!--========================== categories 7 =========================-->
+    <template id="dynamic_filter_template_product_public_category_style_7" name="Category snippet Style 7">
+        <t t-foreach="records" t-as="category" data-number-of-elements="6" data-number-of-elements-sm="2">
+            <div class="card-group s_product_public_category_styles_7 o_carousel_product_card">
+                <div class="te_category_item cate_7 card h-100 border-0 align-items-center pe-1">
+                    <t t-set="page_url" t-value="'/shop/category/%s' % category['id']"/>
+                    <div class="category_7_img overflow-hidden border-radious-ept">
+                        <a t-att-href="page_url" t-att-title="category['name']" class="category_conntent position-relative d-block mx-auto">
+                            <img t-att-alt="category['name']" t-attf-src="/web/image/product.public.category/#{category['id']}/image_256" class="img img-fluid"/>
+                        </a>
+                    </div>
+                    <div class="category_details_7 mt-3">
+                        <a t-att-href="page_url" t-att-title="category['name']" class="d-inline-flex text-decoration-none text-center position-relative">
+                            <div class="te_category_name d-inline-block text-uppercase card-title position-relative text-black" t-out="category['name']"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!--========================== categories 8 =========================-->
+    <template id="dynamic_filter_template_product_public_category_style_8" name="Category snippet Style 8">
+        <a href="/shop" class="text-decoration-none" title="Browse All">
+            <div class="category-card active d-flex flex-column align-items-center justify-content-center text-center">
+                <div class="icon-box mb-3">
+                    <i class="emipro-icon ept-category"></i>
+                </div>
+                <span class="fw-semibold text-center text-uppercase te_category_name">Browse All</span>
+            </div>
+        </a>
+        <t t-foreach="records" t-as="category" data-number-of-elements="8" data-number-of-elements-sm="2">
+            <t t-set="page_url" t-value="'/shop/category/%s' % category['id']"/>
+            <a t-att-href="page_url" class="text-decoration-none" t-att-title="category['name']">
+                <div class="category-card d-flex flex-column align-items-center justify-content-center text-center">
+                    <div class="icon-box mb-3">
+                        <img t-att-alt="category['name']"
+                             t-attf-src="/web/image/product.public.category/#{category['id']}/image_128"
+                             class="img img-fluid border-radius"/>
+                    </div>
+                    <span class="text-center text-uppercase te_category_name"
+                          t-att-title="category['name']" t-out="category['name']"/>
+                </div>
+            </a>
+        </t>
+    </template>
+
+    <!--========================== categories 9 =========================-->
+    <template id="dynamic_filter_template_product_public_category_style_9" name="Category snippet Style 9">
+        <t t-foreach="records" t-as="category" data-number-of-elements="5" data-number-of-elements-sm="2">
+            <div class="card-group s_product_public_category_styles_9 o_carousel_product_card">
+                <t t-set="page_url" t-value="'/shop/category/%s' % category['id']"/>
+                <a t-att-href="page_url" t-att-title="category['name']"
+                   class="category_conntent position-relative d-block mx-auto">
+                    <div class="te_category_item cate_9 card h-100 border-0 pe-1">
+                        <div class="category-card">
+                            <img t-att-alt="category['name']"
+                                 t-attf-src="/web/image/product.public.category/#{category['id']}/image_512"
+                                 class="img img-fluid"/>
+                            <div class="position-absolute te_category_name">
+                                <span class="text-uppercase count" t-if="category.get('product_count', 0) > 0">
+                                    <t t-if="category.get('product_count', 0) >= 10">
+                                        <t t-esc="str(category.get('product_count', 0))"/>+ Items
+                                    </t>
+                                    <t t-else="">
+                                        <t t-esc="str(category.get('product_count', 0))"/> Item
+                                    </t>
+                                </span>
+                                <h3 class="text-left font-bold mb-0 mt-1" t-att-title="category['name']"
+                                    t-out="category['name']"/>
+                                <div class="explore pt-2">
+                                    <span>Explore Now</span>
+                                    <span class="ps-2 fa fa-long-arrow-right"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </t>
+    </template>
+
+    <!--========================== categories 9 =========================-->
+    <template id="dynamic_filter_template_product_public_category_style_10" name="Category snippet Style 10">
+        <t t-foreach="records" t-as="category" data-number-of-elements="5" data-number-of-elements-sm="2">
+            <div class="card-group s_product_public_category_styles_10 o_carousel_product_card">
+                <t t-set="page_url" t-value="'/shop/category/%s' % category['id']"/>
+                <a t-att-href="page_url" t-att-title="category['name']"
+                   class="category_conntent position-relative d-block mx-auto">
+                    <div class="te_category_item cate_9 card h-100 border-0 pe-1">
+                        <div class="category-card">
+                            <img t-att-alt="category['name']"
+                                 t-attf-src="/web/image/product.public.category/#{category['id']}/image_512"
+                                 class="img img-fluid"/>
+                            <div class="position-absolute te_category_name">
+                                <img class="img img-fluid category_img"
+                                     t-attf-src="/web/image/product.public.category/#{category['id']}/cover_image/30x30"/>
+                            </div>
+                        </div>
+                        <div>
+                            <a t-att-href="page_url" t-att-title="category['name']" class="d-block text-decoration-none text-center position-relative">
+                                <h5 class="te_category_name d-inline-block card-title position-relative text-black text-bold mb-0 mt-2" t-out="category['name']"/>
+                            </a>
+                            <span class="d-block text-center small text-muted" t-if="category.get('product_count', 0) > 0">
+                                <t t-if="category.get('product_count', 0) >= 10">
+                                    <t t-esc="str(category.get('product_count', 0))"/>+ Items
+                                </t>
+                                <t t-else="">
+                                    <t t-esc="str(category.get('product_count', 0))"/> Item
+                                </t>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </t>
+    </template>
+
+    <!-- Assets -->
+    <record id="theme_clarico_vega.s_dynamic_snippet_category_000_scss" model="ir.asset">
+        <field name="name">Dynamic snippet category 000 SCSS</field>
+        <field name="bundle">web.assets_frontend</field>
+        <field name="path">theme_clarico_vega/static/src/snippets/s_dynamic_snippet_category/000.scss</field>
+    </record>
+</odoo>

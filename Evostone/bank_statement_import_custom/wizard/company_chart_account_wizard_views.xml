@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Wizard Form View -->
+    <record id="view_company_chart_account_wizard_form" model="ir.ui.view">
+        <field name="name">company.chart.account.wizard.form</field>
+        <field name="model">company.chart.account.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Adicionar Contas ao Plano">
+                <sheet>
+                    <group>
+                        <field name="company_id" invisible="1"/>
+                        <field name="action_type" widget="radio"/>
+                    </group>
+                    
+                    <!-- Seção para reutilizar contas existentes -->
+                    <group string="Selecionar Contas para Reutilizar" invisible="action_type != 'existing'">
+                        <p class="text-muted">
+                            Selecione contas já criadas no sistema. As contas selecionadas serão compartilhadas com esta empresa.
+                        </p>
+                        <field name="existing_account_ids" nolabel="1">
+                            <list string="Contas Disponíveis" create="false" delete="false">
+                                <field name="prefix" string="Prefixo"/>
+                                <field name="name" string="Nome da Conta"/>
+                                <field name="account_type" string="Tipo"/>
+                                <field name="reconcile" string="Reconciliação" widget="boolean_toggle" optional="show"/>
+                                <field name="currency_id" string="Moeda" optional="show"/>
+                                <field name="partner_limite" string="Limite" widget="monetary" optional="show"/>
+                                <field name="country_id" string="País" optional="show"/>
+                            </list>
+                        </field>
+                        <div class="alert alert-warning mt-3" role="alert">
+                            <i class="fa fa-info-circle"/> As contas selecionadas serão compartilhadas entre empresas. 
+                            Alterações feitas em uma empresa afetarão todas as outras.
+                        </div>
+                    </group>
+                    
+                    <!-- Seção para criar nova conta -->
+                    <group string="Criar Nova Conta Personalizada" invisible="action_type != 'new'">
+                        <separator string="Informações Básicas"/>
+                        <group>
+                            <field name="new_prefix" required="action_type == 'new'" placeholder="Ex: 101"/>
+                            <field name="new_name" required="action_type == 'new'" placeholder="Ex: Caixa Geral"/>
+                            <field name="new_account_type" required="action_type == 'new'"/>
+                        </group>
+                        <group>
+                            <field name="new_reconcile"/>
+                            <field name="new_non_trade" invisible="new_account_type not in ['asset_receivable', 'liability_payable']"/>
+                            <field name="new_deprecated"/>
+                            <field name="new_adiantamento"/>
+                        </group>
+                        <separator string="Configurações de Moeda e Grupo"/>
+                        <group>
+                            <field name="new_currency_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="new_group_id" options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                        <group>
+                            <field name="new_tag_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="new_allowed_journal_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        </group>
+                        <separator string="Configurações Adicionais"/>
+                        <group>
+                            <field name="new_partner_limite" widget="monetary"/>
+                            <field name="new_country_id" options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirmar" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for the Wizard -->
+    <record id="action_company_chart_account_wizard" model="ir.actions.act_window">
+        <field name="name">Adicionar Contas ao Plano</field>
+        <field name="res_model">company.chart.account.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" eval="False"/>
+    </record>
+</odoo>

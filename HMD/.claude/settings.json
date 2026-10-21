@@ -1,0 +1,41 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .pg_framework/scripts/pg_ensure_framework_current.ps1 || pwsh -NoProfile -File .pg_framework/scripts/pg_ensure_framework_current.ps1"
+          },
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .pg_framework/scripts/pg_hook_log_token_consumption.ps1 || pwsh -NoProfile -File .pg_framework/scripts/pg_hook_log_token_consumption.ps1"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .pg_framework/scripts/pg_hook_log_token_consumption.ps1 || pwsh -NoProfile -File .pg_framework/scripts/pg_hook_log_token_consumption.ps1"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .pg_framework/scripts/pg_hook_log_token_consumption.ps1 || pwsh -NoProfile -File .pg_framework/scripts/pg_hook_log_token_consumption.ps1"
+          }
+        ]
+      }
+    ]
+  }
+}

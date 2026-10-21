@@ -1,0 +1,1033 @@
+<t t-name="website.about-us">
+    <t t-call="website.layout">
+        <style>
+            .margens {
+                padding-left: 100px;
+                padding-right: 100px;
+            }
+  /* Scoped to the grid cell we’re replacing */
+  .about-carousel-wrap { height: 100%; }
+  .about-carousel-wrap .carousel,
+  .about-carousel-wrap .carousel-inner,
+  .about-carousel-wrap .carousel-item {
+    height: 100%;
+  }
+  .about-carousel-wrap .carousel-item {
+    background-size: cover;
+    background-position: center;
+  }
+  
+  /* Make the image scale responsively while keeping its full content visible */
+.o_img_hero_media img {
+  display: block;
+  width: 100%;
+  height: auto;          /* preserves aspect ratio, no cropping */
+  max-height: 90vh;      /* optional: don’t exceed viewport height */
+  margin: 0 auto;        /* center when capped by max-height */
+  object-fit: contain;   /* harmless here, but explicit */
+}
+
+/* If you want a fixed ratio box instead (keeps consistent section height) */
+/*
+.o_img_hero_media { aspect-ratio: 1440 / 900; }  // use your real ratio
+.o_img_hero_media img { width: 100%; height: 100%; object-fit: contain; }
+*/
+
+/* Make carousel arrows narrower */
+.s_text_image .carousel-control-prev,
+.s_text_image .carousel-control-next {
+  width: 35px;          /* default is 5% or ~70px, so make it smaller */
+}
+
+.s_text_image .carousel-control-prev-icon,
+.s_text_image .carousel-control-next-icon {
+  background-size: 60% 60%; /* shrink the arrow icon */
+}
+
+/* Make the indicator dots (buttons) smaller/narrower */
+.s_text_image .carousel-indicators [data-bs-target] {
+  width: 8px;        /* default ~12px */
+  height: 8px;
+  border-radius: 50%;
+  margin: 0 4px;     /* spacing between dots */
+}
+
+.s_carousel.s_carousel_default .carousel-indicators li{
+ height: 5px !important;
+ }
+ 
+ .s_carousel.s_carousel_default .carousel-control-prev-icon:before{
+    font-size:20px;
+    opacity: 0.6;
+}
+
+.s_carousel.s_carousel_default .carousel-control-next-icon:before{
+    font-size:20px;
+    opacity: 0.6;
+}
+
+
+.row.o_grid_mode {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  /* You already have row-gap inline; this keeps column spacing tidy */
+  column-gap: 30px;
+}
+@media (max-width: 1200px) {
+  .margens {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+
+  .margens section,
+  .margens .o_img_hero,
+  .margens .s_text_image,
+  .margens .s_cover {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .margens .row.o_grid_mode {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .margens {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .row.o_grid_mode {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+
+  .margens [style*="margin-top:-"],
+  .margens [style*="margin-bottom:-"] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .row.o_grid_mode &gt; [class*="g-col-"],
+  .row.o_grid_mode &gt; [class*="col-lg-"] {
+    grid-area: auto !important;
+  }
+
+  .row.o_grid_mode &gt; .about-carousel-wrap {
+    min-height: 320px;
+    order: -1;
+  }
+
+  .s_text_block h6,
+  .s_text_block h3,
+  .s_text_block h2 {
+    text-align: center !important;
+  }
+
+  .margens p[style*="font-size: 80px"],
+  .margens p[style*="font-size: 8.125rem"],
+  .margens span[style*="font-size: 8.125rem"],
+  .margens span[style*="font-size: 3.1875rem"] {
+    font-size: clamp(1.75rem, 4vw, 3rem) !important;
+  }
+
+  .margens h6 span[style*="font-size"],
+  .margens h3 span[style*="font-size"],
+  .margens h2 span[style*="font-size"] {
+    font-size: clamp(28px, 3.6vw, 2.5rem) !important;
+  }
+
+  .margens .s_cover .btn,
+  .margens a.btn {
+    width: 100% !important;
+    max-width: 320px;
+  }
+
+  .margens .s_cover .lead,
+  .margens .s_cover p[style*="margin: 0 auto"],
+  .margens .s_cover p.lead {
+    width: 100% !important;
+  }
+
+  .margens .s_text_block.o_full_screen_height,
+  .margens .s_cover.o_full_screen_height,
+  .margens .o_img_hero.o_full_screen_height,
+  .margens .s_text_image.o_full_screen_height {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .margens {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .around-world-section {
+    background-size: contain !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+  }
+
+  .margens p[style*="font-size: 80px"],
+  .margens p[style*="font-size: 8.125rem"],
+  .margens span[style*="font-size: 8.125rem"],
+  .margens span[style*="font-size: 3.1875rem"] {
+    font-size: clamp(1.5rem, 6vw, 2.5rem) !important;
+  }
+
+  .margens section[data-snippet="s_text_block"] {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+
+  .margens .s_text_block p,
+  .margens .s_text_block h6,
+  .margens .s_text_block h3,
+  .margens .s_text_block h2 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .margens .s_cover p.lead {
+    font-size: 1rem !important;
+  }
+}
+/* Prevent video background from cropping on smaller screens */
+
+/* --- BACKGROUND VIDEO: make it visible + fit on mobile --- */
+.s_cover.o_background_video,
+[data-bg-video-src] {
+  position: relative;   /* create a containing block for the video */
+  overflow: hidden;
+}
+
+/* Give the section a predictable height on small screens */
+@media (max-width: 992px) {
+  /* 16:9 is typical. Adjust if your source is different. */
+  .s_cover.o_background_video,
+  [data-bg-video-src] {
+    aspect-ratio: 16 / 9;
+    min-height: unset !important;
+    height: auto !important;
+  }
+  
+  section[data-bg-video-src] {
+    margin-top: -20px !important;
+  }
+
+  /* Make the embedded player fill that box without cropping */
+  .s_cover.o_background_video iframe,
+  .s_cover.o_background_video video,
+  [data-bg-video-src] iframe,
+  [data-bg-video-src] video {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;  /* show full frame (letterboxes if needed) */
+    transform: none !important;
+  }
+
+  /* If you added this earlier, REMOVE it to avoid hiding the box */
+  /* .s_cover.o_full_screen_height { min-height:auto; height:auto; } */
+}
+
+/* On larger screens keep the immersive look (can be cover) */
+@media (min-width: 993px) {
+  .s_cover.o_background_video iframe,
+  .s_cover.o_background_video video,
+  [data-bg-video-src] iframe,
+  [data-bg-video-src] video {
+    object-fit: cover;   /* fill the section nicely on desktop */
+  }
+}
+
+/* ===== "CASA MAGNA AROUND THE WORLD" – mobile fix ===== */
+@media (max-width: 767.98px) {
+  /* Section box + background */
+  .around-world-section {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+    background-size: contain !important;   /* keep the world map visible */
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+    min-height: auto !important;           /* kill o_full_screen_height effect */
+    height: auto !important;
+  }
+
+  /* Remove the inline margins on the H3 wrapper */
+  .around-world-section .o_container_small h3 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 8px !important;
+    line-height: 1.2;
+  }
+  /* Scale the two H3 lines down a bit */
+  .around-world-section .o_container_small h3 span {
+    font-size: clamp(22px, 5.2vw, 28px) !important;
+    letter-spacing: .02em;
+  }
+
+  /* Body copy: readable width + tighter spacing */
+  .around-world-section .o_container_small p {
+    max-width: 34em;
+    margin: 8px auto 12px !important;
+    line-height: 1.45;
+    padding: 0 12px;
+  }
+
+  /* Put the two stat blocks on a 2-column grid */
+  .around-world-section .container &gt; .row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;                 /* no big vertical gaps */
+    align-items: start;
+    justify-items: center;
+    margin-top: 8px !important;
+    margin-bottom: 50px !important;
+  }
+  /* Drop Bootstrap's large column paddings on mobile */
+  .around-world-section .row &gt; [class^="col-"],
+  .around-world-section .row &gt; [class*=" col-"],
+  .around-world-section .row &gt; .o_colored_level {
+    padding: 0px !important;
+  }
+
+  /* Numbers: smaller, closer to labels */
+  .around-world-section .s_number.display-4 span,
+  .around-world-section .s_number.display-4 {
+    font-size: 44px !important;           /* ~2.75rem */
+    line-height: 1.1 !important;
+  }
+  .around-world-section .row p {
+    margin: 4px 0 0 !important;
+    font-size: 12.5px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+}
+
+        </style>
+        <div class="margens">
+        <div id="wrap" class="oe_structure oe_empty" data-editor-message-default="true" data-editor-message="DRAG BUILDING BLOCKS HERE">
+<section class="s_cover o_colored_level s_custom_snippet s_parallax_no_overflow_hidden o_background_video pb0 pt0 o_full_screen_height" data-scroll-background-ratio="0" data-snippet="s_cover" style="margin-left: -100px; margin-right: -100px; margin-top: -100px; background-image: none;" data-name="Custom Cover" data-bg-video-src="https://player.vimeo.com/video/1119477427?autoplay=1&amp;muted=1&amp;autopause=0&amp;controls=0&amp;loop=1">
+        
+        
+        
+    </section>
+<section class="s_text_block o_colored_level pt24 pb48" data-snippet="s_text_block" data-name="Texto" style="background-image: none;">
+        <div class="s_allow_columns o_container_small">
+            <h6 style="text-align: center;"><span style="font-size: 1.3125rem;">ABOUT<br/></span><span style="font-size: 3.1875rem;">CASA MAGNA</span></h6><p style="text-align: center;"><br/></p><p style="text-align: center;">Casa Magna
+is a Portuguese brand founded in 2017, defined by a sophisticated and
+cosmopolitan design language. Created from the desire to bring beauty and
+comfort into everyday life, the brand is dedicated to crafting luxury furniture
+with refined finishes and exceptional attention to detail.</p><p style="text-align: center;">Every piece
+is made to order and handcrafted in Portugal, shaped around the unique vision
+and aspirations of each client. We align traditional craftsmanship with the
+most advanced technology, allowing us to achieve outstanding precision and
+respond to even the most demanding design projects.</p><p style="text-align: center;">At Casa
+Magna, furniture is more than a functional object. It is a statement of
+character and a reflection of personal lifestyle. Whether for a peaceful
+countryside villa or an elegant city apartment, each piece brings intention,
+purpose and soul into the spaces it helps create.&amp;nbsp;<br/></p></div>
+    </section>
+    
+    <section class="o_img_hero s_custom_snippet o_colored_level" style="margin-left: -100px; margin-right: -100px; background-image: none;">
+  <div class="o_img_hero_media">
+    <img src="/web/image/28860-0a23026e/01%20wdwsdwsdwe.webp" alt="" class="img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="28859" data-original-src="/web/image/28859-3a26e5bc/01%20wdwsdwsdwe.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920" loading="lazy"/>
+  </div>
+
+  <div class="s_allow_columns container">
+    <p style="text-align:center;"><br/></p>
+  </div>
+</section>
+
+            <div class="s_allow_columns container-fluid" style="margin-top:-200px;">
+            <section style="background-image: none;" data-name="Texto" data-snippet="s_text_block" class="s_text_block o_colored_level pt64 pb128"><div class="s_allow_columns container"><p style="text-align: center;font-family: Bethany Avanue !important; font-size: 80px; font-color: #E8E1D6;"><font style="color: rgb(106, 101, 95);">"Crafting the language of luxury"</font></p></div></section>
+        </div>
+    <section class="s_text_block o_colored_level pt72 pb32" data-snippet="s_text_block" data-name="Texto" style="margin-left: -100px; margin-right: -100px; background-color: rgb(238, 237, 232);">
+        <div class="s_allow_columns o_container_small">
+            <h6 style="text-align: center;"><span style="font-size: 1.3125rem;">BEHIND</span></h6><h3 style="text-align: center;"><span style="font-size: 3.1875rem;">THE BRAND</span></h3></div>
+    </section><section class="s_text_image o_colored_level pt0 o_full_screen_height pb0" data-snippet="s_image_text" data-name="Image - Text" style="margin-left: -100px; margin-right: -100px; background-color: rgb(238, 237, 232); background-image: none;">
+        <div class="container">
+            <div class="row o_grid_mode" data-row-count="9" style="margin-left: 100px; margin-right: 100px; row-gap: 30px;">
+
+                
+            <div class="o_colored_level o_grid_item g-height-9 o_grid_item_image about-carousel-wrap g-col-lg-6 col-lg-6" style="z-index: 1; grid-area: 1 / 1 / 10 / 7; --grid-item-padding-y: 0px; --grid-item-padding-x: 0px;">
+
+  <div id="aboutTopCarousel" class="s_carousel carousel pointer-event carousel-fade slide s_carousel_default h-100" data-bs-interval="10000" style="background-image: none;">
+
+    <ol class="carousel-indicators o_we_no_overlay">
+      <li data-bs-target="#aboutTopCarousel" data-bs-slide-to="0" class="active" aria-current="true"/>
+      <li data-bs-target="#aboutTopCarousel" data-bs-slide-to="1"/>
+      <li data-bs-target="#aboutTopCarousel" data-bs-slide-to="2"/>
+    </ol>
+
+    <div class="carousel-inner">
+      
+      <div class="carousel-item o_colored_level pb0 pt0 oe_img_bg o_bg_img_center active" style="background-image: url(&quot;/web/image/27798-3abe488a/1.webp&quot;);" data-name="Slide" data-mimetype="image/webp" data-original-id="27795" data-original-src="/web/image/27795-a5422d8f/1.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920">​<div class="oe_unremovable container"/>
+      </div>
+
+      
+      <div class="carousel-item o_colored_level oe_img_bg o_bg_img_center" style="background-image: url(&quot;/web/image/27799-de199f23/2.webp&quot;);" data-name="Slide" data-mimetype="image/webp" data-original-id="27796" data-original-src="/web/image/27796-4c19a471/2.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920">
+        <div class="container oe_unremovable"/>
+      </div>
+
+      
+      <div class="carousel-item o_colored_level oe_img_bg o_bg_img_center" style="background-image: url(&quot;/web/image/27800-7b472195/3.webp&quot;);" data-name="Slide" data-mimetype="image/webp" data-original-id="27797" data-original-src="/web/image/27797-efa10ecd/3.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920">
+        <div class="container oe_unremovable"/>
+      </div>
+    </div>
+
+    <a class="carousel-control-prev o_not_editable o_we_no_overlay" role="img" aria-label="Anterior" title="Anterior" href="#aboutTopCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"/>
+      <span class="visually-hidden o_default_snippet_text">Previous</span>
+    </a>
+    <a class="carousel-control-next o_not_editable o_we_no_overlay" role="img" aria-label="Seguinte" title="Seguinte" href="#aboutTopCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"/>
+      <span class="visually-hidden o_default_snippet_text">Next</span>
+    </a>
+  </div>
+</div><div class="o_colored_level o_grid_item g-col-lg-5 g-height-3 col-lg-5" style="z-index: 2; grid-area: 4 / 8 / 7 / 13;">
+                    <h2 style="text-align: center;">DESIGN PROCESS</h2><p style="text-align: center;">Our design
+process is shaped by a clear creative vision that seamlessly blends aesthetics
+with functionality. Every piece begins with meticulous material selection and a
+deep commitment to quality, ensuring a balance between beauty, comfort and
+durability. More than furniture, our creations are conceived as design
+statements that express character and atmosphere. Each piece is crafted to tell
+a story, enriching the space with presence, purpose and individuality.</p></div></div>
+        </div>
+    </section><section class="s_text_image o_colored_level pb0 o_full_screen_height pt0" data-snippet="s_text_image" data-name="Text - Image" style="margin-left: -100px; margin-right: -100px; background-color: rgb(238, 237, 232); background-image: none;">
+        <div class="container">
+            <div class="row o_grid_mode" data-row-count="9" style="margin-left: 100px; margin-right: 100px; row-gap: 30px;">
+                
+                
+            
+
+
+            <div class="o_colored_level o_grid_item g-height-9 o_grid_item_image about-carousel-wrap g-col-lg-6 col-lg-6" style="z-index: 1; grid-area: 1 / 7 / 10 / 13; --grid-item-padding-y: 0px; --grid-item-padding-x: 0px;">
+
+  <div id="aboutBottomCarousel" class="s_carousel carousel pointer-event carousel-fade slide s_carousel_default h-100" data-bs-interval="10000" style="background-image: none;">
+
+    <ol class="carousel-indicators o_we_no_overlay">
+      <li data-bs-target="#aboutBottomCarousel" data-bs-slide-to="0" class="active" aria-current="true"/>
+      <li data-bs-target="#aboutBottomCarousel" data-bs-slide-to="1"/>
+      <li data-bs-target="#aboutBottomCarousel" data-bs-slide-to="2"/>
+    </ol>
+
+    <div class="carousel-inner">
+
+      <div class="carousel-item o_colored_level pt0 active pb0 oe_img_bg o_bg_img_center" style="background-image: url(&quot;/web/image/30037-7165b32c/4.jpg&quot;);" data-name="Slide" data-mimetype="image/webp" data-original-id="27798" data-original-src="/web/image/30037-7165b32c/4.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920">​<div class="oe_unremovable container"/>
+      </div>
+
+
+      <div class="carousel-item o_colored_level oe_img_bg o_bg_img_center" style="background-image: url(&quot;/web/image/30036-6027f375/5.jpg&quot;);" data-name="Slide" data-mimetype="image/webp" data-original-id="27799" data-original-src="/web/image/30036-6027f375/5.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920">
+        <div class="container oe_unremovable"/>
+      </div>
+
+
+      <div class="carousel-item o_colored_level oe_img_bg o_bg_img_center" style="background-image: url(&quot;/web/image/30035-5385d8c7/6.jpg&quot;);" data-name="Slide" data-mimetype="image/webp" data-original-id="27800" data-original-src="/web/image/30035-5385d8c7/6.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920">
+        <div class="container oe_unremovable"/>
+      </div>
+    </div>
+
+    <a class="carousel-control-prev o_not_editable o_we_no_overlay" role="img" aria-label="Anterior" title="Anterior" href="#aboutBottomCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"/>
+      <span class="visually-hidden o_default_snippet_text">Previous</span>
+    </a>
+    <a class="carousel-control-next o_not_editable o_we_no_overlay" role="img" aria-label="Seguinte" title="Seguinte" href="#aboutBottomCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"/>
+      <span class="visually-hidden o_default_snippet_text">Next</span>
+    </a>
+  </div>
+            </div><div class="o_colored_level o_grid_item g-col-lg-5 g-height-4 col-lg-5" style="z-index: 2; grid-area: 4 / 1 / 8 / 6;">
+  <h2 style="text-align: center;">CRAFTSMANSHIP</h2>
+                    <p style="text-align: center;">Every piece
+is the result of a seamless union between design excellence and luxury
+craftsmanship. Handcrafted in Portugal by skilled artisans, our furniture is
+created with precision, care and mastery that has been refined over decades. By
+combining artisanal techniques with advanced production technology and a
+careful selection of noble materials, we ensure exceptional quality in both
+structure and finish.</p></div></div>
+        </div>
+        </section>
+        <section class="s_text_block o_colored_level pt112 pb40" data-snippet="s_text_block" data-name="Texto" style="background-image: none;">
+        <div class="s_allow_columns container">
+            <p style="text-align: center;font-family: Bethany Avanue !important; font-size: 80px; font-color: #E8E1D6;">"Luxury, with intention and soul"</p>
+        </div>
+        </section>
+    <section class="s_text_block o_colored_level o_full_screen_height pb256 pt104 oe_img_bg o_bg_img_center around-world-section" data-snippet="s_text_block" data-name="Texto" style="background-image: url(&quot;/web/image/28866-d85b2c5b/MAPA%20MUNDO-01.webp&quot;); margin-left: -100px; margin-right: -100px;" data-mimetype="image/webp" data-original-id="28865" data-original-src="/web/image/28865-d85b2c5b/MAPA%20MUNDO-01.png" data-mimetype-before-conversion="image/png" data-resize-width="1920">
+
+        <div class="s_allow_columns o_container_small">
+            <h3 style="text-align: center; margin-left: 100px; margin-right: 100px;"><span style="font-size: 3.1875rem;">CASA MAGNA</span><br/><span style="font-size: 3.1875rem;">AROUND THE WORLD</span></h3><p style="text-align: center;">From
+Portugal to the world, Casa Magna continues to inspire a global audience that
+appreciates artistry, sophistication and enduring<br/>beauty through our unwavering
+commitment to quality and detail.</p></div>
+        <div class="container">
+            <div class="row">
+                <div class="text-center pt24 pb24 o_colored_level col-lg-2 offset-lg-4"><span class="s_number display-4"><span style="font-size: 8.125rem;"><font style="color: rgb(117, 107, 90); font-family: cormorant infant;">35</font></span></span><p style="&#10;    font-size: 21px;&#10;">COUNTRIES</p>
+                </div>
+                <div class="text-center pt24 pb24 o_colored_level col-lg-2">
+                    <span class="s_number display-4"><span style="font-size: 8.125rem;"><font style="color: rgb(117, 107, 90); font-family: cormorant infant;">4</font></span><font style="color: rgb(117, 107, 90);"/></span>
+                    <p><font style="color: rgb(48, 45, 39);"><span style="font-size: 1.3125rem;">CONTINENTS</span></font></p>
+                </div>
+                
+                
+            </div>
+        </div>
+    </section><section class="s_cover parallax s_parallax_is_fixed bg-black-50 o_colored_level o_half_screen_height pb168 pt208" data-scroll-background-ratio="1" data-snippet="s_cover" data-name="Cover" style="background-image: none;background-image: none;margin-left: -100px;margin-right: -100px;height: 650px;">
+        <style>
+/* ===== Fix title font size for mobile ===== */
+@media (max-width: 767.98px) {
+  .s_cover h4 span {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Optional: ensure paragraph below stays readable */
+  .s_cover p.lead {
+    font-size: 16px !important;
+    width: 90% !important;
+  }
+}
+</style>
+
+        <span class="s_parallax_bg oe_img_bg o_bg_img_center" style="background-image: url(&quot;/web/image/24828-8ee20488/04.00_01_42_10.Still025.webp&quot;); background-position: 50% 0px;" data-mimetype="image/webp" data-original-id="24820" data-original-src="/web/image/24820-8ee20488/04.00_01_42_10.Still025.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920" data-quality="100"/>
+        <div class="o_we_bg_filter bg-black-50"/>
+        <div class="s_allow_columns container">
+            <h4 style="text-align: center; font-weight: bold;">
+<span style="font-weight: normal; font-size: 2.375rem;"><font style="color: rgb(242, 240, 236);">THE IDEAL PARTNER FOR OUTSTANDING PROJECTS</font></span>
+
+<br/></h4><h4 style="text-align: center; font-weight: bold;">&amp;nbsp;<br/></h4>
+            <p class="lead" style="text-align: center; font-size: 20px; width: 60%; margin: 0 auto;">
+We combine experience, in-house production, and superior quality to support architects and designers in creating exclusive furniture with precision, flexibility, and attention to detail.</p><p class="lead" style="text-align: center;"><br/><br/></p>
+            <p style="text-align: center;">
+                <a class="btn btn-custom flat btn-lg" href="/contactus" style="border-style: solid; border-color: rgb(242, 240, 236); border-width: 1.5px; width: 343px; height: 54px; display: flex; align-items: center; justify-content: center; margin: 0 auto; color: rgb(242, 240, 236);" title="" data-bs-toggle="modal" data-bs-target="#requestCustomizationModal">
+  Contact Us
+</a>
+
+            </p>
+        </div>
+    </section>
+
+    <div class="modal fade" id="requestCustomizationModal" tabindex="-1" aria-labelledby="requestCustomizationLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content" style="border-radius: 10px; max-height: 90vh; overflow-y: auto;">
+                <div class="modal-header justify-content-center">
+                    <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"/>
+                </div>
+                <div class="modal-body px-4 px-md-5">
+                    <div class="request-customization-popup-content">
+                        <section class="s_title pt40 pb40 o_colored_level" data-vcss="001" data-snippet="s_title" data-name="Título" style="background-image: none;">
+                            <div class="container s_allow_columns">
+                                <h2 class="display-3-fs" style="text-align: center;">Request Customization</h2>
+                            </div>
+                        </section>
+                        <section class="s_website_form pt16 pb16 o_colored_level" data-vcss="001" data-snippet="s_website_form" data-name="Formulário" style="background-image: none;">
+                            <div class="container">
+                                <form action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-pre-fill="true" data-model_name="mail.mail" data-success-mode="message" data-role="product-popup-form" data-product-name="About Us Contact Request">
+                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 col-lg-12 s_website_form_custom" data-type="selection">
+                                            <label class="s_website_form_label d-none" style="width: 200px" for="opmobjbten2"><span class="s_website_form_label_content">Type</span></label>
+                                            <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="Custom Text" data-display="horizontal">
+                                                <div class="radio col-12 col-lg-4 col-md-6">
+                                                    <div class="form-check">
+                                                        <input type="radio" class="s_website_form_input form-check-input" id="opmobjbten20_custom" name="Custom Text" value="Professional" data-fill-with="undefined"/>
+                                                        <label class="form-check-label s_website_form_check_label" for="opmobjbten20_custom">Professional</label>
+                                                    </div>
+                                                </div>
+                                                <div class="radio col-12 col-lg-4 col-md-6">
+                                                    <div class="form-check">
+                                                        <input type="radio" class="s_website_form_input form-check-input" id="opmobjbten21_custom" name="Custom Text" value="Private Client"/>
+                                                        <label class="form-check-label s_website_form_check_label" for="opmobjbten21_custom">Private Client</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oa5legxki24_custom"><span class="s_website_form_label_content">First Name</span><span class="s_website_form_mark"> *</span></label>
+                                                <div class="col-sm">
+                                                    <input class="form-control s_website_form_input" type="text" name="First Name" required="1" placeholder="" id="oa5legxki24_custom" data-fill-with="name"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oyuyiohoxen_custom"><span class="s_website_form_label_content">Last Name</span><span class="s_website_form_mark"> *</span></label>
+                                                <div class="col-sm">
+                                                    <input class="form-control s_website_form_input" type="text" name="Last Name" placeholder="" id="oyuyiohoxen_custom" data-fill-with="undefined" required=""/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required" data-type="email">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ot0psduoytem_custom"><span class="s_website_form_label_content">Email</span></label>
+                                                <div class="col-sm">
+                                                    <input class="form-control s_website_form_input" type="email" name="email_from" required="" placeholder="" id="ot0psduoytem_custom" data-fill-with="email"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="tel">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oml59mmt6yt_custom"><span class="s_website_form_label_content">Phone</span></label>
+                                                <div class="col-sm">
+                                                    <input class="form-control s_website_form_input" type="tel" name="Phone" required="1" placeholder="" id="oml59mmt6yt_custom" data-fill-with="undefined"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="char" data-required-if-visible="1">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ohlysnrdpp7s_custom"><span class="s_website_form_label_content">Country</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                                                <div class="col-sm">
+                                                    <input class="form-control s_website_form_input" type="text" name="Country" id="ohlysnrdpp7s_custom"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="text">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="o1sbg012xio8_custom"><span class="s_website_form_label_content">Message</span></label>
+                                                <div class="col-sm">
+                                                    <textarea class="form-control s_website_form_input" name="Message" placeholder="" id="o1sbg012xio8_custom" rows="5"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-visibility-dependency="Custom Text" data-visibility-condition="Professional" data-visibility-comparator="selected" data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="many2one" data-required-if-visible="1">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oso1dw3qv3d"><span class="s_website_form_label_content">Profession</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                                                <div class="col-sm">
+                                                    <select class="form-select s_website_form_input" name="Select Industry" id="o7dmknfs4wlk">
+                                                        <option value="Agent">Agent</option>
+                                                        <option value="Architect">Architect</option>
+                                                        <option value="Distributor">Distributor</option>
+                                                        <option value="Freelancer">Freelancer</option>
+                                                        <option value="Furniture Store">Furniture Store</option>
+                                                        <option value="Hotel">Hotel</option>
+                                                        <option value="Interior Desginer">Interior Desginer</option>
+                                                        <option value="Press">Press</option>
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Custom Text" data-visibility-condition="Professional" data-visibility-comparator="selected" data-required-if-visible="1">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="odk5wra1ousd_custom"><span class="s_website_form_label_content o_default_snippet_text">Company</span><span class="s_website_form_mark d-none" data-role="required-marker"> *</span></label>
+                                                <div class="col-sm">
+                                                    <input class="form-control s_website_form_input" type="text" name="Company" placeholder="" id="odk5wra1ousd_custom" data-fill-with="commercial_company_name"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required s_website_form_field_hidden" data-type="char">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="o62hgsx16n4a"><span class="s_website_form_label_content">Subject</span></label>
+                                                <div class="col-sm">
+                                                    <input class="form-control s_website_form_input" type="text" name="subject" required="" placeholder="" id="o62hgsx16n4a" data-fill-with="undefined" value="Customization Request"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden_if d-none" data-type="char" data-visibility-dependency="Custom Text" data-visibility-condition="Professional" data-visibility-comparator="selected">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="otuqhvkt79h_custom"><span class="s_website_form_label_content">Website</span></label>
+                                                <div class="col-sm">
+                                                    <input class="form-control s_website_form_input" type="text" name="Website" placeholder="" id="otuqhvkt79h_custom" data-fill-with="undefined"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px"><span class="s_website_form_label_content"/></label>
+                                                <div class="col-sm">
+                                                    <input type="hidden" class="form-control s_website_form_input" name="email_to" value="info@casamagna.eu"/>
+                                                    <input type="hidden" value="683b8d1048eee3554426d01dc8ce6227596cfd8dc49481f5c3d86f45d05f80fa" class="form-control s_website_form_input s_website_form_custom" name="website_form_signature"/>
+                                                    <input type="hidden" class="form-control s_website_form_input" name="Product Name" value="About Us Contact Request"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-0 py-2 col-12 s_website_form_submit" data-name="Submit Button">
+                                            <div style="width: 200px;" class="s_website_form_label"/>
+                                            <a href="#" role="button" class="btn btn-primary s_website_form_send o_default_snippet_text" data-bs-original-title="" title="">REQUEST</a>
+                                            <span data-role="form-result"/>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                        <div class="d-none popup-thanks-container" data-role="thanks-container"/>
+                        <div class="d-none" data-role="thanks-template">
+                            <section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block">
+                                <div class="container s_allow_columns">
+                                    <div class="row justify-content-center text-center">
+                                        <div class="col-lg-7 col-xl-6 mx-auto">
+                                            <img src="/web/image/30057" alt="Casa Magna logo" class="d-block mx-auto" style="width: 300px; object-fit: cover;"/><br/>
+                                            <h1 class="text-center">Thank You!</h1>
+                                            <div class="pb16 pt16 s_hr" data-snippet="s_hr" data-name="Separator">
+                                                <hr class="mx-auto border-top w-50 border-dark text-center"/>
+                                            </div>
+                                            <h5 class="text-center">
+                                                <span class="fa fa-check-circle"/>
+                                                <span>Your message has been sent <b>successfully</b></span>
+                                            </h5>
+                                            <p class="text-center">We will get back to you shortly.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <input t-if="website.plausible_shared_key" type="hidden" class="js_plausible_push" data-event-name="Lead Generation" data-event-params="{'CTA': 'Contact Us'}"/>
+                        </div>
+                        <section class="s_text_block pb40 o_colored_level pt0" data-snippet="s_text_block" data-name="Texto" style="background-image: none;" data-role="privacy-notice">
+                            <div class="s_allow_columns container">
+                                <p>
+                                    <font class="text-o-color-5">I confirm that I authorize the use of the data sent, according to the </font><a href="/privacy-policy"><font class="text-o-color-5">Privacy Policy</font></a>
+
+                                </p>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+(function () {
+  const escapeHtml = value =&gt; {
+    if (typeof value !== "string") {
+      return "";
+    }
+    return value;
+  };
+
+  function enhanceEmailBody(modalEl) {
+    if (!modalEl) {
+      return;
+    }
+    const forms = modalEl.querySelectorAll('form[data-role="product-popup-form"]');
+    forms.forEach(form =&gt; {
+      const bodyField = form.querySelector('[name="body_html"]');
+      if (!bodyField) {
+        return;
+      }
+      const messageField = form.querySelector('textarea[name="Message"]');
+      const productField = form.querySelector('input[name="Product Name"]');
+
+      const buildBody = () =&gt; {
+        const productNameRaw = (form.dataset.productName || (productField &amp;&amp; productField.value) || '').trim();
+        const messageRaw = messageField &amp;&amp; messageField.value ? messageField.value.trim() : '';
+        const bodyParts = [];
+        if (productNameRaw) {
+          bodyParts.push(`<p><strong>Product:</strong> ${escapeHtml(productNameRaw)}</p>`);
+        }
+        if (messageRaw) {
+          const safeMessage = escapeHtml(messageRaw).replace(/\r?\n/g, '<br/>');
+          bodyParts.push(`<p>${safeMessage}</p>`);
+        }
+        bodyField.value = bodyParts.join('') || '';
+      };
+
+      form.addEventListener('submit', buildBody);
+      if (messageField) {
+        messageField.addEventListener('input', buildBody);
+        messageField.addEventListener('change', buildBody);
+      }
+      buildBody();
+    });
+  }
+
+  function setupProductPopup(options) {
+    const modalEl = document.getElementById(options.modalId);
+    if (!modalEl) {
+      return;
+    }
+
+    enhanceEmailBody(modalEl);
+
+    const conditionalRequiredContainers = Array.from(modalEl.querySelectorAll('[data-required-if-visible]'));
+
+    const isElementVisible = element =&gt; {
+      if (!element) {
+        return false;
+      }
+      if (element.closest('.d-none')) {
+        return false;
+      }
+      let current = element;
+      while (current && current !== document.body) {
+        if (current.classList && current.classList.contains('d-none')) {
+          return false;
+        }
+        const style = window.getComputedStyle(current);
+        if (style.display === 'none' || style.visibility === 'hidden') {
+          return false;
+        }
+        current = current.parentElement;
+      }
+      return true;
+    };
+
+    const updateConditionalRequired = () =&gt; {
+      conditionalRequiredContainers.forEach(container =&gt; {
+        const field = container.matches('input, select, textarea')
+          ? container
+          : container.querySelector('input, select, textarea');
+        if (!field) {
+          return;
+        }
+        const marker = container.querySelector('[data-role="required-marker"]');
+        if (isElementVisible(container)) {
+          field.setAttribute('required', 'required');
+          field.setAttribute('aria-required', 'true');
+          container.classList.add('s_website_form_required');
+          if (marker) {
+            marker.classList.remove('d-none');
+          }
+        } else {
+          field.removeAttribute('required');
+          field.removeAttribute('aria-required');
+          container.classList.remove('s_website_form_required');
+          if (marker) {
+            marker.classList.add('d-none');
+          }
+        }
+      });
+    };
+
+    if (conditionalRequiredContainers.length) {
+      window.setTimeout(updateConditionalRequired, 0);
+      const visibilityControls = modalEl.querySelectorAll('input, select');
+      visibilityControls.forEach(control =&gt; {
+        control.addEventListener('change', () =&gt; window.setTimeout(updateConditionalRequired, 0));
+      });
+      modalEl.addEventListener('o_website_form_update_visibility', () =&gt; window.setTimeout(updateConditionalRequired, 0));
+      const mutationObserver = new MutationObserver(() =&gt; window.setTimeout(updateConditionalRequired, 0));
+      conditionalRequiredContainers.forEach(container =&gt; {
+        mutationObserver.observe(container, { attributes: true, attributeFilter: ['class', 'style'] });
+      });
+    }
+
+    const form = modalEl.querySelector("form.o_mark_required");
+    const successTarget = modalEl.querySelector(options.successSelector || "[data-role=\"form-result\"]");
+    const thanksContainer = modalEl.querySelector("[data-role=\"thanks-container\"]");
+    const thanksTemplate = modalEl.querySelector("[data-role=\"thanks-template\"]");
+    const privacyNotices = Array.from(modalEl.querySelectorAll("[data-role=\"privacy-notice\"]"));
+    const originalResultClass = successTarget ? successTarget.getAttribute("class") || "" : "";
+    const initDelay = typeof options.initDelay === "number" ? options.initDelay : 300;
+    let hasShownThanks = false;
+    let successAlertObserver = null;
+
+    const hasActiveErrors = () =&gt; {
+      if (!modalEl) {
+        return false;
+      }
+      const errorSelectors = options.errorSelectors || [
+        ".o_has_error",
+        ".o_invalid_field",
+        ".is-invalid",
+        ".invalid-feedback:not(.d-none)",
+        ".alert.alert-danger:not(.d-none)",
+        "[data-role=\"form-result\"].alert-danger",
+        "[data-role=\"form-result\"] .alert-danger"
+      ];
+      const hasSelectorErrors = errorSelectors.some(selector =&gt; modalEl.querySelector(selector));
+      if (hasSelectorErrors) {
+        return true;
+      }
+      if (form &amp;&amp; (form.classList.contains("o_has_error") || form.classList.contains("s_website_form_has_error"))) {
+        return true;
+      }
+      return false;
+    };
+
+    const showThanks = () =&gt; {
+      if (!form || !thanksContainer || !thanksTemplate || hasShownThanks) {
+        return;
+      }
+      hasShownThanks = true;
+      form.classList.add("d-none");
+      thanksContainer.innerHTML = thanksTemplate.innerHTML;
+      thanksContainer.classList.remove("d-none");
+      if (successAlertObserver) {
+        successAlertObserver.disconnect();
+        successAlertObserver = null;
+      }
+      privacyNotices.forEach(node =&gt; node.classList.add("d-none"));
+    };
+
+    const handleSuccess = () =&gt; {
+      if (hasShownThanks) {
+        return;
+      }
+      if (successTarget) {
+        successTarget.innerHTML = "";
+        successTarget.setAttribute("class", originalResultClass);
+      }
+      modalEl.querySelectorAll(".alert.alert-success").forEach(node =&gt; node.remove());
+      showThanks();
+    };
+
+    const observeSuccessAlerts = () =&gt; {
+      if (successAlertObserver) {
+        successAlertObserver.disconnect();
+      }
+      successAlertObserver = new MutationObserver(mutations =&gt; {
+        if (hasShownThanks) {
+          return;
+        }
+        const hasSuccess = mutations.some(mutation =&gt;
+          Array.from(mutation.addedNodes || []).some(node =&gt; {
+            if (node.nodeType !== Node.ELEMENT_NODE) {
+              return false;
+            }
+            if (node.classList &amp;&amp; node.classList.contains("alert") &amp;&amp; node.classList.contains("alert-success")) {
+              return true;
+            }
+            return !!(node.querySelector &amp;&amp; node.querySelector(".alert.alert-success"));
+          })
+        );
+        if (hasSuccess) {
+          handleSuccess();
+        }
+      });
+      successAlertObserver.observe(modalEl, { childList: true, subtree: true });
+    };
+
+    const resetPopupState = () =&gt; {
+      if (form) {
+        form.classList.remove("d-none");
+        if (typeof form.reset === "function") {
+          form.reset();
+        }
+      }
+      hasShownThanks = false;
+      if (conditionalRequiredContainers.length) {
+        window.setTimeout(updateConditionalRequired, 0);
+      }
+      if (thanksContainer) {
+        thanksContainer.innerHTML = "";
+        thanksContainer.classList.add("d-none");
+      }
+      if (successTarget) {
+        successTarget.innerHTML = "";
+        successTarget.setAttribute("class", originalResultClass);
+      }
+      modalEl.querySelectorAll(".alert.alert-success").forEach(node =&gt; node.remove());
+      privacyNotices.forEach(node =&gt; node.classList.remove("d-none"));
+      observeSuccessAlerts();
+    };
+
+    if (form) {
+      if (window.jQuery) {
+        const $form = window.jQuery(form);
+        $form.on("o_website_form_success", handleSuccess);
+        $form.on("o_website_form_submit", () =&gt; {
+          if (thanksContainer) {
+            thanksContainer.innerHTML = "";
+            thanksContainer.classList.add("d-none");
+          }
+          privacyNotices.forEach(node =&gt; node.classList.remove("d-none"));
+          form.classList.remove("d-none");
+        });
+      }
+
+      form.addEventListener("o_website_form_success", handleSuccess, true);
+      form.addEventListener("o_website_form_submit", () =&gt; {
+        if (thanksContainer) {
+          thanksContainer.innerHTML = "";
+          thanksContainer.classList.add("d-none");
+        }
+        privacyNotices.forEach(node =&gt; node.classList.remove("d-none"));
+        form.classList.remove("d-none");
+      });
+
+      const submitButtons = modalEl.querySelectorAll(options.submitButtonSelector || ".s_website_form_send");
+      const submitCheckDelay = typeof options.submitCheckDelay === "number" ? options.submitCheckDelay : 300;
+      submitButtons.forEach(button =&gt; {
+        button.addEventListener("click", () =&gt; {
+          window.setTimeout(() =&gt; {
+            if (!hasActiveErrors()) {
+              handleSuccess();
+            }
+          }, submitCheckDelay);
+        });
+      });
+    }
+
+    if (successTarget) {
+      const resultObserver = new MutationObserver(() =&gt; {
+        if (hasShownThanks) {
+          return;
+        }
+        const hasMessage = successTarget.textContent &amp;&amp; successTarget.textContent.trim().length &gt; 0;
+        const hasSuccessAlert = !!(successTarget.querySelector &amp;&amp; successTarget.querySelector(".alert.alert-success"));
+        if (hasMessage || hasSuccessAlert) {
+          handleSuccess();
+        }
+      });
+      resultObserver.observe(successTarget, { childList: true, subtree: true });
+    }
+
+    modalEl.addEventListener("show.bs.modal", () =&gt; {
+      resetPopupState();
+    });
+
+    modalEl.addEventListener("shown.bs.modal", () =&gt; {
+      window.setTimeout(() =&gt; {
+        try {
+          if (window.odoo?.website?.website_form?.init) {
+            window.odoo.website.website_form.init();
+          }
+        } catch (err) {
+          console.error("Error initializing website_form in modal:", err);
+        }
+      }, initDelay);
+      if (conditionalRequiredContainers.length) {
+        window.setTimeout(updateConditionalRequired, initDelay);
+      }
+    });
+
+    modalEl.addEventListener("hidden.bs.modal", () =&gt; {
+      resetPopupState();
+    });
+
+    if (options.openButtonSelector) {
+      const showModal = () =&gt; {
+        if (typeof bootstrap !== "undefined" &amp;&amp; bootstrap.Modal) {
+          const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+          modalInstance.show();
+          return true;
+        }
+        if (window.jQuery &amp;&amp; typeof window.jQuery(modalEl).modal === "function") {
+          window.jQuery(modalEl).modal("show");
+          return true;
+        }
+        return false;
+      };
+
+      document.querySelectorAll(options.openButtonSelector).forEach(trigger =&gt; {
+        trigger.addEventListener("click", event =&gt; {
+          event.preventDefault();
+          if (!showModal()) {
+            console.warn("Modal dependencies missing for", options.modalId);
+          }
+        });
+      });
+    }
+
+    observeSuccessAlerts();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const popups = [
+      { modalId: "requestCustomizationModal", initDelay: 300 }
+    ];
+    popups.forEach(setupProductPopup);
+  });
+})();
+    </script>
+
+</div></div>
+    </t>
+</t>

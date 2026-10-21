@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Main wrapper - imprime Original + Duplicado -->
+        <record id="view_report_proforma_payment" model="ir.ui.view">
+            <field name="name">Proforma Payment Report - Main Wrapper</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_proforma_payment</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_proforma_payment">
+                    <t t-foreach="docs" t-as="doc">
+                        <!-- Original -->
+                        <t t-call="web.basic_layout">
+                            <t t-set="copy_type" t-value="'ORIGINAL'"/>
+                            <t t-call="mh_stone_reports.report_proforma_payment_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                        <!-- Duplicado -->
+                        <t t-call="web.basic_layout">
+                            <t t-set="copy_type" t-value="'DUPLICADO'"/>
+                            <t t-call="mh_stone_reports.report_proforma_payment_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <!-- Document template for Recibo Pró-Forma report -->
+        <record id="view_report_proforma_payment_document" model="ir.ui.view">
+            <field name="name">Proforma Payment Report - Document Template</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_proforma_payment_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_proforma_payment_document">
+                    <div class="page"/>
+                    <style>
+                        .receipt-header {
+                            font-family: Arial, sans-serif;
+                        }
+                        .receipt-title {
+                            font-size: 18pt;
+                            font-weight: bold;
+                            color: #333;
+                        }
+                        .receipt-info td {
+                            padding: 5px 10px;
+                            font-size: 10pt;
+                        }
+                        .receipt-table th {
+                            background-color: #f5f5f5;
+                            border: 1px solid #ddd;
+                            padding: 8px;
+                            font-size: 9pt;
+                        }
+                        .receipt-table td {
+                            border: 1px solid #ddd;
+                            padding: 8px;
+                            font-size: 9pt;
+                        }
+                        .total-box {
+                            background-color: #f8f9fa;
+                            border: 2px solid #333;
+                            padding: 10px;
+                            font-size: 11pt;
+                            font-weight: bold;
+                        }
+                    </style>
+
+                    <!-- Banner para estados especiais -->
+                    <t t-if="doc.state == 'cancelled'">
+                        <div style="background-color: #dc3545; color: white; text-align: center; padding: 10px; margin-bottom: 15px;">
+                            <span style="font-size: 18px; font-weight: bold;">DOCUMENTO CANCELADO</span>
+                        </div>
+                    </t>
+                    <t t-if="doc.state == 'draft'">
+                        <div style="background-color: #6c757d; color: white; text-align: center; padding: 10px; margin-bottom: 15px;">
+                            <span style="font-size: 18px; font-weight: bold;">RASCUNHO - SEM VALOR</span>
+                        </div>
+                    </t>
+
+                    <!-- Cabeçalho com Logo e Título -->
+                    <div class="row receipt-header">
+                        <div class="col-7">
+                            <img class="img-fluid" style="width: 45%;" t-att-src="image_data_uri(doc.company_id.logo_report)"/>
+                        </div>
+                        <div class="col-5 text-end">
+                            <br/>
+                            <span class="receipt-title">RECIBO PRÓ-FORMA</span>
+                            <br/>
+                            <span style="font-size: 14pt; font-weight: bold;" t-field="doc.name"/>
+                            <br/>
+                            <span t-if="copy_type" t-esc="copy_type"
+                                  style="font-size: 11pt; font-weight: bold; border: 2px solid #333; padding: 2px 12px;"/>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <!-- Dados da Empresa e Cliente -->
+                    <div class="row" style="font-size: 10pt; font-family: Arial, sans-serif;">
+                        <div class="col-6">
+                            <strong><span t-field="doc.company_id.name"/></strong><br/>
+                            <span t-field="doc.company_id.street"/><br/>
+                            <t t-if="doc.company_id.street2"><span t-field="doc.company_id.street2"/><br/></t>
+                            <span t-field="doc.company_id.zip"/> <span t-field="doc.company_id.city"/> - <span t-field="doc.company_id.country_id.name"/><br/>
+                            <strong>NIF: </strong><span t-field="doc.company_id.vat"/><br/>
+                            <span>Tel: </span><span t-field="doc.company_id.phone"/><br/>
+                            <span>Email: </span><span t-field="doc.company_id.email"/>
+                        </div>
+                        <div class="col-6">
+                            <br/>
+                            <strong>Exmo.(s) Sr.(s)</strong><br/>
+                            <span t-field="doc.partner_id.name" style="font-weight: bold;"/><br/>
+                            <span t-field="doc.partner_id.street"/><br/>
+                            <span t-field="doc.partner_id.street2"/><br/>
+                            <span t-field="doc.partner_id.city"/>
+                            <t t-if="doc.partner_id.country_id">
+                                - <span t-field="doc.partner_id.country_id.name"/>
+                            </t><br/>
+                            <strong>NIF: </strong><span t-field="doc.partner_id.vat"/>
+                        </div>
+                    </div>
+
+                    <br/>
+                    <hr/>
+
+                    <!-- Informações do Recibo -->
+                    <div class="row" style="font-family: Arial, sans-serif;">
+                        <div class="col-12">
+                            <table class="table table-bordered receipt-info" style="width: 100%;">
+                                <tr>
+                                    <td style="width: 25%; background-color: #f5f5f5;"><strong>Data de Emissão</strong></td>
+                                    <td style="width: 25%;"><span t-field="doc.date"/></td>
+                                    <td style="width: 25%; background-color: #f5f5f5;"><strong>Método de Pagamento</strong></td>
+                                    <td style="width: 25%;">
+                                        <span t-field="doc.journal_id.name"/>
+                                        <t t-if="doc.payment_method_line_id">
+                                            - <span t-field="doc.payment_method_line_id.name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.reference">
+                                    <td style="background-color: #f5f5f5;"><strong>Referência</strong></td>
+                                    <td colspan="3"><span t-field="doc.reference"/></td>
+                                </tr>
+                                <tr t-if="doc.memo">
+                                    <td style="background-color: #f5f5f5;"><strong>Descrição</strong></td>
+                                    <td colspan="3"><span t-field="doc.memo"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Alocações (se existirem) -->
+                    <t t-if="doc.allocation_ids">
+                        <div class="row" style="font-family: Arial, sans-serif;">
+                            <div class="col-12">
+                                <h5 style="margin-top: 40px;"><strong>Alocações</strong></h5>
+                                <table class="table receipt-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: left;">Documento</th>
+                                            <th style="text-align: left;">Cliente</th>
+                                            <th style="text-align: center;">Tipo</th>
+                                            <th style="text-align: right;">Valor Alocado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="doc.allocation_ids" t-as="alloc">
+                                            <tr>
+                                                <td><span t-field="alloc.sale_order_id.name"/></td>
+                                                <td><span t-field="alloc.order_partner_id.name"/></td>
+                                                <td style="text-align: center;">
+                                                    <t t-if="alloc.sale_order_id.is_proforma">Pró-Forma</t>
+                                                    <t t-else="">Normal</t>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <span t-field="alloc.amount" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr style="font-weight: bold; background-color: #f5f5f5;">
+                                            <td colspan="3" style="text-align: right;">Total Alocado:</td>
+                                            <td style="text-align: right;">
+                                                <span t-field="doc.amount_allocated" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                        <t t-if="doc.amount_remaining > 0">
+                                            <tr style="font-weight: bold;">
+                                                <td colspan="3" style="text-align: right;">Valor Remanescente:</td>
+                                                <td style="text-align: right; color: #28a745;">
+                                                    <span t-field="doc.amount_remaining" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+
+                    <br/>
+
+                    <!-- Total Recebido -->
+                    <div class="row" style="page-break-inside: avoid;">
+                        <div class="col-6"/>
+                        <div class="col-6">
+                            <div class="total-box text-center">
+                                <span>VALOR RECEBIDO</span><br/>
+                                <span style="font-size: 14pt;">
+                                    <span t-field="doc.amount" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/>
+                    <br/>
+
+                    <!-- Assinaturas -->
+                    <div class="row" style="font-family: Arial, sans-serif; font-size: 10pt; margin-top: 50px;">
+                        <div class="col-5 text-center">
+                            <hr style="border-top: 1px solid #000; width: 80%; margin: 0 auto;"/>
+                            <span>O Cliente</span>
+                        </div>
+                        <div class="col-2"/>
+                        <div class="col-5 text-center">
+                            <hr style="border-top: 1px solid #000; width: 80%; margin: 0 auto;"/>
+                            <span>A Empresa</span>
+                        </div>
+                    </div>
+
+                    <br/>
+                    <br/>
+
+                    <!-- Observações -->
+                    <t t-if="doc.notes">
+                        <div class="row" style="font-family: Arial, sans-serif; font-size: 9pt;">
+                            <div class="col-12">
+                                <strong>Observações:</strong><br/>
+                                <span t-field="doc.notes"/>
+                            </div>
+                        </div>
+                    </t>
+
+                    <!-- Footer -->
+                    <div class="col-10">
+                        <div class="footer" height="100%">
+                            <div style="font-Family: arial; font-size:8pt">
+                                <i>Documento processado por computador</i>
+                            </div>
+                            <br/>
+                            <div style="font-size:11px; font-Family:arial;">
+                                ---------------------------------------------
+                                <b> Dados Bancarios </b>-------------------------------------------------
+                            </div>
+                            <div class="row" style="font-size:11px; font-Family:arial;">
+                                <t t-foreach="doc.company_id.partner_id.bank_ids" t-as="conta">
+                                    <div class="col-4">
+                                        <b>IBAN</b><br/>
+                                        <span t-field="conta.acc_number"/>
+                                    </div>
+                                    <div class="col-3">
+                                        <b>BANCO</b><br/>
+                                        <span t-field="conta.bank_id.name"/>
+                                    </div>
+                                </t>
+                            </div>
+                            <div style="border-top: 1px solid #999; margin-top:6px; padding-top:3px; font-Family: arial; font-size:6pt; text-align:left;">
+                                <i>TODOS OS BENS E SERVIÇOS FORNECIDOS SÃO PROPRIEDADE DA <span t-field="doc.company_id.name"/>, ATÉ AO SEU INTEGRAL PAGAMENTO.</i><br/>
+                                <i>SÓ SERÃO ACEITES RECLAMAÇÕES NO ACTO DE ENTREGA DOS MATERIAIS.</i>
+                            </div>
+                        </div>
+                    </div>
+
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

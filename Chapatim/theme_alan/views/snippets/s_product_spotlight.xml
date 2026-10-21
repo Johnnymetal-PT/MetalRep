@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="s_product_spotlight" name="Product Spotlight">
+        <section class="s_product_spotlight as-sb-product-spotlight">
+            <div t-attf-class="container #{configuration.get('grid_style')}">
+                <div class="as-sb-product-spotlight-grid">
+                    <!-- ================= Best Seller ================= -->
+                    <t t-set="best_seller_tab" t-value="[tab for tab in tab_names if tab.get('key') == 'best_seller']"/>
+                        <t t-if="best_seller_tab and best_seller_tab[0].get('enabled', True)">
+                        <div class="item">
+                            <div class="as-sb-product-spotlight-block">
+                                <h5 class="block-heading">Best Seller</h5>
+                                <t t-foreach="tab_records.get('best_seller', [])" t-as="product">
+                                    <t t-call="theme_alan.product_spotlight_item"/>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                    <!-- ================= New Arrival ================= -->
+                    <t t-set="new_arrival_tab" t-value="[tab for tab in tab_names if tab.get('key') == 'new_arrival']"/>
+                        <t t-if="new_arrival_tab and new_arrival_tab[0].get('enabled', True)">
+                        <div class="item">
+                            <div class="as-sb-product-spotlight-block">
+                                <h5 class="block-heading">Newly Arrived</h5>
+                                <t t-foreach="tab_records.get('new_arrival', [])" t-as="product">
+                                    <t t-call="theme_alan.product_spotlight_item"/>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                    <!-- ================= On Sale ================= -->
+                    <t t-set="on_sale_tab" t-value="[tab for tab in tab_names if tab.get('key') == 'on_sale']"/>
+                        <t t-if="on_sale_tab and on_sale_tab[0].get('enabled', True)">
+                        <div class="item">
+                            <div class="as-sb-product-spotlight-block">
+                                <h5 class="block-heading">On Sale</h5>
+                                <t t-foreach="tab_records.get('on_sale', [])" t-as="product">
+                                    <t t-call="theme_alan.product_spotlight_item"/>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="product_spotlight_item">
+        <div class="d-flex product-spotlight-item">
+            <!-- Image -->
+             <div class="as-product-card-media as-media-ratio">
+                <div class="as-product-card-media-primary as-media-ratio-wrap">
+                    <a class="oe_product_image_img_wrapper" t-attf-href="/shop/{{slug(product.sudo())}}">
+                        <img class="as_product_main_img" t-att-src="request.website.image_url(product,'image_1024')"/>
+                    </a>
+                </div>
+            </div>
+            <!-- Info -->
+            <div class="as-product-card-content">
+                <!-- Brand -->
+                <t t-set="allow_brand_info" t-value="configuration.get('allow_brand_info')"/>
+                <t t-set="mob_allow_brand_info" t-value="configuration.get('mob_allow_brand_info')"/>
+                <t t-if="allow_brand_info or mob_allow_brand_info">
+                    <t t-set="brand_class" t-value="'as-product-brand as-visiblity-desktop' 
+                    if (allow_brand_info and not mob_allow_brand_info) else 'as-product-brand as-visiblity-mobile' 
+                    if (mob_allow_brand_info and not allow_brand_info) else 'as-product-brand '"/>
+                    <t t-call="theme_alan.product_brand"/>
+                </t>
+                <!-- Name -->
+                <h6 class="mb-0 heading">
+                    <a class="text-decoration-none text-black" t-attf-href="/shop/{{slug(product.sudo())}}">
+                        <t t-esc="product.name"/>
+                    </a>
+                </h6>
+                <!-- Rating -->
+                <t t-set="allow_rating" t-value="configuration.get('allow_rating')"/>
+                <t t-set="mob_allow_rating" t-value="configuration.get('mob_allow_rating')"/>
+                <t
+                    t-if="is_view_active('website_sale.product_comment') and (allow_rating or mob_allow_rating)"
+                    t-call="website_sale.product_tile_element_visibility"
+                >
+                    <t t-set="visible_element_class" t-value="'o_wsale_products_opt_has_rating'"/>
+                    <div t-attf-class="o_wsale_product_rating_wrapper #{'' if (allow_rating and mob_allow_rating) else 'as-visiblity-desktop' if (allow_rating and not mob_allow_rating) else 'as-visiblity-mobile' if (mob_allow_rating and not allow_rating) else ''}">
+                        <t t-call="portal_rating.rating_widget_stars_static">
+                            <t t-set="rating_avg" t-value="product.sudo().rating_avg"/>
+                            <t t-set="rating_count" t-value="product.rating_count"/>
+                        </t>
+                    </div>
+                </t>
+
+                <!-- Price -->
+                <t t-set="combination_info" t-value="product.sudo()._get_combination_info(combination, add_qty=add_qty or 1)"/>
+                <div t-if="not (request.env.user._is_public() and request.website.active_b2b_mode)" class="product_price as-price as-pc-price" >
+                    <span t-esc="combination_info['price']"
+                        class="fw-bold"
+                        name="product_price"
+                        t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                    <del t-if="combination_info.get('has_discounted_price')" class=" h6" style="white-space: nowrap;"
+                        t-esc="combination_info['list_price']"
+                        t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                    <t t-set="allow_product_discount" t-value="configuration.get('allow_product_discount')"/>
+                    <t t-set="mob_allow_product_discount" t-value="configuration.get('mob_allow_product_discount')"/>
+                    <t t-if="allow_product_discount or mob_allow_product_discount">
+                        <t t-set="discount_class" t-value="'as-visiblity-desktop' 
+                        if (allow_product_discount and not mob_allow_product_discount) else 'as-visiblity-mobile' 
+                        if (mob_allow_product_discount and not allow_product_discount) else ''"/>
+                        <div t-attf-class="as-product-discount-wrapper #{discount_class or ''}">
+                            <span t-if="combination_info['has_discounted_price'] and website.active_product_discount" t-attf-class="as-product-discounted {{'' if combination_info['has_discounted_price'] else 'd-none'}}">
+                                <t t-esc="combination_info['as_offer_discount']"/> %
+                            </span>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

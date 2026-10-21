@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_pt_statement_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_pt.statement.wizard.form</field>
+        <field name="model">l10n_pt.statement.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form name="Options">
+                <field name="state" invisible="1" />
+                <field name="filename" invisible="1" />
+                <field name="currency_id" invisible="1" />
+                <field name="show_button_compute" invisible="1" />
+                <field name="show_button_export_pdf" invisible="1" />
+                <field name="show_button_export_xml" invisible="1" />
+                <field name="show_button_export_txt" invisible="1" />
+                <field name="show_button_export_xlsx" invisible="1" />
+                <field name="show_button_export_csv" invisible="1" />
+                <field name="show_button_export_webservice" invisible="1" />
+                <field name="show_button_ws_oa" invisible="1" />
+                <field name="show_button_print" invisible="1" />
+                <field name="show_button_mail" invisible="1" />
+                <group name="main" invisible="state in ('done', 'submit')">
+                    <group name="main_left">
+                        <field
+                            name="company_id"
+                            options="{'no_create_edit': True}"
+                            groups="base.group_multi_company"
+                        />
+                        <field name="period" readonly="state != 'select'" />
+                        <field
+                            name="date_from"
+                            string="From"
+                            invisible="period != 'custom'"
+                            readonly="state != 'select'"
+                        />
+                        <field
+                            name="date_to"
+                            string="To"
+                            invisible="period != 'custom'"
+                            readonly="state != 'select'"
+                        />
+                    </group>
+                </group>
+                <group name="options" string="Options" invisible="state != 'analyze'">
+                    <group name="options_left" />
+                    <group name="options_right" />
+                </group>
+                <notebook invisible="state != 'analyze'" name="main_block" />
+                <div invisible="state != 'done'">
+                    <h2>Export Complete</h2>
+                    <p>
+                        Generated file: <field
+                        name="data"
+                        readonly="1"
+                        filename="filename"
+                    />
+                    </p>
+                </div>
+                <group name="error_info" string="Errors" invisible="state != 'done'">
+                    <field
+                        name="warnings"
+                        readonly="1"
+                        widget="html"
+                        nolabel="1"
+                        colspan="2"
+                    />
+                </group>
+                <group name="log_info" string="Log info" invisible="state != 'done'">
+                    <field name="log_on_close" />
+                    <field name="log_as_reported" />
+                </group>
+                <group
+                    name="webservice"
+                    string="Online Submission (AT)"
+                    invisible="state != 'submit'"
+                >
+                    <group name="ws_credentials">
+                        <field name="representative_user_status" />
+                        <field
+                            name="representative_user_id"
+                            invisible="representative_user_status"
+                            required="not representative_user_status"
+                            options="{'no_create': True}"
+                        />
+                        <field
+                            name="representative_user_password"
+                            password="True"
+                            invisible="representative_user_status"
+                            required="not representative_user_status"
+                        />
+                    </group>
+                    <group name="ws_options">
+                        <field name="accept_alerts" />
+                        <field name="get_proof" />
+                        <field
+                            name="ws_submission_ref"
+                            readonly="1"
+                            invisible="not ws_submission_ref"
+                        />
+                    </group>
+                    <div name="ws_actions" colspan="2" class="mt-2 mb-3">
+                        <button
+                            name="action_ws_validate"
+                            type="object"
+                            string="Validate online"
+                            title="Ask the Tax Authority to check the declaration for errors, without sending it."
+                            class="btn btn-secondary me-2"
+                        />
+                        <button
+                            name="action_ws_submit"
+                            type="object"
+                            string="Submit Online"
+                            title="Send the declaration to the Tax Authority. This is the official submission."
+                            class="btn btn-primary me-2"
+                            confirm="Submit the declaration to the AT?"
+                        />
+                    </div>
+                    <group name="ws_file" colspan="2">
+                        <field
+                            name="data"
+                            readonly="1"
+                            filename="filename"
+                            string="Declaration"
+                            invisible="not data"
+                        />
+                        <field name="proof_filename" invisible="1" />
+                        <field
+                            name="proof_data"
+                            readonly="1"
+                            filename="proof_filename"
+                            string="Submission proof"
+                            invisible="not proof_data"
+                        />
+                        <field name="payment_reference_filename" invisible="1" />
+                        <field
+                            name="payment_reference_data"
+                            readonly="1"
+                            filename="payment_reference_filename"
+                            string="Payment reference"
+                            invisible="not payment_reference_data"
+                        />
+                    </group>
+                    <div
+                        name="ws_oa_actions"
+                        colspan="2"
+                        class="mb-2"
+                        invisible="not show_button_ws_oa"
+                    >
+                        <button
+                            name="action_ws_consult"
+                            type="object"
+                            string="Consult"
+                            icon="fa-search"
+                            class="btn btn-link"
+                            title="See the declarations of this type already sent to the Tax Authority."
+                        />
+                        <button
+                            name="action_ws_get_proof"
+                            type="object"
+                            string="Get receipt"
+                            icon="fa-download"
+                            class="btn btn-link"
+                            title="Download the submission receipt (proof) from the Tax Authority."
+                            invisible="not ws_submission_ref"
+                        />
+                        <button
+                            name="action_ws_get_errors"
+                            type="object"
+                            string="Get errors"
+                            icon="fa-exclamation-triangle"
+                            class="btn btn-link"
+                            title="See the errors the Tax Authority found in the submitted declaration."
+                            invisible="not ws_submission_ref"
+                        />
+                        <button
+                            name="action_ws_get_payment_reference"
+                            type="object"
+                            string="Get payment reference"
+                            icon="fa-money"
+                            class="btn btn-link"
+                            title="Fetch the payment reference (DUC) from the Tax Authority."
+                            invisible="not ws_submission_ref"
+                        />
+                    </div>
+                    <group
+                        name="ws_response"
+                        string="Response"
+                        colspan="2"
+                        invisible="not error_code and not warnings"
+                    >
+                        <field name="error_code" invisible="not error_code" />
+                        <field name="error_message" invisible="not error_message" />
+                        <field name="error_detail" invisible="not error_detail" />
+                        <field
+                            name="warnings"
+                            readonly="1"
+                            widget="html"
+                            nolabel="1"
+                            colspan="2"
+                            invisible="not warnings"
+                        />
+                    </group>
+                    <group
+                        name="ws_email"
+                        string="Send by email"
+                        colspan="2"
+                        invisible="not proof_data and not payment_reference_data"
+                    >
+                        <field
+                            name="email_partner_ids"
+                            widget="many2many_tags"
+                            colspan="2"
+                        />
+                        <button
+                            name="action_ws_send_email"
+                            type="object"
+                            string="Send email"
+                            icon="fa-envelope"
+                            class="btn btn-secondary"
+                            invisible="not payment_reference_data and not proof_data"
+                        />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="action_compute"
+                        string="Compute"
+                        type="object"
+                        class="btn-primary"
+                        invisible="not show_button_compute or state != 'select'"
+                    />
+                    <button
+                        name="export_xml"
+                        type="object"
+                        class="oe_highlight"
+                        string="Export XML"
+                        invisible="not show_button_export_xml or state != 'analyze'"
+                    />
+                    <button
+                        name="export_pdf"
+                        type="object"
+                        class="oe_highlight"
+                        string="Export PDF"
+                        invisible="not show_button_export_pdf or state != 'analyze'"
+                    />
+                    <button
+                        name="export_txt"
+                        type="object"
+                        class="oe_highlight"
+                        string="Export TXT"
+                        invisible="not show_button_export_txt or state != 'analyze'"
+                    />
+                    <button
+                        name="export_xlsx"
+                        type="object"
+                        class="oe_highlight"
+                        string="Export XLSX"
+                        invisible="not show_button_export_xlsx or state != 'analyze'"
+                    />
+                    <button
+                        name="export_csv"
+                        type="object"
+                        class="oe_highlight"
+                        string="Export CSV"
+                        invisible="not show_button_export_csv or state != 'analyze'"
+                    />
+                    <button
+                        name="action_goto_submit"
+                        type="object"
+                        class="oe_highlight"
+                        string="Submit Online"
+                        title="Go to the online submission to send this declaration to the Tax Authority."
+                        invisible="not show_button_export_webservice or state != 'analyze'"
+                    />
+                    <button
+                        name="action_send_mail"
+                        string="Send by E-mail"
+                        type="object"
+                        class="btn-primary"
+                        confirm="Are you sure you want to send emails to the selected records?"
+                        invisible="not show_button_mail or state != 'analyze'"
+                    />
+                    <button
+                        name="action_print"
+                        string="Print"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="not show_button_print or state != 'analyze'"
+                    />
+                    <button
+                        string="Cancel"
+                        class="btn-secondary"
+                        special="cancel"
+                        data-hotkey="z"
+                        invisible="state in ('done', 'submit')"
+                    />
+
+                    <button
+                        name="go_back"
+                        type="object"
+                        string="Previous"
+                        class="btn-secondary"
+                        invisible="state not in ('done', 'submit')"
+                    />
+
+                    <button
+                        name="close"
+                        type="object"
+                        string="Close"
+                        invisible="state not in ('done', 'submit')"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

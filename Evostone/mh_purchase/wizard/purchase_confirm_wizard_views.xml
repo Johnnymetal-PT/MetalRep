@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Purchase Confirm Wizard Form View -->
+    <record id="view_purchase_confirm_wizard_form" model="ir.ui.view">
+        <field name="name">purchase.confirm.wizard.form</field>
+        <field name="model">purchase.confirm.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Confirmar Tipo de Receção">
+                <div class="alert alert-info" role="alert" style="margin-bottom: 15px;">
+                    <strong>Escolha o tipo de receção:</strong><br/><br/>
+                    <b>Sem importação:</b> Receção direta no stock. Os produtos entram imediatamente sem aguardar custos adicionais de importação.<br/><br/>
+                    <b>Com Importação:</b> Receção com custos diferidos. Os produtos aguardam a criação de um Documento de Importação para calcular o PCMP com todos os custos (frete, seguro, alfândega, etc.).
+                </div>
+                <group>
+                    <field name="purchase_order_id" invisible="1"/>
+                    <field name="reception_type" widget="radio"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirmar" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open wizard -->
+    <record id="action_purchase_confirm_wizard" model="ir.actions.act_window">
+        <field name="name">Tipo de Receção</field>
+        <field name="res_model">purchase.confirm.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

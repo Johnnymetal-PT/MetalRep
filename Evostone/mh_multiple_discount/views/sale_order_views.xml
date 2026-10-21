@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_order_form_multiple_discount" model="ir.ui.view">
+        <field name="name">sale.order.form.multiple.discount</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <!-- Tree view - Add discount fields after standard discount -->
+            <xpath
+                expr="//field[@name='order_line']/list/field[@name='discount']"
+                position="after"
+            >
+                <field
+                    name="discount2"
+                    optional="show"
+                />
+                <field
+                    name="discount3"
+                    optional="show"
+                />
+                <field
+                    name="discount4"
+                    optional="show"
+                />
+                <field
+                    name="discounting_type"
+                    optional="hide"
+                />
+            </xpath>
+            <!-- Form view - Add discount fields after standard discount -->
+            <xpath
+                expr="//field[@name='order_line']/form//field[@name='discount']"
+                position="after"
+            >
+                <label for="discount2" />
+                <field name="discount2" />
+                <label for="discount3" />
+                <field name="discount3" />
+                <label for="discount4" />
+                <field name="discount4" />
+                <label for="discounting_type" />
+                <field name="discounting_type" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

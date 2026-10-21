@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_menu_expense" name="Portal layout: Expense" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <t t-if="request.env.user.employee_id and not create_from_header">
+             <!--    <li t-if="expense" class="breadcrumb-item active">
+                    <t t-esc="expense.name"/>
+                </li> -->
+                <li t-if="page_name == 'expense_create'" t-attf-class="breadcrumb-item #{'active ' if not (page_name == 'expense_create') else ''}">
+                    <a t-if="page_name == 'expense_create'" t-attf-href="/my/expense?{{ keep_query() }}">My Expenses</a>
+                    <t t-else="">My Expenses</t>
+                </li>
+                <li t-if="page_name == 'expense_create'" class="breadcrumb-item active">
+                    New
+                </li>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_expense" name="Show Expense" inherit_id="portal.portal_my_home" priority="46">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">My Expenses</t>
+                <t t-set="url" t-value="'/my/expense'"/>
+                <t t-set="placeholder_count" t-value="'expense_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_expense" name="My expense">
+        <t t-call="portal.portal_layout">
+            <t t-if="not request.env.user.employee_id">
+                <div class="col-md-12 text-center">
+                    <h3>Couldn't find related employee please contact with administrator.</h3>
+                </div>
+            </t>
+            <t t-else="">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">My Expense</t>
+                </t>
+                <t t-if="not expense_ids">
+                    <p>There is no any expense request for your account.</p>
+                </t>
+                <div class="row no-gutters o_content mb-2 o_expense_request">
+                    <div id="expense_table" class="col-md-12 text-md-left">
+                        <a t-attf-href="/create/expense/request">
+                            <button class="btn btn-primary btn-md" type="button" special="cancel">Create a New Expense</button>
+                        </a>
+                    </div>
+                    <!-- <p class="alert alert-danger mt8" t-if="request.params.get('error')" role="alert">
+                        <t t-esc="request.params.get('error')"/>
+                    </p> -->
+                    <t t-if="expense_ids" t-call="portal.portal_table">
+                        <t t-foreach="grouped_expense" t-as="expense_ids">
+                            <thead>
+                                <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                    <th>
+                                        <t t-if="expense_ids">
+                                            <t t-if="groupby == 'none'">Description </t>
+                                            <t t-if="groupby == 'state'">
+                                                <em class="font-weight-normal text-muted">Status:</em>
+                                                <span t-field="expense_ids[0].state"/>
+                                            </t>
+                                            <t t-if="groupby == 'product_id'">
+                                                <em class="font-weight-normal text-muted">Products:</em>
+                                                <span t-field="expense_ids[0].product_id"/>
+                                            </t>
+                                        </t>
+                                    </th>
+                                    <th>Product</th>
+                                    <th>Internal Notes</th>
+                                    <th>Date</th>
+                                    <th class="text-right">Total</th>
+                                    <th class="text-right">Status</th>
+                                    <!-- <th></th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="expense_ids" t-as="expense">
+                                    <tr>
+                                        <td>
+                                            <a t-attf-href="/my/expense/{{expense.id}}">
+                                                <t t-esc="expense.name"/>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span t-if="expense.product_id" t-field="expense.product_id.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="expense.description"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="expense.date"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="expense.total_amount"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-if="expense.state == 'draft'">
+                                                <span class="badge badge-pill"  style="background-color: #999999; color: black;" title="Current stage of the task" t-field="expense.state" />
+                                                <t />
+                                            </t>
+                                            <t t-if="expense.state == 'reported'">
+                                                <span class="badge badge-pill"  style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-field="expense.state"/>
+                                            </t>
+                                            <t t-if="expense.state == 'approved'">
+                                                <span class="badge badge-pill"  style="background-color: #16a2b8; color: black;" title="Current stage of the task" t-field="expense.state"/>
+                                            </t>
+                                            <t t-if="expense.state == 'done'">
+                                                <span class="badge badge-pill"  style="background-color: #c16fb7; color: black;" title="Current stage of the task" t-field="expense.state"/>
+                                            </t>
+                                            <t t-if="expense.state == 'refused'">
+                                                <span class="badge badge-pill"  style="background-color: #17a2b8; color: black;" title="Current stage of the task" t-field="expense.state"/>
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <a t-attf-href="/my/expense/delete/#{expense.id}?{{ keep_query() }}" t-if="expense and expense.state not in ['done', 'approved'] and expense">
+                                                <span class="fa fa-trash-o remove-optionnal-item" title="Delete" aria-label="Delete"/>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

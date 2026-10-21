@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+<record id="stock_report_reception_report_label_copy_1" model="ir.ui.view">
+    <field name="name">report_reception_report_label copy(1)</field>
+    <field name="type">qweb</field>
+    <field name="key">stock.report_reception_report_label_copy_1</field>
+    <field name="arch" type="xml">
+<t t-name="stock.report_reception_report_label_copy_1">
+        <t t-if="quantity" t-set="qtys" t-value="[int(q) for q in quantity.split(',')]"/>
+        <t t-else="" t-set="qtys" t-value="[1 for q in range(len(docs))]"/>
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="range(len(docs))" t-as="index">
+                    <t t-set="move" t-value="docs[index]"/>
+                    <t t-set="qty" t-value="qtys[index]"/>
+                    <t t-set="source" t-value="move._get_source_document()"/>
+                    <t t-foreach="range(qty)" t-as="j">
+                        <div class="o_label_page o_label_dymo">
+                            <div t-out="move.product_id.display_name"/>
+                            <div t-if="source" t-out="source.name"/>
+                            <div class="address" t-if="move.picking_id and move.picking_id.partner_id" t-field="move.picking_id.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True}"/>
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </t>
+    </field>
+</record>
+
+<record id="studio_customization_studio_report_docume_536afe50_3cba_4f0e_a277_4e6113bf4e4e" model="ir.ui.view">
+    <field name="name">studio_customization.studio_report_docume_536afe50-3cba-4f0e-a277-4e6113bf4e4e</field>
+    <field name="type">qweb</field>
+    <field name="key">studio_customization.studio_report_docume_536afe50-3cba-4f0e-a277-4e6113bf4e4e</field>
+    <field name="arch" type="xml">
+<t t-name="studio_main_report">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="studio_customization.studio_report_docume_536afe50-3cba-4f0e-a277-4e6113bf4e4e_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="studio_customization_studio_report_docume_536afe50_3cba_4f0e_a277_4e6113bf4e4e_copy_1" model="ir.ui.view">
+    <field name="name">studio_customization.studio_report_docume_536afe50-3cba-4f0e-a277-4e6113bf4e4e copy(1)</field>
+    <field name="type">qweb</field>
+    <field name="key">studio_customization.studio_report_docume_536afe50-3cba-4f0e-a277-4e6113bf4e4e_copy_1</field>
+    <field name="arch" type="xml">
+<t t-name="studio_customization.studio_report_docume_536afe50-3cba-4f0e-a277-4e6113bf4e4e_copy_1">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="studio_customization.studio_report_docume_536afe50-3cba-4f0e-a277-4e6113bf4e4e_document_copy_1"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="studio_customization_studio_report_docume_89f7260d_477e_4a12_83ba_8ec021b231af" model="ir.ui.view">
+    <field name="name">studio_customization.studio_report_docume_89f7260d-477e-4a12-83ba-8ec021b231af</field>
+    <field name="type">qweb</field>
+    <field name="key">studio_customization.studio_report_docume_89f7260d-477e-4a12-83ba-8ec021b231af</field>
+    <field name="arch" type="xml">
+<t t-name="studio_main_report">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="studio_customization.studio_report_docume_89f7260d-477e-4a12-83ba-8ec021b231af_document"/>
+                            <p style="page-break-after: always;"/>
+                            
+                            
+                            <style>
+                            .container {
+                              text-align: center;
+                              } 
+                        </style>                    
+                     
+                     <!--<t t-foreach="doc.move_line_ids" t-as="y">-->
+                      <t t-foreach="doc.move_line_ids.x_studio_placas" t-as="x">
+                          <t t-if="x">
+                          <div>
+                              
+                         <br/>
+                         <br/>
+                         <br/>
+                         <br/>
+                         <br/>
+                         <br/>
+                               <span style="color:#808080">Placa:</span> <t t-esc="x.x_name"/>, 
+                          <br/>
+                          
+                          </div>
+                          
+                          <tr>
+                              <span t-field="x.x_studio_nr_de_srie"/>
+                              <span t-field="x.x_studio_nr_de_srie"/>
+                            <!--<td style="text-align: center; vertical-align: middle;" class="col-5">-->
+                                
+                                <!--    <span t-field="x.x_studio_nr_de_srie"/>-->
+                            <!--</td>-->
+                            
+                          </tr>
+                          
+                         <br/>
+                         <br/>
+                         <br/>
+                         <br/>
+                          </t>
+                          
+                    </t> 
+                    
+                      
+                            
+                            
+                            
+                            
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="studio_customization_studio_report_docume_94ce8560_5198_4cc4_bb80_e008b6091cce_copy_1_copy_2" model="ir.ui.view">
+    <field name="name">studio_customization.studio_report_docume_94ce8560-5198-4cc4-bb80-e008b6091cce copy(1) copy(2)</field>
+    <field name="type">qweb</field>
+    <field name="key">studio_customization.studio_report_docume_94ce8560-5198-4cc4-bb80-e008b6091cce_copy_1_copy_2</field>
+    <field name="arch" type="xml">
+<t t-name="studio_customization.studio_report_docume_94ce8560-5198-4cc4-bb80-e008b6091cce_copy_1_copy_2_copy_3">
+    <t t-foreach="docs" t-as="doc">
+        <t t-call="web.basic_layout">
+            <style>
+            .barcode-custom-size {
+                    width: 5%  !important;
+                    height: 5%;
+                }
+                
+                .border-less {
+    border-collapse: collapse;
+    border: none;
+}
+
+.border-less td {
+    border: none;
+}
+            
+            
+            </style>
+            <t t-call="studio_customization.studio_report_docume_94ce8560-5198-4cc4-bb80-e008b6091cce_document_copy_1_copy_2_copy_3"/>
+            <p style="page-break-after: always;"/>
+            
+          
+            
+            
+            <t t-foreach="doc.x_studio_placas" t-as="x">
+                <t t-if="x">
+                    <br/>
+                    <div class="col-12" style="text-align: center; font-size:7pt;">
+                        <t t-esc="x.x_name"/>,
+                    </div>
+                    
+                    <div class="col-12" style="text-align: center;">
+              <table class="border-white" width="100%" style="border-collapse: collapse; border: 1px solid white;">
+                    <tr>
+                        <td width="70%" style="border: 1px solid white; text-align: center;">
+                            <img class="img-fluid" width="90%" src="/web/image/18643-441d22b8/STONE%20TRADING.png"/>
+                        </td>
+                        <td style="border: 1px solid white;">
+                            <div t-field="x.x_studio_code" t-options="{'widget': 'barcode', 'humanreadable': 0, 'width': 250, 'height': 40}"/>
+                        </td>
+                        
+                        <td style="border: 1px solid white;">
+                            <t t-esc="x.x_studio_code"/>
+                        </td>
+                    </tr>
+                </table>
+    
+                    </div>
+                    <p style="page-break-after: always;"/>
+                </t>
+            </t>
+        
+        </t>
+    </t>
+</t>
+    </field>
+</record>
+
+<record id="studio_customization_studio_report_docume_94ce8560_5198_4cc4_bb80_e008b6091cce_copy_1_copy_2_copy_4" model="ir.ui.view">
+    <field name="name">studio_customization.studio_report_docume_94ce8560-5198-4cc4-bb80-e008b6091cce copy(1) copy(2) copy(4)</field>
+    <field name="type">qweb</field>
+    <field name="key">studio_customization.studio_report_docume_94ce8560-5198-4cc4-bb80-e008b6091cce_copy_1_copy_2_copy_4</field>
+    <field name="arch" type="xml">
+<t t-name="studio_customization.studio_report_docume_94ce8560-5198-4cc4-bb80-e008b6091cce_copy_1_copy_2_copy_4">
+    <t t-foreach="docs" t-as="doc">
+        <t t-call="web.basic_layout">
+            <style>
+                <!--table, th, td {-->
+                <!--  border: 1px solid;-->
+                <!--}-->
+                <!--.tr{-->
+                <!--     height: 5%;-->
+                <!--}-->
+                
+            .barcode-custom-size {
+                    width: 5%  !important;
+                    height: 5%;
+                }
+            
+            
+            </style>
+            <t t-call="studio_customization.studio_report_docume_94ce8560-5198-4cc4-bb80-e008b6091cce_document_copy_1_copy_2_copy_3_copy_1"/>
+            <p style="page-break-after: always;"/>
+            <t t-foreach="doc.x_studio_placas" t-as="x">
+                <t t-if="x">
+                    <br/>
+                    <div class="col-12" style="text-align: center; font-size:9pt;">
+                        <b>
+                            <span style="color:#808080">Placa:</span>
+                        </b>
+                        <t t-esc="x.x_name"/>,
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-2">
+                                <img class="img-fluid" width="20%" src="/web/image/18643-441d22b8/STONE%20TRADING.png"/>
+                        </div>
+                            <div class="col-8" t-field="x.x_studio_code" t-options="{'widget': 'barcode', 'humanreadable': 1, 'width': 400, 'height': 100}"/>
+                        <div class="col-2">
+                            <span t-field="x.x_studio_nr_de_srie" class="small"/>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                    <div class="col-12" style="text-align: center;">
+                    <div t-field="x.x_studio_code" t-options="{'widget': 'barcode', 'humanreadable': 1, 'width': 400, 'height': 100}"/>
+                    </div>
+                    <p style="page-break-after: always;"/>
+                </t>
+            </t>
+        </t>
+    </t>
+</t>
+    </field>
+</record>
+
+<record id="studio_customization_studio_report_docume_a3e90e7f_ebb8_4950_9296_ce6627d3888e" model="ir.ui.view">
+    <field name="name">studio_customization.studio_report_docume_a3e90e7f-ebb8-4950-9296-ce6627d3888e</field>
+    <field name="type">qweb</field>
+    <field name="key">studio_customization.studio_report_docume_a3e90e7f-ebb8-4950-9296-ce6627d3888e</field>
+    <field name="arch" type="xml">
+<t t-name="studio_main_report">
+                    <!--<div class="page">-->
+                        
+                    <!--</div>    -->
+                </t>
+    </field>
+</record>
+
+    </data>
+</odoo>

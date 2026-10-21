@@ -1,0 +1,34 @@
+* text=auto
+*.py text eol=lf
+*.ps1 text eol=lf
+# Scripts de shell correm em servidores Linux. Com CRLF, o kernel le o shebang como
+# `/bin/bash` e responde `bad interpreter: /bin/bash^M`. Sem esta regra o `text=auto`
+# guarda LF no repositorio mas o checkout em Windows escreve CRLF no disco -- e e esse
+# ficheiro que alguem copia para o servidor. Ja mordeu no GBUK, com o pg_diag.sh.
+*.sh text eol=lf
+*.conf text eol=lf
+*.exemplo text eol=lf
+*.cmd text eol=lf
+*.xml text eol=lf
+*.csv text eol=lf
+*.js text eol=lf
+*.md text eol=lf
+# Os .txt versionados sao os artefactos extraidos dos anexos (doc_templates/assets_extracted).
+# Sem regra explicita caiam no "text=auto" e, com core.autocrlf=true, o git materializava-os
+# em CRLF enquanto o extractor os escreve em LF: 40 ficheiros ficavam permanentemente
+# "modified" sem uma linha de diferenca (o git diff sai vazio, so o status acusa).
+*.txt text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+.editorconfig text eol=lf
+
+# Anexos dos doc templates: bytes exactos, sem conversao nenhuma.
+# O "text=auto" acima classificou como texto os anexos sem bytes nulos (dois
+# .crdownload e um .txt vindos do Odoo Knowledge) e converteu-lhes os fins de
+# linha no checkout: 10147 bytes passavam a 10454, e o sha256 gravado no
+# doc_templates/MANIFEST.json -- que e o dos bytes reais do Odoo -- deixava de
+# corresponder, com o pg_sync_shared_assets.ps1 a avisar de divergencia em todos
+# os projetos. Estes ficheiros nunca sao editados aqui: vem do pull, tal e qual.
+doc_templates/assets/** -text

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Main wrapper for Purchase Order report -->
+        <record id="view_report_purchaseorder" model="ir.ui.view">
+            <field name="name">Purchase Order Report - Main Wrapper</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_purchaseorder</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_purchaseorder">
+                    <t t-foreach="docs" t-as="o">
+                        <!-- Original -->
+                        <t t-call="web.basic_layout">
+                            <t t-set="copy_type" t-value="'ORIGINAL'"/>
+                            <t t-call="mh_stone_reports.report_purchaseorder_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                        <!-- Duplicado -->
+                        <!-- <t t-call="web.basic_layout">
+                            <t t-set="copy_type" t-value="'DUPLICADO'"/>
+                            <t t-call="mh_stone_reports.report_purchaseorder_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t> -->
+                        <!-- Triplicado -->
+                        <!-- <t t-call="web.basic_layout">
+                            <t t-set="copy_type" t-value="'TRIPLICADO'"/>
+                            <t t-call="mh_stone_reports.report_purchaseorder_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t> -->
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <!-- Document template for Purchase Order report -->
+        <record id="view_report_purchaseorder_document" model="ir.ui.view">
+            <field name="name">Purchase Order Report - Document Template</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_purchaseorder_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_purchaseorder_document">
+                    <div class="page"/>
+                    <style>
+                        td {
+                            border: 1px solid #DCDCDC;
+                            border-collapse: collapse;
+                            padding: 4px;
+                        }
+                        .tb {
+                            margin-left: 5px;
+                        }
+                    </style>
+
+                    <!-- Cabeçalho com Logo e Título -->
+                    <div class="row">
+                        <div class="col-8">
+                            <img class="img-fluid" style="width: 50%;" t-att-src="image_data_uri(o.company_id.logo_report)"/>
+                        </div>
+                        <br/>
+                        <div class="col-4 text-end">
+                            <br/>
+                            Ordem de Compra
+                            <br/>
+                            <span t-field="o.name" class="o_bold"/>
+                            <br/>
+                            <span t-if="copy_type" t-esc="copy_type"
+                                  style="font-size: 11pt; font-weight: bold; border: 2px solid #333; padding: 2px 12px;"/>
+                        </div>
+                    </div>
+
+                    <!-- Dados da Empresa e Fornecedor -->
+                    <div class="row" style="font-size: 11px; font-family: Arial, sans-serif;">
+                        <div class="col-6">
+                            <strong><span t-field="o.company_id.name"/></strong><br/>
+                            <span t-field="o.company_id.street"/><br/>
+                            <t t-if="o.company_id.street2"><span t-field="o.company_id.street2"/><br/></t>
+                            <span t-field="o.company_id.zip"/> <span t-field="o.company_id.city"/> - <span t-field="o.company_id.country_id.name"/><br/>
+                            <strong>NIF: </strong><span t-field="o.company_id.vat"/><br/>
+                            <span>c. </span><span t-field="o.company_id.phone"/><br/>
+                            <span>e. </span><span t-field="o.company_id.email"/>
+                        </div>
+                        <div class="col-4">
+                            <br/><br/>
+                            <span>Exmo.(s) Sr.(s)</span><br/>
+                            <strong><span t-field="o.partner_id.name"/></strong><br/>
+                            <span t-field="o.partner_id.street"/><br/>
+                            <t t-if="o.partner_id.street2">
+                                <span t-field="o.partner_id.street2"/><br/>
+                            </t>
+                            <t t-if="o.partner_id.city">
+                                <span t-field="o.partner_id.city"/><br/>
+                            </t>
+                            <strong>NIF: </strong><span t-field="o.partner_id.vat"/>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <!-- Informações do Documento -->
+                    <div class="col-12">
+                        <table style="text-align: center; font-family: Arial, sans-serif; font-size: 11px;" width="70%">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>DATA EMISSÃO</strong><br/>
+                                        <span t-field="o.date_order"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>DATA PREVISTA</strong><br/>
+                                        <span t-field="o.date_planned"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>CONDIÇÕES PAG.</strong><br/>
+                                        <span t-field="o.payment_term_id"/>
+                                    </td>
+                                    <t t-if="o.partner_ref">
+                                        <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                            <strong>REFERÊNCIA DO FORNECEDOR</strong><br/>
+                                            <span t-field="o.partner_ref"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+
+                    <!-- Tabela de Produtos -->
+                    <table class="table table">
+                        <div class="watermark_logo" style="position:absolute;opacity:0.05;font-size:8em;width:100%;text-align:center;z-index:100;">
+                            <t t-if="o.company_id.report_watermark">
+                                <img class="img-fluid" t-att-src="image_data_uri(o.company_id.report_watermark)" width="55%"/>
+                            </t>
+                        </div>
+
+                        <tr style="background-color: #F8F8FF;color:#000000;font-Family: arial;font-size:11px;margin-right:2px;margin-left:2px; border:; text-align: center ">
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: left; white-space: nowrap"><b>PRODUTO</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>LOTE</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>QTD</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>COMP.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>LAR.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>ESP.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>VOL./ÁREA/UNID.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>UN</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>PREÇO</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>DESC.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>SUBTOTAL</b></th>
+                        </tr>
+                        <t t-set="current_subtotal" t-value="0"/>
+                        <t t-foreach="o.order_line" t-as="line">
+                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"/>
+                            <tr t-att-class="'bg-200 fw-bold fst-italic o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''" style="font-family: Times New Roman; font-size: 8pt; text-align: center">
+                                <t t-if="not line.display_type">
+                                    <td style="border: 1px solid #DED9D9; text-align: left;">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-field="line.lot_name"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="line.units_qty"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="'%.3f' % line.length"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="'%.3f' % line.width"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="'%.3f' % line.thickness"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="'%.4f' % line.product_qty"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-field="line.product_uom"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-field="line.price_unit"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-field="line.discount"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-field="line.price_subtotal"/>
+                                    </td>
+                                </t>
+                                <t t-elif="line.display_type == 'line_section'">
+                                    <td name="td_section_line" colspan="99" style="text-align: left; font-weight: bold; font-size: 9pt; background-color: #f0f0f0;">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <t t-set="current_section" t-value="line"/>
+                                    <t t-set="current_subtotal" t-value="0"/>
+                                </t>
+                                <t t-elif="line.display_type == 'line_note'">
+                                    <td name="td_note_line" colspan="99" style="text-align: left; font-style: italic; font-size: 8pt; border: none;">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                    </table>
+
+                    <!-- Totais -->
+                    <div class="clearfix mb-4" style="font-family: Arial, sans-serif; font-size: 11px; page-break-inside: avoid;">
+                        <div class="row text-start">
+                            <div class="col-8">
+                                <t t-set="linhas" t-value="o.order_line.filtered(lambda l: not l.display_type)"/>
+                                <t t-set="tot_unid" t-value="sum(linhas.mapped('units_qty'))"/>
+                                <t t-set="tot_area" t-value="sum(linhas.mapped('area'))"/>
+                                <div style="font-size: 10px; padding-top: 2px;">
+                                    <b>TOTAIS:</b>
+                                    unidades <span t-esc="tot_unid"/>
+                                    &#160;|&#160; area <span t-esc="'%.3f' % tot_area"/> m&#178;
+                                    &#160;|&#160; peso <span t-esc="'%.2f' % o.total_weight"/> kg
+                                </div>
+                            </div>
+                            <div class="col-2 text-start">
+                                <span>SUBTOTAL</span><br/>
+                                <span>DESC.</span><br/>
+                                <span>SUBTOTAL - DESC.</span><br/>
+                                <span>IVA</span><br/>
+                                <span><strong>TOTAL</strong></span>
+                            </div>
+                            <div class="col-2 text-end">
+                                <span t-field="o.amount_undiscounted" t-options="{'widget': 'float', 'precision': 2}"/>
+                                <span t-field="o.currency_id.symbol"/><br/>
+                                <span t-field="o.amount_discount" t-options="{'widget': 'float', 'precision': 2}"/>
+                                <span t-field="o.currency_id.symbol"/><br/>
+                                <span t-field="o.amount_untaxed"/><br/>
+                                <span t-field="o.amount_tax"/><br/>
+                                <strong><span t-field="o.amount_total"/></strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/><br/>
+                    <div class="col-10">
+                        <div class="footer" height="100%">
+                            <div style="font-Family: arial; font-size:8pt">
+                                <i>Documento processado por computador</i>
+                            </div>
+                            <br/>
+                            <div style="font-size:11px; font-Family:arial;">
+                                ---------------------------------------------
+                                <b> Dados Bancários </b>-------------------------------------------------
+                            </div>
+                            <div class="row" style="font-size:11px; font-Family:arial;">
+                                <t t-foreach="o.company_id.partner_id.bank_ids" t-as="conta">
+                                    <div class="col-4">
+                                        <b>IBAN</b><br/>
+                                        <span t-field="conta.acc_number"/>
+                                    </div>
+                                    <div class="col-3">
+                                        <b>BANCO</b><br/>
+                                        <span t-field="conta.bank_id.name"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

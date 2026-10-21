@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_mmconnect_employee" model="res.groups">
+        <field name="name">MMConnect Employee</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_mmconnect_supervisor" model="res.groups">
+        <field name="name">MMConnect Supervisor</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_mmconnect_manager" model="res.groups">
+        <field name="name">MMConnect Manager</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('hr.group_hr_user'))]"/>
+    </record>
+
+    <record id="group_mmconnect_device_manager" model="res.groups">
+        <field name="name">MMConnect Device Manager</field>
+        <field name="implied_ids" eval="[(4, ref('mmconnect.group_mmconnect_manager'))]"/>
+    </record>
+
+    <record id="group_mmconnect_rgpd_manager" model="res.groups">
+        <field name="name">MMConnect RGPD Manager</field>
+        <field name="implied_ids" eval="[(4, ref('mmconnect.group_mmconnect_manager'))]"/>
+    </record>
+
+    <record id="rule_mm_att_result_employee" model="ir.rule">
+        <field name="name">MMConnect attendance results - employee own</field>
+        <field name="model_id" ref="model_mm_att_result"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_employee'))]"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_att_result_supervisor" model="ir.rule">
+        <field name="name">MMConnect attendance results - supervisor team</field>
+        <field name="model_id" ref="model_mm_att_result"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_supervisor'))]"/>
+        <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), ('employee_id.parent_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_external_service_employee" model="ir.rule">
+        <field name="name">MMConnect external service - employee own</field>
+        <field name="model_id" ref="model_mm_external_service_request"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_employee'))]"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_external_service_supervisor" model="ir.rule">
+        <field name="name">MMConnect external service - supervisor team</field>
+        <field name="model_id" ref="model_mm_external_service_request"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_supervisor'))]"/>
+        <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), ('employee_id.parent_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_time_distribution_employee" model="ir.rule">
+        <field name="name">MMConnect time distribution - employee own</field>
+        <field name="model_id" ref="model_mm_time_distribution_sheet"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_employee'))]"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_time_distribution_supervisor" model="ir.rule">
+        <field name="name">MMConnect time distribution - supervisor team</field>
+        <field name="model_id" ref="model_mm_time_distribution_sheet"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_supervisor'))]"/>
+        <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), ('employee_id.parent_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_visit_employee" model="ir.rule">
+        <field name="name">MMConnect visits - employee own</field>
+        <field name="model_id" ref="model_mm_visit"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_employee'))]"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_visit_supervisor" model="ir.rule">
+        <field name="name">MMConnect visits - supervisor team</field>
+        <field name="model_id" ref="model_mm_visit"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_supervisor'))]"/>
+        <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), ('employee_id.parent_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_room_booking_employee" model="ir.rule">
+        <field name="name">MMConnect room booking - employee own</field>
+        <field name="model_id" ref="model_mm_room_booking"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_employee'))]"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_room_booking_supervisor" model="ir.rule">
+        <field name="name">MMConnect room booking - supervisor team</field>
+        <field name="model_id" ref="model_mm_room_booking"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_supervisor'))]"/>
+        <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), ('employee_id.parent_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_vehicle_booking_employee" model="ir.rule">
+        <field name="name">MMConnect vehicle booking - employee own</field>
+        <field name="model_id" ref="model_mm_vehicle_booking"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_employee'))]"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_vehicle_booking_supervisor" model="ir.rule">
+        <field name="name">MMConnect vehicle booking - supervisor team</field>
+        <field name="model_id" ref="model_mm_vehicle_booking"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_supervisor'))]"/>
+        <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), ('employee_id.parent_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_task_employee" model="ir.rule">
+        <field name="name">MMConnect task - employee own</field>
+        <field name="model_id" ref="model_mm_task"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_employee'))]"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_mm_task_supervisor" model="ir.rule">
+        <field name="name">MMConnect task - supervisor team</field>
+        <field name="model_id" ref="model_mm_task"/>
+        <field name="groups" eval="[(4, ref('mmconnect.group_mmconnect_supervisor'))]"/>
+        <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), ('employee_id.parent_id.user_id', '=', user.id)]</field>
+    </record>
+</odoo>

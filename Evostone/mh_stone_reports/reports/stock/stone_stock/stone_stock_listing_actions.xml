@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--
+            Relatório de Listagem de Stock de Pedras (stone.stock.report.wizard)
+
+            Template em: stone_stock_listing_reports.xml
+        -->
+
+        <!-- Relatório PDF de Listagem de Stock -->
+        <record id="action_report_stone_stock_listing" model="ir.actions.report">
+            <field name="name">Listagem de Stock de Pedras</field>
+            <field name="model">stone.stock.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_stone_stock_listing</field>
+            <field name="report_file">mh_stone_reports.report_stone_stock_listing</field>
+            <field name="print_report_name">'Listagem_Stock_%s' % (object.company_id.name or 'Empresa')</field>
+            <field name="paperformat_id" ref="mh_stone_reports.paperformat_stone_cotacao"/>
+        </record>
+
+    </data>
+</odoo>

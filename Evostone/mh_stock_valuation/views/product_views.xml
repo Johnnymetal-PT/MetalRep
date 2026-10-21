@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Adicionar campo pcmp e botão na vista de produto -->
+    <record id="product_product_form_view_inherit_pcmp" model="ir.ui.view">
+        <field name="name">product.product.form.inherit.pcmp</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Adicionar botão PCMP -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_pcmp_fiscal_years" type="object"
+                        class="oe_stat_button" icon="fa-line-chart"
+                        invisible="cost_method != 'pcmp'">
+                    <field name="pcmp" widget="statinfo" string="PCMP"/>
+                </button>
+            </xpath>
+            <!-- Botão Grupos de Lotes antes do Pricelist Rules -->
+            <xpath expr="//button[@name='open_pricelist_rules']" position="before">
+                <button name="action_view_lot_groups" type="object"
+                        class="oe_stat_button" icon="fa-cubes"
+                        invisible="base_lot_group_count == 0">
+                    <field name="base_lot_group_count" widget="statinfo" string="Grupos Lotes"/>
+                </button>
+                <button name="action_view_dimension_groups" type="object"
+                        class="oe_stat_button" icon="fa-th-large"
+                        invisible="lot_price_group_count == 0">
+                    <field name="lot_price_group_count" widget="statinfo" string="Grupos Dimensões"/>
+                </button>
+            </xpath>
+            <!-- Adicionar campo Nome Antigo após barcode -->
+            <xpath expr="//field[@name='barcode']" position="after">
+                <field name="nome_antigo" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Adicionar pcmp e nome_antigo na lista de produtos -->
+    <record id="product_product_tree_view_inherit_pcmp" model="ir.ui.view">
+        <field name="name">product.product.tree.inherit.pcmp</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='standard_price']" position="after">
+                <field name="pcmp" readonly="1" optional="show"/>
+                <field name="nome_antigo" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

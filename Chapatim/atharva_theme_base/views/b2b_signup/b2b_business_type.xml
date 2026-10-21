@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action -->
+    <record id="action_business_type" model="ir.actions.act_window">
+        <field name="name">Business Types</field>
+        <field name="res_model">b2b.business.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_b2b_business_type"
+              name="Business Types"
+              parent="atharva_theme_base.menu_b2b_application_root"
+              action="action_business_type"
+              sequence="20" />
+
+    <!-- list View -->
+    <record id="view_business_type_list" model="ir.ui.view">
+        <field name="name">b2b.business.type.list</field>
+        <field name="model">b2b.business.type</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_business_type_form" model="ir.ui.view">
+        <field name="name">b2b.business.type.form</field>
+        <field name="model">b2b.business.type</field>
+        <field name="arch" type="xml">
+            <form string="Business Type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

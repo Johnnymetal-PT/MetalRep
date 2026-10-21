@@ -1,0 +1,18 @@
+<odoo>
+  <record id="view_users_form_phc" model="ir.ui.view">
+    <field name="name">res.users.form.pg.phc</field>
+    <field name="model">res.users</field>
+    <field name="inherit_id" ref="base.view_users_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//notebook" position="inside">
+        <page string="PHC" name="pg_phc">
+          <group>
+            <field name="x_studio_salesperson_id_1"/>
+            <field name="pg_phc_responsavel_interno_name"
+                   placeholder="Nome exato como existe na tabela de utilizadores PHC"/>
+          </group>
+        </page>
+      </xpath>
+    </field>
+  </record>
+</odoo>

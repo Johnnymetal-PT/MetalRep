@@ -1,0 +1,91 @@
+<!doctype html>
+<!--
+  NÃO copiar a partir do editor de código. O que está neste ficheiro é o HTML da
+  página de pré-visualização; colado em bruto, o Odoo mostra as etiquetas como texto.
+
+  Para colar no Odoo, dois caminhos:
+    1. o pg_copy_email_cliente.ps1 já deixou o corpo do email na área de
+       transferência — no compositor do Odoo é só Ctrl+V;
+    2. ou abrir este ficheiro no browser (não no editor) e usar o botão
+       "Copiar corpo".
+-->
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preparação da reunião de 02/10 — ficheiros para o Odoo — Projeto Odoo JGMG</title>
+<style>
+:root { color-scheme: light dark; }
+body { margin: 0; padding: 24px; background: #f4f6f8;
+       font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #111827; }
+main { max-width: 760px; margin: 0 auto; }
+.meta { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+        padding: 16px 20px; margin-bottom: 8px; font-size: 13px; }
+.meta h1 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em;
+           color: #6b7280; margin: 0 0 10px; }
+.meta dl { display: grid; grid-template-columns: 90px 1fr; gap: 4px 12px; margin: 0; }
+.meta dt { color: #6b7280; } .meta dd { margin: 0; font-weight: 600; }
+.avisos { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+          padding: 12px 20px; margin-bottom: 8px; font-size: 13px; color: #92400e; }
+.avisos ul { margin: 6px 0 0; padding-left: 18px; }
+.barra { display: flex; align-items: center; gap: 12px; margin: 16px 0 8px; }
+button { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 6px;
+         border: 0; background: #009fe3; color: #fff; cursor: pointer; }
+button:hover { background: #007fb6; }
+.dica { font-size: 12px; color: #6b7280; }
+#corpo { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+         padding: 24px 28px; font-size: 14px; line-height: 1.55; }
+#corpo p { margin: 0 0 12px; }
+#corpo table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+#corpo th, #corpo td { border: 1px solid #d1d5db; padding: 6px 10px; text-align: left; }
+#corpo th { background: #f9fafb; }
+#corpo blockquote { margin: 0 0 12px; padding-left: 12px; border-left: 3px solid #d1d5db;
+                    color: #4b5563; }
+#corpo pre { background: #f3f4f6; padding: 12px; overflow-x: auto; }
+@media (prefers-color-scheme: dark) {
+  body { background: #0b1220; color: #e5e7eb; }
+  .meta, #corpo { background: #111827; border-color: #1f2937; }
+  #corpo th { background: #1f2937; } #corpo th, #corpo td { border-color: #374151; }
+  .avisos { background: #2b2411; border-color: #7c5e10; color: #fcd34d; }
+}
+</style>
+</head>
+<body>
+<main>
+<section class="meta"><h1>Email ao cliente</h1><dl><dt>Assunto</dt><dd>Preparação da reunião de 02/10 — ficheiros para o Odoo — Projeto Odoo JGMG</dd><dt>Para</dt><dd>ricardo@joseguimaraes.pt</dd></dl></section><div class="barra"><button id="copiar" type="button">Copiar corpo</button><span class="dica" id="estado">Copia apenas o corpo — os metadados acima ficam de fora.</span></div>
+<article id="corpo">
+<p>Bom dia, Sr. Ricardo,</p>
+<p>Na reunião de 23/09 ficou combinado que nos enviariam alguns ficheiros para os carregarmos no Odoo. Se os recebermos <strong>até quinta-feira, 01/10</strong>, conseguimos tê-los já inseridos e mostrar-lhe o resultado na reunião de acompanhamento de <strong>sexta-feira, 02/10, às 14:30</strong>.</p>
+<p><strong>O que precisamos</strong></p>
+<ol><li><strong>Inventário de artigos</strong> — de preferência em Excel, com, sempre que possível:</li><li class="oe-nested"><ul><li>nome e referência do artigo;</li><li>categoria (ex.: mobiliário, iluminação, têxteis, materiais);</li><li>preço de venda e preço de custo;</li><li>fornecedor habitual;</li><li>unidade (unidade, m², metro, …).</li></ul></li><li><strong>Contactos da empresa</strong> — clientes e fornecedores, com nome, NIF, morada, email e telefone, indicando se cada um é cliente, fornecedor ou ambos.</li><li><strong>Documentos dos projetos</strong> — plantas, orçamentos, desenhos ou outros documentos que queira ter no Odoo, organizados por projeto (uma pasta por projeto é o ideal).</li></ol>
+<p>Se algum ficheiro não estiver completo, envie-o na mesma: completamos o que faltar em conjunto.</p>
+<p><strong>Proposta de agenda para 02/10</strong></p>
+<ol><li>Ativação da licença do Odoo — o período de teste da plataforma termina a 06/10.</li><li>Ponto de situação dos dados: o que já foi carregado e o que falta.</li><li>Cervejaria: confirmar se deve ficar como segunda empresa no Odoo, já nesta fase.</li><li>Formações: definir as datas das sessões com os colaboradores e consigo.</li></ol>
+<p>Até sexta-feira.</p>
+</article>
+</main>
+<script>
+document.getElementById('copiar').addEventListener('click', async () => {
+  const corpo = document.getElementById('corpo');
+  const html = corpo.innerHTML;
+  const estado = document.getElementById('estado');
+  try {
+    await navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([html], {type: 'text/html'}),
+      'text/plain': new Blob([corpo.innerText], {type: 'text/plain'}),
+    })]);
+    estado.textContent = 'Copiado. Cola no compositor do Odoo com Ctrl+V.';
+  } catch (e) {
+    const range = document.createRange();
+    range.selectNodeContents(corpo);
+    const sel = window.getSelection();
+    sel.removeAllRanges(); sel.addRange(range);
+    const ok = document.execCommand('copy');
+    estado.textContent = ok
+      ? 'Copiado. Cola no compositor do Odoo com Ctrl+V.'
+      : 'Nao foi possivel copiar: seleciona o corpo e usa Ctrl+C.';
+  }
+});
+</script>
+</body>
+</html>

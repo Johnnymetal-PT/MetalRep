@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <!-- Drive Product Update Job Runner (Option A) -->
+    <record id="ir_cron_pg_product_update_drive_job_runner" model="ir.cron">
+      <field name="name">PG Product Update: Drive Job Runner</field>
+
+      <!-- Model: product.update -->
+      <field name="model_id" ref="model_product_update"/>
+
+      <!-- Execute -->
+      <field name="state">code</field>
+      <field name="code">model.cron_run_drive_jobs()</field>
+
+      <!-- Run every 1 minute -->
+      <field name="interval_number">1</field>
+      <field name="interval_type">minutes</field>
+
+      <!-- Enabled by button; cron disables itself when work completes -->
+      <field name="active">False</field>
+    </record>
+
+    <record id="ir_cron_pg_product_update_drive_job_stopper" model="ir.cron">
+      <field name="name">PG Product Update: Drive Job Stopper</field>
+
+      <!-- Model: product.update -->
+      <field name="model_id" ref="model_product_update"/>
+
+      <!-- Execute -->
+      <field name="state">code</field>
+      <field name="code">model.cron_stop_drive_job_runner()</field>
+
+      <!-- Run every 1 minute -->
+      <field name="interval_number">1</field>
+      <field name="interval_type">minutes</field>
+
+      <!-- Always active; turns off the runner when idle -->
+      <field name="active">True</field>
+    </record>
+
+    <!-- References-only plan runner: chunks templates from building plans -->
+    <record id="ir_cron_pg_product_references_plan_runner" model="ir.cron">
+      <field name="name">PG Product Update: References Plan Runner</field>
+      <field name="model_id" ref="model_pg_product_references_plan"/>
+      <field name="state">code</field>
+      <field name="code">model.cron_advance_references_plans()</field>
+      <field name="interval_number">1</field>
+      <field name="interval_type">minutes</field>
+      <!-- Always active; returns immediately when no building plans exist -->
+      <field name="active">True</field>
+    </record>
+
+  </data>
+</odoo>

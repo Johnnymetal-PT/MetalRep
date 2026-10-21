@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report" name="Website Editor Diagnostics">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <title>Website Editor Diagnostics</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        margin: 24px;
+                        color: #222;
+                    }
+                    h1, h2 {
+                        margin-bottom: 12px;
+                    }
+                    .meta, .issues, .cards {
+                        margin-bottom: 24px;
+                    }
+                    .issue {
+                        background: #fff4e5;
+                        border: 1px solid #f0c36d;
+                        padding: 10px 12px;
+                        margin-bottom: 8px;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-bottom: 20px;
+                    }
+                    th, td {
+                        border: 1px solid #ddd;
+                        padding: 8px;
+                        vertical-align: top;
+                        text-align: left;
+                    }
+                    th {
+                        background: #f7f7f7;
+                    }
+                    code {
+                        background: #f3f3f3;
+                        padding: 1px 4px;
+                    }
+                    .empty {
+                        color: #666;
+                        font-style: italic;
+                        margin-bottom: 20px;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>Website Editor Diagnostics</h1>
+
+                <div class="meta">
+                    <p>
+                        <strong>Target path:</strong>
+                        <code t-out="diagnostic['target_path']"/>
+                    </p>
+                    <p>
+                        <strong>Website:</strong>
+                        <span t-out="diagnostic['website']['name']"/>
+                        <span t-if="diagnostic['website']['domain']">
+                            (<code t-out="diagnostic['website']['domain']"/>)
+                        </span>
+                    </p>
+                    <p>
+                        <strong>User:</strong>
+                        <span t-out="diagnostic['user']['name']"/>
+                        (<code t-out="diagnostic['user']['login']"/>)
+                    </p>
+                    <p>
+                        <a t-att-href="json_url">Open JSON output</a>
+                    </p>
+                </div>
+
+                <div class="issues">
+                    <h2>Likely Issues</h2>
+                    <div t-foreach="diagnostic['issues']" t-as="issue" class="issue">
+                        <span t-out="issue"/>
+                    </div>
+                </div>
+
+                <div class="cards">
+                    <h2>Relevant Group Flags</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Group</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="diagnostic['user']['group_rows']" t-as="group_row">
+                                <td><code t-out="group_row['name']"/></td>
+                                <td t-out="group_row['state']"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div>
+                    <h2>Website Groups In This Database</h2>
+                    <t t-if="diagnostic['website_groups']">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>XML ID</th>
+                                    <th>User Member</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="diagnostic['website_groups']" t-as="group">
+                                    <td t-out="group['id']"/>
+                                    <td t-out="group['full_name'] or group['name']"/>
+                                    <td><code t-out="group['xml_id'] or '-'"/></td>
+                                    <td t-out="group['user_member']"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <p class="empty">No groups under the Website application were found.</p>
+                    </t>
+                </div>
+
+                <div>
+                    <h2>Matched website.page Records</h2>
+                    <t t-if="diagnostic['page_candidates']">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>URL</th>
+                                    <th>Website</th>
+                                    <th>View</th>
+                                    <th>View Source</th>
+                                    <th>View Active</th>
+                                    <th>Published</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="diagnostic['page_candidates']" t-as="page">
+                                    <td t-out="page['id']"/>
+                                    <td t-out="page['name']"/>
+                                    <td><code t-out="page['url']"/></td>
+                                    <td t-out="page['website_name'] or '-'"/>
+                                    <td>
+                                        <span t-out="page['view_name'] or '-'"/>
+                                        <t t-if="page['view_key']">
+                                            <br/>
+                                            <code t-out="page['view_key']"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <span t-out="page['view_source'] or '-'"/>
+                                        <t t-if="page['view_arch_fs']">
+                                            <br/>
+                                            <code t-out="page['view_arch_fs']"/>
+                                        </t>
+                                    </td>
+                                    <td t-out="page['view_active']"/>
+                                    <td t-out="page['published']"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <p class="empty">No website.page record matched this URL.</p>
+                    </t>
+                </div>
+
+                <div>
+                    <h2>Active Inherits On website.layout</h2>
+                    <t t-if="diagnostic['layout_extension_views']">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>XML ID</th>
+                                    <th>Priority</th>
+                                    <th>Source</th>
+                                    <th>File</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="diagnostic['layout_extension_views']" t-as="view">
+                                    <td t-out="view['id']"/>
+                                    <td t-out="view['name']"/>
+                                    <td><code t-out="view['xml_id'] or '-'"/></td>
+                                    <td t-out="view['priority']"/>
+                                    <td t-out="view['source']"/>
+                                    <td><code t-out="view['arch_fs'] or '-'"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <p class="empty">No active inherits on <code>website.layout</code> for this website.</p>
+                    </t>
+                </div>
+
+                <div>
+                    <h2>Active Inherits On Matched Page View</h2>
+                    <t t-if="diagnostic['page_extension_views']">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>XML ID</th>
+                                    <th>Priority</th>
+                                    <th>Source</th>
+                                    <th>File</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="diagnostic['page_extension_views']" t-as="view">
+                                    <td t-out="view['id']"/>
+                                    <td t-out="view['name']"/>
+                                    <td><code t-out="view['xml_id'] or '-'"/></td>
+                                    <td t-out="view['priority']"/>
+                                    <td t-out="view['source']"/>
+                                    <td><code t-out="view['arch_fs'] or '-'"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <p class="empty">No active inherits were found for the matched page view.</p>
+                    </t>
+                </div>
+
+                <div>
+                    <h2>Website Custom Code Fields</h2>
+                    <t t-if="diagnostic['website_custom_code']">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Length</th>
+                                    <th>Preview</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="diagnostic['website_custom_code']" t-as="row">
+                                    <td><code t-out="row['field']"/></td>
+                                    <td t-out="row['length']"/>
+                                    <td><code t-out="row['preview']"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <p class="empty">No non-empty website custom code fields were found.</p>
+                    </t>
+                </div>
+
+                <div>
+                    <h2>Suspicious DB-Only qWeb Views</h2>
+                    <t t-if="diagnostic['suspicious_db_views']">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>XML ID</th>
+                                    <th>Scope</th>
+                                    <th>Hits</th>
+                                    <th>Preview</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="diagnostic['suspicious_db_views']" t-as="view">
+                                    <td t-out="view['id']"/>
+                                    <td t-out="view['name']"/>
+                                    <td><code t-out="view['xml_id'] or '-'"/></td>
+                                    <td t-out="view['scope']"/>
+                                    <td><code t-out="', '.join(view['suspicious_hits'])"/></td>
+                                    <td><code t-out="view['arch_preview']"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <p class="empty">No suspicious database-only qWeb views were found.</p>
+                    </t>
+                </div>
+
+                <div>
+                    <h2>Suspicious ir.asset Records</h2>
+                    <t t-if="diagnostic['ir_assets']">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Bundle</th>
+                                    <th>Directive</th>
+                                    <th>Path</th>
+                                    <th>Target</th>
+                                    <th>Hits</th>
+                                    <th>Attachment Count</th>
+                                    <th>Preview</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="diagnostic['ir_assets']" t-as="asset">
+                                    <td t-out="asset['id']"/>
+                                    <td t-out="asset['name'] or '-'"/>
+                                    <td><code t-out="asset['bundle'] or '-'"/></td>
+                                    <td><code t-out="asset['directive'] or '-'"/></td>
+                                    <td><code t-out="asset['path'] or '-'"/></td>
+                                    <td><code t-out="asset['target'] or '-'"/></td>
+                                    <td><code t-out="', '.join(asset['content_hits']) or '-'"/></td>
+                                    <td t-out="asset['attachment_count']"/>
+                                    <td><code t-out="asset['content_preview'] or '-'"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <p class="empty">No suspicious ir.asset records were found.</p>
+                    </t>
+                </div>
+
+                <div>
+                    <h2>Resolved Asset Attachment Contents</h2>
+                    <t t-if="diagnostic['ir_assets']">
+                        <t t-if="diagnostic['has_asset_attachments']">
+                            <t t-foreach="diagnostic['ir_assets']" t-as="asset">
+                                <t t-if="asset['attachments']">
+                                    <h3>
+                                        <code t-out="asset['path'] or asset['name'] or ('asset-%s' % asset['id'])"/>
+                                    </h3>
+                                    <t t-foreach="asset['attachments']" t-as="attachment">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <td t-out="attachment['id']"/>
+                                                </tr>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <td t-out="attachment['name']"/>
+                                                </tr>
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <td t-out="attachment['type']"/>
+                                                </tr>
+                                                <tr>
+                                                    <th>Mimetype</th>
+                                                    <td t-out="attachment['mimetype'] or '-'"/>
+                                                </tr>
+                                                <tr t-if="attachment['url']">
+                                                    <th>URL</th>
+                                                    <td><code t-out="attachment['url']"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Hits</th>
+                                                    <td><code t-out="', '.join(attachment['hits']) or '-'"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Full Content</th>
+                                                    <td>
+                                                        <pre t-out="attachment['full_content'] or ''"
+                                                             style="white-space: pre-wrap; word-break: break-word; margin: 0;"/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </t>
+                                </t>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <p class="empty">No resolved attachment contents were found for the suspicious assets.</p>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <p class="empty">No suspicious ir.asset records were found.</p>
+                    </t>
+                </div>
+
+                <div>
+                    <h2>Installed Custom Website Modules</h2>
+                    <t t-if="diagnostic['installed_custom_website_modules']">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Display Name</th>
+                                    <th>Dependencies</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="diagnostic['installed_custom_website_modules']" t-as="module">
+                                    <td><code t-out="module['name']"/></td>
+                                    <td t-out="module['display_name']"/>
+                                    <td><code t-out="module['dependency_text']"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <p class="empty">No installed custom website-related modules with prefixes <code>hmd_</code> or <code>pg_</code> were found.</p>
+                    </t>
+                </div>
+            </body>
+        </html>
+    </template>
+</odoo>
+

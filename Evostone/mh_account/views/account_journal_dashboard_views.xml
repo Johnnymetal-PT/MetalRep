@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Esconder diários do tipo 'general' (Diversos/Misc) do painel de
+         Contabilidade para utilizadores não-admin. Admins continuam a ver.
+         Mecanismo: marca o card com um span quando o utilizador não pode ver,
+         e o CSS (:has) colapsa o .o_kanban_record inteiro. -->
+    <record id="account_journal_dashboard_kanban_view_hide_misc" model="ir.ui.view">
+        <field name="name">account.journal.dashboard.kanban.hide.misc</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+        <field name="arch" type="xml">
+            <!-- Disponibilizar o campo computed na kanban -->
+            <field name="type" position="after">
+                <field name="mh_show_in_dashboard"/>
+            </field>
+            <!-- Marcador quando o diário NÃO deve ser visível para este utilizador -->
+            <t t-name="card" position="inside">
+                <span t-if="!record.mh_show_in_dashboard.raw_value"
+                      class="o_mh_journal_hidden d-none"/>
+            </t>
+        </field>
+    </record>
+</odoo>

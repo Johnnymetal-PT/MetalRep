@@ -1,0 +1,371 @@
+<data>
+  <xpath expr="/t[@t-name='sale.report_saleorder_document']" position="replace" mode="inner">
+    <t t-call="web.external_layout">
+      <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+      <t t-set="forced_vat" t-value="doc.fiscal_position_id.foreign_vat"/>
+      <!-- Choose the label language based on customer nationality -->
+      <t t-set="lang"
+         t-value="{'PT': 'pt_PT', 'FR': 'fr_FR', 'ES': 'es_ES'}.get(doc.partner_id.country_id.code, 'en_US')"/>
+      <t t-set="tr" t-value="{ 'en_US': {
+            'tax_id':'Tax ID',
+            'invoicing_address':'Invoicing Address:',
+            'shipping_address':'Shipping Address:',
+            'invoice_shipping_address':'Invoicing and Shipping Address:',
+            'proforma':'Pro-Forma Invoice #',
+            'quotation':'Quotation #',
+            'order':'Order #',
+            'your_reference':'Your Reference:',
+            'customer_ref':'Customer Ref.:',
+            'quotation_date':'Quotation Date:',
+            'order_date':'Order Date:',
+            'expiration':'Expiration:',
+            'incoterm':'Incoterm:',
+            'sales_person':'Sales Person:',
+            'description':'Description',
+            'quantity':'Quantity',
+            'unit_price':'Unit Price',
+            'discount_unit_price':'Discount Unit Price',
+            'discount':'Disc.%',
+            'discount_amount':'Discount Amount',
+            'discounted_total_amount':'Discounted Total Amount',
+            'taxes':'Taxes',
+            'amount':'Amount',
+            'signature':'Signature',
+            'options':'Options',
+            'shipping_description':'Shipping Description:',
+            'fiscal_position_remark':'Fiscal Position Remark:'
+          },
+          'pt_PT': {
+            'tax_id':'NIF',
+            'invoicing_address':'Morada de faturação:',
+            'shipping_address':'Morada de entrega:',
+            'invoice_shipping_address':'Morada de faturação e entrega:',
+            'proforma':'Fatura Proforma nº',
+            'quotation':'Orçamento nº',
+            'order':'Encomenda nº',
+            'your_reference':'Referência:',
+            'customer_ref':'Ref. Cliente:',
+            'quotation_date':'Data do orçamento:',
+            'order_date':'Data da encomenda:',
+            'expiration':'Validade:',
+            'incoterm':'Incoterm:',
+            'sales_person':'Vendedor:',
+            'description':'Descrição',
+            'quantity':'Quantidade',
+            'unit_price':'Preço unitário',
+            'discount_unit_price':'Preço unitário com desconto',
+            'discount':'Desc.%',
+            'discount_amount':'Valor do desconto',
+            'discounted_total_amount':'Valor total com desconto',
+            'taxes':'Impostos',
+            'amount':'Valor',
+            'signature':'Assinatura',
+            'options':'Opções',
+            'shipping_description':'Descrição do envio:',
+            'fiscal_position_remark':'Observações fiscais:'
+          },
+          'fr_FR': {
+            'tax_id':'Numéro de TVA',
+            'invoicing_address':'Adresse de facturation :',
+            'shipping_address':'Adresse de livraison :',
+            'invoice_shipping_address':'Adresse de facturation et de livraison :',
+            'proforma':'Facture Pro-forma n°',
+            'quotation':'Devis n°',
+            'order':'Commande n°',
+            'your_reference':'Votre référence :',
+            'customer_ref':'Réf. Client :',
+            'quotation_date':'Date du devis :',
+            'order_date':'Date de commande :',
+            'expiration':'Expiration :',
+            'incoterm':'Incoterm :',
+            'sales_person':'Vendeur :',
+            'description':'Description',
+            'quantity':'Quantité',
+            'unit_price':'Prix unitaire',
+            'discount_unit_price':'Prix unitaire remisé',
+            'discount':'Remise %',
+            'discount_amount':'Montant de la remise',
+            'discounted_total_amount':'Montant total remisé',
+            'taxes':'Taxes',
+            'amount':'Montant',
+            'signature':'Signature',
+            'options':'Options',
+            'shipping_description':'Description d’expédition :',
+            'fiscal_position_remark':'Remarque sur la position fiscale :'
+          },
+          'es_ES': {
+            'tax_id':'ID Fiscal',
+            'invoicing_address':'Dirección de facturación:',
+            'shipping_address':'Dirección de envío:',
+            'invoice_shipping_address':'Dirección de facturación y envío:',
+            'proforma':'Factura proforma Nº',
+            'quotation':'Presupuesto Nº',
+            'order':'Pedido Nº',
+            'your_reference':'Su referencia:',
+            'customer_ref':'Ref. Cliente:',
+            'quotation_date':'Fecha de presupuesto:',
+            'order_date':'Fecha del pedido:',
+            'expiration':'Vencimiento:',
+            'incoterm':'Incoterm:',
+            'sales_person':'Vendedor:',
+            'description':'Descripción',
+            'quantity':'Cantidad',
+            'unit_price':'Precio unitario',
+            'discount_unit_price':'Precio unitario con descuento',
+            'discount':'Desc.%',
+            'discount_amount':'Importe del descuento',
+            'discounted_total_amount':'Importe total con descuento',
+            'taxes':'Impuestos',
+            'amount':'Importe',
+            'signature':'Firma',
+            'options':'Opciones',
+            'shipping_description':'Descripción del envío:',
+            'fiscal_position_remark':'Observación de posición fiscal:'
+          } }"/>
+<t t-set="address">
+    <t t-if="doc.partner_id != doc.partner_invoice_id and doc.partner_id != doc.partner_shipping_id">
+        <div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+        <p t-if="doc.partner_id.vat">
+            <t t-if="doc.company_id.account_fiscal_country_id.vat_label" t-out="doc.company_id.account_fiscal_country_id.vat_label"/>
+            <t t-else=""><t t-out="tr.get(lang, tr['en_US'])['tax_id']"/></t>: <span t-field="doc.partner_id.vat"/>
+        </p>
+    </t>
+</t>
+
+      <!-- Avoid repeating the addresses -->
+      <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
+        <strong><t t-out="tr.get(lang, tr['en_US'])['invoicing_address']"/></strong>
+        <div t-field="doc.partner_invoice_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+        <br/>
+        <strong><t t-out="tr.get(lang, tr['en_US'])['shipping_address']"/></strong>
+        <div t-field="doc.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+      </t>
+      <t t-elif="doc.partner_shipping_id == doc.partner_invoice_id">
+        <strong><t t-out="tr.get(lang, tr['en_US'])['invoice_shipping_address']"/></strong>
+        <div t-field="doc.partner_invoice_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+      </t>
+      <div class="page">
+        <div class="oe_structure"/>
+        <h2 class="mt-4">
+          <span t-if="env.context.get('proforma', False) or is_pro_forma"><t t-out="tr.get(lang, tr['en_US'])['proforma']"/> </span>
+          <span t-elif="doc.state in ['draft','sent']"><t t-out="tr.get(lang, tr['en_US'])['quotation']"/> </span>
+          <span t-else=""><t t-out="tr.get(lang, tr['en_US'])['order']"/> </span>
+          <span t-field="doc.name">SO0000</span>
+        </h2>
+        <div class="row mt-4 mb-2" id="informations">
+          <div t-if="doc.client_order_ref" class="col-auto col-3 mw-100 mb-2" name="informations_reference">
+            <strong><t t-out="tr.get(lang, tr['en_US'])['your_reference']"/></strong>
+            <br/>
+            <span class="m-0" t-field="doc.client_order_ref">SO0000</span>
+          </div>
+          <!-- 👇 New Customer Ref. field -->
+<div t-if="doc.x_studio_customer_ref" class="col-auto col-3 mw-100 mb-2" name="informations_customer_ref">
+    <strong><t t-out="tr.get(lang, tr['en_US'])['customer_ref']"/></strong>
+
+    <br/>
+    <span class="m-0" t-field="doc.x_studio_customer_ref"/>
+</div>
+          <div t-if="doc.date_order" class="col-auto col-3 mw-100 mb-2" name="informations_date">
+            <strong t-if="doc.state in ['draft', 'sent']"><t t-out="tr.get(lang, tr['en_US'])['quotation_date']"/></strong>
+            <strong t-else=""><t t-out="tr.get(lang, tr['en_US'])['order_date']"/></strong>
+            <br/>
+            <span class="m-0" t-field="doc.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}">2023-12-31</span>
+          </div>
+          <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto col-3 mw-100 mb-2" name="expiration_date">
+            <strong><t t-out="tr.get(lang, tr['en_US'])['expiration']"/></strong>
+            <br/>
+            <span class="m-0" t-field="doc.validity_date">2023-12-31</span>
+          </div>
+          <div class="col-auto col-3 mw-100 mb-2" t-if="doc.incoterm">
+            <strong><t t-out="tr.get(lang, tr['en_US'])['incoterm']"/></strong>
+            <p t-if="doc.incoterm_location">
+              <span t-field="doc.incoterm.code"/>
+              <br/>
+              <span t-field="doc.incoterm_location"/>
+            </p>
+            <p t-else="" t-field="doc.incoterm.code" class="m-0"/>
+          </div>
+          <div t-if="doc.user_id.name" class="col-auto col-3 mw-100 mb-2">
+            <strong><t t-out="tr.get(lang, tr['en_US'])['sales_person']"/></strong>
+            <br/>
+            <span class="m-0" t-field="doc.user_id">Mitchell Admin</span>
+          </div>
+        </div>
+        <t t-set="lines_to_report" t-value="doc._get_order_lines_to_report()"/>
+        <t t-set="display_discount" t-value="any(l.discount for l in lines_to_report)"/>
+        <div class="oe_structure"/>
+        <t t-call="product_matrix.matrix">
+          <t t-set="order" t-value="doc"/>
+        </t>
+<table class="table table-sm o_main_table table-borderless mt-4" style="width: 100%; border-collapse: collapse;">
+  <thead style="display: table-header-group;">
+    <tr>
+      <th name="th_description" class="text-start"><t t-out="tr.get(lang, tr['en_US'])['description']"/></th>
+      <th name="th_quantity" class="text-end"><t t-out="tr.get(lang, tr['en_US'])['quantity']"/></th>
+      <th name="th_priceunit" class="text-end"><t t-out="tr.get(lang, tr['en_US'])['unit_price']"/></th>
+      <t t-if="doc.sh_show_multi_disc == True" groups="sh_multi_discount.group_sale_multi_discount_security">
+        <th class="text-end"><t t-out="tr.get(lang, tr['en_US'])['discount_unit_price']"/></th>
+      </t>
+      <th name="th_discount" t-if="display_discount" class="text-end">
+        <span><t t-out="tr.get(lang, tr['en_US'])['discount']"/></span>
+      </th>
+      <t t-if="doc.sh_show_multi_disc == True" groups="sh_multi_discount.group_sale_multi_discount_security">
+        <th class="text-end"><t t-out="tr.get(lang, tr['en_US'])['discount_amount']"/></th>
+        <th class="text-end"><t t-out="tr.get(lang, tr['en_US'])['discounted_total_amount']"/></th>
+      </t>
+      <th name="th_taxes" class="text-end"><t t-out="tr.get(lang, tr['en_US'])['taxes']"/></th>
+      <th name="th_subtotal" class="text-end"><t t-out="tr.get(lang, tr['en_US'])['amount']"/></th>
+    </tr>
+  </thead>
+
+          <tbody class="sale_tbody">
+            <t t-set="current_subtotal" t-value="0"/>
+            <t t-foreach="lines_to_report" t-as="line">
+              <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"/>
+              <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''" style="border-bottom: 1px solid #000;">
+                            <!-- Notes -->
+            <t t-if="line.display_type == 'line_note'">
+                <td colspan="6" class="fst-italic">
+                    <span t-field="line.name"/>
+                </td>
+            </t>
+                <!-- Product details -->
+                <t t-if="not line.display_type">
+                  <td name="td_name">
+                    <span t-field="line.product_id.image_128" t-options-widget="'image'" t-options-qweb_img_raw_data="1"/>
+                    <br/>
+                    <span t-field="line.name">Bacon Burger</span>
+                    <br/>
+                    <span t-field="line.product_id.product_variant_desc"/>
+                    <br/>
+                    <!-- Display dimensions in inches for US clients -->
+                      <t t-if="doc.partner_id.country_id.code == 'US'">
+                        <span t-field="line.product_id.x_studio_dimenses_inch"/>
+                      </t>
+                      <!-- Display dimensions in default format for other clients -->
+                      <t t-else="">
+                        <span t-field="line.product_id.x_studio_dimenses"/>
+                      </t>
+                    <br/>
+                  </td>
+                  <td name="td_quantity" class="text-end">
+                    <span t-field="line.product_uom_qty">3</span>
+                    <!--<span t-field="line.product_uom">units</span>-->
+                    <span t-if="line.product_packaging_id">
+                      (<span t-field="line.product_packaging_qty" t-options="{&quot;widget&quot;: &quot;integer&quot;}"/>
+                      <span t-field="line.product_packaging_id"/>)
+                    </span>
+                  </td>
+                  <td name="td_priceunit" class="text-end">
+                    <span t-field="line.price_unit">3</span>
+                  </td>
+                  <t t-if="doc.sh_show_multi_disc == True" groups="sh_multi_discount.group_sale_multi_discount_security">
+                    <td class="text-end">
+                      <span t-field="line.sh_discount_price_unit"/>
+                    </td>
+                  </t>
+                  <td t-if="display_discount" class="text-end">
+                    <span t-field="line.sh_multi_discount">-</span>
+                  </td>
+                  <!-- Remove Total Disc.% values here -->
+                  <t t-if="doc.sh_show_multi_disc == True" groups="sh_multi_discount.group_sale_multi_discount_security">
+                    <td class="text-end">
+                      <span t-field="line.sh_discount_amount"/>
+                    </td>
+                  </t>
+                  <t t-if="doc.sh_show_multi_disc == True" groups="sh_multi_discount.group_sale_multi_discount_security">
+                    <td class="text-end">
+                      <span t-field="line.sh_discounted_total_amount"/>
+                    </td>
+                  </t>
+                  <t t-set="taxes" t-value="', '.join([(tax.invoice_label or tax.name) for tax in line.tax_id])"/>
+                  <td name="td_taxes" t-attf-class="text-end {{ 'text-nowrap' if len(taxes) &lt; 10 else '' }}">
+                    <span t-out="taxes">Tax 15%</span>
+                  </td>
+                  <td t-if="not line.is_downpayment" name="td_subtotal" class="text-end o_price_total">
+                    <span t-field="line.price_subtotal">27.00</span>
+                  </td>
+                </t>
+              </tr>
+            </t>
+          </tbody>
+        </table>
+        <div class="clearfix" name="so_total_summary">
+          <div id="total" class="row" name="total">
+            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+              <table class="table table-sm table-borderless">
+                <t t-set="tax_totals" t-value="doc.tax_totals"/>
+                <t t-call="sale.document_tax_totals"/>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="oe_structure"/>
+        <div t-if="not doc.signature" class="oe_structure"/>
+        <div t-else="" class="mt-4 ml64 mr4" name="signature">
+          <div class="offset-8">
+            <strong><t t-out="tr.get(lang, tr['en_US'])['signature']"/></strong>
+          </div>
+          <div class="offset-8">
+            <img t-att-src="image_data_uri(doc.signature)" style="max-height: 4cm; max-width: 8cm;"/>
+          </div>
+          <div class="offset-8 text-center">
+            <span t-field="doc.signed_by">Oscar Morgan</span>
+          </div>
+        </div>
+        <div t-if="not (doc.sale_order_option_ids and doc.state in ['draft', 'sent'])" class="oe_structure">​</div>
+        <div t-else="">
+          <t t-set="has_option_discount" t-value="any(option.discount != 0.0 for option in doc.sale_order_option_ids)"/>
+          <h4 name="h_optional_products">
+                <t t-out="tr.get(lang, tr['en_US'])['options']"/>
+            </h4>
+          <table name="table_optional_products" class="table table-sm">
+            <thead class="fw-bold">
+              <tr>
+                <td name="th_option_name" class="text-start"><t t-out="tr.get(lang, tr['en_US'])['description']"/></td>
+                <td t-if="has_option_discount" name="th_option_discount" groups="product.group_discount_per_so_line" class="text-start"><t t-out="tr.get(lang, tr['en_US'])['discount']"/></td>
+                <td name="th_option_price_unit" class="text-end"><t t-out="tr.get(lang, tr['en_US'])['unit_price']"/></td>
+              </tr>
+            </thead>
+            <tbody class="sale_tbody">
+              <tr t-foreach="doc.sale_order_option_ids" t-as="option">
+                <td name="td_option_name">
+                  <span t-field="option.name">Extra Chips</span>
+                </td>
+                <td t-if="has_option_discount" name="td_option_discount" groups="product.group_discount_per_so_line">
+                  <strong t-if="option.discount != 0.0" class="text-info">
+                    <t t-out="((option.discount % 1) and '%s' or '%d') % option.discount">-</t>%
+                            </strong>
+                </td>
+                <td name="td_option_price_unit">
+                  <strong class="text-end">
+                    <div t-field="option.price_unit" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}" t-att-style="option.discount and 'text-decoration: line-through' or None" t-att-class="option.discount and 'text-danger' or None">1.5</div>
+                    <div t-if="option.discount">
+                      <t t-out="((1-option.discount / 100.0) * option.price_unit)" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"> </t>
+                    </div>
+                  </strong>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="oe_structure">​</div>
+        </div>
+        <div>
+          <p t-if="doc.carrier_id.carrier_description" id="carrier_description">
+            <strong><t t-out="tr.get(lang, tr['en_US'])['shipping_description']"/></strong>
+            <span t-out="doc.carrier_id.carrier_description"/>
+          </p>
+          <!--<img src="/web/image/8379" alt="Triplex Logo" style="max-height: 50px; margin-left: 0.5%;"/>-->
+          <span t-field="doc.note" t-attf-style="#{'text-align:justify;text-justify:inter-word;' if doc.company_id.terms_type != 'html' else ''}" name="order_note"/>
+          <p t-if="not is_html_empty(doc.payment_term_id.note)">
+            <span t-field="doc.payment_term_id.note">The payment should also be transmitted with love</span>
+          </p>
+          <p t-if="doc.fiscal_position_id and not is_html_empty(doc.fiscal_position_id.sudo().note)" id="fiscal_position_remark">
+            <strong><t t-out="tr.get(lang, tr['en_US'])['fiscal_position_remark']"/></strong>
+            <span t-field="doc.fiscal_position_id.sudo().note">No further requirements for this payment</span>
+          </p>
+        </div>
+      </div>
+    </t>
+  </xpath>
+</data>

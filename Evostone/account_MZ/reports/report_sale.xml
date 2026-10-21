@@ -1,0 +1,1779 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_sale_order_document" model="ir.ui.view">
+        <field name="name">report_sale_order_document</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_sale_order_document">
+<t t-call="web.html_container">
+<t t-foreach="docs" t-as="doc">
+<t t-call="web.external_layout">
+<t t-if="doc.tipo_apuramento">
+<!--  <span>IVA ORIGINAL</span>  -->
+<style> table,td{ border: 1px solid black; font-size:14pt } .td-line{ border: 1px solid black; width: 100% } .td{ border-right: 1px solid white; } table { border-collapse: collapse; width: 100%; } th, td { padding: 2px; text-align: left; border: 1px solid black; } .my-div { display: flex; justify-content: center; align-items: center; text-align: center; height: 100px; } .tabela10pt { font-size: 10pt; } </style>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<!-- <tr style="border: none; outline: none;"> -->
+<tr style="height:65.75pt;">
+<td style=" border: none; outline: none; solid black; text-align:center; font-size:10px; border: none; vertical-align:center;">
+<!-- <img class="img-fluid" width="50px" src="/web/image/203-b1766855/images.png"/> -->
+<img src="/account_MZ/static/description/emblema.png" alt="Descrição da Imagem" width="90" height="90"/>
+</td>
+<td style="border: none; outline: none; solid black; text-align:center; font-size:10px; background-color:#F09760; ">
+República de Moçambique
+<br/>
+<br/>
+Ministério da Economia e Finanças
+<br/>
+Autoridade Tributária de Moçambique
+<br/>
+DIRECÇÃO GERAL DE IMPOSTOS
+</td>
+<td style="Border: 1px solid black ; text-align:center; font-size:10px; background-color:#F09760;">
+<span>
+IRPC – DECLARAÇÃO DE RENDIMENTOS
+<br>(CONTABILIDADE ORGANIZADA E REGIME SIMPLIFICADO DE ESCRITURAÇÃO)</br>
+</span>
+</td>
+<td style="solid black; text-align: center; font-size:12px; background-color:#F09760;" width="150px; ">
+M/22
+<br/>
+IRPC
+<br/>
+</td>
+</tr>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse; font-size:10px;">
+<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#F09760;">
+<p style="margin-top:0pt; margin-bottom:0pt; font-size:10px;">
+<b>1 - NOME / DESIGNAÇÃO SOCIAL DO SUJEITO PASSIVO</b>
+<br/>
+<span t-field="doc.company_id.name"/>
+</p>
+</td>
+<td colspan="23" style="width:250pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; background-color:#F09760; vertical-align:top; width:41%">
+<p style="margin-top:0pt; margin-bottom:0pt; font-size:; text-align:center; font-size:10px;">
+<span>
+2 - Numero Unico de identificacao
+<br/>
+Tributaria (NUIT):
+<span t-field="doc.company_id.vat"/>
+</span>
+</p>
+</td>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#F09760;">
+<p style="margin-top:0pt; margin-bottom:0pt; font-size:10px;">
+<b> 3– TIPO DE DECLARAÇÃO</b>
+</p>
+</td>
+<td colspan="23" style="width:250pt; border-style:solid; background-color:#F09760; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; width:55%">
+<p style="margin-top:0pt; margin-bottom:0pt; font-size:; text-align:center; font-size:10px;">
+<span>4 – EXERCÍCIO / PERIODO DE TRIBUTAÇÃO / LIQUIDAÇAO</span>
+</p>
+</td>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<tr style="font-size:10pt;">
+<td style=" solid black; text-align:left; padding-left: 5px">
+<span style="padding-left:10px; width: 100%; font-size:10px;"/>
+<span style="font-size:10pt;">inicial✅ </span>
+<br/>
+<span style=" padding-left:10px; width: 100px; font-size:10px;"/>
+<span style="font-size:10pt;">De substituição </span>
+<br/>
+<span style=" padding-left:10px; width: 100px; font-size:10px;"/>
+<span style="font-size:10pt;">De substituição por auditoria </span>
+<br/>
+<span style=" padding-left:10px; width: 100px; font-size:10px;"/>
+<span style="font-size:10pt;">Declaração da liquidação </span>
+</td>
+<td style="border: 1px solid black; text-align:center; font-size:10px;" width="55%">
+<!-- <br/> -->
+<!-- <br/> -->
+<span> Período de Tributação </span>
+<span>                                            Exercício/Ano </span>
+<br/>
+<span style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<span>Ano Civil: </span>
+<span>  31/ 12 / <span t-field="doc.ano"/> </span>
+<br/>
+<span/>
+<span/>
+<br/>
+<span class="td-line" style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<span>Outro De ……/………/……….a……/………/………                         </span>
+<span/>
+<br/>
+<span/>
+<span/>
+<!--  <br/> -->
+<!-- <span class="td-line" style=" padding-left:10px; width: 100%;"/><span>Ano Civil </span><BR><b>Area Fiscal/UGC</b></BR><BR><span>........................................................................................................</span></BR> -->
+<!--   <span class="td-line" style=" padding-left:10px; width: 100%;"/><span>inicial </span> -->
+</td>
+</tr>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<td style="padding-left: 5px ; font-size:10pt;">
+<span style=" background-color:#F09760; font-size:10pt;">
+<b>5 - REGIME DE ESCRITURAÇÃO </b>
+</span>
+<span style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<span> Contabilidade Organizada </span>
+<span style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<!-- <span>Simplificado de Escrituração </span> -->
+</td>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<td style="padding-left: 5px; font-size:10pt;">
+<span style=" background-color:#F09760; font-size:10px;">
+<b>6 – TIPO DE SUJEITO PASSIVO</b>
+<br/>
+</span>
+ <!-- <span></span> -->
+
+<span class="td-line" style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<span>Residente que exerça a título principal actividade comercial, industrial ou agrícola </span>
+<span class="td-line" style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<span>Residente que NÃO exerça a títuloprincipal actividade comercial, industrial ou agrícola </span>
+<span class="td-line" style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<span>
+Não residente
+<b>COM</b>
+estabelecimento estável
+</span>
+<span class="td-line" style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<span>
+Não residente
+<b>SEM</b>
+estabelecimento estável
+</span>
+</td>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<td style="padding-left: 5px ; font-size:10pt;">
+<span style=" background-color:#F09760; font-size:10px;">
+<b>7– REGIMES DE TRIBUTAÇÃO DE RENDIMENTOS</b>
+<br/>
+</span>
+<span class="td-line" style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<span>Geral </span>
+<span class="td-line" style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<span>Isenção definitiva </span>
+<span class="td-line" style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<span>Isenção temporária</span>
+<span class="td-line" style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<span>Redução da taxa</span>
+<span class="td-line" style=" padding-left:10px; width: 100%; font-size:10px;"/>
+<span>Transparência Fiscal</span>
+</td>
+<tr>
+<td style="padding-left: 5px ; font-size:10px;">NOTA IMPORTANTE: O preenchimento deste declaração deve ser efectuada na sequência do número dos quadros. Assim, após completar o quadro 9 deverá passar aos quadros 10 e 11 na pág. 2 e só depois, continuar no quadro 12 e seguintes na pág. 1.</td>
+</tr>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<tr>
+<td style="background-color:#F09760; font-size:10px;">
+<span style="padding-left: 5px;">8 – INEXISTÊNCIA DE OPERAÇÕES </span>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px; font-size:10px;">
+Se no período a que esta declaração respeite não realizou operações, assinale
+<span class="td-line" style=" padding-left:10px; width: 100%; font-size:10px;"/>
+e passe para o quadro 14
+</td>
+</tr>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<tr>
+<td style="background-color:#F09760; font-size:10pt;">
+<span style="padding-left: 5px; font-size:10px;">9 – VOLUME DE VENDAS </span>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 2px ; font-size:10pt;">
+<span> Volume de vendas:<span><span t-field="doc.total_faturaçao"/></span> </span> 
+</td>
+</tr>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<tr>
+<td style="background-color:#F09760; font-size:10pt;">
+<span style="padding-left: 5px ;font-size:10pt;"> 12 – CÁLCULO DO IMPOSTO </span>
+</td>
+<tr/>
+</tr>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; padding-left: 5px; font-size: 12pt; width: 50% ; font-size:10px;"> Imposto à taxa normal Campo 278 do quadro 11 x 32% (art.61 nr 1 do CIRPC) </td>
+<td style="solid black; text-align: left; padding-left: 5px; width: 5% ; font-size:10px;"> 300 </td>
+<td style="solid black; text-align: right; padding-left: 10px; font-size:11px; ">
+    <t t-if="doc.campo300_IRPC != 0.0">                    
+            <span><span t-field="doc.campo300_IRPC" t-options="{'widget': 'float', 'precision': 2}"/> </span>   
+    </t>
+</td> 
+<td style="solid black; text-align: right; border-right: 1px solid white; border-bottom: 1px solid white; padding-left: 10px; 20%"/>
+<td style="solid black; text-align: right; border-bottom: 1px solid white; padding-left: 10px; 20%"/>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; padding-left: 5px; font-size: 12pt; 30% ; font-size:10px;"> Imposto à taxa reduzida Campo 288 do quadro 11 x ____% (art.61 nr 2 do CIRPC) </td>
+<td style="solid black; text-align: left; ; padding-left: 5px ; font-size:10px;"> 301 </td>
+<td style="solid black; text-align: center; padding-left: 5px"/>
+<td style="solid black; text-align: right; border-right: 1px solid white; padding-left: 10px"/>
+<td style="solid black; text-align: right; padding-left: 10px"/>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: center; padding-left: 5px; font-size:14px;">
+<span>
+<b>COLECTA (300+301)</b>
+</span>
+</td>
+<td style="solid black; text-align: right; padding-left: 10px; font-size:10px; "> 302 </td>
+<td style="solid black; padding-left: 10px; font-size:11px; ">
+    <t t-if="doc.campo302_IRPC != 0.0">                    
+        <span><span t-field="doc.campo302_IRPC" t-options="{'widget': 'float', 'precision': 2}"/> </span>   
+    </t>
+</td>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; font-size: 10pt; padding-left: 5px"> Dupla tributação económica (art. 64 do CIRPC) </td>
+<td style="solid black; text-align: left; padding-left: 5px ;font-size:10px; "> 303 </td>
+<td style="solid black; text-align: center; padding-left: 5px">
+<span/>
+</td>
+<td style="solid black; text-align: right; padding-left: 10px; border-bottom: 1px solid white; border-right: 1px solid white;"/>
+<td style="solid black; text-align: right; padding-left: 10px; border-bottom: 1px solid white; ">
+<!-- |_____|______|____________________ -->
+</td>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; font-size: 10pt; padding-left: 5px"> Dupla tributação internacional (art. 65 do CIRPC) </td>
+<td style="solid black; text-align: left; padding-left: 5px; font-size:10px;"> 304 </td>
+<td style="solid black; text-align: center; padding-left: 5px;"/>
+<td style="solid black; text-align: right; padding-left: 10px; border-bottom: 1px solid white; border-right: 1px solid white;"/>
+<td style="solid black; text-align: right; padding-left: 10px; border-bottom: 1px solid white; "/>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; font-size: 10pt; padding-left: 5px"> Benefícios fiscais (art. 21, n2, al. C) do Regulamento do CIRPC) </td>
+<td style="solid black; text-align: left; padding-left: 5px ;font-size:10px;"> 305 </td>
+<td style="solid black; text-align: center; padding-left: 5px; "/>
+<td style="solid black; text-align: right; padding-left: 10px; border-right: 1px solid white; border-bottom: 1px solid white; "/>
+<td style="solid black; text-align: right; padding-left: 10px; border-bottom: 1px solid white;"/>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; font-size: 10pt; padding-left: 5px"> Pagamento especial por conta(art. 71 do CIRPC) </td>
+<td style="solid black; text-align: left; padding-left: 5px ; font-size: 10pt "> 306 </td>
+<td style="solid black; text-align: right; padding-left: 10px; font-size:11px; ">
+    <t t-if="doc.campo306_IRPC != 0.0">                    
+            <span><span t-field="doc.campo306_IRPC" t-options="{'widget': 'float', 'precision': 2}"/> </span>   
+    </t>
+</td>
+<td style="solid black; text-align: right; padding-left: 10px; border-right: 1px solid white; border-bottom: 1px solid white; "/>
+<td style="solid black; text-align: right; padding-left: 10px; border-bottom: 1px solid white;"/>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; font-size: 12pt; padding-left: 5px"/>
+<td style="solid black; text-align: left; padding-left: 5px ; font-size: 10pt"> 307 </td>
+<td style="solid black; text-align: center; padding-left: 5px; "/>
+<td style="solid black; text-align: right; padding-left: 10px; border-right: 1px solid white; "/>
+<td style="solid black; text-align: right; padding-left: 10px"/>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: center; padding-left: 5px; font-size:11pt">
+<span style=";font-size:10px;">
+<b>TOTAL DAS DEDUÇÕES (303+304+…+307)</b>
+</span>
+</td>
+<td style="solid black; text-align: right; padding-left: 10px; ; font-size: 10pt "> 308 </td>
+<td style="solid black; padding-left: 10px; font-size:11px; ">
+    <t t-if="doc.campo308_IRPC != 0.0">                    
+                <span><span t-field="doc.campo308_IRPC" t-options="{'widget': 'float', 'precision': 2}"/> </span>   
+    </t>
+</td>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: center; padding-left: 5px; font-size:10pt;">
+<span style=";font-size:10px;">
+<b>IRPC LIQUIDADO (302-308) 0. SE (302-308) 0 ISCREVA 0 (ZERO</b>
+</span>
+</td>
+<td style="solid black; text-align: right; padding-left: 10px; width: 5% ; font-size: 10pt"> 309 </td>
+<td style="solid black; text-align: right; padding-left: 10px; ">
+<span/>
+</td>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; font-size: 10pt; padding-left: 5px"> Retenções na fonte (art. 67 do CIRPC) </td>
+<td style="solid black; text-align: left; padding-left: 5px ; font-size: 10pt"> 310 </td>
+<td style="solid black; text-align: right; padding-left: 10px; font-size:11px; ">
+    <t t-if="doc.campo310_IRPC != 0.0">                    
+                <span><span t-field="doc.campo310_IRPC" t-options="{'widget': 'float', 'precision': 2}"/> </span>   
+    </t>
+</td>
+
+<td style="solid black; text-align: right; padding-left: 10px; border-right: 1px solid white;"/>
+<td style="solid black; text-align: right; padding-left: 10px; "/>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; font-size: 10pt; padding-left: 5px"> Pagamento por conta (art. 70 do CIRPC) </td>
+<td style="solid black; text-align: left; padding-left: 5px ; font-size: 10pt"> 311 </td>
+<td style="solid black; text-align: right; padding-left: 10px; font-size:11px; ">
+    <t t-if="doc.campo311_IRPC != 0.0">                    
+            <span><span t-field="doc.campo311_IRPC" t-options="{'widget': 'float', 'precision': 2}"/> </span>   
+    </t>
+</td>
+<td style="solid black; text-align: right; padding-left: 10px; border-right: 1px solid white;"/>
+<td style="solid black; text-align: right; padding-left: 10px; "/>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: center; padding-left: 5px; font-size:10pt;">
+<span style="; font-size: 10pt">
+<b>IRPC A PAGAR Se (309-310-311) 0</b>
+</span>
+</td>
+<td style="solid black; text-align: right; padding-left: 10px; width: 5% ; font-size: 10pt"> 312 </td>
+<td style="solid black; text-align: right; padding-left: 10px; ">
+<span/>
+</td>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: center; padding-left: 5px; font-size:10pt;">
+<span style="font-size: 10pt">
+<b>IRPC A RECUPERAR Se (309-310-311) 0</b>
+</span>
+</td>
+<td style="solid black; text-align: right; padding-left: 10px; width: 5% ; font-size: 10pt"> 313 </td>
+<td style="solid black; text-align: right; padding-left: 10px; ">
+<span/>
+</td>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; font-size: 12pt; padding-left: 5px ; font-size: 10pt"> Juros Compensatórios </td>
+<td style="solid black; text-align: left; padding-left: 5px ; ; font-size: 10pt"> 314 </td>
+<td style="solid black; text-align: center; padding-left: 5px; "/>
+<td style="solid black; text-align: right; padding-left: 10px; border-right: 1px solid white;"/>
+<td style="solid black; text-align: right; padding-left: 10px; "/>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: center; padding-left: 5px; font-size:10pt;">
+<span style=" font-size: 10pt">
+<b>IRPC A PAGAR Se [(312 ou-313)+ 314) 0</b>
+</span>
+</td>
+<td style="solid black; text-align: right; padding-left: 10px; width: 5% ; font-size: 10pt"> 313 </td>
+<td style="solid black; text-align: right; padding-left: 10px; ">
+<span/>
+</td>
+</tr>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: left; border-right: 1px solid white; padding-left: 5px"/>
+<td style="solid black; text-align: center; padding-left: 5px; font-size:10pt;">
+<span style="font-size: 10pt">
+<b>IRPC A RECUPERAR Se (-313+314) 0</b>
+</span>
+</td>
+<td style="solid black; text-align: right; padding-left: 10px; width: 5% ; font-size: 10pt"> 313 </td>
+<td style="solid black; text-align: right; padding-left: 10px; ">
+<span/>
+</td>
+</tr>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<tr style="border: none; height:30.8pt;">
+<td style="border: none; height:20.8pt;">
+<table class="table-width table-border; ms-1" width="250pt">
+<tr style="height:20.8pt;">
+<td style="font-size:10pt; text-align: center; vertical-align: middle;">Crédito do Imposto</td>
+</tr>
+</table>
+</td>
+<td style="font-size:10px; border: none; height:20.8pt; text-align:left; font-size: 12pt">Compensação</td>
+<td style="border: none; height:20.8pt;">
+<table class="table-width table-border; ms-1" width="250pt">
+<tr style="height:20.8pt;">
+<td style="font-size:12pt; text-align: center; vertical-align: middle;"/>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="border: none; height:30.8pt;">
+<td style="border: none; height:20.8pt;">
+<table class="table-width table-border; ms-1">
+<tr style="height:20.8pt;">
+<td style="font-size:12pt; text-align: center; vertical-align: middle;"/>
+</tr>
+</table>
+</td>
+<td style="font-size:12px; border: none; height:20.8pt; text-align:left; font-size: 10pt">Pedido de Reembolso</td>
+<td style="border: none; height:20.8pt;">
+<table class="table-width table-border; ms-1" width="250pt">
+<tr style="height:20.8pt;">
+<td style="font-size:10pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<tr>
+<td style="background-color:#F09760;">
+<span style=" padding-left: 5px ; font-size: 10pt"> 13 – OBSERVAÇÕES / INFORMAÇÕES COMPLEMENTARES </span>
+</td>
+</tr>
+<tr>
+<td>___________________________</td>
+</tr>
+</table>
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<tr style="border: none; height:30.8pt;">
+<td style="font-size: 10pt; padding-left: 5px; border: none; vertical-align: middle; background-color:#F09760;">
+<span>
+<b>14.AUTENTICAÇÃO DO SUJEITO PASSIVO</b>
+</span>
+</td>
+<td colspan="2" style="font-size: 10pt; text-align:center; border: none; vertical-align: middle; background-color:#F09760;">
+<span>
+<b>15.USO EXCLUSIVO DOS SERVIÇOS</b>
+</span>
+</td>
+</tr>
+<tr style="border: none; height:30.8pt;">
+<td style="width:200pt;">
+<span>
+<p style="font-size:10pt; padding-left: 5px;">A presente declaração corresponde à verdade e não omite qualquer informação solicitada</p>
+</span>
+<span>
+<p style="font-size:10pt; padding-left: 5px;">Data: …………/………../ 20………..</p>
+</span>
+<span>
+<p style="font-size:10pt; padding-left: 5px;">Nome:______________________</p>
+</span>
+<span>
+<p style="font-size:10pt; padding-left: 5px;">Qualidade de:…………………………………………….</p>
+</span>
+<span>
+<p style="font-size:10pt; padding-left: 5px;">NUIT:……………………………………………………</p>
+</span>
+<span>
+<p style="font-size:10pt; padding-left: 5px;">
+Ass:………………………………………………………
+<br/>
+(Assinatura do Sujeito Passivo e carimbo)
+</p>
+</span>
+</td>
+<td style="width:200pt;">
+<span>
+<p style="font-size:10pt; padding-left: 5px;">Nº de Entrada :______________________</p>
+</span>
+<span>
+<p style="font-size:10pt; padding-left: 5px;">Nº de Inserção:______________________</p>
+</span>
+<span>
+<p style="font-size:10pt; padding-left: 5px;">Data: …………/………../ 20……….</p>
+</span>
+<span>
+<p style="font-size:10pt; padding-left: 5px;">
+Nome:………………………………………….
+<br/>
+(Assinatura do funcionário e carimbo)
+</p>
+</span>
+</td>
+<td style="width:200pt;">
+<span>
+<p style="font-size:10pt; padding-left: 5px;">Nº de referência da Gare ……………………………….</p>
+</span>
+<span>
+<p style="font-size:10pt; padding-left: 5px;">Data: …………/…………../ 20…………..</p>
+</span>
+<span>
+<p style="font-size:10pt; padding-left: 5px;">Nome:………………………………………………….</p>
+</span>
+<span>
+<p style="font-size:10pt; padding-left: 5px;">Ass:______________________</p>
+</span>
+</td>
+</tr>
+</table>
+<table style="width: 100%; border-collapse: collapse; font-size:10pt;" class="footer_table">
+<tr>
+<td style="width: 50%; vertical-align: top; border: 1px solid #000; padding: 4px; font-size:9pt;">
+<strong>11 - OBSERVAÇÕES</strong>
+<br/>
+<br/>
+<br/>
+<br/>
+<strong>12 - AUTENTICAÇÃO DO SUJEITO PASSIVO</strong>
+<p style="font-size:9pt;">
+Esta declaração corresponde à verdade e não omite qualquer informação pedida
+<br/>
+Dg # / # / #
+</p>
+<p>
+<strong>Nome:</strong>
+<br/>
+<strong>Ass.:</strong>
+<br/>
+<strong>Qualidade:</strong>
+<br/>
+<strong>Representante e NUIT:</strong>
+<br/>
+de Contas (Sujeitos passivos com contabilidade org)
+<br/>
+<br/>
+<strong>Nome:</strong>
+11+I97:W100
+<br/>
+<strong>NUIT:</strong>
+<br/>
+<strong>Ass.:</strong>
+<br/>
+Nº de Inscrição DG
+</p>
+</td>
+<!--  Coluna 13 e dados do lado direito  -->
+<td style="width: 50%; vertical-align: top; border: 1px solid #000; padding: 4px; font-size:9pt;">
+<strong>13 - USO EXCLUSIVO DOS SERVIÇOS</strong>
+<p>
+<input type="checkbox"/>
+Com Imposto a pagar
+<br/>
+<input type="checkbox"/>
+Com imposto a recuperar
+<br/>
+<input type="checkbox"/>
+Nula
+</p>
+<p>
+Nº de Entrada: ________
+<br/>
+Classificação Económica da Receita: ____________
+</p>
+<p style="border-top: 1px solid #000; margin-top: 10px;">
+<strong>DATA DE PAGAMENTO / ENTREGA DA DECLARAÇÃO</strong>
+<br/>
+Dia: [__] Mês: [__] Ano: [____]
+<br/>
+Nº de Receita: ____________
+<br/>
+Nome do Func.: __________________
+<br/>
+Ass.: ___________________________
+</p>
+<p style="border-top: 1px solid #000; margin-top: 10px;">
+<strong>INSERÇÃO DE DADOS</strong>
+<br/>
+Data: ___ / ___ / ____
+<br/>
+Nome do Func.: __________________
+<br/>
+Ass.: ___________________________
+</p>
+</td>
+</tr>
+</table>
+
+
+        <table style="width:100%; border-collapse: collapse; font-size:10pt;" border="1">
+            <tr style="background-color: #F09760; font-weight: bold;">
+                <th colspan="3">8 - APURAMENTO DO LUCRO TRIBUTÁVEL</th>
+            </tr>
+
+            <tbody>
+                <tr>
+                    <td class="text-center" style="font-size:10pt;">
+                        <strong>RESULTADO DO EXERCÍCIO</strong>
+                    </td>
+                    <td style="width: 20%;font-size:10pt;">201</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt">
+                    <t t-if="doc.campo201_IRPC != 0.0">                    
+                        <span><span t-field="doc.campo201_IRPC"/> </span>   
+                    </t>             
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Variações patrimoniais posítivas não reflectidas no resultado líquido (art. 21 do CIRPC)</td>
+                    <td style="font-size:10pt;">202</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">
+                    <t t-if="doc.campo202_IRPC != 0.0"> 
+                        <span><span t-field="doc.campo202_IRPC"/> </span> 
+                    </t>                    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Variações patrimoniais negativas não reflectidas no resultado líquido (art. 24 do CIRPC) </td>
+                    <td style="font-size:10pt;">203</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">                    
+                    <t t-if="doc.campo203_IRPC != 0.0"> 
+                        <span><span t-field="doc.campo203_IRPC"/></span>                    
+                    </t>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">
+                        <b>RESULTADO APÓS VARIAÇÕES PATRIMONIAIS (Campos 201+202)</b>
+                    </td>
+                    <td style="font-size:10pt;">204</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">                    
+                    <t t-if="doc.campo204_IRPC != 0.0"> 
+                        <span><span t-field="doc.campo204_IRPC"/></span>                    
+                    </t>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Materia colectável imputada por sociedades transparentes (art. 6) do CIRPC</td>
+                    <td style="font-size:10pt;">205</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">  
+                    <t t-if="doc.campo205_IRPC != 0.0">                
+                        <span><span t-field="doc.campo205_IRPC"/></span>                    
+                    </t>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Actualização da valorização de produtos agrícolas e de outros activos biológicos não
+enquadráveis no art. 18 nº 7 do CIRPC </td>
+                    <td style="font-size:10pt;">206</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">  
+                    <t t-if="doc.campo206_IRPC != 0.0">                    
+                        <span><span t-field="doc.campo206_IRPC"/></span>
+                    </t>                    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Anulação de efeito do método da equivalência patrimonial (art. 18 nº 8 CIRPC) </td>
+                    <td style="font-size:10pt;">207</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">
+                    <t t-if="doc.campo207_IRPC != 0.0"> 
+                        <span><span t-field="doc.campo207_IRPC"/></span>
+                    </t>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Diferenças de câmbio não realizadas (art. 22 c) do CIRPC</td>
+                    <td style="font-size:10pt;">208</td>
+                   <td class="text-end" style="width: 20%;font-size:10pt;">  
+                    <t t-if="doc.campo208_IRPC != 0.0">               
+                        <span><span t-field="doc.campo208_IRPC"/></span>   
+                    </t>                  
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Reintegrações e amortizações não aceites como custos (art. 27 do CIRPC) </td>
+                    <td style="font-size:10pt;">209</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;"> 
+                    <t t-if="doc.campo209_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo209_IRPC"/></span>  
+                    </t>                  
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Despesas ilícitas, prémios de seguros e contribuições (nº1 a) e (nº2 art.23 do CIRPC) </td>
+                    <td style="font-size:10pt;">210</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">                    
+                    <t t-if="doc.campo210_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo210_IRPC"/></span>  
+                    </t>                  
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Provisões ou perdas por imparidade não dedutiveis ou para além dos limites legais
+(arts. 28 e 29 do CIRPC) </td>
+                    <td style="font-size:10pt;">211</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Redução de valor de mercado de activos tangíveis de investimento (art. 36 nº1 do CIRPC) </td>
+                    <td style="font-size:10pt;">212</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Variação de valor de mercado de activos e passivos financeiros quando não
+comprovável por referência a uma bolsa de valores (art.36 nº 1k) do CIRPC)</td>
+                    <td style="font-size:10pt;">213</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Custos ou perdas resultantes de saídas a favor dos titulares de capital e título de
+remuneração, redução ou de partilha do património (art. 36 nº1i) do CIRPC)</td>
+                    <td style="font-size:10pt;">214</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Perdas estimadas em obras de carácter plurianual</td>
+                    <td style="font-size:10pt;">215</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Despesas com publicidade para além dos limites legais (art. 36 nº 1 n) do CIRPC</td>
+                    <td style="font-size:10pt;">216</td>
+                   <td class="text-end" style="width: 20%;font-size:10pt;">
+                                       
+                   <t t-if="doc.campo216_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo216_IRPC"/></span>  
+                    </t>                  
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Despesas previstas no art. 22 alíneas k) e l) do CIPRC (art. 36-A nº 1 do CIRPC)</td>
+                    <td style="font-size:10pt;">217</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Realizações de utilifdade social não enquadráveis (arts. 31 a 33 do CIRPC)</td>
+                    <td style="font-size:10pt;">218</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Donativos não previstos ou além dos limites legais (art. 34 do CIRPC) </td>
+                    <td style="font-size:10pt;">219</td>
+                   <td class="text-end" style="width: 20%;font-size:10pt;">                    
+                     <t t-if="doc.campo219_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo219_IRPC"/></span>  
+                    </t>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">IRPC (art. 36 nº1 a) do CIRPC)</td>
+                    <td style="font-size:10pt;">220</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Impostos e encargos de responsabilidade de outrém (art. 36 nº1 b) do CIRPC) </td>
+                    <td style="font-size:10pt;">221</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Multas, coimas, juros compensatórios e demais encargos pela prática de infrações (art.36 nº 1c) </td>
+                    <td style="font-size:10pt;">222</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">                    
+                    <t t-if="doc.campo222_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo222_IRPC"/></span>  
+                    </t>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Indeminizações por eventos seguráveis (art. 36 nº1 d) do CIRPC)</td>
+                    <td style="font-size:10pt;">223</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">                    
+                    <t t-if="doc.campo223_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo223_IRPC"/></span>  
+                    </t>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">50% das ajudas de custos e compensação pela utilização de viat. do trabalhador (art. 36 nº1 e)</td>
+                    <td style="font-size:10pt;">224</td>
+                   <td class="text-end" style="width: 20%;font-size:10pt;">                    
+                   <t t-if="doc.campo224_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo224_IRPC"/></span>  
+                    </t>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">80% das despesas de representação (art. 36 nº1 f) do CIRPC)</td>
+                    <td style="font-size:10pt;">225</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">                    
+                    <t t-if="doc.campo225_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo225_IRPC"/></span>  
+                    </t>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Despesas confidencias e/ou não documentadas (art. 36 nº1 g) do CIRPC) </td>
+                    <td style="font-size:10pt;">226</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">                    
+                    <t t-if="doc.campo226_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo226_IRPC"/></span>  
+                    </t>
+                   
+                       
+                        </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Importâncias devidas pelo aluguer de viaturas sem condutor (art. 36 nº1 h)</td>
+                    <td style="font-size:10pt;">227</td>
+                    <td class="text-end" style="width: 20%; font-size:10pt;">                    
+                    <t t-if="doc.campo227_IRPC != 0,0">                     
+                        <span><span t-field="doc.campo227_IRPC"/></span>  
+                    </t>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Combustíveis consumidos em excesso ou em viaturas que não se provem pertencerem à
+empresa (art. 36 nº1 I) do CIRPC)</td>
+                    <td style="font-size:10pt;">228</td>
+                     <td class="text-end" style="width: 20%;font-size:10pt;">                    
+                    <t t-if="doc.campo228_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo228_IRPC"/></span>  
+                    </t>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">50% dos encargos com viaturas ligadas de passageiros (art. 36 nº 4 do CIRPC) </td>
+                    <td style="font-size:10pt;">229</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">                    
+                    <t t-if="doc.campo229_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo229_IRPC"/></span>  
+                    </t>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Menos-valias contabilísticas (arts. 22 a) 37 e 38 do CIRPC) </td>
+                    <td style="font-size:10pt;">230</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt;">                    
+                    <t t-if="doc.campo230_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo230_IRPC"/></span>  
+                    </t>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Mais-valias fiscais (arts. 20 h), 37 e 38 do CIRPC) </td>
+                    <td style="font-size:10pt;">231</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Correções dos casos de créditos de impostos (art. 53 nº1 do CIRPC)</td>
+                    <td style="font-size:10pt;">232</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Correções relactivas a exercícios anteriores (art. 18 nº2 do CIRPC) </td>
+                    <td style="font-size:10pt;">233</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">-Reposição de diferenças de câmbios não tributadas (art. 20 nº 1 c) do CIRPС)</td>
+                    <td style="font-size:10pt;">234</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Impostos diferidos (art. 22 c) do CIRPC)</td>
+                    <td style="font-size:10pt;">235</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td/>
+                    <td style="font-size:10pt;">236</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td/>
+                    <td style="font-size:10pt;">237</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td/>
+                    <td style="font-size:10pt;">238</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td/>
+                    <td style="font-size:10pt;">239</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td/>
+                    <td style="font-size:10pt;">240</td>
+                    <td/>
+                </tr>
+                <!-- Soma final -->
+                <tr>
+                    <td class="text-end" style="font-size:10pt;">
+                        <b>SOMA (Campos 204 a 240)</b>
+                    </td>
+                    <td style="font-size:10pt;">241</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Reposição de provisões tributadas (arts. 28 e 29 do CIRPC) </td>
+                    <td style="font-size:10pt;">242</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Mais-valias contabilísticas (arts. 20 h), 37 e 38 do CIRPC)</td>
+                    <td style="font-size:10pt;">243</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Menos-valias fiscais (arts. 22 a), 37 e 38 do CIRPC)</td>
+                    <td style="font-size:10pt;">244</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Restituição de impostos não dedutíveis e excesso de estimativas para impostos</td>
+                    <td style="font-size:10pt;">245</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Dupla tributação económica de lucros distribuídos (art. 40 do CIRPC)</td>
+                    <td style="font-size:10pt;">246</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Actualização de encargos de explorações silvícolas plurianuais (art. 18 nº6 do CIRPC)</td>
+                    <td style="font-size:10pt;">247</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Actualização da valorização de produtos agrícolas e de outros activos biológicos não enquadráveis no art. 18 nº7 do CIRPС</td>
+                    <td style="font-size:10pt;">248</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Anulação do efeito do método da equivalência patrimonial (art. 18 nº8 do CIRPC)</td>
+                    <td style="font-size:10pt;">249</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Diferença de cambiais não realizadas (art. 22 nº1 c) do CIRPC)</td>
+                    <td style="font-size:10pt;">250</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Reposição de amortizações extraordinárias (art. 20 nº2 b) do CIRPC)</td>
+                    <td style="font-size:10pt;">251</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Proveitos ou ganhos resultantes de operações de cencentração de actividades empresariais (art. 20 nº3 a))</td>
+                    <td style="font-size:10pt;">252</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Aumento de valor de mercado de ativos tangíveis de investimento (art. 20 nº3 b)</td>
+                    <td style="font-size:10pt;">253</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Variação de valor de mercado de activos e passivos financeiros quando não comprovável por
+referência a uma bolsa de valores (art. 20 nº3 c) do CIRPC) </td>
+                    <td style="font-size:10pt;">254</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Reposição das despesas previstas no art. 22 alíneas k) e l) do CIRPC (art. 36-A nº1)</td>
+                    <td style="font-size:10pt;">255</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Reposição de perdas estimadas de obras de carácter plurianual (art. 20 nº1 m) do CIRPC)</td>
+                    <td style="font-size:10pt;">256</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Benefícios fiscais</td>
+                    <td style="font-size:10pt;">257</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Reposição de diferenças de câmbios tributadas (art. 22 c) do CIRPC)</td>
+                    <td style="font-size:10pt;">258</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">Impostos diferidos (art. 20 nº3 d) do CIRPC) </td>
+                    <td style="font-size:10pt;">259</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;"/>
+                    <td style="font-size:10pt;">260</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td/>
+                    <!--</td>-->
+                    <td style="font-size:10pt;">261</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td/>
+                    <!--</td>-->
+                    <td style="font-size:10pt;">262</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td/>
+                    <!--</td>-->
+                    <td style="font-size:10pt;">263</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td/>
+                    <!--</td>-->
+                    <td style="font-size:10pt;">264</td>
+                    <td/>
+                </tr>
+                <!-- Soma das deduções -->
+                <tr>
+                    <td style="font-size:10pt;">SOMA DAS DEDUÇÕES (Campos 242 e 265)</td>
+                    <td style="font-size:10pt;">266</td>
+                    <td/>
+                </tr>
+                <!-- Resultados finais -->
+                <tr>
+                    <td style="font-size:10pt;">PREJUÍZO PARA EFEITOS FISCAIS (Se 266&gt;241) – A transportar para o campo 269, 279 ou 289 do quadro 9</td>
+                    <td style="font-size:10pt;">267</td>
+                    <td class="text-end" style="width: 20%;font-size:10pt">
+                        <t t-if="doc.campo267_IRPC != 0.0">
+                            <span><span t-field="doc.campo267_IRPC"/></span>
+                        </t>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:10pt;">LUCROS TRIBUTÁVEL (Se 241 ≥ 266) – A transportar para o campo 270, 280 e/ou 290 do quadro 9</td>
+                    <td style="font-size:10pt;">268</td>                    
+                    <td class="text-end" style="width: 20%;font-size:10pt">
+                     <t t-if="doc.campo268_IRPC != 0.0">
+                        <span><span t-field="doc.campo268_IRPC"/></span>
+                    </t>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+
+
+<table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+<tr style="font-size:10pt;">
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">A transportar do Quadro 10, ou do quadro 4 do M/20 G</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 25%;">REGIME GERAL</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 27.5%;">COM REDUCAO DE TAXA</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">COM ISENÇÃO</td>
+</tr>
+</table>
+<table class="tabela10pt" style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse; ">
+<tr style="font-size:10pt;">
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">1-PREJUÍZO FISCAL</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">269</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">
+                    <t t-if="doc.campo269_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo269_IRPC"/></span>  
+                    </t></td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">279</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; ">|___|_______|___|</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">289</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+</tr>
+<tr style="font-size:10pt;">
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">2-LUCRO TRIBUTÁVEL</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">270</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">
+                    <t t-if="doc.campo270_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo270_IRPC"/></span>  
+                    </t></td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">280</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; ">|___|_______|___|</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">290</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+</tr>
+<tr style="font-size:10pt;">
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">Exercício N-5</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">271 </td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">|____|___|____|</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">281</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; ">|___|_______|___|</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">291</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+</tr>
+<tr style="font-size:10pt;">
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">Exercício N-4</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">272 </td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">|____|___|____|</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">282</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; ">|___|_______|___|</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">292</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+</tr>
+<tr style="font-size:10pt;">
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">Exercício N-3</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">273 </td>
+<td colspan="23" style="font-size:10pt; width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center"> 
+                    <t t-if="doc.campo273_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo273_IRPC"/></span>  
+                    </t></td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">283</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; ">|___|_______|___|</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">293</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+</tr>
+<tr style="font-size:10pt;">
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">Exercício N-2</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">274 </td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">
+                    <t t-if="doc.campo274_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo274_IRPC"/></span>  
+                    </t></td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">284</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; ">|___|_______|___|</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">294</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+</tr>
+<tr style="font-size:10pt;">
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">Exercício N-1</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">275 </td>
+<td colspan="23" style="font-size:10pt; width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center"> 
+                    <t t-if="doc.campo275_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo275_IRPC"/></span>   
+                    </t></td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">285</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; ">|___|_______|___|</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">295</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+</tr>
+<tr style="font-size:10pt;">
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">3-PREJUÍZO FISCALIS DEDUZIDOS</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">276 </td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">
+                    <t t-if="doc.campo276_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo276_IRPC"/></span>  
+                    </t></td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">286</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; ">|___|_______|___|</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">296</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+</tr>
+<tr style="font-size:10pt;">
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">4-BENEFICIOS FISCAIS A DEDUZIR</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">277 </td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">
+                    <t t-if="doc.campo277_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo277_IRPC"/></span>  
+                    </t></td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">287</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; ">|___|_______|___|</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">297</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+</tr>
+<tr style="font-size:10pt;">
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">MATÉRIA COLECTÁVEL (2-3-4)</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">278 </td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">
+                    <t t-if="doc.campo278_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo278_IRPC"/></span>  
+                    </t></td>
+<td colspan="23" style="font-size:10pt; width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;">288</td>
+<td colspan="23" style="font-size:10pt; width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; ">|___|_______|___|</td>
+<td colspan="23" style=" font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">298</td>
+<td colspan="23" style="font-size:10pt; width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center">|___|_______|___|</td>
+</tr>
+<tr style="font-size:10pt;">
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">B - de outras entidades</td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;"> </td>
+<td colspan="23" style="font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 20%;">
+                   
+<td colspan="23" style="font-size:10pt; width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%;"/>
+<td colspan="23" style="font-size:10pt; width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; "/>
+<td colspan="23" style=" font-size:10pt;width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center; width: 5%; ">299</td>
+<td colspan="23" style="font-size:10pt; width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; text-align: center"> 
+                    <t t-if="doc.campo299_IRPC != 0.0">                     
+                        <span><span t-field="doc.campo299_IRPC"/></span>  
+                    </t></td></td>
+</tr>
+</table>
+<br/>
+</t>
+</t>
+</t>
+</t>
+<!--  </t>  -->
+</t>
+        </field>
+    </record>
+
+    <record id="report_saleorder_pro_forma" model="ir.ui.view">
+        <field name="name">report_saleorder_pro_forma</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_saleorder_pro_forma">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="web.external_layout">
+
+                <style>
+                        table,td{
+                            border: 1px solid black;
+                        }
+                    </style>
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+      <tbody>
+        <tr style="height:65.75pt;">
+          <td style=" border: none; outline: none; solid black; text-align:center; font-size:10px;  border: none; vertical-align:center;">
+            <br/>
+    <img src="/account_MZ/static/description/emblema.png" alt="Descrição da Imagem" width="90" height="90"/>
+
+          </td>
+          <td style="border: none; outline: none; solid black; text-align:center; font-size:12pt; background-color:#F7D358; ">
+            <br/>
+                                    República de Moçambique
+                                    <br/>
+            <br/>
+                                    Ministério da Economia e Finanças
+                                    <br/>
+                                    Autoridade Tributária de Moçambique
+                                    <br/>
+                                    DIRECÇÃO GERAL DE IMPOSTOS
+                                </td>
+          <td style="Border: 1px solid black ; text-align:center; font-size:12pt; background-color:#F7D358;">
+            <br/>
+            <br/>
+                                  IRPS - Imposto Sobre Rendimento das Pessoas Singulares <br/>
+          </td>
+          <td style="solid black; text-align: center; font-size:12pt; background-color:#F7D358;" width="150px; ">
+            <br/>
+            <br/>
+                                 M/19
+                                  <br/>
+                                IRPS <br/>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+      <tbody>
+        <tr>
+          <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#F7D358;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px;">   1 - NOME / DESIGNAÇÃO SOCIAL DO SUJEITO PASSIVO</p>
+          </td>
+          <td colspan="23" style="width:200pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#F7D358;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:14pt; text-align:center;">
+              <span style="font-size:13px;">2 - NUIT</span>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+      <tbody>
+        <tr style="height:40.8pt; font-size: 13px">
+          <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:center; font-size: 13px">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px; padding-left: 8px">
+                <span t-esc="doc.company.name"/>
+              <strong/>
+              <span style="font-size:10pt;"/>
+            </p>
+          </td>
+          <td colspan="23" style="width:200pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:center; font-size: 13px">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px; text-align:center;">
+              <strong/><span t-field="doc.company.vat"/>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+      <tbody>
+        <tr>
+          <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:center; background-color:#F7D358;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px;">   3 - DÍSTICOS COMERCIAIS USADOS (SE EXISTIREM)</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+      <tbody>
+        <tr style="height:40.8pt;">
+          <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px;">
+              <span style="font-size:10pt;"/>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+      <tbody>
+        <tr>
+          <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#F7D358;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px;">   4 - ENDEREÇO DA RESIDÊNCIA DO PROPRIETÁRIO / SEDE DA EMPRESA (EM MOÇAMBIQUE)</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table cellpadding="5" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+      <tbody>
+        <tr style="border: none ; height:5.8pt;">
+          <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+          <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+          <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+          <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+        </tr>
+        <tr style="border: none ; height:20.8pt;">
+          <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;">
+                        
+                            Rua / Praça / Avenida:  <span t-field="doc.company.street"/>,<span t-field="doc.company.city"/>
+          </td>
+         <td style="font-size:12px; padding-left: 5px; border: none">
+                               DAF:<b> <span/></b>
+                        </td>
+       
+          <td style="font-size:12px; border: none; vertical-align:center;">
+                             Andar: <span>  </span>
+                        </td>
+          <td style="font-size:12px; border: none; vertical-align:center;">
+                             Localidade :  <span> </span>
+                        </td>
+        </tr>
+        <tr style="border: none; height:20.8pt;">
+          <td style="font-size:12px; padding-left: 5px; border: none">
+                            Bairro: <b> <span> </span></b>
+                        </td>
+          <td style="font-size:12px; border: none">
+                             Quarteirão: <span><b/>  </span>
+                        </td>
+             <td style="font-size:12px; border: none">
+                             Telefone Fixo:   <strong> <span t-field="doc.company.phone"/> <span/></strong>
+          </td>
+          <td style="font-size:12px; border: none">
+                            Flat Nr : <span/>
+                        </td>
+        </tr>
+        <tr style="border: none; height:20.8pt;">
+          <td style="font-size:12px; padding-left: 5px; border: none">
+                              Provincia: <strong> <span> </span> </strong>
+          </td>
+          <td style="font-size:12px; border: none">
+                              Distrito:_________________________ 
+                        </td>
+          <td style="font-size:12px; border: none">
+                             Fax:_______________________
+                        </td>
+          <td style="font-size:12px; border: none">
+                            Cod. Postal :___________ 
+                        </td>
+        </tr>
+        <!--<tr style="border: none; height:20.8pt;">-->
+          
+        <!--  <td style="font-size:12px; border: none">-->
+        <!--    <span style="font-size:7pt;"> </span>-->
+        <!--  </td>-->
+        <!--  <td style="font-size:12px; border: none">-->
+        <!--    <span style="font-size:7pt;"> </span>-->
+        <!--  </td>-->
+        <!--</tr>-->
+      </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+      <tbody>
+        <tr>
+          <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#F7D358;">
+            <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px;">   5 - IMPOSTO A PAGAR</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+      <tbody>
+        <tr style="border: none ; height:5.8pt;">
+          <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+          <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+          <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+        </tr>
+        <tr style=" border: none">
+          <td style="font-size:12px; text-align:left; padding-left: 5px; border: none">
+            <b>Reservado aos Servicos<br/>Classificador Economico da Receita</b>
+          </td>
+          <td style="font-size:12px; text-align: left; border: none">
+            <b>TIPO DE RENDIMENTO</b>
+          </td>
+          <td style="font-size:12px; text-align:rightr;  border: none">
+            <b>IMPORTÂNCIA A PAGAR EM METICAIS (sem centavos)</b>
+          </td>
+        </tr>
+        <tr style="border: none ; height:5.8pt;">
+          <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+          <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+          <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+              <tbody>
+                <tr style="height:20.8pt;">
+                  <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Trabalho Dependente</td>
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt; vertical-align: middle;">
+                  <td class="td-line" style="font-size: 12px;vertical-align: middle; text-align: center; background-color: #696969;">10</td>
+                  <td width="80%" style="text-align: center; vertical-align: middle;">
+                                        
+                                            <!-- <span t-field="doc.trabalhoDep"/> -->
+                                        
+                                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+              <tbody>
+                <tr style="height:20.8pt;">
+                  <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Pensões</td>
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt;">
+                  <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">11</td>
+                  <td width="80%" style="vertical-align: middle; text-align: center">
+                                        
+                                 
+                                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+              <tbody>
+                <tr style="height:20.8pt;">
+                  <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Rendimentos Profissionais</td>
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt;">
+                  <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">12</td>
+                  <td width="80%" style="vertical-align: middle; text-align: center">
+                                        
+                            <span t-field="doc.totalirps"/>         
+                                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+              <tbody>
+                <tr style="height:20.8pt;">
+                  <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-2</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Rendimentos Empresariais</td>
+          <td style="border: none; height:10.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt;">
+                  <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">13</td>
+                  <td width="80%" style="vertical-align: middle; text-align: center">
+                                                        <!-- <span t-field="doc.rendimentoEmpr"/>          -->
+            
+                                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+              <tbody>
+                <tr style="height:20.8pt;">
+                  <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-3</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Ganho de Jogos e similares (alínea e) n.1 art. 83</td>
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt;">
+                  <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">14</td>
+                  <td width="80%" style="vertical-align: middle; text-align: center">
+                                        
+                                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+              <tbody>
+                <tr style="height:20.8pt;">
+                  <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-4</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Rendimentos de Capitais e Mais Valias</td>
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt;">
+                  <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">15</td>
+                  <td width="80%" style="vertical-align: middle; text-align: center">
+                                        
+                                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+              <tbody>
+                <tr style="height:20.8pt;">
+                  <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-6</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Rendimentos Prediais</td>
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt;">
+                  <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">16</td>
+                  <td width="80%" style="vertical-align: middle;">
+                                        
+                                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+              <tbody>
+                <tr style="height:20.8pt;">
+                  <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-2</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">____________________________________</td>
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt;">
+                  <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">17</td>
+                  <td width="80%" style="vertical-align: middle;">
+                    <b> </b>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+              <tbody>
+                <tr style="height:20.8pt;">
+                  <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">_________________________</td>
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt;">
+                  <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">18</td>
+                  <td width="80%" style="vertical-align: middle;">
+                    <b> </b>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+              <tbody>
+                <tr style="height:20.8pt;">
+                  <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-2</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Pagamento por conta</td>
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt;">
+                  <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">20</td>
+                  <td width="80%" style="vertical-align: middle;text-align: center">
+                                        
+                                         
+                                        
+                                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+              <tbody>
+                <tr style="height:20.8pt;">
+                  <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Juros Compensatorios</td>
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt;">
+                  <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">21</td>
+                  <td width="80%" style="vertical-align: middle; text-align: center">
+                                        
+                                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+              <tbody>
+                <tr style="height:20.8pt;">
+                  <td style="font-size:12pt; text-align: center; vertical-align: middle;" width="80%"/>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">____________________________________</td>
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt;">
+                  <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">22</td>
+                  <td width="80%" style="vertical-align: middle;">
+                    <b>             </b>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border; ms-1" width="250pt">
+                                
+                                
+                                
+                            </table>
+          </td>
+          <td style="font-size:12px; border: none; height:20.8pt; text-align:left; padding-left: 20%">Total a Pagar</td>
+          <td style="border: none; height:20.8pt;">
+            <table class="table-width table-border" width="250pt">
+              <tbody>
+                <tr style="border: none; height:20.8pt;">
+                  <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">30</td>
+                  <td width="80%" style="vertical-align: middle; text-align: center;">
+                                        
+                                                             <span t-field="doc.totalirps"/>         
+       
+                                        
+                                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+      <tbody>
+        <tr style="border: none; height:30.8pt;">
+          <td style="font-size: 13px; padding-left: 5px; border: none; background-color:#F7D358;; vertical-align: middle;">
+            <b>6.AUTENTICAÇÃO DO SUJEITO PASSIVO</b>
+          </td>
+          <td colspan="2" style="font-size: 13px; text-align:center; border: none; background-color:#F7D358;; vertical-align: middle;">
+            <b>7.USO EXCLUSIVO DOS SERVIÇOS</b>
+          </td>
+        </tr>
+        <tr style="border: none; height:30.8pt;">
+          <td style="width:200pt;">
+            <p style="font-size:11px; padding-left: 5px;">Data:______________________/2022</p>
+            <p style="font-size:11px; padding-left: 5px;">Nome:______________________</p>
+            <p style="font-size:11px; padding-left: 5px;">Ass:______________________</p>
+            <p style="font-size:11px; padding-left: 5px;">Qualidade(Gerente, Procurador, etc):______________________</p>
+          </td>
+          <td style="width:200pt;">
+            <p style="font-size:11px; padding-left: 5px;">N de Registo:______________________</p>
+            <p style="font-size:11px; padding-left: 5px;">Data da recepção:______________________</p>
+            <p style="font-size:11px; padding-left: 5px;">Nome do Funciona:______________________</p>
+            <p style="font-size:11px; padding-left: 5px;">Ass:______________________</p>
+          </td>
+          <td style="width:200pt;">
+            <p style="font-size:11px; padding-left: 5px;">N de Registo:______________________</p>
+            <p style="font-size:11px; padding-left: 5px;">Data da recepção Nome do Funciona______________________</p>
+            <p style="font-size:11px; padding-left: 5px;"/>.
+                                <p style="font-size:11px; padding-left: 5px;">Ass:______________________</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+            </t>
+        </t>
+    </t>
+</t>
+        </field>
+    </record>
+
+</odoo>

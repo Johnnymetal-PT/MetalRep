@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="m_shop_navigator" name="Megamenu Shop Navigator">
+        <div t-attf-class="shop-navigator as_m_category_grid container-fluid py-4 as-mm-multiple-shop-section {{mm_style}}">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row g-3">
+                        <t t-foreach="categories" t-as="d">
+                            <div class="col-lg-4">
+                                <div class="as-mm-cat-card">
+                                    <div class="as-mm-cat-card-media">
+                                        <a t-attf-href="/shop/category/{{slug(d.sudo())}}">
+                                            <img t-att-src="request.website.image_url(d,'image_1024')"/>
+                                        </a>
+                                    </div>
+                                    <div class="as-mm-cat-title">
+                                        <span>
+                                            <a t-attf-href="/shop/category/{{slug(d.sudo())}}">
+                                                <t t-esc="d.sudo().name"/>
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <div class="as-mm-sub-cat">
+                                        <ul>
+                                            <t t-foreach="categories[d]" t-as="sub">
+                                                <li>
+                                                    <a t-attf-href="/shop/category/{{slug(sub.sudo())}}">
+                                                        <t t-esc="sub.name"/>
+                                                    </a>
+                                                </li>
+                                            </t>
+                                            <li t-if="categories[d]" class="as-mm-view-all">
+                                                <a t-attf-href="/shop/category/{{ slug(d.sudo()) }}">
+                                                    View All
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Products Section -->
+                <div class="col-lg-4 border-start as-shop-products">
+                    <h6 class="fw-bold list-area-heading">
+                        <t t-if="record_config == 'on_sale'">On Sale</t>
+                        <t t-elif="record_config == 'best_seller'">Best Sellers</t>
+                        <t t-elif="record_config == 'new_arrival'">New Arrivals</t>
+                        <t t-else="">Products</t>
+                    </h6>
+                    <t t-if="products">
+                        <t t-foreach="products" t-as="product">
+                            <div class="card as-mm-multiple-list-card">
+                                <div class="list-image">
+                                    <a t-att-href="product.website_url">
+                                        <img t-att-src="product.image_1920 and request.website.image_url(product, 'image_1920')"
+                                            class="img-fluid rounded"
+                                            t-att-alt="product.name"/>
+                                    </a>
+                                </div>
+                                <div class="list-body">
+                                    <h6 class="mb-0">
+                                        <a t-att-href="product.website_url"
+                                        class="text-decoration-none">
+                                            <t t-esc="product.name"/>
+                                        </a>
+                                    </h6>
+                                    <li class="lh-1 list-unstyled">
+                                        <t
+                                                            t-if="is_view_active('website_sale.product_comment')"
+                                            t-call="website_sale.product_tile_element_visibility"
+                                        >
+                                            <t t-set="visible_element_class" t-value="'o_wsale_products_opt_has_rating'"/>
+
+                                            <div class="o_wsale_product_rating_wrapper">
+                                                <t t-call="portal_rating.rating_widget_stars_static">
+                                                    <t t-set="rating_avg" t-value="product.sudo().rating_avg"/>
+                                                    <t t-set="rating_count" t-value="product.rating_count"/>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </li>
+                                    <div t-if="not (request.env.user._is_public() and request.website.active_b2b_mode)" class="product_price as-pc-price" >
+                                        <t t-set="combination_info" t-value="product.sudo()._get_combination_info(combination, add_qty=add_qty or 1)"/>
+                                        <span t-esc="combination_info['price']"
+                                            class="fw-bold"
+                                            name="product_price"
+                                            t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                        <del t-if="combination_info.get('has_discounted_price')" class="ms-1 h6" style="white-space: nowrap;"
+                                            t-esc="combination_info['list_price']"
+                                            t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                           
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <p class="text-muted small">No products found</p>
+                    </t>
+                </div>
+            </div>
+            <div class="row">
+                <div t-attf-class="swiper as_page_swiper" contenteditable="false">
+                    <div class="swiper-button-prev asi asi-chevron-left"></div>
+                    <div class="swiper-button-next asi asi-chevron-right"></div>
+                    <div class="swiper-wrapper">
+                        <t t-foreach="brands" t-as="d">
+                            <div t-if="d.active" class="swiper-slide">
+                                <div class="as-mm-brand-card">
+                                    <div class="as-mm-brand-card-media">
+                                        <a t-attf-href="/shop?brand={{d.id}}">
+                                            <img t-att-src="request.website.image_url(d,'image_1024')"/>
+                                        </a>
+                                    </div>
+                                    <div t-if="allow_link" class="as-mm-brand-title">
+                                        <a t-attf-href="/shop?brand={{d.id}}">
+                                            <t t-esc="d.sudo().display_name"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

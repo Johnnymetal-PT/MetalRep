@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Redireciona o embed de adiantamentos (account_payment_ids) do
+        orcamento para vistas pg_ sem journal_id, herdando diretamente a
+        vista de sale_advance_payment onde o campo e definido.
+    -->
+    <record id="view_order_form_pg_payment_access" model="ir.ui.view">
+        <field name="name">sale.order.form.pg.payment.access</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_advance_payment.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="account_payment_ids" position="attributes">
+                <attribute name="context">{'list_view_ref': 'pg_sale_advance_payment_access.view_pg_account_payment_tree', 'tree_view_ref': 'pg_sale_advance_payment_access.view_pg_account_payment_tree', 'form_view_ref': 'pg_sale_advance_payment_access.view_pg_account_payment_form'}</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>

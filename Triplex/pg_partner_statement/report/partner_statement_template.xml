@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_partner_statement_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="wiz">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Extrato Simplificado de Clientes</h2>
+                        <div class="row mt8 mb16">
+                            <div class="col-4">
+                                <strong>Período:</strong>
+                                <span t-field="wiz.date_from"/> a <span t-field="wiz.date_to"/>
+                            </div>
+                            <div class="col-4">
+                                <strong>Empresa:</strong>
+                                <span t-field="wiz.company_id.name"/>
+                            </div>
+                            <div class="col-4">
+                                <strong>Clientes:</strong>
+                                <span t-if="wiz.partner_ids">
+                                    <t t-esc="len(wiz.partner_ids)"/> selecionados
+                                </span>
+                                <span t-if="not wiz.partner_ids">Todos os ativos</span>
+                            </div>
+                        </div>
+
+                        <t t-if="not wiz.line_ids">
+                            <p class="text-muted">Sem movimentos no período selecionado.</p>
+                        </t>
+
+                        <t t-set="currencies" t-value="wiz.line_ids.mapped('currency_id')"/>
+                        <t t-foreach="currencies" t-as="currency">
+                            <t t-set="lines"
+                               t-value="wiz.line_ids.filtered(lambda l: l.currency_id == currency)"/>
+                            <h4 class="mt16">
+                                Moeda: <span t-esc="currency.name"/>
+                            </h4>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th class="text-end">Faturas Finais</th>
+                                        <th class="text-end">Faturas de Adiantamento</th>
+                                        <th class="text-end">Notas de Crédito</th>
+                                        <th class="text-end">Total Líquido</th>
+                                        <th class="text-end">Por Pagar do Período</th>
+                                        <th class="text-end">Saldo Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="lines.sorted(lambda l: l.partner_name or '')" t-as="line">
+                                        <td><span t-field="line.partner_id"/></td>
+                                        <td class="text-end">
+                                            <span t-field="line.final_invoiced_amount"
+                                                  t-options='{"widget": "monetary", "display_currency": line.currency_id}'/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.downpayment_amount"
+                                                  t-options='{"widget": "monetary", "display_currency": line.currency_id}'/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.refunded_amount"
+                                                  t-options='{"widget": "monetary", "display_currency": line.currency_id}'/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.net_invoiced_amount"
+                                                  t-options='{"widget": "monetary", "display_currency": line.currency_id}'/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.period_residual"
+                                                  t-options='{"widget": "monetary", "display_currency": line.currency_id}'/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.total_balance"
+                                                  t-options='{"widget": "monetary", "display_currency": line.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="border-black">
+                                        <th>Total</th>
+                                        <th class="text-end">
+                                            <span t-esc="sum(lines.mapped('final_invoiced_amount'))"
+                                                  t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                        </th>
+                                        <th class="text-end">
+                                            <span t-esc="sum(lines.mapped('downpayment_amount'))"
+                                                  t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                        </th>
+                                        <th class="text-end">
+                                            <span t-esc="sum(lines.mapped('refunded_amount'))"
+                                                  t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                        </th>
+                                        <th class="text-end">
+                                            <span t-esc="sum(lines.mapped('net_invoiced_amount'))"
+                                                  t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                        </th>
+                                        <th class="text-end">
+                                            <span t-esc="sum(lines.mapped('period_residual'))"
+                                                  t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                        </th>
+                                        <th class="text-end">
+                                            <span t-esc="sum(lines.mapped('total_balance'))"
+                                                  t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

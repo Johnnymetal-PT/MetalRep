@@ -1,0 +1,574 @@
+<t name="Contact Us" t-name="website.contactus">
+        <t t-call="website.layout">
+                    <style>
+/* --- Newsletter: collapsed -&gt; button, expanded -&gt; wizard card --- */
+.newsletter_wizard_wrap{
+  display:flex;
+  justify-content:flex-end; /* keep aligned to the right column */
+}
+
+.newsletter_wizard_btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 20px;
+  border-radius:12px;
+  background:#fff;
+  color:#111;
+  border:1px solid rgba(255,255,255,.25);
+  font-weight:600;
+  cursor:pointer;
+}
+
+.newsletter_wizard_panel{
+  display:none;             /* hidden until button click */
+  width: min(520px, 100%);
+}
+
+.newsletter_wizard_panel.is-open{
+  display:block;
+}
+
+/* Card */
+.newsletter_wizard_card{
+  position:relative;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px;
+  padding: 22px 22px 78px;
+  backdrop-filter: blur(6px);
+}
+
+/* Close button */
+.newsletter_wizard_close{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.35);
+  color:#fff;
+  cursor:pointer;
+}
+
+/* Reuse wizard look but adapted to dark bg */
+.newsletter_wizard_card .o_form_wizard_q{
+  display:none;
+  opacity:0;
+  transform: translateY(8px);
+  transition: opacity .28s ease, transform .28s ease;
+}
+.newsletter_wizard_card .o_form_wizard_q.is-active{display:block}
+.newsletter_wizard_card .o_form_wizard_q.is-active.is-visible{
+  opacity:1;
+  transform: translateY(0);
+}
+
+.newsletter_wizard_card .o_form_wizard_title{
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 14px;
+  color:#fff;
+}
+
+/* Inputs */
+.newsletter_wizard_card .form-control,
+.newsletter_wizard_card textarea,
+.newsletter_wizard_card select{
+  border:none!important;
+  border-bottom:1px solid rgba(255,255,255,.35)!important;
+  border-radius:0!important;
+  padding:10px 0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  font-size:16px;
+  color:#fff;
+}
+.newsletter_wizard_card .form-control::placeholder{color:rgba(255,255,255,.6)}
+.newsletter_wizard_card .form-control:focus,
+.newsletter_wizard_card textarea:focus,
+.newsletter_wizard_card select:focus{
+  outline:none!important;
+  box-shadow:none!important;
+  border-bottom-color:rgba(255,255,255,.8)!important;
+}
+
+/* Hide built-in labels */
+.newsletter_wizard_card .s_website_form_label,
+.newsletter_wizard_card .s_website_form_field &gt; label{display:none!important}
+
+/* Hide default submit row until last step (NO !important) */
+.newsletter_wizard_card .s_website_form_submit{display:none}
+
+/* Nav inside card */
+.newsletter_wizard_card .o_form_wizard_nav{
+  position:absolute;
+  right:16px;
+  bottom:16px;
+  z-index:10;
+  display:flex;
+  gap:10px;
+}
+
+.newsletter_wizard_card .o_form_wizard_btn{
+  width:40px;height:40px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  background:#fff;color:#111;
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;user-select:none
+}
+.newsletter_wizard_card .o_form_wizard_btn.is-disabled{opacity:.35;cursor:not-allowed}
+.newsletter_wizard_card .o_form_wizard_ok{
+  padding:8px 14px;
+  width:auto;
+  min-width:96px;
+  height:40px;
+  font-size:14px;
+}
+
+.newsletter_wizard_close{
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () =&gt; {
+  // Find newsletter forms in this page (mailing.contact)
+  const forms = Array.from(document.querySelectorAll('form[data-model_name="mailing.contact"]'));
+  if (!forms.length) return;
+
+  const getLabelText = (fieldEl) =&gt; {
+    const labelContent = fieldEl.querySelector('.s_website_form_label_content');
+    if (labelContent &amp;&amp; labelContent.textContent.trim()) return labelContent.textContent.trim();
+    const label = fieldEl.querySelector('label');
+    if (label &amp;&amp; label.textContent.trim()) return label.textContent.replace(/\*/g, '').trim();
+    return (fieldEl.getAttribute('data-translated-name') || fieldEl.getAttribute('data-name') || 'Pergunta').trim();
+  };
+
+  const focusFirstField = (stepEl) =&gt; {
+    const field = stepEl.querySelector('input:not([type="hidden"]), textarea, select');
+    if (field) field.focus({ preventScroll: true });
+  };
+
+  const safeSubmit = (form) =&gt; {
+    // Prefer Odoo's handler (usually bound to this button)
+    const odooSend = form.querySelector('a.s_website_form_send, button.s_website_form_send, input.s_website_form_send');
+    if (odooSend) return odooSend.click();
+
+    // Fallbacks
+    if (typeof form.requestSubmit === 'function') return form.requestSubmit();
+    const realSubmit = form.querySelector('button[type="submit"], input[type="submit"]');
+    if (realSubmit) return realSubmit.click();
+
+    form.submit();
+  };
+
+  forms.forEach((form) =&gt; {
+    // prevent double init
+    if (form.dataset.newsletterWizardInit === '1') return;
+    form.dataset.newsletterWizardInit = '1';
+
+    const rows = form.querySelector('.s_website_form_rows');
+    if (!rows) return;
+
+    // Create button + panel wrapper near the form
+    const host = form.closest('.s_website_form') || form.parentElement;
+    if (!host) return;
+
+    // ✅ IMPORTANT: capture the success message BEFORE moving the form
+    const endMsg = form.closest('.s_website_form')?.querySelector('.s_website_form_end_message');
+
+    // Hide the form initially (we'll put it in a panel)
+    form.style.display = 'none';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'newsletter_wizard_wrap';
+
+    const openBtn = document.createElement('button');
+    openBtn.type = 'button';
+    openBtn.className = 'newsletter_wizard_btn';
+    openBtn.textContent = 'Subscrever';
+
+    const panel = document.createElement('div');
+    panel.className = 'newsletter_wizard_panel';
+
+    const card = document.createElement('div');
+    card.className = 'newsletter_wizard_card';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'newsletter_wizard_close';
+    closeBtn.setAttribute('aria-label', 'Fechar');
+    closeBtn.textContent = '✕';
+
+    panel.appendChild(card);
+    wrap.appendChild(openBtn);
+    wrap.appendChild(panel);
+
+    // insert wrapper before the form host content
+    host.insertBefore(wrap, host.firstChild);
+
+    // Move the form into the card
+    card.appendChild(closeBtn);
+    card.appendChild(form);
+
+    // ✅ Move the success message into the same card too
+    if (endMsg) card.appendChild(endMsg);
+
+    form.style.display = ''; // visible inside panel (panel still hidden)
+
+    // Build steps (only from visible fields, excluding hidden list_ids)
+    const fieldEls = Array.from(rows.children).filter(el =&gt;
+      el.classList.contains('s_website_form_field') &amp;&amp;
+      !el.classList.contains('s_website_form_field_hidden')
+    );
+
+    if (fieldEls.length &lt;= 1) {
+      // If only one field, just show form normally on open
+      openBtn.addEventListener('click', () =&gt; {
+        panel.classList.add('is-open');
+        openBtn.style.display = 'none';
+      });
+      closeBtn.addEventListener('click', () =&gt; {
+        panel.classList.remove('is-open');
+        openBtn.style.display = '';
+      });
+      return;
+    }
+
+    // Wrap each field into a step
+    const steps = fieldEls.map((fieldEl, idx) =&gt; {
+      const step = document.createElement('div');
+      step.className = 'o_form_wizard_q';
+      step.dataset.stepIndex = String(idx);
+
+      const title = document.createElement('div');
+      title.className = 'o_form_wizard_title';
+      title.textContent = getLabelText(fieldEl);
+
+      step.appendChild(title);
+      step.appendChild(fieldEl);
+
+      rows.insertBefore(step, rows.firstChild);
+      return step;
+    }).sort((a,b) =&gt; parseInt(a.dataset.stepIndex,10) - parseInt(b.dataset.stepIndex,10));
+
+    const submitRow = rows.querySelector('.s_website_form_submit') || form.querySelector('.s_website_form_submit');
+
+    // Add nav
+    const nav = document.createElement('div');
+    nav.className = 'o_form_wizard_nav';
+    nav.innerHTML = `
+      <button type="button" class="o_form_wizard_btn js_prev" aria-label="Anterior">↑</button>
+      <button type="button" class="o_form_wizard_btn js_next" aria-label="Seguinte">↓</button>
+    `;
+    card.appendChild(nav);
+
+    let current = 0;
+
+    const isStepAnswered = (stepEl) =&gt; {
+      const fields = stepEl.querySelectorAll('input, select, textarea');
+      if (!fields.length) return true;
+
+      const checkboxes = stepEl.querySelectorAll('input[type="checkbox"]');
+      if (checkboxes.length) return Array.from(checkboxes).some(c =&gt; c.checked);
+
+      const field = fields[0];
+      if (typeof field.checkValidity === 'function') return field.checkValidity();
+      return (field.value || '').trim().length &gt; 0;
+    };
+
+    const renderNav = () =&gt; {
+      const prevBtn = nav.querySelector('.js_prev');
+      const nextBtn = nav.querySelector('.js_next');
+
+      prevBtn.classList.toggle('is-disabled', current === 0);
+
+      const isLast = current === (steps.length - 1);
+
+      // show/hide default Odoo submit row only on last step
+      if (submitRow) submitRow.style.display = isLast ? 'block' : 'none';
+
+      nextBtn.textContent = isLast ? 'Submeter' : '↓';
+      nextBtn.classList.toggle('o_form_wizard_ok', isLast);
+    };
+
+    const renderStep = (initial=false) =&gt; {
+      steps.forEach((s,i) =&gt; {
+        s.classList.toggle('is-active', i === current);
+        if (i !== current) s.classList.remove('is-visible');
+      });
+
+      if (initial) setTimeout(() =&gt; steps[current].classList.add('is-visible'), 0);
+      else steps[current].classList.add('is-visible');
+
+      focusFirstField(steps[current]);
+      renderNav();
+    };
+
+    const goNext = () =&gt; {
+      const stepEl = steps[current];
+      if (!isStepAnswered(stepEl)) {
+        const firstField = stepEl.querySelector('input, textarea, select');
+        if (firstField &amp;&amp; typeof firstField.reportValidity === 'function') firstField.reportValidity();
+        return;
+      }
+
+      const isLast = current === (steps.length - 1);
+      if (!isLast) {
+        const old = current;
+        current += 1;
+        steps[old].classList.remove('is-visible');
+        setTimeout(() =&gt; {
+          steps.forEach((s,i) =&gt; s.classList.toggle('is-active', i === current));
+          void steps[current].offsetWidth;
+          steps[current].classList.add('is-visible');
+          focusFirstField(steps[current]);
+          renderNav();
+        }, 160);
+        return;
+      }
+
+      safeSubmit(form);
+    };
+
+    const goPrev = () =&gt; {
+      if (current === 0) return;
+      const old = current;
+      current -= 1;
+      steps[old].classList.remove('is-visible');
+      setTimeout(() =&gt; {
+        steps.forEach((s,i) =&gt; s.classList.toggle('is-active', i === current));
+        void steps[current].offsetWidth;
+        steps[current].classList.add('is-visible');
+        focusFirstField(steps[current]);
+        renderNav();
+      }, 160);
+    };
+
+    nav.querySelector('.js_next').addEventListener('click', goNext);
+    nav.querySelector('.js_prev').addEventListener('click', goPrev);
+
+    form.addEventListener('keydown', (e) =&gt; {
+      if (e.key !== 'Enter') return;
+      const activeStep = steps[current];
+      if (activeStep &amp;&amp; activeStep.querySelector('textarea:focus')) return;
+      e.preventDefault();
+      goNext();
+    });
+
+    // Open/close behavior
+    openBtn.addEventListener('click', () =&gt; {
+      panel.classList.add('is-open');
+      openBtn.style.display = 'none'; // hide after click
+      current = 0;
+      renderStep(true);
+    });
+
+    const closePanel = () =&gt; {
+      panel.classList.remove('is-open');
+      openBtn.style.display = ''; // show button again
+    };
+
+    closeBtn.addEventListener('click', (e) =&gt; {
+      e.preventDefault();
+      e.stopPropagation();
+      closePanel();
+    });
+
+    // Init in closed state
+    renderStep(true);
+  });
+});
+</script>
+            <t t-set="logged_partner" t-value="request.env['website.visitor']._get_visitor_from_request().partner_id"/>
+            <t t-set="contactus_form_values" t-value="{                 'email_to': res_company.email,                 'name': request.params.get('name', ''),                 'phone': request.params.get('phone', ''),                 'email_from': request.params.get('email_from', ''),                 'company': request.params.get('company', ''),                 'subject': request.params.get('subject', ''),             }"/>
+            <span class="hidden" data-for="contactus_form" t-att-data-values="contactus_form_values"/>
+            <div id="wrap" class="oe_structure oe_empty"><section class="s_text_block pt40 o_colored_level pb48 s_custom_snippet o_animate o_anim_fade_in" data-snippet="s_text_block" data-name="Personalizar Texto (3)">
+        <div class="container s_allow_columns">
+            <h2 style="text-align: center;"><strong>LOJAS</strong><br/></h2>
+        </div>
+    </section><section class="s_contact_info o_cc o_colored_level pb144 o_cc1 pt32 o_animate o_anim_fade_in" data-snippet="s_contact_info" data-name="Informações de contato" style="background-color: rgb(242, 239, 233);">
+        <div class="container">
+            <div class="row o_grid_mode" data-row-count="9">
+                <div class="o_grid_item g-col-lg-6 col-10 offset-1 o_colored_level g-height-2 col-lg-6 o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 24px; grid-area: 1 / 1 / 3 / 7; z-index: 1;" data-name="Title block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h2>Porto</h2>
+                    <p class="lead">Leça da Palmeira</p>
+                </div>
+                
+                
+                
+                
+            <div class="o_grid_item g-col-lg-6 col-10 offset-1 o_colored_level g-height-1 col-lg-6" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 2; grid-area: 4 / 1 / 5 / 7;" data-name="Info block">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-fw fa-envelope-o" role="presentation"/>
+                        E-mail: porto@alfaiatedinteriores.pt</h3><p>&amp;nbsp;<br/></p>
+                </div><div class="o_grid_item g-col-lg-6 offset-1 o_colored_level g-height-1 col-lg-6" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 3; grid-area: 5 / 1 / 6 / 7;" data-name="Info block">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-mobile-phone fa-fw" role="presentation"/>
+                        Telemóvel: (<a href="tel:+351 914 084 236 (Chamada para rede m%C3%B3vel nacional)">+351) 914 084 236</a>&amp;nbsp;</h3>
+                </div><div class="o_grid_item o_grid_item_image g-col-lg-6 col-10 offset-1 o_colored_level g-height-7 col-lg-6" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 0px; z-index: 5; grid-area: 3 / 7 / 10 / 13;" data-name="Image block">
+                    <img src="/web/image/27289-9ad6090e/Foto_site.jpg" alt="" data-attachment-id="25638" class="img img-fluid o_we_custom_image o_anim_fade_in rounded o_animate o_animate_on_scroll" data-format-mimetype="image/webp" data-original-id="25638" data-original-src="/web/image/25638-9ad6090e/Foto_site.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1904" data-mimetype="image/webp" loading="eager" data-quality="100" style="animation-name: dummy;" data-scroll-zone-start="0" data-scroll-zone-end="100"/>
+                </div><div class="o_grid_item g-col-lg-6 g-height-1 o_colored_level col-lg-6" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 6; grid-area: 9 / 1 / 10 / 7;" data-name="Info block">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-clock-o fa-fw" role="presentation"/>&amp;nbsp;Horário:&amp;nbsp;</h3><h3 class="h5-fs">Segunda a Sábado - 10h às 20h</h3><h3 class="h5-fs">Domingo - Encerrados</h3><h3 class="h5-fs">Feriados -15h às 20h</h3>
+                </div><div class="o_grid_item g-col-lg-6 offset-1 o_colored_level col-lg-6 g-height-2" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 4; grid-area: 7 / 1 / 9 / 7;" data-name="Info block">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-fw fa-building-o" role="presentation"/>&amp;nbsp;Morada:&amp;nbsp;Rua Veloso Salgado, 974,&amp;nbsp;</h3><h3 class="h5-fs">4450-801 Leça da Palmeira, Porto, Portugal</h3>
+                </div><div class="o_grid_item g-col-lg-6 g-height-1 col-lg-6 o_colored_level" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 7; grid-area: 6 / 1 / 7 / 7;" data-name="Info block">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-fw fa-phone" role="presentation"/>
+                        Telefone:&amp;nbsp;&amp;nbsp;(<a href="tel:+351 220 958 289 (Chamada para rede fixa nacional)">+351) 220 958 289</a>&amp;nbsp;<span style="font-size: 12px;">(rede fixa&amp;nbsp;nacional)&amp;nbsp;</span></h3>
+                </div></div>
+        </div>
+    </section><section class="s_contact_info o_cc pb168 o_colored_level pt0 o_cc1 o_animate o_anim_fade_in" data-snippet="s_contact_info" data-name="Informações de contato">
+        <div class="container">
+            <div class="row o_grid_mode" data-row-count="10">
+                
+                
+                
+                
+                
+            <div class="o_grid_item offset-1 o_colored_level col-lg-5 g-col-lg-5 g-height-2 col-lg-6 o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 24px; z-index: 1; grid-area: 2 / 8 / 4 / 13;" data-name="Title block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h2><span style="font-size: 30px;">Lisboa</span><br/></h2>
+                    <p class="lead"><span style="font-size: 42px;">Parque das Nações</span><br/></p>
+                </div><div class="o_grid_item o_grid_item_image g-col-lg-6 col-10 offset-1 g-height-7 col-lg-6 o_colored_level" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 0px; z-index: 5; grid-area: 4 / 1 / 11 / 7;" data-name="Image block">
+                    <img src="/web/image/27288-7cf75d67/Alfaiate-dInteriores-loja-lisboa.jpg" alt="" data-attachment-id="25639" class="img img-fluid rounded o_we_custom_image o_animate o_animate_on_scroll o_anim_fade_in" data-format-mimetype="image/webp" data-original-id="25639" data-original-src="/web/image/25639-7cf75d67/Alfaiate-dInteriores-loja-lisboa.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1280" data-mimetype="image/webp" loading="eager" data-quality="100" data-scroll-zone-start="0" data-scroll-zone-end="100"/>
+                </div><div class="o_grid_item g-height-1 o_colored_level g-col-lg-5 col-lg-5 o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 6; grid-area: 10 / 8 / 11 / 13;" data-name="Info block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-clock-o fa-fw" role="presentation"/>&amp;nbsp;Horário:&amp;nbsp;</h3><h3 class="h5-fs">Segunda a Sábado - 10h às 20h</h3><h3 class="h5-fs">Domingo - Encerrados</h3><h3 class="h5-fs">Feriados -15h às 20h</h3>
+                </div><div class="o_grid_item offset-1 g-height-2 o_colored_level g-col-lg-5 col-lg-5 o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 4; grid-area: 8 / 8 / 10 / 13;" data-name="Info block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-fw fa-building-o" role="presentation"/>&amp;nbsp;Morada:&amp;nbsp;Lote 1.03.1, Av. Dom João II,</h3><h3 class="h5-fs">1990-092 Parque das Nações, Lisboa, Portugal</h3>
+                </div><div class="o_grid_item g-height-1 o_colored_level g-col-lg-5 col-lg-5 o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 0; grid-area: 7 / 8 / 8 / 13;" data-name="Info block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-fw fa-phone" role="presentation"/>
+                        Telefone: (<a href="tel:+351 215 958 654 (Chamada para rede fixa nacional)">+351) 215 958 654</a>&amp;nbsp;<span style="font-size: 12px;">(rede fixa&amp;nbsp;nacional)&amp;nbsp;</span></h3>
+                </div><div class="o_grid_item offset-1 g-height-1 o_colored_level g-col-lg-5 col-lg-5 o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 3; grid-area: 6 / 8 / 7 / 13;" data-name="Info block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-mobile-phone fa-fw" role="presentation"/>
+                        Telemóvel: (+<a href="tel:+351 910 257 311 (Chamada para rede m%C3%B3vel nacional)">351) 910 257 311&amp;nbsp;</a></h3>
+                </div><div class="o_grid_item offset-1 g-height-1 col-lg-6 o_colored_level g-col-lg-5 col-lg-5 o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 2; grid-area: 5 / 8 / 6 / 13;" data-name="Info block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-fw fa-envelope-o" role="presentation"/>
+                        E-mail: lisboa@alfaiatedinteriores.pt</h3><p>&amp;nbsp;<br/></p>
+                </div></div>
+        </div>
+    </section><section class="s_contact_info pt48 o_cc o_cc1 pb144 o_colored_level o_animate o_anim_fade_in" data-snippet="s_contact_info" data-name="Informações de contato" style="background-color: rgb(242, 239, 233);">
+        <div class="container">
+            <div class="row o_grid_mode" data-row-count="9">
+                <div class="o_grid_item g-col-lg-6 offset-1 g-height-2 col-lg-6 o_colored_level col-10 o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 24px; grid-area: 1 / 1 / 3 / 7; z-index: 1;" data-name="Title block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h2><span style="font-size: 42px;">Paços de Ferreira</span><br/></h2>
+                    <p class="lead"><span style="font-size: 30px;">Fábrica</span><br/></p>
+                </div>
+                
+                
+                
+                
+            <div class="o_grid_item g-col-lg-6 col-10 offset-1 g-height-1 col-lg-6 o_colored_level o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 2; grid-area: 4 / 1 / 5 / 7;" data-name="Info block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-fw fa-envelope-o" role="presentation"/>
+                        E-mail:&amp;nbsp;<a href="mailto:geral@alfaiatedinteriores.pt">geral@alfaiatedinteriores.pt</a></h3><p>&amp;nbsp;<br/></p>
+                </div><div class="o_grid_item o_grid_item_image g-col-lg-6 col-10 offset-1 g-height-7 col-lg-6 o_colored_level" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 0px; z-index: 5; grid-area: 3 / 7 / 10 / 13;" data-name="Image block">
+                    <img src="/web/image/27291-bba91c38/epoca.webp" alt="" data-attachment-id="26317" class="img img-fluid rounded o_we_custom_image o_animate o_animate_on_scroll o_anim_fade_in" data-format-mimetype="image/webp" data-original-id="26317" data-original-src="/web/image/26317-09f31a24/epoca.webp" data-mimetype-before-conversion="image/webp" data-resize-width="1920" data-mimetype="image/webp" loading="eager" data-quality="100" data-scroll-zone-start="0" data-scroll-zone-end="100"/>
+                </div><div class="o_grid_item g-col-lg-6 g-height-1 col-lg-6 o_colored_level o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 7; grid-area: 5 / 1 / 6 / 7;" data-name="Info block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-fw fa-phone" role="presentation"/>
+                        Telefone: (+351) 255 891 048  <span style="font-size: 12px;">(rede fixa&amp;nbsp;nacional)&amp;nbsp;</span></h3>
+                </div><div class="o_grid_item g-col-lg-6 offset-1 col-lg-6 g-height-2 o_colored_level o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 4; grid-area: 6 / 1 / 8 / 7;" data-name="Info block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-fw fa-building-o" role="presentation"/>&amp;nbsp;Morada:&amp;nbsp;&amp;nbsp;Rua da Indústria - Zona Industrial de Seroa, 334,&amp;nbsp;</h3><h3 class="h5-fs">4595-438 Seroa, Paços de Ferreira, Portugal</h3>
+                </div><div class="o_grid_item g-col-lg-6 g-height-1 col-lg-6 o_colored_level o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 6; grid-area: 8 / 1 / 9 / 7;" data-name="Info block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-clock-o fa-fw" role="presentation"/>&amp;nbsp;Horário:&amp;nbsp;</h3><h3 class="h5-fs">Segunda a Sexta: 09h00 – 12h30 | 14h00 – 18h30h</h3><h3 class="h5-fs"><span class="h5-fs">Sábado e Domingo: Encerrado</span></h3><h3 class="h5-fs"><span style="font-size: 12px;">*Visita à fábrica requer marcação prévia</span></h3><p><br/></p><p><br/></p>
+                </div></div>
+        </div>
+    </section><section class="s_contact_info o_cc o_colored_level pt0 pb96 o_cc1 o_animate o_anim_fade_in" data-snippet="s_contact_info" data-name="Informações de contato">
+        <div class="container">
+            <div class="row o_grid_mode" data-row-count="9">
+                
+                
+                
+                
+                
+            <div class="o_grid_item o_grid_item_image g-col-lg-6 col-10 offset-1 g-height-7 col-lg-6 o_colored_level" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 0px; z-index: 5; grid-area: 3 / 1 / 10 / 7;" data-name="Image block">
+                    <img src="/web/image/27290-01d7c304/centro-logistico.jpg" alt="" data-attachment-id="26319" class="img img-fluid rounded o_we_custom_image o_animate o_animate_on_scroll o_anim_fade_in" data-format-mimetype="image/webp" data-original-id="26319" data-original-src="/web/image/26319-01d7c304/centro-logistico.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920" data-mimetype="image/webp" loading="eager" data-quality="100" data-scroll-zone-start="0" data-scroll-zone-end="100"/>
+                </div><div class="o_grid_item g-height-1 g-col-lg-5 o_colored_level col-lg-5 o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 6; grid-area: 8 / 8 / 9 / 13;" data-name="Info block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-clock-o fa-fw" role="presentation"/>&amp;nbsp;Horário:&amp;nbsp;</h3><h3 class="h5-fs">Segunda a Sexta: 09h00 – 12h30 | 14h00 – 18h30h</h3>
+                </div><div class="o_grid_item offset-1 g-height-2 g-col-lg-5 col-lg-5 o_colored_level o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 16px; z-index: 4; grid-area: 6 / 8 / 8 / 13;" data-name="Info block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h3 class="h5-fs">
+                        <i class="fa fa-fw fa-building-o" role="presentation"/>&amp;nbsp;Morada:&amp;nbsp;Rua Recta de Gomil 354,&amp;nbsp;</h3><h3 class="h5-fs">4595-144 Frazão, Paços de Ferreira, Portugal&amp;nbsp;</h3>
+                </div><div class="o_grid_item offset-1 g-col-lg-5 g-height-2 o_colored_level col-lg-6 col-lg-5 o_animate o_animate_on_scroll o_anim_fade_in" style="--grid-item-padding-x: 0px; --grid-item-padding-y: 24px; z-index: 1; grid-area: 3 / 8 / 5 / 13;" data-name="Title block" data-scroll-zone-start="0" data-scroll-zone-end="100">
+                    <h2><span style="font-size: 42px;">Paços de Ferreira</span></h2>
+                    <p class="lead"><span style="font-size: 30px;"><span style="font-size: 30px;">Centro Logístico</span></span><br/></p>
+                </div></div>
+        </div>
+    </section><section class="s_call_to_action o_colored_level o_cc pb56 pt80 s_custom_snippet o_cc4 o_animate o_anim_fade_in" data-snippet="s_call_to_action" style="background-color: rgb(242, 239, 233);" data-name="Personalizar Call to Action">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center o_colored_level pb48">
+                    <h2>
+        <font class="text-o-color-1">Quer começar o seu projeto de decoração connosco?</font>
+    </h2>
+                    </div>
+                <div class="col-lg-12 o_colored_level">
+                    <p style="text-align: center">
+        &amp;nbsp;<a class="btn btn-primary btn-lg o_translate_inline mb-2" href="/contactus">Pedir orçamento</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section><section class="s_newsletter_block s_newsletter_list o_colored_level pb16 pt48 o_cc o_cc5 s_custom_snippet o_animate o_anim_fade_in" data-list-id="20" data-snippet="s_newsletter_block" style="background-color: rgb(15, 18, 18);" data-name="Personalizar Newsletter Block (2)">
+                            <div class="container">
+                        <div class="row">
+                            <div class="o_colored_level col-lg-6">
+                                <h2 class="h4-fs">Subscreva a nossa newsletter</h2>
+                                <p class="text-muted">
+                    <span class="o_small-fs">Receba todas as novidades, promoções&amp;nbsp;e atualizações de produtos do Alfaiate D'Interiores, diretamente no seu e-mail.</span></p></div><div class="col-lg-6 o_colored_level">
+                                <section class="s_website_form pt16 pb16" data-vcss="001" data-snippet="s_website_form" data-name="Formulário">
+        <div class="container-fluid">
+            <form action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-pre-fill="true" data-model_name="mailing.contact" data-success-mode="message" data-success-page="/contactus-thank-you">
+                <div class="s_website_form_rows row s_col_no_bgcolor">
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required" data-type="char" data-translated-name="O Seu Nome"><label class="s_website_form_label d-none" style="width: 200px" for="ortej3jtkhk9"><span class="s_website_form_label_content">O Seu Nome</span><span class="s_website_form_mark">   *</span></label><input class="form-control s_website_form_input" type="text" name="name" required="" value="" placeholder="Nome" id="ortej3jtkhk9" data-fill-with="name"/></div><div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required" data-type="email" data-translated-name="Email"><label class="s_website_form_label d-none" style="width: 200px" for="ov1t2zbr4zdc"><span class="s_website_form_label_content">Email</span><span class="s_website_form_mark">   *</span></label><input class="form-control s_website_form_input" type="email" name="email" required="" value="" placeholder="Email" id="ov1t2zbr4zdc" data-fill-with="email"/></div><div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required s_website_form_field_hidden" data-type="many2many" data-translated-name="Inscrever-se a"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ot3ap8dnwwrj"><span class="s_website_form_label_content">Inscrever-se a</span><span class="s_website_form_mark">   *</span></label><div class="col-sm"><div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="list_ids" data-display="horizontal"><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj0" name="list_ids" value="30" required="" data-fill-with="undefined"/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj0">EPOCA - EN (3723)</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj1" name="list_ids" value="29" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj1">Black Week | Alfaiate</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj2" name="list_ids" value="28" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj2">Lojas Alfaiate</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj3" name="list_ids" value="27" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj3">Contactos Essência do Vinho 2025</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj4" name="list_ids" value="26" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj4">Marketing - TESTES</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj5" name="list_ids" value="25" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj5">Interihotel 2025</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj6" name="list_ids" value="24" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj6">Alma Gardens</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj7" name="list_ids" value="23" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj7">EPOCA - PT</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj8" name="list_ids" value="22" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj8">EPOCA Associais Laurel - PT</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj9" name="list_ids" value="21" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj9">EPOCA FR</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj10" name="list_ids" value="20" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj10">EPOCA- inscrições newsletter SITE</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj11" name="list_ids" value="19" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj11">Catálogo Alfaiate D'Interiores</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj12" name="list_ids" value="17" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj12">Meta EPOCA - UK</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj13" name="list_ids" value="16" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj13">Campanhas Meta EPOCA- Arábia</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj14" name="list_ids" value="15" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj14">Alfaiate D'Interiores Website</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj15" name="list_ids" value="14" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj15">Epoca Group Website</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj16" name="list_ids" value="13" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj16">Quinta D'Ervedosa Website</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj17" name="list_ids" value="12" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj17">Epoca Properties Website</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj18" name="list_ids" value="11" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj18">Epoca Properties - Leads Novo Projeto - PT</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj19" name="list_ids" value="10" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj19">Epoca Properties - Leads Molhe 479 - FR</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj20" name="list_ids" value="9" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj20">Epoca Properties - Leads Flow - PT</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj21" name="list_ids" value="8" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj21">EPOCA Feiras - EN</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj22" name="list_ids" value="7" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj22">EPOCA Administração - EN</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj23" name="list_ids" value="6" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj23">EPOCA Top Hotel - EN</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj24" name="list_ids" value="5" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj24">EPOCA - EN</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj25" name="list_ids" value="4" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj25">Epoca Properties - Leads Lux One - PT</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj26" name="list_ids" value="3" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj26">Epoca Properties - Leads Molhe 479 - EN</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj27" name="list_ids" value="2" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj27">Epoca Properties - Leads Molhe 479 - PT</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="ot3ap8dnwwrj28" name="list_ids" checked="checked" value="1" required=""/><label class="form-check-label s_website_form_check_label" for="ot3ap8dnwwrj28">Newsletter</label></div></div></div></div></div></div><div class="mb-0 py-2 col-12 s_website_form_submit text-end s_website_form_no_submit_label" data-name="Submit Button">
+                        <div style="width: 200px;" class="s_website_form_label"><br/></div>
+                        <span id="s_website_form_result"/>
+                        <a href="#" role="button" class="btn btn-secondary s_website_form_send" style="display:none;">Subscrever</a>
+                    </div>
+                </div>
+            </form><div class="s_website_form_end_message d-none">
+  <div class="oe_structure">
+    <section class="s_text_block o_colored_level rounded px-5 text-center" data-snippet="s_text_block">
+      <img src="/web/image/40308" alt="" class="mb-3 img img-fluid o_we_custom_image" style="width: 50% !important;" loading="lazy"/>
+      <h1 class="fw-bolder">Obrigado por preencher o formulário.</h1>
+      <p class="lead mb-0">
+        Recebemos a sua submissão com sucesso e entraremos em contacto o mais breve possível.
+        Até lá sinta-se à vontade para explorar o nosso website!
+      </p>
+    </section>
+  </div>
+</div>
+        </div>
+    </section><h2 class="h4-fs"><br/></h2></div>
+                            
+                        </div>
+                            </div>
+                </section>
+                
+                
+            </div>
+        </t>
+    </t>

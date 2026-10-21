@@ -1,0 +1,1226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--<template id="dynamic_filter_template_product_product_products_item_ext" inherit_id="website_sale.dynamic_filter_template_product_product_products_item">
+        <xpath expr="//div[hasclass('oe_product_cart')]//div[hasclass('o_wsale_product_action_row')]" position="inside">
+            <t t-set="in_wish" t-value="product.product_variant_id and product.product_variant_id._is_in_wishlist()"/>
+            <button
+                    type="button"
+                    t-attf-class="btn o_add_wishlist #{in_wish and 'o_in_wishlist'}"
+                    t-att-disabled="in_wish"
+                    t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                    t-att-data-product-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                    data-action="o_wishlist"
+                    t-att-title="in_wish and btnTitleActive or btnTitle">
+                <span
+                        t-attf-class="fa o_not-animable #{in_wish and 'fa-heart' or 'fa-heart-o'}"
+                        role="presentation"
+                />
+                <span t-if="not in_wish" class="o_label small ms-2">Add to wishlist</span>
+                <span t-else="" class="o_label small ms-2">In your wishlist</span>
+            </button>
+        </xpath>
+        &lt;!&ndash; Show Out Of Stock Label | Added by: Ashvin Rathod | Date: 28 Oct 2025&ndash;&gt;
+        <xpath expr="//div[hasclass('oe_product_cart')]//div[contains(@t-attf-class, 'oe_product_image')]"
+               position="inside">
+            <t t-set="check_stock"
+               t-value="website.option_out_of_stock and not product.qty_available and product.type=='consu' and not product.allow_out_of_stock_order"/>
+            <div class="te-out-of-stock-lbl" t-if="check_stock">
+                <t t-call="theme_clarico_vega.out_of_stock_label"/>
+            </div>
+        </xpath>
+        &lt;!&ndash; Show Product Ribbon | Added by: Ashvin Rathod | Date: 28 Oct 2025&ndash;&gt;
+        <xpath expr="//div[hasclass('oe_product_cart')]//div[contains(@t-attf-class, 'oe_product_image')]//span[hasclass('oe_product_image_img_wrapper')]"
+               position="before">
+            <t t-set="ribbon"
+               t-value="record and record._name=='product.product' and record.sudo().variant_ribbon_id or record.sudo().website_ribbon_id"/>
+            <t t-set="bg_color" t-value="ribbon.bg_color"/>
+            <t t-set="text_color" t-value="ribbon.text_color"/>
+            <span t-attf-class="o_ribbons o_not_editable #{ribbon._get_css_classes()} z-1"
+                  t-attf-style="#{text_color and ('color: %s; ' % text_color)}#{bg_color and 'background-color:' + bg_color}"
+                  t-att-data-ribbon-id="ribbon.id" t-out="ribbon.name or ''"/>
+        </xpath>
+    </template>-->
+
+    <template id="slider_ext" inherit_id="website_sale.dynamic_filter_template_product_product_products_item">
+        <xpath expr="//div[hasclass('oe_product_cart')]//h2[hasclass('o_wsale_products_item_title')]" position="before">
+            <t t-if="product.public_categ_ids">
+                <t t-if="len(product.public_categ_ids.ids) > 0">
+                    <t t-set="categ_rec" t-value="product.public_categ_ids[0]"/>
+                    <a class="text-muted text-decoration-none" target="_blank" style="font-size:12px;color:#646669 !important;"
+                       t-att-href="'/shop/category/%s' %slug(categ_rec)">
+                        <span t-out="categ_rec.name"/>
+                    </a>
+                </t>
+            </t>
+        </xpath>
+        <xpath expr="//div[hasclass('o_wsale_product_sub')]//div[hasclass('o_wsale_product_btn')]//button//i"
+               position="attributes">
+            <attribute name="class"
+                       add="emipro-icon ept-cart"
+                       remove="fa fa-shopping-cart fa-fw"
+                       separator=" "/>
+
+        </xpath>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_products_style1" name="Product slider Style 1">
+        <t t-foreach="records" t-as="data" data-number-of-elements="4" data-number-of-elements-sm="2">
+            <t t-set="record" t-value="data['_record']"/>
+            <t t-set="product" t-value="record"/>
+            <t t-set="product_template_id" t-value="record.id if not record.is_product_variant else record.product_tmpl_id.id"/>
+            <t t-set="product_id" t-value="record.id if record.is_product_variant else record.product_variant_id.id"/>
+            <div
+                    class="oe_product_cart o_carousel_product_card d-flex product_slider_style1 te_product_ind"
+                    role="article"
+                    t-att-aria-label="product.display_name"
+                    t-att-data-add2cart-rerender="data.get('_add2cart_rerender')"
+                >
+                    <input type="hidden" name="product-id" t-att-data-product-id="record.id"/>
+
+                    <div t-attf-class="oe_product_image position-relative flex-grow-0 overflow-hidden rounded-0">
+                        <t t-call="theme_clarico_vega.slider_product_image_section"/>
+                        <t t-set="check_stock"
+                           t-value="website.option_out_of_stock and not product.qty_available and product.type=='consu' and not product.allow_out_of_stock_order"/>
+                        <div class="te-out-of-stock-lbl" t-if="check_stock">
+                            <t t-call="theme_clarico_vega.out_of_stock_label"/>
+                        </div>
+                    </div>
+                    <button t-if="data.get('_latest_viewed')"
+                        class="btn o_carousel_product_remove js_remove rounded-pill lh-1"
+                        t-att-data-product-id="product_id"
+                        t-att-data-product-selected="record.is_product_variant"
+                        t-att-data-product-template-id="product_template_id"
+                        title="Remove from recently viewed"
+                    >
+                        <i class="oi oi-close" role="presentation"/>
+                    </button>
+                    <div class="o_wsale_product_information flex-grow-1 flex-shrink-1 p-2 card-title">
+                        <div class="o_wsale_product_info_attributes_wrapper">
+                            <div class="o_wsale_product_information_text">
+                                <t t-if="product.public_categ_ids">
+                                    <t t-if="len(product.public_categ_ids.ids) > 0">
+                                        <t t-set="categ_rec" t-value="product.public_categ_ids[0]"/>
+                                        <a class="text-muted text-decoration-none" target="_blank" style="font-size:12px;color:#646669 !important;"
+                                           t-att-href="'/shop/category/%s' %slug(categ_rec)">
+                                            <span t-out="categ_rec.name"/>
+                                        </a>
+                                    </t>
+                                </t>
+                                <!-- Product Name -->
+                                <h2 class="o_wsale_products_item_title h6 text-break">
+                                    <a
+                                        class="text-decoration-none"
+                                        t-att-href="product.website_url"
+                                        t-att-content="product.display_name"
+                                        t-att-title="product.display_name"
+                                        t-field="product.display_name"
+                                    />
+                                </h2>
+                                <!-- Description -->
+                                <div class="oe_subdescription_wrapper">
+                                    <div
+                                        class="oe_subdescription text-muted small"
+                                        contenteditable="false"
+                                    >
+                                        <div t-field="product.description_sale"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="o_wsale_product_sub justify-content-between gap-2">
+                            <!-- Rating -->
+                            <div class="h6 mb-0 o_wsale_product_rating_wrapper">
+                                <t t-if="is_view_active('website_sale.product_comment')">
+                                    <t t-call="theme_clarico_vega.rating_widget_stars_slider">
+                                        <t t-set="rating_avg" t-value="record.rating_avg"/>
+                                        <t t-set="rating_count" t-value="record.rating_count"/>
+                                    </t>
+                                </t>
+                            </div>
+                            <!-- Price(s) -->
+                            <div class="product_price" aria-label="Price information">
+                                <t t-call="theme_clarico_vega.slider_product_price"></t>
+                            </div>
+                            <!-- Actions -->
+                            <div class="o_wsale_product_btn">
+                                <div class="o_wsale_product_action_row">
+                                    <t t-if="product._website_show_quick_add()">
+                                        <button
+                                            type="button"
+                                            class="o_wsale_product_btn_primary btn js_add_cart"
+                                            title="Add to Cart"
+                                            t-att-data-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                            t-att-data-product-selected="product.is_product_variant"
+                                            t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                            t-att-data-product-type="product.type"
+                                            t-att-data-show-quantity="is_view_active('website_sale.product_quantity')"
+                                        >
+                                            <!-- Avoid whitespaces undesired gaps -->
+                                            <i class="emipro-icon ept-cart fa-fw" role="presentation"/><span class="o_label small ms-1">Add to Cart</span>
+                                        </button>
+                                    </t>
+                                    <t t-set="in_wish" t-value="product.product_variant_id and product.product_variant_id._is_in_wishlist()"/>
+                                    <button
+                                                type="button"
+                                                t-attf-class="btn o_add_wishlist #{in_wish and 'o_in_wishlist'}"
+                                                t-att-disabled="in_wish"
+                                                t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                                t-att-data-product-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                                data-action="o_wishlist"
+                                                t-att-title="in_wish and btnTitleActive or btnTitle">
+                                            <span
+                                                    t-attf-class="emipro-icon ept-wishlist"
+                                                    role="presentation"
+                                            />
+                                            <span t-if="not in_wish" class="o_label small ms-2">Add to wishlist</span>
+                                            <span t-else="" class="o_label small ms-2">In your wishlist</span>
+                                        </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_products_style2" name="Product slider Style 2">
+        <t t-foreach="records" t-as="data" data-number-of-elements="4" data-number-of-elements-sm="2">
+            <t t-set="record" t-value="data['_record']"/>
+            <t t-set="product" t-value="record"/>
+            <t t-set="product_template_id" t-value="record.id if not record.is_product_variant else record.product_tmpl_id.id"/>
+            <t t-set="product_id" t-value="record.id if record.is_product_variant else record.product_variant_id.id"/>
+            <div
+                    class="oe_product_cart o_carousel_product_card d-flex product_slider_style_2 te_product_ind"
+                    role="article"
+                    t-att-aria-label="product.display_name"
+                    t-att-data-add2cart-rerender="data.get('_add2cart_rerender')"
+                >
+                    <input type="hidden" name="product-id" t-att-data-product-id="record.id"/>
+
+                    <div t-attf-class="oe_product_image position-relative flex-grow-0 overflow-hidden rounded-0">
+                        <t t-call="theme_clarico_vega.slider_product_image_section"/>
+                        <t t-set="check_stock"
+                           t-value="website.option_out_of_stock and not product.qty_available and product.type=='consu' and not product.allow_out_of_stock_order"/>
+                        <div class="te-out-of-stock-lbl" t-if="check_stock">
+                            <t t-call="theme_clarico_vega.out_of_stock_label"/>
+                        </div>
+                    </div>
+                    <button t-if="data.get('_latest_viewed')"
+                        class="btn o_carousel_product_remove js_remove rounded-pill lh-1"
+                        t-att-data-product-id="product_id"
+                        t-att-data-product-selected="record.is_product_variant"
+                        t-att-data-product-template-id="product_template_id"
+                        title="Remove from recently viewed"
+                    >
+                        <i class="oi oi-close" role="presentation"/>
+                    </button>
+                    <div class="o_wsale_product_information flex-grow-1 flex-shrink-1 p-2 card-title justify-content-center">
+                        <div class="o_wsale_product_info_attributes_wrapper">
+                            <div class="o_wsale_product_information_text d-flex flex-column align-items-center text-center">
+                                <t t-if="product.public_categ_ids">
+                                    <t t-if="len(product.public_categ_ids.ids) > 0">
+                                        <t t-set="categ_rec" t-value="product.public_categ_ids[0]"/>
+                                        <a class="text-muted text-decoration-none" target="_blank" style="font-size:12px;color:#646669 !important;"
+                                           t-att-href="'/shop/category/%s' %slug(categ_rec)">
+                                            <span t-out="categ_rec.name"/>
+                                        </a>
+                                    </t>
+                                </t>
+                                <!-- Product Name -->
+                                <h2 class="o_wsale_products_item_title h6 text-break">
+                                    <a
+                                        class="text-decoration-none"
+                                        t-att-href="product.website_url"
+                                        t-att-content="product.display_name"
+                                        t-att-title="product.display_name"
+                                        t-field="product.display_name"
+                                    />
+                                </h2>
+                                <!-- Description -->
+                                <div class="oe_subdescription_wrapper">
+                                    <div
+                                        class="oe_subdescription text-muted small"
+                                        contenteditable="false"
+                                    >
+                                        <div t-field="product.description_sale"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="o_wsale_product_sub justify-content-between gap-2">
+                            <!-- Rating -->
+                            <div class="h6 mb-0 o_wsale_product_rating_wrapper">
+                                <t t-if="is_view_active('website_sale.product_comment')">
+                                    <t t-call="theme_clarico_vega.rating_widget_stars_slider">
+                                        <t t-set="rating_avg" t-value="record.rating_avg"/>
+                                        <t t-set="rating_count" t-value="record.rating_count"/>
+                                    </t>
+                                </t>
+                            </div>
+                            <!-- Price(s) -->
+                            <div class="product_price d-flex align-items-center justify-content-center" aria-label="Price information">
+                                <t t-call="theme_clarico_vega.slider_product_price"></t>
+                            </div>
+                            <div class="justify-content-between flex-wrap flex-md-column flex-lg-row align-items-center pb-2 m-auto">
+                                <t t-if="product._website_show_quick_add()">
+                                    <button
+                                        type="button"
+                                        class="o_wsale_product_btn_primary btn js_add_cart"
+                                        title="Add to Cart"
+                                        t-att-data-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                        t-att-data-product-selected="product.is_product_variant"
+                                        t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                        t-att-data-product-type="product.type"
+                                        t-att-data-show-quantity="is_view_active('website_sale.product_quantity')"
+                                    >
+                                        <!-- Avoid whitespaces undesired gaps -->
+                                        <i class="emipro-icon ept-cart fa-fw" role="presentation"/><span class="small ms-1">Add to Cart</span>
+                                    </button>
+                                </t>
+                            </div>
+                            <!-- Actions -->
+                            <div class="o_wsale_product_btn">
+                                <div class="o_wsale_product_action_row">
+                                    <t t-set="in_wish" t-value="product.product_variant_id and product.product_variant_id._is_in_wishlist()"/>
+                                    <button
+                                            type="button"
+                                            t-attf-class="btn o_add_wishlist o_wsale_product_btn_primary position-relative #{in_wish and 'o_in_wishlist'}"
+                                            t-att-disabled="in_wish"
+                                            t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                            t-att-data-product-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                            data-action="o_wishlist"
+                                            t-att-title="in_wish and btnTitleActive or btnTitle">
+                                        <span
+                                                t-attf-class="emipro-icon ept-wishlist"
+                                                role="presentation"
+                                        />
+                                        <span t-if="not in_wish" class="o_label small ms-2">Add to wishlist</span>
+                                        <span t-else="" class="o_label small ms-2">In your wishlist</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_products_style3" name="Product slider Style 3">
+        <t t-foreach="records" t-as="data" data-number-of-elements="4" data-number-of-elements-sm="2">
+            <t t-set="record" t-value="data['_record']"/>
+            <t t-set="product" t-value="record"/>
+            <t t-set="product_template_id" t-value="record.id if not record.is_product_variant else record.product_tmpl_id.id"/>
+            <t t-set="product_id" t-value="record.id if record.is_product_variant else record.product_variant_id.id"/>
+            <div
+                    class="oe_product_cart o_carousel_product_card d-flex product_slider_style_3 te_product_ind"
+                    role="article"
+                    t-att-aria-label="product.display_name"
+                    t-att-data-add2cart-rerender="data.get('_add2cart_rerender')"
+                >
+                    <input type="hidden" name="product-id" t-att-data-product-id="record.id"/>
+
+                    <div t-attf-class="oe_product_image position-relative flex-grow-0 overflow-hidden rounded-0">
+                        <t t-call="theme_clarico_vega.slider_product_image_section"/>
+                        <t t-set="check_stock"
+                           t-value="website.option_out_of_stock and not product.qty_available and product.type=='consu' and not product.allow_out_of_stock_order"/>
+                        <div class="te-out-of-stock-lbl" t-if="check_stock">
+                            <t t-call="theme_clarico_vega.out_of_stock_label"/>
+                        </div>
+                    </div>
+                    <button t-if="data.get('_latest_viewed')"
+                        class="btn o_carousel_product_remove js_remove rounded-pill lh-1"
+                        t-att-data-product-id="product_id"
+                        t-att-data-product-selected="record.is_product_variant"
+                        t-att-data-product-template-id="product_template_id"
+                        title="Remove from recently viewed"
+                    >
+                        <i class="oi oi-close" role="presentation"/>
+                    </button>
+                    <div class="o_wsale_product_information flex-grow-1 flex-shrink-1 p-2 card-title justify-content-center">
+                        <div class="o_wsale_product_info_attributes_wrapper">
+                            <div class="o_wsale_product_information_text d-flex flex-column align-items-center text-center">
+                                <t t-if="product.public_categ_ids">
+                                    <t t-if="len(product.public_categ_ids.ids) > 0">
+                                        <t t-set="categ_rec" t-value="product.public_categ_ids[0]"/>
+                                        <a class="text-muted text-decoration-none" target="_blank" style="font-size:12px;color:#646669 !important;"
+                                           t-att-href="'/shop/category/%s' %slug(categ_rec)">
+                                            <span t-out="categ_rec.name"/>
+                                        </a>
+                                    </t>
+                                </t>
+                                <!-- Product Name -->
+                                <h2 class="o_wsale_products_item_title h6 text-break">
+                                    <a
+                                        class="text-decoration-none"
+                                        t-att-href="product.website_url"
+                                        t-att-content="product.display_name"
+                                        t-att-title="product.display_name"
+                                        t-field="product.display_name"
+                                    />
+                                </h2>
+                                <!-- Description -->
+                                <div class="oe_subdescription_wrapper">
+                                    <div
+                                        class="oe_subdescription text-muted small"
+                                        contenteditable="false"
+                                    >
+                                        <div t-field="product.description_sale"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="o_wsale_product_sub justify-content-between gap-2">
+                            <!-- Rating -->
+                            <div class="h6 mb-0 o_wsale_product_rating_wrapper">
+                                <t t-if="is_view_active('website_sale.product_comment')">
+                                    <t t-call="theme_clarico_vega.rating_widget_stars_slider">
+                                        <t t-set="rating_avg" t-value="record.rating_avg"/>
+                                        <t t-set="rating_count" t-value="record.rating_count"/>
+                                    </t>
+                                </t>
+                            </div>
+                            <!-- Price(s) -->
+                            <div class="product_price d-flex align-items-center justify-content-center" aria-label="Price information">
+                                <t t-call="theme_clarico_vega.slider_product_price"></t>
+                            </div>
+                            <!-- Actions -->
+                            <div class="o_wsale_product_btn">
+                                <div class="o_wsale_product_action_row">
+                                    <t t-if="product._website_show_quick_add()">
+                                        <button
+                                            type="button"
+                                            class="o_wsale_product_btn_primary btn js_add_cart"
+                                            title="Add to Cart"
+                                            t-att-data-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                            t-att-data-product-selected="product.is_product_variant"
+                                            t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                            t-att-data-product-type="product.type"
+                                            t-att-data-show-quantity="is_view_active('website_sale.product_quantity')"
+                                        >
+                                            <!-- Avoid whitespaces undesired gaps -->
+                                            <i class="emipro-icon ept-cart fa-fw" role="presentation"/><span class="o_label small ms-1">Add to Cart</span>
+                                        </button>
+                                    </t>
+                                    <t t-set="in_wish" t-value="product.product_variant_id and product.product_variant_id._is_in_wishlist()"/>
+                                    <button
+                                            type="button"
+                                            t-attf-class="btn o_add_wishlist #{in_wish and 'o_in_wishlist'}"
+                                            t-att-disabled="in_wish"
+                                            t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                            t-att-data-product-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                            data-action="o_wishlist"
+                                            t-att-title="in_wish and btnTitleActive or btnTitle">
+                                        <span
+                                                t-attf-class="emipro-icon ept-wishlist"
+                                                role="presentation"
+                                        />
+                                        <span t-if="not in_wish" class="o_label small ms-2">Add to wishlist</span>
+                                        <span t-else="" class="o_label small ms-2">In your wishlist</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_products_style4" name="Product slider Style 4">
+        <t t-foreach="records" t-as="data" data-number-of-elements="2" data-number-of-elements-sm="1">
+            <t t-set="record" t-value="data['_record']"/>
+            <t t-set="product" t-value="record"/>
+            <t t-set="product_template_id" t-value="record.id if not record.is_product_variant else record.product_tmpl_id.id"/>
+            <t t-set="product_id" t-value="record.id if record.is_product_variant else record.product_variant_id.id"/>
+            <div
+                    class="card-group oe_website_sale card o_carousel_product_card text-left position-relative w-100 te_product_ind product_slider_style_4 col-lg-12"
+                    role="article"
+                    t-att-aria-label="product.display_name"
+                    t-att-data-add2cart-rerender="data.get('_add2cart_rerender')"
+                >
+                    <input type="hidden" name="product-id" t-att-data-product-id="record.id"/>
+
+                    <div t-attf-class="oe_product_image position-relative flex-grow-0 overflow-hidden rounded-0 col-lg-5">
+                        <t t-set="ribbon"
+                               t-value="record and record._name=='product.product' and record.sudo().variant_ribbon_id or record.sudo().website_ribbon_id"/>
+                            <t t-set="bg_color" t-value="ribbon.bg_color"/>
+                            <t t-set="text_color" t-value="ribbon.text_color"/>
+                            <!-- if part with extra condition for label style 6 -->
+                            <span t-if="'o_product_label_style_6_left' in ribbon._get_css_classes() or 'o_product_label_style_6_right' in ribbon._get_css_classes()"
+                                  t-att-data-ribbon-id="ribbon.id"
+                                  t-attf-class="o_ribbons o_not_editable #{ribbon._get_css_classes()} z-1"
+                                  t-attf-style="#{bg_color and ('--ribbon-bg:%s;' % bg_color)} #{text_color and ('color:%s;' % text_color)}"
+                                  t-out="ribbon.name or ''"/>
+                            <span t-else=""
+                                  t-attf-class="o_ribbons o_not_editable #{ribbon._get_css_classes()} z-1"
+                                  t-attf-style="#{text_color and ('color:%s;--ribbon-text:%s;' % (text_color, text_color)) or ''} #{bg_color and ('background-color:%s;' % bg_color) or ''}"
+                                  t-att-data-ribbon-id="ribbon.id" t-out="ribbon.name or ''"/>
+                        <a
+                            t-att-href="product.website_url"
+                            t-attf-class="oe_product_image_link position-relative"
+                            contenteditable="false"
+                            t-att-title="product.display_name"
+                            >
+                            <span
+                                role="img"
+                                t-attf-alt="{{product.display_name}} image"
+                                class="oe_product_image_img_wrapper d-flex h-100 justify-content-center align-items-center">
+                                <img loading="lazy"
+                                     class="card-img-top o_img_product_square o_img_product_cover non_lazyload h-auto  "
+                                     t-attf-src="/web/image/product.product/{{product.id}}/image_512"/>
+                            </span>
+                        </a>
+                        <div t-if="is_sample" class="o_ribbon_right small text-bg-primary">Sample</div>
+                        <t t-set="check_stock"
+                           t-value="website.option_out_of_stock and not product.qty_available and product.type=='consu' and not product.allow_out_of_stock_order"/>
+                        <div class="te-out-of-stock-lbl" t-if="check_stock">
+                            <t t-call="theme_clarico_vega.out_of_stock_label"/>
+                        </div>
+                    </div>
+                    <button t-if="data.get('_latest_viewed')"
+                        class="btn o_carousel_product_remove js_remove rounded-pill lh-1"
+                        t-att-data-product-id="product_id"
+                        t-att-data-product-selected="record.is_product_variant"
+                        t-att-data-product-template-id="product_template_id"
+                        title="Remove from recently viewed"
+                    >
+                        <i class="oi oi-close" role="presentation"/>
+                    </button>
+                    <div class="o_wsale_product_information flex-grow-1 flex-shrink-1 p-2 card-title col-lg-7 justify-content-start">
+                        <div class="o_wsale_product_info_attributes_wrapper">
+                            <div class="o_wsale_product_information_text justify-content-start d-flex flex-column">
+                                <t t-if="product.public_categ_ids">
+                                    <t t-if="len(product.public_categ_ids.ids) > 0">
+                                        <t t-set="categ_rec" t-value="product.public_categ_ids[0]"/>
+                                        <a class="text-muted text-decoration-none" target="_blank" style="font-size:12px;color:#646669 !important;"
+                                           t-att-href="'/shop/category/%s' %slug(categ_rec)">
+                                            <span t-out="categ_rec.name"/>
+                                        </a>
+                                    </t>
+                                </t>
+                                <!-- Product Name -->
+                                <h2 class="o_wsale_products_item_title h6 text-break">
+                                    <a
+                                        class="text-decoration-none"
+                                        t-att-href="product.website_url"
+                                        t-att-content="product.display_name"
+                                        t-att-title="product.display_name"
+                                        t-field="product.display_name"
+                                    />
+                                </h2>
+                                <!-- Description -->
+                                <div class="oe_subdescription_wrapper">
+                                    <div
+                                        class="oe_subdescription text-muted small"
+                                        contenteditable="false"
+                                    >
+                                        <div t-field="product.description_sale"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="o_wsale_product_sub justify-content-between gap-2 d-flex flex-column">
+                            <!-- Rating -->
+                            <div class="h6 mb-0 o_wsale_product_rating_wrapper justify-content-start d-flex">
+                                <t t-if="is_view_active('website_sale.product_comment')">
+                                    <t t-call="theme_clarico_vega.rating_widget_stars_slider">
+                                        <t t-set="rating_avg" t-value="record.rating_avg"/>
+                                        <t t-set="rating_count" t-value="record.rating_count"/>
+                                    </t>
+                                </t>
+                            </div>
+                            <!-- Price(s) -->
+                            <div class="product_price justify-content-start d-flex align-items-center" aria-label="Price information">
+                                <t t-call="theme_clarico_vega.slider_product_price"></t>
+                            </div>
+                            <!-- Actions -->
+                            <div class="o_wsale_product_btn position-relative cursor-pointer">
+                                <div class="o_wsale_product_action_row ps-0">
+                                    <t t-if="product._website_show_quick_add()">
+                                        <button
+                                            type="button"
+                                            class="o_wsale_product_btn_primary btn js_add_cart"
+                                            title="Add to Cart"
+                                            t-att-data-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                            t-att-data-product-selected="product.is_product_variant"
+                                            t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                            t-att-data-product-type="product.type"
+                                            t-att-data-show-quantity="is_view_active('website_sale.product_quantity')"
+                                        >
+                                            <!-- Avoid whitespaces undesired gaps -->
+                                            <i class="emipro-icon ept-cart fa-fw" role="presentation"/>
+                                        </button>
+                                    </t>
+                                    <t t-set="in_wish" t-value="product.product_variant_id and product.product_variant_id._is_in_wishlist()"/>
+                                    <button
+                                            type="button"
+                                            t-attf-class="btn o_add_wishlist #{in_wish and 'o_in_wishlist'}"
+                                            t-att-disabled="in_wish"
+                                            t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                            t-att-data-product-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                            data-action="o_wishlist"
+                                            t-att-title="in_wish and btnTitleActive or btnTitle">
+                                        <span
+                                                t-attf-class="emipro-icon ept-wishlist"
+                                                role="presentation"
+                                        />
+
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_products_style5" name="Product slider Style 5">
+        <t t-foreach="records" t-as="data" data-number-of-elements="4" data-number-of-elements-sm="2">
+            <t t-set="record" t-value="data['_record']"/>
+            <t t-set="product" t-value="record"/>
+            <t t-set="product_template_id" t-value="record.id if not record.is_product_variant else record.product_tmpl_id.id"/>
+            <t t-set="product_id" t-value="record.id if record.is_product_variant else record.product_variant_id.id"/>
+            <div
+                    class="oe_product_cart o_carousel_product_card d-flex product_slider_style_5 te_product_ind"
+                    role="article"
+                    t-att-aria-label="product.display_name"
+                    t-att-data-add2cart-rerender="data.get('_add2cart_rerender')"
+                >
+                    <input type="hidden" name="product-id" t-att-data-product-id="record.id"/>
+                    <div t-attf-class="oe_product_image position-relative flex-grow-0 overflow-hidden">
+                        <t t-call="theme_clarico_vega.slider_product_image_section"/>
+                        <t t-set="check_stock"
+                           t-value="website.option_out_of_stock and not product.qty_available and product.type=='consu' and not product.allow_out_of_stock_order"/>
+                        <div class="te-out-of-stock-lbl" t-if="check_stock">
+                            <t t-call="theme_clarico_vega.out_of_stock_label"/>
+                        </div>
+                    </div>
+                    <button t-if="data.get('_latest_viewed')"
+                        class="btn o_carousel_product_remove js_remove rounded-pill lh-1"
+                        t-att-data-product-id="product_id"
+                        t-att-data-product-selected="record.is_product_variant"
+                        t-att-data-product-template-id="product_template_id"
+                        title="Remove from recently viewed"
+                    >
+                        <i class="oi oi-close" role="presentation"/>
+                    </button>
+                    <div class="o_wsale_product_information flex-grow-1 flex-shrink-1 p-2 card-title">
+                        <div class="o_wsale_product_info_attributes_wrapper">
+                            <div class="o_wsale_product_information_text">
+                                <t t-if="product.public_categ_ids">
+                                    <t t-if="len(product.public_categ_ids.ids) > 0">
+                                        <t t-set="categ_rec" t-value="product.public_categ_ids[0]"/>
+                                        <a class="text-muted text-decoration-none" target="_blank" style="font-size:12px;color:#646669 !important;"
+                                           t-att-href="'/shop/category/%s' %slug(categ_rec)">
+                                            <span t-out="categ_rec.name"/>
+                                        </a>
+                                    </t>
+                                </t>
+                                <!-- Product Name -->
+                                <h2 class="o_wsale_products_item_title h6 text-break">
+                                    <a
+                                        class="text-decoration-none"
+                                        t-att-href="product.website_url"
+                                        t-att-content="product.display_name"
+                                        t-att-title="product.display_name"
+                                        t-field="product.display_name"
+                                    />
+                                </h2>
+                                <!-- Description -->
+                                <div class="oe_subdescription_wrapper">
+                                    <div
+                                        class="oe_subdescription text-muted small"
+                                        contenteditable="false"
+                                    >
+                                        <div t-field="product.description_sale"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="o_wsale_product_sub justify-content-between gap-2">
+                            <!-- Rating -->
+                            <div class="h6 mb-0 o_wsale_product_rating_wrapper">
+                                <t t-if="is_view_active('website_sale.product_comment')">
+                                    <t t-call="theme_clarico_vega.rating_widget_stars_slider">
+                                        <t t-set="rating_avg" t-value="record.rating_avg"/>
+                                        <t t-set="rating_count" t-value="record.rating_count"/>
+                                    </t>
+                                </t>
+                            </div>
+                            <!-- Price(s) -->
+                            <div class="product_price" aria-label="Price information">
+                                <t t-call="theme_clarico_vega.slider_product_price"></t>
+                            </div>
+                            <!-- Actions -->
+                            <div class="o_wsale_product_btn">
+                                <div class="o_wsale_product_action_row">
+                                    <t t-if="product._website_show_quick_add()">
+                                        <button
+                                            type="button"
+                                            class="o_wsale_product_btn_primary btn js_add_cart"
+                                            title="Add to Cart"
+                                            t-att-data-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                            t-att-data-product-selected="product.is_product_variant"
+                                            t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                            t-att-data-product-type="product.type"
+                                            t-att-data-show-quantity="is_view_active('website_sale.product_quantity')"
+                                        >
+                                            <!-- Avoid whitespaces undesired gaps -->
+                                            <i class="emipro-icon ept-cart fa-fw" role="presentation"/><span class="o_label small ms-1">Add to Cart</span>
+                                        </button>
+                                    </t>
+                                    <t t-set="in_wish" t-value="product.product_variant_id and product.product_variant_id._is_in_wishlist()"/>
+                                    <button
+                                                type="button"
+                                                t-attf-class="btn o_add_wishlist #{in_wish and 'o_in_wishlist'}"
+                                                t-att-disabled="in_wish"
+                                                t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                                t-att-data-product-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                                data-action="o_wishlist"
+                                                t-att-title="in_wish and btnTitleActive or btnTitle">
+                                            <span
+                                                    t-attf-class="emipro-icon ept-wishlist"
+                                                    role="presentation"
+                                            />
+                                            <span t-if="not in_wish" class="o_label small ms-2">Add to wishlist</span>
+                                            <span t-else="" class="o_label small ms-2">In your wishlist</span>
+                                        </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_products_style6" name="Product slider Style 6">
+        <t t-foreach="records" t-as="data" data-number-of-elements="4" data-number-of-elements-sm="2">
+            <t t-set="record" t-value="data['_record']"/>
+            <t t-set="product" t-value="record"/>
+            <t t-set="product_template_id" t-value="record.id if not record.is_product_variant else record.product_tmpl_id.id"/>
+            <t t-set="product_id" t-value="record.id if record.is_product_variant else record.product_variant_id.id"/>
+            <div
+                    class="oe_website_sale te_product_ind product_slider_style_6 d-flex"
+                    role="article"
+                    t-att-aria-label="product.display_name"
+                    t-att-data-add2cart-rerender="data.get('_add2cart_rerender')">
+                    <input type="hidden" name="product-id" t-att-data-product-id="record.id"/>
+                    <div t-attf-class="oe_product_image rounded-0">
+                        <a
+                            t-att-href="product.website_url"
+                            t-attf-class="oe_product_image_link position-relative"
+                            contenteditable="false"
+                            t-att-title="product.display_name">
+                            <span
+                                role="img"
+                                t-attf-alt="{{product.display_name}} image"
+                                class="oe_product_image_img_wrapper d-flex h-100 justify-content-center align-items-center">
+                                <img loading="lazy"
+                                     class="card-img-top o_img_product_square o_img_product_cover non_lazyload h-auto  "
+                                     t-att-src="data['image_512']"/>
+                            </span>
+                        </a>
+                        <div t-if="is_sample" class="o_ribbon_right small text-bg-primary">Sample</div>
+                    </div>
+                    <button t-if="data.get('_latest_viewed')"
+                        class="btn o_carousel_product_remove js_remove rounded-pill lh-1"
+                        t-att-data-product-id="product_id"
+                        t-att-data-product-selected="record.is_product_variant"
+                        t-att-data-product-template-id="product_template_id"
+                        title="Remove from recently viewed"
+                    >
+                        <i class="oi oi-close" role="presentation"/>
+                    </button>
+                    <div class="o_wsale_product_information px-3 text-start justify-content-start">
+                        <t t-if="product.public_categ_ids">
+                            <t t-if="len(product.public_categ_ids.ids) > 0">
+                                <t t-set="categ_rec" t-value="product.public_categ_ids[0]"/>
+                                <a class="text-muted text-decoration-none" target="_blank" style="font-size:12px;color:#646669 !important;"
+                                   t-att-href="'/shop/category/%s' %slug(categ_rec)">
+                                    <span t-out="categ_rec.name"/>
+                                </a>
+                            </t>
+                        </t>
+                        <!-- Product Name -->
+                        <h2 class="o_wsale_products_item_title h6 text-break">
+                            <a
+                                class="text-decoration-none"
+                                t-att-href="product.website_url"
+                                t-att-content="product.display_name"
+                                t-att-title="product.display_name"
+                                t-field="product.display_name"
+                            />
+                        </h2>
+                        <!-- Price(s) -->
+                        <div class="product_price justify-content-start d-flex align-items-center" aria-label="Price information">
+                            <t t-call="theme_clarico_vega.slider_product_price"/>
+                        </div>
+                    </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_products_style7" name="Product slider Style 7">
+        <t t-foreach="records" t-as="data" data-number-of-elements="4" data-number-of-elements-sm="2">
+            <t t-set="record" t-value="data['_record']"/>
+            <t t-set="product" t-value="record"/>
+            <t t-set="product_template_id" t-value="record.id if not record.is_product_variant else record.product_tmpl_id.id"/>
+            <t t-set="product_id" t-value="record.id if record.is_product_variant else record.product_variant_id.id"/>
+            <div
+                    class="oe_product_cart o_carousel_product_card d-flex product_slider_style1 te_product_ind style_7"
+                    role="article"
+                    t-att-aria-label="product.display_name"
+                    t-att-data-add2cart-rerender="data.get('_add2cart_rerender')"
+                >
+                    <input type="hidden" name="product-id" t-att-data-product-id="record.id"/>
+
+                    <div t-attf-class="oe_product_image position-relative flex-grow-0 overflow-hidden rounded-0">
+                        <t t-call="theme_clarico_vega.slider_product_image_section"/>
+                        <t t-set="check_stock"
+                           t-value="website.option_out_of_stock and not product.qty_available and product.type=='consu' and not product.allow_out_of_stock_order"/>
+                        <div class="te-out-of-stock-lbl" t-if="check_stock">
+                            <t t-call="theme_clarico_vega.out_of_stock_label"/>
+                        </div>
+                    </div>
+                    <button t-if="data.get('_latest_viewed')"
+                        class="btn o_carousel_product_remove js_remove rounded-pill lh-1"
+                        t-att-data-product-id="product_id"
+                        t-att-data-product-selected="record.is_product_variant"
+                        t-att-data-product-template-id="product_template_id"
+                        title="Remove from recently viewed"
+                    >
+                        <i class="oi oi-close" role="presentation"/>
+                    </button>
+                    <div class="o_wsale_product_information flex-grow-1 flex-shrink-1 p-3 card-title">
+                        <div class="o_wsale_product_info_attributes_wrapper">
+                            <div class="o_wsale_product_information_text">
+                                <t t-if="product.public_categ_ids">
+                                    <t t-if="len(product.public_categ_ids.ids) > 0">
+                                        <t t-set="categ_rec" t-value="product.public_categ_ids[0]"/>
+                                        <a class="text-muted text-decoration-none text-uppercase fw-bold"
+                                           target="_blank" style="font-size:12px;color:#646669 !important;"
+                                           t-att-href="'/shop/category/%s' %slug(categ_rec)">
+                                            <span t-out="categ_rec.name"/>
+                                        </a>
+                                    </t>
+                                </t>
+                                <!-- Rating -->
+                                <t t-if="is_view_active('website_sale.product_comment') and int(product.sudo().rating_avg) != 0">
+                                    <div class="rating_stock_detail d-inline-block float-end">
+                                        <span class="rating-avg d-flex justify-content-center align-items-center fw-normal z-index-1 bg-200">
+                                            <span t-out="round(product.sudo().rating_avg * 100) / 100"/>
+                                            <span class="fa fa-star"/>
+                                            <span class="product-separator">|</span>
+                                            <span t-out="product.rating_count"/>
+                                        </span>
+                                    </div>
+                                </t>
+                                <!-- Product Name -->
+                                <h2 class="o_wsale_products_item_title h6 text-break">
+                                    <a
+                                        class="text-decoration-none"
+                                        t-att-href="product.website_url"
+                                        t-att-content="product.display_name"
+                                        t-att-title="product.display_name"
+                                        t-field="product.display_name"
+                                    />
+                                </h2>
+                                <!-- Description -->
+                                <div class="oe_subdescription_wrapper">
+                                    <div
+                                        class="oe_subdescription text-muted small"
+                                        contenteditable="false"
+                                    >
+                                        <div t-field="product.description_sale"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="o_wsale_product_sub justify-content-between gap-2 text-start bg-white pt-2">
+                            <!-- Price(s) -->
+                            <div class="product_price" aria-label="Price information">
+                                <t t-call="theme_clarico_vega.slider_product_price"></t>
+                            </div>
+                            <!-- Actions -->
+                            <div class="o_wsale_product_btn justify-content-end">
+                                <div class="o_wsale_product_action_row">
+                                    <t t-if="product._website_show_quick_add()">
+                                        <button
+                                            type="button"
+                                            class="o_wsale_product_btn_primary btn js_add_cart"
+                                            title="Add to Cart"
+                                            t-att-data-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                            t-att-data-product-selected="product.is_product_variant"
+                                            t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                            t-att-data-product-type="product.type"
+                                            t-att-data-show-quantity="is_view_active('website_sale.product_quantity')"
+                                        >
+                                            <!-- Avoid whitespaces undesired gaps -->
+                                            <i class="emipro-icon ept-cart fa-fw" role="presentation"/><span class="o_label small ms-1">Add to Cart</span>
+                                        </button>
+                                    </t>
+                                    <t t-set="in_wish" t-value="product.product_variant_id and product.product_variant_id._is_in_wishlist()"/>
+                                    <button
+                                            type="button"
+                                            t-attf-class="btn o_add_wishlist #{in_wish and 'o_in_wishlist'}"
+                                            t-att-disabled="in_wish"
+                                            t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                            t-att-data-product-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                            data-action="o_wishlist"
+                                            t-att-title="in_wish and btnTitleActive or btnTitle">
+                                        <span
+                                                t-attf-class="emipro-icon ept-wishlist"
+                                                role="presentation"
+                                        />
+                                        <span t-if="not in_wish" class="o_label small ms-2">Add to wishlist</span>
+                                        <span t-else="" class="o_label small ms-2">In your wishlist</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_products_style8" name="Product slider Style 8">
+        <t t-foreach="records" t-as="data" data-number-of-elements="4" data-number-of-elements-sm="1">
+            <t t-set="record" t-value="data['_record']"/>
+            <t t-set="product" t-value="record"/>
+            <t t-set="product_template_id" t-value="record.id if not record.is_product_variant else record.product_tmpl_id.id"/>
+            <t t-set="product_id" t-value="record.id if record.is_product_variant else record.product_variant_id.id"/>
+            <div class="oe_product_cart o_carousel_product_card d-flex product_slider_style1 te_product_ind style_8" role="article"
+                t-att-aria-label="product.display_name"
+                t-att-data-add2cart-rerender="data.get('_add2cart_rerender')">
+                <input type="hidden" name="product-id" t-att-data-product-id="record.id"/>
+                <div t-attf-class="oe_product_image position-relative flex-grow-0 overflow-hidden rounded-0">
+                    <t t-call="theme_clarico_vega.slider_product_image_section"/>
+                    <t t-set="check_stock"
+                       t-value="website.option_out_of_stock and not product.qty_available and product.type=='consu' and not product.allow_out_of_stock_order"/>
+                    <div class="te-out-of-stock-lbl" t-if="check_stock">
+                        <t t-call="theme_clarico_vega.out_of_stock_label"/>
+                    </div>
+                </div>
+                <button t-if="data.get('_latest_viewed')"
+                    class="btn o_carousel_product_remove js_remove rounded-pill lh-1"
+                    t-att-data-product-id="product_id"
+                    t-att-data-product-selected="record.is_product_variant"
+                    t-att-data-product-template-id="product_template_id"
+                    title="Remove from recently viewed"
+                >
+                    <i class="oi oi-close" role="presentation"/>
+                </button>
+                <div class="o_wsale_product_information flex-grow-1 flex-shrink-1 p-3 card-title">
+                    <div class="o_wsale_product_info_attributes_wrapper">
+                        <div class="o_wsale_product_information_text">
+                            <div class="d-flex justify-content-between">
+                                <t t-if="product.public_categ_ids">
+                                    <t t-if="len(product.public_categ_ids.ids) > 0">
+                                        <t t-set="categ_rec" t-value="product.public_categ_ids[0]"/>
+                                        <a class="text-muted text-decoration-none text-uppercase fw-bold"
+                                           target="_blank" style="font-size:12px;color:#646669"
+                                           t-att-href="'/shop/category/%s' %slug(categ_rec)">
+                                            <span t-out="categ_rec.name"/>
+                                        </a>
+                                    </t>
+                                </t>
+                                <!-- Rating -->
+                                <t t-if="is_view_active('website_sale.product_comment')">
+                                    <t t-call="theme_clarico_vega.rating_widget_stars_slider">
+                                        <t t-set="rating_avg" t-value="int(product.sudo().rating_avg)"/>
+                                        <t t-set="rating_count" t-value="product.rating_count"/>
+                                    </t>
+                                </t>
+                            </div>
+                            <!-- Product Name -->
+                            <h2 class="o_wsale_products_item_title h6 text-break">
+                                <a
+                                    class="text-decoration-none"
+                                    t-att-href="product.website_url"
+                                    t-att-content="product.display_name"
+                                    t-att-title="product.display_name"
+                                    t-field="product.display_name"
+                                />
+                            </h2>
+                            <!-- Description -->
+                            <div class="oe_subdescription_wrapper">
+                                <div
+                                    class="oe_subdescription text-muted small"
+                                    contenteditable="false"
+                                >
+                                    <div t-field="product.description_sale"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="o_wsale_product_sub justify-content-between gap-2 text-start small">
+                        <!-- Price(s) -->
+                        <div class="product_price" aria-label="Price information">
+                            <t t-call="theme_clarico_vega.slider_product_price"></t>
+                        </div>
+                        <!-- Actions -->
+                        <div class="o_wsale_product_btn justify-content-end">
+                            <div class="o_wsale_product_action_row flex-column justify-content-between">
+                                <t t-set="in_wish" t-value="product.product_variant_id and product.product_variant_id._is_in_wishlist()"/>
+                                <button type="button" t-attf-class="btn o_add_wishlist #{in_wish and 'o_in_wishlist'}" t-att-disabled="in_wish"
+                                        t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                        t-att-data-product-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                        data-action="o_wishlist"
+                                        t-att-title="in_wish and btnTitleActive or btnTitle">
+                                    <span t-attf-class="emipro-icon ept-wishlist" role="presentation"/>
+                                    <span t-if="not in_wish" class="o_label small ms-2">Add to wishlist</span>
+                                    <span t-else="" class="o_label small ms-2">In your wishlist</span>
+                                </button>
+                                <t t-if="product._website_show_quick_add()">
+                                    <button
+                                        type="button"
+                                        class="o_wsale_product_btn_primary btn js_add_cart"
+                                        title="Add to Cart"
+                                        t-att-data-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                        t-att-data-product-selected="product.is_product_variant"
+                                        t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                        t-att-data-product-type="product.type"
+                                        t-att-data-show-quantity="is_view_active('website_sale.product_quantity')">
+                                        <i class="emipro-icon ept-cart fa-fw" role="presentation"/><span class="d-block ms-2">Add to Cart</span>
+                                    </button>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="dynamic_filter_template_product_product_products_style9" name="Product slider Style 9">
+        <t t-foreach="records" t-as="data" data-number-of-elements="4" data-number-of-elements-sm="1">
+            <t t-set="record" t-value="data['_record']"/>
+            <t t-set="product" t-value="record"/>
+            <t t-set="product_template_id" t-value="record.id if not record.is_product_variant else record.product_tmpl_id.id"/>
+            <t t-set="product_id" t-value="record.id if record.is_product_variant else record.product_variant_id.id"/>
+            <div class="oe_product_cart o_carousel_product_card d-flex te_product_ind style_9" role="article"
+                t-att-aria-label="product.display_name"
+                t-att-data-add2cart-rerender="data.get('_add2cart_rerender')">
+                <input type="hidden" name="product-id" t-att-data-product-id="record.id"/>
+                <div t-attf-class="oe_product_image position-relative flex-grow-0 overflow-hidden rounded-0">
+                    <t t-call="theme_clarico_vega.slider_product_image_section"/>
+                    <t t-set="check_stock"
+                       t-value="website.option_out_of_stock and not product.qty_available and product.type=='consu' and not product.allow_out_of_stock_order"/>
+                    <div class="te-out-of-stock-lbl" t-if="check_stock">
+                        <t t-call="theme_clarico_vega.out_of_stock_label"/>
+                    </div>
+                </div>
+                <button t-if="data.get('_latest_viewed')"
+                    class="btn o_carousel_product_remove js_remove rounded-pill lh-1"
+                    t-att-data-product-id="product_id"
+                    t-att-data-product-selected="record.is_product_variant"
+                    t-att-data-product-template-id="product_template_id"
+                    title="Remove from recently viewed"
+                >
+                    <i class="oi oi-close" role="presentation"/>
+                </button>
+                <div class="o_wsale_product_information flex-grow-1 flex-shrink-1 p-2 card-title justify-content-center">
+                    <div class="o_wsale_product_info_attributes_wrapper">
+                        <div class="o_wsale_product_information_text d-flex flex-column align-items-center text-center">
+                            <t t-if="product.public_categ_ids">
+                                <t t-if="len(product.public_categ_ids.ids) > 0">
+                                    <t t-set="categ_rec" t-value="product.public_categ_ids[0]"/>
+                                    <a class="text-muted text-decoration-none text-uppercase" target="_blank" style="font-size:12px;color:#646669 !important;letter-spacing: 1px;"
+                                       t-att-href="'/shop/category/%s' %slug(categ_rec)">
+                                        <span t-out="categ_rec.name"/>
+                                    </a>
+                                </t>
+                            </t>
+                            <!-- Product Name -->
+                            <h2 class="o_wsale_products_item_title h6 text-break mb-1">
+                                <a
+                                    class="text-decoration-none"
+                                    t-att-href="product.website_url"
+                                    t-att-content="product.display_name"
+                                    t-att-title="product.display_name"
+                                    t-field="product.display_name"
+                                />
+                            </h2>
+                            <!-- Description -->
+                            <div class="oe_subdescription_wrapper">
+                                <div
+                                    class="oe_subdescription text-muted small"
+                                    contenteditable="false"
+                                >
+                                    <div t-field="product.description_sale"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="o_wsale_product_sub justify-content-between gap-2 small">
+                        <!-- Price(s) -->
+                        <div class="product_price d-flex align-items-center justify-content-center" aria-label="Price information">
+                            <t t-call="theme_clarico_vega.slider_product_price"></t>
+                        </div>
+                        <!-- Actions -->
+                        <div class="o_wsale_product_btn">
+                            <div class="o_wsale_product_action_row" style="justify-content: end;">
+                                <t t-set="in_wish" t-value="product.product_variant_id and product.product_variant_id._is_in_wishlist()"/>
+                                <button type="button" t-attf-class="btn o_add_wishlist #{in_wish and 'o_in_wishlist'}" t-att-disabled="in_wish"
+                                        t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                        t-att-data-product-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                        data-action="o_wishlist"
+                                        t-att-title="in_wish and btnTitleActive or btnTitle">
+                                    <span t-attf-class="emipro-icon ept-wishlist" role="presentation"/>
+                                    <span t-if="not in_wish" class="o_label small ms-2">Add to wishlist</span>
+                                    <span t-else="" class="o_label small ms-2">In your wishlist</span>
+                                </button>
+                            </div>
+                            <div class="o_wsale_product_action_row" style="position: absolute;align-items: center;justify-content: center;height:90%;">
+                                <t t-if="product._website_show_quick_add()">
+                                    <button
+                                        type="button"
+                                        class="o_wsale_product_btn_primary btn js_add_cart"
+                                        title="Add to Cart"
+                                        t-att-data-product-id="product.id if product.is_product_variant else product.product_variant_id.id"
+                                        t-att-data-product-selected="product.is_product_variant"
+                                        t-att-data-product-template-id="product.id if not product.is_product_variant else product.product_tmpl_id.id"
+                                        t-att-data-product-type="product.type"
+                                        t-att-data-show-quantity="is_view_active('website_sale.product_quantity')">
+                                        <span class="d-block ms-2">Add to Cart</span>
+                                    </button>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="slider_product_image_section">
+        <t t-set="variant"
+           t-value="record if record and record._name == 'product.product' else product.product_variant_id"/>
+
+        <t t-if="variant and variant.with_context(bin_size=True).image_128"
+           t-set="all_images_list"
+           t-value="variant._get_images()"/>
+        <t t-else=""
+           t-set="all_images_list"
+           t-value="product._get_images()"/>
+
+        <t t-set="primary_image_holder"
+           t-value="(all_images_list[:1] + [product])[0]"/>
+
+        <t t-set="secondary_image_holder"
+           t-value="(all_images_list[1:2] + [False])[0]"/>
+        <a
+            t-att-href="product.website_url"
+            t-attf-class="oe_product_image_link position-relative {{secondary_image_holder and 'has-secondary'}}"
+            contenteditable="false"
+            t-att-title="product.display_name"
+            >
+            <t t-set="ribbon"
+               t-value="record and record._name=='product.product' and record.sudo().variant_ribbon_id or record.sudo().website_ribbon_id"/>
+            <t t-set="bg_color" t-value="ribbon.bg_color"/>
+            <t t-set="text_color" t-value="ribbon.text_color"/>
+            <!-- if part with extra condition for label style 6 -->
+            <span t-if="'o_product_label_style_6_left' in ribbon._get_css_classes() or 'o_product_label_style_6_right' in ribbon._get_css_classes()"
+                  t-att-data-ribbon-id="ribbon.id"
+                  t-attf-class="o_ribbons o_not_editable #{ribbon._get_css_classes()} z-1"
+                  t-attf-style="#{bg_color and ('--ribbon-bg:%s;' % bg_color)} #{text_color and ('color:%s;' % text_color)}"
+                  t-out="ribbon.name or ''"/>
+            <span t-else=""
+                  t-attf-class="o_ribbons o_not_editable #{ribbon._get_css_classes()} z-1"
+                  t-attf-style="#{text_color and ('color:%s;--ribbon-text:%s;' % (text_color, text_color)) or ''} #{bg_color and ('background-color:%s;' % bg_color) or ''}"
+                  t-att-data-ribbon-id="ribbon.id" t-out="ribbon.name or ''"/>
+
+            <span role="img"
+                  t-attf-alt="{{product.display_name}} image"
+                  class="oe_product_image_img_wrapper d-flex h-100 w-100 justify-content-center align-items-center position-relative">
+
+                <!-- Primary image -->
+                <span class="oe_product_image_img primary h-100 w-100"
+                      t-attf-style="background-image:url(/web/image/{{primary_image_holder._name}}/{{primary_image_holder.id}}/image_512);" />
+
+                <!-- Secondary image -->
+                <span t-if="secondary_image_holder"
+                      class="oe_product_image_img secondary h-100 w-100"
+                      t-attf-style="background-image:url(/web/image/{{secondary_image_holder._name}}/{{secondary_image_holder.id}}/image_512);" />
+            </span>
+
+            <!--<span
+                role="img"
+                t-attf-alt="{{product.display_name}} image"
+                class="oe_product_image_img_wrapper d-flex h-100 justify-content-center align-items-center"
+            >
+                <span
+                    class="oe_product_image_img h-100 w-100"
+                    t-attf-style="background-image: url({{data['image_512']}});"
+                />
+            </span>-->
+        </a>
+        <div t-if="is_sample" class="o_ribbon_right small text-bg-primary">Sample</div>
+    </template>
+
+    <template id="rating_widget_stars_slider">
+        <t t-set="rating_avg" t-value="round(rating_avg * 100) / 100"/>
+        <t t-set="val_decimal" t-value="round(rating_avg % 1, 1)"/>
+        <t t-set="val_integer" t-value="int(rating_avg)"/>
+        <t t-set="empty_star" t-value="5 - (val_integer+1) if val_decimal else 5 - val_integer"/>
+        <div class="o_website_rating_static" t-att-style="inline_mode and 'display:inline'" t-att-title="rating_avg">
+            <t t-if="rating_style_compressed">
+                <t t-if="rating_avg &lt;= 2">
+                    <i class="fa fa-star-o" role="img"></i>
+                </t>
+                <t t-elif="rating_avg &gt;= 2.1 and rating_avg &lt;= 3.5">
+                    <i class="fa fa-star-half-o" role="img"></i>
+                </t>
+                <t t-else="">
+                    <i class="fa fa-star" role="img"></i>
+                </t>
+                <small class="text-muted ms-1">
+                    <t t-esc="rating_avg"/>
+                </small>
+            </t>
+            <t t-else="">
+                <t t-foreach="range(0, val_integer)" t-as="num">
+                    <i class="fa fa-star" role="img"></i>
+                </t>
+                <t t-if="val_decimal">
+                    <i class="fa fa-star-half-o" role="img"></i>
+                </t>
+                <t t-foreach="range(0, empty_star)" t-as="num">
+                    <i class="fa fa-star-o" role="img"></i>
+                </t>
+                <small class="text-muted ms-1">
+                    (<t t-esc="rating_count"/>)
+                </small>
+            </t>
+        </div>
+    </template>
+
+    <template id="slider_product_price" name="Product Price">
+        <t t-if="not data.get('prevent_zero_price_sale') and not data.get('is_sample')">
+            <span t-out="data['price']"
+                  class="mb-0 fw-bold"
+                  name="product_price"
+                  t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+            <del
+                t-if="data.get('has_discounted_price')"
+                aria-label="Original price"
+                t-attf-class="text-muted me-1 mb-0"
+                style="white-space: nowrap;"
+            >
+                <small
+                    t-out="data['list_price']"
+                    t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                />
+            </del>
+            <div t-attf-class="te_discount d-inline-block {{'' if data['has_discounted_price'] else 'd-none'}}">
+                <t t-set="difference" t-value="round(data['list_price'] - data['price'],2)"/>
+                <t t-set="discount" t-value="round(difference*100/data['list_price']) if data['list_price'] &gt; 0 else 0"/>
+                <div class="te_percentage small">
+                    <span class="percent_val" t-out="'%s'%(discount)"/>% Off
+                </div>
+            </div>
+        </t>
+        <t t-if="website.display_b2b_message()" t-call="theme_clarico_vega.b2b_hide_details_msg"/>
+    </template>
+
+</odoo>

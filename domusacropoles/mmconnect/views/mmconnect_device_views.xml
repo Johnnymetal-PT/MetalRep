@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mm_device_list" model="ir.ui.view">
+        <field name="name">mm.device.list</field>
+        <field name="model">mm.device</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="profile_id"/>
+                <field name="location_id"/>
+                <field name="host"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_device_form" model="ir.ui.view">
+        <field name="name">mm.device.form</field>
+        <field name="model">mm.device</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="profile_id"/>
+                            <field name="location_id"/>
+                        </group>
+                        <group>
+                            <field name="host"/>
+                            <field name="port"/>
+                            <field name="serial_number"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="employee_ids" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_device" model="ir.actions.act_window">
+        <field name="name">Terminais</field>
+        <field name="res_model">mm.device</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_device_command_list" model="ir.ui.view">
+        <field name="name">mm.device.command.list</field>
+        <field name="model">mm.device.command</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="device_id"/>
+                <field name="command_type"/>
+                <field name="state"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_device_command_form" model="ir.ui.view">
+        <field name="name">mm.device.command.form</field>
+        <field name="model">mm.device.command</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_queue" type="object" string="Queue" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_send" type="object" string="Send" invisible="state != 'queued'"/>
+                    <button name="action_done" type="object" string="Done" invisible="state not in ('queued', 'sent')"/>
+                    <button name="action_fail" type="object" string="Fail" invisible="state in ('done', 'failed')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,queued,sent,done,failed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="device_id"/>
+                        <field name="command_type"/>
+                        <field name="employee_ids" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="payload"/>
+                        <field name="response_message"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_device_command" model="ir.actions.act_window">
+        <field name="name">Comandos</field>
+        <field name="res_model">mm.device.command</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_biometric_template_list" model="ir.ui.view">
+        <field name="name">mm.biometric.template.list</field>
+        <field name="model">mm.biometric.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="employee_id"/>
+                <field name="device_id"/>
+                <field name="template_type"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_biometric_template_form" model="ir.ui.view">
+        <field name="name">mm.biometric.template.form</field>
+        <field name="model">mm.biometric.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="device_id"/>
+                        <field name="template_type"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="template_data"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_biometric_template" model="ir.actions.act_window">
+        <field name="name">Biometrias</field>
+        <field name="res_model">mm.biometric.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_access_permission_list" model="ir.ui.view">
+        <field name="name">mm.access.permission.list</field>
+        <field name="model">mm.access.permission</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="employee_id"/>
+                <field name="zone_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_access_permission_form" model="ir.ui.view">
+        <field name="name">mm.access.permission.form</field>
+        <field name="model">mm.access.permission</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="zone_id"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="state"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_access_permission" model="ir.actions.act_window">
+        <field name="name">Permissões de Acesso</field>
+        <field name="res_model">mm.access.permission</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_geo_area_list" model="ir.ui.view">
+        <field name="name">mm.geo.area.list</field>
+        <field name="model">mm.geo.area</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="location_id"/>
+                <field name="cost_center_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_geo_area_form" model="ir.ui.view">
+        <field name="name">mm.geo.area.form</field>
+        <field name="model">mm.geo.area</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="location_id"/>
+                        <field name="cost_center_id"/>
+                        <field name="active"/>
+                    </group>
+                    <field name="point_ids">
+                        <list editable="bottom">
+                            <field name="sequence"/>
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_geo_area" model="ir.actions.act_window">
+        <field name="name">Georeferências</field>
+        <field name="res_model">mm.geo.area</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mm_lpr_event_list" model="ir.ui.view">
+        <field name="name">mm.lpr.event.list</field>
+        <field name="model">mm.lpr.event</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="camera_id"/>
+                <field name="vehicle_id"/>
+                <field name="license_plate"/>
+                <field name="event_datetime"/>
+                <field name="event_type"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mm_lpr_event_form" model="ir.ui.view">
+        <field name="name">mm.lpr.event.form</field>
+        <field name="model">mm.lpr.event</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="camera_id"/>
+                        <field name="vehicle_id"/>
+                        <field name="license_plate"/>
+                        <field name="event_datetime"/>
+                        <field name="event_type"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_lpr_event" model="ir.actions.act_window">
+        <field name="name">LPR</field>
+        <field name="res_model">mm.lpr.event</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="pg_purchase_quotation_report_document" inherit_id="purchase.report_purchasequotation_document">
+        <xpath expr="//table/thead/tr[1]/th[3]" position="after">
+            <t t-if="o.sh_show_multi_disc == True" groups="pg_multi_discount.group_purchase_multi_discount_security">
+                <th class="text-end">Unit Price</th>
+                <th class="text-end">Unit Total</th>
+                <th class="text-end">Disc.(%)</th>
+                <th class="text-end">Discounted Unit Value</th>
+                <th class="text-end">Total Discounted Value</th>
+            </t>
+        </xpath>
+        <xpath expr="//table//tbody//tr[1]//td[3]" position="after">
+            <t t-if="o.sh_show_multi_disc == True" groups="pg_multi_discount.group_purchase_multi_discount_security">
+                <td class="text-end"><span t-field="order_line.price_unit"/></td>
+            </t>
+            <t t-if="o.sh_show_multi_disc == True" groups="pg_multi_discount.group_purchase_multi_discount_security">
+                <td class="text-end"><span t-field="order_line.sh_discount_price_unit"/></td>
+            </t>
+            <t t-if="o.sh_show_multi_disc == True" groups="pg_multi_discount.group_purchase_multi_discount_security">
+                <td class="text-end"><span t-field="order_line.discount"/></td>
+            </t>
+            <t t-if="o.sh_show_multi_disc == True" groups="pg_multi_discount.group_purchase_multi_discount_security">
+                <td class="text-end"><span t-field="order_line.sh_discount_amount"/></td>
+            </t>
+            <t t-if="o.sh_show_multi_disc == True" groups="pg_multi_discount.group_purchase_multi_discount_security">
+                <td class="text-end"><span t-field="order_line.sh_discounted_total_amount"/></td>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="pg_purchase_order_report_document" inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr="//table/thead/tr[1]/th[5]" position="after">
+            <t t-if="o.sh_show_multi_disc == True" groups="pg_multi_discount.group_purchase_multi_discount_security">
+                <th class="text-end">Unit Total</th>
+                <th class="text-end">Disc.(%)</th>
+                <th class="text-end">Discounted Unit Value</th>
+                <th class="text-end">Total Discounted Value</th>
+            </t>
+        </xpath>
+        <xpath expr="//table//tbody//tr[1]//td[5]" position="after">
+            <t t-if="o.sh_show_multi_disc == True" groups="pg_multi_discount.group_purchase_multi_discount_security">
+                <td class="text-end"><span t-field="line.sh_discount_price_unit"/></td>
+                <td class="text-end"><span t-field="line.discount"/></td>
+                <td class="text-end"><span t-field="line.sh_discount_amount"/></td>
+                <td class="text-end"><span t-field="line.sh_discounted_total_amount"/></td>
+            </t>
+        </xpath>
+    </template>
+</odoo>

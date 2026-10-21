@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- ==================== Extend Base Image Tool Option ==================== -->
+    <t t-name="theme_alan.ImageToolOption" t-inherit="html_builder.ImageToolOption" t-inherit-mode="extension">
+        <xpath expr="." position="inside">
+            <BuilderRow label.translate="Add Hotspot" preview="false" t-if="isHotspotSupported">
+                <BuilderButton title.translate="ImgHotspot" icon="'fa-circle'"
+                        action="'addHotspot'"/>
+            </BuilderRow>
+        </xpath>
+    </t>
+
+    <!-- ==================== Alan Image Hotspot Option Panel ==================== -->
+    <t t-name="theme_alan.ImageHotspotOption">
+        <!-- ==================== Hotspot Type Selection ==================== -->
+        <BuilderRow label.translate="Type" preview="false">
+            <BuilderSelect>
+                <BuilderSelectItem classAction="'static_type'"  title.translate="Static">Static</BuilderSelectItem>
+                <BuilderSelectItem classAction="'dynamic_type'"  title.translate="Dynamic">Dynamic</BuilderSelectItem>
+            </BuilderSelect>
+            <BuilderButton title.translate="preview" icon="'fa-eye'" action="'showPreview'" t-if="state.hasStaticType"/>
+        </BuilderRow>
+
+        <!-- ==================== Hotspot Style Selection ==================== -->
+        <BuilderRow label.translate="Style" preview="true">
+            <BuilderSelect>
+                <BuilderSelectItem
+                    action="'setHotspotStyle'"
+                    actionParam="'st1'"
+                    classAction="'st1'"
+                    title.translate="Style-1">Style-1</BuilderSelectItem>
+                <BuilderSelectItem
+                    action="'setHotspotStyle'"
+                    actionParam="'st2'"
+                    classAction="'st2'"
+                    title.translate="Style-2">Style-2</BuilderSelectItem>
+                <BuilderSelectItem
+                    action="'setHotspotStyle'"
+                    actionParam="'st3'"
+                    classAction="'st3'"
+                    title.translate="Style-3">Style-3</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+
+        <!-- ==================== On Click Action Selection ==================== -->
+        <BuilderRow label.translate="On Click" preview="false">
+            <BuilderSelect>
+                <BuilderSelectItem
+                    action="'setOnClickType'"
+                    actionParam="'popover'"
+                    classAction="'static_popover'"
+                    title.translate="popover">Popover</BuilderSelectItem>
+                <BuilderSelectItem
+                    action="'setOnClickType'"
+                    actionParam="'modal'"
+                    classAction="'static_modal'"
+                    title.translate="modal">Modal</BuilderSelectItem>
+            </BuilderSelect>
+            <BuilderButton title.translate="Set Product" icon="'fa-shopping-cart'" action="'setDynamicProduct'" t-if="!state.hasStaticType"/>
+        </BuilderRow>
+
+        <!-- ==================== Hotspot Theme Selection ==================== -->
+        <BuilderRow label.translate="Theme" preview="false" t-if="state.hasStaticType">
+            <BuilderSelect>
+                <BuilderSelectItem
+                    action="'setOnClickTheme'"
+                    actionParam="'light_thm'"
+                    classAction="'light_thm'"
+                    title.translate="Light">Light</BuilderSelectItem>
+                <BuilderSelectItem
+                    action="'setOnClickTheme'"
+                    actionParam="'dark_thm'"
+                    classAction="'dark_thm'"
+                    title.translate="Dark">Dark</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+
+        <!-- ==================== Main Title Input ==================== -->
+        <BuilderRow label.translate="Main Title" preview="false" t-if="state.hasStaticType">
+            <BuilderTextInput
+                placeholder.translate="Title"
+                action="'setHotspotField'"
+                actionParam="{field: 'main_title'}"
+            />
+            <BuilderButton
+                title.translate="Translate Title"
+                icon="'fa-language'"
+                actionParam="'title_translation'"
+                action="'setHotspotTranslation'"
+            />
+        </BuilderRow>
+
+        <!-- ==================== Short Description Input ==================== -->
+        <BuilderRow label.translate="Short Description" preview="false" t-if="state.hasStaticType">
+            <BuilderTextInput
+                placeholder.translate="Description"
+                action="'setHotspotField'"
+                actionParam="{field: 'description'}"
+            />
+            <BuilderButton
+                title.translate="Translate Description"
+                icon="'fa-language'"
+                actionParam="'desc_translation'"
+                action="'setHotspotTranslation'"
+            />
+
+        </BuilderRow>
+
+        <!-- ==================== Button Text Input ==================== -->
+        <BuilderRow label.translate="Button Text" preview="false" t-if="state.hasStaticType">
+            <BuilderTextInput
+                placeholder.translate="Ex: Show Now"
+                action="'setHotspotField'"
+                actionParam="{field: 'btn_text'}"
+            />
+            <BuilderButton
+                title.translate="Translate Button"
+                icon="'fa-language'"
+                actionParam="'btn_translation'"
+                action="'setHotspotTranslation'"
+            />
+        </BuilderRow>
+
+        <!-- ==================== Redirect URL Input ==================== -->
+        <BuilderRow label.translate="Redirect Url" preview="false" t-if="state.hasStaticType">
+            <BuilderUrlPicker title.translate="Redirect Url"
+            action="'setBtnUrl'"
+            inputClasses="'o_we_large'"
+            placeholder.translate="www.example.com"/>
+        </BuilderRow>
+
+        <!-- ==================== Image Selection ==================== -->
+        <BuilderRow label.translate="Image" preview="false" t-if="state.hasStaticType">
+            <BuilderButton title.translate="Image" icon="'fa-camera'"
+                        action="'setHotspotImage'"/>
+        </BuilderRow>
+
+        <!-- ==================== Hotspot Left-Right Position ==================== -->
+        <BuilderRow label.translate="Left-Right" preview="true">
+            <BuilderRange
+                action="'setHotspotPosition'"
+                actionParam="{direction: 'left'}"
+                min="0"
+                max="100"
+                step="1"
+            />
+        </BuilderRow>
+
+        <!-- ==================== Hotspot Top-Bottom Position ==================== -->
+        <BuilderRow label.translate="Top-Bottom" preview="true">
+            <BuilderRange
+                action="'setHotspotPosition'"
+                actionParam="{direction: 'top'}"
+                min="0"
+                max="100"
+                step="1"
+            />
+        </BuilderRow>
+    </t>
+
+</templates>

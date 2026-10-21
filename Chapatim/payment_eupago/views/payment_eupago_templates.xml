@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="eupago_form">
+        <form t-att-action="api_url" method="post">
+            <input type="hidden" name="reference" t-att-value="reference" />
+            <input type="hidden" name="amount" t-att-value="amount" />
+            <input type="hidden" name="currency" t-att-value="currency" />
+            <input type="hidden" name="company_id" t-att-value="company_id" />
+            <input
+                type="hidden"
+                name="acquirer_reference"
+                t-att-value="acquirer_reference"
+            />
+        </form>
+    </template>
+</odoo>

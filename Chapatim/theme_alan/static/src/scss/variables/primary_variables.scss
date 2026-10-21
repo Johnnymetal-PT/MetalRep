@@ -1,0 +1,49 @@
+// Theme colors
+$o-color-palettes: map-merge($o-color-palettes,
+    (
+        'base-1': map-merge(map-get($o-color-palettes, 'base-1'), (
+            'o-color-1': #2563eb,  /* Primary Blue */
+            'o-color-2': #0f172a,  /* Deep Navy (Dark Background / Footer) */
+            'o-color-3': #f9fafb,  /* Light Neutral Background */
+            'o-color-4': #FFFFFF,
+            'o-color-5': #1e293b,  /* Dark Neutral (Headings / Dark Sections) */
+
+            'menu': 1,
+            'footer': 3,
+            'copyright': 5,
+            'copyright-custom': 5,
+            'as-top-header': 3,
+        )),
+    )
+);
+
+$o-theme-font-configs: (
+    'DM_Sans': (
+        'family': ('DM Sans', sans-serif),
+        'url': 'DM+Sans:100,100i,200,200i,300,300i,400,400i,500,500i,700,700i,800,800i,900,900i,1000,1000i',
+    ),
+);
+
+
+$o-website-values-palettes: (
+    (
+        'color-palettes-name': 'base-1',
+        'font-size-base': 1rem, // Need a set value as the value is used in bootstrap_overridden files
+        'google-fonts': null,
+        'google-local-fonts': null,
+        'font': 'DM_Sans',
+        'headings-font': 'DM_Sans',
+        'input-padding-y': 0.75rem,
+        'input-padding-x': 0.95rem,
+        'input-padding-y-sm': .3rem,
+        'input-padding-x-sm': .7rem,
+        'input-padding-y-lg': .6rem,
+        'input-padding-x-lg': 1rem,
+        'btn-padding-y': 0.75rem,
+        'btn-padding-x': 1.85rem,
+        'btn-padding-y-sm': .3rem,
+        'btn-padding-x-sm': .9rem,
+        'btn-padding-y-lg': .6rem,
+        'btn-padding-x-lg': 1.8rem,
+    ),
+);

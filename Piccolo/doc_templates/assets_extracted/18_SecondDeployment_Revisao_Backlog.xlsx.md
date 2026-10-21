@@ -1,0 +1,17 @@
+# Extracted: 18_SecondDeployment_Revisao_Backlog.xlsx
+
+# xl/worksheets/sheet1.xml
+A4: 1
+A5: 2
+A6: 3
+A7: 4
+A8: 5
+A9: 6
+A10: 7
+A11: 8
+A12: 9
+A13: 10
+A14: 11
+A15: 12
+
+# xl/worksheets/sheet2.xml

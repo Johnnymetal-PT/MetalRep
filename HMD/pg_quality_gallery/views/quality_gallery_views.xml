@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Vista kanban tipo galeria sobre quality.check -->
+    <record id="quality_check_view_kanban_gallery" model="ir.ui.view">
+        <field name="name">quality.check.kanban.gallery</field>
+        <field name="model">quality.check</field>
+        <field name="arch" type="xml">
+            <kanban default_order="create_date desc" create="false">
+                <field name="quality_state"/>
+                <templates>
+                    <t t-name="card" class="flex-row p-1">
+                        <aside>
+                            <field name="picture" widget="image"
+                                   options="{'img_class': 'object-fit-contain'}"/>
+                        </aside>
+                        <main class="ms-2 mt-1">
+                            <field class="fw-bold fs-6" name="name"/>
+                            <field name="product_id"/>
+                            <field name="partner_id"/>
+                            <field name="picking_id"/>
+                            <field name="quality_state" widget="badge"
+                                   decoration-success="quality_state == 'pass'"
+                                   decoration-danger="quality_state == 'fail'"/>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Acao: galeria (apenas verificacoes com foto) -->
+    <record id="quality_check_action_gallery" model="ir.actions.act_window">
+        <field name="name">Galeria de Qualidade</field>
+        <field name="res_model">quality.check</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="view_id" ref="quality_check_view_kanban_gallery"/>
+        <field name="domain">[('picture', '!=', False)]</field>
+        <field name="context">{'create': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Sem fotografias de qualidade ainda.</p>
+            <p>As verificacoes com o tipo de teste "Tirar uma Foto" aparecem aqui em galeria.</p>
+        </field>
+    </record>
+
+    <!-- Menu sob Qualidade > Controlo de Qualidade -->
+    <menuitem id="menu_quality_gallery"
+              name="Galeria de Qualidade"
+              parent="quality_control.menu_quality_control"
+              action="quality_check_action_gallery"
+              sequence="19"/>
+</odoo>

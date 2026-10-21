@@ -1,0 +1,27 @@
+<odoo>
+    <record id="pg_sale_order_line_tree_square_meter" model="ir.ui.view">
+        <field name="name">sale.order.line.tree.square.meter</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_order_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="after">
+                <field name="comprimento"/>
+                <field name="largura"/>
+                <field name="area" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="pg_sale_order_line_form_square_meter" model="ir.ui.view">
+        <field name="name">sale.order.form.square.meter</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='product_packaging_qty']" position="after">
+                <field name="comprimento"/>
+                <field name="largura"/>
+                <field name="area" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

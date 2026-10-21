@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_account_payment_form_inherit_pg_connection_fields" model="ir.ui.view">
+        <field name="name">account.payment.form.inherit.pg.connection.fields</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="x_studio_observaes_no_recibo"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

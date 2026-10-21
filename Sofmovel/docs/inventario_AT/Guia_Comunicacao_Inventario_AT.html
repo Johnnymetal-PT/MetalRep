@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<title>Guia — Comunicação de Inventário à AT no Odoo</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm 20mm 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Calibri, Arial, sans-serif; color: #1f2430; font-size: 11pt; line-height: 1.5; margin: 0; }
+  h1 { font-size: 21pt; color: #4a2c6b; margin: 0 0 2mm; }
+  h2 { font-size: 13.5pt; color: #4a2c6b; margin: 8mm 0 2mm; border-bottom: 2px solid #e7dff0; padding-bottom: 1.5mm; }
+  h3 { font-size: 11.5pt; color: #2b2140; margin: 5mm 0 1mm; }
+  p { margin: 0 0 2.5mm; }
+  ul, ol { margin: 0 0 3mm; padding-left: 6mm; }
+  li { margin: 0 0 1.5mm; }
+  code, .ui { background: #f3eefa; color: #4a2c6b; padding: 0.3mm 1.6mm; border-radius: 2px; font-family: Consolas, monospace; font-size: 9.5pt; }
+  .path { font-weight: 600; color: #4a2c6b; }
+  .cover-meta { color: #6a7080; font-size: 10pt; margin-top: 3mm; }
+  .rule { height: 3px; background: linear-gradient(90deg,#4a2c6b,#a07fc7); border: 0; margin: 4mm 0 6mm; }
+  .callout { border-left: 4px solid; padding: 3mm 4mm; margin: 3mm 0; border-radius: 0 4px 4px 0; font-size: 10.5pt; }
+  .warn { background: #fff4f4; border-color: #d64545; }
+  .info { background: #eef5ff; border-color: #2f6fed; }
+  .ok   { background: #eefbf2; border-color: #1e9e5a; }
+  .step { border: 1px solid #e6e2ee; border-radius: 6px; padding: 3mm 4mm; margin: 3mm 0; page-break-inside: avoid; }
+  .step h3 { margin-top: 0; }
+  .num { display: inline-block; width: 7mm; height: 7mm; line-height: 7mm; text-align: center; background: #4a2c6b; color: #fff; border-radius: 50%; font-weight: 700; margin-right: 2mm; font-size: 10pt; }
+  table { width: 100%; border-collapse: collapse; margin: 2mm 0 3mm; font-size: 10pt; }
+  th, td { border: 1px solid #ddd6e8; padding: 2mm 2.5mm; text-align: left; vertical-align: top; }
+  th { background: #f3eefa; color: #3a2b52; }
+  .field { font-weight: 600; white-space: nowrap; }
+  .footer { margin-top: 8mm; border-top: 1px solid #e0dae8; padding-top: 3mm; color: #6a7080; font-size: 8.5pt; }
+  .checklist li { list-style: none; margin-left: -4mm; }
+  .checklist li::before { content: "☐  "; color: #4a2c6b; font-weight: 700; }
+  .tag { display:inline-block; background:#4a2c6b; color:#fff; font-size:8pt; padding:0.5mm 2mm; border-radius:3px; letter-spacing:.3px; }
+</style>
+</head>
+<body>
+
+  <span class="tag">PARÂMETRO GLOBAL · GUIA OPERACIONAL</span>
+  <h1>Comunicação de Inventário à AT no Odoo</h1>
+  <div class="cover-meta">
+    Cliente: <strong>Sofmovel — Momentos D'Argumento, Lda</strong><br>
+    Aplicação: Odoo 17 · Módulo Contabilidade (Portugal)<br>
+    Elaborado por: Parâmetro Global — Consultoria Informática
+  </div>
+  <hr class="rule">
+
+  <p>Este guia explica como obter, de forma autónoma e correta, o <strong>inventário anual</strong> a comunicar à Autoridade Tributária (AT) diretamente no Odoo, valorizado a custo e à data de referência.</p>
+
+  <div class="callout info">
+    <strong>Porque não usar o relatório de "Valorização à Data".</strong> O ecrã <span class="ui">Inventário → Relatórios → Valorização</span> mostra a <em>valorização contabilística do stock</em>, que pode não coincidir com as quantidades físicas "em mão". Para a comunicação à AT, use sempre a ferramenta dedicada descrita abaixo.
+  </div>
+
+  <h2>Antes de começar — lista de verificação</h2>
+  <p>O ficheiro da AT tem de refletir o stock real à data e <strong>não pode conter quantidades negativas</strong>. Confirme, por favor:</p>
+  <ul class="checklist">
+    <li>A contagem física do inventário está feita e registada no Odoo à data de referência (ex.: 31/12).</li>
+    <li>Não existem produtos com <strong>quantidade negativa</strong> (a ferramenta assinala-os — ver Passo 4).</li>
+    <li>Os produtos têm <strong>custo preenchido</strong> (necessário para a valorização).</li>
+    <li>Sabe qual o <strong>ano fiscal</strong> e a <strong>data de referência</strong> a comunicar.</li>
+  </ul>
+
+  <div class="callout warn">
+    <strong>Quantidades negativas.</strong> Se existirem, corrija primeiro através de um <span class="ui">Ajuste de Inventário</span> (<span class="ui">Inventário → Operações → Ajustes</span>) ou contacte a Parâmetro Global. Um ficheiro com negativos será rejeitado ou ficará incorreto.
+  </div>
+
+  <h2>Passo-a-passo</h2>
+
+  <div class="step">
+    <h3><span class="num">1</span>Abrir a ferramenta de Comunicação de Inventário</h3>
+    <p>No menu principal, aceda a:</p>
+    <p class="path">Contabilidade → Relatórios → Portugal → Comunicação de Inventário</p>
+    <p>Abre-se um formulário onde vai definir os parâmetros do inventário.</p>
+  </div>
+
+  <div class="step">
+    <h3><span class="num">2</span>Preencher os parâmetros</h3>
+    <table>
+      <tr><th>Campo</th><th>O que preencher</th></tr>
+      <tr><td class="field">Empresa</td><td>Sofmovel — Momentos D'Argumento, Lda</td></tr>
+      <tr><td class="field">Tipo de Declaração</td><td>Comunicação de Inventário</td></tr>
+      <tr><td class="field">Ano Fiscal</td><td>O ano a comunicar (ex.: <strong>2024</strong>)</td></tr>
+      <tr><td class="field">Período</td><td>Normalmente <strong>Ano Passado</strong> (ou defina Data Inicial / Data Final manualmente)</td></tr>
+      <tr><td class="field">À Data</td><td>A data de referência do inventário (ex.: <strong>31/12/2024</strong>)</td></tr>
+      <tr><td class="field">Formato</td><td><strong>Ficheiro XML</strong> — para submeter à AT.<br><strong>Ficheiro PDF</strong> ou <strong>Ficheiro Excel</strong> — para conferência interna.</td></tr>
+      <tr><td class="field">Validar</td><td>Ativar, para o Odoo verificar os dados antes de gerar o ficheiro.</td></tr>
+    </table>
+  </div>
+
+  <div class="step">
+    <h3><span class="num">3</span>Conferir primeiro em PDF ou Excel</h3>
+    <p>Recomendamos gerar primeiro em <strong>Ficheiro PDF</strong> ou <strong>Ficheiro Excel</strong> e confirmar que as quantidades e valores fazem sentido face ao stock real. Só depois gerar o <strong>Ficheiro XML</strong> definitivo.</p>
+  </div>
+
+  <div class="step">
+    <h3><span class="num">4</span>Verificar os "Produtos com Qtd Negativa"</h3>
+    <p>Se a ferramenta listar produtos no campo <span class="ui">Produtos com Qtd Negativa</span>, <strong>pare</strong> e corrija esse stock antes de gerar o ficheiro final (ver caixa acima). Repita o Passo 2 depois de corrigir.</p>
+  </div>
+
+  <div class="step">
+    <h3><span class="num">5</span>Gerar e guardar o ficheiro</h3>
+    <p>Com os dados validados e sem negativos, gere o <strong>Ficheiro XML</strong> e guarde-o. É este o ficheiro do inventário a entregar à AT.</p>
+  </div>
+
+  <div class="step">
+    <h3><span class="num">6</span>Submeter à AT</h3>
+    <p>Submeta o ficheiro do inventário à Autoridade Tributária pelo canal habitual da empresa (Portal e-Fatura → Comunicar Inventário, ou o canal de comunicação configurado). <strong>Confirme com a vossa contabilidade</strong> o canal e o prazo aplicáveis ao vosso caso.</p>
+  </div>
+
+  <h2>Conferência rápida do "em mão"</h2>
+  <p>Para cruzar as quantidades com o stock físico atual de um produto, use <span class="ui">Inventário → Produtos</span> e observe a coluna <strong>Quantidade em mão</strong> de cada artigo. Este é o valor físico real, útil para validar pontualmente o que aparece no inventário.</p>
+
+  <div class="callout ok">
+    <strong>Resumo.</strong> Para o inventário anual da AT use sempre <span class="ui">Contabilidade → Relatórios → Portugal → Comunicação de Inventário</span>. Confirme antes que não há quantidades negativas e que os custos estão preenchidos. Gere primeiro em PDF/Excel para conferir e só depois o XML para submeter.
+  </div>
+
+  <h2>Apoio</h2>
+  <p>Para qualquer dúvida, ou para apoio na correção das quantidades negativas e na reconciliação da valorização do stock, contacte a Parâmetro Global. Estamos disponíveis para o acompanhar em todo o processo.</p>
+
+  <div class="footer">
+    Documento elaborado pela Parâmetro Global — Consultoria Informática para a Sofmovel — Momentos D'Argumento, Lda.<br>
+    Referências operacionais e prazos legais da comunicação de inventário devem ser confirmados com a contabilidade, conforme a legislação em vigor.
+  </div>
+
+</body>
+</html>

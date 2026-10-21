@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="theme_clarico_vega.HotspotToolOption">
+    <BuilderRow label.translate="Hotspot Action">
+        <BuilderSelect>
+            <BuilderSelectItem id="'hs_action_none'" action="'hotspotAction'" actionValue="''" title.translate="None">None</BuilderSelectItem>
+            <BuilderSelectItem id="'hs_action_redirect_url'" action="'hotspotAction'" actionValue="'redirect_url'" title.translate="Redirect to URL">Redirect to URL</BuilderSelectItem>
+            <BuilderSelectItem id="'hs_action_redirect_product'" action="'hotspotAction'" actionValue="'redirect_product'" title.translate="Redirect on product">Redirect on product</BuilderSelectItem>
+            <BuilderSelectItem id="'hs_action_display_card'" action="'hotspotAction'" actionValue="'display_card'" title.translate="Display basic product card">Display basic product card</BuilderSelectItem>
+            <BuilderSelectItem id="'hs_action_display_adv_card'" action="'hotspotAction'" actionValue="'display_adv_card'" title.translate="Display advanced product card">Display advanced product card</BuilderSelectItem>
+        </BuilderSelect>
+    </BuilderRow>
+
+    <BuilderRow label.translate="Product" level="2"
+        t-if="this.isActiveItems(['hs_action_redirect_product', 'hs_action_display_card', 'hs_action_display_adv_card'])">
+        <BuilderMany2One
+            action="'hotspotProduct'"
+            model="'product.template'"
+            fields="['name']"
+            domain="[['is_published', '=', true], ['sale_ok', '=', true]]"
+        />
+    </BuilderRow>
+
+    <BuilderRow label.translate="URL" level="2" t-if="this.isActiveItem('hs_action_redirect_url')">
+        <BuilderTextInput action="'hotspotSetUrl'" placeholder.translate="www.example.com"/>
+    </BuilderRow>
+
+    <BuilderRow label.translate="Open in New Window" level="3" t-if="this.isActiveItem('hs_action_redirect_url')">
+        <BuilderCheckbox action="'hotspotNewWindow'"/>
+    </BuilderRow>
+
+    <BuilderRow label.translate="Shape" level="1">
+        <BuilderSelect>
+            <BuilderSelectItem id="'hs_shape_circle'" action="'hotspotShape'" actionValue="'circle'">Circle</BuilderSelectItem>
+            <BuilderSelectItem id="'hs_shape_square'" action="'hotspotShape'" actionValue="'square'">Square</BuilderSelectItem>
+            <BuilderSelectItem id="'hs_shape_drop'" action="'hotspotShape'" actionValue="'drop'">Drop</BuilderSelectItem>
+        </BuilderSelect>
+    </BuilderRow>
+
+    <BuilderRow label.translate="Hotspot Animation" level="1">
+        <BuilderSelect>
+            <BuilderSelectItem id="'hs_anim_fade'" action="'hotspotAnimation'" actionValue="'fade_hotspot'">Fade</BuilderSelectItem>
+            <BuilderSelectItem id="'hs_anim_blink'" action="'hotspotAnimation'" actionValue="'blink'">Blink</BuilderSelectItem>
+        </BuilderSelect>
+    </BuilderRow>
+
+    <BuilderRow label.translate="Animation Theme" level="1">
+        <BuilderSelect>
+            <BuilderSelectItem id="'hs_theme_light'" action="'hotspotTheme'" actionValue="'light_theme'">Light Theme</BuilderSelectItem>
+            <BuilderSelectItem id="'hs_theme_dark'" action="'hotspotTheme'" actionValue="'dark_theme'">Dark Theme</BuilderSelectItem>
+        </BuilderSelect>
+    </BuilderRow>
+</t>
+
+</templates>

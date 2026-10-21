@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <!--
+      Grupos custom do perfil "BD Geral User".
+      Sao necessarios porque os ACLs do Odoo sao ADITIVOS (OR): nao e possivel
+      "tirar o eliminar" por cima de um grupo standard que o concede. Por isso,
+      para os casos "excluir eliminar" e "so visualizacao" criamos grupos
+      proprios com os ACLs exatos (ver ir.model.access.csv) e NAO atribuimos o
+      grupo standard que concederia unlink/escrita.
+
+      Categoria dedicada para manter o ecra de Utilizador organizado.
+    -->
+    <record id="module_category_pg_bd_geral" model="ir.module.category">
+        <field name="name">PG BD Geral</field>
+        <field name="description">Perfis de acesso do projeto Private Label (PG).</field>
+        <field name="sequence">90</field>
+    </record>
+
+    <!-- Contactos: criar/editar mas NAO eliminar (res.partner) -->
+    <record id="pg_group_contacts_no_delete" model="res.groups">
+        <field name="name">PG Contactos: sem eliminar</field>
+        <field name="category_id" ref="module_category_pg_bd_geral"/>
+        <field name="comment">Leitura/escrita/criacao em res.partner sem unlink.</field>
+    </record>
+
+    <!-- Manufatura: SO leitura (mrp.production, mrp.workorder, mrp.bom) -->
+    <record id="pg_group_mrp_readonly" model="res.groups">
+        <field name="name">PG Manufatura: so leitura</field>
+        <field name="category_id" ref="module_category_pg_bd_geral"/>
+        <field name="comment">Visualizacao de ordens de producao e de trabalho (sem escrita).</field>
+    </record>
+
+    <!-- Reparacoes: SO leitura (repair.order) -->
+    <record id="pg_group_repair_readonly" model="res.groups">
+        <field name="name">PG Reparacoes: so leitura</field>
+        <field name="category_id" ref="module_category_pg_bd_geral"/>
+        <field name="comment">Visualizacao de ordens de reparacao (sem escrita).</field>
+    </record>
+
+    <!-- Qualidade: SO leitura (quality.check, quality.point) + download imagens -->
+    <record id="pg_group_quality_readonly" model="res.groups">
+        <field name="name">PG Qualidade: so leitura</field>
+        <field name="category_id" ref="module_category_pg_bd_geral"/>
+        <field name="comment">Visualizacao de verificacoes/instrucoes de qualidade e anexos.</field>
+    </record>
+
+    <!-- Inventario: SO visualizacao de stock e artigos -->
+    <record id="pg_group_inventory_stock_readonly" model="res.groups">
+        <field name="name">PG Inventario: so visualizacao de stock</field>
+        <field name="category_id" ref="module_category_pg_bd_geral"/>
+        <field name="comment">Visualizacao de stock/artigos, excluindo artigos de Componentes e Defects (record rule).</field>
+    </record>
+
+    <!-- Projeto: total visualizacao/edicao mas NAO eliminar -->
+    <record id="pg_group_project_no_delete" model="res.groups">
+        <field name="name">PG Projeto: edicao sem eliminar</field>
+        <field name="category_id" ref="module_category_pg_bd_geral"/>
+        <field name="comment">Leitura/escrita/criacao em project.project e project.task sem unlink.</field>
+    </record>
+
+    <!--
+      Grupo de visibilidade do menu CRM.
+      O menu CRM (crm.crm_menu_root) esta gated pelo MESMO grupo das Vendas
+      (sales_team.group_sale_salesman). Para ocultar o CRM mantendo as Vendas,
+      re-gate-amos o menu para este grupo dedicado (ver views/...menu_visibility)
+      e migramos os utilizadores que HOJE veem CRM para este grupo (post_init).
+      NAO esta implied por nenhum grupo de Vendas (de proposito), para se poder
+      excluir o BD Geral User.
+    -->
+    <record id="pg_group_crm_visible" model="res.groups">
+        <field name="name">PG CRM: visivel</field>
+        <field name="category_id" ref="module_category_pg_bd_geral"/>
+        <field name="comment">Controla a visibilidade do menu CRM apos re-gate.</field>
+    </record>
+
+    <!--
+      Grupo de visibilidade do menu Despesas.
+      hr_expense.menu_hr_expense_root NAO tem grupo (visivel a todos os
+      empregados). Para ocultar Despesas ao BD Geral User re-gate-amos o menu
+      para este grupo e migramos TODOS os empregados atuais (post_init),
+      excluindo os utilizadores-alvo definidos no parametro de sistema
+      `pg_bd_geral_security.excluded_user_logins`.
+    -->
+    <record id="pg_group_expenses_visible" model="res.groups">
+        <field name="name">PG Despesas: visivel</field>
+        <field name="category_id" ref="module_category_pg_bd_geral"/>
+        <field name="comment">Controla a visibilidade do menu Despesas apos re-gate.</field>
+    </record>
+
+</odoo>

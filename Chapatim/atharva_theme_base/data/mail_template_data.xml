@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <!-- B2B Application - Admin Notification -->
+    <record id="email_template_b2b_application_admin_notification" model="mail.template">
+        <field name="name">B2B Application - Admin Notification</field>
+        <field name="model_id" ref="atharva_theme_base.model_b2b_application"/>
+        <field name="subject">New B2B Application from {{ object.business_name }}</field>
+        <field name="email_from">{{ (object.company_id.email_formatted or user.email_formatted) }}</field>
+        <field name="email_to">{{ object.email or 'admin@yourcompany.com' }}</field>
+        <field name="partner_to" eval="False"/>
+        <field name="description">Sent to admin when a new B2B application is submitted</field>
+        <field name="body_html" type="html">
+        <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #FFFFFF; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+        <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: #FFFFFF; color: #454748; border-collapse:separate;">
+        <tbody>
+            <!-- HEADER -->
+            <tr>
+                <td align="center" style="min-width: 590px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                        <tr><td valign="middle">
+                            <span style="font-size: 10px;">B2B Signup Request</span><br/>
+                            <span style="font-size: 20px; font-weight: bold;">
+                                <t t-out="object.name or ''">B2B/2024/001</t>
+                            </span>
+                        </td><td valign="middle" align="right" t-if="not object.company_id.uses_default_logo">
+                            <img t-attf-src="/logo.png?company={{ object.company_id.id }}" style="padding: 0px; margin: 0px; height: auto; width: 80px;" t-att-alt="object.company_id.name"/>
+                        </td></tr>
+                        <tr><td colspan="2" style="text-align:center;">
+                        <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+            <!-- CONTENT -->
+            <tr>
+                <td align="center" style="min-width: 590px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                        <tr><td valign="top" style="font-size: 13px;">
+                            <div>
+                                Hello <t t-out="ctx.get('admin_user')"/>,<br/><br/>
+                                A new B2B application <strong><t t-out="object.name or ''">B2B/2024/001</t></strong> has been submitted by <strong><t t-out="object.business_name or ''">My Company</t></strong> and requires your review.<br/><br/>
+
+                                <strong>Application Details:</strong><br/>
+                                <table style="width: 100%; margin-top: 12px; font-size: 13px;">
+                                    <tr>
+                                        <td style="padding: 4px 0px; width: 180px;"><strong>Application Number:</strong></td>
+                                        <td style="padding: 4px 0px;"><t t-out="object.name or ''">B2B/2024/001</t></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0px;"><strong>Business Name:</strong></td>
+                                        <td style="padding: 4px 0px;"><t t-out="object.business_name or ''">My Company</t></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0px;"><strong>Business Type:</strong></td>
+                                        <td style="padding: 4px 0px;"><t t-esc="', '.join(object.business_type_ids.mapped('name')) or ''">Retailer, Wholesaler</t></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0px;"><strong>Contact Person:</strong></td>
+                                        <td style="padding: 4px 0px;"><t t-out="object.first_name or ''">John</t> <t t-out="object.last_name or ''">Doe</t></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0px;"><strong>Email:</strong></td>
+                                        <td style="padding: 4px 0px;"><t t-out="object.email or ''">john@example.com</t></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0px;"><strong>Phone:</strong></td>
+                                        <td style="padding: 4px 0px;"><t t-out="object.phone or ''">+1234567890</t></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0px;"><strong>Status:</strong></td>
+                                        <td style="padding: 4px 0px;"><t t-out="dict(object._fields['state'].selection).get(object.state, '') or ''">Draft</t></td>
+                                    </tr>
+                                </table>
+
+                                <br/>
+                                Please review and process this application at your earliest convenience.
+
+                                <div style="margin: 16px 0px; text-align: center;">
+                                    <a t-attf-href="/web#id={{object.id}}&amp;model=b2b.application&amp;view_type=form"
+                                        t-attf-style="background-color: {{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size:13px;">
+                                        Review Application
+                                    </a>
+                                </div>
+
+                                Do not hesitate to contact us if you have any questions.
+                                <t t-if="user.signature">
+                                    <br/>
+                                    <div><t t-out="user.signature or ''">Administrator</t></div>
+                                </t>
+                            </div>
+                        </td></tr>
+                        <tr><td style="text-align:center;">
+                        <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+            <!-- FOOTER -->
+            <tr>
+                <td align="center" style="min-width: 590px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                        <tr><td valign="middle" align="left">
+                            <t t-out="object.company_id.name or ''">YourCompany</t>
+                        </td></tr>
+                        <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                            <t t-out="object.company_id.phone or ''">+1 650-123-4567</t>
+                            <t t-if="object.company_id.email">
+                                | <a t-attf-href="mailto:{{object.company_id.email}}" style="text-decoration:none; color: #454748;" t-out="object.company_id.email or ''">info@yourcompany.com</a>
+                            </t>
+                            <t t-if="object.company_id.website">
+                                | <a t-att-href="object.company_id.website" style="text-decoration:none; color: #454748;" t-out="object.company_id.website or ''">http://www.example.com</a>
+                            </t>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+        </td></tr>
+        </table>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- B2B Application - Approved -->
+    <record id="email_template_b2b_application_approved" model="mail.template">
+        <field name="name">B2B Application - Approved</field>
+        <field name="model_id" ref="atharva_theme_base.model_b2b_application"/>
+        <field name="subject">Your B2B Application is Approved</field>
+        <field name="email_from">{{ (object.company_id.email_formatted or user.email_formatted) }}</field>
+        <field name="email_to">{{ object.email or '' }}</field>
+        <field name="partner_to" eval="False"/>
+        <field name="use_default_to" eval="False"/>
+        <field name="description">Sent to applicant when B2B application is approved</field>
+        <field name="body_html" type="html">
+        <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #FFFFFF; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+        <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: #FFFFFF; color: #454748; border-collapse:separate;">
+        <tbody>
+            <!-- HEADER -->
+            <tr>
+                <td align="center" style="min-width: 590px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                        <tr><td valign="middle">
+                            <span style="font-size: 10px;">Your B2B Account</span><br/>
+                            <span style="font-size: 20px; font-weight: bold;">
+                                <t t-out="object.business_name or ''">My Company</t>
+                            </span>
+                        </td><td valign="middle" align="right" t-if="not object.company_id.uses_default_logo">
+                            <img t-attf-src="/logo.png?company={{ object.company_id.id }}" style="padding: 0px; margin: 0px; height: auto; width: 80px;" t-att-alt="object.company_id.name"/>
+                        </td></tr>
+                        <tr><td colspan="2" style="text-align:center;">
+                        <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+            <!-- CONTENT -->
+            <tr>
+                <td align="center" style="min-width: 590px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                        <tr><td valign="top" style="font-size: 13px;">
+                            <div>
+                                Hello <t t-out="object.first_name or ''">John</t> <t t-out="object.last_name or ''">Doe</t>,<br/><br/>
+
+                                Congratulations! Your B2B User Account <strong><t t-out="object.name or ''">B2B/2024/001</t></strong> for <strong><t t-out="object.business_name or ''">My Company</t></strong> has been <strong style="color: #28a745;">Active</strong>.<br/>
+
+                                <table style="width: 100%; margin-top: 12px; font-size: 13px;">
+                                    <tr>
+                                        <td style="padding: 4px 0px; width: 180px;"><strong>B2B Account Number:</strong></td>
+                                        <td style="padding: 4px 0px;"><t t-out="object.name or ''">B2B/2024/001</t></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0px;"><strong>Business Name:</strong></td>
+                                        <td style="padding: 4px 0px;"><t t-out="object.business_name or ''">My Company</t></td>
+                                    </tr>
+                                    <tr t-if="object.partner_id">
+                                        <td style="padding: 4px 0px;"><strong>Your User Name:</strong></td>
+                                        <td style="padding: 4px 0px;"><t t-out="object.partner_id.name or ''">Partner Account</t></td>
+                                    </tr>
+                                     <tr t-if="object.partner_id">
+                                        <td style="padding: 4px 0px;"><strong>Your User Email:</strong></td>
+                                        <td style="padding: 4px 0px;"><t t-out="object.partner_id.email or ''">Partner Email</t></td>
+                                    </tr>
+                                </table>
+                                Please set your password using the link below to activate your account
+
+                                <div style="margin: 16px 0px; text-align: center;">
+                                    <a t-if="object.partner_id" t-att-href="object.partner_id._get_signup_url()"
+                                        t-attf-style="background-color: {{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size:13px;">
+                                        Set Your Password &amp; Login
+                                    </a>
+                                </div>
+
+                                After updating your password, you can log in to your account.<br/>
+                                Thanks,<br/>
+                                <t t-if="user.signature">
+                                    <br/>
+                                    <div>--<br/><t t-out="user.signature or ''">Administrator</t></div>
+                                </t>
+                            </div>
+                        </td></tr>
+                        <tr><td style="text-align:center;">
+                        <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+            <!-- FOOTER -->
+            <tr>
+                <td align="center" style="min-width: 590px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                        <tr><td valign="middle" align="left">
+                            <t t-out="object.company_id.name or ''">YourCompany</t>
+                        </td></tr>
+                        <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                            <t t-out="object.company_id.phone or ''">+1 650-123-4567</t>
+                            <t t-if="object.company_id.email">
+                                | <a t-attf-href="mailto:{{object.company_id.email}}" style="text-decoration:none; color: #454748;" t-out="object.company_id.email or ''">info@yourcompany.com</a>
+                            </t>
+                            <t t-if="object.company_id.website">
+                                | <a t-att-href="object.company_id.website" style="text-decoration:none; color: #454748;" t-out="object.company_id.website or ''">http://www.example.com</a>
+                            </t>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+        </td></tr>
+        </table>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- B2B Application - Rejected -->
+    <record id="email_template_b2b_application_rejected" model="mail.template">
+        <field name="name">B2B Application - Rejected</field>
+        <field name="model_id" ref="atharva_theme_base.model_b2b_application"/>
+        <field name="subject">Update on Your B2B Application - {{ object.name }}</field>
+        <field name="email_from">{{ (object.company_id.email_formatted or user.email_formatted) }}</field>
+        <field name="email_to">{{ object.email or '' }}</field>
+        <field name="partner_to" eval="False"/>
+        <field name="use_default_to" eval="False"/>
+        <field name="description">Sent to applicant when B2B application is rejected</field>
+        <field name="body_html" type="html">
+        <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #FFFFFF; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+        <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: #FFFFFF; color: #454748; border-collapse:separate;">
+        <tbody>
+            <!-- HEADER -->
+            <tr>
+                <td align="center" style="min-width: 590px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                        <tr><td valign="middle">
+                            <span style="font-size: 10px;">B2B Application Update</span><br/>
+                            <span style="font-size: 20px; font-weight: bold;">
+                                <t t-out="object.name or ''">B2B/2024/001</t>
+                            </span>
+                        </td><td valign="middle" align="right" t-if="not object.company_id.uses_default_logo">
+                            <img t-attf-src="/logo.png?company={{ object.company_id.id }}" style="padding: 0px; margin: 0px; height: auto; width: 80px;" t-att-alt="object.company_id.name"/>
+                        </td></tr>
+                        <tr><td colspan="2" style="text-align:center;">
+                        <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+            <!-- CONTENT -->
+            <tr>
+                <td align="center" style="min-width: 590px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                        <tr><td valign="top" style="font-size: 13px;">
+                            <div>
+                                Hello <t t-out="object.first_name or ''">John</t> <t t-out="object.last_name or ''">Doe</t>,<br/><br/>
+
+                                Thank you for your interest in our B2B program. We have received and reviewed your application <strong><t t-out="object.name or ''">B2B/2024/001</t></strong> for <strong><t t-out="object.business_name or ''">My Company</t></strong>.<br/><br/>
+
+                                At this time, we are unable to approve your application.<br/><br/>
+
+                                <t t-if="object.rejection_reason">
+                                    <div style="background-color: #f8f9fa; border-left: 4px solid #dc3545; padding: 12px; margin: 16px 0px;">
+                                        <strong>Reason:</strong><br/>
+                                        <t t-out="object.rejection_reason or ''">Requirements not met</t>
+                                    </div>
+                                </t>
+
+                                You may submit a new application in the future once all requirements are met.<br/><br/>
+
+                                If you have any questions or need further clarification, please feel free to contact us.<br/><br/>
+
+                                Thanks,<br/>
+                                <t t-if="user.signature">
+                                    <br/>
+                                    <div>--<br/><t t-out="user.signature or ''">Administrator</t></div>
+                                </t>
+                            </div>
+                        </td></tr>
+                        <tr><td style="text-align:center;">
+                        <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+            <!-- FOOTER -->
+            <tr>
+                <td align="center" style="min-width: 590px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                        <tr><td valign="middle" align="left">
+                            <t t-out="object.company_id.name or ''">YourCompany</t>
+                        </td></tr>
+                        <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                            <t t-out="object.company_id.phone or ''">+1 650-123-4567</t>
+                            <t t-if="object.company_id.email">
+                                | <a t-attf-href="mailto:{{object.company_id.email}}" style="text-decoration:none; color: #454748;" t-out="object.company_id.email or ''">info@yourcompany.com</a>
+                            </t>
+                            <t t-if="object.company_id.website">
+                                | <a t-att-href="object.company_id.website" style="text-decoration:none; color: #454748;" t-out="object.company_id.website or ''">http://www.example.com</a>
+                            </t>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+        </td></tr>
+
+        </table>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+
+    </data>
+</odoo>

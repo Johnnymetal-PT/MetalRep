@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- DESACTIVADO (2026-08-03): campos de "Contas Externas" migrados para a
+             POSIÇÃO FISCAL (mapa de contas). O mecanismo antigo de contas externas
+             foi aposentado — ver SOLUCAO_MERCADO_NACIONAL_EXTERNO_POSICAO_FISCAL.md
+             e o override comentado em mh_account/models/account_move.py.
+
+        <record id="product_template_form_view_inherit_external_accounts" model="ir.ui.view">
+            <field name="name">product.template.form.inherit.external.accounts</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="account.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='invoicing']//group[@name='properties']" position="after">
+                    <group name="external_accounts" string="Contas Externas" groups="account.group_account_readonly">
+                        <group string="Rendimentos Externos">
+                            <field name="property_account_external_income_id"
+                                   options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                        <group string="Gastos Externos">
+                            <field name="property_account_external_expense_id"
+                                   options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        -->
+    </data>
+</odoo>

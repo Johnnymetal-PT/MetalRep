@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="supplier_followup_journal_dashboard_kanban_view">
+        <field name="name">account.journal.dashboard.kanban.supplier.reports</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view" />
+        <field name="arch" type="xml">
+            <!-- Adiciona link no menu de Reporting para journals de compra -->
+            <xpath expr="//div[@name='kanban_manage_reports']" position="inside">
+                <div t-if="journal_type == 'purchase'">
+                    <a type="action" name="%(action_supplier_followup_list)d" 
+                       groups="account.group_account_invoice">Relatórios de Follow-up de Fornecedores</a>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

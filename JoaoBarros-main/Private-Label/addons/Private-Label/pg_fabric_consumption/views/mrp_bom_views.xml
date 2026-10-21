@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_mrp_bom_filter_inherit_pg_fabric_consumption" model="ir.ui.view">
+            <field name="name">mrp.bom.select.inherit.pg.fabric.consumption</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter string="BOMs Duplicadas" name="duplicated_boms" domain="[('origin_bom_id', '!=', False)]"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

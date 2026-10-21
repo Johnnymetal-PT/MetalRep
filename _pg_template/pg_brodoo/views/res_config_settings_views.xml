@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_pg_brodoo" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.pg.ai.dev.assistant</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="project.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='project']" position="inside">
+                <block title="AI Development" name="pg_brodoo_settings">
+                    <setting
+                        id="pg_brodoo_general"
+                        string="General"
+                        help="Base context and quality review options for the mirror and sync flows."
+                    >
+                        <div class="pg_ai_settings_panel">
+                            <div class="pg_ai_settings_grid pg_ai_settings_grid--compact">
+                                <div class="pg_ai_field_card">
+                                    <label for="pg_sync_quality_review_enabled" class="o_light_label"/>
+                                    <field name="pg_sync_quality_review_enabled"/>
+                                    <div class="pg_ai_field_hint">Ativa a revisao consultiva de qualidade antes do publish de scope, sem mutar o payload factual.</div>
+                                </div>
+                                <div class="pg_ai_field_card">
+                                    <label for="pg_odoo_version" class="o_light_label"/>
+                                    <field name="pg_odoo_version"/>
+                                    <div class="pg_ai_field_hint">Versao de Odoo usada como contexto base.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </setting>
+
+                    <setting
+                        id="pg_brodoo_github"
+                        string="GitHub Delivery"
+                        help="Configure the GitHub integration used by the Codex automation flow."
+                    >
+                        <div class="pg_ai_settings_panel">
+                            <div class="pg_ai_panel_header">
+                                <div>
+                                    <div class="pg_ai_panel_eyebrow">Repository Access</div>
+                                    <div class="pg_ai_panel_title">GitHub account and sync</div>
+                                    <div class="pg_ai_panel_subtitle">
+                                        Connect the account, refresh repositories and control branch delivery defaults.
+                                    </div>
+                                </div>
+                                <div class="pg_ai_button_row">
+                                    <button
+                                        name="action_open_pg_ai_onboarding_wizard"
+                                        type="object"
+                                        string="Wizard de Onboarding"
+                                        class="btn btn-secondary"
+                                        icon="fa-compass"
+                                    />
+                                    <button
+                                        name="action_import_github_configuration"
+                                        type="object"
+                                        string="Importar Conta GitHub"
+                                        class="btn btn-secondary"
+                                        icon="fa-download"
+                                    />
+                                    <button
+                                        name="action_sync_github_repositories"
+                                        type="object"
+                                        string="Sincronizar Repositórios"
+                                        class="btn btn-secondary"
+                                        icon="fa-refresh"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="pg_ai_stats_grid">
+                                <div class="pg_ai_stat_card">
+                                    <div class="pg_ai_stat_label">Conta GitHub</div>
+                                    <field name="pg_github_account_login" readonly="1"/>
+                                </div>
+                                <div class="pg_ai_stat_card">
+                                    <div class="pg_ai_stat_label">Nome</div>
+                                    <field name="pg_github_account_name" readonly="1"/>
+                                </div>
+                                <div class="pg_ai_stat_card">
+                                    <div class="pg_ai_stat_label">Repositorios</div>
+                                    <field name="pg_github_repo_count" readonly="1"/>
+                                </div>
+                            </div>
+
+                            <div class="pg_ai_settings_grid pg_ai_settings_grid--compact">
+                                <div class="pg_ai_field_card">
+                                    <label for="pg_github_token" class="o_light_label"/>
+                                    <field name="pg_github_token" password="True" placeholder="ghp_..."/>
+                                    <div class="pg_ai_field_hint">Token usado para sincronizar repositorios, branches e abrir PRs.</div>
+                                </div>
+                                <div class="pg_ai_field_card">
+                                    <label for="pg_github_default_owner" class="o_light_label"/>
+                                    <field name="pg_github_default_owner"/>
+                                    <div class="pg_ai_field_hint">Owner sugerido por defeito ao trabalhar com repositorios da conta ligada.</div>
+                                </div>
+                                <div class="pg_ai_field_card">
+                                    <label for="pg_github_default_branch" class="o_light_label"/>
+                                    <field name="pg_github_default_branch" placeholder="main"/>
+                                    <div class="pg_ai_field_hint">Branch base usada quando o repositorio nao define outra.</div>
+                                </div>
+                                <div class="pg_ai_field_card">
+                                    <label for="pg_github_timeout" class="o_light_label"/>
+                                    <field name="pg_github_timeout"/>
+                                    <div class="pg_ai_field_hint">Timeout maximo das chamadas a API do GitHub.</div>
+                                </div>
+                                <div class="pg_ai_field_card">
+                                    <label for="pg_github_repository_sort" class="o_light_label"/>
+                                    <field name="pg_github_repository_sort"/>
+                                    <div class="pg_ai_field_hint">Ordenacao usada ao sincronizar e listar repositorios da conta.</div>
+                                </div>
+                            </div>
+
+                            <div class="pg_ai_section_heading">Automation Defaults</div>
+                            <div class="pg_ai_toggle_grid">
+                                <div class="pg_ai_toggle_card">
+                                    <div class="pg_ai_toggle_top">
+                                        <label for="pg_ai_push_direct_to_selected_branch" class="o_light_label"/>
+                                        <field name="pg_ai_push_direct_to_selected_branch"/>
+                                    </div>
+                                    <div class="pg_ai_field_hint">Faz commit e push diretamente na branch selecionada na task, sem branch AI intermedia.</div>
+                                </div>
+                                <div class="pg_ai_toggle_card" invisible="pg_ai_push_direct_to_selected_branch">
+                                    <div class="pg_ai_toggle_top">
+                                        <label for="pg_github_create_pr_by_default" class="o_light_label"/>
+                                        <field name="pg_github_create_pr_by_default"/>
+                                    </div>
+                                    <div class="pg_ai_field_hint">Cria automaticamente um pull request depois do push da branch AI.</div>
+                                </div>
+                                <div class="pg_ai_toggle_card">
+                                    <div class="pg_ai_toggle_top">
+                                        <label for="pg_github_autosync_on_search" class="o_light_label"/>
+                                        <field name="pg_github_autosync_on_search"/>
+                                    </div>
+                                    <div class="pg_ai_field_hint">Atualiza os repositorios locais quando o utilizador pesquisa ou sincroniza dados.</div>
+                                </div>
+                                <div class="pg_ai_toggle_card">
+                                    <div class="pg_ai_toggle_top">
+                                        <label for="pg_ai_autosync_branches_on_repo_change" class="o_light_label"/>
+                                        <field name="pg_ai_autosync_branches_on_repo_change"/>
+                                    </div>
+                                    <div class="pg_ai_field_hint">Sincroniza as branches sempre que o repositorio muda na task.</div>
+                                </div>
+                                <div class="pg_ai_toggle_card">
+                                    <div class="pg_ai_toggle_top">
+                                        <label for="pg_ai_auto_select_default_branch" class="o_light_label"/>
+                                        <field name="pg_ai_auto_select_default_branch"/>
+                                    </div>
+                                    <div class="pg_ai_field_hint">Seleciona automaticamente a branch base por defeito do repositorio.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

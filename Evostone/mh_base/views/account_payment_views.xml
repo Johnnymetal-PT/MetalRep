@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Esconder botões Cancel e Reset to Draft para grupo de bloqueio -->
+    <record id="view_payment_form_block_cancel" model="ir.ui.view">
+        <field name="name">account.payment.form.block.cancel</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="can_cancel" invisible="1"/>
+            </field>
+            <xpath expr="//button[@name='action_cancel']" position="attributes">
+                <attribute name="invisible">not id or not (state == 'draft' or (state == 'in_process' and is_sent)) or not can_cancel</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_draft']" position="attributes">
+                <attribute name="invisible">state in ('draft') or not can_cancel</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

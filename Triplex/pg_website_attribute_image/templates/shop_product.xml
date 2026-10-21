@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        A amostra é servida por URL, nunca embutida em base64 no HTML.
+
+        Porquê: embutir punha o ficheiro inteiro dentro da ficha de produto. Num
+        produto com 102 tecidos (ex.: LUSO Bed 180) a página chegava aos 33 MB e o
+        último grupo de atributos só era analisado pelo browser a 99,7 % do documento.
+        Enquanto isso não acontecia, o JavaScript do `website_sale` enviava uma
+        combinação de variante incompleta; o Odoo dá essas combinações como
+        impossíveis (`_filter_combinations_impossible_by_config`) e o
+        `_updateProductImage` aplica `css_not_available` ao carrossel, que o
+        `website_sale.scss` desenha a `opacity: 0.2` — a imagem do produto aparecia
+        esbatida sem razão visível para quem estava a ver a página.
+
+        O `t-if` usa `has_image` (booleano guardado) e não `image`, para não obrigar o
+        servidor a ler o anexo de cada valor só para saber se existe amostra.
+    -->
+    <template id="variants_image" inherit_id="website_sale.variants">
+        <xpath expr="//div[hasclass('radio_input_value')]" position="inside">
+            <img t-if="ptav.has_image"
+                class="attr_value_img"
+                loading="lazy"
+                decoding="async"
+                t-att-alt="ptav.name"
+                t-att-src="ptav.image_url"/>
+        </xpath>
+    </template>
+</odoo>

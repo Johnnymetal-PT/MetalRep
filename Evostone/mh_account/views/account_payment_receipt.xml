@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Herdar Form View de account.payment: destacar receipt_number como título -->
+        <record id="view_account_payment_form_inherit_receipt" model="ir.ui.view">
+            <field name="name">account.payment.form.inherit.receipt</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <!-- Esconder o título standard (name h1) quando receipt_number está definido -->
+                <xpath expr="//sheet/div[hasclass('oe_title')]" position="attributes">
+                    <attribute name="invisible">receipt_number</attribute>
+                </xpath>
+                <!-- Título destacado: receipt_number grande + name (lançamento) pequeno -->
+                <xpath expr="//sheet/div[hasclass('oe_title')]" position="after">
+                    <div class="oe_title mb-3" invisible="not receipt_number">
+                        <h1 class="mb-0">
+                            <field name="receipt_number" readonly="1" nolabel="1"/>
+                        </h1>
+                        <div class="text-muted" style="font-size: 1rem;" invisible="not move_id">
+                            <strong>Lançamento:</strong> <field name="move_id" readonly="1" nolabel="1" class="oe_inline" options="{'no_open': False, 'no_create': True}"/>
+                        </div>
+                    </div>
+                </xpath>
+                <!-- Taxa de Câmbio Manual: só visível quando moeda do pagamento ≠ moeda da empresa -->
+                <xpath expr="//div[@name='amount_div']" position="after">
+                    <label for="manual_currency_rate_active"
+                           string="Câmbio Manual"
+                           invisible="currency_id == company_currency_id"/>
+                    <div name="manual_currency_rate_div" class="o_row"
+                         invisible="currency_id == company_currency_id">
+                        <field name="manual_currency_rate_active"
+                               widget="boolean_toggle"
+                               readonly="state != 'draft'"
+                               nolabel="1"/>
+                        <field name="manual_currency_rate"
+                               invisible="not manual_currency_rate_active"
+                               required="manual_currency_rate_active"
+                               readonly="state != 'draft'"
+                               nolabel="1"/>
+                        <field name="manual_currency_rate_label"
+                               class="text-muted small ms-2"
+                               invisible="not manual_currency_rate_active"
+                               nolabel="1" readonly="1"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Herdar Tree View de account.payment -->
+        <record id="view_account_payment_tree_inherit_receipt" model="ir.ui.view">
+            <field name="name">account.payment.tree.inherit.receipt</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_tree"/>
+            <field name="arch" type="xml">
+                <!-- Adicionar campo receipt_number antes do name -->
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="receipt_number"
+                           string="Nº Recibo"
+                           optional="show"/>
+                </xpath>
+                <!-- Renomear coluna name para "Lançamento" -->
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="string">Lançamento</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Bloquear edição do journal_id na form quando receipt_number existe -->
+        <!-- <record id="view_account_payment_form_journal_readonly" model="ir.ui.view">
+            <field name="name">account.payment.form.journal.readonly</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='journal_id']" position="attributes">
+                    <attribute name="readonly">receipt_number or state != 'draft'</attribute>
+                    <attribute name="force_save">1</attribute>
+                </xpath>
+            </field>
+        </record> -->
+
+        <!-- View para configurar prefixo de recibo no diário -->
+        <record id="view_account_journal_form_inherit_receipt" model="ir.ui.view">
+            <field name="name">account.journal.form.inherit.receipt</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='bank_account']" position="after">
+                    <page string="Recibos" name="receipts" invisible="type not in ('bank', 'cash')">
+                        <group>
+                            <group string="Numeração de Recibos">
+                                <field name="receipt_prefix"
+                                       placeholder="Ex: REC, PAG"/>
+                            </group>
+                            <group string="Informação">
+                                <div class="text-muted">
+                                    <p><strong>Formato do número:</strong> PREFIXO/CÓDIGO_DIÁRIO/ANO/NÚMERO</p>
+                                    <p><strong>Exemplo:</strong> REC/CX/2026/1, REC/CX/2026/2, ...</p>
+                                    <p><strong>Nota:</strong> Se não definir prefixo, usa REC para recebimentos e PAG para pagamentos.</p>
+                                </div>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

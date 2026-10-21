@@ -1,0 +1,343 @@
+<data>
+  <xpath expr="//*[hasclass('oe_structure')][@id='oe_structure_website_sale_products_1']" position="replace">
+    <div class="oe_structure" id="oe_structure_website_sale_products_1" data-editor-message-default="true" data-editor-message="DRAG BUILDING BLOCKS HERE">
+      <section class="s_title pt40 pb40 o_colored_level" data-snippet="s_title" style="background-image: none;">
+        <div class="container s_allow_columns text-center" style="padding-top:80px; padding-bottom: 20px;">
+          <h3 t-if="category" t-field="category.name" style="color: #302D27; font-family: 'Cormorant Infant', serif; font-size: 51px;"/>
+          <h3 t-else="" style="color: #302D27; font-family: 'Cormorant Infant', serif; font-size: 51px;" class="">ALL PRODUCTS</h3>
+
+          <t t-if="category and category.id == 1">
+            <p style="color: #302D27;">Discover stylish and functional pieces to elevate your living room experience.</p>
+          </t>
+          <t t-elif="category and category.id == 2">
+            <p style="color: #302D27;">Elegant dining solutions crafted for comfort, gatherings, and modern aesthetics.</p>
+          </t>
+          <t t-elif="category and category.id == 3">
+            <p style="color: #302D27;">Create your dream sanctuary with our curated collection of bedroom essentials.</p>
+          </t>
+          <t t-if="not category">
+            <p style="color: #302D27;">Browse our entire catalog of premium designs and curated collections for your lifestyle.</p>
+          </t>
+        </div>
+      </section>
+    </div>
+  </xpath>
+
+  <xpath expr="//*[@id='category_header_block']" position="after">
+
+    <style>
+      /* ---------- Slider base ---------- */
+      .subcategory-wrap { --fade-width: 64px; position: relative; }
+
+      /* Edge fades (optional hint) */
+      .subcategory-wrap::before,
+      .subcategory-wrap::after {
+        content: "";
+        position: absolute; top: 0; bottom: 0; width: var(--fade-width);
+        pointer-events: none; z-index: 1;
+      }
+      .subcategory-wrap::before {
+        left: 0;
+      }
+      .subcategory-wrap::after  {
+        right: 0;
+      }
+      .subcategory-wrap.at-start::before { opacity: .35; }
+      .subcategory-wrap.at-end::after    { opacity: .35; }
+
+      /* Horizontal scroller (mobile-like pulling) */
+      .subcategory-slider {
+        scroll-behavior: smooth;         /* smooth for arrows &amp; wheel */
+        -ms-overflow-style: none;        /* hide scrollbar */
+        scrollbar-width: none;
+        overscroll-behavior: contain;    /* keep page from stealing scroll */
+        cursor: grab;
+        will-change: scroll-position;
+      }
+      .subcategory-slider::-webkit-scrollbar { display: none; }
+      .subcategory-slider.is-dragging {
+        cursor: grabbing;
+        scroll-behavior: auto;           /* no auto-animate during drag */
+        user-select: none;
+      }
+
+      /* (Removed scroll-snap to avoid item jumping) */
+
+      /* ---------- Chevron arrows (no background) ---------- */
+      .slider-arrow {
+        position: absolute; top: 50%; transform: translateY(-50%);
+        width: 48px; height: 48px; padding: 0;
+        border: none; background: transparent;
+        cursor: pointer; z-index: 2;
+        color: #6f6a61;                   /* chevron color */
+        opacity: 0; transition: opacity .2s ease, transform .18s ease;
+      }
+      .slider-arrow-left  { left: 16px; }
+      .slider-arrow-right { right: 16px; }
+
+      /* Show only when wrapper hovered AND button is not hidden */
+      .subcategory-wrap:hover .slider-arrow:not([hidden]) { opacity: 1; }
+      .slider-arrow:active { transform: translateY(-50%) scale(.97); }
+      .slider-arrow[disabled] { opacity: .25; pointer-events: none; }
+
+      /* Draw chevrons with borders */
+      .slider-arrow::before {
+        content: ""; display: block; width: 16px; height: 16px; margin: auto;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: rotate(-45deg);       /* right arrow */
+      }
+      .slider-arrow-left::before { transform: rotate(135deg); } /* left arrow */
+
+      .subcategory-slider .subcategory-item {
+        flex: 0 0 auto;
+        width: 18%;
+        min-width: 160px;
+      }
+
+      .subcategory-slider .subcategory-image {
+        max-height: 220px;
+        object-fit: contain;
+        transition: transform .2s ease;
+      }
+
+      .subcategory-slider .subcategory-item:hover .subcategory-image {
+        transform: scale(1.02);
+      }
+
+      @media (max-width: 991.98px) {
+        .subcategory-slider .subcategory-item {
+          width: 24%;
+          min-width: 140px;
+        }
+      }
+
+      @media (max-width: 767.98px) {
+        .custom-category-tabs .nav-tabs {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.75rem;
+          border-bottom: none;
+        }
+
+        .custom-category-tabs .nav-tabs .nav-item {
+          margin-bottom: 0;
+        }
+
+        .custom-category-tabs .nav-tabs .nav-link {
+          width: 100%;
+          text-align: center;
+        }
+
+        .custom-category-tabs .nav-tabs .nav-item:first-child {
+          grid-column: 1 / -1;
+          justify-self: center;
+        }
+
+        .custom-category-tabs .nav-tabs .nav-item:first-child .nav-link {
+          width: auto;
+          min-width: 160px;
+        }
+      }
+
+      @media (max-width: 575.98px) {
+        .subcategory-slider {
+          gap: 0.75rem !important;
+          padding-left: 1rem !important;
+          padding-right: 1rem !important;
+        }
+
+        .subcategory-slider .subcategory-item {
+          flex: 0 0 calc((100% - 1.5rem) / 3);
+          max-width: calc((100% - 1.5rem) / 3);
+          min-width: 0;
+        }
+
+        .subcategory-slider .subcategory-image {
+          max-height: 140px;
+        }
+
+        .custom-category-tabs .nav-tabs .nav-item:first-child .nav-link {
+          min-width: 0;
+        }
+      }
+
+    </style>
+
+    <!-- Show subcategories even when inside a subcategory:
+         if category has children => show its children
+         else => show parent's children (siblings of current) -->
+    <t t-if="category and (category.child_id or category.parent_id)">
+      <t t-set="display_cat" t-value="category.child_id and category or category.parent_id"/>
+      <section class="o_colored_level pt-0 pb-4" style="background: transparent;">
+        <div class="container px-0">
+          <div class="subcategory-wrap">
+            <button class="slider-arrow slider-arrow-left" type="button" aria-label="Scroll left" hidden="true"/>
+
+            <div class="subcategory-slider d-flex overflow-auto px-3 gap-4" tabindex="0" data-drag-scroll="true" style="margin-top: 0.5rem !important; margin-bottom: 0.5rem !important;">
+              <t t-foreach="display_cat.child_id" t-as="subcat">
+                <t t-set="is_active" t-value="category and (category.id == subcat.id)"/>
+                <div class="subcategory-item text-center">
+                  <a t-att-href="keep('/shop/category/' + slug(subcat), category=subcat.id)" style="text-decoration: none;">
+                    <img t-att-src="'/web/image/product.public.category/' + str(subcat.id) + '/image_1920'" class="img-fluid mb-2 subcategory-image" t-attf-style="opacity:{{'0.85' if is_active else '0.25'}};" alt="Subcategory image"/>
+                    <div t-att-style="'font-size: 12px; text-transform: uppercase; color: #857f77;%s' % (' font-weight:600;' if is_active else '')">
+                        <t t-esc="subcat.name"/>
+                    </div>
+                  </a>
+                </div>
+              </t>
+            </div>
+            <button class="slider-arrow slider-arrow-right" type="button" aria-label="Scroll right" hidden="true"/>
+          </div>
+        </div>
+      </section>
+    </t>
+<t t-if="category and (category.child_id or category.parent_id)">
+  <hr class="category-underline"/>
+</t>
+    <script>
+      (function () {
+        /* Easing for arrow/wheel animations (not used during drag) */
+        const EASE = (t)=&gt; t &lt; 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+
+        function smoothScrollTo(el, target, duration = 360) {
+          const start = el.scrollLeft, dist = target - start;
+          if (!dist || duration &lt;= 0) { el.scrollLeft = target; return; }
+          let t0;
+          const step = (ts) =&gt; {
+            if (!t0) t0 = ts;
+            const p = Math.min(1, (ts - t0) / duration);
+            el.scrollLeft = start + dist * EASE(p);
+            if (p &lt; 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+
+        /* Mobile-like momentum after releasing drag */
+        function kineticScroll(el, vScroll /* px/ms */) {
+          const max = Math.max(0, el.scrollWidth - el.clientWidth);
+          let prev = performance.now();
+          let v = vScroll;               // current velocity (px/ms), sign matters
+          const minV = 0.02;             // stop threshold
+          const friction = 0.95;         // per 16ms frame decay (~mobile feel)
+
+          function step(ts) {
+            const dt = ts - prev;        // ms
+            prev = ts;
+            const decay = Math.pow(friction, dt / 16);
+            v *= decay;
+            if (Math.abs(v) &lt; minV) return;
+
+            let next = el.scrollLeft + v * dt;
+            if (next &lt; 0) { next = 0; v = 0; }
+            if (next &gt; max) { next = max; v = 0; }
+
+            el.scrollLeft = next;
+            if (v !== 0) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        }
+
+        function initWrap(wrap) {
+          const slider   = wrap.querySelector('.subcategory-slider');
+          const leftBtn  = wrap.querySelector('.slider-arrow-left');
+          const rightBtn = wrap.querySelector('.slider-arrow-right');
+
+          // Show each arrow only when you can scroll that way
+          const updateArrows = () =&gt; {
+            const max = Math.max(0, slider.scrollWidth - slider.clientWidth);
+            const atStart = slider.scrollLeft &lt;= 1;
+            const atEnd   = slider.scrollLeft &gt;= (max - 1);
+            const hasOverflow = slider.scrollWidth &gt; slider.clientWidth + 4;
+
+            leftBtn.hidden  = !hasOverflow || atStart;
+            rightBtn.hidden = !hasOverflow || atEnd;
+
+            leftBtn.disabled  = atStart;
+            rightBtn.disabled = atEnd;
+
+            wrap.classList.toggle('at-start', atStart);
+            wrap.classList.toggle('at-end', atEnd);
+          };
+
+          // Arrow clicks -&gt; eased scroll by a page
+          const PAGE = () =&gt; Math.max(240, Math.floor(slider.clientWidth * 0.8));
+          leftBtn.addEventListener('click', () =&gt; {
+            smoothScrollTo(slider, Math.max(0, slider.scrollLeft - PAGE()), 360);
+          });
+          rightBtn.addEventListener('click', () =&gt; {
+            const max = slider.scrollWidth - slider.clientWidth;
+            smoothScrollTo(slider, Math.min(max, slider.scrollLeft + PAGE()), 360);
+          });
+
+          // Drag with mobile-like inertia
+          let isDown = false, startX = 0, startScroll = 0, moved = false;
+          let lastX = 0, lastT = 0, vx = 0; // finger velocity in px/ms
+
+          const start = (clientX) =&gt; {
+            isDown = true; moved = false; vx = 0;
+            slider.classList.add('is-dragging');
+            startX = clientX - slider.getBoundingClientRect().left;
+            startScroll = slider.scrollLeft;
+            lastX = clientX; lastT = performance.now();
+          };
+          const move = (clientX) =&gt; {
+            if (!isDown) return;
+            const x = clientX - slider.getBoundingClientRect().left;
+            const walk = x - startX;
+            if (Math.abs(walk) &gt; 3) moved = true;
+
+            const now = performance.now(), dt = now - lastT || 1;
+            vx = (clientX - lastX) / dt;   // finger velocity (px/ms)
+            lastX = clientX; lastT = now;
+
+            // Content follows finger
+            slider.scrollLeft = startScroll - walk;
+            updateArrows();
+          };
+          const end = () =&gt; {
+            if (!isDown) return;
+            isDown = false;
+            slider.classList.remove('is-dragging');
+
+            // Convert finger velocity -&gt; scroll velocity
+            // When finger moves right (vx&gt;0), scrollLeft decreased while dragging.
+            // So scroll velocity is the opposite sign:
+            const vScroll = -vx;           // px/ms
+            kineticScroll(slider, vScroll);
+          };
+
+          // Mouse
+          slider.addEventListener('mousedown', e =&gt; {
+            if (e.button !== 0) return;
+            start(e.clientX); e.preventDefault();
+          });
+          window.addEventListener('mousemove', e =&gt; move(e.clientX));
+          window.addEventListener('mouseup', end);
+          slider.addEventListener('mouseleave', end);
+
+          // Touch
+          slider.addEventListener('touchstart', e =&gt; {
+            const t = e.touches[0]; if (!t) return; start(t.clientX);
+          }, { passive: true });
+          slider.addEventListener('touchmove', e =&gt; {
+            const t = e.touches[0]; if (!t) return; move(t.clientX);
+          }, { passive: true });
+          slider.addEventListener('touchend', end);
+
+          // Cancel accidental clicks after drag
+          slider.addEventListener('click', e =&gt; { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+
+
+
+          slider.addEventListener('scroll', updateArrows, { passive: true });
+          new ResizeObserver(updateArrows).observe(slider);
+          updateArrows();
+        }
+
+        document.querySelectorAll('.subcategory-wrap').forEach(initWrap);
+      })();
+    </script>
+
+  </xpath>
+</data>

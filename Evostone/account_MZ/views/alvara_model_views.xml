@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_form_alvara" model="ir.ui.view">
+        <field name="name">alvara.form</field>
+        <field name="model">alvara.model</field>
+        <field name="arch" type="xml">
+<form string="Alvará">
+                <sheet>
+
+                    <div class="oe_title"> 
+                        <h1>
+                            <field name="name" string="Descrição"/>
+                        </h1> 
+                    </div>
+
+                    <group>
+                        <group>
+                            
+                            <field name="numero" string="Número"/>
+                            <field name="act_main" string="Actividade Principal"/>
+                            
+                            
+                        </group>
+                    
+                        <group>
+                           
+                            <field name="data_emissao" string="Data de Emissão"/>
+                            <field name="validade" string="Validade"/>
+                        </group>
+                     </group>
+
+                    <group>
+                        <group>
+                            <field name="cae_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="nome"/>
+
+                                </list>
+
+                            </field>
+                            
+                        </group>
+
+                        <group>
+                            <field name="ficheiro" widget="pdf_viewer"/>
+                            
+                        </group>
+
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="alvara_view_list" model="ir.ui.view">
+        <field name="name">alvara.list</field>
+        <field name="model">alvara.model</field>
+        <field name="arch" type="xml">
+<list>
+            <field name="name"/>
+                <field name="name"/>
+                <field name="numero" string="Número"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>

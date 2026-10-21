@@ -1,0 +1,25 @@
+<!-- views/templates.xml -->
+<odoo>
+    <template id="shop_payment" inherit_id="website_sale.payment">
+        <xpath expr="//form[@id='o_payment_form']" position="replace">
+            <!-- Hide payment form for 'Pay Later' option -->
+            <t t-if="acquirer.provider != 'transfer'">
+                <form id="o_payment_form" method="post">
+                    <t t-call="payment.payment_acquirer_form">
+                        <t t-set="acquirer" t-value="acquirer"/>
+                    </t>
+                </form>
+            </t>
+        </xpath>
+    </template>
+    
+    <template id="payment_acquirer_form_custom" inherit_id="payment.payment_form">
+        <xpath expr="//div[@id='payment_acquirer_method']" position="replace">
+            <div class="payment_acquirer_method">
+                <!-- Custom content for 'Pay Later' option -->
+                <p>Please confirm your order. You will receive an invoice to complete your payment later.</p>
+            </div>
+        </xpath>
+    </template>
+</odoo>
+

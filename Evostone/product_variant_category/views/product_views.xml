@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Product Variant Form View - Category -->
+    <record id="product_product_form_view_variant_categ" model="ir.ui.view">
+        <field name="name">product.product.form.variant.categ</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <field name="categ_id" position="after">
+                <field name="variant_categ_id" groups="base.group_no_one" options="{'no_create': True}"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Product Variant Tree View - show category -->
+    <record id="product_product_tree_view_variant_categ" model="ir.ui.view">
+        <field name="name">product.product.tree.variant.categ</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="categ_id" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

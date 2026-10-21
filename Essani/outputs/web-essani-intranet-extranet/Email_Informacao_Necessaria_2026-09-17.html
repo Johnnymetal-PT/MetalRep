@@ -1,0 +1,101 @@
+<!doctype html>
+<!--
+  NÃO copiar a partir do editor de código. O que está neste ficheiro é o HTML da
+  página de pré-visualização; colado em bruto, o Odoo mostra as etiquetas como texto.
+
+  Para colar no Odoo, dois caminhos:
+    1. o pg_copy_email_cliente.ps1 já deixou o corpo do email na área de
+       transferência — no compositor do Odoo é só Ctrl+V;
+    2. ou abrir este ficheiro no browser (não no editor) e usar o botão
+       "Copiar corpo".
+-->
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Precisamos da vossa ajuda em três pontos — protótipos, documentos e manutenção</title>
+<style>
+:root { color-scheme: light dark; }
+body { margin: 0; padding: 24px; background: #f4f6f8;
+       font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #111827; }
+main { max-width: 760px; margin: 0 auto; }
+.meta { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+        padding: 16px 20px; margin-bottom: 8px; font-size: 13px; }
+.meta h1 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em;
+           color: #6b7280; margin: 0 0 10px; }
+.meta dl { display: grid; grid-template-columns: 90px 1fr; gap: 4px 12px; margin: 0; }
+.meta dt { color: #6b7280; } .meta dd { margin: 0; font-weight: 600; }
+.avisos { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+          padding: 12px 20px; margin-bottom: 8px; font-size: 13px; color: #92400e; }
+.avisos ul { margin: 6px 0 0; padding-left: 18px; }
+.barra { display: flex; align-items: center; gap: 12px; margin: 16px 0 8px; }
+button { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 6px;
+         border: 0; background: #009fe3; color: #fff; cursor: pointer; }
+button:hover { background: #007fb6; }
+.dica { font-size: 12px; color: #6b7280; }
+#corpo { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+         padding: 24px 28px; font-size: 14px; line-height: 1.55; }
+#corpo p { margin: 0 0 12px; }
+#corpo table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+#corpo th, #corpo td { border: 1px solid #d1d5db; padding: 6px 10px; text-align: left; }
+#corpo th { background: #f9fafb; }
+#corpo blockquote { margin: 0 0 12px; padding-left: 12px; border-left: 3px solid #d1d5db;
+                    color: #4b5563; }
+#corpo pre { background: #f3f4f6; padding: 12px; overflow-x: auto; }
+@media (prefers-color-scheme: dark) {
+  body { background: #0b1220; color: #e5e7eb; }
+  .meta, #corpo { background: #111827; border-color: #1f2937; }
+  #corpo th { background: #1f2937; } #corpo th, #corpo td { border-color: #374151; }
+  .avisos { background: #2b2411; border-color: #7c5e10; color: #fcd34d; }
+}
+</style>
+</head>
+<body>
+<main>
+<section class="meta"><h1>Email ao cliente</h1><dl><dt>Assunto</dt><dd>Precisamos da vossa ajuda em três pontos — protótipos, documentos e manutenção</dd><dt>Para</dt><dd>Ana Valente &lt;PREENCHER@essani.pt&gt;</dd></dl></section><div class="barra"><button id="copiar" type="button">Copiar corpo</button><span class="dica" id="estado">Copia apenas o corpo — os metadados acima ficam de fora.</span></div>
+<article id="corpo">
+<p>Olá Ana,</p>
+<p>O circuito de protótipos está pronto e já dá para experimentar na base de testes. A arrumação dos documentos dos artigos também já está feita. Para fechar esta fase e seguir para as seguintes, precisamos de três coisas vossas — juntei tudo num email só, para não andar a interromper-vos três vezes.</p>
+<p><strong>1. Experimentar os protótipos</strong></p>
+<p>Agora um protótipo cria-se a partir da oportunidade, de uma vez: o sistema dá-lhe a referência, cria o artigo com as especificações que combinaram com o cliente e o projeto com as etapas, e liga tudo. Se alguém mudar uma especificação, o gestor de projeto é avisado automaticamente.</p>
+<p>Vai em anexo um guião com cinco passos para percorrerem. Há duas perguntas que são mesmo as importantes:</p>
+<ul><li>As sete características que pusemos numa fonte de alimentação — tensão de entrada e de saída, potência, corrente máxima, capacidade de carga e grau de proteção — são as que combinam com o cliente? Falta alguma? Sobra alguma?</li><li>Que tarefas é que um protótipo tem sempre, em cada etapa? Por agora o modelo traz as etapas, mas vem sem tarefas.</li></ul>
+<p><strong>2. Documentos dos artigos</strong></p>
+<p>Já está criada a pasta <strong>Artigos</strong> nos Documentos, com uma sub-pasta por família de produto e etiquetas por tipo — fichas técnicas, certificados, manuais, desenhos. E as fichas técnicas já seguem sozinhas nos orçamentos: são 781 documentos que o vendedor deixa de andar à procura.</p>
+<p>Uma nota sobre o desenho, porque é diferente do que imaginámos no início. Os documentos continuam guardados <strong>no artigo</strong>, não dentro da pasta. Testámos pô-los lá e descobrimos que os dois ficam presos ao mesmo ficheiro: apagar um documento da pasta apagava a ficha técnica do artigo. Como está, o site, os orçamentos e os protótipos vão todos buscar os documentos ao artigo, e ninguém os perde por engano.</p>
+<p>Ficaram três coisas por decidir:</p>
+<ul><li>Há <strong>3360 documentos</strong> que não aparecem nas páginas de produto do site. Devem aparecer, ou estão de fora de propósito?</li><li>Os <strong>351 certificados de conformidade</strong> também devem seguir nos orçamentos, como as fichas técnicas?</li><li>Há <strong>5697 documentos</strong> que ficaram sem artigo associado, por causa de uma falha na importação que entretanto corrigimos. Neste momento ninguém lhes chega — nem pelo site nem pelo Odoo. Vamos tentar recuperar os que tiverem a referência do artigo no nome do ficheiro; <strong>podemos apagar os que sobrarem?</strong></li></ul>
+<p><strong>3. Manutenções — falta-nos informação</strong></p>
+<p>Já instalámos os módulos de manutenção na base de testes. Para configurar precisamos de saber:</p>
+<ul><li>que zonas internas querem cobrir;</li><li>quem é o responsável de cada uma;</li><li>de quanto em quanto tempo deve ser feita.</li></ul>
+<p>Os manuais ligamos depois, a cada equipamento.</p>
+<p><strong>O que pedimos</strong></p>
+<p>Se conseguirem experimentar os protótipos e responder aos pontos 2 e 3 até ao fim da próxima semana, era o ideal. Os pontos 1 e 2 são os que seguram a passagem para produção; o 3 pode vir depois, sem atrapalhar nada.</p>
+<p>Se preferirem, fazemos a experiência em conjunto numa chamada — é só dizer.</p>
+</article>
+</main>
+<script>
+document.getElementById('copiar').addEventListener('click', async () => {
+  const corpo = document.getElementById('corpo');
+  const html = corpo.innerHTML;
+  const estado = document.getElementById('estado');
+  try {
+    await navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([html], {type: 'text/html'}),
+      'text/plain': new Blob([corpo.innerText], {type: 'text/plain'}),
+    })]);
+    estado.textContent = 'Copiado. Cola no compositor do Odoo com Ctrl+V.';
+  } catch (e) {
+    const range = document.createRange();
+    range.selectNodeContents(corpo);
+    const sel = window.getSelection();
+    sel.removeAllRanges(); sel.addRange(range);
+    const ok = document.execCommand('copy');
+    estado.textContent = ok
+      ? 'Copiado. Cola no compositor do Odoo com Ctrl+V.'
+      : 'Nao foi possivel copiar: seleciona o corpo e usa Ctrl+C.';
+  }
+});
+</script>
+</body>
+</html>

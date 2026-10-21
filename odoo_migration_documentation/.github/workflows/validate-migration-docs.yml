@@ -1,0 +1,39 @@
+name: Validate migration documentation
+
+on:
+  push:
+    paths:
+      - 'migration-docs/**'
+      - 'scripts/**'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
+      - '.github/workflows/validate-migration-docs.yml'
+  pull_request:
+    paths:
+      - 'migration-docs/**'
+      - 'scripts/**'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
+      - '.github/workflows/validate-migration-docs.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Sync CSV
+        run: python3 scripts/sync_migration_csv.py
+
+      - name: Validate docs
+        run: python3 scripts/validate_migration_docs.py
+
+      - name: Build summary
+        run: python3 scripts/analyze_migration_docs.py

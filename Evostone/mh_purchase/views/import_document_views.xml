@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Import Document List View -->
+    <record id="view_import_document_list" model="ir.ui.view">
+        <field name="name">import.document.list</field>
+        <field name="model">import.document</field>
+        <field name="arch" type="xml">
+            <list string="Documentos de Importação">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="supplier_id"/>
+                <field name="warehouse_id"/>
+                <field name="total_import_cost" sum="Total Importação" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state in ('in_transit', 'partial')"
+                       decoration-success="state == 'done'"
+                       decoration-danger="state == 'cancelled'"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Import Document Form View -->
+    <record id="view_import_document_form" model="ir.ui.view">
+        <field name="name">import.document.form</field>
+        <field name="model">import.document</field>
+        <field name="arch" type="xml">
+            <form string="Documento de Importação">
+                <header>
+                    <button name="action_confirm" string="Confirmar" type="object" class="btn-primary" invisible="state != 'draft'"/>
+
+                    <!-- Botão para atualizar linhas manualmente -->
+                    <!-- <button name="action_refresh_lines" string="↻ Atualizar Linhas" type="object" class="btn-secondary"
+                            invisible="state not in ('draft', 'in_transit')"
+                            help="Sincronizar linhas com pickings atualizados"/> -->
+
+                    <!-- Dois botões no estado in_transit -->
+                    <button name="action_receive_without_costs" string="Receção" type="object" class="btn-info" invisible="state != 'in_transit'"
+                            help="Entrada provisória: custos adicionais serão configurados depois"/>
+                    <button name="action_receive_with_costs" string="Concluir" type="object" class="btn-primary" invisible="state != 'in_transit'"
+                            help="Entrada definitiva: custos adicionais já disponíveis"/>
+
+                    <!-- Botão para finalizar entrada provisória -->
+                    <button name="action_finalize_provisional" string="Concluir" type="object" class="btn-primary" invisible="state != 'partial'"
+                            help="Aplicar custos definitivos e recalcular PCMP"/>
+
+                    <button name="action_cancel" string="Cancelar" type="object" invisible="state not in ('draft', 'in_transit')"/>
+                    <button name="action_draft" string="Voltar a Rascunho" type="object" invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_transit,partial,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_pickings" type="object" class="oe_stat_button" icon="fa-truck" invisible="picking_count == 0">
+                            <field name="picking_count" widget="statinfo" string="Pickings"/>
+                        </button>
+                        <button name="action_view_landed_cost" type="object" class="oe_stat_button" icon="fa-money" invisible="not landed_cost_id">
+                            <span class="o_stat_text">Landed Cost</span>
+                        </button>
+                    </div>
+                    <field name="landed_cost_id" invisible="1"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" placeholder="Será gerado na confirmação..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="supplier_id" readonly="state in ('done', 'cancelled', 'partial')" options="{'no_create': True, 'no_create_edit': True}"/>
+                            <field name="forwarder_id" readonly="state in ('done', 'partial')" options="{'no_create': True, 'no_create_edit': True}"/>
+                            <field name="bank_tc_id" readonly="state in ('done', 'partial')" options="{'no_create': True, 'no_create_edit': True}"/>
+                            <field name="warehouse_id" readonly="state in ('done', 'cancelled', 'partial')" options="{'no_create': True, 'no_create_edit': True}"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="1"/>
+                            <field name="arrival_date" readonly="state in ('done', 'partial')"/>
+                            <field name="reception_date" readonly="1" force_save="1"/>
+                            <field name="user_id" readonly="state in ('done', 'partial')" options="{'no_create': True, 'no_create_edit': True}"/>
+                            <field name="stock_received" readonly="1" widget="boolean_toggle"/>
+                            <field name="pcmp_adjusted" readonly="1"/>
+                            <field name="pcmp_calculation_date" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+
+                    <!-- Seção MERCADORIA fora das abas -->
+                    <separator string="MERCADORIA"/>
+                    <field name="import_line_ids" readonly="state == 'done'">
+                        <list create="false" delete="false">
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="po_currency_id" column_invisible="1"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id"/>
+                            <field name="base_lot_name" string="Lote (Nome)" readonly="1" optional="show"
+                                   decoration-info="base_lot_name != False"/>
+                            <field name="quantity"/>
+                            <field name="quantity_received" optional="show"/>
+                            <field name="product_uom" readonly="1"/>
+                            <field name="unit_price_po" widget="monetary" options="{'currency_field': 'po_currency_id'}" optional="show"/>
+                            <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}" optional="show" string="Preço (taxa PO)"/>
+                            <field name="unit_price_validated" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="subtotal" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                            <field name="landed_cost" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                            <field name="final_unit_cost" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                            <!-- <field name="pcmp_before" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1" optional="hide"/> -->
+                            <field name="pcmp_calculated" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1" optional="show"/>
+                            <field name="stock_move_id" readonly="1" force_save="1" optional="hide"/>
+                            <field name="purchase_order_line_id" readonly="1" force_save="1" optional="hide"/>
+                        </list>
+                    </field>
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="total_product_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    </group>
+
+                    <!-- Seção SERVIÇOS NAS POs de mercadoria -->
+                    <separator string="SERVIÇOS NAS POs" invisible="not service_line_ids"/>
+                    <field name="service_line_ids" readonly="state == 'done'" invisible="not service_line_ids">
+                        <list create="false" delete="false">
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="po_currency_id" column_invisible="1"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id" string="Serviço" force_save="1"/>
+                            <field name="description" force_save="1"/>
+                            <field name="purchase_order_line_id" force_save="1" column_invisible="1"/>
+                            <field name="purchase_order_id" string="PO"/>
+                            <field name="quantity" force_save="1"/>
+                            <field name="unit_price_po" widget="monetary" options="{'currency_field': 'po_currency_id'}" optional="show" />
+                            <field name="unit_price_hist" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1" optional="show" string="Preço Inicial" force_save="1"/>
+                            <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}" force_save="1"/>
+                            <field name="subtotal" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                            <field name="is_from_service_po" force_save="1" optional="hide" readonly="1"/>
+                        </list>
+                    </field>
+                    <group class="oe_subtotal_footer oe_right" invisible="not service_line_ids">
+                        <field name="total_embedded_service_cost" widget="monetary" options="{'currency_field': 'currency_id'}" string="Total Serviços nas POs"/>
+                    </group>
+
+                    <!-- Resumo de custos adicionais -->
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="total_service_cost" widget="monetary" options="{'currency_field': 'currency_id'}" string="Custos Adicionais (Total)"/>
+                    </group>
+
+                    <!-- Abas por baixo -->
+                    <notebook>
+                        <page string="Pedidos de Compra">
+                            <p class="text-muted">
+                                Selecionar pedidos de compra finalizados. POs de "Mercadoria" preencherão automaticamente a seção MERCADORIA.
+                            </p>
+                            <field name="available_po_ids" invisible="1"/>
+                            <field name="purchase_order_ids" widget="many2many_tags"
+                                domain="[('id', 'in', available_po_ids)]"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                                readonly="state in ('done', 'cancelled')"/>
+
+                            <field name="purchase_order_ids" readonly="state in ('done','cancelled')"
+                                domain="[('id', 'in', available_po_ids)]">
+                                <list create="false" edit="false" delete="false">
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="company_currency_id" column_invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="service_type_color" column_invisible="1"/>
+                                    <field name="service_type_id" widget="badge"
+                                        decoration-primary="service_type_color == 'primary'"
+                                        decoration-info="service_type_color == 'info'"
+                                        decoration-success="service_type_color == 'success'"
+                                        decoration-warning="service_type_color == 'warning'"
+                                        decoration-danger="service_type_color == 'danger'"
+                                        decoration-muted="service_type_color == 'muted'"/>
+                                    <field name="amount_total" sum="Total" widget="monetary" options="{'currency_field': 'currency_id'}" string="Total"/>
+                                    <field name="amount_total_cc" sum="Total (MZN)" widget="monetary" options="{'currency_field': 'company_currency_id'}" string="Total (MZN)"/>
+                                    <field name="date_planned"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'done'"/>
+                                    <field name="invoice_status" widget="badge"/>
+                                </list>
+                            </field>
+
+                        </page>
+                        <page string="Documentos">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+                        <page string="Notas">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                    <group class="oe_subtotal_footer oe_right">
+                        <div class="oe_subtotal_footer_separator"/>
+                        <field name="total_import_cost" widget="monetary" options="{'currency_field': 'currency_id'}" class="oe_subtotal_footer_separator"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_import_document_search" model="ir.ui.view">
+        <field name="name">import.document.search</field>
+        <field name="model">import.document</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Importações">
+                <field name="name"/>
+                <field name="supplier_id"/>
+                <field name="warehouse_id"/>
+                <separator/>
+                <filter string="Rascunho" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Em Trânsito" name="in_transit" domain="[('state','=','in_transit')]"/>
+                <filter string="Finalizado" name="done" domain="[('state','=','done')]"/>
+                <separator/>
+                <filter string="PCMP Ajustado" name="pcmp_adjusted" domain="[('pcmp_adjusted','=',True)]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Fornecedor" name="supplier" domain="[]" context="{'group_by':'supplier_id'}"/>
+                    <filter string="Armazém" name="warehouse" domain="[]" context="{'group_by':'warehouse_id'}"/>
+                    <filter string="Estado" name="state" domain="[]" context="{'group_by':'state'}"/>
+                    <filter string="Mês" name="month" domain="[]" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_import_document" model="ir.actions.act_window">
+        <field name="name">Documentos de Importação</field>
+        <field name="res_model">import.document</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_import_document_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Criar Documento de Importação
+            </p>
+            <p>
+                Gerir importações com cálculo automático de PCMP.
+                Os custos adicionais serão distribuídos e o PCMP recalculado.
+            </p>
+        </field>
+    </record>
+</odoo>

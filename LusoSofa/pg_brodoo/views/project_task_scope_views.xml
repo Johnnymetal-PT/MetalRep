@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_task_form_pg_scope" model="ir.ui.view">
+        <field name="name">project.task.form.pg.scope</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="pg_scope" string="Brownfield">
+                    <group string="Classificacao Brownfield">
+                        <group>
+                            <field name="pg_scope_relevant"/>
+                            <field name="pg_scope_track"/>
+                            <field name="pg_scope_state"/>
+                            <field name="pg_scope_kind"/>
+                            <field name="pg_scope_sequence"/>
+                        </group>
+                        <group>
+                            <field name="pg_scope_summary"/>
+                            <field name="pg_acceptance_criteria_text"/>
+                            <field name="pg_out_of_scope_reason" invisible="pg_scope_state != 'excluded'"/>
+                        </group>
+                    </group>
+                    <group
+                        string="Requirement Governance"
+                        invisible="not pg_scope_relevant or pg_scope_track != 'approved_scope' or pg_scope_kind != 'requirement'"
+                    >
+                        <group>
+                            <field name="pg_requirement_status"/>
+                            <field name="pg_requirement_priority"/>
+                            <field name="pg_requirement_owner_id"/>
+                        </group>
+                        <group>
+                            <field name="pg_requirement_traceability_refs"/>
+                        </group>
+                    </group>
+                    <group string="Curadoria de Âmbito">
+                        <group colspan="2">
+                            <field name="pg_scope_curation_feedback" readonly="1" nolabel="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

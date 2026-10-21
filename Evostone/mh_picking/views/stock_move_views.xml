@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Smart button no form do stock.move: abre o lançamento contabilístico -->
+    <record id="view_move_form_mh_account" model="ir.ui.view">
+        <field name="name">stock.move.form.mh.account</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <field name="account_move_ids" invisible="1"/>
+                <button name="action_get_account_moves" type="object"
+                        class="oe_stat_button" icon="fa-book"
+                        invisible="not account_move_ids">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Lançamento</span>
+                        <span class="o_stat_text">Contabilístico</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Smart button no form da stock.move.line: abre o lançamento contabilístico -->
+    <record id="view_move_line_form_mh_account" model="ir.ui.view">
+        <field name="name">stock.move.line.form.mh.account</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/field[@name='company_id']" position="before">
+                <field name="mh_account_move_count" invisible="1"/>
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_get_account_moves" type="object"
+                            class="oe_stat_button" icon="fa-book"
+                            invisible="mh_account_move_count == 0">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Lançamento</span>
+                            <span class="o_stat_text">Contabilístico</span>
+                        </div>
+                    </button>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Stock Move Operations Form - Adicionar lot_name no cabeçalho -->
+    <record id="view_stock_move_operations_form_inherit_lot_name" model="ir.ui.view">
+        <field name="name">stock.move.operations.form.inherit.lot_name</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+        <field name="arch" type="xml">
+            <!-- Torna o formulário inteiro readonly -->
+            <xpath expr="//form" position="attributes">
+                <attribute name="readonly">is_move_readonly</attribute>
+            </xpath>
+            
+                
+            <xpath expr="//field[@name='move_line_ids']" position="attributes">
+                <attribute name="readonly">is_move_readonly</attribute>
+            </xpath>
+
+            <!-- Adicionar lot_name após o bloco de quantidade -->
+            <xpath expr="//div[hasclass('o_row')][.//field[@name='product_uom_qty']]" position="after">
+                <field name="lot_name"
+                       placeholder="Lote a ser criado"
+                       invisible="not product_id" readonly="is_move_readonly or product_form == 'none'" required="product_form != 'none'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Stock Move Operations Form - Ocultar botões de seriais e lotes por padrão -->
+    <record id="view_stock_move_operations_form_inherit_hide_buttons" model="ir.ui.view">
+        <field name="name">stock.move.operations.form.inherit.hide.buttons</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+        <field name="arch" type="xml">
+            <!-- Ocultar botão generate_serials -->
+            <xpath expr="//widget[@name='generate_serials']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- Ocultar botão import_lots -->
+            <xpath expr="//widget[@name='import_lots']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Stock Picking Form - Tornar campo quantity readonly baseado em condições -->
+    <record id="view_picking_form_inherit_quantity_readonly" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.quantity.readonly</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <!-- Tornar campo quantity readonly quando product_form != 'none' ou sale_line_id existe -->
+            <xpath expr="//field[@name='move_ids_without_package']//field[@name='quantity']" position="attributes">
+                <attribute name="readonly">not sale_line_id or purchase_line_id</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Adicionar lot_group_id na tree de SVL -->
+    <record id="stock_valuation_layer_tree_inherit" model="ir.ui.view">
+        <field name="name">stock.valuation.layer.tree.inherit.lot.group</field>
+        <field name="model">stock.valuation.layer</field>
+        <field name="inherit_id" ref="stock_account.stock_valuation_layer_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="lot_group_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

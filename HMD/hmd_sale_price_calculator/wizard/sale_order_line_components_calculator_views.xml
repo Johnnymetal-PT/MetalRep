@@ -1,0 +1,50 @@
+<odoo>
+    <record id="view_sale_order_line_components_calculator" model="ir.ui.view">
+        <field name="name">sale.order.line.components.calculator.form</field>
+        <field name="model">sale.order.line.components.calculator</field>
+        <field name="arch" type="xml">
+            <form string="Calculadora de Preços (Componentes)">
+                <field name="sale_line_id" invisible="1"/>
+                <group>
+                    <group string="Componentes de Custo">
+                        <label for="pc1"/>
+                        <div class="o_row">
+                            <field name="pc1"/>
+                            <field name="forn1" placeholder="Fornecedor"/>
+                        </div>
+                        <label for="pc2"/>
+                        <div class="o_row">
+                            <field name="pc2"/>
+                            <field name="forn2" placeholder="Fornecedor"/>
+                        </div>
+                        <label for="pc3"/>
+                        <div class="o_row">
+                            <field name="pc3"/>
+                            <field name="forn3" placeholder="Fornecedor"/>
+                        </div>
+                        <label for="pc4"/>
+                        <div class="o_row">
+                            <field name="pc4"/>
+                            <field name="forn4" placeholder="Fornecedor"/>
+                        </div>
+                        <field name="box_cost"/>
+                        <field name="pickup_cost"/>
+                    </group>
+                    <group string="Resultado">
+                        <field name="pc_total" readonly="1"/>
+                        <field name="price_client" readonly="1"/>
+                        <field name="pvp" readonly="1"/>
+                        <field name="invoiced" readonly="1"/>
+                        <field name="margin_real" readonly="1"/>
+                        <field name="apply_target"/>
+                    </group>
+                </group>
+                <field name="observation" placeholder="Adicionar observação..."/>
+                <footer>
+                    <button name="action_apply" string="Aplicar" type="object" class="btn-primary"/>
+                    <button string="Cancelar" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

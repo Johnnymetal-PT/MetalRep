@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--
+        Pagina de especificacoes de um tecido.
+
+        Reaproveita as classes da pagina /fabrics do tema (.hmd-fabrics-page,
+        .hmd-pagehead, .hmd-fabric-card) porque a HMD pediu que esta pagina
+        fosse parecida com a dos tecidos. O que e novo tem prefixo
+        .hmd-fabric-detail e vive no scss do tema.
+
+        Nao herda a pagina de produto do website_sale de proposito: essa tem
+        preco, quantidade, carrinho, seletor de variantes e o bloco B2B, e
+        nenhum deles faz sentido num tecido. Herda-la era passar o resto da
+        pagina a apagar coisas.
+    -->
+    <template id="fabric_detail" name="Tecido">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'fabrics'"/>
+            <div id="wrap" class="oe_structure hmd-fabrics-page hmd-fabric-detail">
+
+                <section class="hmd-pagehead">
+                    <h1 class="hmd-pagehead__title" t-out="fabric.name"/>
+                    <div class="hmd-pagehead__intro"
+                         t-if="fabric.description_ecommerce"
+                         t-field="fabric.description_ecommerce"/>
+                </section>
+
+                <!-- Zonas editaveis (tarefa #8113): o conteudo e partilhado por todos os
+                     tecidos, porque a pagina e um unico template. -->
+                <div id="oe_structure_hmd_fabric_detail_1" class="oe_structure"/>
+
+                <!-- As amostras de cor: as variantes com fotografia -->
+                <section class="hmd-fabric-detail__swatches" t-if="swatches">
+                    <article class="hmd-fabric-card"
+                             t-foreach="swatches" t-as="hmd_swatch">
+                        <img t-att-src="website.image_url(hmd_swatch, 'image_1024')"
+                             t-att-alt="hmd_swatch.display_name" loading="lazy"/>
+                        <h3 t-out="hmd_swatch.display_name"/>
+                    </article>
+                </section>
+
+                <!--
+                    Downloads da ficha tecnica. A descarga usa a rota do
+                    website_sale (/shop/<slug>/document/<id>), que revalida o
+                    documento do lado do servidor: ativo, shown_on_product_page
+                    e a pertencer a este produto. O website_url ja traz o slug
+                    correto, por isso nao se monta o caminho a mao.
+                -->
+                <section class="hmd-fabric-detail__specs" t-if="documents">
+                    <div class="hmd-fabric-detail__downloads">
+                        <a t-foreach="documents" t-as="hmd_document"
+                           t-attf-href="#{fabric.website_url}/document/#{hmd_document.id}"
+                           t-out="hmd_document.name"/>
+                    </div>
+                </section>
+
+                <!--
+                    Especificacoes do tecido, num so bloco.
+
+                    Ate 24/09/2026 eram dois: Category/Composition em cima e a
+                    tabela "Specifications" (cores, etiquetas) em baixo. A HMD
+                    pediu-as juntas, e com as instrucoes de limpeza (tarefa
+                    #7542). As linhas de texto vem de _hmd_fabric_spec_items(),
+                    a mesma fonte da seccao "Specifications" da pagina de
+                    produto, para as duas paginas dizerem o mesmo.
+
+                    Atributos e etiquetas: as fontes sao as do website_sale
+                    (linhas de atributo validas, etiquetas das variantes
+                    filtradas por `visible_on_ecommerce`). So a apresentacao e
+                    nossa.
+                -->
+                <t t-set="hmd_items" t-value="fabric._hmd_fabric_spec_items()"/>
+                <t t-set="hmd_attrs" t-value="fabric._hmd_fabric_attributes()"/>
+                <t t-set="hmd_tags" t-value="fabric._hmd_fabric_tags()"/>
+                <section class="hmd-fabric-detail__table"
+                         t-if="hmd_items or hmd_attrs or hmd_tags or fabric.hmd_fabric_care_image">
+                    <h2 class="hmd-fabric-detail__table-title">Specifications</h2>
+                    <dl class="hmd-fabric-detail__list">
+                        <t t-foreach="hmd_items" t-as="hmd_item">
+                            <dt t-out="hmd_item[0]"/>
+                            <dd t-out="hmd_item[1]"/>
+                        </t>
+                        <t t-foreach="hmd_attrs" t-as="hmd_line">
+                            <dt t-out="hmd_line.attribute_id.name"/>
+                            <dd t-out="', '.join(hmd_line.value_ids.mapped('name'))"/>
+                        </t>
+                        <t t-if="hmd_tags">
+                            <dt>Tags</dt>
+                            <dd t-out="', '.join(hmd_tags.mapped('name'))"/>
+                        </t>
+                        <t t-if="fabric.hmd_fabric_care_image">
+                            <dt>Care instructions</dt>
+                            <dd class="hmd-fabric-care">
+                                <img t-att-src="website.image_url(fabric, 'hmd_fabric_care_image')"
+                                     alt="Care instructions" loading="lazy"/>
+                            </dd>
+                        </t>
+                    </dl>
+                </section>
+
+                <div id="oe_structure_hmd_fabric_detail_2" class="oe_structure"/>
+
+                <nav class="hmd-fabric-detail__back">
+                    <a href="/fabrics">All fabrics</a>
+                </nav>
+
+            </div>
+        </t>
+    </template>
+
+</odoo>

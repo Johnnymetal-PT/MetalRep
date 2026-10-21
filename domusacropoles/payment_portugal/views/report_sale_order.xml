@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_saleorder_document"
+        inherit_id="sale.report_saleorder_document"
+    >
+        <!-- Multibanco Information Table -->
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <t t-call="payment_portugal.mb_payment_info" />
+        </xpath>
+    </template>
+</odoo>

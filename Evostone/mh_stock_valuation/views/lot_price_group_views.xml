@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_lot_price_group_list" model="ir.ui.view">
+        <field name="name">lot.price.group.list</field>
+        <field name="model">lot.price.group</field>
+        <field name="arch" type="xml">
+            <list string="Grupos Dimensões" create="0" delete="0">
+                <field name="description" optional="show"/>
+                <field name="name"/>
+                <field name="base_lot_name" optional="show"/>
+                <field name="base_lot_group_id" optional="show"/>
+                <field name="product_id"/>
+                <field name="length" optional="show"/>
+                <field name="width" optional="show"/>
+                <field name="thickness" optional="hide"/>
+                <field name="area" optional="hide"/>
+                <field name="volume" optional="hide"/>
+                <field name="peso" optional="show"/>
+                <field name="peso_total" optional="show"/>
+                <field name="use_base_pricing" widget="boolean_toggle" optional="show"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="standard_price" optional="show" widget="monetary"/>
+                <field name="list_price" optional="show" widget="monetary"/>
+                <field name="margin" optional="show"/>
+                <field name="lot_count" optional="show"/>
+                <field name="total_quantity" optional="hide"/>
+                <field name="total_value" optional="hide" widget="monetary"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_lot_price_group_form" model="ir.ui.view">
+        <field name="name">lot.price.group.form</field>
+        <field name="model">lot.price.group</field>
+        <field name="arch" type="xml">
+            <form string="Grupo de Preços de Lotes" create="0" delete="0">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_lots"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-cube">
+                            <field name="lot_count" widget="statinfo" string="Lotes"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <field name="description"/>
+                    </group>
+
+                    <group>
+                        <group name="product_info" string="Produto">
+                            <field name="product_id" options="{'no_create': True}"/>
+                            <field name="base_lot_name" readonly="1"/>
+                            <field name="base_lot_group_id" readonly="1" options="{'no_create': True}"/>
+                        </group>
+                        <group name="totals" string="Totais em Estoque">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="total_quantity"/>
+                            <field name="total_value" widget="monetary"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group name="dimensions" string="Dimensões (metros)">
+                            <field name="product_form" invisible="1"/>
+                            <field name="length"/>
+                            <field name="width"/>
+                            <field name="thickness" invisible="product_form != 'block'"/>
+                            <field name="area" readonly="1" invisible="not product_form or product_form == 'block' or product_form == 'none'"/>
+                            <field name="volume" readonly="1" invisible="product_form != 'block'"/>
+                            <field name="peso"/>
+                            <field name="peso_total" readonly="1"/>
+                        </group>
+                        <group name="pricing" string="Preços e Margem (por m²/m³)">
+                            <field name="base_manual_sale_price" invisible="1"/>
+                            <field name="base_manual_pcmp" invisible="1"/>
+                            <div class="o_row">
+                                <field name="use_base_pricing" widget="boolean_toggle"/>
+                                <label for="use_base_pricing" string="Usar Preços do Grupo Base"/>
+                            </div>
+                            <!-- Todos os valores são unitários (por m²/m³) -->
+                            <field name="standard_price" readonly="1" widget="monetary"
+                                   string="Custo (MT/m²|m³)"
+                                   decoration-info="use_base_pricing"
+                                   decoration-warning="not use_base_pricing"/>
+                            <field name="pcmp" readonly="1" widget="monetary"
+                                   string="PCMP (MT/m²|m³)"
+                                   decoration-info="use_base_pricing"
+                                   decoration-warning="not use_base_pricing"/>
+                            <field name="margin" readonly="use_base_pricing"
+                                   decoration-info="use_base_pricing"
+                                   decoration-warning="not use_base_pricing"/>
+                            <field name="list_price" readonly="use_base_pricing" widget="monetary"
+                                   string="Preço Venda (MT/m²|m³)"
+                                   decoration-info="use_base_pricing"
+                                   decoration-warning="not use_base_pricing"/>
+                        </group>
+                    </group>
+
+                    <!-- Valores absolutos por peça (informativos) -->
+                    <group string="Valores por Peça (MT)" invisible="not area and not volume">
+                        <group>
+                            <field name="cost_per_piece" readonly="1" widget="monetary"/>
+                            <field name="pcmp_per_piece" readonly="1" widget="monetary"/>
+                        </group>
+                        <group>
+                            <field name="list_price_per_piece" readonly="1" widget="monetary"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Lotes Associados" name="lots">
+                            <field name="lot_ids">
+                                <list>
+                                    <button name="get_formview_action" type="object"
+                                            icon="fa-external-link" title="Abrir formulário"/>
+                                    <field name="name"/>
+                                    <field name="product_id"/>
+                                    <field name="length" optional="hide"/>
+                                    <field name="width" optional="hide"/>
+                                    <field name="thickness" optional="hide"/>
+                                    <field name="peso" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter>
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </chatter>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_lot_price_group_search" model="ir.ui.view">
+        <field name="name">lot.price.group.search</field>
+        <field name="model">lot.price.group</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Grupos Dimensões">
+                <field name="name"/>
+                <field name="base_lot_name"/>
+                <field name="product_id"/>
+                <field name="length"/>
+                <field name="width"/>
+                <field name="thickness"/>
+
+                <filter string="Com Lotes"
+                        name="with_lots"
+                        domain="[('lot_count', '>', 0)]"/>
+                <filter string="Sem Lotes"
+                        name="without_lots"
+                        domain="[('lot_count', '=', 0)]"/>
+
+                <separator/>
+                <filter string="Com Espessura"
+                        name="with_thickness"
+                        domain="[('thickness', '>', 0)]"/>
+                <filter string="Sem Espessura"
+                        name="without_thickness"
+                        domain="['|', ('thickness', '=', 0), ('thickness', '=', False)]"/>
+
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Produto"
+                            name="group_product"
+                            context="{'group_by': 'product_id'}"/>
+                    <filter string="Comprimento"
+                            name="group_length"
+                            context="{'group_by': 'length'}"/>
+                    <filter string="Largura"
+                            name="group_width"
+                            context="{'group_by': 'width'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_lot_price_group" model="ir.actions.act_window">
+        <field name="name">Grupos Dimensões</field>
+        <field name="res_model">lot.price.group</field>
+        <field name="view_mode">list,form</field>
+        <field name="groups_id" eval="[(4, ref('stock.group_stock_manager'))]"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Criar novo Grupo de Preços de Lotes
+            </p>
+            <p>
+                Grupos Dimensões permitem gerenciar preços e margens de múltiplos lotes
+                com dimensões idênticas de forma centralizada.
+            </p>
+            <p>
+                Ao alterar o preço ou margem no grupo, todos os lotes associados são
+                atualizados automaticamente.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_lot_price_group_inventory"
+              name="Grupos Dimensões"
+              parent="stock.menu_stock_inventory_control"
+              action="action_lot_price_group"
+              groups="stock.group_stock_manager"
+              sequence="50"/>
+
+    <menuitem id="menu_lot_price_group_sale"
+              name="Grupos Dimensões"
+              parent="sale.product_menu_catalog"
+              action="action_lot_price_group"
+              groups="stock.group_stock_manager"
+              sequence="50"/>
+
+
+</odoo>

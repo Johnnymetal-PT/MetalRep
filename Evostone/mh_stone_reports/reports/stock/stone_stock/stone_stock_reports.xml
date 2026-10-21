@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- ================================================================
+             1. RELATÓRIO DE PEDRA - Visão geral da pedra com detalhes
+             ================================================================ -->
+
+        <record id="view_report_stone_stock_placa" model="ir.ui.view">
+            <field name="name">Stone Stock Placa Report - Main Wrapper</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_stock_placa</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_stock_placa">
+                    <t t-call="web.html_container">
+                        <t t-foreach="docs" t-as="doc">
+                            <t t-call="mh_stone_reports.report_stone_stock_placa_document"/>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="view_report_stone_stock_placa_document" model="ir.ui.view">
+            <field name="name">Stone Stock Placa Report - Document</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_stock_placa_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_stock_placa_document">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <style>
+                                .stone-info-table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    margin-bottom: 15px;
+                                }
+                                .stone-info-table td {
+                                    padding: 8px;
+                                    border: 1px solid #ddd;
+                                }
+                                .stone-info-table .label {
+                                    background-color: #f5f5f5;
+                                    font-weight: bold;
+                                    width: 30%;
+                                }
+                                .stone-title {
+                                    font-size: 18pt;
+                                    font-weight: bold;
+                                    text-align: center;
+                                    margin-bottom: 20px;
+                                }
+                                .stone-subtitle {
+                                    font-size: 12pt;
+                                    text-align: center;
+                                    color: #666;
+                                    margin-bottom: 15px;
+                                }
+                                .barcode-section {
+                                    text-align: center;
+                                    margin: 20px 0;
+                                }
+                            </style>
+
+                            <div class="stone-title">
+                                <t t-if="doc.product_form == 'block'">BLOCO</t>
+                                <t t-elif="doc.product_form == 'slab'">PLACA</t>
+                                <t t-elif="doc.product_form == 'strip'">BANDA</t>
+                                <t t-elif="doc.product_form == 'tiles'">LADRILHOS</t>
+                                <t t-else="">PEDRA</t>
+                            </div>
+
+                            <div class="stone-subtitle">
+                                <t t-esc="doc.description or doc.name"/>
+                            </div>
+
+                            <div class="barcode-section">
+                                <div t-if="doc.name" t-field="doc.name" t-options="{'widget': 'barcode', 'humanreadable': 1, 'width': 300, 'height': 50}"/>
+                            </div>
+
+                            <table class="stone-info-table">
+                                <tr>
+                                    <td class="label">Produto:</td>
+                                    <td><t t-esc="doc.product_id.name if doc.product_id else '-'"/></td>
+                                    <td class="label">Lote:</td>
+                                    <td><t t-esc="doc.base_lot_name or '-'"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="label">S/N:</td>
+                                    <td><t t-esc="doc.name or '-'"/></td>
+                                    <td class="label">Código:</td>
+                                    <td><t t-esc="doc.code or '-'"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Comprimento:</td>
+                                    <td><t t-esc="'%.2f m' % (doc.length or 0)"/></td>
+                                    <td class="label">Largura:</td>
+                                    <td><t t-esc="'%.2f m' % (doc.width or 0)"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Espessura:</td>
+                                    <td><t t-esc="'%.3f m' % (doc.thickness or 0)"/></td>
+                                    <td class="label">Área:</td>
+                                    <td><t t-esc="'%.3f m²' % (doc.area or 0)"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Volume:</td>
+                                    <td><t t-esc="'%.3f m³' % (doc.volume or 0)"/></td>
+                                    <td class="label">Peso:</td>
+                                    <td><t t-esc="'%.2f kg' % (doc.peso or 0)"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Qtd. Disponível:</td>
+                                    <td><t t-esc="'%.0f' % (doc.qty_available or 0)"/></td>
+                                    <td class="label">Localização:</td>
+                                    <td><t t-esc="doc.location_id.name if doc.location_id else '-'"/></td>
+                                </tr>
+                            </table>
+
+                            <p style="page-break-after: always;"/>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+
+        <!-- ================================================================
+             2. SERIAL NR. - Número de série com código de barras
+             ================================================================ -->
+
+        <record id="view_report_stone_stock_serial" model="ir.ui.view">
+            <field name="name">Stone Stock Serial Report - Main Wrapper</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_stock_serial</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_stock_serial">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_stone_stock_serial_document"/>
+                            <p style="page-break-after: always;"/>
+
+                            <style>
+                                .container {
+                                    text-align: center;
+                                }
+                            </style>
+
+                            <div>
+                                <br/><br/><br/><br/><br/><br/>
+                                <!-- Label dinâmico baseado em product_form -->
+                                <span style="color:#808080">
+                                    <t t-if="doc.product_form == 'block'">Bloco:</t>
+                                    <t t-elif="doc.product_form == 'slab'">Placa:</t>
+                                    <t t-elif="doc.product_form == 'strip'">Banda:</t>
+                                    <t t-elif="doc.product_form == 'tiles'">Ladrilho:</t>
+                                    <t t-else="">Produto:</t>
+                                </span>
+                                <t t-esc="doc.description or doc.name"/>
+                                <br/>
+                            </div>
+                            <div>
+                                <span t-esc="doc.name"/>
+                            </div>
+                            <br/><br/><br/><br/>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="view_report_stone_stock_serial_document" model="ir.ui.view">
+            <field name="name">Stone Stock Serial Report - Document</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_stock_serial_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_stock_serial_document">
+                    <div class="page">
+                        <!-- Cabeçalho vazio - conteúdo está no wrapper -->
+                    </div>
+                </t>
+            </field>
+        </record>
+
+
+        <!-- ================================================================
+             3. STICKERS DE PLACAS - Etiquetas para impressão
+             ================================================================ -->
+
+        <record id="view_report_stone_stock_stickers" model="ir.ui.view">
+            <field name="name">Stone Stock Stickers Report - Main Wrapper</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_stock_stickers</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_stock_stickers">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <style>
+                                .barcode-custom-size {
+                                    width: 5% !important;
+                                    height: 5%;
+                                }
+                                .border-less {
+                                    border-collapse: collapse;
+                                    border: none;
+                                }
+                                .border-less td {
+                                    border: none;
+                                }
+                            </style>
+
+                            <br/>
+                            <div class="col-12" style="text-align: center; font-size:7pt;">
+                                <t t-esc="doc.name"/>
+                            </div>
+
+                            <div class="col-12" style="text-align: center;">
+                                <table class="border-white" width="100%" style="border-collapse: collapse; border: 1px solid white;">
+                                    <tr>
+                                        <td width="70%" style="border: 1px solid white; text-align: center;">
+                                            <!-- Usa sticker_logo da empresa, ou fallback para imagem estática -->
+                                            <t t-if="doc.company_id and doc.company_id.sticker_logo">
+                                                <img class="img-fluid" width="90%" t-att-src="image_data_uri(doc.company_id.sticker_logo)"/>
+                                            </t>
+                                            <t t-else="">
+                                                <img class="img-fluid" width="90%" src="/mh_stone_reports/static/img/stone_trading_logo.png"/>
+                                            </t>
+                                        </td>
+                                        <td style="border: 1px solid white;">
+                                            <div t-if="doc.name" t-field="doc.name" t-options="{'widget': 'barcode', 'humanreadable': 0, 'width': 250, 'height': 40}"/>
+                                        </td>
+                                        <td style="border: 1px solid white;">
+                                            <t t-esc="doc.code"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br/>
+                            <div class="col-12" style="text-align: center; font-size:7pt;">
+                                <t t-esc="doc.description"/>
+                            </div>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="view_report_stone_stock_stickers_document" model="ir.ui.view">
+            <field name="name">Stone Stock Stickers Report - Document</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_stock_stickers_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_stock_stickers_document">
+                    <div class="page">
+                        <!-- Cabeçalho vazio - conteúdo está no wrapper -->
+                    </div>
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<odoo>
+    <record id="view_move_form_button_confirming" model="ir.ui.view">
+        <field name="name">account.move.button.confirming</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_criar_pagamento_confirming"
+                        string="Criar Pagamento Confirming"
+                        type="object"
+                        class="oe_highlight"/>
+            </xpath>
+        </field>
+    </record>    
+</odoo>

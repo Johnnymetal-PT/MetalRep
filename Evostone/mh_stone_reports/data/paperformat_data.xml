@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+            Paperformats customizados para os relatórios Stone Trading
+            Extraídos do backup
+        -->
+
+        <!-- Paperformat ID 17: usado por Cotação e Cotação Detalhada -->
+        <record id="paperformat_stone_cotacao" model="report.paperformat">
+            <field name="name">Stone - Cotação (A4)</field>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">3</field>
+            <field name="margin_bottom">40</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <!-- Paperformat para Stickers de Placas (80x40mm custom) -->
+        <record id="paperformat_stone_stickers" model="report.paperformat">
+            <field name="name">Stone - Stickers (80x40mm)</field>
+            <field name="format">custom</field>
+            <field name="page_width">80</field>
+            <field name="page_height">40</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <!-- Paperformat para Serial Nr. (A4) -->
+        <record id="paperformat_stone_serial" model="report.paperformat">
+            <field name="name">Stone - Serial Nr. (A4)</field>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">12</field>
+            <field name="margin_bottom">9</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_spacing">5</field>
+            <field name="dpi">90</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,18 @@
+{
+  "pg-framework": {
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File ../.pg_framework/scripts/pg_hook_antigravity.ps1 -Evento PreInvocation || pwsh -NoProfile -File ../.pg_framework/scripts/pg_hook_antigravity.ps1 -Evento PreInvocation",
+        "timeout": 300
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File ../.pg_framework/scripts/pg_hook_antigravity.ps1 -Evento Stop || pwsh -NoProfile -File ../.pg_framework/scripts/pg_hook_antigravity.ps1 -Evento Stop",
+        "timeout": 60
+      }
+    ]
+  }
+}

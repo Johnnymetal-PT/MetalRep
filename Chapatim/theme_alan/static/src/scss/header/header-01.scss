@@ -1,0 +1,132 @@
+@if o-website-value('header-template')=='as_header1' {
+	.as-top-header {
+		@include o-apply-colors('header-sales_four');
+		@include o-apply-colors('header-sales_four-custom');
+		@include o-add-gradient('menu-secondary-gradient');
+	}
+
+	.as-main-header {
+		.as-h-top-bar {
+			.btn_cta {
+				padding: 0.2rem 0;
+				font-size: 0.875rem;
+				border-radius: 0;
+				border: none;
+				background: none;
+				box-shadow: none !important;
+				color: var(--nav-link-color);
+				line-height: 1;
+				display: flex;
+			}
+
+			.as-lang-selector {
+				color: var(--nav-link-color);
+			}
+		}
+
+		.as-h-icon {
+			width: 50px;
+			height: 50px;
+			border-radius: var(--border-radius);
+
+			&.as-h-icon-text {
+				width: auto;
+				padding: 0 15px;
+				gap: 5px;
+			}
+
+			&.dropdown-toggle {
+				&::after {
+					display: flex !important;
+				}
+			}
+
+			&.as-h-sign {
+				&::before {
+					font-size: 16px;
+				}
+			}
+		}
+
+		.o_container_small {
+			.as-h-icon {
+				width: 40px;
+				height: 40px;
+			}
+		}
+
+		.as-h-user {
+			>span {
+				max-width: 80px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+		}
+
+		.as-middle-menu {
+			justify-content: space-between;
+
+			.search-query {
+				box-shadow: none;
+				padding-left: 1.3rem;
+				padding-right: 0;
+				z-index: 0;
+				background: var(--NavLinkWithBackground-bg-color, rgba(var(--emphasis-color-rgb), 0.05)) !important;
+				color: var(--nav-link-color);
+			}
+
+			.oe_search_button {
+				box-shadow: none;
+				color: var(--nav-link-color);
+			}
+
+			li {
+				list-style: none;
+			}
+
+			.oe_search_button {
+				margin-left: 0 !important;
+			}
+		}
+
+	}
+
+	.o_navlink_no_background {
+		.as-main-header {
+			.o_searchbar_form {
+				.search-query {
+					border: var(--border-width) var(--border-style) var(--border-color) !important;
+					border-right: none !important;
+				}
+
+				.oe_search_button {
+					border: var(--border-width) var(--border-style) var(--border-color);
+					border-left: none;
+				}
+			}
+
+			.as-h-icon {
+				border: var(--border-width) var(--border-style) var(--border-color) !important;
+			}
+		}
+	}
+
+	#wrapwrap.o_header_overlay {
+		>header:not(.o_header_affixed):not(.o_header_sidebar):not(.o_top_menu_collapse_shown):not(.o_navlink_no_background) {
+			>.as-main-header {
+				.as-middle-menu {
+
+					.search-query,
+					.oe_search_button {
+						background: color-mix(in srgb, currentColor 15%, transparent) !important;
+					}
+
+					.o_navlink_background {
+						background: color-mix(in srgb, currentColor 15%, transparent) !important;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Corre a aplicação idempotente da matriz de acessos em cada install/update
+        do módulo. Como reaplica em cada -u, sobrevive aos upgrades do Odoo.sh que
+        reponham os ACLs/menus standard alterados.
+    -->
+    <function model="pg.access.config" name="apply_pg_access"/>
+</odoo>

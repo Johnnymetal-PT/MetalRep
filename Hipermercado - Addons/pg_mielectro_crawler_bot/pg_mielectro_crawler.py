@@ -1,0 +1,2 @@
+from pg_crawler_bot.pg_adapters.pg_mielectro import PgMielectroCrawler
+from pg_crawler_bot.pg_base import PgCrawlResult

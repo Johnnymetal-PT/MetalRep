@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste API Numeração</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h1>Teste da API de Numeração</h1>
+    <button onclick="testAPI()">Testar API</button>
+    <div id="result"></div>
+    
+    <script>
+    function testAPI() {
+        console.log('Testando API...');
+        
+        var payload = {
+            jsonrpc: "2.0",
+            method: "call",
+            params: {
+                type: "customer"
+            },
+            id: Math.floor(Math.random() * 1000000)
+        };
+        
+        fetch('/bank_statement_import_custom/get_next_number', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify(payload)
+        })
+        .then(response => {
+            console.log('Status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Resposta:', data);
+            document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            document.getElementById('result').innerHTML = 'Erro: ' + error;
+        });
+    }
+    </script>
+</body>
+</html>

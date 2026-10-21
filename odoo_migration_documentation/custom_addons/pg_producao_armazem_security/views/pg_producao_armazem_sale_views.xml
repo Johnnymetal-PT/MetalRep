@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+      Esconder os MONTANTES de Vendas APENAS para o grupo
+      pg_group_sale_view_no_amount.
+
+      Mecanismo: atributo `groups` nos proprios campos, com prefixo `!`
+      (negacao) -> o campo e mostrado a todos EXCETO aos membros do grupo.
+      Isto e fiavel porque sao vistas de EXTENSAO normais (sem groups_id no
+      registo, que o Odoo proibe em vistas herdadas) e a condicao de grupo
+      vive no no do campo.
+
+      NOTA (Studio): se a vista real desta BD tiver removido algum destes
+      campos, o xpath falha na instalacao -> ajustar a lista contra a vista real.
+    -->
+
+    <!-- ===== Formulario de Venda: esconder montantes ===== -->
+    <record id="pg_sale_order_form_no_amount" model="ir.ui.view">
+        <field name="name">sale.order.form.pg.prod.no.amount</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Totais no rodape -->
+            <xpath expr="//field[@name='tax_totals']" position="attributes">
+                <attribute name="groups">!pg_producao_armazem_security.pg_group_sale_view_no_amount</attribute>
+            </xpath>
+            <!-- Colunas monetarias nas linhas da venda -->
+            <xpath expr="//field[@name='order_line']//field[@name='price_unit']" position="attributes">
+                <attribute name="groups">!pg_producao_armazem_security.pg_group_sale_view_no_amount</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//field[@name='discount']" position="attributes">
+                <attribute name="groups">!pg_producao_armazem_security.pg_group_sale_view_no_amount</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//field[@name='tax_id']" position="attributes">
+                <attribute name="groups">!pg_producao_armazem_security.pg_group_sale_view_no_amount</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//field[@name='price_subtotal']" position="attributes">
+                <attribute name="groups">!pg_producao_armazem_security.pg_group_sale_view_no_amount</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//field[@name='price_total']" position="attributes">
+                <attribute name="groups">!pg_producao_armazem_security.pg_group_sale_view_no_amount</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ===== Lista de Encomendas: esconder total ===== -->
+    <record id="pg_sale_order_tree_no_amount" model="ir.ui.view">
+        <field name="name">sale.order.tree.pg.prod.no.amount</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="attributes">
+                <attribute name="groups">!pg_producao_armazem_security.pg_group_sale_view_no_amount</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ===== Lista de Orcamentos: esconder total ===== -->
+    <record id="pg_sale_quotation_tree_no_amount" model="ir.ui.view">
+        <field name="name">sale.quotation.tree.pg.prod.no.amount</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="attributes">
+                <attribute name="groups">!pg_producao_armazem_security.pg_group_sale_view_no_amount</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

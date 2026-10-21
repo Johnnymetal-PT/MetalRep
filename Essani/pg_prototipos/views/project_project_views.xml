@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_form_pg_prototipo" model="ir.ui.view">
+        <field name="name">project.project.form.pg.prototipo</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <!-- Junto ao gestor de projeto: sao eles que recebem as alteracoes de
+                 especificacao, faz sentido ver ao lado a que artigo dizem respeito. -->
+            <field name="user_id" position="after">
+                <field name="pg_gestor_ids" widget="many2many_tags"
+                       options="{'no_create': True}"/>
+                <field name="pg_artigo_prototipo" options="{'no_create': True}"/>
+                <field name="pg_versao_origem" options="{'no_create': True}" readonly="1"/>
+            </field>
+            <div name="button_box" position="inside">
+                <button name="action_pg_ver_versoes" type="object"
+                        class="oe_stat_button" icon="fa-code-fork"
+                        invisible="pg_versoes_count == 0">
+                    <field name="pg_versoes_count" widget="statinfo" string="Versões"/>
+                </button>
+            </div>
+            <header position="inside">
+                <button name="action_pg_nova_versao" type="object" string="Nova versão"
+                        class="btn-secondary" invisible="not pg_artigo_prototipo"/>
+            </header>
+        </field>
+    </record>
+</odoo>

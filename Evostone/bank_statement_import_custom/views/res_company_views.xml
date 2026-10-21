@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Company Form View to add Multi-Chart Support -->
+    <record id="view_company_form_multi_chart" model="ir.ui.view">
+        <field name="name">res.company.form.multi.chart</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <!-- Add Plano de Contas tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Plano de Contas" name="multi_chart">
+                    <div class="alert alert-info mb-3" role="alert" style="background-color: #e8f4fd; border-color: #bee5eb;">
+                        <i class="fa fa-info-circle"/> <strong>Gestão do Plano de Contas</strong><br/>
+                        Configure as contas contábeis personalizadas para esta empresa. 
+                        Você pode adicionar contas predefinidas ou criar suas próprias contas.
+                    </div>
+                    
+                    <div class="mb-3">
+                        <button name="%(action_company_chart_account_wizard)d" 
+                                type="action" 
+                                class="btn btn-primary" 
+                                string="Adicionar Conta"
+                                icon="fa-plus-circle"
+                                context="{'default_company_id': id}"/>
+                    </div>
+                    
+                    <separator string="Contas Configuradas" class="mb-3"/>
+                    
+                    <field name="chart_account_ids" widget="many2many" context="{'form_view_ref': 'bank_statement_import_custom.view_company_chart_account_form'}"/>
+                    
+                    <group invisible="chart_account_ids">
+                        <div class="text-center text-muted p-4">
+                            <i class="fa fa-folder-open-o fa-3x mb-3" style="opacity: 0.3;"/><br/>
+                            <span>Nenhuma conta configurada ainda.</span><br/>
+                            <span>Clique em "Adicionar Conta" para começar.</span>
+                        </div>
+                    </group>
+                    
+                    <div class="mt-3 text-muted" invisible="not chart_account_ids">
+                        <small>
+                            <i class="fa fa-lightbulb-o"/> <strong>Dicas:</strong><br/>
+                            • Use o botão lixeira (<i class="fa fa-trash-o"/>) para remover contas<br/>
+                            • Clique nos campos editáveis para modificar valores<br/>
+                            • Desative contas temporariamente usando o botão Ativo
+                        </small>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

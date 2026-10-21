@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--
+            Serial Nr. (stock.move)
+
+            Template em: serial_nr_reports.xml
+
+            TODO: Refatorar para usar stock.lot em vez de x_studio_placas
+        -->
+        <record id="action_report_serial_nr" model="ir.actions.report">
+            <field name="name">Serial Nr.</field>
+            <field name="model">stock.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_serial_nr</field>
+            <field name="report_file">mh_stone_reports.report_serial_nr</field>
+            <field name="binding_model_id" ref="stock.model_stock_move"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="mh_stone_reports.paperformat_stone_serial"/>
+        </record>
+
+    </data>
+</odoo>

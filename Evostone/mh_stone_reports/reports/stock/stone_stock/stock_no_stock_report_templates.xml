@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Página HTML do Relatório de Artigos sem Stock -->
+        <record id="view_report_stock_no_stock_page" model="ir.ui.view">
+            <field name="name">Stock No-Stock Page</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stock_no_stock_page</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stock_no_stock_page">
+                    <div class="container bg-white p-4 my-4">
+                        <div class="oe_structure"></div>
+                        <div class="row my-3">
+                            <div class="col-12">
+                                <h2>Artigos sem Stock</h2>
+                                <h5 t-if="classifications" class="text-muted">
+                                    Classificação: <span t-out="classifications_label"/>
+                                </h5>
+                                <h5 t-if="supplier" class="text-muted">
+                                    Fornecedor: <span t-out="supplier_label"/>
+                                </h5>
+                                <h5 t-if="warehouse" class="text-muted">
+                                    Armazém: <span t-out="warehouse_label"/>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="oe_structure"></div>
+                        <div class="row">
+                            <div class="col-12">
+                                <t t-if="not groups">
+                                    <div class="alert alert-info">
+                                        Nenhum artigo encontrado sem stock para os filtros seleccionados.
+                                    </div>
+                                </t>
+                                <table t-if="groups" class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-1">Produto</th>
+                                            <th class="px-1">UoM</th>
+                                            <th class="px-1">Último Fornecedor</th>
+                                            <th class="text-end px-1">Último Preço de Compra</th>
+                                        </tr>
+                                    </thead>
+                                    <t t-foreach="groups" t-as="group">
+                                        <tbody t-att-class="'o_group_block' + (is_html_type and ' collapsed' or '')"
+                                               t-att-data-classification="group['classification_value']"
+                                               t-att-data-row-count="group['count']"
+                                               t-att-data-total-pages="group['total_pages']"
+                                               t-att-data-page-size="page_size"
+                                               data-current-page="1">
+                                            <tr class="table-secondary fw-bold o_group_header" style="cursor:pointer;">
+                                                <td colspan="4" class="px-1">
+                                                    <i class="fa fa-chevron-right o_group_chevron me-2"/>
+                                                    <i class="fa fa-folder-open text-primary me-2"/>
+                                                    <span t-out="group['classification_name']"/>
+                                                    <span class="badge bg-secondary ms-2 fw-normal">
+                                                        <span t-out="group['count']"/> art.
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="is_html_type and group['total_pages'] &gt; 1" class="o_group_pagination">
+                                                <td colspan="4" class="py-1 bg-light">
+                                                    <div class="d-flex justify-content-end align-items-center gap-3 small">
+                                                        <span class="text-muted">
+                                                            <span class="o_page_range fw-bold">1–<t t-esc="page_size if group['count'] &gt;= page_size else group['count']"/></span>
+                                                            de
+                                                            <span class="fw-bold" t-esc="group['count']"/>
+                                                        </span>
+                                                        <nav>
+                                                            <ul class="pagination pagination-sm mb-0">
+                                                                <li class="page-item o_page_prev disabled">
+                                                                    <a class="page-link" href="#" tabindex="-1"><i class="fa fa-chevron-left"/></a>
+                                                                </li>
+                                                                <li class="page-item active">
+                                                                    <span class="page-link">
+                                                                        <span class="o_current_page">1</span>
+                                                                        <span class="text-muted">/</span>
+                                                                        <span class="o_total_pages" t-esc="group['total_pages']"/>
+                                                                    </span>
+                                                                </li>
+                                                                <li class="page-item o_page_next">
+                                                                    <a class="page-link" href="#"><i class="fa fa-chevron-right"/></a>
+                                                                </li>
+                                                            </ul>
+                                                        </nav>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-foreach="group['rows']" t-as="row">
+                                                <tr class="o_group_row" t-att-data-row-index="row_index">
+                                                    <td class="px-1" style="padding-left: 20px !important;">
+                                                        <a t-if="is_html_type and row['product_id']" href="#" class="o_action"
+                                                            data-model="product.product" t-att-data-res-id="row['product_id']">
+                                                            <span t-out="row['product_name']"/>
+                                                        </a>
+                                                        <span t-else="" t-out="row['product_name']"/>
+                                                    </td>
+                                                    <td class="px-1" t-out="row['uom']"/>
+                                                    <td class="px-1">
+                                                        <a t-if="is_html_type and row['last_supplier_id']" href="#" class="o_action"
+                                                            data-model="res.partner" t-att-data-res-id="row['last_supplier_id']">
+                                                            <span t-out="row['last_supplier_name']"/>
+                                                        </a>
+                                                        <span t-else="" t-out="row['last_supplier_name']"/>
+                                                    </td>
+                                                    <td class="text-end px-1" t-out="row['last_cost']"
+                                                        t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </t>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="oe_structure"></div>
+                    </div>
+                </t>
+            </field>
+        </record>
+
+        <!-- Wrapper PDF/HTML -->
+        <record id="view_report_stock_no_stock" model="ir.ui.view">
+            <field name="name">Stock No-Stock Report</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stock_no_stock</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stock_no_stock">
+                    <t t-if="is_html_type">
+                        <t t-call="web.html_container">
+                            <div class="page">
+                                <t t-call="mh_stone_reports.report_stock_no_stock_page"/>
+                            </div>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_stock_no_stock_document"/>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <!-- Documento PDF -->
+        <record id="view_report_stock_no_stock_document" model="ir.ui.view">
+            <field name="name">Stock No-Stock Report - Document</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stock_no_stock_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stock_no_stock_document">
+                    <div class="page"/>
+                    <style>
+                        td { border: 1px solid #DCDCDC; border-collapse: collapse; padding: 4px; }
+                    </style>
+
+                    <div class="row">
+                        <div class="col-8">
+                            <img class="img-fluid" style="width: 50%;" t-att-src="image_data_uri(company.logo_report)"/>
+                        </div>
+                        <div class="col-4 text-end">
+                            <br/>
+                            <span style="color:#000000; font-size: 14pt; font-weight: bold;">
+                                <t t-esc="title"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row" style="font-size: 11px; font-family: Arial, sans-serif;">
+                        <div class="col-6">
+                            <strong><t t-esc="company.name"/></strong><br/>
+                            <t t-if="company.street"><span t-esc="company.street"/><br/></t>
+                            <t t-if="company.city"><span t-esc="company.city"/><br/></t>
+                            <t t-if="company.vat"><strong>NIF: </strong><span t-esc="company.vat"/><br/></t>
+                        </div>
+                        <div class="col-6 text-end">
+                            <br/>
+                            <span style="font-size: 10pt;">
+                                <b>Processado em:</b> <t t-esc="report_date.strftime('%d/%m/%Y %H:%M') if report_date else ''"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <div class="col-12">
+                        <table style="text-align: center; font-family: Arial, sans-serif; font-size: 10px;" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td><strong>CLASSIFICAÇÃO</strong><br/><span t-esc="classifications_label"/></td>
+                                    <td><strong>FORNECEDOR</strong><br/><span t-esc="supplier_label"/></td>
+                                    <td><strong>ARMAZÉM</strong><br/><span t-esc="warehouse_label"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br/>
+
+                    <t t-if="not groups">
+                        <div class="alert alert-warning" style="margin: 20px 0; padding: 15px;">
+                            <strong>Sem dados para mostrar.</strong><br/>
+                            Não foram encontrados artigos sem stock com os filtros seleccionados.
+                        </div>
+                    </t>
+
+                    <t t-foreach="groups" t-as="group">
+                        <h4 style="margin-top:15px;background-color:#F8F8FF;padding:6px;font-size:11pt;">
+                            <span t-out="group['classification_name']"/>
+                            <span style="font-weight:normal;color:#666;font-size:9pt;"> (<t t-esc="group['count']"/>)</span>
+                        </h4>
+                        <table class="table">
+                            <tr style="background-color: #F8F8FF; font-size: 9px; text-align: center;">
+                                <th><b>PRODUTO</b></th>
+                                <th><b>UoM</b></th>
+                                <th><b>ÚLTIMO FORNECEDOR</b></th>
+                                <th><b>ÚLTIMO PREÇO DE COMPRA</b></th>
+                            </tr>
+                            <t t-foreach="group['rows']" t-as="row">
+                                <tr style="font-size: 8pt;">
+                                    <td style="text-align: left;"><t t-esc="row['product_name']"/></td>
+                                    <td style="text-align: center;"><t t-esc="row['uom']"/></td>
+                                    <td style="text-align: left;"><t t-esc="row['last_supplier_name']"/></td>
+                                    <td style="text-align: right;">
+                                        <span t-out="row['last_cost']"
+                                              t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                    </t>
+
+                    <br/><br/>
+                    <div style="font-family: arial; font-size:8pt; text-align: center;">
+                        <i>Documento processado por computador - <t t-esc="company.name"/></i>
+                    </div>
+                </t>
+            </field>
+        </record>
+
+        <!-- Acção client -->
+        <record id="action_stock_no_stock_report_client" model="ir.actions.client">
+            <field name="name">Artigos sem Stock</field>
+            <field name="tag">generate_stock_no_stock_report</field>
+        </record>
+
+        <!-- Menu sob Inventário → Relatórios -->
+        <menuitem id="menu_stock_no_stock_report"
+                  name="Artigos sem Stock"
+                  parent="stock.menu_warehouse_report"
+                  action="action_stock_no_stock_report_client"
+                  groups="mh_stone_reports.group_report_stock_no_stock,base.group_system"
+                  sequence="252"/>
+
+        <!-- Acção report PDF -->
+        <record id="action_report_stock_no_stock" model="ir.actions.report">
+            <field name="name">Artigos sem Stock</field>
+            <field name="model">res.company</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_stock_no_stock</field>
+            <field name="report_file">mh_stone_reports.report_stock_no_stock</field>
+        </record>
+
+    </data>
+</odoo>

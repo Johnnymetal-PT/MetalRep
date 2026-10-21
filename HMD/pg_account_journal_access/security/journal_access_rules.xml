@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!--
+            Regras GLOBAIS (sem grupo) => combinadas em AND com todas as outras.
+            Isto é essencial: as regras standard de "ver tudo" (account_move_see_all,
+            account_move_rule_group_invoice) são regras DE GRUPO, combinadas em OR, pelo
+            que uma regra de grupo nova nunca restringiria. Só uma regra global restringe.
+
+            Semântica whitelist com default seguro:
+            - diário sem utilizadores em pg_allowed_user_ids => aberto a todos
+            - diário com utilizadores => apenas esses (ver, criar, editar e lançar)
+        -->
+
+        <record id="pg_journal_access_rule" model="ir.rule">
+            <field name="name">PG: Acesso a diário por utilizador</field>
+            <field name="model_id" ref="account.model_account_journal"/>
+            <field name="domain_force">
+                ['|', ('pg_allowed_user_ids', '=', False), ('pg_allowed_user_ids', 'in', [user.id])]
+            </field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="pg_move_journal_access_rule" model="ir.rule">
+            <field name="name">PG: Acesso a movimentos por diário</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="domain_force">
+                ['|', ('journal_id.pg_allowed_user_ids', '=', False), ('journal_id.pg_allowed_user_ids', 'in', [user.id])]
+            </field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Resolve o erro: sem acesso em account.move.line,
+             a fatura de fornecedor criada a partir da compra falha ao criar as linhas.
+             Usar move_id.journal_id evita depender do campo related/store journal_id
+             da rubrica durante o ciclo de criação/sincronização do Odoo. -->
+        <record id="pg_move_line_journal_access_rule" model="ir.rule">
+            <field name="name">PG: Acesso a rubricas por diário</field>
+            <field name="model_id" ref="account.model_account_move_line"/>
+            <field name="domain_force">
+                ['|', ('move_id.journal_id.pg_allowed_user_ids', '=', False), ('move_id.journal_id.pg_allowed_user_ids', 'in', [user.id])]
+            </field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Acesso genérico a anexos para utilizadores internos. -->
+        <record id="pg_ir_attachment_internal_user_rule" model="ir.rule">
+            <field name="name">PG: Anexos para utilizadores internos</field>
+            <field name="model_id" ref="base.model_ir_attachment"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

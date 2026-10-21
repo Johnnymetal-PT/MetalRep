@@ -1,0 +1,567 @@
+<data>
+    <xpath expr="//*[hasclass('oe_structure')][@id='oe_structure_website_sale_product_2']" position="replace">
+
+        <div class="oe_structure oe_empty oe_structure_not_nearest mt16" id="oe_structure_website_sale_product_2" data-editor-message="COLOQUE OS BLOCOS DE CONSTRUÇÃO AQUI PARA DISPONIBILIZÁ-LOS EM TODOS OS PRODUTOS">
+
+            <!-- Seção do título -->
+            <section class="s_title pt40 o_colored_level pb0" data-vcss="001" data-snippet="s_title" data-name="Título" style="background-image: none;">
+                <div class="container s_allow_columns" style="font-family: 'Cormorant Infant'; font-weight: 300 !important; padding-top: 60px;">
+                    <p style="text-align: center;">
+                        <em>
+                            <span style="font-size: 2.375rem;">
+                                <font style="color: rgb(81, 76, 68);">YOU MAY</font>
+                            </span>
+                        </em>
+                        <span style="font-size: 2.375rem;">
+                            <font style="color: rgb(81, 76, 68);"> ALSO LIKE</font>
+                        </span>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Seção de produtos relacionados -->
+            <section data-snippet="s_dynamic_snippet_products" class="s_dynamic_snippet_products s_dynamic pt32 pb32 o_colored_level s_product_product_mini_name o_dynamic_empty" data-name="Artigos" style="background-image: none;" data-product-category-id="all" data-filter-id="6" data-template-key="website_sale.dynamic_filter_template_product_product_mini_name" data-carousel-interval="5000" data-number-of-records="500" data-nb-records="500" data-limit="500">
+                <div class="o_not_editable container">
+                    <div class="css_non_editable_mode_hidden">
+                        <div class="missing_option_warning alert alert-info rounded-0 fade show d-none d-print-none o_default_snippet_text">
+                            Your Dynamic Snippet will be displayed here...
+                            This message is displayed because you did not provide both a filter and a template to use.
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="dynamic_snippet_template"/>
+                </div>
+            </section>
+        </div>
+
+        <!-- Bloco do Cover principal -->
+        <div style="margin-left:-100px; margin-right:-100px;">
+
+            <!-- Resolve MAIN (root) public category for the product / page -->
+            <t t-set="any_cat" t-value="category or (product.public_categ_ids and product.public_categ_ids.sorted('sequence')[0])"/>
+
+            <t t-if="any_cat">
+                <!-- parent_path looks like '1/5/23/' → first token is the root id -->
+                <t t-set="root_id" t-value="int(any_cat.parent_path.split('/')[0]) if any_cat.parent_path else any_cat.id"/>
+                <t t-set="root_cat" t-value="request.env['product.public.category'].browse(root_id)"/>
+            </t>
+
+            <t t-if="not any_cat">
+                <!-- Fallback when no category context exists at all -->
+                <t t-set="root_cat" t-value="False"/>
+            </t>
+
+            <!-- Cover dinâmico -->
+            <div class="oe_structure oe_empty oe_structure_not_nearest" id="oe_structure_website_sale_products_2" data-editor-message-default="true" data-editor-message="DRAG BUILDING BLOCKS HERE">
+
+                <section class="s_cover pt96 pb96 o_colored_level s_parallax_no_overflow_hidden o_full_screen_height oe_img_bg o_bg_img_center custom-cover-section" data-scroll-background-ratio="0" data-snippet="s_cover" data-name="Cover" t-att-style="(                         root_cat and root_cat.id in [1, 2, 3]                         and ('background-image: url(/web/image/product.public.category/' + str(root_cat.id) + '/image_1920); ')                         or 'background-image: url(/web/image/23247-3fd9956c/Rectangle%20240.png); '                     ) + 'background-size: cover; background-position: center; position: relative; height: 750px !important; min-height: 750px !important; max-height: 750px !important;'">
+
+                    <div class="custom-cover-overlay"/>
+
+                    <div class="custom-cover-content">
+                        <h1 class="custom-cover-title">
+                            <t t-if="root_cat and root_cat.name">
+                                <t t-esc="root_cat.name"/>
+                            </t>
+                            <t t-else="">
+                                ESSENCE<br/>COLLECTION
+                            </t>
+                        </h1>
+
+                        <a href="/contactus" class="btn btn-custom bg-o-color-3 flat custom-cover-cta" title="">
+                            Explore
+                        </a>
+                    </div>
+                </section>
+
+                <t t-raw="True">
+    <style>
+        /* Evita scroll horizontal em qualquer caso */
+        html, body {
+            overflow-x: hidden !important;
+            width: 100% !important;
+        }
+
+        /* Define comportamento padrão */
+        .custom-cover-section {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden !important;
+            position: relative;
+        }
+
+        /* Remove margens negativas no mobile */
+        [style*="margin-left:-100px"],
+        [style*="margin-right:-100px"] {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            overflow: hidden !important;
+        }
+
+        .custom-cover-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.15) 60%, transparent 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .custom-cover-content {
+            position: absolute;
+            top: 50%;
+            right: 90px;
+            transform: translateY(-50%);
+            text-align: center;
+            color: #ffffff;
+            z-index: 2;
+        }
+
+        .custom-cover-title {
+            font-weight: normal;
+            margin-bottom: 1.5rem;
+            padding-right: 75px;
+        }
+
+        .custom-cover-cta {
+            border-width: 1px;
+            background-color: #f2f0ec;
+            padding: 1rem 4rem;
+            font-size: 1.2rem;
+            color: #302D27;
+            margin-right: 75px;
+            margin-bottom: 60px;
+        }
+
+        @media only screen and (max-width: 767px) {
+            .custom-cover-section {
+                width: 100vw !important;
+                margin: 0 !important;
+                height: 420px !important;
+                min-height: 420px !important;
+                max-height: 420px !important;
+                background-position: center center !important;
+                background-size: cover !important;
+            }
+
+            .custom-cover-overlay {
+                background: linear-gradient(180deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0.2) 100%);
+            }
+
+            .custom-cover-content {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transform: none !important;
+                padding: 0 24px;
+                text-align: center;
+                gap: 1.25rem;
+            }
+
+            .custom-cover-title {
+                font-size: 2rem !important;
+                padding: 0 !important;
+                margin: 0;
+                line-height: 1.2;
+                letter-spacing: 1px;
+            }
+
+            .custom-cover-cta {
+                font-size: 1rem !important;
+                padding: 0.9rem 2.5rem !important;
+                margin: 0 !important;
+                border-radius: 999px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .custom-cover-section {
+                height: 360px !important;
+                min-height: 360px !important;
+                max-height: 360px !important;
+            }
+
+            .custom-cover-title {
+                font-size: 1.7rem !important;
+            }
+
+            .custom-cover-cta {
+                width: 100%;
+                max-width: 260px;
+            }
+        }
+    </style>
+</t>
+<!-- Server+client diagnostics for the dynamic snippet limit (safe version: no method calls) -->
+<t t-set="snippet_filter" t-value="request.env['website.snippet.filter'].browse(6).sudo()"/>
+<t t-set="snippet_exists" t-value="snippet_filter and snippet_filter.exists()"/>
+<t t-set="server_limit" t-value="(snippet_exists and (snippet_filter.limit or 0)) or 0"/>
+<t t-set="server_model_name" t-value="snippet_filter.model_name if snippet_exists else ''"/>
+<t t-set="server_filter_name" t-value="snippet_filter.name if snippet_exists else ''"/>
+<t t-set="has_filter_domain" t-value="snippet_exists and 'filter_domain' in snippet_filter._fields"/>
+<t t-set="server_filter_domain_repr" t-value="(has_filter_domain and snippet_filter.filter_domain) or ''"/>
+<t t-set="has_legacy_domain" t-value="snippet_exists and 'domain' in snippet_filter._fields"/>
+<t t-set="server_domain_repr" t-value="(has_legacy_domain and snippet_filter.domain) or ''"/>
+
+<!-- Hidden element so the diagnostics script can safely pull server-side values without inline JS literals -->
+<div id="dyn_snippet_debug_meta" class="d-none" data-filter-id="6" t-att-data-snippet-exists="'1' if snippet_exists else '0'" t-att-data-server-limit="str(server_limit)" t-att-data-server-model-name="server_model_name or ''" t-att-data-server-filter-name="server_filter_name or ''" t-att-data-server-filter-domain="server_filter_domain_repr or ''" t-att-data-server-legacy-domain="server_domain_repr or ''" t-att-data-has-filter-domain="'1' if has_filter_domain else '0'" t-att-data-has-legacy-domain="'1' if has_legacy_domain else '0'"/>
+
+<!-- Collect fallback log messages here in case the browser console is unavailable -->
+<div id="dyn_snippet_debug_fallback" style="display:none !important" aria-hidden="true"/>
+
+<script type="text/javascript">
+(function () {
+  'use strict';
+
+  var FILTER_ID = 6;
+  var DESIRED_LIMIT = 500;
+  var MARKER_ID = 'dyn_snippet_debug_meta';
+  var FALLBACK_ID = 'dyn_snippet_debug_fallback';
+
+  var fallbackNode = null;
+  var requestFrame = (window.requestAnimationFrame &amp;&amp; window.requestAnimationFrame.bind(window)) || function (cb) { return setTimeout(cb, 0); };
+
+  function normaliseArgs(args) {
+    return Array.prototype.map.call(args, function (value) {
+      if (typeof value === 'string') {
+        return value;
+      }
+      try {
+        return JSON.stringify(value);
+      } catch (err) {
+        return String(value);
+      }
+    }).join(' ');
+  }
+
+  function appendFallback(level, args) {
+    if (!fallbackNode) {
+      fallbackNode = document.getElementById(FALLBACK_ID);
+    }
+    if (!fallbackNode) {
+      return;
+    }
+    var entry = document.createElement('div');
+    entry.setAttribute('data-level', level);
+    entry.textContent = '[' + level + '] ' + normaliseArgs(args);
+    fallbackNode.appendChild(entry);
+  }
+
+  function callConsole(level, args, altLevel) {
+    var c = window.console || null;
+    if (c) {
+      var fn = typeof c[level] === 'function' ? c[level] : null;
+      if (!fn &amp;&amp; altLevel &amp;&amp; typeof c[altLevel] === 'function') {
+        fn = c[altLevel];
+      }
+      if (fn) {
+        try {
+          fn.apply(c, args);
+        } catch (err) {
+          // Ignore console failures but keep fallback output
+        }
+      }
+    }
+    if (level !== 'table') {
+      appendFallback(level, args);
+    }
+  }
+
+  var consoleProxy = {
+    log: function () {
+      callConsole('log', arguments, 'debug');
+    },
+    info: function () {
+      callConsole('info', arguments, 'log');
+    },
+    warn: function () {
+      callConsole('warn', arguments, 'log');
+    },
+    error: function () {
+      callConsole('error', arguments, 'log');
+    },
+    group: function () {
+      callConsole('group', arguments, 'log');
+    },
+    groupEnd: function () {
+      callConsole('groupEnd', arguments, 'log');
+    },
+    table: function (rows) {
+      var c = window.console || null;
+      if (c &amp;&amp; typeof c.table === 'function') {
+        try {
+          c.table(rows);
+        } catch (err) {
+          callConsole('log', [rows], 'log');
+        }
+      } else {
+        callConsole('log', [rows], 'log');
+      }
+      appendFallback('table', [rows]);
+    }
+  };
+
+  function parseIntOrDefault(value, fallback) {
+    var parsed = parseInt(value, 10);
+    return isNaN(parsed) ? fallback : parsed;
+  }
+
+  function bootstrapDiagnostics() {
+    consoleProxy.group('[dyn-snippet] Diagnostics bootstrap');
+    try {
+      var marker = document.getElementById(MARKER_ID);
+      if (!marker) {
+        consoleProxy.warn('[dyn-snippet] Debug marker element not found; diagnostics disabled.');
+        return;
+      }
+
+      var data = marker.dataset || {};
+      consoleProxy.info('Marker dataset captured:', data);
+
+      var snippetExists = data.snippetExists === '1';
+      var serverLimit = parseIntOrDefault(data.serverLimit || '0', 0);
+      var serverModelName = data.serverModelName || '';
+      var serverFilterName = data.serverFilterName || '';
+      var serverFilterDomainRepr = data.serverFilterDomain || '';
+      var serverLegacyDomainRepr = data.serverLegacyDomain || '';
+      var hasFilterDomainField = data.hasFilterDomain === '1';
+      var hasLegacyDomainField = data.hasLegacyDomain === '1';
+
+      var secSelector = 'section.s_dynamic_snippet_products[data-template-key="website_sale.dynamic_filter_template_product_product_mini_name"][data-filter-id="' + FILTER_ID + '"]';
+      var sec = document.querySelector(secSelector);
+
+      if (!sec) {
+        consoleProxy.warn('[dyn-snippet] Section not found for selector:', secSelector);
+        return;
+      }
+
+      var limitString = String(DESIRED_LIMIT);
+      sec.dataset.numberOfRecords = limitString;
+      sec.dataset.nbRecords = limitString;
+      sec.dataset.limit = limitString;
+      sec.setAttribute('data-number-of-records', limitString);
+      sec.setAttribute('data-nb-records', limitString);
+      sec.setAttribute('data-limit', limitString);
+
+      consoleProxy.info('[dyn-snippet] Enforced dataset limit attributes to', DESIRED_LIMIT);
+
+      var requested = parseIntOrDefault(
+        sec.dataset.numberOfRecords ||
+          sec.dataset.nbRecords ||
+          sec.getAttribute('data-number-of-records') ||
+          sec.getAttribute('data-nb-records') ||
+          sec.getAttribute('data-limit') ||
+          '0',
+        0
+      );
+
+      var effectiveCap = Math.max(serverLimit || 0, 16);
+
+      consoleProxy.info('Filter name (DB):', serverFilterName || '(missing)');
+      consoleProxy.info('Filter model (DB):', serverModelName || '(missing)');
+      consoleProxy.info('Snippet exists in database:', snippetExists);
+      consoleProxy.info('Server limit (DB):', serverLimit);
+      consoleProxy.info('Effective cap enforced in _prepare_values():', effectiveCap);
+      consoleProxy.info('Has filter_domain field:', hasFilterDomainField);
+      consoleProxy.info('Has legacy domain field:', hasLegacyDomainField);
+      if (serverFilterDomainRepr) {
+        consoleProxy.info('filter_domain repr:', serverFilterDomainRepr);
+      } else if (hasFilterDomainField) {
+        consoleProxy.warn('filter_domain field present but empty.');
+      } else {
+        consoleProxy.warn('filter_domain field unavailable on this database.');
+      }
+
+      if (serverLegacyDomainRepr) {
+        consoleProxy.info('legacy domain repr:', serverLegacyDomainRepr);
+      } else if (hasLegacyDomainField) {
+        consoleProxy.warn('legacy domain field present but empty.');
+      } else {
+        consoleProxy.warn('legacy domain field unavailable on this database.');
+      }
+
+      consoleProxy.info('Section data attributes after enforcement:', {
+        templateKey: sec.getAttribute('data-template-key'),
+        filterId: sec.getAttribute('data-filter-id'),
+        categoryId: sec.getAttribute('data-product-category-id'),
+        nbRecords: sec.getAttribute('data-nb-records'),
+        numberOfRecords: sec.getAttribute('data-number-of-records'),
+        limit: sec.getAttribute('data-limit')
+      });
+
+      if (!snippetExists || serverLimit === 0) {
+        consoleProxy.warn('[dyn-snippet] The filter record was not found or reports a limit of 0.');
+      } else if (requested &gt; effectiveCap) {
+        consoleProxy.warn('[dyn-snippet] Requested', requested, 'but capped to', effectiveCap, 'by server logic.');
+      } else {
+        consoleProxy.info('[dyn-snippet] Requested count within cap:', requested);
+      }
+
+      function countItems() {
+        var cards = sec.querySelectorAll('.o_dynamic_product_hovered');
+        consoleProxy.info('[dyn-snippet] Actually rendered items:', cards.length);
+
+        if (!cards.length) {
+          consoleProxy.warn('[dyn-snippet] No .o_dynamic_product_hovered cards were found during count.');
+          return;
+        }
+
+        var debugRows = [];
+        Array.prototype.forEach.call(cards, function (card, idx) {
+          var contextEl = card.querySelector('[data-oe-model]');
+          var linkEl = card.querySelector('a.o_carousel_product_img_link');
+          var row = {
+            index: idx,
+            href: linkEl ? linkEl.getAttribute('href') : null,
+            oeModel: contextEl ? contextEl.getAttribute('data-oe-model') : null,
+            oeId: contextEl ? contextEl.getAttribute('data-oe-id') : null
+          };
+          var dataset = {};
+          if (card.dataset) {
+            Object.keys(card.dataset).forEach(function (key) {
+              dataset[key] = card.dataset[key];
+            });
+          }
+          row.dataset = dataset;
+          if (!row.oeModel &amp;&amp; dataset.dynSourceModel) {
+            row.oeModel = dataset.dynSourceModel;
+          }
+          if (!row.oeId &amp;&amp; dataset.dynSourceId) {
+            row.oeId = dataset.dynSourceId;
+          }
+          if (contextEl &amp;&amp; contextEl.hasAttribute('data-oe-context')) {
+            try {
+              row.context = JSON.parse(contextEl.getAttribute('data-oe-context') || '{}');
+            } catch (err) {
+              row.context = '[parse-error]';
+              consoleProxy.warn('[dyn-snippet] Failed to parse data-oe-context JSON for card', idx, err);
+            }
+          }
+          debugRows.push(row);
+        });
+
+        consoleProxy.table(debugRows);
+
+        var serverDebugRows = [];
+        var debugContainers = sec.querySelectorAll('.dyn-snippet-debug-records');
+        if (debugContainers.length) {
+          Array.prototype.forEach.call(debugContainers, function (container) {
+            var rows = container.querySelectorAll('.dyn-snippet-debug-record');
+            Array.prototype.forEach.call(rows, function (node) {
+              var ds = node.dataset || {};
+              serverDebugRows.push({
+                index: parseIntOrDefault(ds.index || '-1', -1),
+                added: ds.added === '1',
+                sourceModel: ds.sourceModel || null,
+                sourceId: ds.sourceId || null,
+                templateId: ds.templateId || null,
+                templateModel: ds.templateModel || null,
+                templateName: ds.templateName || null,
+                rawKeys: ds.rawKeys || ''
+              });
+            });
+            if (container.parentNode) {
+              container.parentNode.removeChild(container);
+            }
+          });
+        }
+
+        if (serverDebugRows.length) {
+          consoleProxy.table(serverDebugRows);
+          var serverAddedCount = serverDebugRows.filter(function (row) { return row.added; }).length;
+          if (serverAddedCount !== cards.length) {
+            consoleProxy.warn('[dyn-snippet] Difference between server-added count (' + serverAddedCount + ') and rendered cards (' + cards.length + ') indicates client-side HTML was pruned, possibly by template duplicates or missing data.');
+          } else {
+            consoleProxy.info('[dyn-snippet] Server-added count matches rendered card count:', serverAddedCount);
+          }
+          var droppedRows = serverDebugRows.filter(function (row) { return !row.added; });
+          if (droppedRows.length) {
+            consoleProxy.warn('[dyn-snippet] Server skipped records due to duplicate template IDs before render.', droppedRows);
+          }
+        } else {
+          consoleProxy.warn('[dyn-snippet] No server-side debug metadata found inside the snippet; template instrumentation may be missing.');
+        }
+
+        var templateStats = {};
+        var sourceStats = {};
+        debugRows.forEach(function (row) {
+          var ds = row.dataset || {};
+          var templateId = ds.dynTemplateId || ds.dynId || null;
+          var templateKey = templateId ? String(templateId) : '(missing)';
+          if (!templateStats[templateKey]) {
+            templateStats[templateKey] = {
+              count: 0,
+              rows: [],
+              model: ds.dynTemplateModel || null,
+              name: ds.dynTemplateName || null
+            };
+          }
+          templateStats[templateKey].count += 1;
+          templateStats[templateKey].rows.push(row.index);
+
+          var sourceKey = (row.oeModel || '(unknown)') + ':' + (row.oeId || '(unknown)');
+          if (!sourceStats[sourceKey]) {
+            sourceStats[sourceKey] = { count: 0, rows: [] };
+          }
+          sourceStats[sourceKey].count += 1;
+          sourceStats[sourceKey].rows.push(row.index);
+        });
+
+        var duplicateTemplates = Object.keys(templateStats)
+          .map(function (key) { return { key: key, data: templateStats[key] }; })
+          .filter(function (item) { return item.data.count &gt; 1; });
+
+        if (duplicateTemplates.length) {
+          consoleProxy.warn('[dyn-snippet] Duplicate product templates detected; cards referencing the same template ID will be hidden.', duplicateTemplates);
+        }
+
+        var duplicateSources = Object.keys(sourceStats)
+          .map(function (key) { return { key: key, data: sourceStats[key] }; })
+          .filter(function (item) { return item.data.count &gt; 1; });
+
+        if (duplicateSources.length) {
+          consoleProxy.info('[dyn-snippet] Duplicate originating records (model/id pairs) were received from the server.', duplicateSources);
+        }
+      }
+
+      var observer = new MutationObserver(function (mutations) {
+        for (var i = 0; i &lt; mutations.length; i++) {
+          var mutation = mutations[i];
+          if (mutation.addedNodes &amp;&amp; mutation.addedNodes.length) {
+            consoleProxy.info('[dyn-snippet] Mutation detected; scheduling recount.');
+            setTimeout(countItems, 0);
+            break;
+          }
+        }
+      });
+
+      observer.observe(sec, { childList: true, subtree: true });
+
+      consoleProxy.info('[dyn-snippet] Diagnostics observer attached; awaiting render events.');
+
+      requestFrame(function () {
+        setTimeout(countItems, 0);
+      });
+    } catch (err) {
+      consoleProxy.error('[dyn-snippet] Diagnostics bootstrap failed:', err &amp;&amp; err.stack ? err.stack : err);
+    } finally {
+      consoleProxy.groupEnd();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootstrapDiagnostics, { once: true });
+  } else {
+    requestFrame(bootstrapDiagnostics);
+  }
+})();
+</script>
+
+            </div>
+        </div>
+    </xpath>
+</data>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--
+            Recibo Pró-Forma (proforma.payment)
+
+            Template em: proforma_payment_reports.xml
+            Imprime: Original + Duplicado
+        -->
+
+        <record id="action_report_proforma_payment" model="ir.actions.report">
+            <field name="name">Recibo Pró-Forma</field>
+            <field name="model">proforma.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_proforma_payment</field>
+            <field name="report_file">mh_stone_reports.report_proforma_payment</field>
+            <field name="binding_model_id" ref="mh_sale.model_proforma_payment"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="mh_stone_reports.paperformat_stone_cotacao"/>
+            <field name="print_report_name">"Recibo Pró-Forma _ " + object.name + " [" + str(object.partner_id.name) + "]"</field>
+            <field name="attachment_use" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

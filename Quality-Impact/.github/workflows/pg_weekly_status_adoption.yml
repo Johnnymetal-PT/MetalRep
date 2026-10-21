@@ -1,0 +1,82 @@
+name: pg_weekly_status_adoption
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 7 * * 1'
+
+jobs:
+  weekly-status-adoption:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout project repository
+        uses: actions/checkout@v4
+
+      - name: Checkout shared _pg_template runtime
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.PG_TEMPLATE_REPO != '' && vars.PG_TEMPLATE_REPO || 'bruno-pinheiro-pg/_pg_template' }}
+          ref: ${{ vars.PG_TEMPLATE_REF != '' && vars.PG_TEMPLATE_REF || 'main' }}
+          path: _pg_template_runtime
+          token: ${{ secrets.PG_TEMPLATE_REPO_TOKEN }}
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests
+
+      - name: Pull adoption metrics
+        shell: pwsh
+        env:
+          PG_ODOO_KNOWLEDGE_TOKEN: ${{ secrets.PG_ODOO_KNOWLEDGE_TOKEN }}
+          PG_ODOO_BASE_URL: ${{ secrets.PG_ODOO_BASE_URL }}
+          PG_ODOO_DATABASE: ${{ secrets.PG_ODOO_DATABASE }}
+          PG_ODOO_LOGIN: ${{ secrets.PG_ODOO_LOGIN }}
+          PG_ODOO_PROJECT_KEY: ${{ vars.PG_ODOO_PROJECT_KEY }}
+          PG_ODOO_PROJECT_ID: ${{ vars.PG_ODOO_PROJECT_ID }}
+          PG_ODOO_ADOPTION_MODELS_CSV: ${{ vars.PG_ODOO_ADOPTION_MODELS_CSV }}
+          PG_ODOO_ADOPTION_PROJECT_FIELD: ${{ vars.PG_ODOO_ADOPTION_PROJECT_FIELD }}
+        run: |
+          $dateTo = (Get-Date).ToString("yyyy-MM-dd")
+          $dateFrom = (Get-Date).AddDays(-6).ToString("yyyy-MM-dd")
+          $projectField = if ([string]::IsNullOrWhiteSpace($env:PG_ODOO_ADOPTION_PROJECT_FIELD)) { "project_id" } else { $env:PG_ODOO_ADOPTION_PROJECT_FIELD }
+          $modelsCsv = if ([string]::IsNullOrWhiteSpace($env:PG_ODOO_ADOPTION_MODELS_CSV)) { "project.task,project.project,helpdesk.ticket,crm.lead,sale.order,account.move" } else { $env:PG_ODOO_ADOPTION_MODELS_CSV }
+
+          ./_pg_template_runtime/scripts/pg_pull_adoption_metrics.ps1 `
+            -BaseUrl $env:PG_ODOO_BASE_URL `
+            -Database $env:PG_ODOO_DATABASE `
+            -Login $env:PG_ODOO_LOGIN `
+            -ProjectKey $env:PG_ODOO_PROJECT_KEY `
+            -ProjectId $env:PG_ODOO_PROJECT_ID `
+            -ProjectField $projectField `
+            -ModelsCsv $modelsCsv `
+            -DateFrom $dateFrom `
+            -DateTo $dateTo
+
+      - name: Validate adoption snapshot
+        shell: pwsh
+        run: |
+          ./_pg_template_runtime/scripts/pg_validate_adoption_sync.ps1 -RepoPath "${{ github.workspace }}"
+
+      - name: Render weekly status with adoption block
+        shell: pwsh
+        run: |
+          ./_pg_template_runtime/scripts/pg_render_weekly_status_adoption_block.ps1 `
+            -RepoPath "${{ github.workspace }}" `
+            -TemplatePath "${{ github.workspace }}\\doc_templates\\TPL_STATUS_SEMANAL_V1.md" `
+            -OutputPath "${{ github.workspace }}\\handoff\\STATUS_SEMANAL_WITH_ADOPTION.md"
+
+      - name: Upload weekly status artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: status-semanal-with-adoption
+          path: |
+            handoff/STATUS_SEMANAL_WITH_ADOPTION.md
+            .pg/PG_ADOPTION_SYNC.json

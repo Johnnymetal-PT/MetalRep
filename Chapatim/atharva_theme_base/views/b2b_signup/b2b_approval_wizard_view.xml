@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Approval Wizard Form View -->
+    <record id="view_b2b_application_approval_wizard_form" model="ir.ui.view">
+        <field name="name">b2b.application.approval.wizard.form</field>
+        <field name="model">b2b.application.approval.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Approve B2B Application">
+                <group>
+                    <group>
+                        <field name="application_id" invisible="1"/>
+                        <field name="partner_id" invisible="1"/>
+                        <field name="business_name" string="User Name"/>
+                        <field name="email"/>
+                        <field name="pricelist_id" required="1"/>
+                    </group>
+                </group>
+                <div class="alert alert-info" role="alert" style="margin: 0 16px;">
+                    <span class="text-muted">
+                        The selected pricelist will be applied to this user once B2B access is granted.
+                    </span>
+                </div>
+                <footer>
+                    <button string="Approve"
+                            name="action_approve"
+                            type="object"
+                            class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Cancel"
+                            name="action_cancel"
+                            type="object"
+                            class="btn-secondary"
+                            data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

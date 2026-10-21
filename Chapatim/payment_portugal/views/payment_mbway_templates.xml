@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="mbway_inline_form">
+        <b>Please insert your mobile phone number:</b>
+        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+        <input type="hidden" name="reference" t-att-value="reference" />
+        <input
+            type="hidden"
+            name="currency"
+            id="currency"
+            t-att-value="currency.name"
+        />
+        <input
+            type="hidden"
+            name="provider"
+            id="provider"
+            t-att-value="provider_sudo"
+        />
+        <input
+            type="hidden"
+            name="company_id"
+            id="company_id"
+            t-att-value="provider_sudo.company_id.id"
+        />
+        <input type="hidden" name="amount" t-att-value="amount" />
+        <input
+            type="text"
+            placeholder="Phone Number"
+            name="phone_number"
+            t-att-value="phone_number"
+            id="phone_number"
+            t-attf-class="form-control #{'form-control-sm' if form_small else ''}"
+            required="required"
+            autofocus="autofocus"
+            autocapitalize="off"
+        />
+    </template>
+</odoo>

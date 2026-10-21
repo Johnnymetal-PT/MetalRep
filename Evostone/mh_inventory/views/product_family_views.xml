@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product Family List View -->
+    <record id="view_product_family_list" model="ir.ui.view">
+        <field name="name">product.family.list</field>
+        <field name="model">product.family</field>
+        <field name="arch" type="xml">
+            <list string="Famílias de Produtos">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="product_count"/>
+                <field name="active" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Product Family Form View -->
+    <record id="view_product_family_form" model="ir.ui.view">
+        <field name="name">product.family.form</field>
+        <field name="model">product.family</field>
+        <field name="arch" type="xml">
+            <form string="Família de Produtos">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_products" icon="fa-cubes">
+                            <field string="Produtos" name="product_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Arquivado" invisible="active"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nome da Família"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <group string="Descrição">
+                        <field name="description" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Product Family Search View -->
+    <record id="view_product_family_search" model="ir.ui.view">
+        <field name="name">product.family.search</field>
+        <field name="model">product.family</field>
+        <field name="arch" type="xml">
+            <search string="Pesquisar Família">
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Ativo" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Arquivado" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Status" name="status" context="{'group_by': 'active'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_product_family" model="ir.actions.act_window">
+        <field name="name">Famílias de Produtos</field>
+        <field name="res_model">product.family</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Criar nova Família de Produtos
+            </p>
+            <p>
+                Organize seus produtos em famílias para melhor gestão e análise.
+            </p>
+        </field>
+    </record>
+</odoo>

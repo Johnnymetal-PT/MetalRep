@@ -1,0 +1,18 @@
+<odoo>
+    <record id="dynamic_filter_product_template_only" model="website.snippet.filter">
+        <field name="name">Product Templates Only</field>
+        <field name="model_name">product.template</field>
+        <!--
+            In newer Odoo versions the domain to be applied to a dynamic snippet
+            filter is stored in the ``filter_domain`` field instead of ``domain``.
+            Using ``domain`` causes the module installation to fail with the
+            error "Invalid field 'domain' on model 'website.snippet.filter'".
+        -->
+        <field name="filter_domain">[('sale_ok', '=', True), ('website_published', '=', True)]</field>
+        <field name="sort_field">name</field>
+        <field name="sort_order">asc</field>
+        <field name="limit">16</field>
+        <field name="active">True</field>
+    </record>
+</odoo>
+

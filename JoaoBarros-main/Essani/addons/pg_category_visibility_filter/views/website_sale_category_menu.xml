@@ -1,0 +1,19 @@
+<odoo>
+    <template id="category_visibility_filter" inherit_id="website_sale.header" priority="100">
+        <xpath expr="//t[@t-set='categories']" position="before">
+            <t t-set="hidden_categories" t-value="request.env['res.partner.product.visibility'].sudo().search([
+                ('partner_id', '=', request.env.user.partner_id.id),
+                ('category_id', '!=', False),
+                ('visible', '=', False)
+            ]).mapped('category_id').ids"/>
+        </xpath>
+
+        <xpath expr="//t[@t-set='categories']" position="attributes">
+            <attribute name="t-set">categories</attribute>
+            <attribute name="t-value">
+                [c for c in categories if c.id not in hidden_categories]
+            </attribute>
+        </xpath>
+    </template>
+</odoo>
+

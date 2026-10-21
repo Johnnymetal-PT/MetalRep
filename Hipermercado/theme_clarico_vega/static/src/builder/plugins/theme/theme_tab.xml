@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Options display in editor tab | Added by: Priyanshi Vasoya -->
+    <t t-name="theme_clarico_vega.ThemeTabExt">
+        <div class="o_theme_tab h-100" role="tabpanel" aria-labelledby="theme-tab-ext">
+            <div t-ref="content" class="d-flex flex-column h-100">
+                <t t-foreach="optionsContainersExt" t-as="optionsContainer" t-key="optionsContainer.id">
+                    <OptionsContainer
+                        snippetModel="optionsContainer.snippetModel"
+                        editingElement="optionsContainer.element"
+                        options="optionsContainer.options"
+                        containerTitle="optionsContainer.containerTitle"
+                        headerMiddleButtons="optionsContainer.headerMiddleButtons"
+                        isRemovable="optionsContainer.isRemovable"
+                        isClonable="optionsContainer.isClonable"
+                        containerTopButtons="optionsContainer.optionsContainerTopButtons"/>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="theme_clarico_vega.ThemeGeneralOptionExt">
+        <BuilderContext preview="false">
+            <BuilderRow label.translate="Menu Label">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['emipro_theme_base.website_submenu_label_ept'],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Quick View">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.quick_view_template', 'theme_clarico_vega.render_quick_view'],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Login Popup">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.login_popup_ept'],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Icon Pack" tooltip.translate="Icon Pack">
+                <BuilderSelect id="'header_icon_pack_options'" action="'reloadComposite'">
+                    <BuilderSelectItem
+                            id="'icon_style_1_opt'"
+                            title.translate="Icon Style 1"
+                            actionParam="[
+                        {
+                            action: 'websiteConfig',
+                            actionParam: {
+                                views: ['theme_clarico_vega.option_icon_pack_1'],
+                                vars: { 'icon_pack': 'icon_style_1' },
+                                checkVars: false,
+                            }
+                        }
+                        ]">
+                        <Img attrs="{ style: 'width: calc(100% - 0.5rem);' }"
+                             src="'/theme_clarico_vega/static/src/img/customise_option/icon_pack_1.jpg'"/>
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                            id="'icon_style_2_opt'"
+                            title.translate="Icon Style 2"
+                            actionParam="[
+                        {
+                            action: 'websiteConfig',
+                            actionParam: {
+                                views: ['theme_clarico_vega.option_icon_pack_2'],
+                                vars: { 'icon_pack': 'icon_style_2' },
+                                checkVars: false,
+                            }
+                        }
+                        ]">
+                        <Img attrs="{ style: 'width: calc(100% - 0.5rem);' }"
+                             src="'/theme_clarico_vega/static/src/img/customise_option/icon_pack_2.jpg'"/>
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                            id="'icon_style_3_opt'"
+                            title.translate="Icon Style 3"
+                            actionParam="[
+                        {
+                            action: 'websiteConfig',
+                            actionParam: {
+                                views: ['theme_clarico_vega.option_icon_pack_3'],
+                                vars: { 'icon_pack': 'icon_style_3' },
+                                checkVars: false,
+                            }
+                        }
+                        ]">
+                        <Img attrs="{ style: 'width: calc(100% - 0.5rem);' }"
+                             src="'/theme_clarico_vega/static/src/img/customise_option/icon_pack_3.jpg'"/>
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                            id="'icon_style_4_opt'"
+                            title.translate="Icon Style 4"
+                            actionParam="[
+                        {
+                            action: 'websiteConfig',
+                            actionParam: {
+                                views: ['theme_clarico_vega.option_icon_pack_4'],
+                                vars: { 'icon_pack': 'icon_style_4' },
+                                checkVars: false,
+                            }
+                        }
+                        ]">
+                        <Img attrs="{ style: 'width: calc(100% - 0.5rem);' }"
+                             src="'/theme_clarico_vega/static/src/img/customise_option/icon_pack_4.jpg'"/>
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                            id="'icon_style_5_opt'"
+                            title.translate="Icon Style 5"
+                            actionParam="[
+                        {
+                            action: 'websiteConfig',
+                            actionParam: {
+                                views: ['theme_clarico_vega.option_icon_pack_5'],
+                                vars: { 'icon_pack': 'icon_style_5' },
+                                checkVars: false,
+                            }
+                        }
+                        ]">
+                        <Img attrs="{ style: 'width: calc(100% - 0.5rem);' }"
+                             src="'/theme_clarico_vega/static/src/img/customise_option/icon_pack_5.jpg'"/>
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                            id="'icon_style_6_opt'"
+                            title.translate="Icon Style 6"
+                            actionParam="[
+                        {
+                            action: 'websiteConfig',
+                            actionParam: {
+                                views: ['theme_clarico_vega.option_icon_pack_6'],
+                                vars: { 'icon_pack': 'icon_style_6' },
+                                checkVars: false,
+                            }
+                        }
+                        ]">
+                        <Img attrs="{ style: 'width: calc(100% - 0.5rem);' }"
+                             src="'/theme_clarico_vega/static/src/img/customise_option/icon_pack_6.jpg'"/>
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                            id="'icon_style_7_opt'"
+                            title.translate="Icon Style 7"
+                            actionParam="[
+                        {
+                            action: 'websiteConfig',
+                            actionParam: {
+                                views: ['theme_clarico_vega.option_icon_pack_7'],
+                                vars: { 'icon_pack': 'icon_style_7' },
+                                checkVars: false,
+                            }
+                        }
+                        ]">
+                        <Img attrs="{ style: 'width: calc(100% - 0.5rem);' }"
+                             src="'/theme_clarico_vega/static/src/img/customise_option/icon_pack_7.jpg'"/>
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                            id="'icon_style_8_opt'"
+                            title.translate="Icon Style 8"
+                            actionParam="[
+                        {
+                            action: 'websiteConfig',
+                            actionParam: {
+                                views: ['theme_clarico_vega.option_icon_pack_8'],
+                                vars: { 'icon_pack': 'icon_style_8' },
+                                checkVars: false,
+                            }
+                        }
+                        ]">
+                        <Img attrs="{ style: 'width: calc(100% - 0.5rem);' }"
+                             src="'/theme_clarico_vega/static/src/img/customise_option/icon_pack_8.jpg'"/>
+                    </BuilderSelectItem>
+                </BuilderSelect>
+            </BuilderRow>
+            <BuilderRow label.translate="Header Icon Color" t-if="isActiveItem('icon_style_1_opt') || isActiveItem('icon_style_2_opt') || isActiveItem('icon_style_3_opt') || isActiveItem('icon_style_4_opt') || isActiveItem('icon_style_5_opt') || isActiveItem('icon_style_6_opt') || isActiveItem('icon_style_7_opt') || isActiveItem('icon_style_8_opt')">
+                <BuilderColorPicker defaultColor="''"
+                                    action="'customizeWebsiteColor'"
+                                    enabledTabs="['solid', 'custom']"
+                                    actionParam="{
+                            mainParam: 'header-icon-color',
+                            nullValue: 'NULL',
+                    }"/>
+            </BuilderRow>
+        </BuilderContext>
+    </t>
+
+    <t t-name="theme_clarico_vega.ThemeShopOptionExt">
+        <BuilderContext preview="false">
+            <BuilderRow label.translate="Show Product Count">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.website_attribute_values_count_ept'],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Color Swatches">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: [''],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Image Flipper">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: [''],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Offer Banner">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.offer_banner'],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Brand Filter">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.display_product_brand'],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Brand Logo">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.product_show_brand_logo'],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Similar Products">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.render_similar_product_view'],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Quantity Selector">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.product_qty_selector'],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Collapsible Sidebar">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.categories_collapsible_ext',
+                        'theme_clarico_vega.attributes_collapsible_ext'],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Ratings Filter">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.ratings_filter_ept'],
+                    }"
+                />
+                <span class="o_builder_option_badge" style="display:inline-block;background:#ff5a00;color:#fff;padding:2px 6px;border-radius:12px;font-size:11px;margin-left:8px;vertical-align:middle;">NEW</span>
+            </BuilderRow>
+        </BuilderContext>
+    </t>
+
+    <t t-name="theme_clarico_vega.ThemeProductOptionExt">
+        <BuilderContext preview="false">
+            <BuilderRow label.translate="Product Sticky Details">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.product_sticky_details_container'],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Guaranteed Safe Checkout">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.guaranteed_safe_checkout'],
+                    }"
+                />
+            </BuilderRow>
+        </BuilderContext>
+    </t>
+
+    <t t-name="theme_clarico_vega.ThemeCartOptionExt">
+        <BuilderContext preview="false">
+            <BuilderRow label.translate="Hide Product Details">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.hide_variant_info_in_cart'],
+                    }"
+                />
+            </BuilderRow>
+            <BuilderRow label.translate="Cart Popup">
+                <BuilderCheckbox action="'websiteConfig'"
+                    actionParam="{
+                        views: ['theme_clarico_vega.cart_popover'],
+                    }"
+                />
+            </BuilderRow>
+        </BuilderContext>
+    </t>
+
+</templates>

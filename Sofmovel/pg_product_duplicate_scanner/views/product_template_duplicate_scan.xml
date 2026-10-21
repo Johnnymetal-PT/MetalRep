@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_template_form_duplicate_scan" model="ir.ui.view">
+        <field name="name">product.template.form.duplicate.scan</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_log_duplicate_barcodes_and_codes"
+                        type="object"
+                        string="Scan Duplicates"
+                        class="oe_highlight"
+                        help="Logs duplicate barcodes and internal references (default_code) to the server logs."/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

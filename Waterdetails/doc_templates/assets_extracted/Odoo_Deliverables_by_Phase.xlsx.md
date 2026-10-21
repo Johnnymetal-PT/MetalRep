@@ -1,0 +1,98 @@
+# Extracted: Odoo_Deliverables_by_Phase.xlsx
+
+# xl/worksheets/sheet1.xml
+B2: ODOO IMPLEMENTATION METHODOLOGY — DELIVERABLES BY PHASE
+B4: Fase | C4: Entregável | D4: Formato | E4: Responsável | F4: Prioridade | G4: Timing | H4: Toolbox
+B5: ROI Analysis | C5: Mindmap de Stakeholders
+(objetivos, riscos, motivações) | D5: XMind (.xmind) | E5: Project Leader | F5: 🔴 Obrigatório | G5: Início da fase | H5: ROI Stakeholder Mindmap
+B6: ROI Analysis | C6: Mindmap de Key-Users
+(fluxos AS-IS, pain points, terminologia) | D6: XMind (.xmind) | E6: Project Leader | F6: 🔴 Obrigatório | G6: Workshops | H6: ROI Workshops Mindmap
+B7: ROI Analysis | C7: Análise ROI
+(cost savings, eficiências por dept.) | D7: Excel (.xlsx) | E7: Project Leader | F7: 🔴 Obrigatório | G7: Após workshops | H7: ROI Analysis Tool
+B8: ROI Analysis | C8: Prova de Conceito (POC)
+(demo / mock-up de fluxos críticos) | D8: Apresentação (.pptx) ou Demo ao vivo | E8: Project Leader + App Expert | F8: 🔴 Obrigatório | G8: Antes da apresentação final | H8: —
+B9: ROI Analysis | C9: Apresentação de Fecho ROI
+(plano, budget, mapa needs↔features) | D9: PowerPoint / Google Slides | E9: Project Leader | F9: 🔴 Obrigatório | G9: Apresentação final | H9: ROI Closing Presentation
+B10: ROI Analysis | C10: Peer-Review de soluções propostas | D10: Notas internas / Email | E10: App Expert (externo ao projeto) | F10: 🟡 Recomendado | G10: Antes da apresentação | H10: —
+B11: Kick-Off | C11: Plano de Projeto
+(scope, fases, budget, timelines) | D11: Excel (.xlsx) | E11: Project Leader | F11: 🔴 Obrigatório | G11: Reunião de Kick-Off | H11: ROI Kick-off template
+B12: Kick-Off | C12: Registo de Reunião Kick-Off
+(metodologia, papéis, próximos passos) | D12: Word (.docx) | E12: Project Leader | F12: 🔴 Obrigatório | G12: Após reunião (24h) | H12: —
+B13: Kick-Off | C13: Onboarding SPoC
+(acesso eLearning, documentação, treino inicial) | D13: Email + Links | E13: Project Leader | F13: 🔴 Obrigatório | G13: Kick-Off | H13: —
+B14: Implementação | C14: Especificação de Desenvolvimento
+(business need, mockup, technical hints) | D14: Excalidraw / Word (.docx) | E14: Project Leader | F14: 🔴 Obrigatório | G14: Antes de dev | H14: Spec Example
+B15: Implementação | C15: Ficheiro de Importação de Dados
+(master data limpo e formatado) | D15: Excel (.xlsx) | E15: SPoC + Project Leader | F15: 🔴 Obrigatório | G15: Durante fase | H15: —
+B16: Implementação | C16: Relatório de Validação por Fase
+(lista de flows testados e aprovados) | D16: Word (.docx) ou Checklist Excel | E16: SPoC + Project Leader | F16: 🔴 Obrigatório | G16: Final de cada fase | H16: —
+B17: Implementação | C17: Documentação de Utilizador
+(manual interno de processos) | D17: Word (.docx) | E17: SPoC (cliente) | F17: 🟡 Recomendado | G17: Durante / após treino | H17: —
+B18: Implementação | C18: Demo semanal de progresso
+(validação iterativa de funcionalidades) | D18: Reunião online + notas | E18: Project Leader | F18: 🟡 Recomendado | G18: Semanal | H18: —
+B19: Go-Live | C19: Plano de Go-Live
+(checklist, responsáveis, datas, rollback plan) | D19: Excel (.xlsx) | E19: Project Leader | F19: 🔴 Obrigatório | G19: 1-2 semanas antes | H19: —
+B20: Go-Live | C20: Material de Treino de End-Users
+(guia rápido por perfil de utilizador) | D20: PDF (.pdf) | E20: SPoC + Project Leader | F20: 🔴 Obrigatório | G20: Antes do Go-Live | H20: —
+B21: Go-Live | C21: Relatório de Bugs / Issues
+(log de problemas e resolução) | D21: Excel (.xlsx) | E21: Project Leader | F21: 🔴 Obrigatório | G21: Primeiros dias | H21: —
+B22: Go-Live | C22: Validação Final do SPoC
+(sign-off formal) | D22: Word (.docx) – assinado | E22: SPoC | F22: 🔴 Obrigatório | G22: Dia do Go-Live | H22: —
+B23: 2.º Deployment
+& Progress Report | C23: Progress Report
+(digital opportunities matrix, ROI realizado) | D23: PowerPoint / Google Slides | E23: Project Leader | F23: 🟡 Recomendado | G23: ~1 mês após Go-Live | H23: Progress Report template
+B24: 2.º Deployment
+& Progress Report | C24: Backlog Revisitado
+(devs/features adiadas – manter / cancelar / nova fase) | D24: Excel (.xlsx) | E24: Project Leader + SPoC | F24: 🟡 Recomendado | G24: ~1 mês após Go-Live | H24: —
+B25: 2.º Deployment
+& Progress Report | C25: Digital Opportunities Matrix
+(impact vs. ease, quick wins identificados) | D25: PowerPoint / Excel | E25: Project Leader | F25: 🟢 Opcional | G25: Progress report meeting | H25: —
+B27: 🔴 Obrigatório = crítico para o projeto   |   🟡 Recomendado = best practice   |   🟢 Opcional = nice-to-have
+
+# xl/worksheets/sheet2.xml
+B2: GUIA DE FORMATOS — QUANDO USAR CADA TIPO
+B4: Formato | C4: Quando Usar | D4: Vantagens | E4: Ferramentas Sugeridas
+B5: 📊 Excel (.xlsx) | C5: Planos de projeto, ROI analysis, checklists, ficheiros de dados, backlogs | D5: Cálculos dinâmicos, filtros, fácil edição colaborativa | E5: Microsoft Excel, Google Sheets, LibreOffice Calc
+B6: 📄 Word (.docx) | C6: Especificações, atas de reunião, relatórios de validação, documentação interna | D6: Texto estruturado, fácil partilha, comentários e revisões | E6: Microsoft Word, Google Docs, LibreOffice Writer
+B7: 📑 PDF | C7: Material de treino de end-users, guias rápidos, documentos para assinatura | D7: Formato fixo, compatível em qualquer dispositivo, não editável | E7: Exportar de Word/PPT, Adobe Acrobat, Canva
+B8: 📽 PowerPoint / Slides | C8: Apresentação ROI closing, Progress Report, demo de POC | D8: Visual, impacto em reuniões com gestão, fácil de adaptar | E8: Microsoft PowerPoint, Google Slides, Canva
+B9: 🗺 XMind (.xmind) | C9: Mindmaps de stakeholders e key-users, notas de workshop | D9: Estrutura visual de informação complexa, templates prontos | E9: XMind (xmind.net) – gratuito
+B10: ✏️ Excalidraw | C10: Mockups de especificações, diagramas de fluxo, wireframes | D10: Rápido, colaborativo online, visual e informal | E10: excalidraw.com – gratuito
+B11: 📹 Vídeo (gravação de ecrã) | C11: Demo do POC, tutoriais de treino para end-users | D11: Substituí documentação escrita, reutilizável, assíncrono | E11: Loom, OBS, Screencast-O-Matic
+
+# xl/worksheets/sheet3.xml
+B2: CHECKLIST DE ENTREGÁVEIS POR FASE
+B4:   ROI Analysis
+B5: ✓ | C5: Entregável | D5: Formato | E5: Responsável
+B6: ☐ | C6: Mindmap Stakeholders completo | D6: XMind | E6: Project Leader
+B7: ☐ | C7: Mindmap Key-Users por departamento | D7: XMind | E7: Project Leader
+B8: ☐ | C8: ROI Analysis Tool preenchido | D8: Excel | E8: Project Leader
+B9: ☐ | C9: POC configurado e demonstrado | D9: Demo/PPT | E9: Project Leader
+B10: ☐ | C10: Peer-review realizada | D10: — | E10: App Expert
+B11: ☐ | C11: Apresentação ROI fechada | D11: PPT | E11: Project Leader
+B13:   Kick-Off
+B14: ✓ | C14: Entregável | D14: Formato | E14: Responsável
+B15: ☐ | C15: Plano de projeto finalizado | D15: Excel | E15: Project Leader
+B16: ☐ | C16: Ata de Kick-Off enviada | D16: Word | E16: Project Leader
+B17: ☐ | C17: SPoC onboarded no eLearning | D17: Email | E17: Project Leader
+B18: ☐ | C18: Scope e fases acordados | D18: Excel | E18: Project Leader
+B20:   Implementação
+B21: ✓ | C21: Entregável | D21: Formato | E21: Responsável
+B22: ☐ | C22: Especificações de dev aprovadas (se aplicável) | D22: Word/Excalidraw | E22: PL + SPoC
+B23: ☐ | C23: Ficheiro de dados preparado e importado | D23: Excel | E23: SPoC + PL
+B24: ☐ | C24: Validação de cada fase concluída | D24: Word/Checklist | E24: SPoC
+B25: ☐ | C25: Treino de key-users realizado | D25: — | E25: PL + SPoC
+B26: ☐ | C26: Documentação interna iniciada | D26: Word | E26: SPoC (cliente)
+B28:   Go-Live
+B29: ✓ | C29: Entregável | D29: Formato | E29: Responsável
+B30: ☐ | C30: Plano de Go-Live distribuído | D30: Excel | E30: Project Leader
+B31: ☐ | C31: Treino de end-users concluído | D31: PDF | E31: SPoC
+B32: ☐ | C32: Sign-off formal do SPoC obtido | D32: Word assinado | E32: SPoC
+B33: ☐ | C33: Log de bugs criado e monitorizado | D33: Excel | E33: Project Leader
+B34: ☐ | C34: Verificação de uso real (3-7 dias após) | D34: — | E34: Project Leader
+B36:   2.º Deployment & Progress Report
+B37: ✓ | C37: Entregável | D37: Formato | E37: Responsável
+B38: ☐ | C38: Backlog revisitado (~1 mês após Go-Live) | D38: Excel | E38: PL + SPoC
+B39: ☐ | C39: Progress Report preparado | D39: PPT | E39: Project Leader
+B40: ☐ | C40: Digital Opportunities Matrix preenchida | D40: Excel/PPT | E40: Project Leader
+B41: ☐ | C41: Reunião com top management agendada | D41: — | E41: Project Leader

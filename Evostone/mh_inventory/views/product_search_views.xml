@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend product search view -->
+    <record id="product_product_search_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.search.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_search_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Add variant_description to searchable fields -->
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="variant_description" string="Atributos"/>
+            </xpath>
+
+            <!-- Estender o filter_domain do campo 'name' para incluir também
+                 valores de atributos de variante (ex.: PN, Polido). -->
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="filter_domain">
+                    ['|', '|', '|', '|',
+                     ('default_code', 'ilike', self),
+                     ('product_variant_ids.default_code', 'ilike', self),
+                     ('name', 'ilike', self),
+                     ('barcode', 'ilike', self),
+                     ('product_template_attribute_value_ids.name', 'ilike', self)]
+                </attribute>
+            </xpath>
+            
+            <!-- Add filter for products with custom pricing -->
+            <xpath expr="//filter[@name='filter_to_sell']" position="after">
+                <separator/>
+                <filter name="filter_custom_price" string="Com Preço Personalizado" 
+                        domain="[('custom_lst_price', '>', 0)]"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- Extend product tree view to show variant description -->
+    <record id="product_product_tree_view_variant_desc_inherit" model="ir.ui.view">
+        <field name="name">product.product.tree.variant.desc.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <!-- Add variant_description column -->
+            <xpath expr="//field[@name='product_template_variant_value_ids']" position="after">
+                <field name="variant_description" string="Atributos" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

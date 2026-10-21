@@ -1,0 +1,169 @@
+<section>
+    <h1>Câmbio de Faturas de Fornecedor por Data de Criação</h1>
+    <p>
+        <em>Por <strong>Parametro Global</strong> — versão para Odoo 19.0.</em>
+    </p>
+</section>
+
+<section>
+    <h2>Para quem lê isto pela primeira vez</h2>
+    <p>
+        Este módulo resolve um caso específico de contabilidade multi-moeda:
+        permitir que a <strong>taxa de câmbio</strong> de uma fatura de
+        fornecedor seja determinada por uma data de controlo interno (a
+        "Data de Criação") e não pela data da fatura do fornecedor.
+    </p>
+</section>
+
+<section>
+    <h2>Comportamento standard do Odoo</h2>
+    <p>
+        No Odoo, a taxa de câmbio de um documento (campo
+        <em>Currency Rate</em>, <code>account.move.invoice_currency_rate</code>)
+        é obtida com base na <strong>data da fatura</strong>
+        (<code>invoice_date</code>). Não existe, por configuração, forma de a
+        basear noutra data.
+    </p>
+</section>
+
+<section>
+    <h2>O que este módulo faz</h2>
+    <ul>
+        <li>Adiciona o campo <strong>Data de Criação</strong>
+            (<code>pg_data_criacao</code>) às faturas e notas de crédito de
+            fornecedor.</li>
+        <li>Quando esse campo está preenchido, a taxa de câmbio passa a ser
+            obtida nessa data.</li>
+        <li>Quando está vazio, <strong>nada muda</strong>: mantém-se o
+            comportamento standard (<code>invoice_date</code>).</li>
+        <li>Aplica-se <strong>apenas</strong> a documentos de fornecedor
+            (<code>in_invoice</code>, <code>in_refund</code>). Vendas e
+            outros documentos ficam intactos.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Como funciona (técnico)</h2>
+    <p>
+        Faz override do hook standard
+        <code>account.move._get_invoice_currency_rate_date()</code>, que é o
+        ponto único onde o Odoo decide qual a data usada para a taxa. É
+        exatamente o mesmo padrão que o próprio Odoo usa no módulo
+        <code>l10n_cz</code>. Os detalhes (incluindo a "armadilha do
+        <code>@api.depends</code>" ao estender os computes) estão documentados
+        no topo de <code>models/account_move.py</code>.
+    </p>
+</section>
+
+<section>
+    <h2>Instalação</h2>
+    <p>
+        Instalar o módulo a partir de <em>Apps</em>. Não requer qualquer
+        configuração própria.
+    </p>
+</section>
+
+<section>
+    <h2>Guia de utilização</h2>
+
+    <h3>Pré-requisitos</h3>
+    <ul>
+        <li>Modo multi-moeda ativo (<em>Contabilidade &gt; Configuração &gt;
+            Definições</em>).</li>
+        <li>Taxas de câmbio (<code>res.currency.rate</code>) carregadas para
+            as datas relevantes, manualmente ou via atualização automática.
+            Se não existir taxa exatamente na data escolhida, o Odoo usa a
+            taxa mais próxima anterior disponível (comportamento standard).</li>
+    </ul>
+
+    <h3>Passo a passo</h3>
+    <ol>
+        <li>Abrir ou criar uma fatura / nota de crédito de fornecedor
+            <strong>em rascunho</strong>, numa moeda diferente da moeda da
+            empresa.</li>
+        <li>No cabeçalho, no grupo de datas (junto à <em>Bill Date</em>),
+            preencher o campo <strong>Data de Criação</strong> com a data
+            cujo câmbio se pretende aplicar.</li>
+        <li>O campo <em>Currency Rate</em> recalcula automaticamente para a
+            taxa em vigor nessa data.</li>
+        <li>Para reverter ao comportamento standard, apagar a
+            <strong>Data de Criação</strong>: a taxa volta a basear-se na
+            <em>Bill Date</em>.</li>
+        <li>Validar / lançar a fatura normalmente. A Data de Criação
+            <strong>não</strong> altera a data contabilística nem os prazos
+            de pagamento — só o câmbio.</li>
+    </ol>
+
+    <h3>Exemplo prático</h3>
+    <ul>
+        <li>Empresa em EUR; fatura de fornecedor em USD.</li>
+        <li><em>Bill Date</em> = 20/01 (câmbio do dia: 1 EUR = 1,10 USD).</li>
+        <li><em>Data de Criação</em> = 10/01 (câmbio do dia: 1 EUR = 1,05 USD).</li>
+        <li>Sem o módulo (ou com a Data de Criação vazia): a fatura usaria
+            a taxa de 20/01 (1,10).</li>
+        <li>Com a Data de Criação preenchida: a fatura usa a taxa de 10/01
+            (1,05).</li>
+    </ul>
+
+    <h3>Perguntas frequentes / resolução de problemas</h3>
+    <dl>
+        <dt>"Não vejo o campo Data de Criação."</dt>
+        <dd>Só aparece em faturas e notas de crédito de fornecedor. Confirme
+            o tipo de documento.</dd>
+
+        <dt>"O campo está a cinzento e não o consigo editar."</dt>
+        <dd>Só é editável com o documento em rascunho.</dd>
+
+        <dt>"Preenchi a Data de Criação mas a taxa não mudou."</dt>
+        <dd>
+            Causas possíveis:
+            <ul>
+                <li>não existe taxa configurada para a moeda em datas até à
+                    data escolhida;</li>
+                <li>a taxa dessa data é igual à que já estava aplicada;</li>
+                <li>a taxa foi fixada manualmente — ver ponto seguinte.</li>
+            </ul>
+        </dd>
+
+        <dt>"Quero fixar uma taxa manual."</dt>
+        <dd>
+            Pode editar diretamente o <em>Currency Rate</em> (em rascunho).
+            <strong>Atenção:</strong> alterar a seguir a <em>Data de Criação</em>
+            (ou a <em>Bill Date</em>) volta a recalcular a taxa
+            automaticamente, sobrepondo-se ao valor manual. Defina a taxa
+            manual <strong>depois</strong> de fixar as datas. Junto ao campo
+            existe ainda um botão para repor a taxa calculada.
+        </dd>
+
+        <dt>"A Data de Criação afeta a contabilidade?"</dt>
+        <dd>Não. Afeta apenas a taxa de câmbio; a data contabilística
+            (<em>Accounting Date</em>) e os prazos seguem a <em>Bill Date</em>.</dd>
+    </dl>
+</section>
+
+<section>
+    <h2>Manutenção / upgrade</h2>
+    <p>
+        Em upgrades de versão do Odoo, validar a lista
+        <code>PG_RATE_DEPENDS</code> em <code>models/account_move.py</code>
+        contra as dependências standard dos métodos
+        <code>_compute_expected_currency_rate</code> /
+        <code>_compute_invoice_currency_rate</code> do core.
+    </p>
+</section>
+
+<section>
+    <h2>Estado</h2>
+    <p><strong>ATIVO.</strong></p>
+</section>
+
+<section>
+    <h2>Referências (Odoo 19.0)</h2>
+    <ul>
+        <li><code>addons/account/models/account_move.py</code> — campo
+            <code>invoice_currency_rate</code>,
+            <code>_get_invoice_currency_rate_date</code> e computes da taxa.</li>
+        <li><code>addons/l10n_cz/models/account_move.py</code> — precedente
+            standard do mesmo padrão.</li>
+    </ul>
+</section>

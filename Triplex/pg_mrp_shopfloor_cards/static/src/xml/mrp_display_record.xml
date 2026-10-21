@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="mrp_workorder.MrpDisplayRecord" t-inherit-mode="extension">
+        <xpath expr="//div[contains(@class, 'card-title')]" position="before">
+            <div t-if="pgOrigin" class="o_pg_shopfloor_origin_top mb-2">
+                <span class="o_pg_shopfloor_origin_label">Origem:</span>
+                <span class="o_pg_shopfloor_origin_text" t-esc="pgOrigin"/>
+            </div>
+        </xpath>
+
+        <!-- Tecido da peça, logo abaixo da origem. Só aparece quando foi possível
+             identificá-lo; um rótulo "Tecido:" vazio em todos os cartões seria pior do que
+             não ter nada, porque ensina o operador a ignorar a linha. -->
+        <xpath expr="//div[contains(@class, 'card-title')]" position="before">
+            <div t-if="pgFabric" class="o_pg_shopfloor_fabric mb-2">
+                <span class="o_pg_shopfloor_fabric_label">Tecido:</span>
+                <span class="o_pg_shopfloor_fabric_text" t-esc="pgFabric"/>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[contains(@class, 'o_finished_product')]/span[contains(@class, 'text-truncate')]" position="replace">
+            <span class="me-1 o_pg_shopfloor_product_name">
+                <t t-esc="record.product_id[1]"/> -
+            </span>
+        </xpath>
+
+        <xpath expr="//div[contains(@class, 'card-header')]/div[contains(@class, 'justify-content-between') and contains(@class, 'flex-wrap')]" position="after">
+            <div t-if="hasPgPreviewButtons" class="o_pg_shopfloor_preview_buttons d-flex flex-wrap gap-2 mt-2">
+                <button t-if="hasPgPdfFile" type="button" class="btn btn-lg o_pg_shopfloor_preview_btn" t-on-click.stop="openPdfPreview">
+                    <i class="fa fa-file-pdf-o me-1"/>Preview PDF
+                </button>
+                <button t-if="hasPgImageFile" type="button" class="btn btn-lg o_pg_shopfloor_preview_btn" t-on-click.stop="openImagePreview">
+                    <i class="fa fa-picture-o me-1"/>Preview Image
+                </button>
+            </div>
+        </xpath>
+    </t>
+</templates>

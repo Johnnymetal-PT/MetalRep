@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- ================================================================
+             GUIA DE RECEPÇÃO DE PEDRAS - Template Principal
+             ================================================================ -->
+
+        <record id="view_report_stone_picking" model="ir.ui.view">
+            <field name="name">Stone Picking Report - Main Wrapper</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_picking</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_picking">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_stone_picking_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="view_report_stone_picking_document" model="ir.ui.view">
+            <field name="name">Stone Picking Report - Document</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stone_picking_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stone_picking_document">
+                    <div class="page"/>
+                    <style>
+                        td {
+                            border: 1px solid #DCDCDC;
+                            border-collapse: collapse;
+                            padding: 4px;
+                        }
+                        .product-row {
+                            background-color: #F8F8FF;
+                            font-weight: bold;
+                        }
+                        .detail-header {
+                            background-color: #E8E8E8;
+                            font-size: 7pt;
+                        }
+                        .detail-row {
+                            font-size: 7pt;
+                        }
+                        .totals-row {
+                            background-color: #e0e0e0;
+                            font-weight: bold;
+                        }
+                    </style>
+
+                    <!-- Cabeçalho com Logo e Título -->
+                    <div class="row">
+                        <div class="col-8">
+                            <img class="img-fluid" style="width: 50%;" t-att-src="image_data_uri(o.company_id.logo_report)"/>
+                        </div>
+                        <br/>
+                        <div class="col-4 text-end">
+                            <br/>
+                            <span style="color:#000000; font-size: 14pt; font-weight: bold;">
+                                Listagem de Pedras
+                            </span>
+                            <br/>
+                            <span t-field="o.name" style="font-size: 12pt;"/>
+                        </div>
+                    </div>
+
+                    <!-- Dados da Empresa e Fornecedor -->
+                    <div class="row" style="font-size: 11px; font-family: Arial, sans-serif;">
+                        <div class="col-6">
+                            <strong><t t-esc="o.company_id.name"/></strong><br/>
+                            <t t-if="o.company_id.street"><span t-esc="o.company_id.street"/><br/></t>
+                            <t t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/><br/></t>
+                            <t t-if="o.company_id.city"><span t-esc="o.company_id.city"/><br/></t>
+                            <t t-if="o.company_id.country_id"><span t-esc="o.company_id.country_id.name"/><br/></t>
+                            <t t-if="o.company_id.vat"><strong>NIF: </strong><span t-esc="o.company_id.vat"/><br/></t>
+                            <t t-if="o.company_id.phone"><span>c. </span><span t-esc="o.company_id.phone"/><br/></t>
+                            <t t-if="o.company_id.email"><span>e. </span><span t-esc="o.company_id.email"/></t>
+                        </div>
+                        <div class="col-6">
+                            <br/>
+                            <t t-if="o.partner_id">
+                                <span>Fornecedor:</span><br/>
+                                <strong><span t-field="o.partner_id.name"/></strong><br/>
+                                <t t-if="o.partner_id.street"><span t-field="o.partner_id.street"/><br/></t>
+                                <t t-if="o.partner_id.city"><span t-field="o.partner_id.city"/><br/></t>
+                                <t t-if="o.partner_id.vat"><strong>NIF: </strong><span t-field="o.partner_id.vat"/></t>
+                            </t>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <!-- Informações do Documento -->
+                    <div class="col-12">
+                        <table style="text-align: center; font-family: Arial, sans-serif; font-size: 10px;" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>DATA</strong><br/>
+                                        <span t-field="o.scheduled_date" t-options="{'widget': 'datetime', 'format': 'dd/MM/yyyy HH:mm'}"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>ORIGEM</strong><br/>
+                                        <span t-field="o.origin"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>TIPO</strong><br/>
+                                        <span t-field="o.picking_type_id"/>
+                                    </td>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>ESTADO</strong><br/>
+                                        <span t-field="o.state"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br/>
+
+                    <!-- Tabela de dados com Watermark -->
+                    <table width="100%" style="border-collapse: collapse; font-family: Arial, sans-serif;">
+                        <!-- Watermark -->
+                        <div class="watermark_logo" style="position:absolute;opacity:0.05;font-size:8em;width:100%;text-align:center;z-index:100;">
+                            <t t-if="o.company_id.report_watermark">
+                                <img class="img-fluid" t-att-src="image_data_uri(o.company_id.report_watermark)" width="55%"/>
+                            </t>
+                        </div>
+
+                        <!-- Cabeçalho Principal (Nível Produto - stock.move) -->
+                        <tr style="background-color: #F8F8FF; color:#000000; font-size:8pt; text-align: center">
+                            <th style="font-size: 8pt; border: 1px solid #DED9D9; text-align: left; padding: 5px;"><b>PRODUTO</b></th>
+                            <th style="font-size: 8pt; border: 1px solid #DED9D9; padding: 5px;"><b>LOTE</b></th>
+                            <th style="font-size: 8pt; border: 1px solid #DED9D9; padding: 5px;"><b>STOCK PEDRA</b></th>
+                            <th style="font-size: 8pt; border: 1px solid #DED9D9; padding: 5px;"><b>ÁREA (m²)</b></th>
+                            <th style="font-size: 8pt; border: 1px solid #DED9D9; padding: 5px;"><b>VOLUME (m³)</b></th>
+                        </tr>
+
+                        <t t-set="grand_total_count" t-value="0"/>
+                        <t t-set="grand_total_area" t-value="0"/>
+                        <t t-set="grand_total_volume" t-value="0"/>
+
+                        <t t-foreach="o.move_ids" t-as="move">
+                            <!-- Calcular totais do move -->
+                            <t t-set="move_count" t-value="len(move.move_line_ids)"/>
+                            <!-- Área: quantity se não for none/block, senão soma das dimensões -->
+                            <t t-set="move_area" t-value="move.quantity if move.product_id.product_form not in ('none', 'block') else sum(ml.lot_id.length * ml.lot_id.width if ml.lot_id else 0 for ml in move.move_line_ids)"/>
+                            <!-- Volume: quantity se for block, senão soma das dimensões -->
+                            <t t-set="move_volume" t-value="move.quantity if move.product_id.product_form == 'block' else sum(ml.lot_id.length * ml.lot_id.width * ml.lot_id.thickness if ml.lot_id else 0 for ml in move.move_line_ids)"/>
+
+                            <t t-set="grand_total_count" t-value="grand_total_count + move_count"/>
+                            <t t-set="grand_total_area" t-value="grand_total_area + move_area"/>
+                            <t t-set="grand_total_volume" t-value="grand_total_volume + move_volume"/>
+
+                            <!-- Linha do Produto (stock.move) -->
+                            <tr class="product-row" style="font-size: 8pt; text-align: center;">
+                                <td style="border: 1px solid #DED9D9; text-align: left; padding: 4px;">
+                                    <t t-esc="move.product_id.display_name"/>
+                                </td>
+                                <td style="border: 1px solid #DED9D9; padding: 4px;">
+                                    <t t-esc="move.lot_name if move.lot_name else '-'"/>
+                                </td>
+                                <td style="border: 1px solid #DED9D9; padding: 4px;">
+                                    <t t-esc="move_count"/> Unidades
+                                </td>
+                                <td style="border: 1px solid #DED9D9; padding: 4px;">
+                                    <t t-esc="'%.4f' % move_area"/>
+                                </td>
+                                <td style="border: 1px solid #DED9D9; padding: 4px;">
+                                    <t t-esc="'%.4f' % move_volume"/>
+                                </td>
+                            </tr>
+
+                            <!-- Detalhes (S/N individuais) - stock.move.line -->
+                            <t t-if="move.move_line_ids">
+                                <!-- Cabeçalho de Detalhe - uma única linha -->
+                                <tr class="detail-header" style="text-align: center;">
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>S/N</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>COMP.</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>LARG.</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>ESP.</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>ÁREA (m²)</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>VOL. (m³)</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>QTD</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>PESO</b></td>
+                                    <td style="border: 1px solid #DED9D9; padding: 2px;"><b>LOCALIZAÇÃO</b></td>
+                                </tr>
+
+                                <t t-foreach="move.move_line_ids" t-as="line">
+                                    <t t-set="lot" t-value="line.lot_id"/>
+                                    <t t-set="line_area" t-value="lot.length * lot.width if lot else 0"/>
+                                    <t t-set="line_volume" t-value="lot.length * lot.width * lot.thickness if lot else 0"/>
+
+                                    <!-- Linha de dados - uma única linha -->
+                                    <tr class="detail-row" style="text-align: center;">
+                                        <td style="border: 1px solid #DED9D9; padding: 2px; text-align: left;">
+                                            <t t-esc="lot.name if lot else '-'"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.3f' % lot.length if lot else '0.000'"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.3f' % lot.width if lot else '0.000'"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.3f' % lot.thickness if lot else '0.000'"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.4f' % line_area"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.4f' % line_volume"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="line.units_qty"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="'%.2f' % lot.peso if lot else '0.00'"/>
+                                        </td>
+                                        <td style="border: 1px solid #DED9D9; padding: 2px;">
+                                            <t t-esc="line.location_dest_id.display_name"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </t>
+
+                        <!-- Linha de Totais Gerais -->
+                        <tr class="totals-row" style="font-size: 8pt; text-align: center;">
+                            <td style="border: 1px solid #DED9D9; text-align: left; padding: 5px;"><b>TOTAIS</b></td>
+                            <td style="border: 1px solid #DED9D9; padding: 5px;"/>
+                            <td style="border: 1px solid #DED9D9; padding: 5px;">
+                                <b><t t-esc="grand_total_count"/> Unidades</b>
+                            </td>
+                            <td style="border: 1px solid #DED9D9; padding: 5px;">
+                                <b><t t-esc="'%.4f' % grand_total_area"/></b>
+                            </td>
+                            <td style="border: 1px solid #DED9D9; padding: 5px;">
+                                <b><t t-esc="'%.4f' % grand_total_volume"/></b>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <br/><br/>
+
+                    <!-- Rodapé -->
+                    <div style="font-Family: arial; font-size:8pt; text-align: center;">
+                        <i>Documento processado por computador - <t t-esc="o.company_id.name"/></i>
+                    </div>
+
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

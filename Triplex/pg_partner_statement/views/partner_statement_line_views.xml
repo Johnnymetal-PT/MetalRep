@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pg_partner_statement_line_tree" model="ir.ui.view">
+        <field name="name">pg.partner.statement.line.tree</field>
+        <field name="model">pg.partner.statement.line</field>
+        <field name="arch" type="xml">
+            <tree string="Extrato Simplificado" create="false" delete="false" edit="false">
+                <field name="partner_id"/>
+                <field name="currency_id" optional="show"/>
+                <field name="final_invoiced_amount" sum="Total"/>
+                <field name="downpayment_amount" sum="Total"/>
+                <field name="refunded_amount" sum="Total"/>
+                <field name="net_invoiced_amount" sum="Total"/>
+                <field name="period_residual" sum="Total"/>
+                <field name="total_balance" sum="Total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pg_partner_statement_line_search" model="ir.ui.view">
+        <field name="name">pg.partner.statement.line.search</field>
+        <field name="model">pg.partner.statement.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <field name="currency_id"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter name="group_by_currency" string="Moeda"
+                            context="{'group_by': 'currency_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

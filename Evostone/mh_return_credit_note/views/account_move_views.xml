@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Motivo obrigatório para notas de crédito -->
+    <record id="view_move_form_credit_note_reason" model="ir.ui.view">
+        <field name="name">account.move.form.credit.note.reason</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="credit_note_reason"
+                       string="Motivo"
+                       required="move_type in ('out_refund', 'in_refund')"
+                       invisible="move_type not in ('out_refund', 'in_refund')"
+                       placeholder="Motivo da nota de crédito"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Informação de devolução na nota de crédito -->
+    <record id="view_move_form_credit_note_picking" model="ir.ui.view">
+        <field name="name">account.move.form.credit.note.picking</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Devolução" name="return_info" invisible="not return_picking_id">
+                    <group>
+                        <group string="Picking de Origem">
+                            <field name="return_picking_id" readonly="1"/>
+                            <field name="origin_picking_id" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

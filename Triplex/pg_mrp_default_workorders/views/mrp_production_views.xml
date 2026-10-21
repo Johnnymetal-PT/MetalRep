@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Botão no formulário da Ordem de Fabrico -->
+    <record id="mrp_production_form_view_pg_default_wo" model="ir.ui.view">
+        <field name="name">mrp.production.form.pg.default.workorders</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_pg_apply_default_workorders" type="object"
+                        string="Centros por defeito"
+                        invisible="state not in ('draft', 'confirmed')"
+                        help="Cria as Ordens de Trabalho por defeito se esta Ordem de Fabrico não tiver qualquer centro de trabalho definido."/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Ação em lote na lista de Ordens de Fabrico -->
+    <record id="action_pg_apply_default_workorders_server" model="ir.actions.server">
+        <field name="name">Aplicar centros de trabalho por defeito</field>
+        <field name="model_id" ref="mrp.model_mrp_production"/>
+        <field name="binding_model_id" ref="mrp.model_mrp_production"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_pg_apply_default_workorders()</field>
+    </record>
+
+</odoo>

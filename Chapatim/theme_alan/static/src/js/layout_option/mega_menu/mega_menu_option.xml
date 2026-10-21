@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- ==================== Mega Menu Options ==================== -->
+    <t t-name="theme_alan.MegaMenuOption"  t-inherit="website.MegaMenuOption" t-inherit-mode="extension">
+        <xpath expr="//BuilderRow/BuilderSelect" position="inside">
+            <BuilderSelectItem
+                    title.translate="Alan Mega Menu"
+                    action="'selectTemplate'"
+                    actionParam="{
+                        view: 'atharva_theme_base.as_megamenus',
+                        templateClass: 's_mega_menu_alan_menus',
+                    }">
+                    <Img class="'w-75 m-auto'" src="'/theme_alan/static/src/img/snippets/s_mega_menu_multi_menus.svg'"/>
+                </BuilderSelectItem>
+        </xpath>
+    </t>
+    <!-- ==================== Products List Page Options ==================== -->
+    <t t-name="theme_alan.AlanMegaMenuOptionPlugin">
+        <BuilderContext>
+            <BuilderRow label.translate="Open Mega Menu Builder" preview="false">
+                <BuilderButton action="'setOpenMegaMenuBuilder'" preview="false"><i class="fa fa-fw fa-pencil-square-o"/></BuilderButton>
+            </BuilderRow>
+        </BuilderContext>
+    </t>
+</templates>

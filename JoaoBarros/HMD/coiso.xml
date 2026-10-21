@@ -1,0 +1,235 @@
+<data>
+  <!--
+    Versão temporária para destrancar o sale.order em HMD.
+    Removidos os xpaths posicionais que dependiam de page[4]/page[6]/page[7]
+    (a contagem de páginas mudou e estavam a abortar a arch inteira, fazendo
+    a aba Logistics nunca chegar a ser criada). Para repor os campos
+    perdidos (Logistics: x_studio_obs, x_studio_transportador,
+    x_studio_valor_oramento, x_studio_nr_oramento, x_studio_embalagem_pedida_;
+    page[4]: source_billing, atcud) refazer com xpaths //page[@name='...'].
+  -->
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='calculator_observation']" position="replace"/>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='sequence']" position="replace">
+    <field optional="show" name="x_studio_imagem_do_produto" widget="image" readonly="False"/>
+    <xpath expr="//field[@name='product_template_id']" position="move"/>
+    <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='name']" position="move"/>
+    <field optional="show" name="x_studio_comprasproducoes"/>
+    <xpath expr="//field[@name='attachment_ids']" position="move"/>
+    <field name="x_studio_confirmacao_anexos" optional="show"/>
+    <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='product_uom_qty']" position="move"/>
+    <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='price_unit']" position="move"/>
+    <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='tax_id']" position="move"/>
+    <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='discount']" position="move"/>
+    <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='price_total']" position="move"/>
+  </xpath>
+  <xpath expr="//form[1]/header[1]/field[@name='state']" position="after">
+    <button string="See PDF" name="sale.action_report_saleorder" type="action"/>
+  </xpath>
+  <xpath expr="//button[@name='action_view_purchase_orders']" position="attributes">
+    <attribute name="invisible">True</attribute>
+  </xpath>
+  <xpath expr="//button[@name='action_view_mrp_production']" position="attributes">
+    <attribute name="invisible">True</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/div[@name='button_box']/button[@name='action_view_related_purchase_orders']/field[@name='purchase_order_count']" position="attributes">
+    <attribute name="string">RFQ's</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/div[@name='button_box']/button[@name='action_view_related_mos']/field[@name='mrp_production_count']" position="attributes">
+    <attribute name="string">Ordens de Produção</attribute>
+  </xpath>
+  <xpath expr="//field[@name='partner_shipping_id']" position="after">
+    <xpath expr="//field[@name='client_order_ref']" position="move"/>
+  </xpath>
+  <xpath expr="//field[@name='sale_order_template_id']" position="after">
+    <xpath expr="//field[@name='project_id']" position="move"/>
+  </xpath>
+  <xpath expr="//field[@name='payment_term_id']" position="after">
+    <xpath expr="//field[@name='l10n_pt_date_issued']" position="move"/>
+    <xpath expr="//field[@name='opportunity_id']" position="move"/>
+    <field widget="file" invisible="True" name="x_studio_imagem_paletes_filename"/>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/button[@name='action_open_price_calculator']" position="after">
+    <field optional="hide" name="x_studio_comprado"/>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='technical_price_unit']" position="after">
+    <field optional="show" name="x_studio_client_discount_auto_apply_1" column_invisible="True"/>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='price_subtotal'][2]" position="after">
+    <xpath expr="//field[@name='line_packing_volumes']" position="move"/>
+    <xpath expr="//field[@name='line_packing_cubicagem']" position="move"/>
+    <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='product_uom'][2]" position="move"/>
+    <xpath expr="//field[@name='line_packing_weight']" position="move"/>
+  </xpath>
+  <xpath expr="//field[@name='user_id']" position="before">
+    <xpath expr="//field[@name='origin']" position="move"/>
+    <field name="procurement_group_id"/>
+  </xpath>
+  <!-- Aba Logistics (mantida) -->
+  <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+    <page string="Logistics" name="studio_page_8fs_1j4a1d52n">
+      <group name="studio_group_8fs">
+        <group name="studio_group_8fs_left">
+          <field widget="image" filename="x_studio_imagem_paletes_filename" name="x_studio_imagem_paletes"/>
+        </group>
+        <group name="studio_group_8fs_right"/>
+      </group>
+    </page>
+  </xpath>
+  <xpath expr="//field[@name='attachment_ids']" position="attributes">
+    <attribute name="readonly">x_studio_confirmacao_anexos == True</attribute>
+    <attribute name="widget">many2many_tags</attribute>
+  </xpath>
+  <xpath expr="//field[@name='line_packing_volumes']" position="attributes">
+    <attribute name="optional">hide</attribute>
+  </xpath>
+  <xpath expr="//field[@name='line_packing_weight']" position="attributes">
+    <attribute name="optional">hide</attribute>
+  </xpath>
+  <xpath expr="//field[@name='line_packing_cubicagem']" position="attributes">
+    <attribute name="optional">hide</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='product_uom'][2]" position="attributes">
+    <attribute name="optional">hide</attribute>
+  </xpath>
+  <xpath expr="//field[@name='project_id']" position="attributes">
+    <attribute name="required">False</attribute>
+  </xpath>
+  <xpath expr="//field[@name='opportunity_id']" position="attributes">
+    <attribute name="string">CRM</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/form[1]/div[1]/field[1]" position="inside">
+    <list name="move_line_tree" string="Journal Items" create="false" edit="true" expand="context.get('expand', False)" multi_edit="1" sample="1" js_class="account_move_line_list">
+      <field name="move_id" column_invisible="True"/>
+      <field name="invoice_date" string="Invoice Date" optional="hide"/>
+      <field name="date" readonly="1"/>
+      <field name="company_id" column_invisible="True"/>
+      <field name="company_id" groups="base.group_multi_company" readonly="1" optional="hide"/>
+      <field name="journal_id" readonly="1" options="{&quot;no_open&quot;:True}" optional="hide"/>
+      <field name="move_name" string="Journal Entry" widget="open_move_widget"/>
+      <field name="account_id" options="{'no_open': True, 'no_create': True}" domain="[('deprecated', '=', False), ('company_ids', 'parent_of', company_id)]" groups="account.group_account_readonly"/>
+      <field name="partner_id" optional="show" readonly="move_type != 'entry'"/>
+      <field name="ref" optional="hide" readonly="False"/>
+      <field name="product_id" readonly="1" optional="hide"/>
+      <field name="name" optional="show"/>
+      <field name="deferred_start_date" optional="hide" readonly="has_deferred_moves"/>
+      <field name="deferred_end_date" optional="hide" readonly="has_deferred_moves"/>
+      <field name="analytic_distribution" widget="analytic_distribution" groups="analytic.group_analytic_accounting" optional="hide" options="{'product_field': 'product_id', 'account_field': 'account_id', 'force_applicability': 'optional'}"/>
+      <field name="intrastat_transaction_id" optional="hide"/>
+      <field name="intrastat_product_origin_country_id" optional="hide" width="92px"/>
+      <field name="tax_ids" widget="many2many_tags" optional="hide" readonly="1"/>
+      <field name="amount_currency" string="In Currency" groups="base.group_multi_currency" optional="hide" readonly="1" invisible="is_same_currency"/>
+      <field name="currency_id" groups="base.group_multi_currency" optional="hide" string="Currency" readonly="1" invisible="is_same_currency"/>
+      <field name="debit" sum="Total Debit" readonly="1"/>
+      <field name="credit" sum="Total Credit" readonly="1"/>
+      <field name="tax_tag_ids" string="Tax Grids" options="{'no_create': True, 'no_create_edit': True}" domain="[('applicability', '=', 'taxes')]" widget="many2many_tags" optional="hide"/>
+      <field name="discount_date" string="Discount Date" optional="hide"/>
+      <field name="discount_amount_currency" string="Discount Amount" optional="hide"/>
+      <field name="tax_line_id" string="Originator Tax" optional="hide" readonly="1"/>
+      <field name="date_maturity" readonly="1" optional="hide"/>
+      <field name="balance" sum="Total Balance" optional="hide" readonly="1"/>
+      <field name="matching_number" string="Matching" readonly="1" optional="show" widget="matching_link_widget"/>
+      <field name="amount_residual" sum="Total Residual" string="Residual" optional="hide" readonly="1" invisible="not is_account_reconcile"/>
+      <field name="amount_residual_currency" sum="Total Residual in Currency" string="Residual in Currency" optional="hide" readonly="1" invisible="is_same_currency or not is_account_reconcile" groups="base.group_multi_currency"/>
+      <field name="move_type" column_invisible="True"/>
+      <field name="parent_state" column_invisible="True"/>
+      <field name="account_type" column_invisible="True"/>
+      <field name="statement_line_id" column_invisible="True"/>
+      <field name="company_currency_id" column_invisible="True"/>
+      <field name="is_same_currency" column_invisible="True"/>
+      <field name="is_account_reconcile" column_invisible="True"/>
+      <field name="sequence" column_invisible="True"/>
+      <groupby name="partner_id">
+        <button name="edit" type="edit" icon="fa-edit" title="Edit"/>
+      </groupby>
+      <header>
+        <button name="action_reconcile" type="object" string="Reconcile" groups="account.group_account_user" data-hotkey="r"/>
+        <button name="turn_as_asset" type="object" string="Create Asset" groups="account.group_account_user" data-hotkey="c"/>
+      </header>
+      <field name="is_account_reconcile" column_invisible="True"/>
+      <field name="has_deferred_moves" column_invisible="True"/>
+    </list>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[1]" position="before">
+    <field name="sequence" optional="show"/>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[1]" position="attributes">
+    <attribute name="widget">handle</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[10]" position="after">
+    <field name="sh_multi_discount" optional="show"/>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[11]" position="after">
+    <field name="sh_discount_amount" optional="show"/>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[12]" position="after">
+    <field name="sh_discounted_total_amount" optional="show"/>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[11]" position="attributes">
+    <attribute name="string">Desconto %</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[13]" position="attributes">
+    <attribute name="string">Desconto Total</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[12]" position="replace"/>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[13]" position="replace"/>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[11]" position="attributes">
+    <attribute name="string">Desc. %</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[12]" position="attributes">
+    <attribute name="string">Desc. Total</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[10]" position="after">
+    <field name="discount" optional="show"/>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[11]" position="replace"/>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[3]" position="after">
+    <field name="is_downpayment" optional="show"/>
+  </xpath>
+  <!-- Aba Status (mantida) -->
+  <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+    <page string="Status" name="studio_page_47s_1j9up1t5v">
+      <group col="1" style="width:100%; padding:0; margin:0;">
+        <field name="x_studio_status" nolabel="1" style="width:100%;"/>
+      </group>
+    </page>
+  </xpath>
+  <!-- Botões de header -->
+  <xpath expr="//header[1]" position="inside">
+    <button string="Atualizar Status" name="1417" type="action"/>
+    <button string="Atualizar Links RFQs" name="1416" type="action"/>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[12]" position="attributes">
+    <attribute name="string">Multi Desc. %</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[12]" position="after">
+    <field name="discount" optional="show"/>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[13]" position="attributes">
+    <attribute name="column_invisible">True</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[14]" position="attributes">
+    <attribute name="column_invisible">True</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[13]" position="attributes">
+    <attribute name="invisible">False</attribute>
+    <attribute name="column_invisible">False</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[13]" position="attributes">
+    <attribute name="column_invisible">True</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[2]" position="attributes">
+    <attribute name="options">{"reload":false}</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[2]" position="attributes">
+    <attribute name="options">{"reload":true}</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[2]" position="attributes">
+    <attribute name="options">{"reload":false}</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[2]" position="attributes">
+    <attribute name="options">{"reload":true}</attribute>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[2]" position="after">
+    <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]/list[1]/field[23]" position="move"/>
+  </xpath>
+</data>

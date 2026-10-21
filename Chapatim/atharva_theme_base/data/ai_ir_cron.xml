@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ai_ir_cron_store_data_model_prm" model="ir.cron">
+            <field name="name">(AI) Build Dataset For Product Recommandation</field>
+            <field name="model_id" ref="model_product_template"/>
+            <field name="state">code</field>
+            <field name="code">model.create_product_json_file_data()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="False"></field>
+        </record>
+
+        <record id="ai_ir_cron_rm_train_model_prm" model="ir.cron">
+            <field name="name">(AI) Train Recommandation System</field>
+            <field name="model_id" ref="model_product_template"/>
+            <field name="state">code</field>
+            <field name="code">model.pretrain_model_recommandation()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">False</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--
+            Recibo / Nota de Pagamento (account.payment)
+
+            Template em: payment_receipt_reports.xml
+            Imprime: Original + Duplicado
+        -->
+
+        <record id="action_report_payment_receipt_stone" model="ir.actions.report">
+            <field name="name">Recibo/Nota de Pagamento</field>
+            <field name="model">account.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mh_stone_reports.report_payment_receipt</field>
+            <field name="report_file">mh_stone_reports.report_payment_receipt</field>
+            <field name="binding_model_id" ref="account.model_account_payment"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="mh_stone_reports.paperformat_stone_cotacao"/>
+            <field name="print_report_name">(object.payment_type == 'inbound' and "Recibo _ " or "Nota de Pagamento _ ") + (object.receipt_number or object.name) + " [" + str(object.partner_id.name) + "]"</field>
+            <field name="attachment_use" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

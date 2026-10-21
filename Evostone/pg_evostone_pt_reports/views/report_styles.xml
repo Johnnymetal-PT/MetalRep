@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Estilo das tabelas de linhas com as colunas de pedra.
+
+        Vive aqui, dentro do relatorio, e nao num .scss do
+        `web.report_assets_common`: ver a nota "Porque nao ha bundle" no
+        manifesto. Resumo: o ficheiro compilava bem mas a sua presenca no bundle
+        deixava TODOS os relatorios da base sem CSS.
+
+        Sao doze colunas na factura e dez na guia. Com o corpo normal do
+        relatorio nao cabem em A4 retrato: ou a descricao fica reduzida a uma
+        coluna estreita que parte todas as palavras, ou as colunas numericas
+        transbordam. Reduzir o corpo so destas tabelas resolve.
+    -->
+    <template id="stone_lines_style">
+        <style>
+            .pg_stone_lines { font-size: 7.5pt; }
+
+            .pg_stone_lines th,
+            .pg_stone_lines td { padding: 2px 3px !important; vertical-align: top; }
+
+            /* numeros e unidades nunca partem a meio */
+            .pg_stone_lines td[name^="td_pg_"],
+            .pg_stone_lines th[name^="th_pg_"],
+            .pg_stone_lines td[name="td_quantity"],
+            .pg_stone_lines td[name="td_price_unit"],
+            .pg_stone_lines td[name="td_discount"],
+            .pg_stone_lines td[name="td_subtotal"],
+            .pg_stone_lines td[name="move_line_lot_quantity"],
+            .pg_stone_lines td[name="move_line_aggregated_qty_ordered"],
+            .pg_stone_lines td[name="move_line_aggregated_quantity"] { white-space: nowrap; }
+
+            /* o numero de serie e' longo (#31747/116101180413/260831) e tem de
+               poder partir, senao empurra a tabela para fora da pagina */
+            .pg_stone_lines td[name="td_pg_lot"],
+            .pg_stone_lines td[name="td_pg_sm_lot"] { white-space: normal; word-break: break-word; }
+
+            /* a descricao do artigo continua a fluir normalmente */
+            .pg_stone_lines td[name="account_invoice_line_name"] { white-space: normal; }
+        </style>
+    </template>
+
+</odoo>

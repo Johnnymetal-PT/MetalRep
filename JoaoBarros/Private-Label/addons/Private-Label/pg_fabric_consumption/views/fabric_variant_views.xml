@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de formulário para fabric.variant -->
+    <record id="view_fabric_variant_form" model="ir.ui.view">
+        <field name="name">fabric.variant.form</field>
+        <field name="model">fabric.variant</field>
+        <field name="arch" type="xml">
+            <form string="Variante de Tecido">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="variant_reference" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="product_tmpl_id" options="{'no_create': True}"/>
+                            
+                            <!-- Campo para selecionar o Atributo da Variante -->
+                            <field name="variant_attribute_id" 
+                                   options="{'no_create': True, 'no_open': True}"
+                                   placeholder="Selecione o Atributo (ex: FABRIC USED IN 1)"/>
+                            
+                            <!-- Campos agora readonly, pois são computados/relacionados -->
+                            <field name="variant_id" readonly="1"/>
+                            <field name="variant_name" readonly="1"/>
+                            
+                            <!-- subvariant_value_id é o campo de seleção principal -->
+                            <!-- O domínio filtra os valores do atributo com base no 'variant_attribute_id' selecionado -->
+                            <field name="subvariant_value_id" 
+                                   domain="[('attribute_id', '=', variant_attribute_id)]" 
+                                   options="{'no_create': True, 'no_open': True}"
+                                   placeholder="Selecione o Valor da Subvariante"/>
+                            
+                            <!-- subvariant_name agora é computado e readonly -->
+                            <field name="subvariant_name" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Tabela de Consumo">
+                            <group>
+                                <table class="table table-bordered" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>1</th>
+                                            <th>2</th>
+                                            <th>3</th>
+                                            <th>4</th>
+                                            <th>5</th>
+                                            <th>6</th>
+                                            <th>7</th>
+                                            <th>8</th>
+                                            <th>9</th>
+                                            <th>10</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><field name="consumption_1" nolabel="1"/></td>
+                                            <td><field name="consumption_2" nolabel="1"/></td>
+                                            <td><field name="consumption_3" nolabel="1"/></td>
+                                            <td><field name="consumption_4" nolabel="1"/></td>
+                                            <td><field name="consumption_5" nolabel="1"/></td>
+                                            <td><field name="consumption_6" nolabel="1"/></td>
+                                            <td><field name="consumption_7" nolabel="1"/></td>
+                                            <td><field name="consumption_8" nolabel="1"/></td>
+                                            <td><field name="consumption_9" nolabel="1"/></td>
+                                            <td><field name="consumption_10" nolabel="1"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                <p>
+                                    <strong>Instruções:</strong> Defina o consumo de tecido em metros para cada quantidade (1 a 10).
+                                </p>
+                                <p>
+                                    <strong>Exemplo:</strong> Se para fabricar 3 produtos desta variante são necessários 6.5 metros de tecido, digite 6.5 na coluna "3".
+                                </p>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de árvore para fabric.variant -->
+    <record id="view_fabric_variant_tree" model="ir.ui.view">
+        <field name="name">fabric.variant.tree</field>
+        <field name="model">fabric.variant</field>
+        <field name="arch" type="xml">
+            <tree string="Variantes de Tecido">
+                <field name="product_tmpl_id"/>
+                <field name="variant_attribute_id"/>
+                <field name="variant_id"/>
+                <field name="variant_name"/>
+                <field name="subvariant_value_id"/>
+                <field name="subvariant_name"/>
+                <field name="variant_reference"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de pesquisa para fabric.variant -->
+    <record id="view_fabric_variant_search" model="ir.ui.view">
+        <field name="name">fabric.variant.search</field>
+        <field name="model">fabric.variant</field>
+        <field name="arch" type="xml">
+            <search string="Variantes de Tecido">
+                <field name="product_tmpl_id"/>
+                <field name="variant_attribute_id"/>
+                <field name="variant_reference"/>
+                <field name="variant_id"/>
+                <field name="variant_name"/>
+                <field name="subvariant_value_id"/>
+                <field name="subvariant_name"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Produto" name="group_by_product" context="{'group_by': 'product_tmpl_id'}"/>
+                    <filter string="Atributo da Variante" name="group_by_variant_attribute" context="{'group_by': 'variant_attribute_id'}"/>
+                    <filter string="Variante ID" name="group_by_variant_id" context="{'group_by': 'variant_id'}"/>
+                    <filter string="Subvariante" name="group_by_subvariant" context="{'group_by': 'subvariant_name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Ação e Menu (sem alterações) -->
+    <record id="action_fabric_variant" model="ir.actions.act_window">
+        <field name="name">Variantes de Tecido</field>
+        <field name="res_model">fabric.variant</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_fabric_variant_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crie sua primeira variante de tecido
+            </p>
+            <p>
+                Defina o consumo de tecido para cada variante, subvariante e quantidade.
+                As variantes são automaticamente detectadas dos atributos do produto principal.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_fabric_variant"
+              name="Variantes de Tecido"
+              action="action_fabric_variant"
+              parent="mrp.menu_mrp_configuration"
+              sequence="50"/>
+</odoo>

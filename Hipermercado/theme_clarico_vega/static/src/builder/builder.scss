@@ -1,0 +1,41 @@
+.o-snippets-tabs {
+    .o-snippets-tabs-highlighter {
+        --x: -100%;
+        width: percentage(1/4);
+
+        &.o-highlight-blocks {
+            --x: -200%;
+        }
+
+        &.o-highlight-theme {
+            --x: 100%;
+        }
+        &.o-highlight-themeext {
+            --x: 0%;
+            --border-color: #{$o-we-color-primary};
+            --bg-color: #{rgba($o-we-color-primary, .15)};
+        }
+
+        .o_rtl & {
+            --x: 50%;
+
+            &.o-highlight-blocks {
+                --x: 150%;
+            }
+
+            &.o-highlight-theme {
+                --x: -50%;
+            }
+        }
+    }
+
+    .nav-underline {
+        .nav-item {
+            width:  percentage(1/4);
+        }
+        .nav-link[data-name="themeext"] {
+            --o-snippets-tabs-accent-color: #{$o-we-color-primary};
+            --o-snippets-tabs-border-color-hover: #{rgba($o-we-color-primary, .5)};
+        }
+    }
+}

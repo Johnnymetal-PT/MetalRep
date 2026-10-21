@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_attribute_form_view_icon" model="ir.ui.view">
+        <field name="name">product.attribute.icon.form.inherit</field>
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="product.product_attribute_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='main_fields']" position="after">
+                <group>
+                    <group>
+                        <field name="attribute_popup_id"/>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//group[@name='main_fields']" position="after">
+                <group invisible="display_type != 'range'">
+                    <p class="alert alert-warning mt-2 oe_edit_only" role="status">
+                        <strong>⚠️ Warning</strong>: Range type attribute supports only numeric values. It does not
+                        support any other value type. Also, Range type attributes do not create product variants and are
+                        used only for filtering purposes on the eCommerce website.
+                    </p>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

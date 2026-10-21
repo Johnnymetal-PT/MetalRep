@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Partner Form View -->
+    <record id="view_partner_form_credit_control" model="ir.ui.view">
+        <field name="name">res.partner.form.credit.control</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority">25</field>
+        <field name="arch" type="xml">
+            <!-- Adicionar campos na tab Sales & Purchases -->
+            <xpath expr="//page[@name='sales_purchases']//group[@name='sale']" position="after">
+                <group string="Controle de Crédito" name="credit_control">
+                    <field name="credit_block_enabled" widget="boolean_toggle"/>
+                    <field name="credit_limit" widget="monetary"/>
+                    <field name="credit" string="Total a Receber" widget="monetary" readonly="1"/>
+                </group>
+            </xpath>
+
+            <!-- Adicionar nova page para Info de Facturas -->
+            <xpath expr="//page[@name='sales_purchases']" position="after">
+                <page string="Estado de Crédito" name="credit_status"
+                      invisible="not is_company and parent_id">
+                    <group>
+                        <group string="Limites">
+                            <field name="credit_block_enabled" widget="boolean_toggle"/>
+                            <field name="credit_limit" widget="monetary"/>
+                            <field name="credit" string="Total a Receber" widget="monetary" readonly="1"/>
+                        </group>
+                        <group string="Estado das Facturas">
+                            <div class="o_row">
+                                <field name="has_overdue_invoices" widget="boolean" readonly="1"/>
+                                <button name="action_view_overdue_invoices"
+                                        type="object"
+                                        class="btn-link"
+                                        icon="fa-external-link"
+                                        invisible="not has_overdue_invoices"/>
+                            </div>
+                            <field name="overdue_invoice_amount" widget="monetary" readonly="1"
+                                   invisible="not has_overdue_invoices"/>
+                            <field name="overdue_invoice_count" readonly="1"
+                                   invisible="not has_overdue_invoices"/>
+
+                            <div class="o_row">
+                                <field name="has_pending_invoices" widget="boolean" readonly="1"/>
+                                <button name="action_view_pending_invoices"
+                                        type="object"
+                                        class="btn-link"
+                                        icon="fa-external-link"
+                                        invisible="not has_pending_invoices"/>
+                            </div>
+                            <field name="pending_invoice_amount" widget="monetary" readonly="1"
+                                   invisible="not has_pending_invoices"/>
+                            <field name="pending_invoice_count" readonly="1"
+                                   invisible="not has_pending_invoices"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend Partner List View -->
+    <record id="view_partner_list_credit_control" model="ir.ui.view">
+        <field name="name">res.partner.list.credit.control</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="credit_limit" optional="hide"/>
+                <field name="credit" string="A Receber" optional="hide"/>
+                <field name="has_overdue_invoices" string="Vencidas" widget="boolean" optional="hide"/>
+                <field name="has_pending_invoices" string="Pendentes" widget="boolean" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,42 @@
+<t t-name="theme_alan.m_sub_category">
+    <Dialog title="title" footer="footer" header="header">
+        <div class="as-mega-menu-sub-category">
+            <!-- Search wrapper (IMPORTANT) -->
+            <div class="alan-search-wrapper mb-4" style="position: relative;">
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search sub-category..."
+                    t-ref="search_record"
+                />
+            </div>
+            <!-- Selected categories -->
+            <t t-if="selected.length">
+                <div class="mb-3">
+                    <label class="fw-bold mb-2 d-block">
+                        Selected Categories
+                    </label>
+
+                    <div class="d-flex flex-wrap gap-2 as-selected-child-badge">
+                        <t t-foreach="selected" t-as="cat" t-key="cat.id">
+                            <span class="badge">
+                                <t t-esc="cat.name"/>
+                                <i class="fa fa-times cursor-pointer"
+                                t-on-click="() => removeSelected(cat.id)"/>
+                            </span>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </div>
+        <!-- Footer buttons -->
+        <t t-set-slot="footer">
+            <button class="btn btn-secondary" t-on-click="props.close">
+                Cancel
+            </button>
+            <button class="btn btn-primary" t-on-click="_selectionDone">
+                Done
+            </button>
+        </t>
+    </Dialog>
+</t>

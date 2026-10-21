@@ -1,0 +1,139 @@
+# Extracted: Template_Parametro_PowerPoint_Completo 1.pptx
+
+[Título da Apresentação]
+[Subtítulo / descrição principal]
+[Descrição curta da apresentação ou projeto]
+Cliente / Projeto: [Nome]
+Data: [DD/MM/AAAA]
+Versão: [X.X]
+Preparado por Parâmetro Global
+
+---
+
+[Documento] | [Ano]
+02
+[Título]
+[Descrição curta da página]
+[Conteúdo livre]
+
+---
+
+[Documento] | [Ano]
+03
+[Título]
+[Descrição curta da página]
+[Coluna esquerda]
+[Coluna direita]
+
+---
+
+[Documento] | [Ano]
+04
+[Título do ecrã / evidência]
+[Descrição curta da página]
+[Screenshot principal]
+Notas / Destaques
+• [Ponto relevante]
+• [Validação observada]
+• [Resultado esperado]
+[Legenda da imagem]
+
+---
+
+[Documento] | [Ano]
+05
+[Título da tabela]
+[Descrição curta da página]
+[Coluna 1]
+[Coluna 2]
+[Coluna 3]
+[Valor]
+[Descrição]
+[Resultado]
+[Valor]
+[Descrição]
+[Resultado]
+[Valor]
+[Descrição]
+[Resultado]
+[Valor]
+[Descrição]
+[Resultado]
+[Valor]
+[Descrição]
+[Resultado]
+
+---
+
+[Documento] | [Ano]
+06
+[Título do processo]
+[Descrição curta da página]
+1
+[Fase 1]
+[Descrição]
+2
+[Fase 2]
+[Descrição]
+3
+[Fase 3]
+[Descrição]
+4
+[Fase 4]
+[Descrição]
+5
+[Fase 5]
+[Descrição]
+[Contexto ou resultado do processo]
+
+---
+
+[Documento] | [Ano]
+07
+[Título do plano / Gantt]
+[Descrição curta da página]
+[Atividade]
+[M1]
+[M2]
+[M3]
+[M4]
+[M5]
+[M6]
+[Planeamento]
+[Desenvolvimento]
+[Testes]
+[Validação]
+[Entrega]
+
+---
+
+[Documento] | [Ano]
+08
+[Título do gráfico]
+[Descrição curta da página]
+[Gráfico / visualização de dados]
+[S1]
+[S2]
+[S3]
+[S4]
+[Insight principal]
+• [Conclusão 1]
+• [Conclusão 2]
+• [Próxima ação]
+
+---
+
+[Documento] | [Ano]
+09
+[Título final / próximos passos]
+[Descrição curta da página]
+1
+[Próximo passo 1]
+[Descrição curta / responsável / data]
+2
+[Próximo passo 2]
+[Descrição curta / responsável / data]
+3
+[Próximo passo 3]
+[Descrição curta / responsável / data]
+[Mensagem final / contacto]

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- ==================== Header Options ==================== -->
+    <t t-name="theme_alan.HeaderNavigationOption" t-inherit="website.HeaderNavigationOption" t-inherit-mode="extension">
+        <xpath expr="//t[@t-set='align_center_views']" position="replace">
+            <t t-set="align_center_views" t-value="[
+                'website.template_header_hamburger_mobile_align_center',
+                'website.template_header_default_align_center',
+                'website.template_header_boxed_align_center',
+                'website.template_header_stretch_align_center',
+                'website.template_header_search_align_center',
+                'website.template_header_sales_one_align_center',
+                'website.template_header_sales_two_align_center',
+                'website.template_header_sales_three_align_center',
+                'website.template_header_sales_four_align_center',
+                'website.template_header_sidebar_align_center',
+                'website.template_header_vertical_align_center',
+                'theme_alan.as_header_1_align_center',
+                'theme_alan.as_header_2_align_center',
+                'theme_alan.as_header_3_align_center',
+                'theme_alan.as_header_4_align_center',
+                'theme_alan.as_header_5_align_center',
+                'theme_alan.as_header_6_align_center',
+                'theme_alan.as_header_7_align_center',
+                'theme_alan.as_header_8_align_center',
+                'theme_alan.as_header_9_align_center',
+                'theme_alan.as_header_10_align_center',
+                'theme_alan.as_header_11_align_center',
+            ]"/>
+        </xpath>
+        <xpath expr="//t[@t-set='align_right_views']" position="replace">
+            <t t-set="align_right_views" t-value="[
+                'website.template_header_hamburger_mobile_align_right',
+                'website.template_header_default_align_right',
+                'website.template_header_boxed_align_right',
+                'website.template_header_stretch_align_right',
+                'website.template_header_search_align_right',
+                'website.template_header_sales_one_align_right',
+                'website.template_header_sales_two_align_right',
+                'website.template_header_sales_three_align_right',
+                'website.template_header_sales_four_align_right',
+                'website.template_header_sidebar_align_right',
+                'website.template_header_vertical_align_right',
+                'theme_alan.as_header_1_align_right',
+                'theme_alan.as_header_2_align_right',
+                'theme_alan.as_header_3_align_right',
+                'theme_alan.as_header_4_align_right',
+                'theme_alan.as_header_5_align_right',
+                'theme_alan.as_header_6_align_right',
+                'theme_alan.as_header_7_align_right',
+                'theme_alan.as_header_8_align_right',
+                'theme_alan.as_header_9_align_right',
+                'theme_alan.as_header_10_align_right',
+                'theme_alan.as_header_11_align_right',
+            ]"/>
+        </xpath>
+
+        <xpath expr="//BuilderRow[@label.translate='Mobile Menu']" position="replace">
+            <BuilderRow label.translate="Mobile Menu">
+                <BuilderButtonGroup action="'websiteConfig'">
+                    <BuilderButton icon="'fa-long-arrow-left'"
+                        actionParam="{
+                            views: ['website.template_header_mobile_position_left'],
+                            vars: { 'hamburger-position-mobile': 'left' }
+                        }"/>
+                    <BuilderButton
+                        icon="'fa-long-arrow-right'"
+                        actionParam="{
+                            views: ['theme_alan.as_template_header_mobile_position_right'],
+                            vars: { 'hamburger-position-mobile': 'right' }
+                        }"/>
+                </BuilderButtonGroup>
+
+                <BuilderSelect action="'websiteConfig'">
+                    <BuilderSelectItem
+                        actionParam="{
+                            views: [],
+                        }"
+                    >
+                        <span><i class="fa fa-align-left fa-fw"></i></span>
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                        actionParam="{
+                            views: ['theme_alan.as_template_header_mobile_align_center'],
+                        }"
+                    >
+                        <span><i class="fa fa-align-center fa-fw"></i></span>
+                    </BuilderSelectItem>
+                    <BuilderSelectItem
+                        actionParam="{
+                            views: ['theme_alan.as_template_header_mobile_align_right'],
+                        }"
+                    >
+                        <span><i class="fa fa-align-right fa-fw"></i></span>
+                    </BuilderSelectItem>
+                </BuilderSelect>
+            </BuilderRow>
+        </xpath>
+    </t>
+</templates>

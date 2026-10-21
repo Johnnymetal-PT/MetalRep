@@ -1,0 +1,123 @@
+SRC = essani-test-32696464  (backup 2026-05-10 18:07)
+DST = parametroglobaladmin-essani-main-24829872  (current main)
+
+==============================================================================
+  1) COUNTS SUMMARY
+==============================================================================
+
+metric                                                         SRC        DST       diff
+----------------------------------------------------------------------------------------
+templates active sale_ok                                       575        575          0
+templates active sale_ok with default_code                     254        333         79
+templates active sale_ok published                             378        378          0
+variants active                                               4794       5068        274
+variants active with default_code                              951       1449        498
+variants active hide_on_website=True                           349        349          0
+product.image (template level)                                 805       1548        743
+product.image (variant level)                                  775       1553        778
+product.document on product.template                           703       1140        437
+product.document on product.product                           5214       6641       1427
+product.public.category total                                   65        117         52
+
+==============================================================================
+  2) TEMPLATE PAIRING BY NAME (sale_ok=True)
+==============================================================================
+  SRC unique names: 548  total records: 575
+  DST unique names: 548  total records: 575
+  names only in SRC (MISSING in DST): 0
+  names only in DST (EXTRA, not in backup): 0
+  names in both (matched pairs):      548
+
+==============================================================================
+  3) FIELD DELTAS IN MATCHED PAIRS
+==============================================================================
+  pairs with different default_code:        89
+  pairs with different is_published:        4
+  pairs with different variant count:       38
+  pairs with different template-img count:  8
+  pairs with different document count:      9
+
+  >> Sample default_code (template) SRC vs DST:
+     ('Sistema Elevatorio ESSANILUX ESEL6', '', 'ES3.60-V3-F2')
+     ('Topos Perfil 078', '', 'EA058.AC1.V1.F5')
+     ('Interruptor Porta KE Series S44', '', 'EF32.AC3.V1.F1')
+     ('Transformador ProLine DALI + PUSH Series', '', 'ET13.ERSH.16.24')
+     ('LED Mondego 24V DC', '', 'RA5B2DL92715-F1')
+     ('Transformador BC SERIES, 100-240VAC', '', 'EA074.AC1.V1.F1')
+     ('LED Eiffel', '', 'EF15.CNW')
+     ('Sensor Toque Wireless S30 V1', '', 'ES10.2.V1')
+
+  >> Sample is_published SRC vs DST:
+     ('Interruptor S11', False, True)
+     ('LED Mira', False, True)
+     ('Fita LED eFlex CX120 P1 12W/m 12VDC', True, False)
+     ('LED La Belle', False, True)
+
+  >> Sample variant count SRC vs DST:
+     ('Tomada SOFT', 6, 12)
+     ('LED LUMINAFLAT', 4, 8)
+     ('LED Évora LV', 1, 5)
+     ('Tomada Blade', 6, 18)
+     ('Tomada STANDARD SLIM PRO', 6, 27)
+     ('DIMMER DMX S28 Series, INOUT 12-36VDC, Max 5ACH', 1, 2)
+     ('Tomada DESKA', 9, 42)
+     ('Conector Distribuidor ProLineM3HV3P', 2, 6)
+
+  >> Sample template-img count SRC vs DST:
+     ('Interruptor S11', 4, 5)
+     ('LED Mira', 3, 5)
+     ('LED ProLine BX60 P1 4.8W/m 12VDC', 4, 8)
+     ('Fita LED eFlex CX120 P1 12W/m 12VDC', 2, 1)
+     ('Sensor Toque S3', 4, 5)
+     ('LED ProLine BX120 P1 9.6W/m 12VDC', 5, 4)
+     ('LED ProLine DX120 X2 P1  MW2 9.6W/m 12VDC', 1, 4)
+     ('LED ProLine AX60 P1 14.4W/m 12VDC', 6, 3)
+
+  >> Sample document count SRC vs DST:
+     ('LED Évora LV', 5, 4)
+     ('LED T Spot UNO S', 1, 0)
+     ('Interruptor S11', 0, 4)
+     ('LED Mira', 2, 4)
+     ('Sensor Toque S3 DUO', 4, 3)
+     ('Sensor Toque S3', 4, 3)
+     ('Cabo extensor ProLine RGB', 2, 1)
+     ('LED La Belle', 0, 4)
+
+==============================================================================
+  4) VARIANT-LEVEL DELTAS (in matched template pairs)
+==============================================================================
+  processing 548 template pairs...
+  variant pairs matched (same ptav sig): 4310
+  variants only in SRC (no DST counterpart): 112
+  variants only in DST (no SRC counterpart): 505
+  variant pairs with different default_code: 505
+  variant pairs with different hide_on_website: 0
+
+  >> Sample variant default_code deltas (SRC vs DST):
+     ('Transformador COMPACT SERIES V2', '', 'ET9.V2.12150')
+     ('Transformador COMPACT SERIES V2', '', 'ET9.V2.12100')
+     ('Transformador COMPACT SERIES V2', '', 'ET9.V2.24100')
+     ('Transformador COMPACT SERIES V2', '', 'ET9.V2.24150')
+     ('PERFIL 067 Pro', '', 'EA067-V1-F1-025')
+     ('PERFIL 067 Pro', '', 'EA067-V1-F5-025')
+     ('PERFIL 075 Eflex', '', 'EA075.V2.F5.025')
+     ('PERFIL 075 Eflex', '', 'EA075-F5-025')
+
+==============================================================================
+  5) PUBLIC CATEGORIES
+==============================================================================
+  SRC categories: 65
+  DST categories: 117
+  DST duplicate name groups (case-sensitive): 10
+  >> sample of duplicates in DST:
+     'ACESSÓRIOS' (4x): ids=[1811, 1810, 1786, 1805]
+     '12 V DC' (2x): ids=[1790, 1787]
+     '24V DC' (2x): ids=[1789, 1788]
+     'Acessórios' (4x): ids=[1770, 1768, 1779, 1824]
+     'PROLINE' (2x): ids=[1785, 1794]
+     'Perfis LED especiais' (2x): ids=[1804, 1806]
+     'Conectividade' (2x): ids=[1766, 1829]
+     'Comandos' (2x): ids=[1767, 1828]
+     'Sensores' (2x): ids=[1711, 1826]
+     'Sistemas Elevatórios' (2x): ids=[1803, 1825]
+  SRC duplicate name groups: 11

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Main wrapper - imprime Original + Duplicado -->
+        <record id="view_report_payment_receipt" model="ir.ui.view">
+            <field name="name">Payment Receipt Report - Main Wrapper</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_payment_receipt</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_payment_receipt">
+                    <t t-foreach="docs" t-as="doc">
+                        <!-- Original -->
+                        <t t-call="web.basic_layout">
+                            <t t-set="copy_type" t-value="'ORIGINAL'"/>
+                            <t t-call="mh_stone_reports.report_payment_receipt_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                        <!-- Duplicado -->
+                        <t t-call="web.basic_layout">
+                            <t t-set="copy_type" t-value="'DUPLICADO'"/>
+                            <t t-call="mh_stone_reports.report_payment_receipt_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <!-- Document template for Payment Receipt report -->
+        <record id="view_report_payment_receipt_document" model="ir.ui.view">
+            <field name="name">Payment Receipt Report - Document Template</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_payment_receipt_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_payment_receipt_document">
+                    <div class="page"/>
+                    <style>
+                        .receipt-header {
+                            font-family: Arial, sans-serif;
+                        }
+                        .receipt-title {
+                            font-size: 18pt;
+                            font-weight: bold;
+                            color: #333;
+                        }
+                        .receipt-info td {
+                            padding: 5px 10px;
+                            font-size: 10pt;
+                        }
+                        .receipt-table th {
+                            background-color: #f5f5f5;
+                            border: 1px solid #ddd;
+                            padding: 8px;
+                            font-size: 9pt;
+                        }
+                        .receipt-table td {
+                            border: 1px solid #ddd;
+                            padding: 8px;
+                            font-size: 9pt;
+                        }
+                        .total-box {
+                            background-color: #f8f9fa;
+                            border: 2px solid #333;
+                            padding: 10px;
+                            font-size: 11pt;
+                            font-weight: bold;
+                        }
+                    </style>
+
+                    <!-- Banner DOCUMENTO INVÁLIDO quando draft, cancel ou rejected -->
+                    <t t-if="doc.state in ('draft', 'canceled', 'rejected')">
+                        <div style="background-color: #dc3545; color: white; text-align: center; padding: 15px; margin-bottom: 20px; font-family: Arial, sans-serif;">
+                            <span style="font-size: 24px; font-weight: bold; letter-spacing: 3px;">
+                                DOCUMENTO INVÁLIDO - SEM VALOR FISCAL
+                            </span>
+                        </div>
+                    </t>
+
+                    <!-- Cabeçalho com Logo e Título -->
+                    <div class="row receipt-header">
+                        <div class="col-7">
+                            <img class="img-fluid" style="width: 45%;" t-att-src="image_data_uri(doc.company_id.logo_report)"/>
+                        </div>
+                        <div class="col-5 text-end">
+                            <br/>
+                            <span class="receipt-title">
+                                <t t-if="doc.payment_type == 'inbound'">RECIBO</t>
+                                <t t-else="">NOTA DE PAGAMENTO</t>
+                            </span>
+                            <br/>
+                            <span style="font-size: 14pt; font-weight: bold;">
+                                <t t-if="doc.receipt_number">
+                                    <t t-esc="doc.receipt_number"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-esc="doc.name"/>
+                                </t>
+                            </span>
+                            <br/>
+                            <span t-if="copy_type" t-esc="copy_type"
+                                  style="font-size: 11pt; font-weight: bold; border: 2px solid #333; padding: 2px 12px;"/>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <!-- Dados da Empresa e Cliente -->
+                    <div class="row" style="font-size: 10pt; font-family: Arial, sans-serif;">
+                        <div class="col-6">
+                            <strong><span t-field="doc.company_id.name"/></strong><br/>
+                            <span t-field="doc.company_id.street"/><br/>
+                            <t t-if="doc.company_id.street2"><span t-field="doc.company_id.street2"/><br/></t>
+                            <span t-field="doc.company_id.zip"/> <span t-field="doc.company_id.city"/> - <span t-field="doc.company_id.country_id.name"/><br/>
+                            <strong>NIF: </strong><span t-field="doc.company_id.vat"/><br/>
+                            <span>Tel: </span><span t-field="doc.company_id.phone"/><br/>
+                            <span>Email: </span><span t-field="doc.company_id.email"/>
+                        </div>
+                        <div class="col-6">
+                            <br/>
+                            <strong>Exmo.(s) Sr.(s)</strong><br/>
+                            <span t-field="doc.partner_id.name" style="font-weight: bold;"/><br/>
+                            <span t-field="doc.partner_id.street"/><br/>
+                            <span t-field="doc.partner_id.street2"/><br/>
+                            <span t-field="doc.partner_id.city"/>
+                            <t t-if="doc.partner_id.country_id">
+                                - <span t-field="doc.partner_id.country_id.name"/>
+                            </t><br/>
+                            <strong>NIF: </strong><span t-field="doc.partner_id.vat"/>
+                        </div>
+                    </div>
+
+                    <br/>
+                    <hr/>
+
+                    <!-- Informações do Pagamento -->
+                    <div class="row" style="font-family: Arial, sans-serif;">
+                        <div class="col-12">
+                            <table class="table table-bordered receipt-info" style="width: 100%;">
+                                <tr>
+                                    <td style="width: 25%; background-color: #f5f5f5;"><strong>Data de Pagamento</strong></td>
+                                    <td style="width: 25%;"><span t-field="doc.date"/></td>
+                                    <td style="width: 25%; background-color: #f5f5f5;"><strong>Método de Pagamento</strong></td>
+                                    <td style="width: 25%;">
+                                        <span t-field="doc.journal_id.name"/>
+                                        <t t-if="doc.payment_method_line_id">
+                                            - <span t-field="doc.payment_method_line_id.name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #f5f5f5;"><strong>Tipo</strong></td>
+                                    <td>
+                                        <t t-if="doc.partner_type == 'customer'">A Receber</t>
+                                        <t t-elif="doc.partner_type == 'supplier'">A Pagar</t>
+                                    </td>
+                                    <td style="background-color: #f5f5f5;"><strong>Referência</strong></td>
+                                    <td><span t-field="doc.memo"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Facturas Reconciliadas -->
+                    <t t-set="partials" t-value="doc.move_id._get_reconciled_invoices_partials()[0] if doc.move_id else []"/>
+                    <t t-set="invoices" t-value="{partial[2].move_id for partial in partials} if partials else set()"/>
+
+                    <t t-if="invoices">
+                        <div class="row" style="font-family: Arial, sans-serif;">
+                            <div class="col-12">
+                                <h5 style="margin-top: 20px;"><strong>Facturas Associadas</strong></h5>
+                                <table class="table receipt-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: left;">Data</th>
+                                            <th style="text-align: left;">Nº Factura</th>
+                                            <th style="text-align: right;">Valor Original</th>
+                                            <th style="text-align: right;">Valor Pago</th>
+                                            <th style="text-align: right;">Saldo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="invoices" t-as="inv">
+                                            <t t-if="inv.move_type != 'entry'">
+                                                <tr>
+                                                    <td><span t-field="inv.invoice_date"/></td>
+                                                    <td><span t-field="inv.name"/></td>
+                                                    <td style="text-align: right;">
+                                                        <span t-field="inv.amount_total"/>
+                                                    </td>
+                                                    <td style="text-align: right;">
+                                                        <t t-set="paid_amount" t-value="inv.amount_total - inv.amount_residual"/>
+                                                        <span t-esc="paid_amount" t-options="{'widget': 'monetary', 'display_currency': inv.currency_id}"/>
+                                                    </td>
+                                                    <td style="text-align: right;">
+                                                        <span t-field="inv.amount_residual"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+
+                    <br/>
+
+                    <!-- Total Pago -->
+                    <div class="row" style="page-break-inside: avoid;">
+                        <div class="col-6"/>
+                        <div class="col-6">
+                            <div class="total-box text-center">
+                                <span>
+                                    <t t-if="doc.payment_type == 'inbound'">VALOR RECEBIDO</t>
+                                    <t t-else="">VALOR PAGO</t>
+                                </span><br/>
+                                <span style="font-size: 14pt;">
+                                    <span t-field="doc.amount" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/>
+                    <br/>
+
+                    <!-- Assinaturas -->
+                    <div class="row" style="font-family: Arial, sans-serif; font-size: 10pt; margin-top: 50px;">
+                        <div class="col-5 text-center">
+                            <hr style="border-top: 1px solid #000; width: 80%; margin: 0 auto;"/>
+                            <span>
+                                <t t-if="doc.partner_type == 'customer'">O Cliente</t>
+                                <t t-else="">O Fornecedor</t>
+                            </span>
+                        </div>
+                        <div class="col-2"/>
+                        <div class="col-5 text-center">
+                            <hr style="border-top: 1px solid #000; width: 80%; margin: 0 auto;"/>
+                            <span>A Empresa</span>
+                        </div>
+                    </div>
+
+                    <br/>
+                    <br/>
+
+                    <!-- Footer -->
+                    <div class="col-10">
+                        <div class="footer" height="100%">
+                            <div style="font-Family: arial; font-size:8pt">
+                                <i>Documento processado por computador</i>
+                            </div>
+                            <br/>
+                            <div style="font-size:11px; font-Family:arial;">
+                                ---------------------------------------------
+                                <b> Dados Bancarios </b>-------------------------------------------------
+                            </div>
+                            <div class="row" style="font-size:11px; font-Family:arial;">
+                                <t t-foreach="doc.company_id.partner_id.bank_ids" t-as="conta">
+                                    <div class="col-4">
+                                        <b>IBAN</b><br/>
+                                        <span t-field="conta.acc_number"/>
+                                    </div>
+                                    <div class="col-3">
+                                        <b>BANCO</b><br/>
+                                        <span t-field="conta.bank_id.name"/>
+                                    </div>
+                                </t>
+                            </div>
+                            <t t-if="doc.payment_type == 'inbound'">
+                                <div style="border-top: 1px solid #999; margin-top:6px; padding-top:3px; font-Family: arial; font-size:6pt; text-align:left;">
+                                    <i>TODOS OS BENS E SERVIÇOS FORNECIDOS SÃO PROPRIEDADE DA <span t-field="doc.company_id.name"/>, ATÉ AO SEU INTEGRAL PAGAMENTO.</i><br/>
+                                    <i>SÓ SERÃO ACEITES RECLAMAÇÕES NO ACTO DE ENTREGA DOS MATERIAIS.</i>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

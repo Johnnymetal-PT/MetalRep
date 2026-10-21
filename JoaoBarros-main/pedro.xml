@@ -1,0 +1,2038 @@
+<!-- ======================== INÍCIO: Template da Homepage ======================== -->
+<t t-name="website.homepage">
+    <!-- Chama o layout principal do website -->
+    <t t-call="website.layout">
+    <!-- Define o nome da página para 'homepage' -->
+        <t t-set="pageName" t-value="'homepage'"/>
+    <!-- Início do conteúdo principal da página -->
+        <div id="wrap" class="oe_structure oe_empty">
+           <!-- ======================== INÍCIO: Estilos CSS Personalizados ======================== -->
+           <style type="text/css">
+/* linha não corta o hover */
+.pg-cards-row {
+  overflow: visible !important;
+  position: relative;
+}
+
+/* coluna como contexto */
+.pg-col {
+  position: relative;
+}
+
+/* PILL: título em cima, descrição em baixo */
+.pg-card {
+  position: relative;
+  display: flex;
+  flex-direction: column; /* ordem vertical normal */
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0;
+  width: 100%;
+  min-height: 64px;
+  border-radius: 14px;
+  padding: 0 18px;
+  background: rgba(255, 255, 255, .08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  text-decoration: none; /* sem sublinhado por padrão */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+  transition: box-shadow .2s ease, transform .2s ease, background .2s ease;
+  cursor: pointer;
+  text-align: left;
+  overflow: hidden;
+}
+
+.pg-card:hover {
+  transform: translateY(-20px);
+  background: rgba(255, 255, 255, .10);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .35);
+  text-decoration: none;
+}
+
+.pg-title {
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: 1.5rem; /* aumenta o tamanho */
+  text-decoration: none; /* sem sublinhado no título */
+}
+
+.pg-card:hover .pg-title {
+  font-size: 1.6rem; /* opcional, se quiser crescer no hover */
+  text-decoration: none; /* sem sublinhado no título no hover */
+}
+
+/* header da pill (linha com o título + chevron) */
+.pg-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  width: 100%;
+  gap: .75rem;
+}
+
+/* chevron */
+.pg-chevron {
+  font-size: 18px;
+  line-height: 1;
+  opacity: .9;
+  color: white;
+}
+.pg-chevron::before {
+  content: "\203A";
+  display: inline-block;
+  transition: transform .2s ease; /* › */
+}
+.pg-card:hover .pg-chevron::before {
+  transform: rotate(90deg);
+}
+
+/* descrição logo por baixo do título (expande no hover) */
+.pg-desc {
+  width: 100%;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0;
+  transition: max-height .25s ease, opacity .25s ease, padding .2s ease, transform .2s ease;
+  transform: translateY(-6px); /* ligeiro recuo para animar */
+}
+.pg-card:hover .pg-desc {
+  max-height: 220px; /* ajustar se for preciso */
+  opacity: 1;
+  padding: 12px 0 16px 0;
+  transform: translateY(0);
+}
+
+/* espaçamentos de grelha */
+.g-3 &gt; [class*="col-"] {
+  padding-left: .75rem;
+  padding-right: .75rem;
+}
+
+ /* ==== apenas dentro do ERP ==== */
+  #erp-section{
+    --erp-blue: var(--o-color-2, #3091f3);
+    --erp-drop-max: 260px;
+  }
+
+  /* cartões grandes: título azul + texto preto no hover */
+  #erp-section .erp-highlight.s_card{
+    transition: background .2s ease, box-shadow .2s ease;
+  }
+  #erp-section .erp-highlight .card-title{
+    transition: color .18s ease;
+  }
+  #erp-section .erp-highlight .card-text{
+    color: rgba(0,0,0,0);           /* “invisível” mas ocupa o espaço 0 */
+    max-height: 0;                  /* escondido */
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: color .0s linear .25s,   /* aplica preto após expandir */
+                max-height .28s ease,
+                opacity .22s ease,
+                transform .22s ease;
+  }
+  #erp-section .erp-highlight:hover .card-title{
+    color: var(--erp-blue);
+  }
+  #erp-section .erp-highlight:hover .card-text{
+    max-height: 600px;
+    opacity: 1;
+    transform: translateY(0);
+    color: #000;                    /* fica preto depois da transição */
+    transition-delay: 0s, 0s, 0s, 0s;
+  }
+
+  /* cartões “drop”: abre caixa para baixo */
+  #erp-section .erp-dropcard{
+    overflow: visible; /* permitir que o drop saia dentro do cartão */
+  }
+  #erp-section .erp-drop{
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-6px);
+    transition: max-height .30s ease, opacity .22s ease, transform .22s ease;
+  }
+  #erp-section .erp-drop-inner{
+    margin-top: 10px;
+    background: #fff;
+    color: #111;
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.12);
+  }
+  #erp-section .erp-dropcard:hover .erp-drop{
+    max-height: var(--erp-drop-max);
+    opacity: 1;
+    transform: translateY(0);
+  }
+/* Aplica só em PCs pequenos */
+@media (min-width: 992px) {
+  /* PUXAR OS BOTÕES MAIS PARA CIMA */
+  .pg-card {
+    margin-top: -40px; /* ajusta este valor conforme necessário */
+  }
+
+  /* REDUZIR O TAMANHO DA FONTE NAS CAIXAS */
+  .pg-title {
+    font-size: 1.3rem; /* antes: 1.5rem */
+  }
+
+  .pg-desc {
+    font-size: 0.95rem; /* texto da descrição menor */
+    line-height: 1.4;
+  }
+
+  /* Opcional: reduzir o espaço interno das caixas */
+  .pg-card {
+    padding: 12px 16px;
+  }
+
+  .pg-main {
+    height: auto; /* permite altura menor com fontes reduzidas */
+  }
+}
+
+/* Garante que nada causa scroll lateral */
+body {
+  overflow-x: hidden;
+}
+
+/* Garante responsividade */
+@media (max-width: 991.98px) {
+  .pg-title {
+    font-size: 1.2rem;
+  }
+
+  .pg-desc {
+    font-size: 0.9rem;
+  }
+}
+</style>
+
+
+
+            <section class="s_cover o_cc o_colored_level pb0 pt88 s_parallax_no_overflow_hidden o_cc5 bg-black o_background_video o_full_screen_height d-lg-none o_snippet_desktop_invisible" data-scroll-background-ratio="0" data-snippet="s_cover" data-name="Capa" data-attachment-id="51" data-bg-video-src="https://www.youtube-nocookie.com/embed/n3tHs5rZmGM?autoplay=1&amp;mute=1&amp;controls=0&amp;modestbranding=1&amp;loop=1&amp;playlist=n3tHs5rZmGM&amp;rel=0" data-invisible="1" style=""> 
+                
+                <div class="s_allow_columns container-fluid">
+                    <div class="row">
+                        <div class="o_colored_level col-lg-12 s_parallax_no_overflow_hidden pt0" data-scroll-background-ratio="0">
+                            <h1 class="display-3" style="text-align: left;">
+                                <span class="oe-tabs" style="width: 25px;">	</span>​<span style="font-family: Arial, sans-serif;">                                </span><span style="font-family: Arial, sans-serif; font-size: 56px;">Somos a </span><span style="font-size: 56px; font-family: &quot;Trebuchet MS&quot;, sans-serif;">Parâmetro Global</span><span style="font-family: Arial, sans-serif;">
+                            </span></h1><h1 class="display-3" style="text-align: left;"><span style="font-family: Arial, sans-serif; font-size: 1.875rem;">Sempre a espreita do próximo desafio!</span></h1><p class="display-3" style="text-align: left;"><span style="font-size: 1.875rem;"><br/></span></p><div class="container px-3 o_text_columns o-contenteditable-false">
+  <div class="row g-3">
+    <div class="col-12 col-sm-6 col-lg-3 o_colored_level">
+      <div class="pg-col">
+        <a class="pg-card" href="#">
+          <div class="pg-main">
+            <span class="pg-title">Sistemas</span>
+                                        <span class="pg-chevron" aria-hidden="true"/>
+          </div>
+          <div class="pg-desc">
+            Infraestruturas, redes, hardware, assistência técnica e serviços geridos.
+            A base tecnológica certa para o seu negócio funcionar todos os dias.</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3 o_colored_level">
+      <div class="pg-col">
+        <a class="pg-card" href="#">
+          <div class="pg-main">
+            <span class="pg-title">ERP</span>
+                                        <span class="pg-chevron" aria-hidden="true"/>
+          </div>
+          <div class="pg-desc">
+            Especialistas em implementação e suporte de ERP Odoo, PHC e Primavera.
+            Tornamos a gestão integrada, adaptada à sua realidade.</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3 o_colored_level">
+      <div class="pg-col">
+        <a class="pg-card" href="#">
+          <div class="pg-main">
+            <span class="pg-title">Intelligence</span>
+                                        <span class="pg-chevron" aria-hidden="true"/>
+          </div>
+          <div class="pg-desc">
+            Transformamos dados em visão estratégica. Com Power BI e Qlik, criamos dashboards úteis para decisões informadas.</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3 o_colored_level">
+      <div class="pg-col">
+        <a class="pg-card" href="#">
+          <div class="pg-main">
+            <span class="pg-title">Web</span>
+                                        <span class="pg-chevron" aria-hidden="true"/>
+          </div>
+          <div class="pg-desc">
+            Desenvolvemos plataformas ajustadas ao seu modelo de negócio.
+            Funcionamento, design e escalabilidade, tudo alinhado.</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            </section><section class="s_cover o_cc pb0 pt88 s_parallax_no_overflow_hidden o_cc5 bg-black o_background_video o_colored_level d-none o_snippet_mobile_invisible d-lg-flex o_full_screen_height" data-scroll-background-ratio="0" data-snippet="s_cover" data-name="Capa" data-attachment-id="51" data-bg-video-src="https://www.youtube-nocookie.com/embed/n3tHs5rZmGM?autoplay=1&amp;mute=1&amp;controls=0&amp;modestbranding=1&amp;loop=1&amp;playlist=n3tHs5rZmGM&amp;rel=0" data-invisible="1"> 
+                
+                <div class="s_allow_columns container-fluid">
+                    <div class="row o_grid_mode" data-row-count="14">
+                        <div class="s_parallax_no_overflow_hidden o_colored_level o_grid_item g-col-lg-12 g-height-10 col-lg-12" data-scroll-background-ratio="0" style="grid-area: 5 / 1 / 15 / 13; z-index: 1;">
+                            <h1 class="display-3" style="text-align: left;">
+                                <span style="font-family: Arial, sans-serif; font-size: 56px;">&amp;nbsp;Somos a </span><span style="font-size: 56px; font-family: &quot;Trebuchet MS&quot;, sans-serif;">Parâmetro Global</span><span style="font-family: Arial, sans-serif;">
+                            </span></h1>
+                            <p class="lead" style="text-align: left;">
+                                <span class="oe-tabs" style="width: 25px;">	</span>​&amp;nbsp; &amp;nbsp; <span style="font-family: Arial, sans-serif; font-size: 56px;">Sempre a espreita do próximo desafio!</span></p><p class="lead" style="text-align: left;"><font class="text-o-color-3">​</font></p><p class="lead" style="text-align: left;"><font class="text-o-color-3">​</font></p><p class="lead" style="text-align: left;"><font class="text-o-color-3">​</font></p><p class="lead" style="text-align: left;"><font class="text-o-color-3">​</font></p><p class="lead" style="text-align: left;"><font class="text-o-color-3">​</font></p>
+
+                            <div class="container o_text_columns o-contenteditable-false">
+                              <div class="row g-3">
+                                <div class="col-3 o_colored_level">
+      <div class="pg-col">
+        <a class="pg-card" href="#">
+          <div class="pg-main">
+            <span class="pg-title"><font class="text-o-color-3">Sistemas</font></span>
+            <span class="pg-chevron" aria-hidden="true"><font style="display: inline-block;" class="text-o-color-3">​</font></span>
+          </div>
+          <div class="pg-desc"><font class="text-o-color-3">
+            Infraestruturas, redes, hardware, assistência técnica e serviços geridos.
+            A base tecnológica certa para o seu negócio funcionar todos os dias.
+          </font></div>
+        </a>
+      </div>
+    </div>
+
+    
+    <div class="col-3 o_colored_level">
+      <div class="pg-col">
+        <a class="pg-card" href="#">
+          <div class="pg-main">
+            <span class="pg-title"><font class="text-o-color-3">ERP</font></span>
+            <span class="pg-chevron" aria-hidden="true"><font style="display: inline-block;" class="text-o-color-3">​</font></span>
+          </div>
+          <div class="pg-desc"><font class="text-o-color-3">
+            Especialistas em implementação e suporte de ERP Odoo, PHC e Primavera. Tornamos a gestão integrada, adaptada à sua realidade.
+          </font></div>
+        </a>
+      </div>
+    </div>
+
+    
+    <div class="col-3 o_colored_level">
+      <div class="pg-col">
+        <a class="pg-card" href="#">
+          <div class="pg-main">
+            <span class="pg-title">Intelligence</span>
+            <span class="pg-chevron" aria-hidden="true"><br/></span>
+          </div>
+          <div class="pg-desc"><font class="text-o-color-3">
+            Transformamos dados em visão estratégica. Com Power BI e Qlik, criamos dashboards úteis para decisões informadas.
+          </font></div>
+        </a>
+      </div>
+    </div>
+
+    
+    <div class="col-3 o_colored_level">
+      <div class="pg-col">
+        <a class="pg-card" href="#">
+          <div class="pg-main">
+            <span class="pg-title"><font class="text-o-color-3">Web</font></span>
+            <span class="pg-chevron" aria-hidden="true"><font style="display: inline-block;" class="text-o-color-3">​</font></span>
+          </div>
+          <div class="pg-desc">
+            Desenvolvemos plataformas ajustadas ao seu modelo de negózio.
+            Funcionamento, design e escalabilidade, tudo alinhado.
+          </div>
+        </a>
+      </div>
+    </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+            <section class="s_title o_colored_level pb0 pt40" data-vcss="001" data-snippet="s_title" data-name="Título">
+                <div class="s_allow_columns container">
+                    <h2 class="display-3-fs" style="text-align: left;">
+                        Sistemas&amp;nbsp;</h2><p>
+                        <span class="h4-fs">
+                            
+                            
+                            
+                            <font style="color: rgb(48, 145, 243);">
+                                A base Tecnológica que sustenta o seu negócio.
+                            </font>
+                        </span>
+                    </p>
+                </div>
+            </section>
+
+            
+            
+
+<section class="s_quotes_carousel_wrapper o_half_screen_height" data-vxml="001" data-vcss="002" data-preview-interaction-enabled="true" data-snippet="s_quotes_carousel_minimal" data-name="Quotes Minimal">
+
+<style>
+  /* ------- Configuração Principal ------- */
+  #home-systems-carousel {
+    --card-w: 450px;      /* largura do cartão principal */
+    --gap: 32px;          /* espaço entre ativo e peek */
+    --peek-offset: calc(var(--card-w) + var(--gap));
+    --border-radius: 18px; /* bordas arredondadas */
+    position: relative;    /* ancora indicadores/controles */
+  }
+
+  /* Permitir overflow visível */
+  .s_quotes_carousel_wrapper,
+  #home-systems-carousel,
+  #home-systems-carousel .carousel,
+  #home-systems-carousel .carousel-inner {
+    overflow: visible !important;
+  }
+  /* espaço extra para ver indicadores fora do cartão */
+  .s_quotes_carousel_wrapper { padding-bottom: 96px; }
+
+  /* ------- Design dos Cartões ------- */
+  #home-systems-carousel .w-50 {
+    width: 100% !important;
+    max-width: var(--card-w);
+  }
+  
+  #home-systems-carousel blockquote { 
+    margin-left: auto; 
+    margin-right: auto; 
+  }
+  
+  #home-systems-carousel .s_card {
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #111;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    padding: 32px 28px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Linha superior colorida */
+  #home-systems-carousel .s_card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #1982ff, #4facfe);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+  }
+
+  /* Efeito hover no cartão ativo */
+  #home-systems-carousel .carousel-item.active .s_card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  #home-systems-carousel .s_card .card-body {
+    padding: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #home-systems-carousel .s_card .card-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+    color: #1a1a1a;
+    letter-spacing: -0.02em;
+  }
+
+  #home-systems-carousel .s_card h4 + h4 {
+    margin-top: 4px;
+  }
+
+  #home-systems-carousel .s_card .card-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0.85;
+    margin-top: 12px;
+    color: #2a2a2a;
+    font-weight: 400;
+  }
+
+    
+
+  /* ------- Efeito Peek Aprimorado ------- */
+  #home-systems-carousel .carousel-inner {
+    position: relative;
+    width: 100%;
+    max-width: var(--card-w);
+    margin: 0 auto;
+  }
+
+  #home-systems-carousel .carousel-item {
+    width: 100%;
+  }
+
+
+  /* Cartão ativo com maior z-index */
+  #home-systems-carousel .carousel-item.active { 
+    z-index: 3; 
+  }
+
+  /* Sombra suave no peek */
+  #home-systems-carousel .carousel-item.active + .carousel-item .s_card,
+  body:has(#home-systems-carousel .carousel-item:last-child.active)
+  #home-systems-carousel .carousel-item:first-child .s_card,
+  #home-systems-carousel.is-last-active .carousel-item:first-child .s_card {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  /* ------- Indicadores Modernos ------- */
+  #home-systems-carousel .carousel-indicators {
+    position: absolute;
+    bottom: -150px;
+    gap: 14px;
+    margin: 0;
+    z-index: 10;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: auto;
+  }
+
+  #home-systems-carousel .carousel-indicators [data-bs-target] {
+    width: 10px; 
+    height: 10px; 
+    border-radius: 50%; 
+    border: 0; 
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.4) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+
+  #home-systems-carousel .carousel-indicators .active {
+    width: 40px; 
+    height: 12px; 
+    border-radius: 20px; 
+    opacity: 1;
+    background: #1982ff !important;
+    box-shadow: 0 4px 12px rgba(25, 130, 255, 0.4);
+  }
+
+  /* Tema escuro */
+  #home-systems-carousel .carousel-dark .carousel-indicators [data-bs-target] {
+    background:rgba(128, 128, 128, 0.4) !important;
+  }
+
+  #home-systems-carousel .carousel-dark .carousel-indicators .active {
+    background: #1982ff !important;
+  }
+
+  #home-systems-carousel .carousel-indicators [data-bs-target]:focus {
+    outline: none; 
+    box-shadow: 0 0 0 3px rgba(25, 130, 255, 0.2);
+  }
+
+  /* ------- Controles de Navegação ------- */
+  #home-systems-carousel .carousel-control-prev,
+  #home-systems-carousel .carousel-control-next {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+  }
+
+  #home-systems-carousel .carousel-control-prev {
+    left: -80px;
+  }
+
+  #home-systems-carousel .carousel-control-next {
+    right: -80px;
+  }
+
+  #home-systems-carousel .carousel-control-prev:hover,
+  #home-systems-carousel .carousel-control-next:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  
+
+  /* ------- Responsivo ------- */
+  @media (max-width: 1200px) {
+    #home-systems-carousel {
+      --card-w: 400px;
+      --gap: 24px;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    #home-systems-carousel { 
+      --card-w: 85vw; 
+      --gap: 16px; 
+    }
+    
+    #home-systems-carousel .carousel-indicators { 
+      bottom: -40px; 
+      gap: 10px;
+    }
+    
+    #home-systems-carousel .carousel-indicators .active { 
+      width: 32px; 
+      height: 10px; 
+    }
+
+    #home-systems-carousel .s_card {
+      padding: 28px 24px;
+      min-height: 350px;
+    }
+
+    #home-systems-carousel .s_card .card-title {
+      font-size: 1.75rem;
+    }
+
+    #home-systems-carousel .s_card .card-text {
+      font-size: 1rem;
+    }
+
+    /* Esconder controles em mobile */
+    #home-systems-carousel .carousel-control-prev,
+    #home-systems-carousel .carousel-control-next {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    #home-systems-carousel {
+      --card-w: 90vw;
+    }
+
+    #home-systems-carousel .s_card {
+      padding: 24px 20px;
+      min-height: 320px;
+    }
+
+    #home-systems-carousel .s_card .card-title {
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+    }
+
+    #home-systems-carousel .carousel-indicators {
+      bottom: -150px !important;
+    }
+
+    #home-systems-carousel .carousel-indicators .active {
+      width: 28px;
+      height: 8px;
+    }
+  }
+
+  /* ------- Animações Suaves ------- */
+  @keyframes cardSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale();
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  #home-systems-carousel .carousel-item.active .s_card {
+    animation: cardSlideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Peek items */
+#home-systems-carousel .carousel-item.peek-right,
+#home-systems-carousel .carousel-item.peek-left {
+  display: block !important;
+  z-index: 1;
+  transition: all 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Garante que o ativo fica por cima */
+#home-systems-carousel .carousel-item.active { z-index: 3; }
+
+/* tornar os peeks clicáveis */
+#home-systems-carousel .carousel-item.peek-left,
+#home-systems-carousel .carousel-item.peek-right {
+  pointer-events: auto;   /* antes estava none */
+  cursor: pointer;
+}
+
+/* Visual states for active and neighbor slides */
+#home-systems-carousel .carousel-item.active .s_card {
+  transform: none;
+  opacity: 1;
+  filter: none;
+}
+
+#home-systems-carousel .carousel-item.peek-left .s_card,
+#home-systems-carousel .carousel-item.peek-right .s_card {
+  opacity: 0.5;
+  filter: blur(2.5px);
+}
+
+#home-systems-carousel .carousel-item.peek-left .s_card {
+  transform: translateX(calc(-1 * var(--peek-offset))) scale(0.9);
+}
+
+#home-systems-carousel .carousel-item.peek-right .s_card {
+  transform: translateX(var(--peek-offset)) scale(0.9);
+}
+
+#home-systems-carousel.is-sliding .carousel-item.peek-left .s_card,
+#home-systems-carousel.is-sliding .carousel-item.peek-right .s_card {
+  transform: translateX(0) scale(0.9);
+}
+
+@media (max-width: 768px) {
+  #home-systems-carousel .carousel-item.peek-left,
+  #home-systems-carousel .carousel-item.peek-right {
+    display: none !important;
+  }
+}
+
+</style>
+
+<style>
+  /* --- LOGOS COMO TÍTULO --- */
+  #erp-section .erp-logo {
+    display:flex; align-items:center; justify-content:center;
+    width: 160px; height: 54px; margin: 0 auto;
+    object-fit: contain; filter: none;
+  }
+
+  /* drop abre APENAS quando tem .open */
+  #erp-section .erp-dropcard { overflow: visible; cursor: pointer; }
+  #erp-section .erp-drop { max-height: 0; opacity: 0; overflow: hidden; transform: translateY(-6px);
+    transition: max-height .30s ease, opacity .22s ease, transform .22s ease; }
+  #erp-section .erp-drop-inner{
+    margin-top: 10px; background: #fff; color:#111; border-radius:10px; padding:14px 16px; 
+    box-shadow: 0 8px 20px rgba(0,0,0,.12);
+  }
+  #erp-section .erp-dropcard.open .erp-drop {
+    max-height: var(--erp-drop-max, 260px); opacity: 1; transform: translateY(0);
+  }
+
+  /* foco teclado */
+  #erp-section .erp-dropcard:focus-within,
+  #erp-section .erp-dropcard[tabindex="0"]:focus {
+    outline: 2px solid var(--erp-blue, #3091f3); outline-offset: 2px;
+  }
+
+  /* escopo opcional: troca .erp-scope por algo teu se quiseres */
+  .erp-scope .erp-highlight .card-title { 
+    color: inherit; 
+    transition: color .18s ease;
+  }
+
+  /* texto escondido por padrão */
+  .erp-scope .erp-highlight .card-text {
+    color: rgba(0,0,0,0); /* “invisível” */
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-4px);
+    transition:
+      color .0s linear .25s,      /* aplica cor só depois de expandir */
+      max-height .28s ease,
+      opacity .22s ease,
+      transform .22s ease;
+  }
+
+  /* no hover: título azul + texto expande e fica preto */
+  .erp-scope .erp-highlight:hover .card-title {
+    color: #3091f3; /* azul */
+  }
+  .erp-scope .erp-highlight:hover .card-text {
+    max-height: 600px;  /* ajusta conforme o teu conteúdo */
+    opacity: 1;
+    transform: translateY(0);
+    color: #000;        /* fica preto após a transição */
+    transition-delay: 0s, 0s, 0s, 0s;
+  }
+
+  /* reduz animações se o utilizador preferir */
+  @media (prefers-reduced-motion: reduce) {
+    .erp-scope .erp-highlight .card-text,
+    .erp-scope .erp-highlight:hover .card-text {
+      transition: none;
+    }
+  }
+  
+</style>
+
+<style>
+  /* 3-up engine positioning (keeps your design tokens) */
+  #home-systems-carousel .carousel-inner {
+    position: relative;
+    width: 100%;
+    max-width: var(--card-w);
+    margin: 0 auto;
+  }
+  #home-systems-carousel .carousel-item {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: block !important; /* ignore BS5's display:none */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%);
+    transition: transform .6s cubic-bezier(0.4,0,0.2,1), opacity .6s;
+    z-index: 1;
+  }
+
+  /* relative positions */
+  #home-systems-carousel .pos-0 {       /* center (active) */
+    transform: translateX(-50%) translateX(0);
+    opacity: 1; z-index: 3; pointer-events: auto;
+  }
+  #home-systems-carousel .pos--1 {      /* left peek */
+    transform: translateX(calc(-50% - var(--peek-offset))) scale(.9);
+    opacity: .6; z-index: 2; pointer-events: auto; cursor: pointer;
+  }
+  #home-systems-carousel .pos-1 {       /* right peek */
+    transform: translateX(calc(-50% + var(--peek-offset))) scale(.9);
+    opacity: .6; z-index: 2; pointer-events: auto; cursor: pointer;
+  }
+
+  /* offstage positions (one step further out) */
+  #home-systems-carousel .off--1 {
+    transform: translateX(calc(-50% - (var(--card-w) + var(--gap)))) scale(.9);
+    opacity: 0; z-index: 1;
+  }
+  #home-systems-carousel .off-1 {
+    transform: translateX(calc(-50% + (var(--card-w) + var(--gap)))) scale(.9);
+    opacity: 0; z-index: 1;
+  }
+
+  /* Mobile: single card feels better */
+  @media (max-width: 768px) {
+    #home-systems-carousel .pos--1,
+    #home-systems-carousel .pos-1 {
+      display: none !important;
+    }
+  }
+</style>
+
+<style>
+  /* make offstage slides sit beyond the peeks */
+  #home-systems-carousel .off--1 {
+    transform: translateX(calc(-50% - (var(--peek-offset) * 2))) scale(.9);
+    opacity: 0; visibility: hidden; pointer-events: none; z-index: 1;
+  }
+  #home-systems-carousel .off-1 {
+    transform: translateX(calc(-50% + (var(--peek-offset) * 2))) scale(.9);
+    opacity: 0; visibility: hidden; pointer-events: none; z-index: 1;
+  }
+  /* ensure peeks layer above offstage */
+  #home-systems-carousel .pos--1,
+  #home-systems-carousel .pos-1 { z-index: 2; }
+</style>
+
+<div id="home-systems-carousel" data-peek-init="1" class="is-last-active">
+  <div class="s_quotes_carousel carousel slide pointer-event s_carousel_arrows_hidden o_colored_level carousel-dark" data-bs-ride="carousel" data-bs-interval="5000" data-bs-wrap="true" id="home-systems-carousel-inner">
+  <div class="carousel-inner" style="height: 400px;">
+
+    
+    <div class="carousel-item o_colored_level pt0 pb104 pos--1 active" data-name="Slide" style="width: 100%;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in mx-auto w-50 p-1" data-vcss="001" data-scroll-zone-start="0" data-scroll-zone-end="100" style="">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title">Gestão de<br/>Serviços</h4><p class="card-text" style="text-align: left;">
+              Deixe a gestão da sua infraestrutura connosco. Monitorizamos sistemas, backups e segurança em tempo real, garantindo continuidade operacional, sem que precise de se preocupar com a parte técnica.
+            </p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+    
+     <div class="carousel-item o_colored_level pb0 pt0 pos-0" data-name="Slide" style="width: 100%;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level w-50 p-1 mx-auto" data-vcss="001">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title">Hardware e<br/>Equipamentos</h4><p class="card-text" style="text-align: left;">
+              Fornecemos, instalamos e configuramos equipamentos ajustados às suas necessidades: estações de trabalho, servidores, firewalls, UPS, impressoras e muito mais. Só trabalhamos com marcas de confiança e soluções escaláveis.
+            </p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+    
+    <div class="carousel-item o_colored_level pt0 pb104 pos-1" data-name="Slide" style="width: 100%;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in mx-auto w-50 p-1" data-vcss="001" style="">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title">Assistência Técnica<br/>Especializada</h4><p class="card-text" style="text-align: left;">
+              Porque os imprevistos não podem parar a sua operação, oferecemos acompanhamento técnico regular, manutenção preventiva e suporte reativo. Sempre com tempo de resposta rápido e contacto direto com quem sabe do que fala.
+            </p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+    
+     <div class="carousel-item o_colored_level pt0 pb104 off-1" data-name="Slide" style="width: 100%;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in w-50 p-1 mx-auto" data-vcss="001" style="">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title">Infraestruturas<br/>e Redes</h4><p class="card-text" style="text-align: left;">
+              Projetamos e implementamos redes seguras, fiáveis e preparadas para crescer consigo. Desde a instalação de servidores e dispositivos à configuração de redes internas e VPNs, garantimos que tudo comunica como deve ser.
+            </p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+  </div>
+
+  
+  <button class="carousel-control-prev o_not_editable o_we_no_overlay" aria-label="Anterior" title="Anterior" data-bs-target="#home-systems-carousel-inner" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"/>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next o_not_editable o_we_no_overlay" aria-label="Seguinte" title="Seguinte" data-bs-target="#home-systems-carousel-inner" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"/>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+  
+  <div class="carousel-indicators o_we_no_overlay" style="bottom: -150px !important;">
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel-inner" data-bs-slide-to="0" class="active" aria-current="true"/>
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel-inner" data-bs-slide-to="1"/>
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel-inner" data-bs-slide-to="2"/>
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel-inner" data-bs-slide-to="3"/>
+  </div>
+  </div>
+</div>
+<script>
+(function () {
+  function initOne(wrapper) {
+    if (!wrapper || wrapper.dataset.hsInit === '1') return;
+    wrapper.dataset.hsInit = '1';
+    if (wrapper.hasAttribute('data-peek-init')) wrapper.removeAttribute('data-peek-init');
+
+    const carousel = wrapper.querySelector('#home-systems-carousel-inner') || wrapper.querySelector('.carousel');
+    const inner    = carousel &amp;&amp; carousel.querySelector('.carousel-inner');
+    if (!inner) return;
+
+    const slides     = Array.from(inner.querySelectorAll('.carousel-item'));
+    const indicators = Array.from(wrapper.querySelectorAll('.carousel-indicators [data-bs-slide-to]'));
+    const btnPrev    = wrapper.querySelector('.carousel-control-prev');
+    const btnNext    = wrapper.querySelector('.carousel-control-next');
+
+    if (slides.length &lt; 2) return;
+
+    /* 1) Stop Bootstrap from touching this instance */
+    try {
+      if (window.bootstrap &amp;&amp; bootstrap.Carousel) {
+        const inst = bootstrap.Carousel.getOrCreateInstance(carousel, { interval: false, ride: false, touch: false, keyboard: false, wrap: true });
+        inst.pause();
+      } else if (window.jQuery &amp;&amp; $(carousel).carousel) {
+        $(carousel).carousel({ interval: false, ride: false, touch: false, keyboard: false, wrap: true });
+        $(carousel).carousel('pause');
+      }
+    } catch (e) {}
+
+    /* 2) Neutralize data-* triggers inside this wrapper (avoid cross-targeting other copies) */
+    const killAttrs = wrapper.querySelectorAll('[data-bs-target], [data-bs-slide], [data-bs-slide-to]');
+    killAttrs.forEach(function (el) {
+      if (el.hasAttribute('data-bs-target')) el.removeAttribute('data-bs-target');
+      if (el.hasAttribute('data-bs-slide')) el.removeAttribute('data-bs-slide');
+      // keep data-bs-slide-to only if you want Bootstrap dots; we handle dots ourselves, so remove:
+      if (el.hasAttribute('data-bs-slide-to')) el.removeAttribute('data-bs-slide-to');
+    });
+
+    /* Clean any legacy peek classes */
+    slides.forEach(function (el) { el.classList.remove('peek-left','peek-right'); });
+
+    const mod = (n, m) =&gt; ((n % m) + m) % m;
+    let current = slides.findIndex(function (s) { return s.classList.contains('active'); });
+    if (current &lt; 0) current = 0;
+
+    function syncHeight() {
+      const card = slides[current] &amp;&amp; slides[current].querySelector('.s_card');
+      if (card) inner.style.height = card.offsetHeight + 'px';
+    }
+
+    function applyPositions() {
+      const n = slides.length;
+
+      slides.forEach(function (el, i) {
+        el.classList.remove('pos--1','pos-0','pos-1','off--1','off-1','active');
+        const d = mod(i - current, n);
+        let rel;
+
+        if (n === 2) rel = (d === 0 ? 0 : 1);
+        else if (n === 3) rel = (d === 0 ? 0 : (d === 1 ? 1 : -1));
+        else { /* n &gt;= 4 */
+          if (d === 0) rel = 0;
+          else if (d === 1) rel = 1;
+          else if (d === n - 1) rel = -1;
+          else rel = (d &lt;= Math.floor(n / 2)) ? 2 : -2; /* far side */
+        }
+
+        if (rel === 0) el.classList.add('pos-0','active');
+        else if (rel === -1) el.classList.add('pos--1');
+        else if (rel === 1) el.classList.add('pos-1');
+        else if (rel &lt; -1) el.classList.add('off--1');
+        else el.classList.add('off-1');
+      });
+
+      // Rebuild indicators we just neutralized
+      const dots = wrapper.querySelector('.carousel-indicators');
+      if (dots) {
+        dots.innerHTML = '';
+        for (let i = 0; i &lt; slides.length; i++) {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = (i === current ? 'active' : '');
+          if (i === current) b.setAttribute('aria-current','true');
+          b.setAttribute('aria-label','Carousel indicator');
+          b.addEventListener('click', function (e) { e.preventDefault(); goTo(i); });
+          dots.appendChild(b);
+        }
+      }
+
+      requestAnimationFrame(syncHeight);
+    }
+
+    function goTo(idx) { current = mod(idx, slides.length); applyPositions(); }
+    function next()   { goTo(current + 1); }
+    function prev()   { goTo(current - 1); }
+
+    applyPositions();
+
+    /* Our own controls */
+    btnNext &amp;&amp; btnNext.addEventListener('click', function (e) { e.preventDefault(); next(); });
+    btnPrev &amp;&amp; btnPrev.addEventListener('click', function (e) { e.preventDefault(); prev(); });
+
+    /* Click peeks */
+    inner.addEventListener('click', function (e) {
+      const item = e.target.closest('.carousel-item');
+      if (!item) return;
+      if (item.classList.contains('pos-1')) next();
+      else if (item.classList.contains('pos--1')) prev();
+    });
+
+    /* Auto-advance */
+    let timer = setInterval(next, 5000);
+    wrapper.addEventListener('mouseenter', function () { clearInterval(timer); });
+    wrapper.addEventListener('mouseleave', function () { timer = setInterval(next, 5000); });
+
+    /* Resize */
+    window.addEventListener('resize', function () { syncHeight(); });
+  }
+
+  function initAll() {
+    // Support many copies, even with duplicate IDs (Odoo editor behavior)
+    document.querySelectorAll('#home-systems-carousel').forEach(initOne);
+  }
+
+  // Initial run
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
+  }
+
+  // Wire a single global observer (avoid multiple observers if script included twice)
+  if (!window.__hsCarouselMO) {
+    window.__hsCarouselMO = new MutationObserver(function (muts) {
+      let found = false;
+      for (const m of muts) {
+        for (const n of m.addedNodes) {
+          if (n &amp;&amp; n.nodeType === 1 /* ELEMENT_NODE */) {
+            if (n.id === 'home-systems-carousel' || (n.querySelector &amp;&amp; n.querySelector('#home-systems-carousel'))) {
+              found = true; break;
+            }
+          }
+        }
+        if (found) break;
+      }
+      if (found) initAll();
+    });
+    window.__hsCarouselMO.observe(document.documentElement, { childList: true, subtree: true });
+  }
+})();
+</script>
+
+
+
+</section>
+<section class="s_title o_colored_level pb0 pt4 d-lg-none o_snippet_desktop_invisible" data-vcss="001" data-snippet="s_title" data-name="Título" data-invisible="1">
+                <div class="s_allow_columns container">
+                    <h2><span class="h1-fs" style="font-family: Tahoma, sans-serif;"><font style="color: rgb(48, 145, 243);">ERP</font>
+                        </span></h2><p><span style="font-size: 1.25rem;"><font style="color: rgb(48, 145, 243);">A gestão Integrada começa com a escolha certa do Parceiro</font></span></p><p>
+
+</p>
+                </div>
+            </section>
+
+
+
+                        
+              <section class="s_title o_colored_level pb0 bg-100 pt0 d-lg-flex d-none o_snippet_mobile_invisible o_full_screen_height" data-vcss="001" data-snippet="s_title" data-name="Título" data-invisible="1">
+                <div class="s_allow_columns container">
+                    
+                    
+
+                    
+                    
+                <div class="row"><div class="col-lg-12 o_colored_level"><h2 class="display-3-fs" style="text-align: left;">
+                        <span style="font-family: Tahoma, sans-serif; font-size: 1.25rem;"><font style="color: rgb(48, 145, 243);">ERP</font></span><span class="h1-fs" style="font-family: Tahoma, sans-serif;">
+                        </span>
+                    </h2><p>
+                        <span class="h4-fs">
+                            <font style="color: rgb(48, 145, 243);">
+                                
+                                <span class="h4-fs" style="font-family: 'Trebuchet MS', sans-serif;">
+                                    A gestão Integrada começa com a escolha certa do Parceiro
+                                </span>
+                            </font>
+                        </span></p><div class="s_text_highlight o_colored_level o_cc my-3 w-100 o_cc3 bg-100 text-start" data-snippet="s_text_highlight" data-name="Destaque de texto">
+                        <div class="container">
+                            <div class="erp-scope">
+                              <div class="o_text_columns o-contenteditable-false">
+                                <div class="row">
+                                  <div class="col-md-6 col-12 o-contenteditable-true o_colored_level">
+                                    <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level erp-highlight" data-vxml="001" data-snippet="s_card" data-name="Quadro">
+                                      <div class="card-body">
+                                        <p class="card-title h4">Implementamos o ERP que melhor se adapta a sua empresa</p>
+                                        <p class="card-text">Na Parâmetro, somos especialistas na implementação, personalização e suporte de três das principais soluções de ERP do mercado&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-md-6 col-12 o-contenteditable-true o_colored_level">
+                                    <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level erp-highlight" data-vxml="001" data-snippet="s_card" data-name="Quadro">
+                                      <div class="card-body">
+                                        <p class="card-title h4">Customização e Automatização de Processos&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;</p>
+                                        <p class="card-text"><span style="font-size: 1.25rem;">Adaptamos fluxos, criamos módulos personalizados e integramos ERP com outros sistemas, tudo para que a tecnologia funcione à medida do seu negócio.</span></p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            
+                            <div class="o_text_columns o-contenteditable-false" id="erp-section">
+                              <div class="row">
+                                
+                                <div class="col-md-4 col-12 o-contenteditable-true o_colored_level">
+                                  <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level erp-dropcard" tabindex="0" role="button" aria-expanded="false" aria-controls="drop-odoo" data-name="Cartão">
+                                    <div class="card-body text-center">
+                                      <img src="/web/image/13585-d591b4c3/odoo_logo.png" alt="" class="erp-logo img img-fluid o_we_custom_image" style="width: 50% !important;" data-mimetype="image/webp" data-original-id="13581" data-original-src="/web/image/13581-d591b4c3/odoo_logo.png" data-mimetype-before-conversion="image/png" data-resize-width="NaN" loading="lazy"/>
+                                      <div id="drop-odoo" class="erp-drop">
+                                        <div class="erp-drop-inner">Flexivel, Modular e Intuitivo. Ideal para empresas que valorizam agilidade e integração total.</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                                
+                                <div class="col-md-4 col-12 o-contenteditable-true o_colored_level">
+                                  <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level erp-dropcard" tabindex="0" role="button" aria-expanded="false" aria-controls="drop-primavera" data-name="Cartão">
+                                    <div class="card-body text-center">
+                                      <img src="/web/image/13586-08bac342/image.webp" alt="" class="erp-logo img img-fluid o_we_custom_image" style="width: 50% !important;" data-mimetype="image/webp" data-original-id="13582" data-original-src="/web/image/13582-0acd0f45/image.png" data-mimetype-before-conversion="image/png" data-resize-width="NaN" loading="lazy"/>
+                                      <div id="drop-primavera" class="erp-drop">
+                                        <div class="erp-drop-inner">Completo e Personalizável, com forte presença em Portugal. Perfeito para empresas que procuram rigor e adaptação à realidade fiscal nacional.</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                                
+                                <div class="col-md-4 col-12 o-contenteditable-true o_colored_level">
+                                  <div class="s_card o_card_img_top card o_cc o_colored_level erp-dropcard o_cc1" tabindex="0" role="button" aria-expanded="false" aria-controls="drop-phc" data-name="Cartão">
+                                    <div class="card-body text-center">
+                                      <img src="/web/image/13588-1f676add/Cegid-PHC-RGB-color1.png" alt="" class="erp-logo img img-fluid o_we_custom_image" style="width: 50% !important;" data-mimetype="image/webp" data-original-id="13583" data-original-src="/web/image/13583-1f676add/Cegid-PHC-RGB-color1.png" data-mimetype-before-conversion="image/png" data-resize-width="NaN" loading="lazy"/>
+                                      <div id="drop-phc" class="erp-drop">
+                                        <div class="erp-drop-inner"><span style="font-size: 1.25rem;">
+                                          Robusto e orientado à gestão avançada. Muito utilizado em setores industriais e de distribuição.
+                                        </span></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div></div></div></div>
+            </section>
+            <section class="s_quotes_carousel_wrapper d-lg-none o_snippet_desktop_invisible o_half_screen_height" data-vxml="001" data-vcss="002" data-preview-interaction-enabled="true" data-snippet="s_quotes_carousel_minimal" data-name="Quotes Minimal" data-invisible="1">
+
+<style>&lt;span style="font-size: 1.25rem;"&gt;
+  /* ------- Configuração Principal ------- */
+  #home-systems-carousel {
+    --card-w: 450px;      /* largura do cartão principal */
+    --gap: 32px;          /* espaço entre ativo e peek */
+    --peek-offset: calc(var(--card-w) + var(--gap));
+    --border-radius: 18px; /* bordas arredondadas */
+    position: relative;    /* ancora indicadores/controles */
+  }
+
+  /* Permitir overflow visível */
+  .s_quotes_carousel_wrapper,
+  #home-systems-carousel,
+  #home-systems-carousel .carousel,
+  #home-systems-carousel .carousel-inner {
+    overflow: visible !important;
+  }
+  /* espaço extra para ver indicadores fora do cartão */
+  .s_quotes_carousel_wrapper { padding-bottom: 156px !important; }
+
+  /* ------- Design dos Cartões ------- */
+  #home-systems-carousel .w-50 {
+    width: 100% !important;
+    max-width: var(--card-w);
+  }
+  
+  #home-systems-carousel blockquote { 
+    margin-left: auto; 
+    margin-right: auto; 
+  }
+  
+  #home-systems-carousel .s_card {
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #111;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    padding: 32px 28px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Linha superior colorida */
+  #home-systems-carousel .s_card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #1982ff, #4facfe);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+  }
+
+  /* Efeito hover no cartão ativo */
+  #home-systems-carousel .carousel-item.active .s_card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  #home-systems-carousel .s_card .card-body {
+    padding: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #home-systems-carousel .s_card .card-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+    color: #1a1a1a;
+    letter-spacing: -0.02em;
+  }
+
+  #home-systems-carousel .s_card h4 + h4 {
+    margin-top: 4px;
+  }
+
+  #home-systems-carousel .s_card .card-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0.85;
+    margin-top: 12px;
+    color: #2a2a2a;
+    font-weight: 400;
+  }
+
+    
+
+  /* ------- Efeito Peek Aprimorado ------- */
+  #home-systems-carousel .carousel-inner {
+    position: relative;
+    width: 100%;
+    max-width: var(--card-w);
+    margin: 0 auto;
+  }
+
+  #home-systems-carousel .carousel-item {
+    width: 100%;
+  }
+
+
+  /* Cartão ativo com maior z-index */
+  #home-systems-carousel .carousel-item.active { 
+    z-index: 3; 
+  }
+
+  /* Sombra suave no peek */
+  #home-systems-carousel .carousel-item.active + .carousel-item .s_card,
+  body:has(#home-systems-carousel .carousel-item:last-child.active)
+  #home-systems-carousel .carousel-item:first-child .s_card,
+  #home-systems-carousel.is-last-active .carousel-item:first-child .s_card {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  /* ------- Indicadores Modernos ------- */
+  #home-systems-carousel .carousel-indicators {
+    position: absolute;
+    bottom: 12px;
+    gap: 14px;
+    margin: 0;
+    z-index: 10;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: auto;
+  }
+
+  #home-systems-carousel .carousel-indicators [data-bs-target] {
+    width: 10px; 
+    height: 10px; 
+    border-radius: 50%; 
+    border: 0; 
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.4) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+
+  #home-systems-carousel .carousel-indicators .active {
+    width: 40px; 
+    height: 12px; 
+    border-radius: 20px; 
+    opacity: 1;
+    background: #1982ff !important;
+    box-shadow: 0 4px 12px rgba(25, 130, 255, 0.4);
+  }
+
+  /* Tema escuro */
+  #home-systems-carousel .carousel-dark .carousel-indicators [data-bs-target] {
+    background:rgba(128, 128, 128, 0.4) !important;
+  }
+
+  #home-systems-carousel .carousel-dark .carousel-indicators .active {
+    background: #1982ff !important;
+  }
+
+  #home-systems-carousel .carousel-indicators [data-bs-target]:focus {
+    outline: none; 
+    box-shadow: 0 0 0 3px rgba(25, 130, 255, 0.2);
+  }
+
+  /* ------- Controles de Navegação ------- */
+  #home-systems-carousel .carousel-control-prev,
+  #home-systems-carousel .carousel-control-next {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+  }
+
+  #home-systems-carousel .carousel-control-prev {
+    left: -80px;
+  }
+
+  #home-systems-carousel .carousel-control-next {
+    right: -80px;
+  }
+
+  #home-systems-carousel .carousel-control-prev:hover,
+  #home-systems-carousel .carousel-control-next:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  
+
+  /* ------- Responsivo ------- */
+  @media (max-width: 1200px) {
+    #home-systems-carousel {
+      --card-w: 400px;
+      --gap: 24px;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    #home-systems-carousel { 
+      --card-w: 85vw; 
+      --gap: 16px; 
+    }
+    
+    #home-systems-carousel .carousel-indicators { 
+      bottom: -40px; 
+      gap: 10px;
+    }
+    
+    #home-systems-carousel .carousel-indicators .active { 
+      width: 32px; 
+      height: 10px; 
+    }
+
+    #home-systems-carousel .s_card {
+      padding: 28px 24px;
+      min-height: 350px;
+    }
+
+    #home-systems-carousel .s_card .card-title {
+      font-size: 1.75rem;
+    }
+
+    #home-systems-carousel .s_card .card-text {
+      font-size: 1rem;
+    }
+
+    /* Esconder controles em mobile */
+    #home-systems-carousel .carousel-control-prev,
+    #home-systems-carousel .carousel-control-next {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    #home-systems-carousel {
+      --card-w: 90vw;
+    }
+
+    #home-systems-carousel .s_card {
+      padding: 24px 20px;
+      min-height: 320px;
+    }
+
+    #home-systems-carousel .s_card .card-title {
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+    }
+
+    #home-systems-carousel .carousel-indicators {
+      bottom: -30px;
+    }
+
+    #home-systems-carousel .carousel-indicators .active {
+      width: 28px;
+      height: 8px;
+    }
+  }
+
+  /* ------- Animações Suaves ------- */
+  @keyframes cardSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale();
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  #home-systems-carousel .carousel-item.active .s_card {
+    animation: cardSlideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Peek items */
+#home-systems-carousel .carousel-item.peek-right,
+#home-systems-carousel .carousel-item.peek-left {
+  display: block !important;
+  z-index: 1;
+  transition: all 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Garante que o ativo fica por cima */
+#home-systems-carousel .carousel-item.active { z-index: 3; }
+
+/* tornar os peeks clicáveis */
+#home-systems-carousel .carousel-item.peek-left,
+#home-systems-carousel .carousel-item.peek-right {
+  pointer-events: auto;   /* antes estava none */
+  cursor: pointer;
+}
+
+/* Visual states for active and neighbor slides */
+#home-systems-carousel .carousel-item.active .s_card {
+  transform: none;
+  opacity: 1;
+  filter: none;
+}
+
+#home-systems-carousel .carousel-item.peek-left .s_card,
+#home-systems-carousel .carousel-item.peek-right .s_card {
+  opacity: 0.5;
+  filter: blur(2.5px);
+}
+
+#home-systems-carousel .carousel-item.peek-left .s_card {
+  transform: translateX(calc(-1 * var(--peek-offset))) scale(0.9);
+}
+
+#home-systems-carousel .carousel-item.peek-right .s_card {
+  transform: translateX(var(--peek-offset)) scale(0.9);
+}
+
+#home-systems-carousel.is-sliding .carousel-item.peek-left .s_card,
+#home-systems-carousel.is-sliding .carousel-item.peek-right .s_card {
+  transform: translateX(0) scale(0.9);
+}
+
+@media (max-width: 768px) {
+  #home-systems-carousel .carousel-item.peek-left,
+  #home-systems-carousel .carousel-item.peek-right {
+    display: none !important;
+  }
+}
+
+&lt;/span&gt;</style>
+
+<style>&lt;span style="font-size: 1.25rem;"&gt;
+  /* --- LOGOS COMO TÍTULO --- */
+  #erp-section .erp-logo {
+    display:flex; align-items:center; justify-content:center;
+    width: 160px; height: 54px; margin: 0 auto;
+    object-fit: contain; filter: none;
+  }
+
+  /* drop abre APENAS quando tem .open */
+  #erp-section .erp-dropcard { overflow: visible; cursor: pointer; }
+  #erp-section .erp-drop { max-height: 0; opacity: 0; overflow: hidden; transform: translateY(-6px);
+    transition: max-height .30s ease, opacity .22s ease, transform .22s ease; }
+  #erp-section .erp-drop-inner{
+    margin-top: 10px; background: #fff; color:#111; border-radius:10px; padding:14px 16px; 
+    box-shadow: 0 8px 20px rgba(0,0,0,.12);
+  }
+  #erp-section .erp-dropcard.open .erp-drop {
+    max-height: var(--erp-drop-max, 260px); opacity: 1; transform: translateY(0);
+  }
+
+  /* foco teclado */
+  #erp-section .erp-dropcard:focus-within,
+  #erp-section .erp-dropcard[tabindex="0"]:focus {
+    outline: 2px solid var(--erp-blue, #3091f3); outline-offset: 2px;
+  }
+&lt;/span&gt;</style>
+<style>&lt;span style="font-size: 1.25rem;"&gt;
+  /* escopo opcional: troca .erp-scope por algo teu se quiseres */
+  .erp-scope .erp-highlight .card-title { 
+    color: inherit; 
+    transition: color .18s ease;
+  }
+
+  /* texto escondido por padrão */
+  .erp-scope .erp-highlight .card-text {
+    color: rgba(0,0,0,0); /* “invisível” */
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-4px);
+    transition:
+      color .0s linear .25s,      /* aplica cor só depois de expandir */
+      max-height .28s ease,
+      opacity .22s ease,
+      transform .22s ease;
+  }
+
+  /* no hover: título azul + texto expande e fica preto */
+  .erp-scope .erp-highlight:hover .card-title {
+    color: #3091f3; /* azul */
+  }
+  .erp-scope .erp-highlight:hover .card-text {
+    max-height: 600px;  /* ajusta conforme o teu conteúdo */
+    opacity: 1;
+    transform: translateY(0);
+    color: #000;        /* fica preto após a transição */
+    transition-delay: 0s, 0s, 0s, 0s;
+  }
+
+  /* reduz animações se o utilizador preferir */
+  @media (prefers-reduced-motion: reduce) {
+    .erp-scope .erp-highlight .card-text,
+    .erp-scope .erp-highlight:hover .card-text {
+      transition: none;
+    }
+  }
+&lt;/span&gt;</style>
+
+
+
+<div class="s_quotes_carousel carousel slide pointer-event s_carousel_arrows_hidden o_colored_level carousel-dark" data-bs-ride="carousel" data-bs-interval="5000" data-bs-wrap="true" id="home-systems-carousel">
+  <div class="carousel-inner">
+
+    
+    <div class="carousel-item o_colored_level pt0 pb104 active" data-name="Slide">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in mx-auto w-50 p-1" data-vcss="001" data-scroll-zone-start="0" data-scroll-zone-end="100" style="">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><span style="font-size: 1.25rem;"><br/></span></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h3><font class="text-black"><strong>Implementamos o ERP que melhor se adapta a sua empresa</strong></font></h3><p>Na Parâmetro, somos especialistas na implementação, personalização e suporte de três das principais soluções de ERP do mercado&amp;nbsp;</p><h4 class="card-title"><br/></h4>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+    
+     <div class="carousel-item o_colored_level pb0 pt0 peek-right" data-name="Slide">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level w-50 p-1 mx-auto" data-vcss="001">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level shadow" data-name="Cartão" style="box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 40px 0px !important;">
+          <div class="card-body">
+            <h3><font class="text-black"><strong>Customização e Automatização de Processos&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;</strong></font></h3><p>Adaptamos fluxos, criamos módulos personalizados e integramos ERP com outros sistemas, tudo para que a tecnologia funcione à medida do seu negócio.</p><p>
+
+</p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+    
+    <div class="carousel-item o_colored_level pt0 pb104" data-name="Slide">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in mx-auto w-50 p-1" data-vcss="001" style="">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title"><img src="/web/image/13585-d591b4c3/odoo_logo.png" alt="" class="img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="13581" data-original-src="/web/image/13581-d591b4c3/odoo_logo.png" data-mimetype-before-conversion="image/png" data-resize-width="NaN" style="width: 50% !important;" loading="eager"/></h4>
+            <p class="card-text">Flexivel, Modular e Intuitivo. Ideal para empresas que valorizam agilidade e integração total.
+
+&amp;nbsp;<br/></p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+    
+     <div class="carousel-item o_colored_level pt0 pb104" data-name="Slide">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in mx-auto w-50 p-1" data-vcss="001" style="">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title"><img src="/web/image/13586-08bac342/image.webp" alt="" class="img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="13582" data-original-src="/web/image/13582-0acd0f45/image.png" data-mimetype-before-conversion="image/png" data-resize-width="NaN" style="width: 50% !important;" loading="eager"/></h4>
+            <p class="card-text">
+              
+Completo e Personalizável, com forte presença em Portugal. Perfeito para empresas que procuram rigor e adaptação à realidade fiscal nacional.&amp;nbsp;<br/></p>
+          </div>
+        </div>
+      </blockquote>
+    </div><div class="carousel-item o_colored_level pt0 pb104 peek-left" data-name="Slide" style="min-height: 529.401px;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in w-50 p-1 mx-auto o_animating" data-vcss="001" style="visibility: visible; animation-delay: -79.4808s;">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title"><img src="/web/image/13588-1f676add/Cegid-PHC-RGB-color1.png" alt="" class="img img-fluid o_we_custom_image" style="width: 50% !important;" data-mimetype="image/webp" data-original-id="13583" data-original-src="/web/image/13583-1f676add/Cegid-PHC-RGB-color1.png" data-mimetype-before-conversion="image/png" data-resize-width="NaN" loading="eager"/></h4>
+            <p class="card-text">
+              Robusto e orientado à gestão avançada. Muito utilizado em setores industriais e de distribuição.
+
+</p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+  </div>
+
+  
+  <button class="carousel-control-prev o_not_editable o_we_no_overlay" aria-label="Anterior" title="Anterior" data-bs-target="#home-systems-carousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"/>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next o_not_editable o_we_no_overlay" aria-label="Seguinte" title="Seguinte" data-bs-target="#home-systems-carousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"/>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+  
+  <div class="carousel-indicators o_we_no_overlay">
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel" class="active" data-bs-slide-to="0" aria-current="true"/>
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel" data-bs-slide-to="1"/>
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel" data-bs-slide-to="2"/>
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel" data-bs-slide-to="3"/>
+  <button data-bs-target="#home-systems-carousel" aria-label="Carousel indicator" data-bs-slide-to="4"/> </div>
+</div>
+
+
+<script>
+  (function () {
+    var root = document.getElementById('home-systems-carousel');
+    if (!root) return;
+
+    var inner = root.querySelector('.carousel-inner');
+    var items = inner ? inner.querySelectorAll('.carousel-item') : [];
+    if (!items || !items.length) return;
+
+    function toggleLastActiveFlag() {
+      var last = items[items.length - 1];
+      var isLastActive = last.classList.contains('active');
+      root.classList.toggle('is-last-active', isLastActive);
+    }
+
+    // No load, garantir estado correto
+    toggleLastActiveFlag();
+
+    // Atualizar após cada transição do Bootstrap
+    root.addEventListener('slid.bs.carousel', toggleLastActiveFlag);
+  })();
+</script>
+<script>
+(function () {
+  const wrapper = document.getElementById('home-systems-carousel');
+  if (!wrapper || wrapper.dataset.peekInit) return;
+  wrapper.dataset.peekInit = '1';
+  const carousel = wrapper;
+  const bsCarousel = window.bootstrap &amp;&amp; bootstrap.Carousel
+    ? bootstrap.Carousel.getOrCreateInstance(carousel, { interval: false, wrap: true })
+    : (window.jQuery ? $(carousel).carousel({ interval: false, wrap: true }).data('bs.carousel') : null);
+  if (!bsCarousel) return;
+  console.log('Carousel initialized', bsCarousel);
+  if (bsCarousel._config) {
+    Object.assign(bsCarousel._config, {
+      centeredSlides: true,
+      watchSlidesProgress: true,
+      slidesPerView: 1,
+      breakpoints: {
+        768: { slidesPerView: 1.5 },
+        1024: { slidesPerView: 2 }
+      }
+    });
+  }
+
+  const items = () =&gt; carousel.querySelectorAll('.carousel-item');
+
+  function updatePeeks(activeIndex) {
+    const all = items();
+    all.forEach(i =&gt; i.classList.remove('peek-left', 'peek-right'));
+
+    const index = activeIndex !== undefined
+      ? activeIndex
+      : Array.from(all).findIndex(i =&gt; i.classList.contains('active'));
+
+    const next = all[(index + 1) % all.length];
+    const prev = all[(index - 1 + all.length) % all.length];
+    if (next) next.classList.add('peek-right');
+    if (prev) prev.classList.add('peek-left');
+  }
+
+  updatePeeks();
+  setInterval(() =&gt; bsCarousel.next(), 5000);
+
+  carousel.addEventListener('slide.bs.carousel', ev =&gt; {
+    console.log('slide', ev.from, '-&gt;', ev.to, ev.direction);
+    wrapper.classList.add('is-sliding');
+    const all = items();
+    const from = all[ev.from];
+    const prev = all[(ev.from - 1 + all.length) % all.length];
+    const next = all[(ev.from + 1) % all.length];
+
+    if (ev.direction === 'left') {
+      if (prev) prev.classList.remove('peek-left');
+      from.classList.add('peek-left');
+    } else {
+      if (next) next.classList.remove('peek-right');
+      from.classList.add('peek-right');
+    }
+  });
+  carousel.addEventListener('slid.bs.carousel', ev =&gt; {
+    console.log('slid to', ev.to);
+    updatePeeks(ev.to);
+    wrapper.classList.remove('is-sliding');
+  });
+  carousel.addEventListener('click', ev =&gt; {
+    const peek = ev.target.closest('.carousel-item.peek-left, .carousel-item.peek-right');
+    if (!peek) return;
+    console.log('peek click', peek.classList.contains('peek-left') ? 'left' : 'right');
+    peek.classList.contains('peek-left') ? bsCarousel.prev() : bsCarousel.next();
+  });
+})();
+</script>
+
+</section>
+
+            <section class="s_title o_colored_level pb0 pt40" data-vcss="001" data-snippet="s_title" data-name="Título">
+                <div class="s_allow_columns container">
+                    <h2 class="display-3-fs" style="text-align: left;">
+                        Web</h2><p>
+                        <span class="h4-fs">
+                            
+                            
+                            
+                            <font style="color: rgb(48, 145, 243);">
+                                A sua presença digital deve funcionar<br/>tão bem como o seu negócio.
+                            </font>
+                        </span>
+                    </p>
+                </div>
+            </section>
+<section class="s_quotes_carousel_wrapper o_half_screen_height" data-vxml="001" data-vcss="002" data-preview-interaction-enabled="true" data-snippet="s_quotes_carousel_minimal" data-name="Quotes Minimal">
+<div id="home-systems-carousel" class="is-last-active">
+  <div class="s_quotes_carousel carousel slide pointer-event s_carousel_arrows_hidden o_colored_level carousel-dark" data-bs-ride="carousel" data-bs-interval="5000" data-bs-wrap="true" id="home-systems-carousel-inner">
+  <div class="carousel-inner" style="height: 400px;">
+
+    
+    <div class="carousel-item o_colored_level pt0 pb104 pos--1 active" data-name="Slide" style="width: 100%;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in mx-auto w-50 p-1" data-vcss="001" data-scroll-zone-start="0" data-scroll-zone-end="100" style="">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title">Desenvolvimento de websites e plataformas personalizadas</h4><p class="card-text" style="text-align: left;">
+                Criamos websites institucionais, plataformas de gestão e aplicações web adaptadas à realidade de cada cliente. Tudo pensado para funcionar bem, ser fácil de usar e crescer com o seu negócio.
+            </p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+    
+     <div class="carousel-item o_colored_level pb0 pt0 pos-0" data-name="Slide" style="width: 100%;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level w-50 p-1 mx-auto" data-vcss="001">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title">Programação<br/>à medida</h4><p class="card-text" style="text-align: left;">
+                Criamos websites institucionais, plataformas de gestão e aplicações web adaptadas à realidade de cada cliente. Tudo pensado para funcionar bem, ser fácil de usar e crescer com o seu negócio.
+            </p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+    
+    <div class="carousel-item o_colored_level pt0 pb104 pos-1" data-name="Slide" style="width: 100%;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in mx-auto w-50 p-1" data-vcss="001" style="">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title">Design funcional e responsivo</h4><p class="card-text" style="text-align: left;">
+                Desenhamos interfaces claras, responsivas e consistentes com a identidade da sua marca. A experiência do utilizador está sempre no centro, quer esteja num computador ou num telemóvel.
+            </p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+    
+     <div class="carousel-item o_colored_level pt0 pb104 off-1" data-name="Slide" style="width: 100%;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in w-50 p-1 mx-auto" data-vcss="001" style="">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title">Acompanhamento e<br/>manutenção contínua</h4><p class="card-text" style="text-align: left;">
+                Depois do lançamento, mantemos tudo atualizado, seguro e otimizado. Estamos disponíveis para evoluir o seu projeto ou dar resposta a novas necessidades técnicas.
+            </p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+  </div>
+
+  
+  <button class="carousel-control-prev o_not_editable o_we_no_overlay" aria-label="Anterior" title="Anterior" data-bs-target="#home-systems-carousel-inner" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"/>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next o_not_editable o_we_no_overlay" aria-label="Seguinte" title="Seguinte" data-bs-target="#home-systems-carousel-inner" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"/>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+  
+  <div class="carousel-indicators o_we_no_overlay" style="bottom: -150px !important;">
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel-inner" data-bs-slide-to="0" class="active" aria-current="true"/>
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel-inner" data-bs-slide-to="1"/>
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel-inner" data-bs-slide-to="2"/>
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel-inner" data-bs-slide-to="3"/>
+  </div>
+  </div>
+</div>
+</section>
+
+            <section class="s_title o_colored_level pb0 pt40" data-vcss="001" data-snippet="s_title" data-name="Título">
+                <div class="s_allow_columns container">
+                    <h2 class="display-3-fs" style="text-align: left;">
+                        Business Intelligence&amp;nbsp;</h2><p>
+                        <span class="h4-fs">
+                            
+                            
+                            
+                            <font style="color: rgb(48, 145, 243);">
+                                Decidir melhor começa com os dados certos.
+                            </font>
+                        </span>
+                    </p>
+                </div>
+            </section>
+<section class="s_quotes_carousel_wrapper o_half_screen_height" data-vxml="001" data-vcss="002" data-preview-interaction-enabled="true" data-snippet="s_quotes_carousel_minimal" data-name="Quotes Minimal">
+<div id="home-systems-carousel" class="is-last-active">
+  <div class="s_quotes_carousel carousel slide pointer-event s_carousel_arrows_hidden o_colored_level carousel-dark" data-bs-ride="carousel" data-bs-interval="5000" data-bs-wrap="true" id="home-systems-carousel-inner">
+  <div class="carousel-inner" style="height: 400px;">
+
+    
+    <div class="carousel-item o_colored_level pt0 pb104 pos--1 active" data-name="Slide" style="width: 100%;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in mx-auto w-50 p-1" data-vcss="001" data-scroll-zone-start="0" data-scroll-zone-end="100" style="">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title">Análise e visualização à medida</h4><p class="card-text" style="text-align: left;">
+                Cada organização tem métricas diferentes.<br/>A Parâmetro adapta os relatórios aos seus objetivos, criando visões por área (vendas, produção, financeiro, recursos humanos) que facilitam a análise e aceleram a tomada de decisão.
+            </p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+    
+     <div class="carousel-item o_colored_level pb0 pt0 pos-0" data-name="Slide" style="width: 100%;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level w-50 p-1 mx-auto" data-vcss="001">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title">Dashboards que mostram o que interessa</h4><p class="card-text" style="text-align: left;">
+                Deixe a gestão da sua infraestrutura connosco. Monitorizamos sistemas, backups e segurança em tempo real, garantindo continuidade operacional, sem que precise de se preocupar com a parte técnica.
+            </p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+    
+    <div class="carousel-item o_colored_level pt0 pb104 pos-1" data-name="Slide" style="width: 100%;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in mx-auto w-50 p-1" data-vcss="001" style="">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title">Acompanhamento e evolução contínua</h4><p class="card-text" style="text-align: left;">
+                Depois de implementado, continuamos consigo: atualizamos relatórios, ajustamos métricas e acompanhamos as novas necessidades do seu negócio.
+            </p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+    
+     <div class="carousel-item o_colored_level pt0 pb104 off-1" data-name="Slide" style="width: 100%;">
+      <blockquote class="s_blockquote s_blockquote_with_icon o_animable position-relative d-flex flex-column gap-4 my-4 fst-normal o_colored_level o_animate o_animate_on_scroll o_anim_fade_in w-50 p-1 mx-auto" data-vcss="001" style="">
+        <div class="s_blockquote_line_elt position-absolute top-0 start-0 bottom-0 bg-o-color-1"><br/></div>
+        <div class="s_card o_card_img_top card o_cc o_cc1 o_colored_level" data-name="Cartão">
+          <div class="card-body">
+            <h4 class="card-title">Integração com o ERP ou software de gestão</h4><p class="card-text" style="text-align: left;">
+                Ligamos o BI ao seu ERP (Primavera, PHC, Odoo ou outro) para recolher dados diretamente da origem. Isso garante atualizações automáticas, segurança e consistência na informação.
+            </p>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+
+  </div>
+
+  
+  <button class="carousel-control-prev o_not_editable o_we_no_overlay" aria-label="Anterior" title="Anterior" data-bs-target="#home-systems-carousel-inner" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"/>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next o_not_editable o_we_no_overlay" aria-label="Seguinte" title="Seguinte" data-bs-target="#home-systems-carousel-inner" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"/>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+  
+  <div class="carousel-indicators o_we_no_overlay" style="bottom: -150px !important;">
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel-inner" data-bs-slide-to="0" class="active" aria-current="true"/>
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel-inner" data-bs-slide-to="1"/>
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel-inner" data-bs-slide-to="2"/>
+    <button type="button" aria-label="Carousel indicator" data-bs-target="#home-systems-carousel-inner" data-bs-slide-to="3"/>
+  </div>
+  </div>
+</div>
+</section>
+            
+<section class="s_showcase o_colored_level bg-black pt0 s_custom_snippet pb0" data-vcss="003" data-snippet="s_showcase" data-name="Personalizar Personalizar Showcase">
+        <div class="container-fluid">
+            <div class="row o_grid_mode" data-row-count="11">
+                <div class="o_colored_level o_grid_item g-col-lg-6 g-height-11 col-lg-6" style="grid-area: 1 / 1 / 12 / 7; z-index: 1;">
+                    <div class="row align-items-start">
+                        
+                        
+                        
+                        
+                        <div class="col-12 o_colored_level pt0 pb0" style="text-align: right;">
+                            <div class="s_text_highlight o_colored_level o_cc my-3 w-100 o_cc3 bg-black text-start" data-snippet="s_text_highlight" data-name="Destaque de texto">
+        <div class="container">
+            <h3><span class="h1-fs" style="font-family: Arial, sans-serif;">Quer crescer</span></h3><p><span class="h2-fs" style="font-family: Arial, sans-serif;">Connosco</span><span class="h2-fs">?</span></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><table class="table o_table" style="width: 100%; border:none;"><tbody><tr><td style="border:none;"><p><a href="/contacts" class="o_translate_inline btn btn-custom text-o-color-4 bg-o-color-1" style="border-width: 1px; border-style: solid;">Contactar</a><a href="/contacts" class="o_translate_inline"><font class="bg-o-color-2">​</font></a></p></td><td style="border:none;"><p><a href="/em" class="o_translate_inline btn btn-primary">@</a></p></td><td style="border:none;"><p><a href="/whatsap" class="o_translate_inline btn btn-primary"><span class="fa fa-whatsapp"/></a></p></td></tr></tbody></table>
+        </div>
+    </div></div>
+                    </div>
+                </div>
+                
+            <div class="o_colored_level d-lg-block d-none o_snippet_mobile_invisible o_grid_item o_grid_item_image g-col-lg-5 g-height-11 col-lg-5" style="z-index: 2; grid-area: 1 / 8 / 12 / 13;" data-invisible="1"><img src="/web/image/13587-ba5708d0/HANDSHAKE_DESKTOP.webp" alt="" class="img img-fluid o_we_custom_image ms-auto float-end shadow" style="transform: translateX(1%) translateY(0.2%) scaleX(1) scaleY(1.04);" data-mimetype="image/webp" data-original-id="13584" data-original-src="/web/image/13584-08f6fdf5/HANDSHAKE_DESKTOP.png" data-mimetype-before-conversion="image/png" data-resize-width="NaN" loading="lazy"/></div></div>
+        </div>
+    </section>
+
+            
+            
+
+
+        </div>
+    </t>
+</t>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- List View customizada para Adiantamentos -->
+        <record id="view_account_payment_advance_list" model="ir.ui.view">
+            <field name="name">account.payment.advance.list</field>
+            <field name="model">account.payment</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <list edit="false" sample="1" decoration-info="state == 'draft'" decoration-muted="state == 'canceled'" decoration-success="is_advance and advance_residual_amount > 0 and state not in ('draft','posted')">
+                    <header>
+                        <button name="action_post" type="object" string="Confirmar"/>
+                    </header>
+                    <field name="company_currency_id" column_invisible="True"/>
+                    <field name="available_payment_method_line_ids" column_invisible="True"/>
+                    <field name="is_advance" column_invisible="True"/>
+                    <field name="date" readonly="state in ['cancel', 'in_process']"/>
+                    <field name="nr_advance" string="Número do Adiantamento"/>
+                    <field name="name"/>
+                    <field name="journal_id"/>
+                    <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+                    <field name="payment_method_line_id" context="{'hide_payment_journal_id': 1}"/>
+                    <field name="partner_id" string="Cliente"/>
+                    <field name="amount_signed" string="Valor na Moeda" optional="hide" groups="!base.group_multi_currency"/>
+                    <field name="amount_signed" string="Valor na Moeda" optional="show" groups="base.group_multi_currency"/>
+                    <field name="currency_id" string="Moeda do Pagamento" optional="hide"/>
+                    <field name="activity_ids" widget="list_activity" optional="hide"/>
+                    <field name="amount_company_currency_signed" widget="monetary" string="Valor" sum="Total"/>
+                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'in_process'" decoration-success="state == 'paid'"/>
+                    <field name="advance_residual_amount" widget="monetary" decoration-success="is_advance and advance_residual_amount > 0 and state not in ('draft','posted')"
+                      decoration-danger="is_advance and advance_residual_amount == 0 and state not in ('draft','posted')"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Kanban View customizada para Adiantamentos -->
+        <record id="view_account_payment_advance_kanban" model="ir.ui.view">
+            <field name="name">account.payment.advance.kanban</field>
+            <field name="model">account.payment</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" create="0" group_create="0" sample="1">
+                    <field name="is_advance" invisible="1"/>
+                    <field name="nr_advance"/>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="date"/>
+                    <field name="amount"/>
+                    <field name="currency_id"/>
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="card">
+                            <div class="row mb4">
+                                <div class="col-6">
+                                    <field class="fw-bolder" name="nr_advance"/>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <i class="fa fa-clock-o fw-bold" role="img" aria-label="Data" title="Data"/> 
+                                    <field class="fw-bold" name="date"/>
+                                </div>
+                            </div>
+                            <field name="partner_id"/>
+                            <div class="row">
+                                <div class="col-6">
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </div>
+                                <div class="col-6">
+                                    <field class="float-end" name="state" widget="label_selection" 
+                                           options="{'classes': {'draft': 'secondary', 'in_process': 'warning', 'paid': 'success', 'canceled': 'danger'}}"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Action para Adiantamentos com as views customizadas -->
+        <record id="action_account_payment_advances" model="ir.actions.act_window">
+            <field name="name">Adiantamentos dos Clientes</field>
+            <field name="res_model">account.payment</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="context">{'default_is_advance': True, 'default_payment_type': 'inbound', 'default_partner_type': 'customer'}</field>
+            <field name="domain">[('is_advance', '=', True), ('payment_type', '=', 'inbound')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Criar novo Adiantamento
+                </p>
+                <p>
+                    Registre os adiantamentos recebidos dos seus clientes.
+                </p>
+            </field>
+        </record>
+
+
+        <!-- Action para Adiantamentos Fornecedores com as views customizadas -->
+        <record id="action_account_payment_advance_vendor" model="ir.actions.act_window">
+            <field name="name">Adiantamentos dos Fornecedores</field>
+            <field name="res_model">account.payment</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="context">{'default_is_advance': True, 'default_payment_type': 'outbound', 'default_partner_type': 'supplier'}</field>
+            <field name="domain">[('is_advance', '=', True), ('payment_type', '=', 'outbound')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Criar novo Adiantamento
+                </p>
+                <p>
+                    Registre os adiantamentos recebidos dos seus clientes.
+                </p>
+            </field>
+        </record>
+
+        <!-- Associar as views espec�ficas � action Clientes -->
+        <record id="action_account_payment_advances_list" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="view_account_payment_advance_list"/>
+            <field name="act_window_id" ref="action_account_payment_advances"/>
+        </record>
+
+        <record id="action_account_payment_advances_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="view_account_payment_advance_kanban"/>
+            <field name="act_window_id" ref="action_account_payment_advances"/>
+        </record>
+
+           <!-- Associar as views específicas à action fornecedores -->
+        <record id="action_account_payment_advance_vendor_list" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="view_account_payment_advance_list"/>
+            <field name="act_window_id" ref="action_account_payment_advance_vendor"/>
+        </record>
+
+        <record id="action_account_payment_advance_vendor_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="view_account_payment_advance_kanban"/>
+            <field name="act_window_id" ref="action_account_payment_advance_vendor"/>
+        </record>
+
+        <record id="action_account_payment_advances_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account.view_account_payment_form"/>
+            <field name="act_window_id" ref="action_account_payment_advances"/>
+        </record>
+        
+        <record id="action_account_payment_advance_vendor_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account.view_account_payment_form"/>
+            <field name="act_window_id" ref="action_account_payment_advance_vendor"/>
+        </record>
+        
+        <!-- Herdar Form View para adicionar campos de adiantamento -->
+        <record id="view_account_payment_form_inherit_advance" model="ir.ui.view">
+            <field name="name">account.payment.form.inherit.advance</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <!-- Adicionar campos invisíveis necessários -->
+                <xpath expr="//sheet" position="inside">
+                    <field name="is_advance" invisible="1"/>
+                    <field name="applied_invoice_ids" invisible="1"/>
+                    <field name="applied_invoice_count" invisible="1"/>
+                    <field name="advance_residual_amount" invisible="1"/>
+                    <field name="transfer_move_ids" invisible="1"/>
+                    <field name="advance_used" invisible="1"/>
+                </xpath>
+                
+                <!-- Adicionar smart buttons para adiantamentos -->
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_applied_invoices"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-file-text-o"
+                            invisible="not is_advance or applied_invoice_count == 0"
+                            groups="account.group_account_readonly">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="applied_invoice_count" widget="integer"/>
+                            </span>
+                            <span class="o_stat_text">Fatura(s)</span>
+                        </div>
+                    </button>
+                    
+                    <button name="action_view_transfer_moves"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-exchange"
+                            invisible="not is_advance or not transfer_move_ids"
+                            groups="account.group_account_readonly">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text">Transferências</span>
+                        </div>
+                    </button>
+                </xpath>
+                
+                <!-- Adicionar campo nr_advance no grupo principal -->
+                <xpath expr="//group[@name='main_group']/group[@name='group1']/field[@name='partner_id'][1]" position="before">
+                    <field name="nr_advance" 
+                           string="Número do Adiantamento"
+                           readonly="1"
+                           invisible="not is_advance"/>
+                    <field name="advance_residual_amount" readonly="1"/>
+                </xpath>
+                
+                <!-- Adicionar campos de adiantamento após o parceiro -->
+                <xpath expr="//group[@name='main_group']/group[@name='group1']/field[@name='partner_id'][1]" position="after">
+                    <field name="advance_account_id" 
+                           string="Conta Contábil"
+                           readonly="1"
+                           invisible="not is_advance"
+                           help="Conta contábil que será usada para este adiantamento"/>
+                    <field name="advance_residual_amount"
+                           string="Valor Disponível"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"
+                           invisible="not is_advance or state != 'posted'"
+                           help="Valor ainda disponível deste adiantamento"/>
+                </xpath>
+                
+                <!-- Adicionar indicador de adiantamento usado após o sheet -->
+                <xpath expr="//sheet" position="before">
+                    <div invisible="not is_advance or not advance_used" class="alert alert-warning text-center" role="alert">
+                        <strong>Adiantamento Totalmente Utilizado</strong>
+                    </div>
+                    <div invisible="not is_advance or advance_used or state != 'posted'" class="alert alert-success text-center" role="alert">
+                        <strong>Adiantamento Disponível: <field name="advance_residual_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/></strong>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Stock Return Picking Wizard -->
+    <record id="view_stock_return_picking_form_credit_note" model="ir.ui.view">
+        <field name="name">stock.return.picking.form.credit.note</field>
+        <field name="model">stock.return.picking</field>
+        <field name="inherit_id" ref="stock.view_stock_return_picking_form"/>
+        <field name="arch" type="xml">
+            <!-- Campo para controlar visibilidade das colunas -->
+            <xpath expr="//field[@name='product_return_moves']" position="before">
+                <field name="is_purchase_picking" invisible="1"/>
+            </xpath>
+
+            <!-- Adicionar campos às linhas -->
+            <xpath expr="//field[@name='product_return_moves']/list/field[@name='product_id']" position="after">
+                <field name="product_form" column_invisible="1"/>
+                <!-- lot_id apenas para VENDAS (não é compra) -->
+                <field name="lot_id" column_invisible="parent.is_purchase_picking"/>
+                <!-- lot_name e dimensões apenas para COMPRAS -->
+                <field name="lot_name" column_invisible="not parent.is_purchase_picking"/>
+                <field name="units_qty" column_invisible="not parent.is_purchase_picking"/>
+                <field name="length" column_invisible="not parent.is_purchase_picking"/>
+                <field name="width" column_invisible="not parent.is_purchase_picking"/>
+                <field name="thickness" column_invisible="not parent.is_purchase_picking"/>
+            </xpath>
+
+            <!-- Fazer product_id sempre readonly (não se pode trocar o produto a devolver) -->
+            <xpath expr="//field[@name='product_return_moves']/list/field[@name='product_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <!-- Fazer quantity readonly quando product_form != 'none' -->
+            <xpath expr="//field[@name='product_return_moves']/list/field[@name='quantity']" position="attributes">
+                <attribute name="readonly">product_form and product_form != 'none'</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <!-- Adicionar campos de nota de crédito antes dos botões -->
+            <xpath expr="//footer" position="before">
+                <!-- Campos ocultos para lógica -->
+                <field name="can_create_credit_note" invisible="1"/>
+                <field name="can_create_sale_credit_note" invisible="1"/>
+                <field name="can_create_purchase_credit_note" invisible="1"/>
+                <field name="credit_note_type" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+
+                <!-- Grupo para VENDAS (Cliente) -->
+                <group string="Nota de Crédito (Cliente)"
+                       invisible="not can_create_sale_credit_note">
+                    <group>
+                        <field name="create_credit_note" widget="boolean_toggle"/>
+                    </group>
+                    <group invisible="not create_credit_note">
+                        <field name="credit_note_reason" placeholder="Devolução de mercadoria"/>
+                        <field name="credit_note_date"/>
+                        <field name="credit_note_journal_id"
+                               domain="[('type', '=', 'sale'), ('company_id', '=', company_id)]"
+                               options="{'no_create': True, 'no_create_edit': True}"/>
+                    </group>
+                </group>
+
+                <!-- Grupo para COMPRAS (Fornecedor) -->
+                <group string="Nota de Crédito (Fornecedor)"
+                       invisible="not can_create_purchase_credit_note">
+                    <group>
+                        <field name="create_credit_note" widget="boolean_toggle"/>
+                    </group>
+                    <group invisible="not create_credit_note">
+                        <field name="credit_note_reason" placeholder="Devolução ao fornecedor"/>
+                        <field name="credit_note_date"/>
+                        <field name="credit_note_journal_id"
+                               domain="[('type', '=', 'purchase'), ('company_id', '=', company_id)]"
+                               options="{'no_create': True, 'no_create_edit': True}"/>
+                    </group>
+                </group>
+
+                <!-- Mensagem informativa quando não pode criar nota de crédito - VENDAS -->
+                <div class="alert alert-info" role="alert"
+                     invisible="can_create_credit_note or is_purchase_picking">
+                    <i class="fa fa-info-circle"/>
+                    Para criar nota de crédito de cliente, a venda deve ter uma fatura postada.
+                </div>
+
+                <!-- Mensagem informativa quando não pode criar nota de crédito - COMPRAS -->
+                <div class="alert alert-info" role="alert"
+                     invisible="can_create_credit_note or not is_purchase_picking">
+                    <i class="fa fa-info-circle"/>
+                    Para criar nota de crédito de fornecedor, a compra deve ter uma fatura postada.
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

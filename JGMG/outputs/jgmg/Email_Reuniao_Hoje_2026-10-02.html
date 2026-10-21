@@ -1,0 +1,88 @@
+<!doctype html>
+<!--
+  NÃO copiar a partir do editor de código. O que está neste ficheiro é o HTML da
+  página de pré-visualização; colado em bruto, o Odoo mostra as etiquetas como texto.
+
+  Para colar no Odoo, dois caminhos:
+    1. o pg_copy_email_cliente.ps1 já deixou o corpo do email na área de
+       transferência — no compositor do Odoo é só Ctrl+V;
+    2. ou abrir este ficheiro no browser (não no editor) e usar o botão
+       "Copiar corpo".
+-->
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reunião de hoje, 14:30 — o que trazer — Projeto Odoo JGMG</title>
+<style>
+:root { color-scheme: light dark; }
+body { margin: 0; padding: 24px; background: #f4f6f8;
+       font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #111827; }
+main { max-width: 760px; margin: 0 auto; }
+.meta { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+        padding: 16px 20px; margin-bottom: 8px; font-size: 13px; }
+.meta h1 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em;
+           color: #6b7280; margin: 0 0 10px; }
+.meta dl { display: grid; grid-template-columns: 90px 1fr; gap: 4px 12px; margin: 0; }
+.meta dt { color: #6b7280; } .meta dd { margin: 0; font-weight: 600; }
+.avisos { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+          padding: 12px 20px; margin-bottom: 8px; font-size: 13px; color: #92400e; }
+.avisos ul { margin: 6px 0 0; padding-left: 18px; }
+.barra { display: flex; align-items: center; gap: 12px; margin: 16px 0 8px; }
+button { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 6px;
+         border: 0; background: #009fe3; color: #fff; cursor: pointer; }
+button:hover { background: #007fb6; }
+.dica { font-size: 12px; color: #6b7280; }
+#corpo { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+         padding: 24px 28px; font-size: 14px; line-height: 1.55; }
+#corpo p { margin: 0 0 12px; }
+#corpo table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+#corpo th, #corpo td { border: 1px solid #d1d5db; padding: 6px 10px; text-align: left; }
+#corpo th { background: #f9fafb; }
+#corpo blockquote { margin: 0 0 12px; padding-left: 12px; border-left: 3px solid #d1d5db;
+                    color: #4b5563; }
+#corpo pre { background: #f3f4f6; padding: 12px; overflow-x: auto; }
+@media (prefers-color-scheme: dark) {
+  body { background: #0b1220; color: #e5e7eb; }
+  .meta, #corpo { background: #111827; border-color: #1f2937; }
+  #corpo th { background: #1f2937; } #corpo th, #corpo td { border-color: #374151; }
+  .avisos { background: #2b2411; border-color: #7c5e10; color: #fcd34d; }
+}
+</style>
+</head>
+<body>
+<main>
+<section class="meta"><h1>Email ao cliente</h1><dl><dt>Assunto</dt><dd>Reunião de hoje, 14:30 — o que trazer — Projeto Odoo JGMG</dd><dt>Para</dt><dd>ricardo@joseguimaraes.pt</dd></dl></section><div class="barra"><button id="copiar" type="button">Copiar corpo</button><span class="dica" id="estado">Copia apenas o corpo — os metadados acima ficam de fora.</span></div>
+<article id="corpo">
+<p>Bom dia, Sr. Ricardo,</p>
+<p>Para aproveitarmos bem a reunião de hoje às 14:30, deixo a lista do que seria útil trazer — ou enviar antes, se já estiver disponível:</p>
+<ol><li><strong>Inventário de artigos, contactos de clientes e fornecedores, e documentos dos projetos</strong> — no formato que tiverem (Excel, PDF, pastas). Nós adaptamos e carregamos no Odoo.</li><li><strong>Dados da empresa</strong> — NIF, morada completa, telefone, email geral e IBAN. Aparecem nos orçamentos e emails enviados aos vossos clientes.</li><li><strong>Licença do Odoo</strong> — o período de teste termina na <strong>sexta-feira, 09/10</strong>. Hoje combinamos como fica ativada a subscrição, para não haver interrupção.</li><li><strong>Funções de cada colaborador</strong> — o que fazem a Cristina, o José Correia, a Andreia e a Marta (orçamentos, compras, obra, faturação…), para organizarmos a formação por temas.</li><li><strong>Disponibilidade para a formação</strong> — dias possíveis até 14/10, e se preferem um dia inteiro ou duas manhãs.</li></ol>
+<p>Vimos que a equipa já começou a usar o Odoo — os projetos da Adélia Reis e da Manuela Melo já lá estão, e partimos desses exemplos na reunião.</p>
+<p>Até logo.</p>
+</article>
+</main>
+<script>
+document.getElementById('copiar').addEventListener('click', async () => {
+  const corpo = document.getElementById('corpo');
+  const html = corpo.innerHTML;
+  const estado = document.getElementById('estado');
+  try {
+    await navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([html], {type: 'text/html'}),
+      'text/plain': new Blob([corpo.innerText], {type: 'text/plain'}),
+    })]);
+    estado.textContent = 'Copiado. Cola no compositor do Odoo com Ctrl+V.';
+  } catch (e) {
+    const range = document.createRange();
+    range.selectNodeContents(corpo);
+    const sel = window.getSelection();
+    sel.removeAllRanges(); sel.addRange(range);
+    const ok = document.execCommand('copy');
+    estado.textContent = ok
+      ? 'Copiado. Cola no compositor do Odoo com Ctrl+V.'
+      : 'Nao foi possivel copiar: seleciona o corpo e usa Ctrl+C.';
+  }
+});
+</script>
+</body>
+</html>

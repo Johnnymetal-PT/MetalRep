@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ================================================================
+             BOTÃO PARA CRIAR CONTA CONTABILÍSTICA
+             ================================================================ -->
+
+        <record id="view_partner_form_create_account_button" model="ir.ui.view">
+            <field name="name">res.partner.form.create.account.button</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <field name="can_create_partner_account" invisible="1"/>
+                    <button name="action_open_create_account_wizard"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                            invisible="not can_create_partner_account">
+                        <span>Criar Conta</span>
+                    </button>
+                    <!-- Tornar Cliente (fornecedor sem conta cliente individual) -->
+                    <button name="action_convert_to_customer"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-user-plus"
+                            invisible="parent_id or nr_cliente or supplier_rank == 0"
+                            groups="sales_team.group_sale_salesman">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Tornar</span>
+                            <span class="o_stat_text">Cliente</span>
+                        </div>
+                    </button>
+                    <!-- Tornar Fornecedor (cliente sem conta fornecedor individual) -->
+                    <button name="action_convert_to_supplier"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-truck"
+                            invisible="parent_id or nr_fornecedor or customer_rank == 0"
+                            groups="purchase.group_purchase_user">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Tornar</span>
+                            <span class="o_stat_text">Fornecedor</span>
+                        </div>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- ================================================================
+             VISTA DO PARCEIRO - ABA DE CONTABILIDADE
+             ================================================================ -->
+
+        <record id="view_partner_property_form_account" model="ir.ui.view">
+            <field name="name">res.partner.form.property.account</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='accounting_entries']" position="after">
+                    <group string="Numeração Automática" name="auto_numbering">
+                        <field name="nr_cliente" readonly="1"/>
+                        <field name="nr_fornecedor" readonly="1"/>
+                        <field name="skip_customer_account_creation"/>
+                        <field name="skip_supplier_account_creation"/>
+                        <field name="skip_account_creation" groups="base.group_no_one"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- ================================================================
+             VISTA DE LISTA DO PARCEIRO
+             ================================================================ -->
+
+        <record id="view_partner_list_account" model="ir.ui.view">
+            <field name="name">res.partner.list.account</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="nr_cliente" optional="hide"/>
+                    <field name="nr_fornecedor" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- ================================================================
+             FORM: badges nr_cliente / nr_fornecedor abaixo do nome
+             ================================================================ -->
+        <record id="view_partner_form_show_numbers" model="ir.ui.view">
+            <field name="name">res.partner.form.show.numbers</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_title')]" position="after">
+                    <field name="nr_cliente" invisible="1"/>
+                    <field name="nr_fornecedor" invisible="1"/>
+                    <div class="mh_partner_numbers_box"
+                         invisible="not nr_cliente and not nr_fornecedor">
+                        <div class="mh_partner_number_card mh_pn_customer text-bg-primary"
+                             invisible="not nr_cliente" title="Número de Cliente">
+                            <div class="mh_partner_number_icon">
+                                <i class="fa fa-user"/>
+                            </div>
+                            <div class="mh_partner_number_info">
+                                <span class="mh_partner_number_label">Cliente</span>
+                                <span class="mh_partner_number_value">
+                                    <field name="nr_cliente" readonly="1" nolabel="1" class="d-inline"/>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mh_partner_number_card mh_pn_supplier text-bg-success"
+                             invisible="not nr_fornecedor" title="Número de Fornecedor">
+                            <div class="mh_partner_number_icon">
+                                <i class="fa fa-truck"/>
+                            </div>
+                            <div class="mh_partner_number_info">
+                                <span class="mh_partner_number_label">Fornecedor</span>
+                                <span class="mh_partner_number_value">
+                                    <field name="nr_fornecedor" readonly="1" nolabel="1" class="d-inline"/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- ================================================================
+             KANBAN: mostrar nr_cliente / nr_fornecedor
+             ================================================================ -->
+        <record id="view_partner_kanban_show_numbers" model="ir.ui.view">
+            <field name="name">res.partner.kanban.show.numbers</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="nr_cliente" invisible="1"/>
+                    <field name="nr_fornecedor" invisible="1"/>
+                    <div t-if="record.nr_cliente.raw_value or record.nr_fornecedor.raw_value"
+                         class="d-flex gap-2 mt-1">
+                        <span t-if="record.nr_cliente.raw_value"
+                              class="badge rounded-pill text-bg-primary fw-normal"
+                              title="Nº Cliente">
+                            <i class="fa fa-user me-1"/><t t-esc="record.nr_cliente.value"/>
+                        </span>
+                        <span t-if="record.nr_fornecedor.raw_value"
+                              class="badge rounded-pill text-bg-success fw-normal"
+                              title="Nº Fornecedor">
+                            <i class="fa fa-truck me-1"/><t t-esc="record.nr_fornecedor.value"/>
+                        </span>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

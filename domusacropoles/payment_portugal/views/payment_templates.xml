@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="multibanco_form">
+        <input
+            type="hidden"
+            name="data_set"
+            t-att-data-action-url="tx_url"
+            data-remove-me=""
+        />
+        <t t-if="return_url">
+            <input type="hidden" name='return_url' t-att-value='return_url' />
+        </t>
+        <input type="hidden" name='reference' t-att-value='reference' />
+        <input type="hidden" name='amount' t-att-value='amount' />
+        <input type="hidden" name='currency' t-att-value='currency.name' />
+    </template>
+
+    <template
+        id="payment_portugal_state_header"
+        inherit_id="payment.state_header"
+    >
+<!--        Making this positional, because this was causing an error in Odoo.sh
+            Revert if this brings more problems:
+            <xpath expr="//t[@t-value='tx.provider_id.sudo().pending_msg']">
+-->
+        <xpath
+            expr="//t[3]/t[4]"
+            position="attributes"
+        >
+            <attribute
+                name="t-value"
+            >tx.sudo().get_pending_message_to_display()</attribute>
+        </xpath>
+    </template>
+</odoo>

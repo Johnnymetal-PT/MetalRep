@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Vistas de account.payment SEM a coluna/campo journal_id.
+        Usadas apenas no embed do orcamento (account_payment_ids), para que
+        utilizadores fora da whitelist do diario consigam abrir a venda sem
+        disparar a ir.rule global de pg_account_journal_access em
+        account.journal.
+        Todos os campos abaixo sao STORED em account.payment (nao leem
+        account.move/account.journal).
+    -->
+
+    <record id="view_pg_account_payment_tree" model="ir.ui.view">
+        <field name="name">pg.account.payment.list.no.journal</field>
+        <field name="model">account.payment</field>
+        <field name="arch" type="xml">
+            <list create="false" edit="false" sample="1"
+                  decoration-info="state == 'draft'"
+                  decoration-muted="state == 'canceled'">
+                <field name="currency_id" column_invisible="True"/>
+                <field name="date"/>
+                <field name="name"/>
+                <field name="partner_id" string="Parceiro"/>
+                <field name="amount" widget="monetary" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'in_process'"
+                       decoration-success="state == 'paid'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pg_account_payment_form" model="ir.ui.view">
+        <field name="name">pg.account.payment.form.no.journal</field>
+        <field name="model">account.payment</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="date" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="amount" readonly="1"/>
+                            <field name="state" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

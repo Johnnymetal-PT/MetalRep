@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <!-- Override the Create button to show "Upload Data File" instead -->
+    <t t-name="account_reconcile.ReconcileView.Buttons" t-inherit="account_reconcile_oca.account_reconcile.ReconcileView.Buttons" t-inherit-mode="extension">
+        <xpath expr="//button[@t-on-click='onClickNewButton']" position="replace">
+            <button
+                t-on-click="onClickNewButton"
+                class="btn btn-primary"
+                t-if="props.archInfo.activeActions.create"
+            >
+                <i class="fa fa-upload me-1"/> Upload Data File
+            </button>
+        </xpath>
+    </t>
+</templates>

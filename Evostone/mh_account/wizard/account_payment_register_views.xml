@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_account_payment_register_form_inherit" model="ir.ui.view">
+            <field name="name">account.payment.register.form.inherit.manual.rate</field>
+            <field name="model">account.payment.register</field>
+            <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='amount_div']" position="after">
+                    <label for="manual_currency_rate_active"
+                           string="Câmbio Manual"
+                           invisible="currency_id == company_currency_id"/>
+                    <div name="manual_currency_rate_div" class="o_row"
+                         invisible="currency_id == company_currency_id">
+                        <field name="manual_currency_rate_active"
+                               widget="boolean_toggle"
+                               nolabel="1"/>
+                        <field name="manual_currency_rate"
+                               invisible="not manual_currency_rate_active"
+                               required="manual_currency_rate_active"
+                               nolabel="1"/>
+                        <field name="manual_currency_rate_label"
+                               class="text-muted small ms-2"
+                               invisible="not manual_currency_rate_active"
+                               nolabel="1" readonly="1"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit Stock Scrap Form View -->
+    <record id="stock_scrap_form_view_inherit" model="ir.ui.view">
+        <field name="name">stock.scrap.form.inherit</field>
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_form_view"/>
+        <field name="arch" type="xml">
+
+            <!-- Adicionar botão "Selecionar Stock" no header após Validate -->
+            <xpath expr="//button[@name='action_validate']" position="after">
+                <button name="action_open_select_stock_wizard"
+                        type="object"
+                        string="Selecionar Stock"
+                        icon="fa-cubes"
+                        class="btn-success"
+                        invisible="state != 'draft' or not location_id or is_reserved"
+                        data-hotkey="s"/>
+                <button name="action_reserve_stock"
+                        type="object"
+                        string="Reservar Stock"
+                        icon="fa-lock"
+                        class="btn-warning"
+                        invisible="state != 'draft' or not product_id or is_reserved or not product_form or product_form == 'none'"
+                        data-hotkey="r"/>
+                <button name="action_unreserve_stock"
+                        type="object"
+                        string="Libertar Reserva"
+                        icon="fa-unlock"
+                        class="btn-secondary"
+                        invisible="state != 'draft' or not is_reserved or not product_form or product_form == 'none'"
+                        confirm="Tem a certeza que deseja libertar a reserva deste stock?"/>
+            </xpath>
+
+            <!-- Tornar product_id readonly com force_save -->
+            <xpath expr="//field[@name='product_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <!-- Tornar lot_id readonly com force_save -->
+            <xpath expr="//field[@name='lot_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <!-- Tornar product_uom_id readonly com force_save -->
+            <xpath expr="//field[@name='product_uom_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <!-- Tornar scrap_qty condicionalmente readonly e alterar label -->
+            <xpath expr="//field[@name='scrap_qty']" position="attributes">
+                <attribute name="readonly">product_form != 'none'</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="string">Volume/Área/Unidade</attribute>
+            </xpath>
+
+            <!-- Bloquear location_id e scrap_location_id quando reservado -->
+            <xpath expr="//field[@name='location_id']" position="attributes">
+                <attribute name="readonly">state == 'done' or is_reserved</attribute>
+            </xpath>
+            <xpath expr="//field[@name='scrap_location_id']" position="attributes">
+                <attribute name="readonly">state == 'done' or is_reserved</attribute>
+            </xpath>
+
+            <!-- Smart button picking de entrada -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_entry_picking"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-truck"
+                        invisible="not entry_picking_id">
+                    <field name="entry_picking_id" widget="statinfo" string="Picking Entrada"/>
+                </button>
+            </xpath>
+
+            <!-- Esconder should_replenish -->
+            <xpath expr="//field[@name='should_replenish']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+
+            <!-- Adicionar scrap_type antes do produto -->
+            <xpath expr="//field[@name='product_id']" position="before">
+                <field name="scrap_type" widget="radio"
+                       invisible="not product_form or product_form == 'none'"
+                       readonly="state != 'draft' or product_form == 'none' or is_reserved"
+                       options="{'horizontal': true}"/>
+            </xpath>
+
+            <!-- Adicionar campos invisíveis e entry_picking_id -->
+            <xpath expr="//field[@name='scrap_qty']" position="after">
+                <field name="selected_quant_id" invisible="1"/>
+                <field name="product_form" invisible="1"/>
+                <field name="is_reserved" invisible="1"/>
+                <field name="entry_picking_id" invisible="1"/>
+            </xpath>
+
+            <!-- Adicionar tabs -->
+            <xpath expr="//sheet" position="inside">
+                <div invisible="scrap_type != 'break' or not product_form or product_form == 'none'">
+                    <field name="has_leftover" widget="boolean_toggle"
+                           readonly="state != 'draft'"/>
+                    <label for="has_leftover" string="Tem sobras desta quebra?"/>
+                </div>
+                <group string="Dimensões" invisible="not product_form or product_form == 'none' or not selected_quant_id">
+                    <group>
+                        <field name="quant_length" string="Comprimento"/>
+                        <field name="quant_width" string="Largura"/>
+                    </group>
+                    <group>
+                        <field name="quant_thickness" string="Espessura"/>
+                        <field name="quant_units" string="Unidades"/>
+                    </group>
+                </group>
+                <notebook>
+                    <!-- Tab Sobras (Quebra) -->
+                    <page string="Sobras"
+                          invisible="scrap_type != 'break' or not product_form or product_form == 'none' or not has_leftover">
+                        <div class="alert alert-info" role="alert"
+                             invisible="state != 'draft'">
+                            <strong>Obrigatório:</strong> Adicione as dimensões das peças aproveitáveis resultantes da quebra.
+                            O total de área não pode ultrapassar a quantidade original.
+                        </div>
+                        <field name="scrap_line_ids"
+                               readonly="state != 'draft'"
+                               context="{'default_thickness': quant_thickness, 'default_product_id': product_id}">
+                            <list editable="bottom">
+                                <field name="scrap_product_id" column_invisible="1"/>
+                                <field name="next_product_form" column_invisible="1"/>
+                                <field name="product_id"/>
+                                <field name="units_qty"/>
+                                <field name="lot_name" string="Lote" readonly="1"/>
+                                <field name="length"/>
+                                <field name="width"/>
+                                <field name="thickness" readonly="1" force_save="1"/>
+                                <field name="area" readonly="1" sum="Total Volume/Área" digits="[16, 4]"/>
+                                <field name="product_uom_id" readonly="1"/>
+                                <field name="price_unit" readonly="1"/>
+                            </list>
+                        </field>
+                    </page>
+
+                    <!-- Tab Novas Placas (Remediação) -->
+                    <page string="Novas Placas"
+                          invisible="scrap_type != 'remediation' or not product_form or product_form == 'none'">
+                        <div class="alert alert-warning" role="alert"
+                             invisible="state != 'draft'">
+                            <strong>Obrigatório:</strong> Adicione as novas dimensões das placas resultantes da re-medição.
+                        </div>
+                        <field name="scrap_line_ids"
+                               readonly="state != 'draft'"
+                               context="{'default_thickness': quant_thickness, 'default_product_id': product_id}">
+                            <list editable="bottom">
+                                <field name="scrap_product_id" column_invisible="1"/>
+                                <field name="next_product_form" column_invisible="1"/>
+                                <field name="product_id"/>
+                                <field name="units_qty"/>
+                                <field name="lot_name" string="Lote"/>
+                                <field name="length"/>
+                                <field name="width"/>
+                                <field name="thickness" readonly="1" force_save="1"/>
+                                <field name="area" readonly="1" sum="Total Volume/Área" digits="[16, 4]"/>
+                                <field name="product_uom_id" readonly="1"/>
+                                <field name="price_unit" readonly="1"/>
+                            </list>
+                        </field>
+                    </page>
+
+                    <!-- Tab Detalhes do Stock -->
+                    <page string="Detalhes do Stock"
+                          invisible="not selected_quant_id">
+                        <group>
+                            <group string="Informação do Quant">
+                                <field name="quant_location_id"/>
+                                <field name="quant_on_hand"/>
+                                <field name="quant_available"/>
+                            </group>
+                            <group string="Dimensões"
+                                   invisible="not quant_length and not quant_width and not quant_thickness">
+                                <field name="quant_length"/>
+                                <field name="quant_width"/>
+                                <field name="quant_thickness"/>
+                                <field name="quant_units"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

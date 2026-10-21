@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="variants_image" inherit_id="website_sale.variants">
+        <xpath expr="//div[hasclass('radio_input_value')]" position="replace">
+            <!-- Single Carousel for All Variants -->
+            <div id="variantCarousel" class="carousel slide" data-bs-interval="false">
+                <!-- Carousel Inner -->
+                <div class="carousel-inner">
+                    <t t-set="chunk_size" t-value="3"/>
+                    <t t-set="chunks" t-value="[ptal.product_template_value_ids._only_active()[i:i+chunk_size] for i in range(0, len(ptal.product_template_value_ids._only_active()), chunk_size)]"/>
+                    <t t-set="is_first" t-value="True" />
+                    
+                    <t t-foreach="chunks" t-as="chunk" t-key="chunk">
+                        <div t-attf-class="carousel-item #{'active' if is_first else ''}">
+                            <t t-set="is_first" t-value="False" />
+                            <div class="d-flex justify-content-around align-items-center">
+                                <t t-foreach="chunk" t-as="ptav" t-key="ptav.id">
+                                    <!-- Label wraps the input and image -->
+                                    <label class="form-check">
+                                        <input type="radio" t-attf-name="'ptal-%s' % ptal.id" t-att-value="ptav.id"
+                                               t-att-checked="ptav in combination" class="form-check-input" />
+                                        <img class="attr_value_img variant-popup-trigger" t-if="ptav.image"
+                                             t-attf-src="data:image/png;base64,{{ptav.image}}"
+                                             t-att-alt="ptav.name" t-att-title="ptav.name" />
+                                    </label>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Carousel Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#variantCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#variantCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <!-- Popup structure -->
+            <div id="variantImagePopup" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <img id="variantImagePopupImg" class="img-fluid" alt="Variant Image" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
+

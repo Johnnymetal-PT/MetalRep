@@ -1,0 +1,105 @@
+<!doctype html>
+<!--
+  NÃO copiar a partir do editor de código. O que está neste ficheiro é o HTML da
+  página de pré-visualização; colado em bruto, o Odoo mostra as etiquetas como texto.
+
+  Para colar no Odoo, dois caminhos:
+    1. o pg_copy_email_cliente.ps1 já deixou o corpo do email na área de
+       transferência — no compositor do Odoo é só Ctrl+V;
+    2. ou abrir este ficheiro no browser (não no editor) e usar o botão
+       "Copiar corpo".
+-->
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fatura FTO/00002 e encontro de contas Jeremias — acção necessária hoje</title>
+<style>
+:root { color-scheme: light dark; }
+body { margin: 0; padding: 24px; background: #f4f6f8;
+       font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #111827; }
+main { max-width: 760px; margin: 0 auto; }
+.meta { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+        padding: 16px 20px; margin-bottom: 8px; font-size: 13px; }
+.meta h1 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em;
+           color: #6b7280; margin: 0 0 10px; }
+.meta dl { display: grid; grid-template-columns: 90px 1fr; gap: 4px 12px; margin: 0; }
+.meta dt { color: #6b7280; } .meta dd { margin: 0; font-weight: 600; }
+.avisos { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+          padding: 12px 20px; margin-bottom: 8px; font-size: 13px; color: #92400e; }
+.avisos ul { margin: 6px 0 0; padding-left: 18px; }
+.barra { display: flex; align-items: center; gap: 12px; margin: 16px 0 8px; }
+button { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 6px;
+         border: 0; background: #009fe3; color: #fff; cursor: pointer; }
+button:hover { background: #007fb6; }
+.dica { font-size: 12px; color: #6b7280; }
+#corpo { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+         padding: 24px 28px; font-size: 14px; line-height: 1.55; }
+#corpo p { margin: 0 0 12px; }
+#corpo table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+#corpo th, #corpo td { border: 1px solid #d1d5db; padding: 6px 10px; text-align: left; }
+#corpo th { background: #f9fafb; }
+#corpo blockquote { margin: 0 0 12px; padding-left: 12px; border-left: 3px solid #d1d5db;
+                    color: #4b5563; }
+#corpo pre { background: #f3f4f6; padding: 12px; overflow-x: auto; }
+@media (prefers-color-scheme: dark) {
+  body { background: #0b1220; color: #e5e7eb; }
+  .meta, #corpo { background: #111827; border-color: #1f2937; }
+  #corpo th { background: #1f2937; } #corpo th, #corpo td { border-color: #374151; }
+  .avisos { background: #2b2411; border-color: #7c5e10; color: #fcd34d; }
+}
+</style>
+</head>
+<body>
+<main>
+<section class="meta"><h1>Email ao cliente</h1><dl><dt>Assunto</dt><dd>Fatura FTO/00002 e encontro de contas Jeremias — acção necessária hoje</dd><dt>Para</dt><dd>Daniela Martins &lt;daniela.martins@comval.pt&gt;</dd></dl></section><div class="barra"><button id="copiar" type="button">Copiar corpo</button><span class="dica" id="estado">Copia apenas o corpo — os metadados acima ficam de fora.</span></div>
+<article id="corpo">
+<p>Bom dia, Daniela,</p>
+<p>Respondo aos dois pontos que colocou. Começo pelo mais urgente, porque tem prazo hoje: a comunicação do SAF-T de faturação de julho à AT termina no dia 5 do mês seguinte, ou seja, hoje.</p>
+<p><strong>1. Fatura FT FTO/00002 — Jeremias</strong></p>
+<p>A fatura ficou anulada e não é recuperável. Fica com estado fiscal <strong>A — Anulado</strong>, e em Portugal um documento anulado não se reabre nem se reutiliza: o número FTO/00002 fica queimado. Não há aqui nada a corrigir na fatura em si.</p>
+<p>O que importa garantir é que a AT fica com a informação certa. Para isso preciso que me confirme uma coisa: <strong>o SAF-T de julho chegou a ser aceite no portal e-Fatura?</strong> No Odoo, o registo do ficheiro de julho está marcado com erro e foi gerado a 3 de agosto às 13:25 — portanto antes de a fatura ter sido anulada, no dia 4.</p>
+<ul><li><strong>Se ainda não foi aceite:</strong> gere e submeta o SAF-T de julho hoje. O ficheiro novo já leva a FTO/00002 como anulada e não há mais nada a fazer.</li><li><strong>Se já foi aceite:</strong> gere e submeta novamente o SAF-T de julho. A AT considera apenas a última versão entregue de cada período e não duplica os documentos já comunicados.</li></ul>
+<p>Em qualquer dos casos, confirme depois no e-Fatura que a FTO/00002 aparece como anulada.</p>
+<p>Se a venda ao Jeremias se mantém, emitimos uma fatura nova, com número novo. <strong>Não emita nota de crédito sobre a FTO/00002:</strong> ela já não tem efeito contabilístico e uma nota de crédito criaria uma segunda reversão indevida. Se o Jeremias já recebeu o PDF da fatura anulada, convém pedir-lhe que a desconsidere.</p>
+<p><strong>2. Encontro de contas de 1 455,03 €</strong></p>
+<p>Os dois pagamentos que criou, PAY00008 e PAY00009, <strong>não geraram qualquer lançamento contabilístico</strong> — é por isso que o valor não aparece na conta corrente. Não houve movimento nenhum, nem contabilístico nem bancário, pelo que podemos cancelá-los sem qualquer impacto.</p>
+<p>O encontro de contas não se faz com pagamentos. Faz-se em <strong>Contabilidade → Reconciliar</strong>, e é o Odoo que cria sozinho a transferência entre as contas 221 Fornecedores c/c e 211 Clientes c/c. O procedimento é:</p>
+<ul><li>filtrar pelo parceiro JEREMIAS ESPAÑA SA;</li><li>selecionar a linha a pagar <strong>VFA26050387</strong>, de 1 455,03 € (está no lançamento de saldo inicial SI/2026/08/0017, não numa fatura de fornecedor);</li><li>selecionar as linhas a receber que pretende compensar;</li><li>activar <strong>Permitir parciais</strong>;</li><li>carregar em <strong>Reconciliar</strong>.</li></ul>
+<p>Um aviso prático, para não perder tempo: <strong>não existe forma de somar exactamente 1 455,03 € do lado do cliente.</strong> As faturas e saldos em aberto terminam todos em ,00, ,50 ou ,70 e nenhuma combinação dá ,03. A reconciliação vai ficar necessariamente parcial e sobra uma diferença numa das linhas. É normal e não é erro.</p>
+<p>A situação em aberto do Jeremias, neste momento, é esta:</p>
+<table class="table table-bordered o_table"><thead><tr><th>Conta</th><th>Documento</th><th>Valor</th></tr></thead><tbody><tr><td>221 Fornecedores c/c</td><td>VFA26050387</td><td>1 455,03 a pagar</td></tr><tr><td>221 Fornecedores c/c</td><td>VFA26060681</td><td>1 581,05 a pagar</td></tr><tr><td>221 Fornecedores c/c</td><td>VAB26060023 (nota de crédito)</td><td>87,83 a favor</td></tr><tr><td>211 Clientes c/c</td><td>Saldos iniciais (7 linhas)</td><td>1 508,70 a receber</td></tr><tr><td>211 Clientes c/c</td><td>FTO/00009 a FTO/00012 e FTO/00026</td><td>796,50 a receber</td></tr></tbody></table>
+<p>No total são 2 305,20 € a receber contra 2 948,25 € a pagar. Se preferir, em vez de acertar apenas os 1 455,03 €, podemos compensar a conta corrente toda de uma vez e fica um saldo de 643,05 € a pagar ao Jeremias. Diga-me qual das duas opções corresponde ao que combinou com eles.</p>
+<p>Reparei também que o Nuno tinha criado um lançamento manual, o MISC/2026/08/0001, já com a transferência correcta entre as duas contas, e depois cancelou-o. Vale a pena alinharem entre os dois, para não estarem ambos a resolver o mesmo ponto.</p>
+<p><strong>3. Evitar que volte a acontecer</strong></p>
+<p>Sim, dá-se para bloquear, e com configuração standard do Odoo — não é preciso desenvolvimento. Chama-se <strong>Datas de Bloqueio</strong>: fechando as vendas até 31/07, o Odoo passa a recusar cancelar ou alterar qualquer documento com data anterior a essa. Confirmámos que era exactamente isto que teria impedido este cancelamento.</p>
+<p>A minha proposta é fecharmos julho <strong>assim que o SAF-T de julho estiver aceite</strong>, e não antes — para não bloquearmos correcções que ainda possam ser necessárias neste período. A partir daí passa a ser um hábito mensal: submeter o SAF-T e fechar o mês.</p>
+<p><strong>O que preciso de si</strong></p>
+<p>Ligo-lhe hoje de manhã para confirmarmos o estado do SAF-T de julho e fazermos o encontro de contas em conjunto no Reconciliar — são poucos cliques, mas é mais rápido acompanhado. Diga-me apenas a que horas lhe é mais conveniente.</p>
+</article>
+</main>
+<script>
+document.getElementById('copiar').addEventListener('click', async () => {
+  const corpo = document.getElementById('corpo');
+  const html = corpo.innerHTML;
+  const estado = document.getElementById('estado');
+  try {
+    await navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([html], {type: 'text/html'}),
+      'text/plain': new Blob([corpo.innerText], {type: 'text/plain'}),
+    })]);
+    estado.textContent = 'Copiado. Cola no compositor do Odoo com Ctrl+V.';
+  } catch (e) {
+    const range = document.createRange();
+    range.selectNodeContents(corpo);
+    const sel = window.getSelection();
+    sel.removeAllRanges(); sel.addRange(range);
+    const ok = document.execCommand('copy');
+    estado.textContent = ok
+      ? 'Copiado. Cola no compositor do Odoo com Ctrl+V.'
+      : 'Nao foi possivel copiar: seleciona o corpo e usa Ctrl+C.';
+  }
+});
+</script>
+</body>
+</html>

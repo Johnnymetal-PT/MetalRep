@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_pg_componente_tipo" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.pg.componente.tipo</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales_purchases']" position="inside">
+                <group string="Listagem PG">
+                    <field name="pg_componente_tipo"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

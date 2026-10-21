@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Rejection Wizard Form View -->
+    <record id="view_b2b_application_reject_wizard_form" model="ir.ui.view">
+        <field name="name">b2b.application.reject.wizard.form</field>
+        <field name="model">b2b.application.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reject Application">
+                <group>
+                    <field name="application_id" invisible="1"/>
+                    <field name="rejection_reason" placeholder="Enter the reason for rejection..." nolabel="1"/>
+                </group>
+                <footer>
+                    <button string="Confirm Rejection" name="action_confirm_reject"
+                            type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard Action -->
+    <record id="action_b2b_application_reject_wizard" model="ir.actions.act_window">
+        <field name="name">Reject Application</field>
+        <field name="res_model">b2b.application.reject.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="atharva_theme_base.model_b2b_application"/>
+    </record>
+</odoo>

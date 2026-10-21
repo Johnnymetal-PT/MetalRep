@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+<record id="view_report_27a33fb2_6c90_48b9_8d25_a15024f1a347" model="ir.ui.view">
+    <field name="name">mh_stone_reports.report_27a33fb2-6c90-48b9-8d25-a15024f1a347</field>
+    <field name="type">qweb</field>
+    <field name="key">mh_stone_reports.report_27a33fb2-6c90-48b9-8d25-a15024f1a347</field>
+    <field name="arch" type="xml">
+<t t-name="mh_stone_reports.report_main">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_27a33fb2-6c90-48b9-8d25-a15024f1a347_document"/>
+                            <p style="page-break-after: always;"/>
+                            
+                                <style>
+                <!--table, th, td {-->
+                <!--  border: 1px solid;-->
+                <!--}-->
+                <!--.tr{-->
+                <!--     height: 5%;-->
+                <!--}-->
+                
+            .barcode-custom-size {
+                    width: 5%  !important;
+                    height: 5%;
+                }
+            
+            
+            </style>
+            <t t-call="mh_stone_reports.report_94ce8560-5198-4cc4-bb80-e008b6091cce_document_copy_1_copy_2_copy_3"/>
+            <p style="page-break-after: always;"/>
+            <t t-foreach="doc.x_studio_" t-as="x">
+                <t t-if="x">
+                    <br/>
+                    <div class="col-12" style="text-align: center; font-size:9pt;">
+                        <b>
+                            <span style="color:#808080">Placa:</span>
+                        </b>
+                        <t t-esc="x.x_studio_many2one_field_KXhST.x_name"/>,
+                    </div>
+                    
+                    <div class="col-12" style="text-align: center;">
+                    <div t-field="x.x_studio_many2one_field_KXhST.x_studio_code" t-options="{'widget': 'barcode', 'humanreadable': 0, 'width': 400, 'height': 100}"/>
+                    </div>
+                    <p style="page-break-after: always;"/>
+                </t>
+            </t>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="view_report_311f8247_ca36_44f9_8cf3_933bc9702425" model="ir.ui.view">
+    <field name="name">mh_stone_reports.report_311f8247-ca36-44f9-8cf3-933bc9702425</field>
+    <field name="type">qweb</field>
+    <field name="key">mh_stone_reports.report_311f8247-ca36-44f9-8cf3-933bc9702425</field>
+    <field name="arch" type="xml">
+<t t-name="mh_stone_reports.report_main">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_311f8247-ca36-44f9-8cf3-933bc9702425_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="view_report_311f8247_ca36_44f9_8cf3_933bc9702425_copy_1" model="ir.ui.view">
+    <field name="name">mh_stone_reports.report_311f8247-ca36-44f9-8cf3-933bc9702425 copy(1)</field>
+    <field name="type">qweb</field>
+    <field name="key">mh_stone_reports.report_311f8247-ca36-44f9-8cf3-933bc9702425_copy_1</field>
+    <field name="arch" type="xml">
+<t t-name="mh_stone_reports.report_311f8247-ca36-44f9-8cf3-933bc9702425_copy_1">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_311f8247-ca36-44f9-8cf3-933bc9702425_document_copy_1"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="view_report_3f300ddc_6675_4455_9bb1_1f7fb99dee00" model="ir.ui.view">
+    <field name="name">mh_stone_reports.report_3f300ddc-6675-4455-9bb1-1f7fb99dee00</field>
+    <field name="type">qweb</field>
+    <field name="key">mh_stone_reports.report_3f300ddc-6675-4455-9bb1-1f7fb99dee00</field>
+    <field name="arch" type="xml">
+<t t-name="mh_stone_reports.report_main">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_3f300ddc-6675-4455-9bb1-1f7fb99dee00_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="view_report_55e127aa_ede5_42ca_915c_078c387e3d5d" model="ir.ui.view">
+    <field name="name">mh_stone_reports.report_55e127aa-ede5-42ca-915c-078c387e3d5d</field>
+    <field name="type">qweb</field>
+    <field name="key">mh_stone_reports.report_55e127aa-ede5-42ca-915c-078c387e3d5d</field>
+    <field name="arch" type="xml">
+<t t-name="mh_stone_reports.report_main">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_55e127aa-ede5-42ca-915c-078c387e3d5d_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="view_report_63c9b553_6b35_4b9e_b98e_048968607285" model="ir.ui.view">
+    <field name="name">mh_stone_reports.report_63c9b553-6b35-4b9e-b98e-048968607285</field>
+    <field name="type">qweb</field>
+    <field name="key">mh_stone_reports.report_63c9b553-6b35-4b9e-b98e-048968607285</field>
+    <field name="arch" type="xml">
+<t t-name="mh_stone_reports.report_main">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_63c9b553-6b35-4b9e-b98e-048968607285_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="view_report_7a4c22eb_7b81_48a5_8584_d5afdb49bea8" model="ir.ui.view">
+    <field name="name">mh_stone_reports.report_7a4c22eb-7b81-48a5-8584-d5afdb49bea8</field>
+    <field name="type">qweb</field>
+    <field name="key">mh_stone_reports.report_7a4c22eb-7b81-48a5-8584-d5afdb49bea8</field>
+    <field name="arch" type="xml">
+<t t-name="mh_stone_reports.report_main">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_7a4c22eb-7b81-48a5-8584-d5afdb49bea8_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="view_report_911b94e0_a6ed_4d1c_9dc6_2b007a9a9b50" model="ir.ui.view">
+    <field name="name">mh_stone_reports.report_911b94e0-a6ed-4d1c-9dc6-2b007a9a9b50</field>
+    <field name="type">qweb</field>
+    <field name="key">mh_stone_reports.report_911b94e0-a6ed-4d1c-9dc6-2b007a9a9b50</field>
+    <field name="arch" type="xml">
+<t t-name="mh_stone_reports.report_main">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_911b94e0-a6ed-4d1c-9dc6-2b007a9a9b50_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="view_report_911b94e0_a6ed_4d1c_9dc6_2b007a9a9b50_copy_1" model="ir.ui.view">
+    <field name="name">mh_stone_reports.report_911b94e0-a6ed-4d1c-9dc6-2b007a9a9b50 copy(1)</field>
+    <field name="type">qweb</field>
+    <field name="key">mh_stone_reports.report_911b94e0-a6ed-4d1c-9dc6-2b007a9a9b50_copy_1</field>
+    <field name="arch" type="xml">
+<t t-name="mh_stone_reports.report_911b94e0-a6ed-4d1c-9dc6-2b007a9a9b50_copy_1">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_911b94e0-a6ed-4d1c-9dc6-2b007a9a9b50_document_copy_1"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+<record id="view_report_da79c34d_d0ca_401f_a05e_60fe41d41d14" model="ir.ui.view">
+    <field name="name">mh_stone_reports.report_da79c34d-d0ca-401f-a05e-60fe41d41d14</field>
+    <field name="type">qweb</field>
+    <field name="key">mh_stone_reports.report_da79c34d-d0ca-401f-a05e-60fe41d41d14</field>
+    <field name="arch" type="xml">
+<t t-name="mh_stone_reports.report_main">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_da79c34d-d0ca-401f-a05e-60fe41d41d14_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+    </data>
+</odoo>

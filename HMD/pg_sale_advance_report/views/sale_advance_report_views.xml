@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_sale_advance_report_wizard_form" model="ir.ui.view">
+        <field name="name">sale.advance.report.wizard.form</field>
+        <field name="model">sale.advance.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Controlo de Adiantamentos">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_print" type="object" string="Imprimir"
+                            class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sale_advance_report_wizard" model="ir.actions.act_window">
+        <field name="name">Controlo de Adiantamentos</field>
+        <field name="res_model">sale.advance.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu em Vendas > Relatorios -->
+    <menuitem id="menu_sale_advance_report_sales"
+              name="Controlo de Adiantamentos"
+              parent="sale.menu_sale_report"
+              action="action_sale_advance_report_wizard"
+              sequence="50"/>
+
+    <!-- Menu em Contabilidade > Relatorios -->
+    <menuitem id="menu_sale_advance_report_account"
+              name="Controlo de Adiantamentos"
+              parent="account.menu_finance_reports"
+              action="action_sale_advance_report_wizard"
+              sequence="90"/>
+</odoo>

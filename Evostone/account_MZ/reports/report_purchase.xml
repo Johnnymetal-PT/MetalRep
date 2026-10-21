@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_purchaseorder_document" model="ir.ui.view">
+        <field name="name">report_purchaseorder_document</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_purchaseorder_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <t t-if="doc.tipo_apuramento">
+                        <!-- <span>IVA ORIGINAL</span> -->
+                          <style>
+                            table,td{
+                                border: 1px solid black;
+                            }
+                        </style>
+
+                       
+                   
+                   
+
+
+                     <table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+            <tr style="height:65.75pt;">
+                <td style=" border: none; outline: none; solid black; text-align:center; font-size:10px;  border: none; vertical-align:center;">
+                    <img src="/account_MZ/static/description/emblema.png" alt="Descrição da Imagem" width="90" height="90"/>
+                </td>
+                <td style="border: none; outline: none; solid black; text-align:center; font-size:10px; background-color:#ffbfe1; ">
+                                    
+                                <p>    
+                                    República de Moçambique
+                                    
+                    <br/>
+                                    Ministério da Economia e Finanças
+                                    
+                    <br/>
+                                    Autoridade Tributária de Moçambique
+                                    
+                    <br/>
+                                    DIRECÇÃO GERAL DE IMPOSTOS
+                                </p>
+                </td>
+                <td style="Border: 1px solid black ; text-align:center; font-size:10px; background-color:#ffbfe1;">
+                    <p>IRPC - Imposto Sobre Rendimento das Pessoas
+                        Colectivas<br/>
+                        (arts.83, 90 e 92 do CIRPC)<br/>
+                        GUIA DE PAGEMENTO
+                    </p>    
+                        
+                    
+                </td>
+                <td style="solid black; text-align: center; font-size:10px; background-color:#ffbfe1;" width="150px; ">
+                             M/39
+                                  
+                    <br/>
+                                IRPC 
+                    <br/>
+                </td>
+            </tr>
+        </table>
+        
+    <table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+            <tbody>
+                <tr>
+                    <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#ffbfe1;">
+                        <p style="margin-top:0pt; margin-bottom:0pt; font-size:12px;">   1 - NOME / DESIGNAÇÃO SOCIAL DO SUJEITO PASSIVO</p> <span t-field="doc.company_id.name"/>
+                    </td>
+                    <td colspan="23" style="width:200pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#ffbfe1;">
+                        <p style="margin-top:0pt; margin-bottom:0pt; font-size:9pt; text-align:center;">
+                            <span style="font-size:10px;">2 - NUIT: </span> <span t-field="doc.company_id.vat"/>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+            <tbody>
+                <tr style="height:20.8pt;">
+                    <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:center;">
+                        <p style="margin-top:0pt; margin-bottom:0pt; font-size:10px; padding-left: 8px">
+                            <!--<span t-field="doc.x_studio_nome_da_empresa_1"/>-->
+                            <strong/>
+                            <span style="font-size:10pt;"/>
+                        </p>
+                    </td>
+                    <td colspan="23" style="width:200pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:center;">
+                        <p style="margin-top:0pt; margin-bottom:0pt; font-size:10px; text-align:center;">
+                            <strong/>
+                            <!--<span t-field="doc.x_studio_nuit_da_empresa_1"/>-->
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    <table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+            <tbody>
+                <tr>
+                    <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:center; background-color:#ffbfe1;">
+                        <p style="margin-top:0pt; margin-bottom:0pt; font-size:12px;">   3 - DÍSTICOS COMERCIAIS USADOS (SE EXISTIREM)</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    <table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+            <tbody>
+                <tr style="height:20.8pt;">
+                    <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top;">
+                        <p style="margin-top:0pt; margin-bottom:0pt; font-size:1opx;">
+                            <span style="font-size:10pt;"/>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+      <table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+            <tbody>
+                <tr>
+                    <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#ffbfe1;">
+                        <p style="margin-top:0pt; margin-bottom:0pt; font-size:12px;">   4 - ENDEREÇO DA RESIDÊNCIA DO PROPRIETÁRIO / SEDE DA EMPRESA (EM MOÇAMBIQUE)</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    
+    
+            <table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+            <tbody>
+                <tr style="border: none ; height:5.8pt;">
+                    <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+                    <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+                    <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+                    <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+                </tr>
+                <tr style="border: none ; height:20.8pt;">
+                    <td style="font-size:10px; padding-left: 5px; border: none; vertical-align:center;">
+                        
+                            Rua / Praça / Avenida:   <span t-field="doc.company_id.street"/>
+                        <span/>
+                        <strong/>
+                    </td>
+                    <td style="font-size:10px; padding-left: 5px; border: none">
+                               nr:
+                        <b>
+                            <span/>
+                        </b>
+                    </td>
+                    <td style="font-size:10px; border: none; vertical-align:center;">
+                             Andar: 
+                        <span/>
+                    </td>
+                    <td style="font-size:10px; border: none; vertical-align:center;">
+                             Localidade :  
+                        <span/>
+                    </td>
+                </tr>
+                <tr style="border: none; height:20.8pt;">
+                    <td style="font-size:10px; padding-left: 5px; border: none">
+                            Bairro: 
+                        <b>
+                            <span/>
+                        </b>
+                    </td>
+                    <td style="font-size:10px; border: none">
+                             Quarteirão: 
+                        <span>
+                            <b/>
+                        </span>
+                    </td>
+                    <td style="font-size:10px; border: none">
+                             Celula:   
+                        <strong>
+                            <span/>
+                        </strong>
+                    </td>
+                    <td style="font-size:10px; border: none"> 
+                            Flat Nr : 
+                        <span/>
+                    </td>
+                </tr>
+                <tr style="border: none; height:20.8pt;">
+                    <td style="font-size:10px; padding-left: 5px; border: none">
+                              Provincia: <span t-field="doc.company_id.city"/>
+                        <strong>
+                            <span/>
+                        </strong>
+                    </td>
+                    <td style="font-size:10px; border: none">
+                              Distrito:_________________________ 
+                        </td>
+                    <td style="font-size:10px; border: none">
+                             Fax:_______________________
+                        </td>
+                    <td style="font-size:10px; border: none">
+                            Cod. Postal :___________ 
+                        </td>
+                </tr>
+                <tr style="border: none; height:20.8pt;">
+                    <td style="font-size:10px; padding-left: 5px; border: none">
+                            DAF: 
+                        <b>
+                            <span/>
+                        </b>
+                    </td>
+                    <td style="font-size:10px; border: none">
+  Telefone Fixo:   
+                        <strong>
+                            <span/>
+                        </strong>
+                    </td>
+                    <td style="font-size:10px; border: none">
+                             Telemóvel:   <span t-field="doc.company_id.phone"/>
+                        <strong>
+                            <span/>
+                        </strong>
+                    </td>
+                    <td style="font-size:10px; border: none">
+                            E-Mail :  <span t-field="doc.company_id.email"/>
+                        <span/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        
+           <table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+            <tbody>
+                <tr>
+                    <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#ffbfe1;">
+                        <p style="margin-top:0pt; margin-bottom:0pt; font-size:12px;">   5 - IMPOSTO A PAGAR</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        
+        <table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+            <tbody>
+                <tr style="border: none ; height:5.8pt;">
+                    <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+                    <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+                    <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+                </tr>
+                <tr style=" border: none">
+                    <td style="font-size:12px; text-align:left; padding-left: 5px; border: none">
+                        <b>Reservado aos Servicos
+                            <br/>Classificador Economico da Receita
+                        </b>
+                    </td>
+                    <td style="font-size:12px; text-align: left; border: none">
+                        <b>TIPO DE RENDIMENTO</b>
+                    </td>
+                    <td style="font-size:12px; text-align:rightr;  border: none">
+                        <b>IMPORTÂNCIA A PAGAR EM METICAIS (sem centavos)</b>
+                    </td>
+                </tr>
+                <tr style="border: none ; height:5.8pt;">
+                    <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+                    <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+                    <td style="font-size:12px; padding-left: 5px; border: none; vertical-align:center;"/>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Actividade intelectual ou industrial / prestação de informações (alínea a)</td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt; vertical-align: middle;">
+                                    <td class="td-line" style="font-size: 12px;vertical-align: middle; text-align: center; background-color: #696969;">10</td>
+                                    <td width="80%" style="text-align: center; vertical-align: middle;">
+                                        <span/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Derivados do uso ou concessão do uso de equipamento diverso (alínea b) n. 1
+art. 83
+</td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">40</td>
+                                    <td width="80%" style="vertical-align: middle; text-align: center">
+                                        <span/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Aplicação de capitais e rendimentos prediais (alínea c) n. 1 art. 83</td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">41</td>
+                                    <td width="80%" style="vertical-align: middle; text-align: center">
+                                        <span/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Remunerações de membros de órgãos estatuários de pessoas colectivas
+(alínea d) n. art 83</td>
+                    <td style="border: none; height:10.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">42</td>
+                                    <td width="80%" style="vertical-align: middle; text-align: center">
+                                        <span/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Ganho de Jogos e similares (alínea e) n.1 art. 83</td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">43</td>
+                                    <td width="80%" style="vertical-align: middle; text-align: center">
+                                        <span/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Actividades profissionais de espectáculo e desportistas (alínea f) n. 1 art. 83 </td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">44</td>
+                                    <td width="80%" style="vertical-align: middle; text-align: center">
+                                        <span/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Comissões por intermediação de contratos ou prestação de serviços (alínea g) n.
+1 art. 83
+</td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">45</td>
+                                    <td width="80%" style="vertical-align: middle;">
+                                        <span/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">____________________________________</td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">46</td>
+                                    <td width="80%" style="vertical-align: middle;">
+                                        <span/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">_________________________</td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;"/>
+                                    <td width="80%" style="vertical-align: middle;">
+                                        <span/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Pagamento por conta</td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;"/>
+                                    <td width="80%" style="vertical-align: middle;text-align: center">
+                                        <span/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                          <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;">10-10-10-20-1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">Pagamento especial por conta</td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">50</td>
+                                    <td width="80%" style="vertical-align: middle;text-align: center">
+                                       <span><span t-field="doc.campom39_50"/></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">
+                        <b>Juros Compensatorios</b>
+                    </td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">51</td>
+                                    <td width="80%" style="vertical-align: middle; text-align: center">
+                                        <span><span t-field="doc.campom39_51"/></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt">
+                            <tbody>
+                                <tr style="height:20.8pt;">
+                                    <td style="font-size:12pt; text-align: center; vertical-align: middle;" width="80%"> 10-10-10-20-1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left;">_________________________________________________________</td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">52</td>
+                                    <td width="80%" style="vertical-align: middle;">
+                                        <span/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border; ms-1" width="250pt"/>
+                    </td>
+                    <td style="font-size:12px; border: none; height:20.8pt; text-align:left; padding-left: 20%">Total a Pagar</td>
+                    <td style="border: none; height:20.8pt;">
+                        <table class="table-width table-border" width="250pt">
+                            <tbody>
+                                <tr style="border: none; height:20.8pt;">
+                                    <td class="td-line" style="font-size: 12px; vertical-align: middle; text-align: center; background-color: #696969;">60</td>
+                                    <td width="80%" style="vertical-align: middle; text-align: center;"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        
+        <table style="width: 100%; max-width: 19cm; margin: 0 auto; border-collapse: collapse;">
+            <tbody>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="font-size: 12px; padding-left: 5px; border: none; background-color:#c8c8c8  ; vertical-align: middle;">
+                        <b>6.AUTENTICAÇÃO DO SUJEITO PASSIVO</b>
+                    </td>
+                    <td colspan="2" style="font-size: 12px; text-align:center; border: none; background-color:#c8c8c8  ; vertical-align: middle;">
+                        <b>7.USO EXCLUSIVO DOS SERVIÇOS</b>
+                    </td>
+                </tr>
+                <tr style="border: none; height:30.8pt;">
+                    <td style="width:200pt;">
+                        <p style="font-size:10px; padding-left: 5px;">Data:______________________/2022</p>
+                        <p style="font-size:10px; padding-left: 5px;">Nome:______________________</p>
+                        <p style="font-size:10px; padding-left: 5px;">Ass:______________________</p>
+                        <p style="font-size:10px; padding-left: 5px;">Qualidade(Gerente, Procurador, etc):______________________</p>
+                    </td>
+                    <td style="width:200pt;">
+                        <p style="font-size:10px; padding-left: 5px;">N de Registo:______________________</p>
+                        <p style="font-size:10px; padding-left: 5px;">Data da recepção:______________________</p>
+                        <p style="font-size:10px; padding-left: 5px;">Nome do Funciona:______________________</p>
+                        <p style="font-size:10px; padding-left: 5px;">Ass:______________________</p>
+                    </td>
+                    <td style="width:200pt;">
+                        <p style="font-size:10px; padding-left: 5px;">N de Registo:______________________</p>
+                        <p style="font-size:10px; padding-left: 5px;">Data da recepção Nome do Funciona______________________</p>
+                        <p style="font-size:10px; padding-left: 5px;"/>.
+                                
+                        <p style="font-size:10px; padding-left: 5px;">Ass:______________________</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+
+                    <!-- </t> -->
+                </t>
+                </t>
+            </t>
+        </t>
+    </t>
+        </field>
+    </record>
+
+</odoo>

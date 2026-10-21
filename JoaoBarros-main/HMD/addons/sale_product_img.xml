@@ -1,0 +1,98 @@
+<data><xpath expr="//*[hasclass('oe_structure')][@id='oe_structure_website_sale_product_1']" position="replace"><div class="oe_structure oe_empty oe_structure_not_nearest" id="oe_structure_website_sale_product_1" data-editor-message="DROP BUILDING BLOCKS HERE TO MAKE THEM AVAILABLE ACROSS ALL PRODUCTS" t-att-data-oe-model="'product.template'" t-att-data-oe-id="product.id"><t t-set="studio_gallery" t-value="getattr(product, 'hmd_studio_gallery_attachment_ids', False) or getattr(product, 'x_studio_product_images', False)"/><t t-set="variant_get_images" t-value="product_variant and hasattr(product_variant, '_get_images') and product_variant._get_images or False"/><t t-set="template_get_images" t-value="hasattr(product, '_get_images') and product._get_images or False"/><t t-set="variant_images_callable" t-value="callable(variant_get_images)"/><t t-set="template_images_callable" t-value="callable(template_get_images)"/><t t-set="product_images" t-value="variant_get_images() if variant_images_callable else (template_get_images() if template_images_callable else [])"/><t t-set="is_website_publisher" t-value="(request and request.env.user.has_group('website.group_website_publisher')) or product.env.user.has_group('website.group_website_publisher')"/><section class="s_key_images pt72 pb72 o_colored_level" data-snippet="s_key_images" data-name="Key Images">
+        <div class="container">
+            <div class="row s_nb_column_fixed g-3">
+                <t t-if="studio_gallery">
+                    <t t-foreach="studio_gallery" t-as="img">
+                        <t t-set="media_attachment" t-value="img if img._name == 'ir.attachment' else ('attachment_id' in img._fields and img.attachment_id or False)"/>
+                        <t t-if="media_attachment">
+                            <t t-set="image_src" t-value="website.image_url(media_attachment, 'datas')"/>
+                            <div class="col-6 col-lg-3 o_colored_level">
+                                <figure class="o_we_image rounded overflow-hidden" data-oe-style-attr="style" data-oe-type="image" t-att-data-oe-model="'ir.attachment'" t-att-data-oe-id="media_attachment.id" t-att-data-oe-attachment-id="media_attachment.id" t-att-data-oe-field="'datas'">
+                                    <img t-att-src="image_src" class="img img-fluid d-block o_we_custom_image" t-att-alt="media_attachment.name or ''" loading="lazy" data-oe-type="image" t-att-data-oe-model="'ir.attachment'" t-att-data-oe-id="media_attachment.id" t-att-data-oe-attachment-id="media_attachment.id" t-att-data-oe-field="'datas'" style="width: 100% !important;"/>
+                                </figure>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+                <t t-elif="product_images">
+                    <t t-foreach="product_images" t-as="product_image">
+                        <t t-set="image_src" t-value="website.image_url(product_image, 'image_1920')"/>
+                        <t t-if="image_src">
+                            <div class="col-6 col-lg-3 o_colored_level">
+                                <figure class="o_we_image rounded overflow-hidden" data-oe-style-attr="style" data-oe-type="image" t-att-data-oe-model="product_image._name" t-att-data-oe-id="product_image.id" t-att-data-oe-field="'image_1920'">
+                                    <img t-att-src="image_src" class="img img-fluid d-block o_we_custom_image" t-att-alt="product_image.name or product.name" loading="lazy" data-oe-type="image" t-att-data-oe-model="product_image._name" t-att-data-oe-id="product_image.id" t-att-data-oe-field="'image_1920'" style="width: 100% !important;"/>
+                                </figure>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+                <t t-elif="is_website_publisher">
+                    <div class="col-12">
+                        <div class="alert alert-info" role="alert">
+                            Add product-specific images in the backend to populate this gallery.
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </section><section class="s_carousel_wrapper p-0 s_custom_snippet" data-vxml="001" data-vcss="001" data-snippet="s_carousel" data-name="Custom Carrossel">
+        <div class="s_carousel s_carousel_default carousel slide o_colored_level pointer-event" data-bs-interval="8000" id="myCarousel1747867641454" data-bs-ride="true">
+            
+            <div class="carousel-inner">
+                
+                <div class="carousel-item o_cc o_cc5 o_colored_level pt0 s_parallax_no_overflow_hidden pb0 active oe_img_bg o_bg_img_center o_bg_img_origin_border_box" style="background-position: 50% 63.3513%; background-image: url(&quot;/web/image/12690-1d226ba3/211%20closed%20ambience.webp&quot;) !important;" data-name="Slide" data-scroll-background-ratio="0" data-mimetype="image/webp" data-original-id="12562" data-original-src="/web/image/12562-1d226ba3/211%20closed%20ambience.png" data-mimetype-before-conversion="image/png" data-resize-width="1536">
+                    <div class="o_we_bg_filter bg-black-25"><h3 style="text-align: center;"><br/></h3><h3 style="text-align: center;"><br/></h3><h3 style="text-align: center;"><br/></h3><h3 style="text-align: center;"><br/></h3><h3 style="text-align: center;"><br/></h3><h1 class="display-3" style="text-align: center;"><span class="display-3-fs">make it simple</span><br/></h1><div data-name="Accordion" class="s_accordion">
+        <div id="myCollapse" class=" accordion">
+            <div class="accordion-item position-relative z-1" data-name="Accordion Item">
+                <button type="button" class="accordion-header accordion-button justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-toggle="collapse" aria-expanded="true" id="accordion-button727119_1" data-bs-target="#myCollapseTab727119_1" aria-controls="myCollapseTab727119_1"><span class="flex-grow-1 o_default_snippet_text">What services does your company offer ?</span></button>
+                <div class="accordion-collapse collapse show" data-bs-parent="#myCollapse" role="region" id="myCollapseTab727119_1" aria-labelledby="accordion-button727119_1">
+                    <div class="accordion-body">
+                        <p class="o_default_snippet_text">Our company specializes in consulting, product development, and customer support. We tailor our services to fit the unique needs of businesses across various sectors, helping them grow and succeed in a competitive market.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item position-relative z-1" data-name="Accordion Item">
+                <button type="button" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-toggle="collapse" aria-expanded="false" id="accordion-button727119_2" data-bs-target="#myCollapseTab727119_2" aria-controls="myCollapseTab727119_2"><span class="flex-grow-1 o_default_snippet_text">How can I contact customer support ?</span></button>
+                <div class="accordion-collapse collapse" data-bs-parent="#myCollapse" role="region" id="myCollapseTab727119_2" aria-labelledby="accordion-button727119_2">
+                    <div class="accordion-body">
+                        <p class="o_default_snippet_text">You can reach our customer support team by emailing info@yourcompany.example.com, calling +1 555-555-5556, or using the live chat on our website. Our dedicated team is available 24/7 to assist with any inquiries or issues.</p>
+                        <p class="o_default_snippet_text">We’re committed to providing prompt and effective solutions to ensure your satisfaction.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item position-relative z-1" data-name="Accordion Item">
+                <button type="button" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-toggle="collapse" aria-expanded="false" id="accordion-button727119_3" data-bs-target="#myCollapseTab727119_3" aria-controls="myCollapseTab727119_3"><span class="flex-grow-1 o_default_snippet_text">What is your return policy ?</span></button>
+                <div class="accordion-collapse collapse" data-bs-parent="#myCollapse" role="region" id="myCollapseTab727119_3" aria-labelledby="accordion-button727119_3">
+                    <div class="accordion-body">
+                        <p class="o_default_snippet_text">We offer a 30-day return policy for all products. Items must be in their original condition, unused, and include the receipt or proof of purchase. Refunds are processed within 5-7 business days of receiving the returned item.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div></div>
+                    <div class="oe_unremovable container">
+                        
+                    </div>
+                </div>
+                
+                
+                
+                
+            </div>
+            
+            <button class="carousel-control-prev o_not_editable o_we_no_overlay d-none" aria-label="Anterior" title="Anterior" data-bs-target="#myCarousel1747867641454" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"/>
+                <span class="visually-hidden o_default_snippet_text">Previous</span>
+            </button>
+            <button class="carousel-control-next o_not_editable o_we_no_overlay d-none" aria-label="Próximo" title="Próximo" data-bs-target="#myCarousel1747867641454" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"/>
+                <span class="visually-hidden o_default_snippet_text">Next</span>
+            </button>
+            
+            <div class="carousel-indicators o_not_editable o_we_no_overlay s_carousel_indicators_hidden d-none">
+                <button type="button" aria-label="Carousel indicator" data-bs-target="#myCarousel1747867641454" class="active" data-bs-slide-to="0" aria-current="true"/>
+                
+                
+             </div>
+        </div>
+    </section></div></xpath></data>

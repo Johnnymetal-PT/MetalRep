@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Pagina de produto — Website_Design/Desktop/SVG/Products.svg (1920x7284)
+
+        Estrategia: NAO reescrever o formulario do website_sale. Toda a logica
+        de carrinho, variantes, wishlist e comparacao fica intacta; o desenho e
+        obtido acrescentando seccoes nos ganchos oe_structure nativos e
+        aplicando as classes HMD por cima da marcacao existente.
+        Reescrever o formulario partiria o JS de variantes do Odoo.
+    -->
+    <template id="product_hmd" inherit_id="website_sale.product" name="Pagina de produto HMD">
+
+        <xpath expr="//div[hasclass('o_wsale_product_page')]" position="attributes">
+            <attribute name="class" add="hmd-product-page" separator=" "/>
+        </xpath>
+
+        <!-- Cabecalho editorial: nome (Prata 89px), categoria, imagem centrada, lead -->
+        <xpath expr="//div[@id='oe_structure_website_sale_product_1']" position="after">
+            <section class="hmd-product-hero">
+                <h1 class="hmd-product-hero__name" t-field="product.name"/>
+                <p class="hmd-product-hero__cat"
+                   t-if="product.public_categ_ids"
+                   t-out="product.public_categ_ids[0].name"/>
+                <figure class="hmd-product-hero__media">
+                    <img t-att-src="website.image_url(product, 'image_1024')"
+                         t-att-alt="product.name" class="img img-fluid"/>
+                </figure>
+                <div class="hmd-product-hero__lead" t-field="product.description_ecommerce"/>
+            </section>
+        </xpath>
+
+        <!-- Galeria de ambiente + "SEEN IN PROJECTS" -->
+        <xpath expr="//div[@id='oe_structure_website_sale_product_2']" position="before">
+
+            <t t-set="hmd_extra_images" t-value="product._get_images()[1:6]"/>
+            <section class="hmd-lifestyle" t-if="hmd_extra_images">
+                <div class="hmd-lifestyle__frame">
+                    <div class="hmd-lifestyle__slide"
+                         t-foreach="hmd_extra_images" t-as="hmd_img">
+                        <img t-att-src="website.image_url(hmd_img, 'image_1920')"
+                             t-att-alt="product.name" class="img img-fluid"/>
+                    </div>
+                </div>
+                <div class="hmd-lifestyle__dots">
+                    <button type="button" class="hmd-lifestyle__dot"
+                            t-foreach="hmd_extra_images" t-as="hmd_img"
+                            t-out="str(hmd_img_index + 1)"/>
+                </div>
+            </section>
+
+            <!--
+                "Seen in projects" foi REMOVIDO daqui em 28/08/2026.
+
+                O conteudo real vive no campo website_gallery_html do produto,
+                montado no Construtor de Website (snippet s_key_images), com
+                fotografias e projectos verdadeiros por produto. Esta seccao
+                era um andaime: tres vezes a mesma legenda fixa "Hotel Amano
+                Group - Germany" sobre imagens de exemplo do tema.
+
+                Ter as duas fazia a seccao aparecer a dobrar na pagina.
+                Ganha a do editor, que e real e que a HMD pode editar.
+            -->
+        </xpath>
+    </template>
+
+    <!--
+        Downloads da ficha tecnica e dos ficheiros 3D.
+
+        NAO criamos bloco proprio: o website_sale ja tem #product_documents,
+        que le os documentos com product.sudo() e serve o ficheiro pela rota
+        /shop/<slug>/document/<id>, validando shown_on_product_page.
+
+        A nossa primeira versao lia product_document_ids sem sudo e devolvia
+        403 a qualquer visitante — product.document nao e legivel pelo publico.
+        Aqui so lhe damos o aspecto do desenho, por CSS (ver shop.scss).
+    -->
+
+    <!-- Classes HMD sobre a marcacao nativa do bloco de compra -->
+    <template id="product_buy_block_hmd" inherit_id="website_sale.product"
+              name="Bloco de compra HMD" active="True">
+        <xpath expr="//div[@id='product_detail_main']" position="attributes">
+            <attribute name="class" add="hmd-buy" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='product_detail_main']/div[contains(@t-attf-class, 'o_wsale_product_images')]"
+               position="attributes">
+            <attribute name="t-attf-class" add="hmd-buy__media" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='product_details']" position="attributes">
+            <attribute name="t-attf-class" add="hmd-buy__details" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='product_details']//h1" position="attributes">
+            <attribute name="class" add="hmd-buy__name hmd-buy__name--native" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='product_details']/div[@t-field='product.description_ecommerce']"
+               position="attributes">
+            <attribute name="class" add="hmd-buy__desc" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='product_details']/form" position="attributes">
+            <attribute name="class" add="hmd-buy__form" separator=" "/>
+        </xpath>
+        <xpath expr="//div[hasclass('js_main_product')]" position="attributes">
+            <attribute name="class" add="hmd-buy__commerce" separator=" "/>
+        </xpath>
+        <!--
+            Os downloads passam para o fim do bloco de compra.
+
+            Feedback Monica 18/09/2026, PDF "CHECK OUT": a pilha termina em
+            ADD TO WISHLIST / COMPARE / THECNICAL SHEET / 2D&amp;3D DOWNLOAD.
+            Estavam por cima do formulario, debaixo da descricao.
+
+            Nao ha campo novo a criar. O #product_documents nativo le os
+            product.document do produto marcados com "Shown on product page"
+            e usa o nome do anexo como rotulo — os dois textos que ela quer
+            sao dois documentos com esses nomes, geridos pela HMD no
+            backoffice. Falta confirmar se os ficheiros 2D/3D ja la estao.
+        -->
+        <xpath expr="//div[@id='o_wsale_cta_wrapper']" position="after">
+            <xpath expr="//div[@id='product_documents']" position="move"/>
+        </xpath>
+
+        <!-- Bloco B2B, so para quem nao tem sessao iniciada.
+             Origem: Website_Design/Mobile/../PRODUTO LOGIN E LOGOUT.pdf, versao
+             LOGOUT. O visitante nao ve preco nem carrinho; este bloco explica
+             porque e diz-lhe o que fazer a seguir.
+
+             O botao "Request an HMD account" aponta para /partner-request,
+             a pagina do formulario de pedido de conta. O formulario e o mesmo
+             que esta no topo da pagina de contactos — um so template,
+             chamado nos dois sitios. -->
+        <!-- O bloco vai DEPOIS do <p t-else> final e nao logo a seguir ao <form>:
+             o nativo encadeia form t-if -> p t-elif -> p t-else, e um <div t-if>
+             metido entre eles passava a ser a cabeca da cadeia, pelo que todo o
+             utilizador com sessao via "This product has no valid combination"
+             (tarefa #8115, 13/10/2026). -->
+        <xpath expr="//div[@id='product_details']/p[@t-else]" position="after">
+            <div t-if="website.is_public_user() or editable" class="hmd-b2b">
+                <p class="hmd-b2b__lead">
+                    HMD is a business to business wholesale company.
+                    Register and login to access Partner pricing, place an
+                    order and more.
+                </p>
+                <div class="hmd-b2b__actions">
+                    <a class="hmd-b2b__btn hmd-b2b__btn--solid" href="/web/login">
+                        Log in as a HMD partner
+                    </a>
+                    <a class="hmd-b2b__btn" href="/partner-request">
+                        Request an HMD account
+                    </a>
+                </div>
+            </div>
+        </xpath>
+
+        <!--
+            Ordem do bloco de compra.
+
+            Nativo (website_sale/views/templates.xml ~l.1342):
+              preco -> variantes -> [quantidade, ADD TO CART, wishlist] -> comparar
+
+            Desenho (XD, ecra do produto CONGO 110):
+              variantes -> quantidade -> ADD TO CARD -> preco -> wishlist -> comparar
+
+            Prancha nova (feedback Monica 18/09/2026, PDF "CHECK OUT"):
+              variantes -> quantidade -> PRECO -> ADD TO CART -> wishlist ->
+              comparar -> ficha tecnica -> 2D&amp;3D
+
+            Ou seja, o preco sobe: deixa de vir DEPOIS do ADD TO CART e passa
+            a vir imediatamente antes. O destino e o #add_to_cart_wrap, que e
+            o primeiro filho do #o_wsale_cta_wrapper.
+
+            Nao se ancora no proprio wrapper porque o website_sale_comparison
+            tem priority="8" — e aplicado ANTES desta vista e ja inseriu o
+            "comparar" a seguir ao wrapper; ancorar ai punha o preco depois do
+            comparar.
+
+            O div do preco nao tem class propria no nativo; damos-lhe uma para
+            o podermos mover e estilar sem depender de indices. A atribuicao da
+            classe TEM de vir antes do move: as xpath de uma vista sao
+            aplicadas por ordem, e um hasclass() sobre uma classe ainda nao
+            escrita nao encontra o no e faz a vista falhar.
+        -->
+        <xpath expr="//div[hasclass('js_main_product')]/div[1]" position="attributes">
+            <attribute name="class" add="hmd-buy__price" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='add_to_cart_wrap']" position="before">
+            <xpath expr="//div[hasclass('hmd-buy__price')]" position="move"/>
+        </xpath>
+
+        <!--
+            Faixa de cabecalho: titulo a esquerda, descricao a direita, filete
+            por baixo das duas.
+
+            Antes o filete era um pseudo-elemento pendurado no bloco do titulo,
+            que vive na coluna da fotografia. A descricao vive na outra coluna
+            e e mais alta, por isso a linha atravessava-a a meio e o texto
+            parecia cortado (visto no NUDO ARMCHAIR a 07/09/2026).
+
+            Nenhuma regra de CSS resolvia isso onde as coisas estavam: um
+            elemento nao se posiciona em funcao da altura de um irmao noutra
+            coluna. Postos os dois na mesma faixa, o filete passa a ser uma
+            borda dessa faixa e fica sempre por baixo de ambos, seja qual for o
+            comprimento do texto.
+
+            A descricao e MOVIDA e nao copiada: continua a ser o mesmo no
+            t-field, editavel no Construtor como sempre foi.
+        -->
+        <xpath expr="//div[@id='product_detail_main']/div[contains(@t-attf-class, 'o_wsale_product_images')]"
+               position="before">
+            <div class="hmd-buy__header">
+                <div class="hmd-buy__identity">
+                    <h2 class="hmd-buy__name" t-field="product.name"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('hmd-buy__header')]" position="inside">
+            <xpath expr="//div[@id='product_details']/div[@t-field='product.description_ecommerce']"
+                   position="move"/>
+        </xpath>
+            <!--
+            Links de download (#8378, Monica 20/10/2026): no site anterior a
+            pagina do artigo tinha "Download Technical Sheet" e "Download 3D
+            Files"; ficaram esquecidos na versao nova. Vao logo a seguir ao
+            COMPARE (pilha: ADD TO WISHLIST / COMPARE / TECHNICAL SHEET / 3D
+            FILES), so quando o artigo tem o ficheiro.
+            Ficha tecnica: campo x_studio_desenho_tcnico (Studio, PDF) - 171
+            artigos publicados. 3D: gltf_3d_model (pg_product_model_viewer,
+            ZIP) - 173. Os dois abrem para visitantes sem sessao (verificado).
+            O COMPARE vem do website_sale_comparison, aplicado antes desta
+            vista; a ancora e a classe fixa do botao.
+        -->
+        <xpath expr="//button[hasclass('o_add_compare_dyn')]" position="after">
+            <div t-if="product.x_studio_desenho_tcnico or product.gltf_3d_model" class="hmd-downloads">
+                <a t-if="product.x_studio_desenho_tcnico" class="hmd-downloads__link" target="_blank"
+                   t-att-href="'/web/content/product.template/%s/x_studio_desenho_tcnico' % product.id">Technical sheet</a>
+                <a t-if="product.gltf_3d_model" class="hmd-downloads__link" target="_blank"
+                   t-attf-href="/web/content/product.template/{{ product.id }}/gltf_3d_model?download=true&amp;filename={{ product.gltf_3d_model_filename or '3d.zip' }}">3D files</a>
+            </div>
+        </xpath>
+            <!--
+            Desenho de medidas (#8376, Monica 20/10/2026): passa a ter campo
+            proprio na ficha do artigo, x_studio_desenho_de_medidas (imagem),
+            por baixo da Ficha Tecnica. Se estiver preenchido, o desenho vem do
+            campo; se nao, o HmdDimensions (hmd_navigation.js) continua a ir
+            busca-lo a galeria do artigo, como antes. Mesma marcacao que o JS
+            produz (.hmd-dimensions dentro da coluna da fotografia), por isso o
+            CSS da pagina do artigo (#8289) serve aos dois.
+            O teste a _fields protege as bases onde o campo ainda nao exista.
+        -->
+        <xpath expr="//div[@id='product_detail_main']/div[contains(@t-attf-class, 'o_wsale_product_images')]"
+               position="inside">
+            <div t-if="'x_studio_desenho_de_medidas' in product._fields and product.x_studio_desenho_de_medidas"
+                 class="hmd-dimensions hmd-dimensions--campo">
+                <figure class="figure">
+                    <img t-att-src="website.image_url(product, 'x_studio_desenho_de_medidas')"
+                         t-att-alt="'Dimensions - %s' % product.name" class="figure-img img-fluid img" loading="lazy"/>
+                    <figcaption class="figure-caption text-muted mt-2">Dimensions in <strong>cm</strong></figcaption>
+                </figure>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- "OTHER OPTIONS" — reaproveita os produtos alternativos nativos -->
+    <!--
+        "OTHER OPTIONS" — substitui o snippet dinamico do Odoo.
+
+        Porque: a seccao nativa e um s_dynamic_snippet_products. O servidor
+        entrega o contentor VAZIO (confirmado no HTML do website 7 a 01/09/2026:
+        uma ocorrencia da seccao, zero produtos) e o JavaScript do Odoo injecta
+        os produtos. Esse JS estava a injectar duas vezes, e o CONGO 90 aparecia
+        a dobrar. Nao e do nosso JS — os nossos widgets estao todos limitados a
+        elementos .hmd-* e nenhum clona nos.
+
+        O desenho tambem nao pede um carrossel: sao dois produtos lado a lado,
+        sem "See all". Marcacao propria resolve as duas coisas e deixa de
+        depender de JavaScript de terceiros.
+
+        CUIDADO COM OS PRECOS. Quem nao tem conta NAO pode ver precos — e uma
+        promessa feita ao cliente. Por isso o preco nao e escrito a mao: usa-se
+        _get_combination_info, que resolve o preco contra a tabela de precos do
+        visitante, e o preco fica atras da bandeira prevent_zero_price_sale, a
+        mesma que o Odoo usa para esconder preco e carrinho. Nao substituir por
+        alt.list_price nem equivalente: expunha precos ao publico.
+    -->
+    <template id="alternative_products_hmd" inherit_id="website_sale.alternative_products"
+              name="Outras opcoes HMD" active="True">
+        <xpath expr="//section[hasclass('o_wsale_alternative_products')]" position="replace">
+            <section class="hmd-options">
+                <h2 class="hmd-options__title">Other options</h2>
+                <div class="hmd-options__grid">
+                    <t t-foreach="product.alternative_product_ids" t-as="hmd_alt">
+                        <t t-set="hmd_ci" t-value="hmd_alt._get_combination_info(only_template=True)"/>
+                        <a class="hmd-option" t-att-href="hmd_alt.website_url">
+                            <div class="hmd-option__media">
+                                <span t-field="hmd_alt.image_512"
+                                      t-options="{'widget': 'image', 'class': 'img img-fluid'}"/>
+                            </div>
+                            <h3 class="hmd-option__name" t-out="hmd_alt.name"/>
+                            <p class="hmd-option__price"
+                               t-if="not hmd_ci['prevent_zero_price_sale']"
+                               t-out="hmd_ci['price']"
+                               t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        </a>
+                    </t>
+                </div>
+            </section>
+        </xpath>
+    </template>
+
+    <!--
+        Grelha de catalogo — Collection.svg / Collection.pdf e Mobile/GRELHA PRODUTOS.svg
+        O fundo cinza do desenho e da pagina inteira, por isso a classe vai
+        tambem no #wrap e nao so na grelha.
+    -->
+    <template id="products_hmd" inherit_id="website_sale.products" name="Grelha de catalogo HMD">
+        <!-- Nao acrescentamos classe ao #products_grid: o Odoo escreve-lhe o
+             class com t-attf-class e o nosso valor seria sobreposto na
+             renderizacao. O CSS parte de .hmd-shop-page, que fica no #wrap. -->
+        <xpath expr="//div[@id='wrap']" position="attributes">
+            <attribute name="class" add="hmd-shop-page" separator=" "/>
+        </xpath>
+    </template>
+
+    <!--
+        Segunda imagem ao passar o rato sobre o cartao do catalogo.
+
+        Feedback Monica 18/09/2026, PDF "Opcao 2a imagem carrossel produtos":
+        "Colocar opcao 2a imagem (Ao passar o rato por cima muda)".
+
+        Nao existe no standard: o website_sale.products_item desenha uma so
+        imagem, a do image_holder (addons/website_sale/views/templates.xml
+        ~l.199), e nao ha opcao de configuracao que acrescente outra. Foi
+        confirmado no codigo da 18.0 antes de se escrever isto.
+
+        A segunda imagem e a primeira das "Extra Product Media" do produto
+        (product_template_image_ids). Filtra-se por image_1920 porque essa
+        lista tambem aceita videos, que tem video_url e nao imagem — sem o
+        filtro, um produto cujo primeiro extra fosse um video ficava com um
+        rectangulo vazio no hover.
+
+        Sem imagem extra nao se escreve nada e o cartao fica como estava. A
+        troca e so CSS (ver shop.scss): nao ha JavaScript nenhum, por isso
+        tambem nao ha salto enquanto a pagina carrega.
+    -->
+    <template id="products_item_hover_hmd" inherit_id="website_sale.products_item"
+              name="Segunda imagem em hover HMD">
+        <xpath expr="//span[hasclass('oe_product_image_img_wrapper')]" position="after">
+            <t t-set="hmd_hover_image"
+               t-value="product.product_template_image_ids.filtered('image_1920')[:1]"/>
+            <span t-if="hmd_hover_image"
+                  t-field="hmd_hover_image.image_1920"
+                  t-options="{'widget': 'image', 'preview_image': image_type, 'class': 'h-100 w-100 position-absolute object-fit-contain'}"
+                  class="hmd-product-image-hover oe_product_image_img_wrapper d-flex h-100 justify-content-center align-items-center position-absolute"/>
+        </xpath>
+    </template>
+
+    <!--
+        "Price on request" sempre que o preco na grelha e zero (#7877).
+
+        O website_sale.products_item (addons/website_sale/views/templates.xml,
+        l.230 na 18.0) tem tres ramos para o preco: o preco; um espaco em
+        branco se o preco e zero E algum valor de atributo tem preco extra; o
+        texto do prevent_zero_price_sale nos restantes. O ramo do meio deixava
+        120 artigos com o preco em branco na grelha (PLEASE DINING 90, CONGO
+        90 e 110, ...): os acabamentos com preco extra existem para os
+        orcamentos e nao se apagam.
+
+        Tira-se so o ramo do meio. O t-else que fica a seguir ao t-if continua
+        valido em QWeb, e para quem tem preco (clientes com conta) nada muda.
+    -->
+    <template id="products_item_price_request_hmd" inherit_id="website_sale.products_item"
+              name="Price on request na grelha mesmo com precos extra">
+        <xpath expr="//div[hasclass('product_price')]/span[@t-elif]" position="replace"/>
+    </template>
+
+    <!-- "Specifications" so para quem nao tem sessao iniciada.
+         Decisao da HMD, 01/09/2026: na versao com sessao o acabamento ja se
+         escolhe no seletor FINISH junto ao preco, e a lista completa repetida
+         abaixo seria informacao a dobrar. Na versao sem sessao nao ha seletor
+         nem preco, e a lista e a unica forma de o visitante saber que
+         acabamentos existem.
+
+         website.is_public_user() e o mesmo teste que o website_sale usa para
+         distinguir visitante de cliente com conta.
+
+         Nota: a vista nativa product_attributes_body tambem apaga o bloco
+         #product_attributes_simple, e apaga-o sempre. Isso e o pretendido —
+         com sessao iniciada nao aparece nem a tabela completa nem a simples.
+
+         Excepcao, 24/09/2026 (tarefa #7542): nos TECIDOS aparece sempre. E ai
+         que ficam a composicao e as instrucoes de limpeza, que nao existem em
+         seletor nenhum — escondidas a quem tem sessao, o cliente com conta
+         nunca as via. -->
+    <template id="product_specs_only_public_hmd"
+              inherit_id="website_sale_comparison.product_attributes_body"
+              name="Specifications so sem sessao HMD">
+        <xpath expr="//section[@id='product_full_spec']" position="attributes">
+            <attribute name="t-if">website.is_public_user() or product._hmd_is_fabric()</attribute>
+        </xpath>
+    </template>
+
+    <!--
+        ORDEM DA PAGINA DE PRODUTO — lido no XD a 03/09/2026, ecra a ecra:
+
+          1. CONGO + COFFEE TABLES              (nosso .hmd-product-hero)
+          2. imagem grande + "legendas imagens" (idem)
+          3. descricao em monoespacado          (idem)
+          4. imagem de ambiente + 1__2__3__4__5 (galeria do cliente)
+          5. SEEN IN PROJECTS + tres projectos  (galeria do cliente)
+          6. CONGO 110 + descricao + downloads  (coluna de compra)
+          7. desenho de dimensoes + "Dimensions in cm"
+          8. SELECT FINISH + quantidade + ADD TO CARD + preco + wishlist
+          9. OTHER OPTIONS
+
+        A galeria do cliente vem ANTES da coluna de compra — que e a ordem que
+        o modulo hmd_product_images_snippet ja produz, inserindo-a com
+        position="before" sobre #product_detail_main.
+
+        Houve aqui uma tentativa de a mover para DEPOIS da coluna de compra,
+        a 03/09/2026, revertida no mesmo dia: partiu de um unico ecra do
+        desenho em vez do scroll completo, e afastou a pagina da prancha em vez
+        de a aproximar. Fica registado para nao se repetir.
+
+        O que continua diferente do desenho e UMA coisa so: o desenho poe o
+        desenho de dimensoes entre os downloads (6) e o seletor de acabamento
+        (8), ou seja DENTRO da coluna de compra. Hoje as dimensoes vivem dentro
+        da galeria editavel do produto, misturadas com as fotografias, porque e
+        la que o conteudo foi montado no Construtor. Separa-las exige que
+        passem a ser um bloco proprio, alimentado por um campo do produto — e
+        isso e trabalho novo, nao um ajuste de ordem.
+    -->
+
+    <!--
+        "Price on request" passa a levar aos contactos.
+
+        O texto vem do website.prevent_zero_price_sale_text e e desenhado pelo
+        website_sale dentro de um #product_unavailable (views/templates.xml,
+        template product_price). Aqui so se embrulha num link.
+
+        O destino e o website.contact_us_button_url — o mesmo campo que o botao
+        "Contact Us" nativo usa, configuravel em Website > Definicoes. Assim a
+        HMD muda o destino sem nos chamar. O /contactus e so a rede se o campo
+        estiver vazio.
+
+        Porque nao se mostra antes o botao nativo: ele existe
+        (#contact_us_wrapper) mas esta escondido de proposito nesta pagina
+        (ver shop.scss), porque o bloco B2B da prancha ja da esse caminho ao
+        visitante e o nativo desalinhava o desenho. O pedido da HMD foi que
+        fosse o proprio preco a levar la — que e o que isto faz, sem repor um
+        botao que a prancha nao tem.
+    -->
+    <template id="product_price_contact_hmd" inherit_id="website_sale.product_price"
+              name="Price on request liga aos contactos">
+        <xpath expr="//div[@id='product_unavailable']/h3" position="replace">
+            <a class="hmd-price-request"
+               t-att-href="website.contact_us_button_url or '/contactus'">
+                <h3 class="fst-italic" t-field="website.prevent_zero_price_sale_text"/>
+            </a>
+        </xpath>
+    </template>
+
+    <!--
+        NAO esconder o aviso "This product has no valid combination".
+
+        A Monica pediu-o no PDF "PRODUTO_ DESCRICAO_MEDIDAS_CHECKOUT" de
+        18/09/2026 ("Este aviso tem que existir?" / "Apagar esta linha"), e a
+        22/09/2026 cheguei a implementa-lo aqui. Retirado no mesmo dia: o
+        README deste modulo ja tinha a decisao tomada em sentido contrario —
+        o aviso e do Odoo e diz a verdade.
+
+        A causa nao sao as exclusoes de atributos (medido a 22/09: 0 modelos
+        ficam sem combinacao por causa delas). `_is_add_to_cart_possible()`
+        tambem devolve falso com `sale_ok = False`: em producao era 1 produto
+        publicado nesse estado (RODAPE P/BISTRO 850x560, id 24986). Corrige-se
+        o registo, nao a vista.
+
+        Fica escrito para nao voltar a ser implementado por quem leia so os
+        PDFs. Se a HMD insistir depois de os registos estarem corrigidos, ai
+        e decisao informada e nao um atalho — e o alvo e //p[@t-else], que
+        casa exactamente um no na vista website_sale.product.
+    -->
+
+</odoo>

@@ -1,0 +1,93 @@
+@if o-website-value('header-template')=='as_header8' {
+    .as-top-header {
+        @include o-apply-colors('header-sales_four');
+        @include o-apply-colors('header-sales_four-custom');
+        @include o-add-gradient('menu-secondary-gradient');
+
+        ul{
+            justify-content: space-between;
+            flex: 1;
+
+            &:has(> :only-child) {
+                justify-content: center;
+            }
+        }
+    }
+    .as-main-header{
+        .as-hm-container{
+            display: flex;
+            .as-hm-start{
+                width: 35%;
+                flex: 0 0 35%;
+                gap: 16px;
+            }
+            .as-hm-logo {
+                flex: 0 0 30%;
+                width: 30%;
+                .navbar-brand {
+                    max-width: 100%;
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+            .as-hm-end{
+                flex: 0 0 35%;
+                width: 35%;
+            }
+            .as-lang-selector{
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                font-size: 0.775rem;
+                padding: 0;
+            }
+            .as-header-cta{
+                .btn{
+                    padding: 0.2rem 0;
+                    font-size: 0.775rem;
+                    border-radius: 0;
+                    border: none;
+                    background: none;
+                    box-shadow: none !important;
+                    color: var(--nav-link-color);
+                    line-height: 1;
+                    display: flex;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                }
+            }
+        }
+        .as-middle-header {
+            padding: 19px 0;
+        }
+        .as-h-icon {
+            background: transparent;
+			width: 42px;
+            border: none;
+			height: 42px;
+			border-radius: 50px;
+            .fa {
+                &::before {
+                    font-size: 19px !important;
+                }
+            }
+            &.as-h-sign{
+                &::before{
+                    font-size: 19px;
+                }
+            }
+            sup {
+                padding: 0px;
+                font-weight: normal;
+                min-width: 19px;
+                margin-top: 1px !important;
+                height: 19px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 20px !important;
+            }
+        }
+
+    }
+
+}

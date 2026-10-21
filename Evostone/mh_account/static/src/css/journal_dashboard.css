@@ -1,0 +1,6 @@
+/* Esconder do painel de Contabilidade os cards de diários que o utilizador
+   actual não pode ver (diários 'general'/Misc para não-admins). O span
+   marcador o_mh_journal_hidden colapsa o card pai inteiro. */
+.o_kanban_record:has(.o_mh_journal_hidden) {
+    display: none !important;
+}

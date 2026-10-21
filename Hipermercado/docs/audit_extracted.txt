@@ -1,0 +1,218 @@
+
+
+
+
+
+Auditoria ao Armazenamento do Servidor Odoo.sh
+Análise de capacidade, composição e otimização de custo
+
+Cliente: J. V. Oliveira, Lda
+Projeto: Odoo - Hipermercado (Odoo.sh hipermercado-pt)
+Versão Odoo: 19.0 Enterprise · Hosting partilhado (Europa)
+Data: 26 de junho de 2026
+Autor: Parâmetro Global — Consultoria Informática S.A.
+Estado: Final
+
+
+
+
+
+
+
+
+Preparado por Parâmetro Global — Consultoria Informática S.A.
+Documento confidencial, destinado exclusivamente à J. V. Oliveira, Lda.
+
+
+
+1. Enquadramento e objetivo
+
+No seguimento da questão colocada sobre a capacidade de armazenamento utilizada e faturada no servidor Odoo.sh, realizámos uma auditoria para responder objetivamente a três perguntas:
+Quanto armazenamento está realmente a ser consumido e como se reparte?
+Esse consumo justifica-se face à dimensão real do negócio?
+Onde há margem para reduzir, e qual o impacto efetivo na fatura?
+Resposta resumida: o consumo de armazenamento está, em parte, inflacionado por dados que não pertencem à aplicação e que podem ser removidos com segurança. Existe desperdício técnico real e corrigível. Contudo, em termos de fatura, o armazenamento é uma componente pequena do custo Odoo.sh, pelo que a poupança direta é moderada — o maior potencial de redução está noutra rubrica (ambiente de staging), conforme detalhamos.
+
+2. Âmbito e metodologia
+
+A auditoria cobriu todas as componentes que a Odoo.sh contabiliza para efeitos de armazenamento: o repositório de código (que é copiado para cada ambiente), as bases de dados e ficheiros (filestore) de produção e de staging, e os backups.
+Fontes de evidência:
+Painel de armazenamento e subscrição da Odoo.sh (produção, staging, backups, plano).
+Medição direta na base de dados e no sistema de ficheiros do ambiente de produção.
+Análise do conteúdo do repositório de implementação.
+Todos os valores apresentados foram observados diretamente (26/06/2026). A Odoo.sh assinala que os tamanhos do painel não são em tempo real, pelo que podem ter ligeiro desfasamento.
+
+3. Sumário executivo
+
+Indicador
+Valor
+Armazenamento total contabilizado
+46,13 GB (de 50 GB provisionados)
+Custo de armazenamento
+€8,00/mês (€0,16/GB)
+Custo total da subscrição Odoo.sh
+≈ €68,00/mês
+Peso de dados não-aplicacionais removíveis
+≈ 22 GB (~48% do total)
+Aplicação Odoo real (código)
+< 90 MB
+
+Conclusões-chave:
+1. Quase metade do armazenamento contabilizado é peso morto removível. A causa principal é um conjunto de dados legados/de migração (≈4,4 GB) guardado dentro do repositório de implementação. Como a Odoo.sh copia o repositório para todos os ambientes e o reflete nos backups, esses 4,4 GB são contabilizados várias vezes.
+2. A componente legítima — catálogo de produtos, imagens e dados de negócio — é coerente com a operação (≈50 000 artigos) e justifica-se.
+3. A fatura é dominada por outras rubricas: dos ≈€68/mês, o armazenamento é apenas €8. O ambiente de staging (€12/mês) está atualmente não-operacional e é o melhor candidato a poupança recorrente.
+
+4. Composição do armazenamento
+
+4.1 Repartição contabilizada pela Odoo.sh (46,13 GB)
+Componente
+Dimensão
+%
+Base de dados de produção
+10,39 GB
+22,5%
+Backups (3 incrementais, cada = tamanho de produção)
+31,17 GB
+67,6%
+Ambiente de staging
+4,58 GB
+9,9%
+Total
+46,13 GB
+100%
+
+Os backups representam 68% do total. Cada backup é contabilizado ao tamanho integral da produção; por isso, reduzir a produção reduz automaticamente os três *backups*.
+4.2 Decomposição da produção (10,39 GB)
+Componente
+Dimensão
+Observação
+Base de dados PostgreSQL
+2,50 GB
+Dados de negócio + logs técnicos
+Sistema de ficheiros do contentor
+7,88 GB
+Inclui filestore (3,2 GB) + cópia do repositório (4,5 GB)
+
+Constatação central: a cópia do repositório (4,5 GB) é o maior componente físico da produção — maior do que o filestore das imagens (3,2 GB) e do que a própria base de dados (2,5 GB). Desses 4,5 GB, ≈4,4 GB são dados legados que o Odoo não utiliza (ver secção 5.1).
+4.3 Subscrição Odoo.sh (contexto da fatura)
+Rubrica
+Quantidade
+Custo
+Workers de base de dados
+1
+€48,00/mês
+Hosting
+Partilhado
+€0,00/mês
+Ambiente de staging
+1
+€12,00/mês
+Armazenamento provisionado
+50 GB
+€8,00/mês
+Total
+
+≈ €68,00/mês
+
+
+5. Principais constatações
+
+5.1 Dados legados de migração guardados no repositório (≈4,4 GB) — *prioridade máxima*
+O repositório de implementação inclui uma exportação completa do sistema anterior (PrestaShop) — cerca de 17 700 ficheiros: logs, ficheiros de catálogos de fornecedores (feeds CSV), relatórios e código do sistema antigo. Este conteúdo é fonte de migração, legítima enquanto arquivo, mas não é utilizado pelo Odoo em funcionamento.
+Como a Odoo.sh copia o repositório para cada ambiente e o reflete nos backups, estes ≈4,4 GB são contabilizados em produção + *staging* + 3 *backups — totalizando ≈22 GB (~48%)* do armazenamento.
+Recomendação: arquivar estes dados fora da Odoo.sh (armazenamento dedicado) e removê-los do repositório de implementação.
+5.2 Ficheiros de apoio à ferramenta de importação no repositório (≈44 MB)
+O repositório inclui também os componentes e dependências (pacotes Python para Windows) do serviço de importação/recolha de catálogos, que corre na máquina externa (Windows) e não no servidor Odoo.sh (Linux). Não têm utilidade no ambiente Odoo.
+Recomendação: manter estes componentes no seu próprio repositório, fora do repositório de implementação Odoo.
+5.3 *Logs* técnicos a ocupar 37% da base de dados (931 MB)
+Uma tabela de registos de execução das sincronizações de catálogos ocupa 931 MB dos 2,5 GB da base de dados — é a 2.ª maior tabela. Cresce de forma contínua porque não tem política de limpeza, e replica-se em cada backup.
+Recomendação: definir uma retenção (ex.: manter apenas N dias) e compactar a base de dados após a limpeza.
+5.4 Imagens e anexos de produto (*filestore* 3,2 GB) — maioritariamente legítimo
+O filestore contém 175 680 anexos associados a produtos (imagens e respetivas variantes de tamanho), correspondentes ao catálogo de ~50 000 artigos. É a componente legítima do armazenamento. Verificámos, no entanto, que cerca de 39% do volume é conteúdo duplicado (imagens iguais entre produtos) e que existem caches de imagem que o sistema regenera automaticamente.
+Recomendação (otimização, não urgente): validar produtos sem imagem real, remover anexos órfãos de artigos descontinuados e rever a política de imagens. Não remover sem validação — é o catálogo do website.
+5.5 Ambiente de *staging* não-operacional, faturado a €12/mês
+O ambiente de staging (branch Testing) está atualmente não-operacional (erro de subscrição na construção do ambiente), continua a ser contabilizado em armazenamento (4,58 GB) — conteúdo que é essencialmente a cópia do repositório com os dados legados — e é faturado a €12/mês.
+Recomendação: decidir se o ambiente de staging é necessário. Se sim, repô-lo de forma limpa após a remoção dos dados legados; se não, removê-lo (poupança de €12/mês).
+5.6 Recomendação de segurança (boa prática)
+Recomendamos a rotação de quaisquer chaves de API partilhadas por email durante o projeto e que estas não sejam guardadas em texto não cifrado, como medida-padrão de higiene de segurança.
+
+6. Oportunidades de redução e poupança estimada
+
+A tabela seguinte projeta o efeito da limpeza. Os valores pós-limpeza são estimativas, a confirmar após execução.
+Cenário
+Produção
+Backups
+Staging
+Total
+Provisionar
+Custo armazenamento
+Atual
+10,39 GB
+31,17 GB
+4,58 GB
+46,13 GB
+50 GB
+€8,00/mês
+A — remover dados legados + limpar logs
+~5,1 GB
+~15,3 GB
+~0,2 GB
+~20,6 GB
+~25 GB
+~€4,00/mês
+B — cenário A + remover staging não-usado
+~5,1 GB
+~15,3 GB
+0
+~20,4 GB
+~22 GB
+~€3,50/mês + −€12/mês
+
+Importante: a Odoo.sh aumenta o armazenamento provisionado automaticamente, mas não o reduz sozinha. Após a limpeza, é necessário baixar manualmente o valor provisionado para concretizar a poupança.
+Leitura honesta da poupança:
+A limpeza de armazenamento reduz o consumo de ~46 GB para ~20 GB e poupa ~€4–5/mês. Mais relevante do que o euro poupado é o benefício operacional: ambientes mais leves, construções e cópias mais rápidas e backups mais pequenos.
+A maior poupança recorrente está em decidir o ambiente de *staging* (€12/mês).
+Os *workers* (€48/mês) são a maior rubrica, mas são necessários à operação (importações massivas e website) — não são desperdício.
+7. Recomendações e próximos passos
+
+#
+Ação
+Benefício
+Horizonte
+1
+Arquivar os dados legados de migração fora da Odoo.sh e removê-los do repositório
+−≈4,4 GB em produção, staging e cada backup
+Curto prazo
+2
+Mover os ficheiros de apoio à ferramenta de importação para repositório próprio
+Ambientes mais limpos
+Curto prazo
+3
+Definir retenção e limpar os logs de sincronização
+−≈0,9 GB na BD + backups
+Curto prazo
+4
+Decidir o ambiente de staging (repor limpo ou remover)
+Até −€12/mês
+Curto prazo
+5
+Otimizar o repositório para reduzir o seu tamanho de cópia
+Construções/cópias mais rápidas
+Médio prazo
+6
+Validar e limpar anexos de produto órfãos/duplicados
+Redução adicional do filestore
+Médio prazo
+7
+Baixar manualmente o armazenamento provisionado após as ações anteriores
+Concretiza a poupança de armazenamento
+Após 1–6
+
+A Parâmetro Global pode executar as ações 1–6 de forma controlada, com arquivo prévio dos dados e em coordenação com a Odoo.sh, sem impacto na operação.
+
+8. Conclusão
+
+A perceção de que parte do armazenamento não se justifica está correta: cerca de metade do armazenamento contabilizado (~22 GB) é constituído por dados legados de migração e *logs* técnicos que podem ser removidos com segurança, reduzindo o consumo de ~46 GB para ~20 GB.
+Ao mesmo tempo, e por transparência, sublinhamos que o armazenamento representa apenas ~12% da fatura Odoo.sh (€8 de ≈€68/mês). A limpeza é recomendada — é desperdício real e melhora o desempenho dos ambientes — mas a maior poupança recorrente virá da decisão sobre o ambiente de *staging* (€12/mês), atualmente não-operacional.
+Propomos avançar com o plano da secção 7, começando pela remoção dos dados legados (com arquivo prévio) e pela decisão sobre o staging.
+Documento elaborado pela Parâmetro Global — Consultoria Informática S.A. para a J. V. Oliveira, Lda.

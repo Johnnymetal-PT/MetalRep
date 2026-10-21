@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_sale_order_form_inherit_pg_links" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.pg.sale.purchase.link</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_pg_related_mos"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-industry">
+                    <field name="pg_mrp_production_count"
+                           widget="statinfo"
+                           string="Ordens de Produção"/>
+                </button>
+                <button name="action_view_pg_related_purchase_orders"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-shopping-cart">
+                    <field name="pg_purchase_order_count"
+                           widget="statinfo"
+                           string="Compras Componentes"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,244 @@
+.inside-div {
+    box-sizing: border-box;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.img-container {
+    position: relative;
+    width: 256px;
+    height: 256px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.custom-category-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.primary-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.secondary-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    opacity: 0;
+}
+
+.img-container:hover .primary-image {
+    opacity: 0;
+}
+
+.img-container:hover .secondary-image {
+    opacity: 1;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-body {
+    margin-top: auto;
+}
+
+header .navbar .dropdown-menu, header {
+    max-height: none !important;
+}
+
+.o_brand_promotion{
+    display:none !important;
+  }
+  
+  .group-header {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      margin-bottom: 10px;
+      font-size: 18px;
+      transition: all 0.3s ease;
+  }
+  
+  .group-header:hover {
+      color: #95826a;
+  }
+  
+  .group-header i {
+      margin-right: 10px;
+      transition: transform 0.3s ease;
+  }
+  
+  .group-header.active i {
+      transform: rotate(90deg);
+  }
+  
+  .group-content {
+      padding-left: 20px;
+      border-left: 2px solid #ddd;
+      margin-bottom: 15px;
+  }
+  
+  .attachment-item {
+      margin-bottom: 8px;
+  }
+  
+  .attachment-link {
+      color: #555;
+      text-decoration: none;
+      transition: color 0.3s ease;
+  }
+  
+  .attachment-link:hover {
+      color: #95826a;
+  }
+  
+  .attachment-link i {
+      margin-right: 5px;
+  }
+  
+  .oe_price {
+      display: none;
+  }
+  
+  .product_price {
+      display: none;
+  }
+  
+  #o_wsale_cta_wrapper {
+      display: none !important;
+  }
+  
+  #o_product_terms_and_share {
+      display: none !important;
+  }
+  
+  .o_wsale_my_cart {
+      display: none;
+  }
+  
+  #oe_structure_website_sale_product_1 {
+      display: none !important;
+  }
+  
+  #product_full_description {
+      display: none !important;
+  }
+  
+  
+  
+  /* Hide the main category 'Todas' */
+  .nav-item.mb-1:first-child {
+      display: none;
+  }
+  
+  #product_details{
+    position: fixed;
+    top: 12%;
+    left: 50%;
+  }
+
+  .o_container_small{
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+
+/* This will target all bold elements and set their font-weight to normal */
+b, strong {
+    font-weight: normal;
+  }
+
+  .variant_attribute .radio_input_value {
+    font-weight: 200;
+    font-size: 14px;
+}
+
+
+#product_documents {
+    display:none;
+}
+/* shop / category */
+
+.image-container_shop {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-container_shop .main-image,
+.image-container_shop .extra-image,
+.image-container_shop .default-image {
+    width: 100%;
+    height: auto;
+    transition: opacity 0.5s ease-in-out;
+    
+}
+.image-container_shop .main-image {
+        max-width: 100%;
+        margin-bottom: 20px;
+        object-fit: cover;
+    }
+.image-container_shop .extra-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 10;
+    max-width: 80%;
+    object-fit: cover;
+}
+
+.image-container_shop:hover .main-image {
+    cursor: pointer;
+    opacity: 0;
+}
+
+.image-container_shop:hover .extra-image {
+    opacity: 1;
+}
+
+.oe_product_cart .oe_product_image .oe_product_image_link {
+    padding-top: 0;
+}
+
+.oe_product_cart .oe_product_image .oe_product_image_link .oe_product_image_img_wrapper {
+    display: none !important;
+}
+
+.image-container_shop .extra-image {
+    max-width: 100% !important;
+}
+
+.oe_product_image img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+.oe_product_image .image-container_shop {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.breadcrumb {
+    font-size: 150% !important;
+}

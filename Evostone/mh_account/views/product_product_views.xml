@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Product Variant Form View - Accounts Tab -->
+    <record id="product_product_form_view_variant_accounts" model="ir.ui.view">
+        <field name="name">product.product.form.mh.accounts</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Contabilidade Variante" name="variant_accounting" groups="account.group_account_readonly">
+                    <group>
+                        <group string="Contas Standard">
+                            <field name="variant_property_account_income_id"
+                                   string="Conta de Receita"
+                                   options="{'no_create': True}"/>
+                            <field name="variant_property_account_expense_id"
+                                   string="Conta de Gasto"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        <!-- DESACTIVADO (2026-08-03): contas externas migradas para posição fiscal
+                        <group string="Contas Externas">
+                            <field name="variant_property_account_external_income_id"
+                                   string="Conta de Receita Externa"
+                                   options="{'no_create': True}"/>
+                            <field name="variant_property_account_external_expense_id"
+                                   string="Conta de Gasto Externa"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        -->
+
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

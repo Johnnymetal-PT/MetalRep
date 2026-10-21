@@ -1,0 +1,25 @@
+.as-theme-custom-padding {
+    // Apply padding using variables (with fallbacks)
+    padding-top: var(--as-padding-top, 0px) !important;
+    padding-bottom: var(--as-padding-bottom, 0px) !important;
+
+    // Tablet Overrides
+    @include media-breakpoint-up(md) {
+        &[style*="--as-padding-top-md"] {
+            padding-top: var(--as-padding-top-md) !important;
+        }
+        &[style*="--as-padding-bottom-md"] {
+            padding-bottom: var(--as-padding-bottom-md) !important;
+        }
+    }
+
+    // Desktop Overrides
+    @include media-breakpoint-up(lg) {
+        &[style*="--as-padding-top-lg"] {
+            padding-top: var(--as-padding-top-lg) !important;
+        }
+        &[style*="--as-padding-bottom-lg"] {
+            padding-bottom: var(--as-padding-bottom-lg) !important;
+        }
+    }
+}

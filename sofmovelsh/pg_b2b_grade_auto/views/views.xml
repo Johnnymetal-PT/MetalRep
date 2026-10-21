@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Escalão: faturação mínima, ao lado da lista de preços que ele aplica -->
+    <record id="view_partner_grade_form_pg_auto" model="ir.ui.view">
+        <field name="name">res.partner.grade.form.pg.auto</field>
+        <field name="model">res.partner.grade</field>
+        <field name="inherit_id" ref="partnership.view_partner_grade_form"/>
+        <field name="arch" type="xml">
+            <field name="default_pricelist_id" position="after">
+                <field name="pg_auto_assign"/>
+                <field name="pg_currency_id" invisible="1"/>
+                <field name="pg_min_invoiced" invisible="not pg_auto_assign"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Cliente: adesão ao automático e o valor apurado no ultimo calculo -->
+    <record id="view_res_partner_form_pg_auto" model="ir.ui.view">
+        <field name="name">res.partner.form.pg.grade.auto</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="partnership.view_res_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="grade_id" position="after">
+                <field name="pg_grade_auto"/>
+                <field name="pg_currency_id" invisible="1"/>
+                <field name="pg_invoiced_total" invisible="not pg_grade_auto"/>
+                <field name="pg_grade_computed_on" invisible="not pg_grade_auto"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Janela de tempo nas definicoes, ao lado da opcao do partnership -->
+    <record id="res_config_settings_view_form_pg_grade" model="ir.ui.view">
+        <field name="name">res.config.settings.pg.grade.auto</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="crm.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <field name="module_partnership" position="after">
+                <div invisible="not module_partnership" class="mt-2">
+                    <div>
+                        O escalão conta a partir de
+                        <field name="pg_grade_base" class="oe_inline"/>,
+                        considerando
+                        <field name="pg_grade_window_months" class="oe_inline"/>
+                        meses (0 = todo o histórico).
+                    </div>
+                    <div class="mt-2">
+                        <field name="pg_grade_cron_active" class="oe_inline"/>
+                        <span class="ms-2">Apurar o escalão automaticamente</span>
+                    </div>
+                    <div class="ms-4" invisible="not pg_grade_cron_active">
+                        Periodicidade
+                        <field name="pg_grade_cron_frequency" class="oe_inline"/>,
+                        a partir de
+                        <field name="pg_grade_cron_nextcall" class="oe_inline"/>.
+                    </div>
+                </div>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_pg_recompute_grade" model="ir.actions.server">
+        <field name="name">B2B: recalcular escalão por faturação</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_pg_recompute_grade()</field>
+    </record>
+
+</odoo>

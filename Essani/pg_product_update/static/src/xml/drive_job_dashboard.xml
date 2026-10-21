@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="pg_product_update.DriveJobDashboard">
+        <div class="o_pg_product_update_dashboard h-100 overflow-auto p-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+                <div>
+                    <h1 class="h3 mb-1">Product Import Progress</h1>
+                    <div class="text-muted" t-if="state.job">
+                        <span t-esc="state.job.name"/>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" t-on-click="forceStartImport" t-if="isForceStartAvailable">
+                        Force Start Import
+                    </button>
+                    <button class="btn btn-secondary" t-on-click="refreshNow">Refresh</button>
+                    <button class="btn btn-outline-secondary" t-on-click="openJobForm" t-if="state.job">Job Record</button>
+                    <button class="btn btn-outline-secondary" t-on-click="openJobList">History</button>
+                </div>
+            </div>
+
+            <div t-if="state.loading" class="alert alert-info mb-0">
+                Loading import progress...
+            </div>
+
+            <div t-elif="state.error" class="alert alert-danger mb-0">
+                <t t-esc="state.error"/>
+            </div>
+
+            <div t-elif="state.job">
+                <div class="row g-3 mb-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="text-muted small text-uppercase">Phase</div>
+                                <div class="fs-4 fw-semibold mt-1" t-esc="phaseLabel"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="text-muted small text-uppercase">Processed</div>
+                                <div class="fs-4 fw-semibold mt-1" t-esc="state.job.processed_count"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="text-muted small text-uppercase">Pending</div>
+                                <div class="fs-4 fw-semibold mt-1" t-esc="state.job.pending_count"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="text-muted small text-uppercase">Errors</div>
+                                <div class="fs-4 fw-semibold mt-1" t-esc="state.job.error_count"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="text-muted small text-uppercase">Skipped</div>
+                                <div class="fs-4 fw-semibold mt-1" t-esc="state.job.skipped_count or 0"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="text-muted small text-uppercase">Unaccounted</div>
+                                <div class="fs-4 fw-semibold mt-1" t-esc="state.job.unaccounted_count or 0"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="fw-semibold" t-esc="progressTitle"/>
+                            <div class="text-muted" t-esc="progressLabel"/>
+                        </div>
+                        <div class="progress" style="height: 24px;">
+                            <div class="progress-bar" t-att-class="progressBarClass" role="progressbar" t-att-style="progressStyle">
+                                <span t-esc="progressLabel"/>
+                            </div>
+                        </div>
+                        <div class="small text-muted mt-2">
+                            Last refresh:
+                            <span t-esc="state.lastRefresh"/>
+                        </div>
+                        <div class="small text-muted mt-1" t-esc="progressSummary"/>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-12 col-xl-7">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h2 class="h5 mb-3">Live Status</h2>
+                                <div class="row g-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="text-muted small text-uppercase">Current Item</div>
+                                        <div class="fw-semibold mt-1">
+                                            <t t-esc="state.job.current_item_display or 'Waiting for next item'"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="text-muted small text-uppercase">Attempts</div>
+                                        <div class="fw-semibold mt-1" t-esc="state.job.current_item_attempts"/>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="text-muted small text-uppercase">Discovered Products</div>
+                                        <div class="fw-semibold mt-1" t-esc="state.job.discovered_count"/>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="text-muted small text-uppercase">Discovery Queue</div>
+                                        <div class="fw-semibold mt-1" t-esc="state.job.scan_remaining_count"/>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="text-muted small text-uppercase" t-esc="totalCountLabel"/>
+                                        <div class="fw-semibold mt-1" t-esc="state.job.total_count"/>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="text-muted small text-uppercase">Started</div>
+                                        <div class="fw-semibold mt-1" t-esc="state.job.started_at or '-'"/>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="text-muted small text-uppercase">Elapsed</div>
+                                        <div class="fw-semibold mt-1" t-esc="durationLabel"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-5">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h2 class="h5 mb-3">Last Error</h2>
+                                <div t-if="state.job.last_error" class="alert alert-danger mb-0">
+                                    <t t-esc="state.job.last_error"/>
+                                </div>
+                                <div t-else="" class="text-muted">
+                                    No errors recorded for this job.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h2 class="h5 mb-3">Skipped Items</h2>
+                                <div t-if="state.job.skipped_items_preview" class="small" style="white-space: pre-wrap;">
+                                    <t t-esc="state.job.skipped_items_preview"/>
+                                </div>
+                                <div t-else="" class="text-muted">
+                                    No skipped items recorded for this job.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h2 class="h5 mb-3">Unaccounted Items</h2>
+                                <div t-if="state.job.unaccounted_items_preview" class="small" style="white-space: pre-wrap;">
+                                    <t t-esc="state.job.unaccounted_items_preview"/>
+                                </div>
+                                <div t-else="" class="text-muted">
+                                    No unaccounted items recorded for this job.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h2 class="h5 mb-3">Trace Log</h2>
+                                <div t-if="state.job.trace_events_preview" class="small" style="white-space: pre-wrap;">
+                                    <t t-esc="state.job.trace_events_preview"/>
+                                </div>
+                                <div t-else="" class="text-muted">
+                                    No trace events recorded for this job.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

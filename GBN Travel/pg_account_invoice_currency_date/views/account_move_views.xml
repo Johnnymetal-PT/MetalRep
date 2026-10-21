@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Acrescenta o campo "Data de Criação" (pg_data_criacao) ao formulário de
+        fatura, herdando a vista standard `account.view_move_form`.
+
+        O campo só faz sentido em faturas/notas de crédito de fornecedor, por
+        isso fica:
+          - invisível nos restantes tipos de documento (via `invisible` por move_type);
+          - editável apenas com o documento em rascunho (via `readonly` fora de 'draft').
+    -->
+    <record id="pg_view_move_form_currency_date" model="ir.ui.view">
+        <field name="name">account.move.form.pg.currency.date</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!--
+                Âncora: logo a seguir ao campo 'taxable_supply_date'. Escolhido
+                por ser um campo único no formulário (xpath sem ambiguidade) e
+                por ficar no mesmo grupo de datas do cabeçalho, junto à data da
+                fatura — o local natural para o utilizador o preencher.
+            -->
+            <xpath expr="//field[@name='taxable_supply_date']" position="after">
+                <field name="pg_data_criacao"
+                       invisible="move_type not in ('in_invoice', 'in_refund')"
+                       readonly="state != 'draft'"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

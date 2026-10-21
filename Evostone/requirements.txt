@@ -1,0 +1,72 @@
+# ---------------------------------------------------------------------------
+# Evostone - dependencias Python instaladas pelo Odoo.sh no build.
+#
+# Odoo.sh instala este ficheiro em cada build/rebuild. NAO instalar pacotes
+# com "pip install" na shell do container: nao e partilhado pelos outros
+# containers e perde-se no rebuild seguinte.
+#
+# REGRA DESTE FICHEIRO
+# O Odoo 18 em Python 3.12 fixa versoes proprias. Qualquer pacote novo que
+# arraste um upgrade/downgrade dessas versoes REBENTA o arranque do Odoo
+# (Bad Gateway). Por isso os pins de protecao abaixo sao obrigatorios e nao
+# devem ser removidos sem testar num build dedicado.
+# ---------------------------------------------------------------------------
+
+# --- Pins de protecao: manter iguais ao requirements.txt do Odoo 18 --------
+# Sem estes, o pyhanko puxa cryptography>=48 e lxml>=5.4, e o Odoo nao arranca.
+cryptography==42.0.8
+lxml==5.2.1
+urllib3==2.0.7
+
+# --- Relatorios (mh_stone_reports) -----------------------------------------
+# Renderizacao de etiquetas Code128; fornece o modulo "barcode".
+python-barcode==0.15.1
+
+# --- Certificacao Exo / PTplus ---------------------------------------------
+# Toolkit da Exo para empacotamento/validacao dos modulos certificados.
+git+https://github.com/exosoftware/runpack.git
+
+# Utilitarios de migracao OCA usados pelos scripts de upgrade da Exo.
+git+https://github.com/OCA/openupgradelib.git@master
+
+# Comunicacao com a AT / validacao de XML (ptplus).
+xmlschema==3.4.3
+suds-py3
+
+# SAF-T e exportacoes (ptplus, ptplus_saft).
+unicodecsv
+
+# Contabilidade (ptplus_accounting).
+pycountry
+
+# Assinatura digital de PDF e OTP (ptplus_pdf_sign).
+# pyhanko FIXADO em 0.25.1: e a ultima versao que aceita cryptography>=42.0.1
+# e nao exige lxml>=5.4. Da 0.26 em diante exige cryptography>=43 e a partir
+# da 0.29 tambem lxml>=5.4, ambos incompativeis com os pins do Odoo 18.
+pyhanko==0.25.1
+pyotp
+
+# Leitura de PDF (ptplus_accounting_efatura).
+pymupdf==1.24.10
+bs4
+html5lib
+
+# Leitura de codigos de barras/QR.
+# NOTA: pyzbar e so o wrapper Python; precisa da libzbar0 no container.
+pyzbar
+
+# ---------------------------------------------------------------------------
+# REMOVIDO DE PROPOSITO - nao reintroduzir sem resolver o conflito
+#
+# requests_html
+#   Arrasta pyppeteer 2.0.0, que exige urllib3>=1.25.8,<2.0.0 e forca o
+#   downgrade do urllib3==2.0.7 do Odoo 18. Nao ha versao de pyppeteer sem
+#   esse limite, nem outra versao de requests-html alem da 0.10.0 (2019).
+#   Consequencia: ptplus_accounting_efatura NAO instala enquanto declarar
+#   requests_html em external_dependencies. A resolver com a Exo.
+#
+# pyopenssl==22.1.0
+#   Pedido pela Exo, mas exige cryptography>=38,<39 e faria downgrade do
+#   cryptography==42.0.8. O Odoo 18 ja traz pyopenssl==24.1.0. Confirmar com
+#   a Exo se o pin de 2022 e mesmo necessario.
+# ---------------------------------------------------------------------------

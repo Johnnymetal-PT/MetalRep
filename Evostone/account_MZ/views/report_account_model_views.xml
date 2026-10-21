@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_form_report_account" model="ir.ui.view">
+        <field name="name">report.account.form</field>
+        <field name="model">report.account.model</field>
+        <field name="arch" type="xml">
+<form string="Report">
+                <sheet>
+
+                    <div class="oe_title"> 
+                        <h1>
+                            <field name="name" string="Descrição"/>
+                        </h1> 
+                    </div>
+
+                    <group>
+                        <group>
+                            
+                            <field name="formula" string="Formúla"/>
+                            
+                        </group>
+                    
+                        
+                     </group>                 
+
+
+                    <group>
+                        <group nolabel="1" colspan="2" string="IN">
+                           
+                            <field name="contas" string="Contas" nolabel="1" colspan="2"> 
+                                <list editable="bottom">
+                                    <field name="code"/>  
+                                                                                
+                                </list>
+                            </field> 
+
+                            
+                        </group>
+                    
+                        <group nolabel="1" colspan="2" string="Contas excluidas">
+                           
+                            <field name="contas_excld" string="Contas" nolabel="1" colspan="2"> 
+                                <list editable="bottom">
+                                    <field name="code"/>  
+                                                                                
+                                </list>
+                            </field> 
+
+                            
+                        </group>
+                    </group> 
+
+
+
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Main wrapper for Delivery Guide report -->
+        <record id="view_report_delivery_guide" model="ir.ui.view">
+            <field name="name">Delivery Guide Report - Main Wrapper</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_delivery_guide</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_delivery_guide">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.basic_layout">
+                            <t t-call="mh_stone_reports.report_delivery_guide_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <!-- Document template for Delivery Guide report -->
+        <record id="view_report_delivery_guide_document" model="ir.ui.view">
+            <field name="name">Delivery Guide Report - Document Template</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_delivery_guide_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_delivery_guide_document">
+                    <div class="page"/>
+                    <style>
+                        td {
+                            border: 1px solid #DCDCDC;
+                            border-collapse: collapse;
+                            padding: 4px;
+                        }
+                        .tb {
+                            margin-left: 5px;
+                        }
+                    </style>
+
+                    <!-- Cabeçalho com Logo e Título -->
+                    <div class="row">
+                        <div class="col-8">
+                            <img class="img-fluid" style="width: 50%;" t-att-src="image_data_uri(doc.company_id.logo_report)"/>
+                        </div>
+                        <br/>
+                        <div class="col-4 text-end">
+                            <br/>
+                            <t t-if="doc.is_initial_stock">Guia de Stock Inicial</t>
+                            <t t-elif="doc.picking_type_id.code == 'outgoing'">Guia de Entrega</t>
+                            <t t-elif="doc.picking_type_id.code == 'incoming'">Guia de Recebimento</t>
+                            <t t-else="">Guia de Transferência</t>
+                            <br/>
+                            <span t-field="doc.name" class="o_bold"/>
+                        </div>
+                    </div>
+
+                    <!-- Dados da Empresa -->
+                    <div class="row" style="font-size: 11px; font-family: Arial, sans-serif;">
+                        <div class="col-6">
+                            <strong><span t-field="doc.company_id.name"/></strong><br/>
+                            <span t-field="doc.company_id.street"/><br/>
+                            <t t-if="doc.company_id.street2"><span t-field="doc.company_id.street2"/><br/></t>
+                            <span t-field="doc.company_id.zip"/> <span t-field="doc.company_id.city"/> - <span t-field="doc.company_id.country_id.name"/><br/>
+                            <strong>NIF: </strong><span t-field="doc.company_id.vat"/><br/>
+                            <span>c. </span><span t-field="doc.company_id.phone"/><br/>
+                            <span>e. </span><span t-field="doc.company_id.email"/>
+                        </div>
+                    </div>
+
+                    <!-- Endereços: só para vendas e compras (não para transferências internas) -->
+                    <t t-if="doc.picking_type_id.code != 'internal' and doc.is_initial_stock == false">
+                        <br/>
+                        <div class="row" style="font-size: 11px; font-family: Arial, sans-serif;">
+                            <div class="col-6" name="div_outgoing_address">
+                                <div t-if="doc.move_ids_without_package and doc.move_ids_without_package[0].partner_id and doc.move_ids_without_package[0].partner_id.id != doc.partner_id.id">
+                                    <strong>Endereço de entrega:</strong>
+                                    <div t-field="doc.move_ids_without_package[0].partner_id" t-options="{'widget': 'contact', 'fields': ['address', 'name', 'phone'], 'no_marker': True, 'phone_icons': True}"/>
+                                </div>
+                                <div t-if="(not doc.move_ids_without_package or not doc.move_ids_without_package[0].partner_id) and doc.picking_type_id.warehouse_id.partner_id">
+                                    <strong>Endereço do armazém:</strong>
+                                    <div t-field="doc.picking_type_id.warehouse_id.partner_id" t-options="{'widget': 'contact', 'fields': ['address', 'name', 'phone'], 'no_marker': True, 'phone_icons': True}"/>
+                                </div>
+                            </div>
+                            <div class="col-5 offset-1" name="div_incoming_address">
+                                <div t-if="doc.picking_type_id.code=='incoming' and doc.partner_id">
+                                    <strong>Endereço do fornecedor:</strong>
+                                </div>
+                                <div t-if="doc.picking_type_id.code=='outgoing' and doc.partner_id">
+                                    <strong>Endereço do cliente:</strong>
+                                </div>
+                                <div t-if="doc.partner_id" name="partner_header">
+                                    <div t-field="doc.partner_id" t-options="{'widget': 'contact', 'fields': ['address', 'name', 'phone', 'vat'], 'no_marker': True, 'phone_icons': True}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    </t>
+                    <t t-if="doc.picking_type_id.code == 'internal' or doc.is_initial_stock">
+                        <br/>
+                        <br/>
+                    </t>
+                    <!-- Informações do Documento -->
+                    <div class="col-12">
+                        <table style="text-align: center; font-family: Arial, sans-serif; font-size: 11px;" width="100%">
+                            <tbody>
+                                <tr>
+                                    <!-- DATA: Agendada para vendas, Efetiva para outros -->
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <t t-if="doc.picking_type_id.code == 'outgoing'">
+                                            <strong>DATA AGENDADA</strong><br/>
+                                            <span t-field="doc.scheduled_date" t-options="{'widget': 'datetime'}"/>
+                                        </t>
+                                        <t t-else="">
+                                            <strong>DATA EFETIVA</strong><br/>
+                                            <span t-field="doc.date_done" t-options="{'widget': 'datetime'}"/>
+                                        </t>
+                                    </td>
+                                    <!-- PEDIDO/VENDA: só para outgoing e incoming -->
+                                    <t t-if="doc.picking_type_id.code != 'internal' and doc.is_initial_stock == false">
+                                        <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                            <t t-if="doc.picking_type_id.code == 'outgoing'">
+                                                <strong>VENDA</strong><br/>
+                                            </t>
+                                            <t t-else="">
+                                                <strong>PEDIDO</strong><br/>
+                                            </t>
+                                            <span t-field="doc.origin"/>
+                                        </td>
+                                    </t>
+                                    <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                        <strong>ARMAZÉM</strong><br/>
+                                        <span t-field="doc.picking_type_id.warehouse_id.name"/>
+                                    </td>
+                                    <!-- LOCALIZAÇÃO ORIGEM: para vendas e transferências -->
+                                    <t t-if="doc.picking_type_id.code in ('outgoing', 'internal') and doc.is_initial_stock == false">
+                                        <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                            <strong>LOCALIZAÇÃO ORIGEM</strong><br/>
+                                            <span t-field="doc.location_id.display_name"/>
+                                        </td>
+                                    </t>
+                                    <!-- LOCALIZAÇÃO DESTINO: para compras e transferências -->
+                                    <t t-if="doc.picking_type_id.code in ('incoming', 'internal') or doc.is_initial_stock">
+                                        <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                            <strong>LOCALIZAÇÃO DESTINO</strong><br/>
+                                            <span t-field="doc.location_dest_id.display_name"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br/>
+
+                    <!-- Tabela de Produtos -->
+                    <table class="table table">
+                        <div class="watermark_logo" style="position:absolute;opacity:0.05;font-size:8em;width:100%;text-align:center;z-index:100;">
+                            <t t-if="doc.company_id.report_watermark">
+                                <img class="img-fluid" t-att-src="image_data_uri(doc.company_id.report_watermark)" width="55%"/>
+                            </t>
+                        </div>
+
+                        <tr style="background-color: #F8F8FF;color:#000000;font-Family: arial;font-size:11px;margin-right:2px;margin-left:2px; border:; text-align: center ">
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: left; white-space: nowrap"><b>PRODUTO</b></th>
+                            <!-- S/N para vendas, LOTE para outros -->
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap">
+                                <b t-if="doc.picking_type_id.code in ('outgoing', 'internal')">S/N</b>
+                                <b t-else="">LOTE</b>
+                            </th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>QTD</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>COMP.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>LAR.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>ESP.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>VOL./ÁREA/UNID.</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>UN</b></th>
+                            <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>PESO</b></th>
+                            <t t-if="doc.is_initial_stock">
+                                <th style="font-size: 7pt; border: 1px solid #DED9D9; text-align: center; white-space: nowrap"><b>PCMP</b></th>
+                            </t>
+                        </tr>
+
+                        <!-- Vendas (outgoing), Transferencia (internal): usar move_line_ids -->
+                        <t t-if="doc.picking_type_id.code in ('outgoing', 'internal')">
+                            <t t-foreach="doc.move_line_ids" t-as="linha">
+                                <tr style="font-family: Times New Roman; font-size: 8pt; text-align: center">
+                                    <td style="border: 1px solid #DED9D9; text-align: left;">
+                                        <span t-field="linha.product_id"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-field="linha.lot_id.name"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="linha.units_qty"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="'%.3f' % linha.length"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="'%.3f' % linha.width"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="'%.3f' % linha.thickness"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="'%.4f' % linha.quantity"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-field="linha.product_uom_id"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <t t-if="linha.product_id.product_form == 'none'">
+                                            <span t-field="linha.product_id.weight"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-field="linha.lot_id.peso"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+
+                        <!-- Compras/Outros: usar move_ids_without_package -->
+                        <t t-else="">
+                            <t t-foreach="doc.move_ids_without_package" t-as="linha">
+                                <tr style="font-family: Times New Roman; font-size: 8pt; text-align: center">
+                                    <td style="border: 1px solid #DED9D9; text-align: left;">
+                                        <span t-field="linha.product_id"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-field="linha.lot_name"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="linha.units_qty"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="'%.3f' % linha.length"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="'%.3f' % linha.width"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="'%.3f' % linha.thickness"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-esc="'%.4f' % linha.quantity"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-field="linha.product_uom"/>
+                                    </td>
+                                    <td style="border: 1px solid #DED9D9;">
+                                        <span t-field="linha.peso"/>
+                                    </td>
+                                    <t t-if="doc.is_initial_stock">
+                                        <td style="border: 1px solid #DED9D9;">
+                                            <span t-esc="'%.2f' % linha.price_unit"/> <span t-field="doc.company_id.currency_id.symbol"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </t>
+                    </table>
+
+                    <!-- Footer -->
+                    <div class="footer" style="font-family: Arial, sans-serif; font-size: 11px;">
+                        <!-- Cubicagem: só para vendas (outgoing) -->
+                        <t t-if="doc.picking_type_id.code == 'outgoing'">
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-12">
+                                    <table style="text-align: center; font-size: 11px;" width="50%">
+                                        <tbody>
+                                            <tr style="background-color: #F8F8FF;">
+                                                <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                                    <strong>ÁREA TOTAL (m²)</strong><br/>
+                                                    <span t-esc="'%.3f' % doc.total_area"/>
+                                                </td>
+                                                <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                                    <strong>VOLUME TOTAL (m³)</strong><br/>
+                                                    <span t-esc="'%.3f' % doc.total_volume"/>
+                                                </td>
+                                                <td style="border: 1px solid #DCDCDC; padding: 4px;">
+                                                    <strong>PESO TOTAL (KG)</strong><br/>
+                                                    <span t-esc="'%.2f' % doc.total_weight"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </t>
+                        <!-- Assinaturas: só para compras/outros (não vendas) -->
+                        <t t-if="doc.picking_type_id.code not in ('outgoing', 'internal') and doc.is_initial_stock == false">
+                            <div style="text-align: center; margin-bottom: 10px;">
+                                <i>Recebi e conferi o material acima discriminado, responsabilizando-me pela sua guarda e conservação.</i>
+                            </div>
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col-4 text-center">
+                                    <div style="border-top: 1px solid #000; padding-top: 5px; margin: 0 20px;">
+                                        <strong>Entregue por</strong><br/>
+                                        <span style="font-size: 9px;">(Nome e Assinatura)</span>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div style="border-top: 1px solid #000; padding-top: 5px; margin: 0 20px;">
+                                        <strong>Recebido por</strong><br/>
+                                        <span style="font-size: 9px;">(Nome e Assinatura)</span>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div style="border-top: 1px solid #000; padding-top: 5px; margin: 0 20px;">
+                                        <strong>Data de Recepção</strong><br/>
+                                        <span style="font-size: 9px;">____/____/________</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <div style="font-size: 8pt; margin-top: 10px;">
+                            <i>Documento processado por computador</i>
+                        </div>
+                        <div style="border-top: 1px solid #999; margin-top:6px; padding-top:3px; font-Family: arial; font-size:6pt; text-align:left;">
+                            <i>TODOS OS BENS E SERVIÇOS FORNECIDOS SÃO PROPRIEDADE DA <span t-field="doc.company_id.name"/>, ATÉ AO SEU INTEGRAL PAGAMENTO.</i><br/>
+                            <i>SÓ SERÃO ACEITES RECLAMAÇÕES NO ACTO DE ENTREGA DOS MATERIAIS.</i>
+                        </div>
+                    </div>
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

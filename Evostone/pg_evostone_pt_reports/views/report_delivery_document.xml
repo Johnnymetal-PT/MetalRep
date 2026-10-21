@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        A guia tem duas tabelas conforme o estado da transferencia:
+          - `stock_move_table`      : antes de validada, itera `stock.move`
+          - `stock_move_line_table` : depois de validada, itera `stock.move.line`
+        As duas levam as mesmas colunas, para o documento nao mudar de forma
+        quando a transferencia e' validada.
+    -->
+    <template id="report_delivery_document_pt_stone"
+              inherit_id="stock.report_delivery_document"
+              priority="99">
+
+        <!-- ========== tabela antes de validar (stock.move) ========== -->
+
+        <xpath expr="//table[@name='stock_move_table']" position="attributes">
+            <attribute name="class" add="pg_stone_lines" separator=" "/>
+        </xpath>
+        <!--
+            Antes da primeira tabela, nunca entre as duas: elas sao um par
+            t-if / t-elif e teem de ficar encostadas uma a outra.
+        -->
+        <xpath expr="//table[@name='stock_move_table']" position="before">
+            <t t-call="pg_evostone_pt_reports.stone_lines_style"/>
+        </xpath>
+
+        <xpath expr="//th[@name='th_sm_product']" position="after">
+            <th name="th_pg_sm_lot" class="text-start"><strong>Serial</strong></th>
+            <th name="th_pg_sm_units" class="text-end"><strong>Units</strong></th>
+            <th name="th_pg_sm_length" class="text-end"><strong>Length</strong></th>
+            <th name="th_pg_sm_width" class="text-end"><strong>Width</strong></th>
+            <th name="th_pg_sm_thickness" class="text-end"><strong>Thick.</strong></th>
+        </xpath>
+        <xpath expr="//th[@name='th_sm_quantity']" position="after">
+            <th name="th_pg_sm_uom" class="text-start"><strong>UoM</strong></th>
+            <th name="th_pg_sm_weight" class="text-end"><strong>Weight</strong></th>
+        </xpath>
+
+        <!--
+            A unidade sai de dentro das quantidades e passa a coluna propria.
+            Os dois xpath sao deliberadamente iguais: cada heranca apanha o
+            primeiro no que ainda existe, pelo que o primeiro remove a unidade
+            da coluna "Ordered" e o segundo a da coluna "Delivered". E' a forma
+            de nao depender da posicao das celulas, que muda a seguir.
+        -->
+        <xpath expr="//table[@name='stock_move_table']//span[@t-field='move.product_uom']"
+               position="replace"/>
+        <xpath expr="//table[@name='stock_move_table']//span[@t-field='move.product_uom']"
+               position="replace"/>
+
+        <xpath expr="//table[@name='stock_move_table']//tbody/tr/td[1]" position="after">
+            <td name="td_pg_sm_lot" class="text-start">
+                <t t-set="pg_lots" t-value="move.move_line_ids.lot_id.mapped('name')"/>
+                <span t-if="pg_lots" t-out="', '.join(pg_lots)">#1281/NG.010/1</span>
+                <span t-elif="move.lot_name" t-field="move.lot_name">L-0001</span>
+            </td>
+            <td name="td_pg_sm_units" class="text-end">
+                <span t-if="move.units_qty" t-out="move.units_qty">1</span>
+            </td>
+            <td name="td_pg_sm_length" class="text-end">
+                <span t-if="move.length" t-out="'%.3f' % move.length">3.200</span>
+            </td>
+            <td name="td_pg_sm_width" class="text-end">
+                <span t-if="move.width" t-out="'%.3f' % move.width">1.600</span>
+            </td>
+            <td name="td_pg_sm_thickness" class="text-end">
+                <span t-if="move.thickness" t-out="'%.3f' % move.thickness">0.012</span>
+            </td>
+        </xpath>
+
+        <xpath expr="//table[@name='stock_move_table']//tbody/tr" position="inside">
+            <td name="td_pg_sm_uom" class="text-start">
+                <span t-field="move.product_uom">m²</span>
+            </td>
+            <td name="td_pg_sm_weight" class="text-end">
+                <span t-if="move.peso" t-out="'%.2f' % move.peso">154.62</span>
+            </td>
+        </xpath>
+
+        <!-- ========== tabela depois de validar (stock.move.line) ========== -->
+
+        <xpath expr="//table[@name='stock_move_line_table']" position="attributes">
+            <attribute name="class" add="pg_stone_lines" separator=" "/>
+        </xpath>
+
+        <!--
+            Depois do `lot_serial` e nao depois do `th_sml_qty_ordered`: aqueles
+            dois sao um par t-if/t-else e teem de ficar encostados um ao outro.
+        -->
+        <xpath expr="//th[@name='lot_serial']" position="after">
+            <th name="th_pg_sml_units" class="text-end">Units</th>
+            <th name="th_pg_sml_length" class="text-end">Length</th>
+            <th name="th_pg_sml_width" class="text-end">Width</th>
+            <th name="th_pg_sml_thickness" class="text-end">Thick.</th>
+        </xpath>
+        <xpath expr="//th[@name='th_sml_quantity']" position="after">
+            <th name="th_pg_sml_uom" class="text-start">UoM</th>
+            <th name="th_pg_sml_weight" class="text-end">Weight</th>
+        </xpath>
+
+    </template>
+
+    <!-- linha com numero de serie: e' a que interessa ao negocio da pedra -->
+    <template id="stock_report_delivery_has_serial_move_line_pt_stone"
+              inherit_id="stock.stock_report_delivery_has_serial_move_line"
+              priority="99">
+
+        <xpath expr="//t[@name='move_line_lot']" position="after">
+            <td name="td_pg_sml_units" class="text-end">
+                <span t-if="move_line.units_qty" t-out="move_line.units_qty">1</span>
+            </td>
+            <td name="td_pg_sml_length" class="text-end">
+                <span t-if="move_line.length" t-out="'%.3f' % move_line.length">3.200</span>
+            </td>
+            <td name="td_pg_sml_width" class="text-end">
+                <span t-if="move_line.width" t-out="'%.3f' % move_line.width">1.600</span>
+            </td>
+            <td name="td_pg_sml_thickness" class="text-end">
+                <span t-if="move_line.thickness" t-out="'%.3f' % move_line.thickness">0.012</span>
+            </td>
+        </xpath>
+
+        <xpath expr="//td[@name='move_line_lot_quantity']/span[@t-field='move_line.product_uom_id']"
+               position="replace"/>
+
+        <xpath expr="//td[@name='move_line_lot_quantity']" position="after">
+            <td name="td_pg_sml_uom" class="text-start">
+                <span t-field="move_line.product_uom_id">m²</span>
+            </td>
+            <td name="td_pg_sml_weight" class="text-end">
+                <span t-if="move_line.peso" t-out="'%.2f' % move_line.peso">154.62</span>
+            </td>
+        </xpath>
+
+    </template>
+
+    <!--
+        Linhas agregadas: so saem quando o utilizador nao tem o grupo
+        "Lotes e numeros de serie na guia". Nesse caso as linhas vem somadas por
+        produto e as dimensoes deixam de ter significado, mas as celulas teem de
+        existir para a tabela nao desalinhar.
+    -->
+    <template id="stock_report_delivery_aggregated_move_lines_pt_stone"
+              inherit_id="stock.stock_report_delivery_aggregated_move_lines"
+              priority="99">
+
+        <xpath expr="//td[@name='move_line_aggregated_qty_ordered']" position="after">
+            <td name="td_pg_agg_units"/>
+            <td name="td_pg_agg_length"/>
+            <td name="td_pg_agg_width"/>
+            <td name="td_pg_agg_thickness"/>
+        </xpath>
+
+        <xpath expr="//td[@name='move_line_aggregated_quantity']" position="after">
+            <td name="td_pg_agg_uom" class="text-start">
+                <span t-out="aggregated_lines[line]['product_uom'].name">m²</span>
+            </td>
+            <td name="td_pg_agg_weight"/>
+        </xpath>
+
+    </template>
+
+</odoo>

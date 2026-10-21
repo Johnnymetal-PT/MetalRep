@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        As colunas de desconto na fatura estão DESACTIVADAS desde 2025-01-27, data em que
+        foram comentadas diretamente na vista `sh_report_account_invoice` da base de dados
+        (id 1415, em teste e em produção). Este ficheiro mantinha a versão activa, pelo que
+        cada upgrade do módulo repunha os XPaths e voltava a falhar com:
+
+            Element '<xpath expr="//table[1]//thead//tr[1]//th[4]">' cannot be located in parent view
+
+        Duas razões pelas quais o bloco não pode ser reactivado como está:
+
+        1. Os XPaths são posicionais (`th[4]`, `th[5]`, `td[4]`, `td[5]`) e pressupõem a
+           tabela standard de 6 colunas. A `account.report_invoice_document` desta base foi
+           alterada a 2025-01-28 e tem 2 colunas no cabeçalho (`th_description`,
+           `th_quantity`), com `noupdate=True` a proteger a alteração.
+        2. O atributo `groups` referencia `sh_multi_discount.group_account_multi_discount_security`,
+           de um módulo `sh_multi_discount` que não existe nesta base (o módulo foi renomeado
+           para `pg_multi_discount`).
+
+        Se algum dia se quiser reactivar: ancorar por nome (ex.: `//th[@name='th_quantity']`)
+        em vez de por posição, e corrigir a referência do grupo. Bloco original preservado:
+
+        <template id="sh_report_account_invoice" inherit_id="account.report_invoice_document">
+            <xpath expr="//table[1]//thead//tr[1]//th[4]" position="after">
+                <t t-if="o.sh_show_multi_disc == True" groups="...group_account_multi_discount_security">
+                    <th class="text-end">Discount Unit Price</th>
+                    <th class="text-end">Discount Amount</th>
+                </t>
+            </xpath>
+            <xpath expr="//table[1]//thead//tr[1]//th[5]" position="after">
+                <t t-if="o.sh_show_multi_disc == True" groups="...group_account_multi_discount_security">
+                    <th class="text-end">Discounted Total Amount</th>
+                </t>
+            </xpath>
+            <xpath expr="//table[1]//tbody//tr[1]//td[4]" position="after">
+                <td class="text-end"><span t-field="line.sh_discount_price_unit"/></td>
+                <td class="text-end"><span t-field="line.sh_discount_amount"/></td>
+            </xpath>
+            <xpath expr="//table[1]//tbody//tr[1]//td[5]" position="after">
+                <td class="text-end"><span t-field="line.sh_discounted_total_amount"/></td>
+            </xpath>
+        </template>
+    -->
+</odoo>

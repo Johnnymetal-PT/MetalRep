@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_credit_approval_list" model="ir.ui.view">
+        <field name="name">credit.approval.list</field>
+        <field name="model">credit.approval</field>
+        <field name="arch" type="xml">
+            <list string="Aprovações de Crédito" decoration-warning="state == 'pending'" decoration-success="state == 'approved'" decoration-danger="state == 'rejected'">
+                <field name="sale_order_id"/>
+                <field name="partner_id"/>
+                <field name="block_type"/>
+                <field name="state" widget="badge" decoration-warning="state == 'pending'" decoration-success="state == 'approved'" decoration-danger="state == 'rejected'"/>
+                <field name="block_amount" sum="Total"/>
+                <field name="credit_limit"/>
+                <field name="approved_by"/>
+                <field name="approval_date"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_credit_approval_form" model="ir.ui.view">
+        <field name="name">credit.approval.form</field>
+        <field name="model">credit.approval</field>
+        <field name="arch" type="xml">
+            <form string="Aprovação de Crédito">
+                <header>
+                    <button name="action_approve"
+                            string="Aprovar"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'pending'"
+                            groups="mh_credit_control.group_credit_manager"/>
+                    <button name="action_reject"
+                            string="Rejeitar"
+                            type="object"
+                            class="btn-danger"
+                            invisible="state != 'pending'"
+                            groups="mh_credit_control.group_credit_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,approved,rejected"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Ordem de Venda">
+                            <field name="sale_order_id"/>
+                            <field name="partner_id"/>
+                            <field name="block_type"/>
+                        </group>
+                        <group string="Valores">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="block_amount"/>
+                            <field name="credit_limit" invisible="block_type != 'credit_limit'"/>
+                            <field name="current_credit" invisible="block_type != 'credit_limit'"/>
+                            <field name="overdue_amount" invisible="block_type != 'overdue'"/>
+                            <field name="pending_amount" invisible="block_type != 'pending'"/>
+                        </group>
+                    </group>
+                    <group string="Aprovação/Rejeição" invisible="state == 'pending'">
+                        <group>
+                            <field name="approved_by"/>
+                            <field name="approval_date"/>
+                        </group>
+                        <group>
+                            <field name="notes"/>
+                        </group>
+                    </group>
+                    <group string="Notas" invisible="state != 'pending'">
+                        <field name="notes" placeholder="Adicione notas ou justificação..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_credit_approval_search" model="ir.ui.view">
+        <field name="name">credit.approval.search</field>
+        <field name="model">credit.approval</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Aprovações">
+                <field name="sale_order_id"/>
+                <field name="partner_id"/>
+                <field name="approved_by"/>
+
+                <filter string="Pendentes" name="pending" domain="[('state', '=', 'pending')]"/>
+                <filter string="Aprovados" name="approved" domain="[('state', '=', 'approved')]"/>
+                <filter string="Rejeitados" name="rejected" domain="[('state', '=', 'rejected')]"/>
+
+                <separator/>
+                <filter string="Limite de Crédito" name="credit_limit" domain="[('block_type', '=', 'credit_limit')]"/>
+                <filter string="Facturas Vencidas" name="overdue" domain="[('block_type', '=', 'overdue')]"/>
+                <filter string="Facturas Pendentes" name="pending_invoices" domain="[('block_type', '=', 'pending')]"/>
+
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Tipo" name="group_type" context="{'group_by': 'block_type'}"/>
+                    <filter string="Cliente" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Aprovado Por" name="group_approved_by" context="{'group_by': 'approved_by'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_credit_approval" model="ir.actions.act_window">
+        <field name="name">Aprovações de Crédito</field>
+        <field name="res_model">credit.approval</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_pending': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Nenhuma aprovação de crédito pendente
+            </p>
+            <p>
+                Aprovações de crédito são criadas automaticamente quando uma ordem de venda
+                é bloqueada por limite de crédito, facturas vencidas ou facturas pendentes.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_credit_approval"
+              name="Aprovações de Crédito"
+              parent="sale.sale_menu_root"
+              action="action_credit_approval"
+              sequence="15"
+              groups="mh_credit_control.group_approve_credit_limit,mh_credit_control.group_approve_overdue,mh_credit_control.group_approve_pending"/>
+
+</odoo>

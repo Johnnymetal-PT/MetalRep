@@ -1,0 +1,3 @@
+# Extracted: image.png
+
+[Binary attachment] Extraction not supported for this file type with stdlib parser.

@@ -1,0 +1,189 @@
+# Extracted: 10_Impl_Weekly_Progress_Report.docx
+
+RELATÓRIO DE PROGRESSO SEMANAL
+
+Weekly Project Status Report | Fase: Implementation
+
+Relatório semanal para comunicar o estado do projeto, trabalho concluído, plano da próxima semana, riscos e bloqueios, consumo de budget e decisões pendentes que requerem resposta do cliente.
+
+Cliente / Projeto
+
+Odoo Implementation
+
+Data
+
+02 de junho de 2026
+
+Versão
+
+1.0
+
+Preparado por Parâmetro Global
+
+Dados do Relatório
+
+Identificação do projeto, semana, Project Leader e data do relatório.
+
+Projeto
+
+Semana
+
+Project Leader
+
+Data do Relatório
+
+1. Sumário Executivo
+
+Visão executiva do estado semanal por dimensão crítica do projeto.
+
+Orçamento
+
+Prazo
+
+Âmbito
+
+Risco Geral
+
+Satisfação SPoC
+
+Verde
+
+Amarelo
+
+Verde
+
+Verde
+
+Verde
+
+2. Realizado esta Semana
+
+Atividades concluídas, entregas, formação, dados importados e reuniões realizadas.
+
+Configuração concluída: ______________________________________
+
+Treino realizado com: ________________________________________
+
+Dados importados: ___________________________________________
+
+Desenvolvimentos entregues: __________________________________
+
+Reuniões / demos: ___________________________________________
+
+3. Plano para a Próxima Semana
+
+Próximas ações planeadas para manter alinhamento e cadência de execução.
+
+#
+
+Ação planeada
+
+1
+
+2
+
+3
+
+4
+
+4. Riscos e Bloqueios
+
+Itens que podem afetar prazo, âmbito, orçamento ou qualidade, com responsável e ação proposta.
+
+Risco / Bloqueio
+
+Impacto
+
+Responsável
+
+Ação Proposta
+
+_______________
+
+[ ] Alto[ ] Médio[ ] Baixo
+
+_______________
+
+_______________
+
+_______________
+
+[ ] Alto[ ] Médio[ ] Baixo
+
+_______________
+
+_______________
+
+_______________
+
+[ ] Alto[ ] Médio[ ] Baixo
+
+_______________
+
+_______________
+
+5. Consumo de Budget
+
+Resumo do consumo por categoria, com horas totais, consumidas e remanescentes.
+
+Categoria
+
+Budget Total (h)
+
+Consumido (h)
+
+Restante (h)
+
+Project Management
+
+___
+
+___
+
+___
+
+Business Analysis / Config.
+
+___
+
+___
+
+___
+
+Desenvolvimento
+
+___
+
+___
+
+___
+
+Treino / Formação
+
+___
+
+___
+
+___
+
+TOTAL
+
+___
+
+___
+
+___
+
+6. Decisões Pendentes (requerem resposta do cliente)
+
+Decisões em aberto que condicionam a continuidade do plano de trabalho.
+
+#
+
+Decisão pendente / resposta necessária
+
+1
+
+2
+
+3

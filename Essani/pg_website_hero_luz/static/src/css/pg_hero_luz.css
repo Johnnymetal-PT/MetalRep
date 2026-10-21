@@ -1,0 +1,136 @@
+/* Hero da entrada: a luz acende.
+ *
+ * Só CSS. Sobrepõe-se ao Hero que já existe (imagem de fundo, brilho dourado, sheen, canvas) sem
+ * mexer na vista nem no código personalizado do website.
+ *
+ * Linha do tempo (6,5 s), toda definida nas variáveis `--pg-luz-*` abaixo:
+ *   0,0 s  o Hero está às escuras (véu a 100 %)
+ *   1,4 s  primeira hesitação: o véu abre para 55 %, e volta a 85 % aos 2,0 s
+ *   6,5 s  véu a 0 %: o Hero fica como sempre foi
+ *   1,0 s  o brilho dourado nasce e cresce até ao tamanho normal (5 s), e depois "respira" como antes
+ *   2,8 s  o texto sobe e aparece, linha a linha (0,35 s entre linhas)
+ *
+ * Para mudar o ritmo basta mexer em `--pg-luz-duracao` (a duração do véu, que marca o fim) e
+ * nos atrasos. Os pontos da hesitação (22 % e 31 %) são frações dessa duração.
+ *
+ * Uma só hesitação, e de amplitude moderada: nunca mais de 3 alterações bruscas de luminosidade
+ * por segundo (limiar das diretrizes de fotossensibilidade, WCAG 2.3.1).
+ *
+ * Nada fica escondido se a animação não correr: as propriedades "escondidas" (opacity 0, etc.)
+ * só existem dentro dos keyframes, com fill-mode "both"; sem animação vale o estilo normal.
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  #wrap.pgh .hero {
+    --pg-luz-duracao: 6.5s;      /* véu: do escuro total ao Hero normal */
+    --pg-luz-brilho-inicio: 1s;  /* quando o brilho dourado começa a nascer */
+    --pg-luz-brilho-duracao: 5s; /* quanto demora a crescer */
+    --pg-luz-texto-inicio: 2.8s; /* quando entra a primeira linha de texto */
+    --pg-luz-texto-passo: .35s;  /* intervalo entre linhas */
+    --pg-luz-texto-duracao: 1.6s;
+  }
+
+  /* O véu. ::before do .hero está livre (o .bg usa os seus). Fica acima do fundo (z 0) e
+     abaixo do brilho, do canvas e do texto (z 1 e 2). */
+  #wrap.pgh .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: #08080a;
+    animation: pgHeroLuzVeu var(--pg-luz-duracao) cubic-bezier(.33, 0, .2, 1) both;
+  }
+
+  @keyframes pgHeroLuzVeu {
+    0%   { opacity: 1; }
+    22%  { opacity: .55; }
+    31%  { opacity: .85; }
+    100% { opacity: 0; }
+  }
+
+  /* O brilho dourado nasce e entrega o testemunho à respiração que já tinha. */
+  #wrap.pgh .hero .glow {
+    animation:
+      pgHeroLuzBrilho var(--pg-luz-brilho-duracao) cubic-bezier(.22, .61, .36, 1)
+        var(--pg-luz-brilho-inicio) both,
+      pgBreath 8s ease-in-out calc(var(--pg-luz-brilho-inicio) + var(--pg-luz-brilho-duracao)) infinite;
+  }
+
+  @keyframes pgHeroLuzBrilho {
+    from { opacity: 0; transform: scale(.45); }
+    to   { opacity: .6; transform: scale(1); }
+  }
+
+  /* O texto só aparece quando já há luz. */
+  #wrap.pgh .hero .wrp > * {
+    animation: pgHeroLuzTexto var(--pg-luz-texto-duracao) cubic-bezier(.19, 1, .22, 1) both;
+  }
+  #wrap.pgh .hero .wrp > :nth-child(1) { animation-delay: var(--pg-luz-texto-inicio); }
+  #wrap.pgh .hero .wrp > :nth-child(2) {
+    animation-delay: calc(var(--pg-luz-texto-inicio) + var(--pg-luz-texto-passo));
+  }
+  #wrap.pgh .hero .wrp > :nth-child(3) {
+    animation-delay: calc(var(--pg-luz-texto-inicio) + 2 * var(--pg-luz-texto-passo));
+  }
+  #wrap.pgh .hero .wrp > :nth-child(4) {
+    animation-delay: calc(var(--pg-luz-texto-inicio) + 3 * var(--pg-luz-texto-passo));
+  }
+  #wrap.pgh .hero .scrl {
+    animation: pgHeroLuzTexto 1.4s ease-out
+      calc(var(--pg-luz-texto-inicio) + 4 * var(--pg-luz-texto-passo)) both;
+  }
+
+  @keyframes pgHeroLuzTexto {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+}
+
+/* Botões lado a lado com a mesma largura.
+ *
+ * O `.cta` da homepage é um flex em que cada botão tem a largura do seu texto, por isso
+ * "Ver catálogo" e "Seja parceiro" (Hero), e "Ver catálogo" e "Falar connosco" (secção final),
+ * ficavam com larguras diferentes. Aqui a largura de todos passa a ser a do mais largo, sem
+ * fixar nenhum valor em píxeis (acompanha traduções e textos mais compridos). Em ecrãs
+ * estreitos empilham-se, também com a mesma largura. Não depende de animação, por isso fica
+ * fora do `prefers-reduced-motion`.
+ */
+#wrap.pgh .hero .cta,
+#wrap.pgh .fcta .cta {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  width: fit-content;
+  max-width: 100%;
+  gap: 14px;
+}
+#wrap.pgh .fcta .cta { margin-inline: auto; }
+#wrap.pgh .hero .cta .btn,
+#wrap.pgh .fcta .cta .btn {
+  text-align: center;
+  white-space: nowrap;
+}
+@media (max-width: 575.98px) {
+  #wrap.pgh .hero .cta,
+  #wrap.pgh .fcta .cta { grid-auto-flow: row; }
+}
+
+/* Menu hambúrguer no telemóvel: o toque numa opção fechava o menu em vez de abrir a página.
+ *
+ * O código personalizado do website tem `@media(max-width:991px){ .offcanvas-backdrop{z-index:1290
+ * !important} }`, escrito para o painel do carrinho (z-index 1300). Mas aplica-se a TODOS os
+ * backdrops, incluindo o do menu. O menu vive dentro do cabeçalho (position:fixed, z-index 1050),
+ * por isso fica limitado a 1050 e o backdrop a 1290 fica por cima dele: o toque cai no backdrop,
+ * que fecha o menu sem seguir a ligação.
+ *
+ * Aqui o backdrop volta ao valor do Odoo (1040) só enquanto o menu está aberto. O do carrinho
+ * mantém os 1290 (o painel fica a 1300) porque não tem a classe `o_navbar_mobile`.
+ */
+@media (max-width: 991.98px) {
+  body:has(.o_navbar_mobile.show) .offcanvas-backdrop {
+    z-index: 1040 !important;
+  }
+}
+

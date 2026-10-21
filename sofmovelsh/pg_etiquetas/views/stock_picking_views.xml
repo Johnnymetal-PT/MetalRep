@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--
+    Dois botões no cabeçalho da recepção, como na V17: um para as etiquetas em papel
+    (A5 e 5x8, num PDF só) e outro para as térmicas. O botão ZPL esconde-se quando não
+    há artigos ZPL na recepção — na V17 aparecia sempre e abria um wizard para depois
+    dizer que não havia nada para imprimir.
+-->
+<record id="view_picking_form_pg_etiquetas" model="ir.ui.view">
+    <field name="name">stock.picking.form.pg.etiquetas</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//header" position="inside">
+            <field name="pg_has_zpl_labels" invisible="1"/>
+            <button name="action_pg_print_pdf_labels" type="object"
+                    string="Etiquetas A5/5x8" class="btn-secondary"/>
+            <button name="action_pg_print_zpl_labels" type="object"
+                    string="Etiquetas ZPL" class="btn-secondary"
+                    invisible="not pg_has_zpl_labels"/>
+        </xpath>
+    </field>
+</record>
+
+</odoo>

@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+<record id="account_report_payment_receipt_copy_1" model="ir.ui.view">
+    <field name="name">report_payment_receipt copy(1)</field>
+    <field name="type">qweb</field>
+    <field name="key">account.report_payment_receipt_copy_1</field>
+    <field name="arch" type="xml">
+<t t-name="account.report_payment_receipt_copy_1">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="account.report_payment_receipt_document_copy_1" t-lang="lang"/>
+            </t>
+        </t>
+    </t>
+    </field>
+</record>
+
+<record id="account_report_payment_receipt_copy_2" model="ir.ui.view">
+    <field name="name">report_payment_receipt copy(2)</field>
+    <field name="type">qweb</field>
+    <field name="key">account.report_payment_receipt_copy_2</field>
+    <field name="arch" type="xml">
+<t t-name="account.report_payment_receipt_copy_2">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="account.report_payment_receipt_document_copy_2" t-lang="lang"/>
+            </t>
+        </t>
+    </t>
+    </field>
+</record>
+
+<record id="account_report_payment_receipt_copy_2_copy_1" model="ir.ui.view">
+    <field name="name">report_payment_receipt copy(2) copy(1)</field>
+    <field name="type">qweb</field>
+    <field name="key">account.report_payment_receipt_copy_2_copy_1</field>
+    <field name="arch" type="xml">
+<t t-name="account.report_payment_receipt_copy_2_copy_1">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="account.report_payment_receipt_document_copy_2_copy_1" t-lang="lang"/>
+            </t>
+        </t>
+    </t>
+    </field>
+</record>
+
+<record id="account_report_payment_receipt_document_copy_1" model="ir.ui.view">
+    <field name="name">report_payment_receipt_document copy(1)</field>
+    <field name="type">qweb</field>
+    <field name="key">account.report_payment_receipt_document_copy_1</field>
+    <field name="arch" type="xml">
+<t t-name="account.report_payment_receipt_document_copy_1">
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            
+            
+            
+           
+              <div class="row">
+                <div class="col-8" t-if="o.company_id.name == &quot;STONE TRADING&quot;">
+
+                
+    <img class="img-fluid" src="/web/image/1149-54ea0f3e/trd.png"/>
+                </div>
+             
+                
+                
+                <br/>
+                
+        <div class="col-4 text-end" style="font-size: 14pt" t-if="o.company_id.name == &quot;STONE TRADING&quot;">
+                
+                  <br/>
+                 
+                    
+                     <!-- <span style="color:#000000"/>-->
+                     <!--<span><b>Factura</b></span> <br/>-->
+                     <!--<span t-field="o.name"/>-->
+                      
+                      <!--<span t-if="doc.move_type == 'out_invoice' and doc.state == 'posted'"><b>Factura</b></span>-->
+                      <!--      <span t-elif="doc.move_type == 'out_invoice' and doc.state == 'draft'"><b>Rascunho da Factura</b></span>-->
+                      <!--      <span t-elif="doc.move_type == 'out_invoice' and doc.state == 'cancel'"><b>Factura Cancelada</b></span>-->
+                    
+                
+                   </div>
+             </div>
+             
+             
+            
+
+
+             
+          
+            
+            
+            
+            <div class="row" style="font-size:10pt;">
+              
+            <div class="col-6" t-if="o.company_id.name == &quot;STONE TRADING&quot;">
+
+                <span style="color:#000000">STONE TRADING, LDA </span>
+                <br/>
+                <span style="color:#000000">Avenida das Indústrias, Parcela 726, Talhão 3234, Portão 1</span>
+                <br/>
+                 <span style="color:#000000">Bairro Machava</span>
+                <br/>
+                 <span style="color:#000000">Matola – Moçambique</span>
+                <br/>
+                <span style="font-weight: bolder">NUIT:<span t-field="o.company_id.vat"/></span>
+                <br/>
+                <span style="color:#000000">c. <span t-field="o.company_id.phone"/></span>
+                <br/>
+                <span style="color:#000000">e. <span t-field="o.company_id.email"/></span>
+                <br/>
+                
+              </div>
+              
+                          <div class="col-4" t-if="o.company_id.name == &quot;STONE TRADING&quot;">
+
+                <br/>
+                <br/>
+                <span style="color:#000000">Exmo.(s)</span>
+                <span style="color:#000000">Sr.(s)</span>
+                <br/>
+                <span t-field="o.partner_id.name"/>
+                
+                <br/>
+                
+                  <span t-field="o.partner_id.street"/>
+                
+                <br/>
+                  <span t-field="o.partner_id.city"/>
+                  <br/>
+                  <span t-field="o.partner_id.country_id.display_name"/>
+                  <br/>
+                 NUIT:
+                  <span t-field="o.partner_id.vat"/>
+                
+              </div>
+            </div>
+          
+          
+          
+            
+         
+         
+             <div class="row">
+                 <div class="col-8" t-if="o.company_id.name == &quot;PEMARO S.A&quot;">
+
+                
+
+                
+    <img class="img-fluid" src="/web/image/1148-5d2ce4da/download%20%282%29.png"/>
+                </div>
+             
+                
+                
+                <br/>
+                
+        
+         <div class="col-4 text-end" style="font-size: 14pt" t-if="o.company_id.name == &quot;PEMARO S.A&quot;">
+                  <br/>
+                 
+                    
+                      <span style="color:#000000"/>
+                      
+                      <!--<span t-if="doc.move_type == 'out_invoice' and doc.state == 'posted'"><b>Factura</b></span>-->
+                      <!--      <span t-elif="doc.move_type == 'out_invoice' and doc.state == 'draft'"><b>Rascunho da Factura</b></span>-->
+                      <!--      <span t-elif="doc.move_type == 'out_invoice' and doc.state == 'cancel'"><b>Factura Cancelada</b></span>-->
+                
+                
+                  <!--<span style="color:#000000"/>-->
+                  <!--   <span><b>Factura</b></span> <br/>-->
+                  <!--   <span t-field="o.name"/>-->
+                      
+                </div>
+             </div>
+         
+         
+         
+         
+
+
+  
+        
+               
+                <!-- <div class="row">-->
+                <!--    <div class="col-4" t-if="o.company_id.name == &quot;PEMARO S.A&quot;">-->
+                <!--    <div class="watermark_logo" style="position:absolute;opacity:0.04;front-size:6em;width:100%;text-align:center;z-index:100;">-->
+                <!--           <t t-if="o.company_id.logo">  -->
+                <!--               <img class="img-fluid" src="/web/image/1152-9a58a5fc/pemaro.png" width="40%"/>-->
+
+                                <!--<img src="/web/image/653-9a58a5fc/pemaro.png" alt="" class="img-fluid img o_we_custom_image" width="30%"/>-->
+                <!--             </t>-->
+                <!--             </div>-->
+                                        
+                <!--</div>-->
+                <!--</div>-->
+         
+
+
+           <div class="row" style="font-size:10pt;">
+              
+            <div class="col-6" t-if="o.company_id.name == &quot;PEMARO S.A&quot;">
+
+                 <span style="color:#000000">Avenida das Indústrias, Parcela 726, Talhão 3234, Portão 2</span>
+                <br/>
+                 <span style="color:#000000">Bairro Machava</span>
+                <br/>
+                <span style="color:#000000">Matola – Moçambique</span>
+                <br/>
+                 <span style="color:#000000">Contacto: +258845746335</span>
+                <br/>
+                <span style="font-weight: bolder">NUIT:<span t-field="o.company_id.vat"/></span>
+                <br/>
+                <span style="color:#000000">c. <span t-field="o.company_id.phone"/></span>
+                <br/>
+                <span style="color:#000000">e. <span t-field="o.company_id.email"/></span>
+                <br/>
+                
+              </div>
+              
+              
+                          <div class="col-4" t-if="o.company_id.name == &quot;PEMARO S.A&quot;">
+
+                <br/>
+                <br/>
+                <span style="color:#000000">Exmo.(s)</span>
+                
+                <span style="color:#000000">Sr.(s)</span>
+                <br/>
+                <span t-field="o.partner_id.name"/>
+                
+                <br/>
+                
+                  <span t-field="o.partner_id.street"/>
+                
+                <br/>
+                  <span t-field="o.partner_id.city"/>
+                  <br/>
+                  <span t-field="o.partner_id.country_id.display_name"/>
+                  <br/>
+                
+                  NUIT:
+                  <span t-field="o.partner_id.vat"/>
+            
+              </div>
+            </div>
+          
+         
+         <br/>
+         <br/>
+                
+            <div class="page">
+                <h3><strong>Recibo: <span t-field="o.x_studio_nr_de_recibo"/></strong></h3>
+                <!--<strong>Recibo de pagamento: <span t-field="o.name"/></strong></h3>-->
+                <!--x_studio_nr_de_recibo-->
+                <div class="mb-4 mt-3">
+                    <div class="row">
+                        <div class="col-6" t-if="o.date">
+                            Payment Date: <span t-field="o.date"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" t-if="o.partner_type">
+                            <!--<t t-if="o.partner_type == 'customer'">-->
+                            <!--    Customer:-->
+                            <!--</t>-->
+                            <t t-if="o.partner_type == 'supplier'">
+                               Fornecedor:
+                            </t><span t-field="o.partner_id"/>
+                        </div>
+                        
+                        
+                        <div class="col-6" t-if="o.payment_method_id">
+                            Payment Method: <span t-field="o.payment_method_id.name"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" t-if="o.amount">
+                            Payment Amount: <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                         </div>
+                        <div class="col-6" t-if="o.ref">
+                            <!--Memo: <span t-field="o.ref"/>-->
+                         </div>
+                    </div>
+                </div>
+
+                <t t-set="partials" t-value="o.move_id._get_reconciled_invoices_partials()[0]"/>
+                <t t-set="invoices" t-value="{partial[2].move_id for partial in partials}"/>
+                <!-- Check if invoices include different currencies -->
+                <t t-foreach="invoices" t-as="inv">
+                    <t t-if="any(inv.currency_id != par[2].currency_id for par in inv._get_reconciled_invoices_partials()[0])" t-set="otherCurrency" t-value="True"/>
+                </t>
+
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th><span>Invoice Date</span></th>
+                            <th><span>Invoice Number</span></th>
+                            <th><span>Reference</span></th>
+                            <!-- Add a column if there are different currencies -->
+                            <th t-if="otherCurrency" class="text-end"><span>Amount In Currency</span></th>
+                            <th class="text-end"><span>Amount</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="invoices" t-as="inv">
+                            <!-- MOVE -->
+                            <t t-if="inv.move_type != 'entry'">
+                                <tr>
+                                    <td><span t-field="inv.invoice_date"/></td>
+                                    <td><span t-field="inv.name"/></td>
+                                    <td><span t-field="inv.ref"/></td>
+                                    <td t-if="otherCurrency"/>
+                                    <td class="text-end"><span t-field="inv.amount_total"/></td>
+                                </tr>
+                                <!-- PAYMENTS/REVERSALS -->
+                                <tr t-foreach="inv._get_reconciled_invoices_partials()[0]" t-as="par">
+                                    <t t-set="payment" t-value="par[2].move_id"/>
+                                    <td><span t-field="payment.date"/></td>
+                                    <td><span t-field="payment.name"/></td>
+                                    <td><span t-field="payment.ref"/></td>
+                                    <t t-set="amountPayment" t-value="-payment.amount_total"/>
+                                    <t t-set="amountInvoice" t-value="-par[1]"/>
+                                    <t t-set="currencyPayment" t-value="payment.currency_id"/>
+                                    <t t-set="currencyInvoice" t-value="inv.currency_id"/>
+                                    <!-- Fill the column "Amount In Currency" only if necessary -->
+                                    <td t-if="otherCurrency" class="text-end"><span t-if="currencyPayment != currencyInvoice" t-esc="amountPayment" t-options="{'widget': 'monetary', 'display_currency': currencyPayment}"/></td>
+                                    <td class="text-end"><span t-esc="amountInvoice" t-options="{'widget': 'monetary', 'display_currency': currencyInvoice}"/></td>
+                                </tr>
+                                <!-- BALANCE -->
+                                <tr>
+                                    <td/>
+                                    <td><strong>Due Amount for <span t-field="inv.name"/></strong></td>
+                                    <td/>
+                                    <td t-if="otherCurrency"/>
+                                    <td class="text-end"><strong><span t-field="inv.amount_residual"/></strong></td>
+                                </tr>
+                            </t>
+                            
+                             
+                            
+                            
+                        </t>
+                        <t t-if="not invoices">
+                                <tr>
+                                    <td><span t-field="o.date"/></td>
+                                    <td/>
+                                    <td><span t-field="o.ref"/></td>
+                                    <td class="text-end"><span t-field="o.amount"/></td>
+                                </tr>
+                            </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+    </field>
+</record>
+
+<record id="account_report_payment_receipt_document_copy_2" model="ir.ui.view">
+    <field name="name">report_payment_receipt_document copy(2)</field>
+    <field name="type">qweb</field>
+    <field name="key">account.report_payment_receipt_document_copy_2</field>
+    <field name="arch" type="xml">
+<t t-name="account.report_payment_receipt_document_copy_2">
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div class="page">
+                
+                    <div class="row">
+                        
+                        
+                        
+         <div class="col-8" t-if="o.company_id.name == &quot;PEMARO S.A&quot;">
+            <img class="img-fluid" style="width: 40%;" src="/web/image/1148-5d2ce4da/download%20%282%29.png"/>
+                <br/>
+                 <span style="color:#000000">Avenida das Indústrias, Parcela 726, Talhão 3234, Portão 2</span>
+                <br/>
+                 <span style="color:#000000">Bairro Machava</span>
+                <br/>
+                <span style="color:#000000">Matola – Moçambique</span>
+                <br/>
+                 <span style="color:#000000">Contacto: +258845746335</span>
+                <br/>
+                <span style="color:#000000">NUIT:<span t-field="o.company_id.vat"/></span>
+                <br/>
+                <span style="color:#000000">c. <span t-field="o.company_id.phone"/></span>
+                <br/>
+                <span style="color:#000000">e. <span t-field="o.company_id.email"/></span>
+                <br/>
+        </div>                
+                        
+        <div class="col-8" t-if="o.company_id.name == &quot;STONE TRADING&quot;">
+            
+            <img class="img-fluid" src="/web/image/1153-d8e95fba/tst%20%20trading.png" style="width: 30%;"/>
+            <br/>
+            <!--<img class="img-fluid" src="/web/image/1148-5d2ce4da/download%20%282%29.png"/>-->
+           <span style="color:#000000">STONE TRADING, LDA </span>
+                <br/>
+                <span style="color:#000000">Avenida das Indústrias, Parcela 726, Talhão 3234, Portão 1</span>
+                <br/>
+                 <span style="color:#000000">Bairro Machava</span>
+                <br/>
+                 <span style="color:#000000">Matola – Moçambique</span>
+                <br/>
+                <span style="font-weight: bolder">NUIT:<span t-field="o.company_id.vat"/></span>
+                <br/>
+                <span style="color:#000000">c. <span t-field="o.company_id.phone"/></span>
+                <br/>
+                <span style="color:#000000">e. <span t-field="o.company_id.email"/></span>
+                <br/>
+                <br/>
+        </div>
+        
+       
+        <div class="col-4" style="font-size:12pt;">
+            <br/>
+            <br/>
+                      <!--<p><strong>Payment Receipt: <span t-field="o.name"/></strong></p>-->
+<t t-if="o.payment_type =='outbound' or o.payment_type =='inbound'">
+                <p>
+                    <t t-if="o.payment_type == 'outbound'">
+                        <span><b>Nota de pagamento:</b></span>
+                    </t>
+                    <t t-if="o.payment_type == 'inbound'">
+                        <span><b>Recibo de pagamento:</b> </span>
+                    </t>
+                    <span t-field="o.x_studio_nr_de_recibo"/>
+                </p>
+            </t>
+
+        </div>
+    </div>
+     <br/>
+            <hr/>
+            <div class="row" style="font-size:10pt;">
+                <div class="col-6">
+                    <span>
+                        <br/>
+                    </span>
+                </div>
+                <div class="col-6">
+                    <b>
+                        <span>
+                            <t/>
+                        </span>
+                        <Strong>Exmo: Sr/Sra:</Strong>
+                        <span t-field="o.partner_id.name"/>
+                        <br/>
+                        <span>
+                            <t/>
+                        </span>
+                        <span t-field="o.partner_id.contact_address_complete"/>
+                        <br/>
+                        <span>
+                            <t>NUIT:</t>
+                        </span>
+                        <span t-field="o.partner_id.vat"/>
+                        <br/>
+                        <span>
+                            <t/>
+                        </span>
+                        <span t-field="o.partner_id.phone"/>
+                    </b>
+                </div>
+            </div>
+            <hr/>
+            
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <!--<h3><strong>Payment Receipt: <span t-field="o.name"/></strong></h3>-->
+                <div class="mb-4 mt-3">
+                    <div class="row">
+                        <div class="col-6" t-if="o.date">
+                            Data de Pagamento: <span t-field="o.date"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" t-if="o.partner_type">
+                            <t t-if="o.partner_type == 'customer'">
+                                Cliente:
+                            </t>
+                            <t t-if="o.partner_type == 'supplier'">
+                                Vendor:
+                            </t><span t-field="o.partner_id"/>
+                        </div>
+                        <div class="col-6" t-if="o.payment_method_id">
+                            Método de Pagamento: <span t-field="o.payment_method_id.name"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" t-if="o.amount">
+                            Montante do Pagamento: <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                         </div>
+                        <!--<div class="col-6" t-if="o.ref">-->
+                        <!--    Memorando: <span t-field="o.ref"/>-->
+                         <!--</div>-->
+                    </div>
+                </div>
+
+                <!--<t t-set="partials" t-value="o.move_id._get_reconciled_invoices_partials()[0]"/>-->
+                <!--<t t-set="invoices" t-value="{partial[2].move_id for partial in partials}"/>-->
+                <!--<t t-foreach="invoices" t-as="inv">-->
+                <!--    <t t-if="any(inv.currency_id != par[2].currency_id for par in inv._get_reconciled_invoices_partials()[0])" t-set="otherCurrency" t-value="True"/>-->
+                <!--</t>-->
+
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                     
+
+                            <th style="font-size: 11pt; border: 1px solid #DED9D9; text-align: left"><span>Data da Fatura </span></th>
+                            <th style="font-size:11pt; border: 1px solid #DED9D9; text-align: center"><span>Número da Fatura </span></th>
+                            <th style="font-size: 11pt; border: 1px solid #DED9D9; text-align: center"><span>Valor Original</span></th>
+                            <!-- Add a column if there are different currencies -->
+                            <th t-if="otherCurrency" class="text-end" style="font-size: 11pt; border: 1px solid #DED9D9; text-align: center"><span>Amount In Currency</span></th>
+                            <th class="text-end" style="font-size: 11pt; border: 1px solid #DED9D9; text-align: right"><span>Valor Pendente</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        
+                        <t t-set="total_recibo" t-value="[]"/>
+                        <t t-foreach="invoices" t-as="inv">
+                            <!-- MOVE -->
+                            <t t-if="inv.move_type != 'entry'">
+                            <t t-esc="total_recibo.append(inv.amount_total)"/>
+                                <tr>
+                                    <td><span t-field="inv.invoice_date"/></td>
+                                    <td><span t-field="inv.name"/></td>
+                                    <td><span t-field="inv.amount_total"/></td>
+                                    <td t-if="otherCurrency"/>
+                                    <td class="text-end"><span t-field="inv.amount_residual"/></td>
+                                </tr>
+                                <!-- PAYMENTS/REVERSALS -->
+                                <tr t-foreach="inv._get_reconciled_invoices_partials()[0]" t-as="par">
+                                    <t t-set="payment" t-value="par[2].move_id"/>
+                                    <td><span t-field="payment.date"/></td>
+                                    <td><span t-field="payment.name"/></td>
+                                    <td><span t-field="payment.amount_total"/></td>
+                                    <t t-set="amountPayment" t-value="-payment.amount_residual"/>
+                                    <t t-set="amountInvoice" t-value="-par[1]"/>
+                                    <t t-set="currencyPayment" t-value="payment.currency_id"/>
+                                    <t t-set="currencyInvoice" t-value="inv.currency_id"/>
+                                    <!-- Fill the column "Amount In Currency" only if necessary -->
+                                    <td t-if="otherCurrency" class="text-end"><span t-if="currencyPayment != currencyInvoice" t-esc="amountPayment" t-options="{'widget': 'monetary', 'display_currency': currencyPayment}"/></td>
+                                    <td class="text-end"><span t-esc="amountInvoice" t-options="{'widget': 'monetary', 'display_currency': currencyInvoice}"/></td>
+                                </tr>
+                                <!-- BALANCE -->
+                                <!--<tr>-->
+                                <!--    <td/>-->
+                                <!--    <td><strong>Due Amount for <span t-field="inv.name"/></strong></td>-->
+                                <!--    <td/>-->
+                                <!--    <td t-if="otherCurrency"/>-->
+                                <!--    <td class="text-end"><strong><span t-field="inv.amount_residual"/></strong></td>-->
+                                <!--</tr>-->
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+                
+                      <div class="row" style="height: 30px"/>
+            
+            <div class="row">
+                <div class="col-12" t-if="o.amount-sum(total_recibo)&gt;=1" style="font-size: 12px">
+                        Foi gerado um crédito de
+                    <span t-esc="o.amount-sum(total_recibo)" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> a vosso favor, referente ao valor pago por excesso.
+                    
+                </div>
+            </div>
+                 <div class="row">
+                <div class="col-6">
+                    <hr style="height:2px;border-width:0;color:black;background-color:black"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6" style="font-size: 15pt;">
+                    <strong>Total Pago: </strong>
+                    <span t-field="o.amount" class="o_bold"/>
+                </div>
+            </div>
+                
+            </div>
+            
+        <div class="footer" height="100%">
+            <div style="font-Family: arial; font-size:8pt">
+                <i>Daf:09/DAF2/2024</i><br/>
+              <i>Documento processado por computador</i> 
+            </div>   
+        </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        </t>
+    </t>
+    </field>
+</record>
+
+<record id="account_report_payment_receipt_document_copy_2_copy_1" model="ir.ui.view">
+    <field name="name">report_payment_receipt_document copy(2) copy(1)</field>
+    <field name="type">qweb</field>
+    <field name="key">account.report_payment_receipt_document_copy_2_copy_1</field>
+    <field name="arch" type="xml">
+<t t-name="account.report_payment_receipt_document_copy_2_copy_1">
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div class="page">
+                
+                    <div class="row">
+                        
+                        
+                        
+         <div class="col-8" t-if="o.company_id.name == &quot;PEMARO S.A&quot;">
+            <img class="img-fluid" src="/web/image/1148-5d2ce4da/download%20%282%29.png"/>
+                <br/>
+                 <span style="color:#000000">Avenida das Indústrias, Parcela 726, Talhão 3234, Portão 2</span>
+                <br/>
+                 <span style="color:#000000">Bairro Machava</span>
+                <br/>
+                <span style="color:#000000">Matola – Moçambique</span>
+                <br/>
+                 <span style="color:#000000">Contacto: +258845746335</span>
+                <br/>
+                <span style="color:#000000">NUIT:<span t-field="o.company_id.vat"/></span>
+                <br/>
+                <span style="color:#000000">c. <span t-field="o.company_id.phone"/></span>
+                <br/>
+                <span style="color:#000000">e. <span t-field="o.company_id.email"/></span>
+                <br/>
+        </div>                
+                        
+        <div class="col-8" t-if="o.company_id.name == &quot;STONE TRADING&quot;">
+            
+            <img class="img-fluid" src="/web/image/1153-d8e95fba/tst%20%20trading.png" width="55%"/>
+            <br/>
+            <!--<img class="img-fluid" src="/web/image/1148-5d2ce4da/download%20%282%29.png"/>-->
+           <span style="color:#000000">STONE TRADING, LDA </span>
+                <br/>
+                <span style="color:#000000">Avenida das Indústrias, Parcela 726, Talhão 3234, Portão 1</span>
+                <br/>
+                 <span style="color:#000000">Bairro Machava</span>
+                <br/>
+                 <span style="color:#000000">Matola – Moçambique</span>
+                <br/>
+                <span style="font-weight: bolder">NUIT:<span t-field="o.company_id.vat"/></span>
+                <br/>
+                <span style="color:#000000">c. <span t-field="o.company_id.phone"/></span>
+                <br/>
+                <span style="color:#000000">e. <span t-field="o.company_id.email"/></span>
+                <br/>
+                <br/>
+        </div>
+        
+        
+        <div class="col-4" style="font-size:12pt;">
+            <br/>
+            <br/>
+                      <!--<p><strong>Payment Receipt: <span t-field="o.name"/></strong></p>-->
+<t t-if="o.payment_type =='outbound' or o.payment_type =='inbound'">
+    <p>
+        <t t-if="o.payment_type == 'outbound'">
+            <span>Nota de pagamento</span>
+        </t>
+        <t t-if="o.payment_type == 'inbound'">
+            <span>Recibo de pagamento</span>
+        </t>
+        <span t-field="o.name"/>
+    </p>
+</t>
+
+
+
+
+
+
+        </div>
+    </div>
+     <br/>
+            <hr/>
+            <div class="row" style="font-size:10pt;">
+                <div class="col-6">
+                    <span>
+                        <br/>
+                    </span>
+                </div>
+                <div class="col-6">
+                    <b>
+                        <span>
+                            <t/>
+                        </span>
+                        <Strong>Exmo: Sr/Sra:</Strong>
+                        <span t-field="o.partner_id.name"/>
+                        <br/>
+                        <span>
+                            <t/>
+                        </span>
+                        <span t-field="o.partner_id.contact_address_complete"/>
+                        <br/>
+                        <span>
+                            <t>NUIT:</t>
+                        </span>
+                        <span t-field="o.partner_id.vat"/>
+                        <br/>
+                        <span>
+                            <t/>
+                        </span>
+                        <span t-field="o.partner_id.phone"/>
+                    </b>
+                </div>
+            </div>
+            <hr/>
+            
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <!--<h3><strong>Payment Receipt: <span t-field="o.name"/></strong></h3>-->
+                <div class="mb-4 mt-3">
+                    <div class="row">
+                        <div class="col-6" t-if="o.date">
+                            Payment Date: <span t-field="o.date"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" t-if="o.partner_type">
+                            <t t-if="o.partner_type == 'customer'">
+                                Customer:
+                            </t>
+                            <t t-if="o.partner_type == 'supplier'">
+                                Vendor:
+                            </t><span t-field="o.partner_id"/>
+                        </div>
+                        <div class="col-6" t-if="o.payment_method_id">
+                            Payment Method: <span t-field="o.payment_method_id.name"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" t-if="o.amount">
+                            Payment Amount: <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                         </div>
+                        <div class="col-6" t-if="o.ref">
+                            Memo: <span t-field="o.ref"/>
+                         </div>
+                    </div>
+                </div>
+
+                <t t-set="partials" t-value="o.move_id._get_reconciled_invoices_partials()[0]"/>
+                <t t-set="invoices" t-value="{partial[2].move_id for partial in partials}"/>
+                <!-- Check if invoices include different currencies -->
+                <t t-foreach="invoices" t-as="inv">
+                    <t t-if="any(inv.currency_id != par[2].currency_id for par in inv._get_reconciled_invoices_partials()[0])" t-set="otherCurrency" t-value="True"/>
+                </t>
+
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th><span>Invoice Date</span></th>
+                            <th><span>Invoice Number</span></th>
+                            <th><span>Valor Original</span></th>
+                            <!-- Add a column if there are different currencies -->
+                            <th t-if="otherCurrency" class="text-end"><span>Amount In Currency</span></th>
+                            <th class="text-end"><span>Valor Pendente</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        
+                        <t t-set="total_recibo" t-value="[]"/>
+                        <t t-foreach="invoices" t-as="inv">
+                            <!-- MOVE -->
+                            <t t-if="inv.move_type != 'entry'">
+                            <t t-esc="total_recibo.append(inv.amount_total)"/>
+                                <tr>
+                                    <td><span t-field="inv.invoice_date"/></td>
+                                    <td><span t-field="inv.name"/></td>
+                                    <td><span t-field="inv.amount_total"/></td>
+                                    <td t-if="otherCurrency"/>
+                                    <td class="text-end"><span t-field="inv.amount_residual"/></td>
+                                </tr>
+                                <!-- PAYMENTS/REVERSALS -->
+                                <tr t-foreach="inv._get_reconciled_invoices_partials()[0]" t-as="par">
+                                    <t t-set="payment" t-value="par[2].move_id"/>
+                                    <td><span t-field="payment.date"/></td>
+                                    <td><span t-field="payment.name"/></td>
+                                    <td><span t-field="payment.amount_total"/></td>
+                                    <t t-set="amountPayment" t-value="-payment.amount_residual"/>
+                                    <t t-set="amountInvoice" t-value="-par[1]"/>
+                                    <t t-set="currencyPayment" t-value="payment.currency_id"/>
+                                    <t t-set="currencyInvoice" t-value="inv.currency_id"/>
+                                    <!-- Fill the column "Amount In Currency" only if necessary -->
+                                    <td t-if="otherCurrency" class="text-end"><span t-if="currencyPayment != currencyInvoice" t-esc="amountPayment" t-options="{'widget': 'monetary', 'display_currency': currencyPayment}"/></td>
+                                    <td class="text-end"><span t-esc="amountInvoice" t-options="{'widget': 'monetary', 'display_currency': currencyInvoice}"/></td>
+                                </tr>
+                                <!-- BALANCE -->
+                                <!--<tr>-->
+                                <!--    <td/>-->
+                                <!--    <td><strong>Due Amount for <span t-field="inv.name"/></strong></td>-->
+                                <!--    <td/>-->
+                                <!--    <td t-if="otherCurrency"/>-->
+                                <!--    <td class="text-end"><strong><span t-field="inv.amount_residual"/></strong></td>-->
+                                <!--</tr>-->
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+                
+                      <div class="row" style="height: 30px"/>
+            
+            <div class="row">
+                <div class="col-12" t-if="o.amount-sum(total_recibo)&gt;=1" style="font-size: 12px">
+                        Foi gerado um crédito de
+                    <span t-esc="o.amount-sum(total_recibo)" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> a vosso favor, referente ao valor pago por excesso.
+                    
+                </div>
+            </div>
+                 <div class="row">
+                <div class="col-6">
+                    <hr style="height:2px;border-width:0;color:black;background-color:black"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6" style="font-size: 15pt;">
+                    <strong>Total Pago: </strong>
+                    <span t-field="o.amount" class="o_bold"/>
+                </div>
+            </div>
+                
+            </div>
+            
+                             <div class="footer" height="100%">
+            <div style="font-Family: arial; font-size:8pt">
+                <i>Daf:09/DAF2/2024</i><br/>
+              <i>Documento processado por computador</i> 
+            </div>   
+            
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        </t>
+    </t>
+    </field>
+</record>
+
+<record id="studio_customization_studio_report_docume_7e37467d_5343_4d8f_a5da_39b9194cddc7" model="ir.ui.view">
+    <field name="name">studio_customization.studio_report_docume_7e37467d-5343-4d8f-a5da-39b9194cddc7</field>
+    <field name="type">qweb</field>
+    <field name="key">studio_customization.studio_report_docume_7e37467d-5343-4d8f-a5da-39b9194cddc7</field>
+    <field name="arch" type="xml">
+<t t-name="studio_main_report">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-call="web.basic_layout">
+                            <t t-call="studio_customization.studio_report_docume_7e37467d-5343-4d8f-a5da-39b9194cddc7_document"/>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </t>
+                </t>
+    </field>
+</record>
+
+    </data>
+</odoo>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de Demonstração — Quality Impact × Odoo | Parâmetro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0f172a; --primary-light:#1e293b; --accent:#14b8a6; --accent-2:#0d9488;
+  --accent-grad:linear-gradient(135deg,#14b8a6 0%,#0d9488 100%);
+  --indigo:#6366f1; --indigo-grad:linear-gradient(135deg,#6366f1 0%,#4f46e5 100%);
+  --amber:#f59e0b; --rose:#e11d48; --emerald:#10b981;
+  --bg:#f6f8fb; --surface:#ffffff; --text:#334155; --text-dark:#0f172a; --muted:#64748b;
+  --border:#e2e8f0; --shadow:0 4px 6px -1px rgb(0 0 0/.08),0 2px 4px -2px rgb(0 0 0/.06);
+  --shadow-lg:0 18px 40px -12px rgb(15 23 42/.22);
+}
+*{box-sizing:border-box;margin:0;padding:0;scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;display:flex;min-height:100vh}
+h1,h2,h3,h4,.brand{font-family:'Outfit',sans-serif;color:var(--text-dark);line-height:1.2}
+
+/* Sidebar */
+aside{width:300px;background:var(--primary);color:#cbd5e1;padding:2rem 1.25rem;position:fixed;inset:0 auto 0 0;overflow-y:auto;z-index:10;display:flex;flex-direction:column}
+.logo{display:flex;align-items:center;gap:12px;padding-bottom:1.25rem;margin-bottom:1.25rem;border-bottom:1px solid rgba(255,255,255,.1)}
+.logo .mark{width:42px;height:42px;border-radius:11px;background:var(--accent-grad);display:grid;place-items:center;font-weight:800;color:#fff;font-size:1.1rem;font-family:'Outfit'}
+.logo b{color:#fff;font-size:1.05rem;font-family:'Outfit';font-weight:700;display:block}
+.logo span{font-size:.72rem;color:#94a3b8;letter-spacing:.04em}
+nav a{display:flex;align-items:center;gap:10px;color:#cbd5e1;text-decoration:none;padding:.6rem .75rem;border-radius:9px;font-size:.88rem;font-weight:500;transition:.18s;margin-bottom:2px}
+nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+nav a.active{background:var(--accent-grad);color:#fff;box-shadow:0 6px 16px -6px rgba(20,184,166,.7)}
+nav a .n{width:22px;height:22px;border-radius:6px;background:rgba(255,255,255,.12);display:grid;place-items:center;font-size:.72rem;font-weight:700;flex:none}
+nav a.active .n{background:rgba(255,255,255,.25)}
+.side-foot{margin-top:auto;padding-top:1.25rem;font-size:.74rem;color:#64748b;border-top:1px solid rgba(255,255,255,.1)}
+
+/* Main */
+main{margin-left:300px;flex:1;padding:0 0 5rem}
+.hero{background:radial-gradient(1200px 400px at 80% -10%,rgba(20,184,166,.18),transparent),var(--primary);color:#fff;padding:3.5rem 3.5rem 3rem}
+.hero .kick{display:inline-flex;align-items:center;gap:8px;background:rgba(20,184,166,.15);border:1px solid rgba(20,184,166,.35);color:#5eead4;padding:.35rem .8rem;border-radius:999px;font-size:.78rem;font-weight:600;letter-spacing:.03em;margin-bottom:1.1rem}
+.hero h1{color:#fff;font-size:2.5rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.6rem}
+.hero p{color:#cbd5e1;max-width:760px;font-size:1.05rem}
+.hero .meta{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem}
+.hero .meta span{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:.4rem .85rem;border-radius:8px;font-size:.82rem;color:#e2e8f0}
+
+.wrap{padding:2.5rem 3.5rem;max-width:1080px}
+section{margin-bottom:2.5rem;scroll-margin-top:1rem}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:1.25rem}
+.sec-head .step{width:44px;height:44px;border-radius:12px;background:var(--accent-grad);color:#fff;display:grid;place-items:center;font-family:'Outfit';font-weight:700;font-size:1.15rem;flex:none;box-shadow:var(--shadow)}
+.sec-head.indigo .step{background:var(--indigo-grad)}
+.sec-head h2{font-size:1.55rem;font-weight:700}
+.sec-head .sub{color:var(--muted);font-size:.9rem;margin-top:2px}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.6rem 1.7rem;box-shadow:var(--shadow);margin-bottom:1.1rem}
+.card h3{font-size:1.1rem;margin-bottom:.7rem;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+
+.label{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2);margin-bottom:.5rem}
+.label.do{color:var(--indigo)}
+.label.say{color:var(--amber)}
+ul.clean{list-style:none}
+ul.clean li{position:relative;padding-left:1.4rem;margin-bottom:.45rem;font-size:.93rem}
+ul.clean li::before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+.say-box{background:linear-gradient(180deg,#fffbeb,#fff);border:1px solid #fde68a;border-left:4px solid var(--amber);border-radius:10px;padding:.9rem 1.1rem;font-style:italic;color:#92400e;font-size:.94rem}
+.say-box::before{content:"“";font-family:'Outfit';font-size:1.6rem;color:var(--amber);line-height:0;vertical-align:-.2em;margin-right:4px}
+
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent-grad);color:#fff;text-decoration:none;padding:.6rem 1.1rem;border-radius:9px;font-weight:600;font-size:.88rem;transition:.18s;box-shadow:0 6px 16px -8px rgba(13,148,136,.8)}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+.btn.ghost{background:#fff;color:var(--accent-2);border:1px solid var(--border);box-shadow:none}
+.btn .ico{font-size:1rem}
+
+.pill{display:inline-flex;align-items:center;gap:6px;padding:.28rem .7rem;border-radius:999px;font-size:.78rem;font-weight:600}
+.pill.win{background:#dcfce7;color:#166534}.pill.prop{background:#e0e7ff;color:#3730a3}.pill.new{background:#f1f5f9;color:#475569}
+.pill.warn{background:#fef3c7;color:#92400e}
+
+table{width:100%;border-collapse:collapse;font-size:.9rem;overflow:hidden;border-radius:10px}
+table th{background:var(--primary);color:#fff;text-align:left;padding:.6rem .8rem;font-weight:600;font-size:.82rem}
+table td{padding:.55rem .8rem;border-bottom:1px solid var(--border)}
+table tr:last-child td{border-bottom:none}
+table tr.sec td{background:#f1f5f9;font-weight:700;color:var(--text-dark)}
+table td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table tr.tot td{background:#0f172a;color:#fff;font-weight:700;font-size:.95rem}
+
+.smartbtns{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:.4rem}
+@media(max-width:720px){.smartbtns{grid-template-columns:1fr 1fr}}
+.sb{border:1px solid var(--border);border-radius:12px;padding:.9rem;text-align:center;background:linear-gradient(180deg,#fff,#f8fafc);transition:.18s;text-decoration:none;display:block}
+.sb:hover{border-color:var(--accent);box-shadow:var(--shadow);transform:translateY(-2px)}
+.sb .v{font-family:'Outfit';font-weight:800;font-size:1.45rem;color:var(--text-dark)}
+.sb .k{font-size:.78rem;color:var(--muted);font-weight:600}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-top:1.4rem}
+.flow .node{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#e2e8f0;padding:.4rem .7rem;border-radius:8px;font-size:.8rem;font-weight:600}
+.flow .arr{color:#5eead4;font-weight:700}
+
+.callout{border-radius:12px;padding:1.1rem 1.3rem;font-size:.92rem;display:flex;gap:12px;align-items:flex-start}
+.callout.tip{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}
+.callout.note{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}
+.callout .ci{font-size:1.2rem;flex:none}
+code{background:#f1f5f9;border:1px solid var(--border);border-radius:5px;padding:.08rem .4rem;font-size:.86em;color:#0f172a;font-family:ui-monospace,Menlo,monospace}
+.cred{display:flex;align-items:center;justify-content:space-between;gap:1rem;background:#0f172a;color:#e2e8f0;border-radius:10px;padding:.7rem 1rem;margin-bottom:.5rem;font-size:.88rem}
+.cred b{color:#fff;font-family:'Outfit'}
+.copy{cursor:pointer;background:rgba(255,255,255,.1);border:none;color:#5eead4;padding:.3rem .6rem;border-radius:6px;font-size:.78rem;font-weight:600}
+.copy:hover{background:rgba(255,255,255,.2)}
+.muted{color:var(--muted);font-size:.88rem}
+.divider{height:1px;background:var(--border);margin:1.2rem 0}
+.tag{font-size:.7rem;background:#f1f5f9;border:1px solid var(--border);border-radius:6px;padding:.15rem .5rem;color:var(--muted);font-weight:600}
+@media(max-width:980px){aside{position:static;width:100%;height:auto}main{margin-left:0}.hero,.wrap{padding-left:1.4rem;padding-right:1.4rem}.hero h1{font-size:1.9rem}}
+</style>
+</head>
+<body>
+<aside>
+  <div class="logo">
+    <div class="mark">Qi</div>
+    <div><b>Quality Impact</b><span>Demo Odoo · Parâmetro</span></div>
+  </div>
+  <nav id="nav">
+    <a href="#intro"><span class="n">★</span> Como usar este guia</a>
+    <a href="#acessos"><span class="n">0</span> Acessos à demo</a>
+    <a href="#cliente"><span class="n">1</span> Ficha do cliente (hub)</a>
+    <a href="#crm"><span class="n">2</span> CRM — oportunidade</a>
+    <a href="#orcamento"><span class="n">3</span> Orçamento por departamento</a>
+    <a href="#adjudicacao"><span class="n">4</span> Adjudicação + fatura 70%</a>
+    <a href="#stock"><span class="n">5</span> Reserva de mobiliário</a>
+    <a href="#projeto"><span class="n">6</span> Projeto, tarefas e horas</a>
+    <a href="#margem"><span class="n">7</span> Margem por stand</a>
+    <a href="#cenarios"><span class="n">8</span> Outros stands no pipeline</a>
+    <a href="#discurso"><span class="n">♦</span> Dicas de discurso</a>
+    <a href="#proximos"><span class="n">→</span> Próximos passos</a>
+  </nav>
+  <div class="side-foot">Preparado por Parâmetro<br>com base na reunião de 2/jun/2026 e nos orçamentos reais da Quality Impact.</div>
+</aside>
+
+<main>
+  <div class="hero">
+    <span class="kick">● DEMONSTRAÇÃO PRONTA A APRESENTAR</span>
+    <h1>Do contacto à margem do stand, num só sistema</h1>
+    <p>Esta demo reproduz o circuito real da Quality Impact em Odoo <b>standard</b>, usando os vossos próprios dados: o stand da <b>THE BRANCH</b> para a feira CIFF em Copenhaga e o orçamento da <b>INDUZIR</b> para a Ceramitec. Cada euro e cada departamento batem com os mapas de trabalho que nos enviaram.</p>
+    <div class="flow">
+      <span class="node">Contacto</span><span class="arr">→</span>
+      <span class="node">CRM</span><span class="arr">→</span>
+      <span class="node">Orçamento</span><span class="arr">→</span>
+      <span class="node">Adjudicação 70%</span><span class="arr">→</span>
+      <span class="node">Reserva de stock</span><span class="arr">→</span>
+      <span class="node">Projeto + horas</span><span class="arr">→</span>
+      <span class="node">Margem do stand</span>
+    </div>
+    <div class="meta">
+      <span>🌐 quality-impact-demo.odoo.com</span>
+      <span>🧩 Odoo 19 Enterprise</span>
+      <span>🇵🇹 Português (PT)</span>
+      <span>💶 EUR</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+  <section id="intro">
+    <div class="sec-head"><div class="step">★</div><div><h2>Como usar este guia</h2><div class="sub">Um ecrã por etapa · o que mostrar, onde clicar e o que dizer</div></div></div>
+    <div class="card">
+      <p>Cada secção corresponde a um passo da demonstração e tem três blocos:</p>
+      <div class="grid2" style="margin-top:1rem">
+        <div><div class="label do">▸ O que mostrar / fazer</div><p class="muted">As ações concretas no ecrã, na ordem certa.</p></div>
+        <div><div class="label say">▸ Discurso sugerido</div><p class="muted">Uma frase para ligar o ecrã à dor que o cliente nos descreveu.</p></div>
+      </div>
+      <div class="divider"></div>
+      <p>Os botões <a class="btn ghost" href="#">🔗 Abrir no Odoo</a> levam diretamente ao registo. <b>Recomendação:</b> apresente em ecrã inteiro e siga a ordem da barra lateral — é o percurso "de A a Z" que o João pediu.</p>
+      <div class="callout note" style="margin-top:1rem"><span class="ci">ℹ️</span><div>Todos os emails dos clientes de demonstração usam o domínio <code>@example.com</code>, por isso a demo <b>nunca envia emails reais</b>. Os nomes e valores são os reais para que a equipa se reconheça.</div></div>
+    </div>
+  </section>
+
+  <section id="acessos">
+    <div class="sec-head"><div class="step">0</div><div><h2>Acessos à demo</h2><div class="sub">Ligação à base de dados Odoo</div></div></div>
+    <div class="card">
+      <div class="cred"><span>🌐 URL &nbsp; <b>https://quality-impact-demo.odoo.com</b></span><button class="copy" data-c="https://quality-impact-demo.odoo.com">copiar</button></div>
+      <div class="cred"><span>👤 Login &nbsp; <b>it.odoo@parametro.pt</b></span><button class="copy" data-c="it.odoo@parametro.pt">copiar</button></div>
+      <div class="cred"><span>🗄️ Base de dados &nbsp; <b>quality-impact-demo</b></span><button class="copy" data-c="quality-impact-demo">copiar</button></div>
+      <p class="muted" style="margin-top:.6rem">A demonstração pode ser conduzida em inglês para o administrador; os dados mantêm-se em português. Empresa: <b>Quality Impact Demo</b> · NIF PT508538009 · Pias-Lousada.</p>
+    </div>
+  </section>
+
+  <section id="cliente">
+    <div class="sec-head"><div class="step">1</div><div><h2>Ponto de partida: a ficha do cliente</h2><div class="sub">Tudo o que existe sobre um stand está ligado ao cliente</div></div></div>
+    <div class="card">
+      <p>Abra <b>Contactos → THE BRANCH</b>. Esta ficha é o <b>centro de tudo</b>: a partir dos <b>botões inteligentes</b> no topo chega-se a todo o circuito do stand, sem procurar em pastas separadas.</p>
+      <div class="smartbtns">
+        <a class="sb" href="https://quality-impact-demo.odoo.com/odoo/crm/1"><div class="v">1</div><div class="k">Oportunidade</div></a>
+        <a class="sb" href="https://quality-impact-demo.odoo.com/odoo/sales/1"><div class="v">1</div><div class="k">Venda</div></a>
+        <a class="sb" href="https://quality-impact-demo.odoo.com/odoo/project/2"><div class="v">8</div><div class="k">Tarefas</div></a>
+        <a class="sb" href="https://quality-impact-demo.odoo.com/odoo/accounting"><div class="v">3.612 €</div><div class="k">Faturado</div></a>
+      </div>
+      <div class="divider"></div>
+      <div class="say-box">É exatamente o que descreveu: deixa de abrir 4 ou 5 pastas para ver um stand. Aqui, a partir do cliente, vê a oportunidade, o orçamento, as tarefas e a faturação — tudo no mesmo sítio.</div>
+      <div style="margin-top:1rem"><a class="btn" href="https://quality-impact-demo.odoo.com/odoo/contacts/9">🔗 Abrir ficha THE BRANCH</a></div>
+    </div>
+  </section>
+
+  <section id="crm">
+    <div class="sec-head"><div class="step">2</div><div><h2>CRM — a oportunidade entra no funil</h2><div class="sub">A solicitação do cliente fica registada e visível para a equipa</div></div></div>
+    <div class="card">
+      <div class="label do">▸ O que mostrar</div>
+      <ul class="clean">
+        <li>Abrir o <b>pipeline de CRM</b> e mostrar os três stands em fases diferentes do funil.</li>
+        <li>Abrir a oportunidade <b>"Stand THE BRANCH — Feira CIFF"</b> <span class="pill win">Ganho</span> — receita esperada €5.160,92.</li>
+        <li>Mostrar que o contacto, telefone e a descrição da feira ficam logo associados.</li>
+      </ul>
+      <div class="divider"></div>
+      <table>
+        <tr><th>Oportunidade</th><th>Fase</th><th class="num">Receita esperada</th></tr>
+        <tr><td>Stand SAFRAN — Feira AIX</td><td><span class="pill new">Novo</span></td><td class="num">12.000,00 €</td></tr>
+        <tr><td>Stand INDUZIR — Ceramitec (Munique)</td><td><span class="pill prop">Qualificado</span></td><td class="num">6.850,00 €</td></tr>
+        <tr><td>Stand THE BRANCH — CIFF (Copenhaga)</td><td><span class="pill win">Ganho</span></td><td class="num">5.160,92 €</td></tr>
+      </table>
+      <div class="say-box" style="margin-top:1rem">Quando a Parâmetro vos manda uma solicitação, ela entra aqui. A administrativa vê logo o pedido, e toda a gente sabe em que ponto está cada stand — sem depender de um email perdido.</div>
+      <div style="margin-top:1rem"><a class="btn" href="https://quality-impact-demo.odoo.com/odoo/crm">🔗 Abrir pipeline CRM</a></div>
+    </div>
+  </section>
+
+  <section id="orcamento">
+    <div class="sec-head"><div class="step">3</div><div><h2>O orçamento, departamento a departamento</h2><div class="sub">O coração da demo — o vosso mapa de trabalhos, agora dentro do Odoo</div></div></div>
+    <div class="card">
+      <p>Abra a venda <b>S00001</b>. Está organizada exatamente como o vosso mapa de trabalhos da THE BRANCH: uma <b>secção por departamento</b>, com as linhas e subtotais a baterem ao cêntimo.</p>
+      <table style="margin-top:1rem">
+        <tr><th>Departamento / linha</th><th class="num">Qt.</th><th class="num">Preço</th><th class="num">Subtotal</th></tr>
+        <tr class="sec"><td colspan="4">1 · Decoração e Mobiliário <span class="tag">aluguer</span></td></tr>
+        <tr><td>Mesa DSW, tampo redondo, branco</td><td class="num">1</td><td class="num">123,00</td><td class="num">123,00 €</td></tr>
+        <tr><td>Cadeira DSW, branco</td><td class="num">4</td><td class="num">2,00</td><td class="num">8,00 €</td></tr>
+        <tr class="sec"><td colspan="3">2 · Eletrodomésticos e Consumíveis <span class="tag">aluguer</span></td><td class="num">354,00 €</td></tr>
+        <tr class="sec"><td colspan="3">3 · Eletricidade</td><td class="num">30,00 €</td></tr>
+        <tr class="sec"><td colspan="3">4 · Gráfica</td><td class="num">100,00 €</td></tr>
+        <tr class="sec"><td colspan="3">5 · Truss</td><td class="num">0,00 €</td></tr>
+        <tr class="sec"><td colspan="3">6 · Logística (transporte, empilhador, embalamento, viagens…)</td><td class="num">1.578,00 €</td></tr>
+        <tr class="sec"><td colspan="3">7 · Mão de Obra e Alimentação</td><td class="num">100,00 €</td></tr>
+        <tr class="sec"><td colspan="3">8 · Carpintaria (Orçamento nº158/2026)</td><td class="num">2.867,92 €</td></tr>
+        <tr class="tot"><td colspan="3">Total sem IVA</td><td class="num">5.160,92 €</td></tr>
+        <tr class="tot"><td colspan="3">Total com IVA (23%)</td><td class="num">6.347,93 €</td></tr>
+      </table>
+      <div class="callout tip" style="margin-top:1rem"><span class="ci">✅</span><div>O cliente recebe um PDF profissional com a descrição completa por departamento — ou, se preferir, só o mapa de quantidades sem valores. É um clique, não um novo Excel.</div></div>
+      <div class="say-box" style="margin-top:1rem">Hoje o orçamento vive num Excel e os departamentos convergem todos para si. Aqui cada departamento lança a sua parte, o detalhe fica registado "de fio a pavio", e o total sai sozinho — sem o risco de alguém se esquecer de uma plataforma elevatória.</div>
+      <div style="margin-top:1rem"><a class="btn" href="https://quality-impact-demo.odoo.com/odoo/sales/1">🔗 Abrir orçamento S00001</a></div>
+    </div>
+  </section>
+
+  <section id="adjudicacao">
+    <div class="sec-head"><div class="step">4</div><div><h2>Adjudicação e fatura de 70%</h2><div class="sub">"Foi adjudicado" → o sistema reage em cadeia</div></div></div>
+    <div class="card">
+      <div class="label do">▸ O que mostrar</div>
+      <ul class="clean">
+        <li>A venda está <b>Confirmada</b> com as condições <b>70% adjudicação / 30% fim de montagem</b>.</li>
+        <li>Mostrar a <b>fatura de adjudicação FAT/2026/00001</b> — <b>70% = 3.612,64 €</b> (4.443,55 € c/ IVA), já lançada.</li>
+        <li>Explicar que confirmar a venda <b>desencadeia automaticamente</b> a reserva de stock e a criação do projeto (passos seguintes).</li>
+      </ul>
+      <div class="say-box" style="margin-top:1rem">Assim que a administrativa recebe o "foi adjudicado", regista-se aqui. A fatura dos 50%/70% sai na hora, o material fica reservado e a produção arranca — tudo a partir do mesmo botão.</div>
+      <div style="margin-top:1rem"><a class="btn" href="https://quality-impact-demo.odoo.com/odoo/accounting">🔗 Abrir faturação</a></div>
+    </div>
+  </section>
+
+  <section id="stock">
+    <div class="sec-head"><div class="step">5</div><div><h2>Reserva de mobiliário e material</h2><div class="sub">As cadeiras ficam "apartadas" para este stand</div></div></div>
+    <div class="card">
+      <div class="label do">▸ O que mostrar</div>
+      <ul class="clean">
+        <li>Abrir <b>Inventário</b> e a entrega <b>WH/OUT/00001</b> <span class="pill warn">Reservado</span> ligada à venda S00001.</li>
+        <li>Mostrar o stock disponível do mobiliário (ex.: <b>120 cadeiras DSW</b>, 10 mesas, frigoríficos, kits) e que a quantidade deste stand fica <b>reservada</b>.</li>
+        <li>Explicar entradas/saídas: o material sai para a feira e regressa na desmontagem.</li>
+      </ul>
+      <div class="say-box" style="margin-top:1rem">É o que descreveu: tenho 10 cadeiras, reservo 5 para a Parâmetro e o sistema avisa o colega que só restam 5. Ninguém fica sem stock a meio de uma feira — entradas, saídas e devoluções ficam todas registadas.</div>
+      <div style="margin-top:1rem"><a class="btn" href="https://quality-impact-demo.odoo.com/odoo/inventory">🔗 Abrir Inventário</a></div>
+    </div>
+  </section>
+
+  <section id="projeto">
+    <div class="sec-head"><div class="step">6</div><div><h2>Projeto, tarefas e horas por departamento</h2><div class="sub">Quem fez o quê, quantas horas, em que stand</div></div></div>
+    <div class="card">
+      <p>Abrir o projeto <b>"Stand THE BRANCH — CIFF Copenhaga"</b>, criado automaticamente quando a venda foi confirmada. Tem <b>8 tarefas por departamento</b> e <b>135 horas</b> já registadas por 5 colaboradores.</p>
+      <table style="margin-top:1rem">
+        <tr><th>Tarefa</th><th>Responsável</th><th class="num">Planeado</th><th class="num">Registado</th></tr>
+        <tr><td>Projeto 3D e Design</td><td>Inês Martins</td><td class="num">16 h</td><td class="num">14 h</td></tr>
+        <tr><td>Carpintaria (Orçamento nº158)</td><td>António Silva</td><td class="num">80 h</td><td class="num">72 h</td></tr>
+        <tr><td>Instalação Elétrica</td><td>Bruno Costa</td><td class="num">12 h</td><td class="num">10 h</td></tr>
+        <tr><td>Produção Gráfica</td><td>Marta Sousa</td><td class="num">8 h</td><td class="num">6 h</td></tr>
+        <tr><td>Logística e Transporte</td><td>Carlos Lopes</td><td class="num">10 h</td><td class="num">8 h</td></tr>
+        <tr><td>Montagem no local (Copenhaga)</td><td>António / Marta</td><td class="num">24 h</td><td class="num">20 h</td></tr>
+        <tr><td>Controlo de Qualidade e Embalamento</td><td>Marta Sousa</td><td class="num">6 h</td><td class="num">5 h</td></tr>
+        <tr><td>Desmontagem e regresso</td><td>António Silva</td><td class="num">8 h</td><td class="num">—</td></tr>
+        <tr class="tot"><td colspan="2">Total</td><td class="num">164 h</td><td class="num">135 h</td></tr>
+      </table>
+      <div class="say-box" style="margin-top:1rem">Definimos que 5 ou 6 carpinteiros trabalham para este stand e cada hora picada — carpintaria, eletricidade, pintura, montagem — fica alocada ao stand. No fim, sabe ao minuto quanto custou cada departamento.</div>
+      <div style="margin-top:1rem"><a class="btn" href="https://quality-impact-demo.odoo.com/odoo/project/2">🔗 Abrir projeto do stand</a></div>
+    </div>
+  </section>
+
+  <section id="margem">
+    <div class="sec-head"><div class="step">7</div><div><h2>A margem do stand — para a administração</h2><div class="sub">A resposta à pergunta do administrador: "quanto ganhámos neste stand?"</div></div></div>
+    <div class="card">
+      <p>No separador <b>Rentabilidade</b> do projeto, o Odoo cruza a receita do orçamento com os custos reais (horas dos colaboradores ao custo/hora). É o centro de custos que pediu.</p>
+      <div class="grid2" style="margin-top:1rem">
+        <div class="card" style="margin:0;background:#f0fdfa;border-color:#99f6e4">
+          <div class="label">Receita do stand (s/ IVA)</div><div style="font-family:'Outfit';font-weight:800;font-size:1.8rem;color:#0f172a">5.160,92 €</div>
+        </div>
+        <div class="card" style="margin:0;background:#fef2f2;border-color:#fecaca">
+          <div class="label" style="color:var(--rose)">Custo de mão de obra (135 h)</div><div style="font-family:'Outfit';font-weight:800;font-size:1.8rem;color:#0f172a">− 2.510,00 €</div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:1rem;background:var(--primary);border:none;color:#fff">
+        <div class="label" style="color:#5eead4">Margem após mão de obra</div>
+        <div style="font-family:'Outfit';font-weight:800;font-size:2.2rem;color:#fff">≈ 2.650,92 €</div>
+        <p class="muted" style="color:#94a3b8;margin-top:.3rem">Acrescentando as compras de materiais e logística (ordens de compra), a margem fica completa, departamento a departamento.</p>
+      </div>
+      <div class="say-box" style="margin-top:1rem">O administrador olha e vê: a Parâmetro foi à feira, gastou X horas a Y€/hora, Z em materiais e W em camiões. Margem de tanto. A vermelho ou a verde, na hora — sem andar a juntar Excels.</div>
+      <div style="margin-top:1rem"><a class="btn" href="https://quality-impact-demo.odoo.com/odoo/project/2">🔗 Ver rentabilidade do projeto</a></div>
+    </div>
+  </section>
+
+  <section id="cenarios">
+    <div class="sec-head indigo"><div class="step">8</div><div><h2>Outros stands no pipeline</h2><div class="sub">Para mostrar que o circuito serve qualquer feira</div></div></div>
+    <div class="grid2">
+      <div class="card">
+        <h3>🟦 INDUZIR — Ceramitec, Munique <span class="pill prop">Proposta enviada</span></h3>
+        <p class="muted">Orçamento <b>S00002</b> de <b>6.850,00 €</b> (réplica do vosso ORÇ 43/2026), também por secções, ainda em negociação — o oposto da THE BRANCH, que já está em produção.</p>
+        <div style="margin-top:.8rem"><a class="btn ghost" href="https://quality-impact-demo.odoo.com/odoo/sales/2">🔗 Abrir S00002</a></div>
+      </div>
+      <div class="card">
+        <h3>⬜ SAFRAN — Feira AIX <span class="pill new">Lead</span></h3>
+        <p class="muted">Oportunidade inicial (~12.000 €) ainda a aguardar projeto 3D — mostra o início do funil, antes de haver orçamento.</p>
+        <div style="margin-top:.8rem"><a class="btn ghost" href="https://quality-impact-demo.odoo.com/odoo/crm">🔗 Abrir CRM</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="discurso">
+    <div class="sec-head"><div class="step">♦</div><div><h2>Dicas de discurso</h2><div class="sub">Ligar cada ecrã à dor que o cliente nos descreveu</div></div></div>
+    <div class="card">
+      <table>
+        <tr><th>Dor descrita pelo João</th><th>O que mostrar na demo</th></tr>
+        <tr><td>"Abrir 4 ou 5 pastas para uma operação"</td><td>Ficha do cliente com botões inteligentes (passo 1)</td></tr>
+        <tr><td>"Orçamento num Excel, departamentos convergem em mim"</td><td>Orçamento por secções, total automático (passo 3)</td></tr>
+        <tr><td>"Reservar as cadeiras para um stand"</td><td>Reserva de stock na entrega (passo 5)</td></tr>
+        <tr><td>"Registo de horas por tarefa, chão de fábrica"</td><td>Tarefas + folhas de horas no projeto (passo 6)</td></tr>
+        <tr><td>"O administrador francês quer ver a margem"</td><td>Rentabilidade do projeto (passo 7)</td></tr>
+        <tr><td>"Não falhar — esqueci-me da plataforma elevatória"</td><td>Linhas-modelo por departamento no orçamento (passo 3)</td></tr>
+      </table>
+      <div class="callout note" style="margin-top:1rem"><span class="ci">🎯</span><div><b>Fecho sugerido:</b> "Isto é tudo Odoo standard, sem desenvolvimento. A partir daqui definimos consigo as prioridades — por fases — e fazemos um plano com custo e prazo. Pode começar só pelo CRM e inventário, e crescer a partir daí."</div></div>
+    </div>
+  </section>
+
+  <section id="proximos">
+    <div class="sec-head indigo"><div class="step">→</div><div><h2>Próximos passos / desenvolvimentos possíveis</h2><div class="sub">O que se pode acrescentar depois desta reunião</div></div></div>
+    <div class="card">
+      <ul class="clean">
+        <li><b>Aluguer formal (app Rental):</b> calendário de disponibilidade do mobiliário por datas de feira, em vez da reserva de stock.</li>
+        <li><b>Compras e materiais:</b> ordens de compra ligadas ao stand para a margem incluir materiais e logística reais.</li>
+        <li><b>Catálogo de mobiliário com fotos:</b> a Inês escolhe no 3D o mobiliário disponível para a data e envia PDF/ligação ao cliente.</li>
+        <li><b>Caixa de email do projeto:</b> um alias (ex.: <code>thebranch@…</code>) que arquiva no projeto tudo o que o cliente enviar.</li>
+        <li><b>Apresentação em inglês/francês</b> para o administrador, mantendo os dados em português.</li>
+      </ul>
+      <div class="divider"></div>
+      <p class="muted">Demonstração preparada pela Parâmetro · Odoo 19 Enterprise · base <code>quality-impact-demo</code>. Dados reais da Quality Impact (THE BRANCH / INDUZIR), valores conforme os mapas de trabalho enviados.</p>
+    </div>
+  </section>
+
+  </div>
+</main>
+
+<script>
+const links=[...document.querySelectorAll('#nav a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const i=secs.indexOf(e.target);links.forEach(l=>l.classList.remove('active'));if(links[i])links[i].classList.add('active');}})},{rootMargin:'-20% 0px -70% 0px'});
+secs.forEach(s=>s&&obs.observe(s));
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{navigator.clipboard.writeText(b.dataset.c);const t=b.textContent;b.textContent='copiado ✓';setTimeout(()=>b.textContent=t,1200);}));
+</script>
+</body>
+</html>

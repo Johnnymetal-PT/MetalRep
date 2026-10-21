@@ -1,0 +1,314 @@
+<t name="Contact Us" t-name="website.contactus">
+        <t t-call="website.layout">
+<style>
+    
+.s_map_embedded {
+  -webkit-filter: grayscale(100%) contrast(108%) brightness(96%);
+  filter: grayscale(100%) contrast(108%) brightness(96%);
+}
+
+/* Optional: keep it grayscale even if Odoo adds inner wrappers */
+.map_container iframe {
+  -webkit-filter: grayscale(100%) contrast(108%) brightness(96%);
+  filter: grayscale(100%) contrast(108%) brightness(96%);
+}
+
+/* If you use the color overlay block, ensure it stays transparent */
+.s_map_color_filter {
+  background: transparent !important;
+}
+
+
+
+/* Global font family and color */
+.s_website_form input,
+.s_website_form textarea,
+.s_website_form select,
+.s_website_form label,
+.s_website_form .form-check-label,
+.s_website_form .form-control,
+.s_website_form .form-select {
+    font-family: 'Cormorant Infant', serif;
+    color: #302D27;
+}
+
+/* Flat border and consistent spacing for inputs */
+.s_website_form .form-control,
+.s_website_form .form-select,
+.s_website_form textarea,
+.s_website_form .form-check-input {
+    border: 1px solid #302D27;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 16px;
+}
+.s_website_form .form-check-input {
+    margin-left: 0;
+    margin-right: 4px;
+    float: none;
+}
+
+/* Adjust radio button borders and spacing */
+.s_website_form .form-check {
+    border: 1px solid #302D27;
+    border-radius: 0;
+    padding: 8px 12px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+/* Proper alignment for the checkbox and privacy text */
+.s_website_form_field_description {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+/* Position disclaimer next to checkbox */
+.s_website_form input[type="checkbox"],
+.s_website_form input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #302D27;
+    background: none;
+    vertical-align: middle;
+    margin-right: 4px;
+    position: relative;
+}
+
+.s_website_form input[type="checkbox"]:checked::after,
+.s_website_form input[type="radio"]:checked::after {
+    content: "\2713";
+    color: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* Full width for the SEND button */
+.s_website_form .s_website_form_submit .btn {
+    width: 100%;
+    border-radius: 0;
+    font-size: 16px;
+    background-color: #302D27;
+    color: white;
+    border: none;
+    padding: 12px 0;
+}
+
+/* Ensure labels and fields line up nicely */
+.s_website_form_label {
+    width: auto !important;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #302D27;
+    margin-bottom: 5px;
+}
+.margens {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+@media (max-width: 991.98px) {
+    .margens {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .s_map {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    #contactus_form {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .s_website_form .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .s_website_form .s_website_form_field,
+    .s_website_form .form-check,
+    .s_website_form .s_website_form_multiple .radio {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .s_website_form .form-check {
+        justify-content: flex-start;
+        padding: 10px 12px;
+        margin-right: 0;
+    }
+
+    .s_website_form .s_website_form_submit {
+        text-align: center;
+    }
+
+    .s_website_form .s_website_form_submit .s_website_form_label {
+        display: none;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .margens {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    section.s_title h2 span {
+        font-size: 2.5rem !important;
+    }
+
+    section.s_text_block h3 span {
+        font-size: 2.25rem !important;
+        display: inline-block;
+        max-width: 100%;
+        word-break: break-word;
+    }
+
+    section.s_text_block h4 span {
+        font-size: 1.875rem !important;
+        display: inline-block;
+        max-width: 100%;
+        word-break: break-word;
+        white-space: normal;
+    }
+
+    .s_website_form .form-check {
+        flex-wrap: wrap;
+    }
+
+    .s_website_form .form-check-label {
+        margin-top: 0.25rem;
+    }
+
+    .s_website_form_field_description {
+        display: block;
+        margin-left: 0;
+        margin-top: 0.25rem;
+    }
+}
+</style>
+
+
+            <t t-set="logged_partner" t-value="request.env['website.visitor']._get_visitor_from_request().partner_id"/>
+            <t t-set="contactus_form_values" t-value="{                 'email_to': res_company.email,                 'name': request.params.get('name', ''),                 'phone': request.params.get('phone', ''),                 'email_from': request.params.get('email_from', ''),                 'company': request.params.get('company', ''),                 'subject': request.params.get('subject', ''),             }"/>
+            <span class="hidden" data-for="contactus_form" t-att-data-values="contactus_form_values"/>
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="s_title parallax s_parallax_is_fixed bg-black-50 pt24 pb24 o_colored_level o_full_screen_height" data-vcss="001" data-snippet="s_title" data-scroll-background-ratio="1" data-name="Título" style="background-image: none;">
+                    <span class="s_parallax_bg oe_img_bg o_bg_img_center" style="background-image: url(&quot;/web/image/24840-949059d3/04.00_02_44_24.Still035.webp&quot;); background-position: 50% 0px;" data-mimetype="image/webp" data-original-id="24839" data-original-src="/web/image/24839-949059d3/04.00_02_44_24.Still035.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920" data-quality="100"/>
+                    <div class="o_we_bg_filter bg-black-50"/>
+                    <div class="container">
+                        <h2 style="text-align: center;"><span style="font-size: 4.1875rem;">CONTACTS</span></h2>
+                    </div>
+                </section><div class="margens"><section class="s_text_block o_colored_level pb0 pt56" data-snippet="s_text_block" data-name="Texto" style="background-image: none;">
+        <div class="s_allow_columns container">
+            <p><br/></p>
+        </div>
+    </section><section class="s_map pb56 o_half_screen_height pt144" style="margin-left: 9%; margin-right: 9%;" data-map-type="m" data-map-zoom="12" data-snippet="s_map" data-map-address="Travessa do Calvário nº 244 Frazão Portugal" data-name="Map">
+        <div class="map_container o_not_editable">
+            <div class="css_non_editable_mode_hidden">
+                <div class="missing_option_warning alert alert-info rounded-0 fade show d-none d-print-none o_default_snippet_text">
+                    An address must be specified for a map to be embedded
+                </div>
+            </div>
+            <iframe class="s_map_embedded o_not_editable" src="https://maps.google.com/maps?q=Travessa%20do%20Calv%C3%A1rio%20n%C2%BA%20244%20Fraz%C3%A3o%20Portugal&amp;t=m&amp;z=12&amp;ie=UTF8&amp;iwloc=&amp;output=embed" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" aria-label="Map"/>
+            <div class="s_map_color_filter"/>
+        </div>
+    </section><section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block" data-name="Texto" style="background-image: none;">
+        <div class="s_allow_columns container">
+            
+            
+        <div class="row o_grid_mode" data-row-count="6"><div class="o_colored_level o_grid_item g-height-6 g-col-lg-3 col-lg-3" style="z-index: 2; grid-area: 1 / 2 / 7 / 5;"><h6><font style="color: rgb(81, 76, 68);"><span style="font-size: 1.5rem;">CASA MAGNA HEADQUARTERS</span></font></h6><p>
+<font style="color: rgb(106, 101, 95);">Travessa do Calvário 244</font><br/><font style="color: rgb(106, 101, 95);">
+4595-106 Frazão</font><br/><font style="color: rgb(106, 101, 95);">
+Paços de Ferreira, Portugal<br/><font style="color: rgb(106, 101, 95);">Email: info@casamagna.eu</font></font>&amp;nbsp;<br/></p></div><div class="o_colored_level o_grid_item g-height-6 g-col-lg-3 col-lg-3" style="z-index: 1; grid-area: 1 / 6 / 7 / 9;"><h6><span style="font-size: 1.5rem;">USA OFFICE</span><br/></h6><p>
+
+13451 NE 17th Ave&amp;nbsp;<br/>
+North Miami, FL 33181&amp;nbsp;<br/>
+United States</p><p>Email: morenom@casamagnausa.com&amp;nbsp;<br/>
+Tel: 001 305 690 2752/ 001 305 603 9617&amp;nbsp;<br/>
+(Call to national fixed network)
+
+<br/></p></div><div class="o_colored_level o_grid_item g-height-6 g-col-lg-3 col-lg-3" style="z-index: 3; grid-area: 1 / 10 / 7 / 13;"><h6><span style="font-size: 1.5rem;">SAUDI ARABIA</span><span style="font-size: 1.3125rem;"><br/></span><span style="font-size: 1.5rem;">OFFICE/SHOWROOM</span></h6><p>
+
+La Maison Dorée&amp;nbsp;<br/>
+Hittin District - Northern Ring Road 4392&amp;nbsp;<br/>
+Riyadh 13513 - 6891<br/>
+Saudi Arabia&amp;nbsp;</p><p>Email: info@lamaisondoree.com<br/>
+Tel: 00966 53 907 0087&amp;nbsp;<br/>
+(Call to national fixed network)
+
+<br/></p></div></div></div>
+    </section><section class="s_text_block o_colored_level pb0 pt40" data-snippet="s_text_block" data-name="Texto" style="background-image: none;">
+        <div class="s_allow_columns container">
+            <h4 style="text-align: center;"><span style="font-size: 2.375rem;">PROFESSIONAL ACCOUNTS &amp;amp; SALES</span><br/></h4></div>
+    </section><section class="s_text_block pt40 o_colored_level pb160" data-snippet="s_text_block" data-name="Texto" style="background-image: none;">
+        <div class="s_allow_columns container"><div class="row o_grid_mode" data-row-count="4"><div class="o_colored_level o_grid_item g-col-lg-3 g-height-4 col-lg-3" style="grid-area: 1 / 1 / 5 / 4; z-index: 1;">
+            <h6 style="text-align: center;"><span style="font-size: 1.5rem;">ELIANA MELO</span><br/></h6><p style="text-align: center; font-family: &quot;OPEN SANS&quot;;">
++351 912 781 287<br/>(Call to national mobile network)&amp;nbsp;<br/></p><p style="text-align: center; font-family: &quot;Open Sans&quot;;"><font style="color: rgb(106, 101, 95);">emelo@casamagna.eu</font></p></div><div class="o_colored_level o_grid_item g-col-lg-3 g-height-4 col-lg-3" style="grid-area: 1 / 4 / 5 / 7; z-index: 2;">
+            <h6 style="text-align: center;"><span style="font-size: 1.5rem;">SYLVIE GONÇALVES</span></h6><p style="text-align: center; font-family: &quot;OPEN SANS&quot;;">
++351 912 480 640<br/>(Call to national mobile network)</p><p style="text-align: center; font-family: &quot;OPEN SANS&quot;;"><font style="color: rgb(106, 101, 95);">sylvie@casamagna.eu</font></p></div><div class="o_colored_level o_grid_item g-col-lg-3 g-height-4 col-lg-3" style="grid-area: 1 / 7 / 5 / 10; z-index: 3;">
+            <h6 style="text-align: center;"><span style="font-size: 1.5rem;">SARA GARCIA</span></h6><p style="text-align: center; font-family: &quot;OPEN SANS&quot;;">
++351 913 334 597<br/>(Call to national mobile network</p><p style="text-align: center; font-family: &quot;OPEN SANS&quot;;"><font style="color: rgb(106, 101, 95);">saragarcia@casamagna.eu</font></p></div><div class="o_colored_level o_grid_item g-col-lg-3 g-height-4 col-lg-3" style="z-index: 4; grid-area: 1 / 10 / 5 / 13;">
+            <h6 style="text-align: center;"><span style="font-size: 1.5rem;">ANA NUNES</span></h6><p style="text-align: center; font-family: &quot;OPEN SANS&quot;;">
++351 915 381 305<br/>(Call to national mobile network)</p><p style="text-align: center; font-family: &quot;OPEN SANS&quot;;"><font style="color: rgb(106, 101, 95);">ananunes@casamagna.eu</font></p></div></div></div>
+    </section><section class="s_text_block pb40 o_colored_level pt0" data-snippet="s_text_block" data-name="Texto" style="background-image: none;">
+        <div class="s_allow_columns container">
+            <div class="row"><div class="col-lg-6 o_colored_level"><h4 style="text-align: center;"><span style="font-size: 2.375rem;">MARKETING &amp;amp; PR</span></h4><h6 style="text-align: center;"><font style="color: rgb(48, 45, 39);"><span style="font-size: 1.5rem;">DANIELA VIEIRA</span></font></h6><p style="text-align: center;"><font style="color: rgb(48, 45, 39);">+351 915&amp;nbsp;229&amp;nbsp;218<br/><font style="color: rgb(48, 45, 39);"><span style="font-size: 0.75rem;">(Call to national mobile network)</span></font></font></p><h6 style="text-align: center; font-family: &quot;OPEN SANS&quot;;"><font style="color: rgb(106, 101, 95);">​​​​marketing@casamagna.eu
+</font><font style="color: rgb(81, 76, 68);">
+&amp;nbsp;</font></h6></div><div class="col-lg-6 o_colored_level"><h4 style="text-align: center;"><span style="font-size: 2.375rem;">GENERAL INQUIRES</span></h4><h6 style="text-align: left;"><font style="color: rgb(81, 76, 68);"><span style="font-size: 1.5rem;"><br/><span class="oe-tabs" style="width: 16.5px;">	</span>​<span class="oe-tabs" style="width: 40px;">	</span>​<span class="oe-tabs" style="width: 40px;">	</span>​</span></font></h6><h6 style="text-align: center; font-family: &quot;OPEN SANS&quot;;"><font style="color: rgb(106, 101, 95);">​​​​​​info@casamagna.eu</font><font style="color: rgb(81, 76, 68);">&amp;nbsp;</font></h6></div></div></div>
+    </section><section class="s_text_block pt40 o_colored_level pb0" data-snippet="s_text_block" data-name="Texto" style="background-image: none;">
+        <div class="s_allow_columns container">
+            <div class="s_hr text-start pt32 pb32" data-snippet="s_hr" data-name="Separador">
+        <hr class="w-100 mx-auto" style="border-top-style: solid; border-top-width: 1.5px !important; border-top-color: rgb(81, 76, 68);"/>
+    </div><p style="text-align: center;"><br/></p><p style="text-align: center;"><br/></p><h3 style="text-align: center;"><span style="font-size: 3.1875rem;">INFORMATION REQUEST</span><br/></h3></div>
+    </section>
+                <section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block" data-name="Texto" style="background-image: none;">
+                    <div class="s_allow_columns container">
+                        <div class="row">
+                            <div class="mt-4 mt-lg-0 o_colored_level col-lg-12">
+                                <p style="text-align: center;">
+                                    &amp;nbsp;<br/></p>
+                                <section class="s_website_form" data-vcss="001" data-snippet="s_website_form" data-name="Formulário">
+                                    <div class="container">
+                                        <form id="contactus_form" action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-model_name="mail.mail" data-success-mode="redirect" data-success-page="/contactus-thank-you" data-pre-fill="true" style="padding-left:200px; padding-right:200px;">
+                                            <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                <div data-name="Field" class="s_website_form_field mb-3 col-12 col-lg-2 s_website_form_custom s_website_form_required" data-type="char"><label class="s_website_form_label" style="width: 200px" for="op95s3apr9gd"><span class="s_website_form_label_content">First Name</span></label><input class="form-control s_website_form_input" type="text" name="First Name" placeholder="" id="op95s3apr9gd" data-fill-with="undefined" required=""/></div><div data-name="Field" class="s_website_form_field mb-3 col-12 col-lg-2 s_website_form_custom s_website_form_required" data-type="char"><label class="s_website_form_label" style="width: 200px" for="oekoinuke8io"><span class="s_website_form_label_content">Last Name</span></label><input class="form-control s_website_form_input" type="text" name="Last Name" placeholder="" id="oekoinuke8io" data-fill-with="undefined" required=""/></div><div class="w-100 d-none d-lg-block"/><div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required col-lg-6" data-type="email"><label class="s_website_form_label" style="width: 200px" for="o2hzm0q34ked"><span class="s_website_form_label_content">Email</span>
+                                                            <span class="s_website_form_mark"> *</span></label><input class="form-control s_website_form_input" type="email" name="email_from" required="1" placeholder="" id="o2hzm0q34ked" data-fill-with="email"/></div>
+                                                
+                                                <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom col-lg-6" data-type="char"><label class="s_website_form_label" style="width: 200px" for="oqmgs1o780h"><span class="s_website_form_label_content">Phone Number</span></label><input class="form-control s_website_form_input" type="text" name="Phone Number" placeholder="" id="oqmgs1o780h" data-fill-with="phone"/></div>
+                                                
+                                                <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-9" data-type="selection"><label class="s_website_form_label d-none" style="width: 200px" for="owfb9yu4m20s"><span class="s_website_form_label_content">Custom Text</span><span class="s_website_form_mark">                                *</span></label><div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="Custom Text" data-display="horizontal"><div class="radio col-12 col-lg-4 col-md-6"><div class="form-check"><input type="radio" class="s_website_form_input form-check-input" style="margin-top:0;" id="owfb9yu4m20s0" name="Custom Text" checked="checked" value="I'm a Consumer*" required="1" data-fill-with="undefined"/><label class="form-check-label s_website_form_check_label" for="owfb9yu4m20s0">I'm a Consumer*</label></div></div><div class="radio col-12 col-lg-4 col-md-6"><div class="form-check"><input type="radio" class="s_website_form_input form-check-input" style="margin-top:0;" id="owfb9yu4m20s1" name="Custom Text" value="I'm a Professional*" required="1"/><label class="form-check-label s_website_form_check_label" for="owfb9yu4m20s1">I'm a Professional*</label></div></div></div></div><div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-4" data-type="many2one"><label class="s_website_form_label" style="width: 200px" for="om6j3uu8kj6k"><span class="s_website_form_label_content">COUNTRY/REGION</span></label><select class="form-select s_website_form_input" name="COUNTRY/REGION" id="o1w0qwqjgy4n"><option value="Option 1">Option 1</option><option value="Option 2">Option 2</option><option value="Option 3">Option 3</option></select></div><div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required" data-type="char"><label class="s_website_form_label" style="width: 200px" for="o93vhuqwbf1q"><span class="s_website_form_label_content">SUBJECT</span><span class="s_website_form_mark">    *</span></label><input class="form-control s_website_form_input" type="text" name="subject" required="1" placeholder="" id="o93vhuqwbf1q" data-fill-with="undefined"/></div>
+                                                <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="text"><label class="s_website_form_label" style="width: 200px" for="osunqarzs0m"><span class="s_website_form_label_content">MESSAGE</span><span class="s_website_form_mark">          *</span></label><textarea class="form-control s_website_form_input" name="MESSAGE" required="1" placeholder="" id="osunqarzs0m" rows="20"/></div><div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="boolean"><div class="form-check"><input type="checkbox" value="Yes" class="s_website_form_input form-check-input" style="margin-top:0;" name="By submitting this request, I acknowledge that my data will be processed in accordance with Casa Magna Privacy Policy*" id="o9vhbcfxym3t" data-fill-with="undefined"/><label class="s_website_form_label" style="width: 200px" for="o9vhbcfxym3t"><span class="s_website_form_label_content">By submitting this request, I acknowledge that my data will be processed in accordance with Casa Magna <a href="/privacy-policy" style="color: #302D27;">Privacy Policy</a>*</span></label></div></div>
+                                                
+                                                <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px"><span class="s_website_form_label_content"/></label><div class="col-sm"><input type="hidden" class="form-control s_website_form_input" name="email_to" value="info@yourcompany.example.com"/><input type="hidden" value="de51222d3084847145f5820f71910ef6a39d543f71d38cb02d9898fbff0bb651" class="form-control s_website_form_input s_website_form_custom" name="website_form_signature"/></div></div></div><div class="mb-0 py-2 col-12 s_website_form_submit" data-name="Submit Button">
+                                                    <div style="width: 200px;" class="s_website_form_label"/>
+                                                    <a href="#" role="button" class="s_website_form_send btn btn-custom text-o-color-3 flat btn-lg" data-bs-original-title="" title="" style="border-width: 1px; border-style: solid; background-color: rgb(48, 45, 39);" aria-describedby="popover425475">SEND</a>
+                                                    <span id="s_website_form_result"/>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </section>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </section>
+            </div>
+            </div>
+        </t>
+    </t>

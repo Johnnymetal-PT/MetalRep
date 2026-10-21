@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_form_cae" model="ir.ui.view">
+        <field name="name">cae.form</field>
+        <field name="model">cae.model</field>
+        <field name="arch" type="xml">
+<form string="Cae">
+                <sheet>
+
+                    <div class="oe_title"> 
+                        <h1>
+                            <field name="name" string="Codigo"/>
+                        </h1> 
+                    </div>
+
+                    <group>
+                        <group>
+                            
+                            <field name="nome" string="Nome"/>
+                            
+                        </group>
+                    
+                        <group>
+                           
+                            <field name="ascendente_id"/>
+                            <field name="cae_main" string="'Principal'"/>
+                        </group>
+                     </group>
+
+                    <group>
+                        <!-- <group>
+                            <field name="cae_ids" />
+                            
+                        </group>
+
+                        <group>
+                            <field name="ficheiro" widget="pdf_viewer"/>
+                            
+                        </group> -->
+
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="cae_view_list" model="ir.ui.view">
+        <field name="name">cae.list</field>
+        <field name="model">cae.model</field>
+        <field name="arch" type="xml">
+<list>
+            <field name="name"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="theme_alan.CollectionDialog">
+        <Dialog title.translate="Save Snippet Options" size="'md'">
+            <div class="as-sb-save-dialog-body">
+                <p class="mb-3 text-muted">To reuse this snippet later, enter a name and Save &amp; Add to Collection. Otherwise, select "Save to Page" to apply it only to this design.</p>
+                <div class="form-group mb-0">
+                    <label for="collection_name" class="form-label fw-bold">Collection Name</label>
+                    <input type="text"
+                        id="collection_name"
+                        t-attf-class="form-control form-control-lg #{isDuplicate ? 'is-invalid' : ''}"
+                        t-model="state.name"
+                        placeholder="e.g. Summer Sale Banner"
+                        t-att-autofocus="true"/>
+                    <div t-if="isDuplicate" class="invalid-feedback d-block">
+                        <i class="fa fa-exclamation-triangle me-1"/>
+                        A collection with this name already exists. Please choose a different name.
+                    </div>
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary px-4" t-on-click="_onSave" t-att-disabled="!state.name.trim() || isDuplicate">Save &amp; Add to Collection</button>
+                <button class="btn btn-secondary px-4" t-on-click="_onSaveToPage">Save to Page</button>
+            </t>
+        </Dialog>
+    </t>
+
+    <t t-name="theme_alan.DeleteConfirmDialog">
+        <Dialog title.translate="Delete Collection" size="'md'">
+            <div class="as-sb-delete-dialog-body py-2">
+                <p class="mb-0 fs-6">
+                    Are you sure you want to delete <strong t-esc="props.collectionName"/>?
+                </p>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-danger px-4" t-on-click="_onConfirm">Yes, Delete</button>
+                <button class="btn btn-secondary px-4" t-on-click="_onCancel">Cancel</button>
+            </t>
+        </Dialog>
+    </t>
+
+</templates>

@@ -1,0 +1,1077 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>HMD Furniture — Congo</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Prata&family=Inter:wght@300;400;500;600&display=swap");
+:root {
+  --hmd-ink: #1F1C1C;
+  --hmd-ink-2: #222120;
+  --hmd-black: #020202;
+  --hmd-white: #FFFFFF;
+  --hmd-grey: #EDEDED;
+  --hmd-mauve: #908383;
+  --hmd-red: #F80000;
+  --hmd-gold: #D9A32A;
+  --hmd-brown: #624C1B;
+  --hmd-white-49: rgba(255, 255, 255, 0.49);
+  --hmd-display: 'Prata', Georgia, 'Times New Roman', serif;
+  --hmd-mono: 'Courier New', Courier, monospace;
+  --hmd-ui: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --hmd-fs-display: clamp(2.5rem, 4.17vw, 5rem);
+  --hmd-fs-display-s:clamp(1.75rem, 2.81vw, 3.375rem);
+  --hmd-fs-title: clamp(1.375rem, 1.72vw, 2.0625rem);
+  --hmd-fs-lead: clamp(0.9375rem, 1.25vw, 1.5rem);
+  --hmd-fs-body: clamp(0.875rem, 1.04vw, 1.25rem);
+  --hmd-fs-meta: clamp(0.8125rem, 0.94vw, 1.125rem);
+  --hmd-fs-nav: 0.875rem;
+  --hmd-fs-micro: 0.75rem;
+  --hmd-ls-tight: -0.033em;
+  --hmd-ls-wide: 0.08em;
+  --hmd-ls-wider: 0.18em;
+  --hmd-topbar-h: 39px;
+  --hmd-header-h: 110px;
+  --hmd-pad-x: clamp(1.25rem, 10.8vw, 207px);
+  --hmd-pad-x-nav: clamp(1.25rem, 1.3vw, 25px);
+  --hmd-maxw: 1920px;
+}
+
+body {
+  font-family: var(--hmd-ui);
+  color: var(--hmd-ink);
+  background: var(--hmd-white);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .hmd-display {
+  font-family: var(--hmd-display);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.05;
+  color: var(--hmd-ink-2);
+}
+
+.hmd-mono {
+  font-family: var(--hmd-mono);
+  letter-spacing: var(--hmd-ls-wide);
+}
+
+.hmd-meta {
+  font-family: var(--hmd-ui);
+  font-size: var(--hmd-fs-micro);
+  letter-spacing: var(--hmd-ls-wider);
+  text-transform: uppercase;
+}
+
+.hmd-shell {
+  max-width: var(--hmd-maxw);
+  margin-inline: auto;
+}
+
+.hmd-topbar {
+  height: var(--hmd-topbar-h);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-inline: clamp(1rem, 3.2vw, 61px);
+  background: var(--hmd-white);
+  font-family: var(--hmd-ui);
+  font-size: var(--hmd-fs-micro);
+  letter-spacing: var(--hmd-ls-tight);
+  text-transform: uppercase;
+  color: var(--hmd-ink);
+}
+.hmd-topbar a {
+  color: inherit;
+  text-decoration: none;
+}
+.hmd-topbar a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.hmd-topbar .hmd-topbar__login {
+  margin-left: auto;
+}
+
+.hmd-header {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: var(--hmd-white);
+  border-bottom: 1px solid transparent;
+}
+.hmd-header.hmd-header--scrolled {
+  border-bottom-color: var(--hmd-grey);
+}
+
+.hmd-header__bar {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1rem, 2vw, 2.5rem);
+  padding: 1.6rem var(--hmd-pad-x-nav) 0;
+  min-height: var(--hmd-header-h);
+}
+
+.hmd-nav {
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.75rem, 2.6vw, 50px);
+  font-family: var(--hmd-mono);
+  font-size: var(--hmd-fs-nav);
+  letter-spacing: var(--hmd-ls-wide);
+  text-transform: uppercase;
+}
+.hmd-nav a {
+  color: var(--hmd-ink);
+  text-decoration: none;
+}
+.hmd-nav a:hover,
+.hmd-nav a[aria-current=page],
+.hmd-nav .hmd-nav__item--active > a {
+  font-weight: 700;
+}
+
+.hmd-brand {
+  align-self: flex-end;
+  font-family: var(--hmd-ui);
+  font-weight: 500;
+  font-size: clamp(1rem, 1.15vw, 1.375rem);
+  letter-spacing: 0.02em;
+  color: var(--hmd-ink-2);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.hmd-brand img {
+  max-height: 42px;
+  width: auto;
+}
+
+.hmd-header__aside {
+  flex: 0 0 auto;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.hmd-header__tools {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.hmd-header__tools .o_wsale_my_cart, .hmd-header__tools .o_wsale_my_wish {
+  position: relative;
+}
+
+.hmd-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+  font-family: var(--hmd-mono);
+  font-size: clamp(0.8125rem, 1.04vw, 1.25rem);
+  letter-spacing: var(--hmd-ls-wide);
+  text-transform: uppercase;
+}
+.hmd-rail a {
+  color: var(--hmd-ink-2);
+  text-decoration: none;
+}
+.hmd-rail a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.hmd-rail .hmd-rail__lang {
+  display: flex;
+  gap: 0.5rem;
+}
+.hmd-rail .hmd-rail__lang .active {
+  font-weight: 700;
+}
+
+.hmd-megamenu {
+  display: none;
+  padding: 0.5rem var(--hmd-pad-x-nav) 2.5rem;
+  background: var(--hmd-white);
+}
+.hmd-megamenu.is-open {
+  display: block;
+}
+
+.hmd-megamenu__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 2.5rem);
+  max-width: 1100px;
+  font-family: var(--hmd-mono);
+  font-size: var(--hmd-fs-nav);
+  letter-spacing: var(--hmd-ls-wide);
+  text-transform: uppercase;
+}
+
+.hmd-megamenu__col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.hmd-megamenu__col > a:first-child {
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+.hmd-megamenu__col a {
+  color: var(--hmd-ink-2);
+  text-decoration: none;
+}
+.hmd-megamenu__col a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hmd-footer {
+  background: var(--hmd-ink-2);
+  color: var(--hmd-white);
+  font-family: var(--hmd-ui);
+  font-size: var(--hmd-fs-meta);
+  padding: clamp(2.5rem, 7.65vw, 147px) var(--hmd-pad-x) clamp(2rem, 3vw, 58px);
+}
+.hmd-footer a {
+  color: inherit;
+  text-decoration: none;
+}
+.hmd-footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hmd-footer__intro {
+  max-width: 46ch;
+  text-transform: uppercase;
+  line-height: 1.45;
+  margin-bottom: clamp(2.5rem, 13.4vw, 257px);
+}
+
+.hmd-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 0.9fr) minmax(0, 1.4fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+.hmd-footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.hmd-newsletter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.4rem;
+  border-bottom: 1px solid var(--hmd-white);
+  padding-bottom: 0.35rem;
+}
+.hmd-newsletter input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  color: var(--hmd-white);
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+}
+.hmd-newsletter input::placeholder {
+  color: var(--hmd-white-49);
+}
+.hmd-newsletter input:focus {
+  outline: none;
+}
+.hmd-newsletter button {
+  background: transparent;
+  border: 0;
+  color: var(--hmd-white);
+  font-family: inherit;
+  font-size: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0;
+}
+
+@media (max-width: 991.98px) {
+  .hmd-header__bar {
+    align-items: center;
+    padding-top: 1rem;
+  }
+  .hmd-nav, .hmd-rail {
+    display: none;
+  }
+  .hmd-megamenu {
+    display: none !important;
+  }
+  .hmd-header__aside {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    margin-left: 0;
+  }
+  .hmd-brand {
+    order: -1;
+    align-self: center;
+    margin-right: auto;
+    font-size: 1rem;
+  }
+  .hmd-header__tools .dropdown .nav-link {
+    max-width: 38vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .hmd-burger {
+    display: inline-flex;
+    background: none;
+    border: 0;
+    font-family: var(--hmd-mono);
+    font-size: 1.25rem;
+    letter-spacing: var(--hmd-ls-wide);
+    text-transform: uppercase;
+    color: var(--hmd-ink-2);
+    cursor: pointer;
+  }
+  .hmd-mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 1040;
+    background: var(--hmd-white);
+    padding: 1.5rem 1.25rem;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+  }
+  .hmd-mobile-menu.is-open {
+    transform: translateX(0);
+  }
+  .hmd-mobile-menu .hmd-mobile-menu__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    font-family: var(--hmd-mono);
+    font-size: 1.25rem;
+    letter-spacing: var(--hmd-ls-wide);
+    text-transform: uppercase;
+    margin-top: 2rem;
+  }
+  .hmd-mobile-menu .hmd-mobile-menu__list a {
+    color: var(--hmd-ink-2);
+    text-decoration: none;
+  }
+  .hmd-mobile-menu .hmd-mobile-menu__list .is-active {
+    font-weight: 700;
+  }
+  .hmd-footer__grid {
+    grid-template-columns: 1fr;
+  }
+  .hmd-footer__intro {
+    margin-bottom: 2.5rem;
+  }
+}
+@media (min-width: 992px) {
+  .hmd-burger, .hmd-mobile-menu {
+    display: none;
+  }
+}
+.hmd-hero {
+  position: relative;
+  min-height: clamp(420px, 100vh, 1000px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(3rem, 22vw, 427px) var(--hmd-pad-x-nav) clamp(3rem, 12vw, 230px);
+  background-size: cover;
+  background-position: center;
+  color: var(--hmd-white);
+  overflow: hidden;
+}
+.hmd-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.5) 100%);
+}
+.hmd-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hmd-hero__kicker {
+  font-family: var(--hmd-display);
+  font-size: var(--hmd-fs-display);
+  line-height: 1.05;
+  color: var(--hmd-red);
+  max-width: 12ch;
+  margin: 0 0 0 clamp(0.5rem, 7.76vw, 149px);
+}
+
+.hmd-hero__title {
+  font-family: var(--hmd-display);
+  font-size: var(--hmd-fs-display);
+  color: var(--hmd-white);
+  text-align: center;
+  margin: 0 0 1.25rem;
+}
+
+.hmd-hero__lead {
+  font-family: var(--hmd-mono);
+  font-size: var(--hmd-fs-lead);
+  letter-spacing: var(--hmd-ls-wide);
+  line-height: 1.6;
+  text-align: center;
+  max-width: 62ch;
+  margin-inline: auto;
+  color: var(--hmd-white);
+}
+
+.hmd-hero__foot {
+  align-self: center;
+  text-align: center;
+}
+
+.hmd-editorial {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 5vw, 96px);
+  padding: clamp(2.5rem, 8vw, 154px) var(--hmd-pad-x);
+  background: var(--hmd-white);
+  align-items: start;
+}
+
+.hmd-editorial__title {
+  font-family: var(--hmd-display);
+  font-size: var(--hmd-fs-display);
+  line-height: 1;
+  margin: clamp(1.5rem, 4.4vw, 85px) 0 clamp(1rem, 1.5vw, 29px);
+  max-width: 10ch;
+}
+
+.hmd-editorial__body,
+.hmd-prose {
+  font-family: var(--hmd-mono);
+  font-size: var(--hmd-fs-meta);
+  letter-spacing: var(--hmd-ls-wide);
+  line-height: 1.75;
+  color: var(--hmd-ink);
+  max-width: 58ch;
+}
+
+.hmd-standfirst {
+  font-family: var(--hmd-ui);
+  font-size: var(--hmd-fs-meta);
+  text-transform: uppercase;
+  line-height: 1.5;
+  max-width: 42ch;
+  margin-bottom: 1.25rem;
+}
+
+.hmd-caption {
+  font-family: var(--hmd-ui);
+  font-size: var(--hmd-fs-micro);
+  letter-spacing: var(--hmd-ls-wider);
+  text-transform: uppercase;
+  color: var(--hmd-ink);
+  margin-top: 0.6rem;
+}
+
+.hmd-figure {
+  margin: 0;
+}
+.hmd-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hmd-feature {
+  background: var(--hmd-mauve);
+  padding: clamp(2.5rem, 7vw, 134px) var(--hmd-pad-x);
+  text-align: center;
+  color: var(--hmd-ink-2);
+}
+.hmd-feature--grey {
+  background: var(--hmd-grey);
+}
+.hmd-feature--white {
+  background: var(--hmd-white);
+}
+
+.hmd-feature__title {
+  font-family: var(--hmd-display);
+  font-size: var(--hmd-fs-display);
+  margin: 0;
+}
+
+.hmd-feature__sub {
+  font-family: var(--hmd-ui);
+  font-size: var(--hmd-fs-body);
+  letter-spacing: var(--hmd-ls-wider);
+  text-transform: uppercase;
+  margin: 0.5rem 0 clamp(1.5rem, 4.3vw, 82px);
+}
+
+.hmd-feature__media {
+  max-width: clamp(280px, 40.5vw, 778px);
+  margin-inline: auto;
+}
+.hmd-feature__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hmd-feature__body {
+  font-family: var(--hmd-mono);
+  font-size: var(--hmd-fs-meta);
+  letter-spacing: var(--hmd-ls-wide);
+  line-height: 1.75;
+  max-width: 62ch;
+  margin: clamp(1.5rem, 2vw, 38px) auto 0;
+  text-align: left;
+}
+
+.hmd-projects {
+  display: grid;
+  grid-template-columns: repeat(var(--hmd-projects-cols, 2), minmax(0, 1fr));
+  gap: clamp(1rem, 2.9vw, 56px);
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 96px) var(--hmd-pad-x);
+  background: var(--hmd-white);
+}
+.hmd-projects--3 {
+  --hmd-projects-cols: 3;
+}
+
+.hmd-project__caption {
+  font-family: var(--hmd-mono);
+  font-size: var(--hmd-fs-meta);
+  letter-spacing: var(--hmd-ls-wide);
+  text-transform: uppercase;
+  margin-top: 0.75rem;
+}
+.hmd-project__caption strong {
+  font-weight: 700;
+  display: block;
+}
+
+.hmd-project__body {
+  font-family: var(--hmd-mono);
+  font-size: var(--hmd-fs-meta);
+  letter-spacing: var(--hmd-ls-wide);
+  line-height: 1.7;
+  margin-top: 0.6rem;
+}
+
+.hmd-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(140px, 16vw, 300px), 1fr));
+  gap: clamp(0.75rem, 1.5vw, 28px);
+  padding: clamp(2rem, 5vw, 96px) var(--hmd-pad-x);
+}
+
+.hmd-swatch img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.hmd-contact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 5vw, 96px);
+  padding: clamp(2.5rem, 8vw, 154px) var(--hmd-pad-x);
+  align-items: start;
+}
+
+.hmd-contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  font-family: var(--hmd-mono);
+  font-size: var(--hmd-fs-meta);
+  letter-spacing: var(--hmd-ls-wide);
+}
+.hmd-contact__form input, .hmd-contact__form textarea, .hmd-contact__form select {
+  border: 0;
+  border-bottom: 1px solid var(--hmd-ink);
+  background: transparent;
+  padding: 0.5rem 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--hmd-ink);
+}
+.hmd-contact__form input:focus, .hmd-contact__form textarea:focus, .hmd-contact__form select:focus {
+  outline: none;
+  border-bottom-width: 2px;
+}
+.hmd-contact__form label {
+  text-transform: uppercase;
+  font-size: var(--hmd-fs-micro);
+}
+
+@media (max-width: 991.98px) {
+  .hmd-editorial,
+  .hmd-contact {
+    grid-template-columns: 1fr;
+  }
+  .hmd-projects {
+    --hmd-projects-cols: 1;
+  }
+  .hmd-projects--3 {
+    --hmd-projects-cols: 2;
+  }
+  .hmd-hero__kicker {
+    margin-left: 0;
+  }
+  .hmd-feature__body {
+    text-align: left;
+  }
+}
+.hmd-shop {
+  padding: clamp(1.5rem, 4vw, 77px) var(--hmd-pad-x) clamp(2.5rem, 6vw, 115px);
+}
+
+.hmd-shop__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 20vw, 380px), 1fr));
+  gap: clamp(1rem, 2vw, 38px) clamp(0.75rem, 1.5vw, 28px);
+}
+
+.hmd-product-card {
+  display: flex;
+  flex-direction: column;
+}
+.hmd-product-card a {
+  text-decoration: none;
+  color: inherit;
+}
+.hmd-product-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.hmd-product-card__name {
+  font-family: var(--hmd-display);
+  font-size: var(--hmd-fs-title);
+  margin: 0.75rem 0 0.2rem;
+  color: var(--hmd-black);
+}
+.hmd-product-card__price {
+  font-family: var(--hmd-ui);
+  font-size: clamp(0.8125rem, 0.89vw, 1.0625rem);
+  color: var(--hmd-black);
+}
+
+.hmd-product-hero {
+  text-align: center;
+  padding: clamp(1.5rem, 3vw, 58px) var(--hmd-pad-x) 0;
+}
+.hmd-product-hero__name {
+  font-family: var(--hmd-display);
+  font-size: clamp(2.5rem, 4.64vw, 5.5625rem);
+  margin: 0;
+  color: var(--hmd-ink-2);
+}
+.hmd-product-hero__cat {
+  font-family: var(--hmd-ui);
+  font-size: var(--hmd-fs-body);
+  letter-spacing: var(--hmd-ls-wider);
+  text-transform: uppercase;
+  margin: 0.4rem 0 clamp(1.5rem, 3vw, 58px);
+  color: var(--hmd-ink-2);
+}
+.hmd-product-hero__media {
+  max-width: clamp(220px, 22.8vw, 438px);
+  margin-inline: auto;
+}
+.hmd-product-hero__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hmd-product-hero__lead {
+  font-family: var(--hmd-mono);
+  font-size: var(--hmd-fs-body);
+  letter-spacing: var(--hmd-ls-wide);
+  line-height: 1.7;
+  text-align: left;
+  max-width: 58ch;
+  margin: clamp(1.5rem, 2.4vw, 46px) 0 0;
+}
+
+.hmd-lifestyle {
+  padding: clamp(1.5rem, 3vw, 58px) var(--hmd-pad-x);
+}
+.hmd-lifestyle__frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hmd-lifestyle__dots {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  font-family: var(--hmd-mono);
+  font-size: var(--hmd-fs-meta);
+  font-weight: 700;
+  letter-spacing: var(--hmd-ls-wide);
+}
+.hmd-lifestyle__dot {
+  background: none;
+  border: 0;
+  padding: 0 0 0.15rem;
+  color: var(--hmd-ink);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.hmd-lifestyle__dot.is-active {
+  border-bottom-color: var(--hmd-ink);
+}
+
+.hmd-seen {
+  padding: clamp(2rem, 4vw, 77px) var(--hmd-pad-x);
+}
+.hmd-seen__title {
+  font-family: var(--hmd-mono);
+  font-weight: 700;
+  font-size: clamp(0.9375rem, 1.15vw, 1.375rem);
+  letter-spacing: var(--hmd-ls-wide);
+  text-transform: uppercase;
+  margin: 0 0 0.6rem;
+}
+
+.hmd-buy {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(1.5rem, 5vw, 96px);
+  padding: clamp(2.5rem, 6vw, 115px) var(--hmd-pad-x);
+  background: var(--hmd-white);
+  align-items: start;
+}
+
+.hmd-buy__name {
+  font-family: var(--hmd-display);
+  font-size: var(--hmd-fs-display-s);
+  margin: 0 0 clamp(1rem, 2vw, 38px);
+  color: var(--hmd-ink);
+}
+
+.hmd-buy__thumb img {
+  display: block;
+  width: clamp(120px, 12vw, 230px);
+  height: auto;
+}
+
+.hmd-buy__desc {
+  font-family: var(--hmd-ui);
+  font-size: var(--hmd-fs-body);
+  line-height: 1.55;
+  color: var(--hmd-ink);
+  max-width: 46ch;
+}
+
+.hmd-buy__downloads {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: clamp(1.25rem, 2vw, 38px) 0;
+  font-family: var(--hmd-ui);
+  font-size: var(--hmd-fs-body);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.hmd-buy__downloads a {
+  color: var(--hmd-black);
+  text-decoration: none;
+}
+.hmd-buy__downloads a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.hmd-buy__dimensions {
+  margin: clamp(1.25rem, 2vw, 38px) 0;
+}
+.hmd-buy__dimensions img {
+  display: block;
+  max-width: min(100%, 420px);
+  height: auto;
+}
+.hmd-buy__dimensions figcaption {
+  font-family: var(--hmd-mono);
+  font-size: var(--hmd-fs-micro);
+  letter-spacing: var(--hmd-ls-wider);
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+}
+
+.hmd-variant {
+  margin-bottom: 1.1rem;
+}
+.hmd-variant__label {
+  display: block;
+  font-family: var(--hmd-ui);
+  font-size: var(--hmd-fs-body);
+  text-transform: uppercase;
+  color: var(--hmd-black);
+  margin-bottom: 0.3rem;
+}
+.hmd-variant__row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  border-bottom: 1px solid var(--hmd-black);
+  padding-bottom: 0.35rem;
+  max-width: 340px;
+}
+.hmd-variant__swatch {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.hmd-variant select {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--hmd-ui);
+  font-size: var(--hmd-fs-body);
+  text-transform: uppercase;
+  color: var(--hmd-black);
+  appearance: none;
+  cursor: pointer;
+}
+.hmd-variant select:focus {
+  outline: none;
+}
+
+.hmd-qty {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--hmd-black);
+  padding-bottom: 0.35rem;
+  max-width: 340px;
+  margin-bottom: 1.5rem;
+}
+.hmd-qty input {
+  width: 4ch;
+  border: 0;
+  background: transparent;
+  font-family: "Helvetica Neue", var(--hmd-ui);
+  font-size: clamp(1.125rem, 1.56vw, 1.875rem);
+  color: var(--hmd-black);
+  text-align: left;
+}
+.hmd-qty input:focus {
+  outline: none;
+}
+.hmd-qty__btns {
+  display: flex;
+  gap: 1.1rem;
+}
+.hmd-qty button {
+  background: none;
+  border: 0;
+  font-family: "Helvetica Neue", var(--hmd-ui);
+  font-size: clamp(1.125rem, 1.56vw, 1.875rem);
+  line-height: 1;
+  color: var(--hmd-black);
+  cursor: pointer;
+  padding: 0;
+}
+
+.hmd-buy__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-family: var(--hmd-ui);
+  font-size: var(--hmd-fs-body);
+  text-transform: uppercase;
+  color: var(--hmd-black);
+}
+.hmd-buy__actions button, .hmd-buy__actions a {
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+.hmd-buy__actions button:hover, .hmd-buy__actions a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.hmd-buy__price {
+  font-family: var(--hmd-ui);
+  font-size: clamp(0.8125rem, 0.89vw, 1.0625rem);
+  color: var(--hmd-black);
+  margin: 0.15rem 0 1.35rem;
+}
+
+.hmd-buy__secondary {
+  margin-top: 1.25rem;
+}
+
+.hmd-options {
+  background: var(--hmd-grey);
+  padding: clamp(2rem, 4vw, 77px) var(--hmd-pad-x) clamp(2.5rem, 5vw, 96px);
+}
+.hmd-options__title {
+  font-family: var(--hmd-mono);
+  font-size: clamp(1.0625rem, 1.56vw, 1.875rem);
+  letter-spacing: var(--hmd-ls-wider);
+  text-transform: uppercase;
+  margin: 0 0 clamp(1.5rem, 3vw, 58px);
+}
+.hmd-options__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 16vw, 300px), 1fr));
+  gap: clamp(1rem, 2vw, 38px);
+}
+
+@media (max-width: 991.98px) {
+  .hmd-buy {
+    grid-template-columns: 1fr;
+  }
+  .hmd-shop__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hmd-product-hero__lead {
+    max-width: none;
+  }
+}
+
+.hmd-preview-bar { position:fixed; right:12px; bottom:12px; z-index:9999;
+  background:#1F1C1C; color:#fff; font:12px/1.4 -apple-system,sans-serif;
+  padding:8px 12px; letter-spacing:.06em; text-transform:uppercase; }
+.hmd-preview-bar a { color:#fff; margin-left:10px; }
+</style></head>
+<body>
+<div class="hmd-topbar"><a href="#">Private</a><a href="#">Professional</a>
+<a class="hmd-topbar__login" href="#">Login</a></div>
+<header class="hmd-header">
+  <div class="hmd-header__bar">
+    <nav class="hmd-nav"><span class="hmd-nav__item hmd-nav__trigger"><a href="#">HOME</a></span><span class="hmd-nav__item hmd-nav__trigger hmd-nav__item--active"><a href="#">COLLECTION</a></span><span class="hmd-nav__item hmd-nav__trigger"><a href="#">PORTFOLIO</a></span><span class="hmd-nav__item hmd-nav__trigger"><a href="#">FABRICS</a></span><span class="hmd-nav__item hmd-nav__trigger"><a href="#">MATERIALS</a></span><span class="hmd-nav__item hmd-nav__trigger"><a href="#">CONTACT US</a></span><span class="hmd-nav__item hmd-nav__trigger"><a href="#">WE ARE</a></span></nav>
+    <div class="hmd-header__aside">
+      <div class="hmd-header__tools" style="font-family:var(--hmd-ui);font-size:14px">
+        <span>&#128722; 7</span><span>&#9829; 3</span><span>Mónica Hedderich &#9662;</span>
+      </div>
+      <a class="hmd-brand" href="#">hmd furniture</a>
+      <div class="hmd-rail">
+        <a href="#">Products</a><a href="#">Materials</a><a href="#">Fabrics</a>
+        <div class="hmd-rail__lang"><a class="active" href="#">EN</a><a href="#">PT</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hmd-megamenu is-open"><div class="hmd-megamenu__grid"><div class="hmd-megamenu__col"><a href="#">MESAS</a><a href="#">MESAS DE JANTAR</a><a href="#">MESAS EXTENSÍVEIS</a><a href="#">MESAS BAR</a><a href="#">MESAS AUXILIARES</a><a href="#">MESAS DE CENTRO</a><a href="#">MESAS BISTRO</a><a href="#">SECRETÁRIAS</a><a href="#">MESAS DE CABECEIRA</a></div><div class="hmd-megamenu__col"><a href="#">ESTOFO</a><a href="#">CADEIRAS</a><a href="#">CADEIRÕES</a><a href="#">POUFS</a><a href="#">BANCOS</a><a href="#">SOFÁS</a><a href="#">SOFÁS MODULARES</a></div><div class="hmd-megamenu__col"><a href="#">ARRUMAÇÃO</a><a href="#">APARADORES</a><a href="#">CONSOLAS</a><a href="#">ARMÁRIOS</a><a href="#">PRATELEIRAS</a></div><div class="hmd-megamenu__col"><a href="#">CAMAS</a></div><div class="hmd-megamenu__col"><a href="#">ILUMINAÇÃO</a></div></div></div>
+</header><main>
+<section class="hmd-product-hero">
+  <h1 class="hmd-product-hero__name">Congo</h1>
+  <p class="hmd-product-hero__cat">Coffee Tables</p>
+  <figure class="hmd-product-hero__media"><img src="../../theme_hmd_furniture/static/src/img/congo_detail.jpg" alt=""/>
+    <figcaption class="hmd-caption" style="text-align:left">Legendas imagens</figcaption></figure>
+  <p class="hmd-product-hero__lead">For Interior Design Visionaries, We Present The Congo Table:
+  A Seemingly Simple Piece That Unveils Itself As A Masterpiece For Those With Refined Sensibilities.</p>
+</section>
+<section class="hmd-lifestyle">
+  <div class="hmd-lifestyle__frame"><img src="../../theme_hmd_furniture/static/src/img/congo_lifestyle.jpg" alt=""/></div>
+  <div class="hmd-lifestyle__dots">
+    <button class="hmd-lifestyle__dot is-active">1</button><button class="hmd-lifestyle__dot">2</button>
+    <button class="hmd-lifestyle__dot">3</button><button class="hmd-lifestyle__dot">4</button>
+    <button class="hmd-lifestyle__dot">5</button></div>
+</section>
+<section class="hmd-seen">
+  <h2 class="hmd-seen__title">Seen in projects</h2>
+  <p class="hmd-editorial__body">We are grateful to the architects, designers and clients who
+  generously allow us to share their work. Every space reflects a unique vision, and we are proud
+  to have contributed with pieces that become part of those stories.</p>
+  <div class="hmd-projects hmd-projects--3" style="padding-left:0;padding-right:0">
+    <article class="hmd-project">
+      <p class="hmd-project__caption">Hotel Amano Group — Germany</p>
+      <img src="../../theme_hmd_furniture/static/src/img/portfolio_01.jpg" alt=""/>
+      <p class="hmd-project__caption">Project by <strong>L'Elephant</strong></p></article><article class="hmd-project">
+      <p class="hmd-project__caption">Hotel Amano Group — Germany</p>
+      <img src="../../theme_hmd_furniture/static/src/img/portfolio_02.jpg" alt=""/>
+      <p class="hmd-project__caption">Project by <strong>L'Elephant</strong></p></article><article class="hmd-project">
+      <p class="hmd-project__caption">Hotel Amano Group — Germany</p>
+      <img src="../../theme_hmd_furniture/static/src/img/portfolio_03.jpg" alt=""/>
+      <p class="hmd-project__caption">Project by <strong>L'Elephant</strong></p></article>
+  </div>
+</section>
+<section class="hmd-buy">
+  <div>
+    <h2 class="hmd-buy__name">Congo 110</h2>
+    <div class="hmd-buy__thumb"><img src="../../theme_hmd_furniture/static/src/img/congo_thumb.png" alt=""/></div>
+  </div>
+  <div>
+    <p class="hmd-buy__desc">For interior design visionaries, we present the CONGO Table: a seemingly
+    simple piece that unveils itself as a masterpiece for those with refined sensibilities. Its hollow
+    structure, expertly veneered with natural wood, transcends functionality, becoming a contemporary
+    sculpture.</p>
+    <div class="hmd-buy__downloads"><a href="#">Download technical sheet</a>
+      <a href="#">Download 3D files</a></div>
+    <figure class="hmd-buy__dimensions"><img src="../../theme_hmd_furniture/static/src/img/congo_dimensions.png" alt=""/>
+      <figcaption>Dimensions in cm</figcaption></figure>
+    <div class="hmd-variant"><span class="hmd-variant__label">Select finish</span>
+    <div class="hmd-variant__row"><span class="hmd-variant__swatch" style="background:#D9A32A"></span>
+    <select><option>CEMENT &amp; TOSCANA</option></select></div></div><div class="hmd-variant"><span class="hmd-variant__label">Select finish</span>
+    <div class="hmd-variant__row"><span class="hmd-variant__swatch" style="background:#624C1B"></span>
+    <select><option>CEMENT &amp; TOSCANA</option></select></div></div>
+    <div class="hmd-qty"><input value="0"/><span class="hmd-qty__btns">
+      <button class="hmd-qty__plus">+</button><button class="hmd-qty__minus">-</button></span></div>
+    <div class="hmd-buy__actions"><button>Add to card</button></div>
+    <p class="hmd-buy__price">437.00 € (tax included)</p>
+    <div class="hmd-buy__actions hmd-buy__secondary"><button>Add to wishlist</button>
+      <button>Compare</button></div>
+  </div>
+</section>
+<section class="hmd-options">
+  <h2 class="hmd-options__title">Other options</h2>
+  <div class="hmd-options__grid">
+    <div class="hmd-product-card"><img src="../../theme_hmd_furniture/static/src/img/congo_thumb.png" alt=""/>
+      <h3 class="hmd-product-card__name">Congo 100</h3>
+      <p class="hmd-product-card__price">437.00 € (tax included)</p></div>
+    <div class="hmd-product-card"><img src="../../theme_hmd_furniture/static/src/img/congo_thumb.png" alt=""/>
+      <h3 class="hmd-product-card__name">Congo 90</h3>
+      <p class="hmd-product-card__price">431.00 € (tax included)</p></div>
+  </div>
+</section></main>
+<div class="hmd-footer">
+  <p class="hmd-footer__intro">HMD designs and produces in Portugal. It's been over 30 years.
+  We work closely with artisans — selected for their precision, their patience, and their hands.
+  Quietly, our pieces have found their way into private homes and hotels in more than 80 countries.</p>
+  <div class="hmd-footer__grid">
+    <div class="hmd-footer__col"><span>HMD Furniture©2026</span><a href="#">Cookie Policy</a></div>
+    <div class="hmd-footer__col"><a href="#">(+351) 229444180</a>
+      <a href="#">costumer@hmdfurniture.com</a><span>Salcol — Rua do Tronco, 375 N0.002</span>
+      <span>4465-275</span></div>
+    <div class="hmd-footer__col"><a href="#">Instagram</a><a href="#">Facebook</a>
+      <a href="#">Pinterest</a><a href="#">LinkedIn</a></div>
+    <div class="hmd-footer__col"><span>Newsletter</span>
+      <form class="hmd-newsletter"><input type="email" placeholder="Email"/><button type="button">Send</button></form>
+    </div>
+  </div>
+</div>
+<div class="hmd-preview-bar">Pré-visualização do tema
+<a href="home.html">Home</a><a href="product.html">Produto</a></div>
+</body></html>

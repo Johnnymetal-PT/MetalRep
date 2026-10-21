@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Purchase Order Form View Extension -->
+    <record id="view_purchase_order_form_inherit_dimensions" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit.dimensions</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Adicionar campos nas linhas de purchase order -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_qty']" position="before">
+                <field name="lot_required" column_invisible="1"/>
+                <field name="thickness_readonly" column_invisible="1"/>
+                <field name="dimensions_readonly" column_invisible="1"/>
+                <field name="units_qty" readonly="state in ('purchase', 'to approve', 'done', 'cancel') or is_downpayment" force_save="1"/>
+                <field name="length" optional="show" readonly="dimensions_readonly or state in ('purchase', 'to approve', 'done', 'cancel') or is_downpayment" force_save="1"/>
+                <field name="width" optional="show" readonly="dimensions_readonly or state in ('purchase', 'to approve', 'done', 'cancel') or is_downpayment" force_save="1"/>
+                <field name="thickness" optional="show" readonly="thickness_readonly or state in ('purchase', 'to approve', 'done', 'cancel') or is_downpayment" force_save="1"/>
+                <field name="lot_name" optional="hide" required="lot_required" readonly="dimensions_readonly or state in ('purchase', 'to approve', 'done', 'cancel') or is_downpayment" force_save="1"/>
+                <field name="peso" optional="show" readonly="dimensions_readonly or state in ('purchase', 'to approve', 'done', 'cancel') or is_downpayment" force_save="1"/>
+                <field name="area" optional="hide"/>
+            </xpath>
+
+            <!-- Renomear product_qty na list view -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_qty']" position="attributes">
+                <attribute name="readonly">True</attribute>
+                <attribute name="string">Volume/Área/Unidade</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <!-- Adicionar campos no formulário das linhas -->
+            <xpath expr="//field[@name='order_line']/form//field[@name='product_qty']" position="before">
+                <field name="lot_required" column_invisible="1"/>
+                <field name="thickness_readonly" invisible="1"/>
+                <field name="dimensions_readonly" invisible="1"/>
+                <field name="units_qty" readonly="state in ('purchase', 'to approve', 'done', 'cancel') or is_downpayment" force_save="1"/>
+                <field name="length" readonly="dimensions_readonly or state in ('purchase', 'to approve', 'done', 'cancel') or is_downpayment" force_save="1"/>
+                <field name="width" readonly="dimensions_readonly or state in ('purchase', 'to approve', 'done', 'cancel') or is_downpayment" force_save="1"/>
+                <field name="thickness" readonly="thickness_readonly or state in ('purchase', 'to approve', 'done', 'cancel') or is_downpayment" force_save="1"/>
+                <field name="lot_name" required="lot_required" readonly="dimensions_readonly or state in ('purchase', 'to approve', 'done', 'cancel') or is_downpayment" force_save="1"/>
+                <field name="peso" readonly="dimensions_readonly or state in ('purchase', 'to approve', 'done', 'cancel') or is_downpayment" force_save="1"/>
+                <field name="area" optional="hide"/>
+            </xpath>
+
+            <!-- Renomear product_qty na form view -->
+            <xpath expr="//field[@name='order_line']/form//field[@name='product_qty']" position="attributes">
+                <attribute name="readonly">True</attribute>
+                <attribute name="string">Volume/Área/Unidade</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <!-- Tornar product_uom sempre readonly na list view -->
+            <xpath expr="//field[@name='order_line']/list//field[@name='product_uom'][@optional='show']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <!-- Tornar taxes_id sempre readonly na list view -->
+            <!-- <xpath expr="//field[@name='order_line']/list//field[@name='taxes_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath> -->
+
+            <!-- Tornar product_uom sempre readonly na form view -->
+            <xpath expr="//field[@name='order_line']/form//field[@name='product_uom']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <!-- Tornar taxes_id sempre readonly na form view -->
+            <!-- <xpath expr="//field[@name='order_line']/form//field[@name='taxes_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath> -->
+        </field>
+    </record>
+
+    <!-- Filtrar partner_id para mostrar fornecedores e contactos neutros (exclui clientes puros) -->
+    <record id="view_purchase_order_form_partner_domain" model="ir.ui.view">
+        <field name="name">purchase.order.form.partner.domain</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('parent_id', '=', False), '|', ('supplier_rank', '>', 0), '&amp;', ('customer_rank', '=', 0), ('supplier_rank', '=', 0)]</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

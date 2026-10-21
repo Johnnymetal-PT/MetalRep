@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Definição do Report de Factura Pró-forma -->
+    <record id="action_report_proforma_invoice" model="ir.actions.report">
+        <field name="name">Factura Pró-forma</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mh_sale.report_proforma_invoice_document</field>
+        <field name="report_file">mh_sale.report_proforma_invoice_document</field>
+        <field name="print_report_name">'FT Pró-forma - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="mh_layout_pdf.paperformat_stone_trading"/>
+    </record>
+
+    <!-- Template QWeb para Fatura Proforma -->
+    <template id="report_proforma_invoice_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page" style="position: relative;">
+
+                        <!-- Background Watermark em Posição Absoluta -->
+                        <div t-if="doc.company_id.layout_background_image"
+                             t-attf-style="position: absolute;
+                                           top: 21mm;
+                                           left: 105mm;
+                                           margin-left: -42mm;
+                                           width: 120mm;
+                                           height: 110mm;
+                                           background-image: url({{image_data_uri(doc.company_id.layout_background_image)}});
+                                           background-repeat: no-repeat;
+                                           background-size: contain;
+                                           pointer-events: none;
+                                           z-index: 0;">
+                        </div>
+
+                        <!-- BARRA: DATA EMISSÃO / DATA VALIDADE / CONDIÇÕES PAG. -->
+                        <style>
+                        /* Estilo geral das células */
+                        .mh-proforma-info th {
+                            text-align: left;
+                            padding: 6px 25px;
+                            vertical-align: top;
+                            font-weight: bold;
+                            font-size: 0.99em;
+                        }
+
+                        /* Bordas laterais e sem linha no meio */
+                        .mh-proforma-info th {
+                            border-right: 1px solid #dddddd;
+                            border-bottom: 0 solid white;
+                        }
+
+                        /* Remove borda da última coluna */
+                        .mh-proforma-info th:last-child {
+                            border-right: none !important;
+                        }
+
+                        /* Tabela */
+                        .mh-proforma-info {
+                            font-size: 0.95em;
+                            border: 1px solid #dddddd;
+                            border-collapse: collapse;
+                            margin-top: 50px;           
+                        }
+                        </style>
+
+
+
+                        <table class="mh-proforma-info">
+                            <tr>
+                                <th>
+                                    DATA EMISSÃO<br/>
+                                    <span t-field="doc.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}" style="display:block; text-align:center; margin-top:4px; font-weight:normal; font-size:0.95em;"/>
+                                </th>
+
+                                <th>
+                                    DATA VALIDADE<br/>
+                                    <t t-if="doc.validity_date">
+                                        <span t-field="doc.validity_date" t-options="{&quot;widget&quot;: &quot;date&quot;}" style="display:block; text-align:center; margin-top:4px; font-weight:normal; font-size:0.95em;"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span style="display:block; text-align:center; margin-top:4px; font-weight:normal; font-size:0.95em;">-</span>
+                                    </t>
+                                </th>
+                                
+                                <th>
+                                    CONDIÇÕES PAG.<br/>
+                                    <t t-if="doc.payment_term_id">
+                                        <span t-field="doc.payment_term_id.name" style="display:block; text-align:center; margin-top:4px; font-weight:normal; font-size:0.90em;"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span style="display:block; text-align:center; margin-top:4px; font-weight:normal; font-size:0.90em;">
+                                            Pagamento Imediato
+                                        </span>
+                                    </t>
+                                </th>
+                            </tr>
+                        </table>
+
+                        <style>
+                        /* Tabela das linhas */
+                        .mh-proforma-lines {
+                            width: 100%;
+                            font-size: 0.85em;
+                            border: 1px solid #dddddd;
+                            border-collapse: collapse;
+                        }
+
+                        /* Cabeçalho */
+                        .mh-proforma-lines thead th {
+                            background-color: #f8f8ff;
+                            font-weight: bold;
+                            padding: 8px 8px;
+                            border-right: 1px solid #dddddd;
+                            border-bottom: 1px solid #dddddd;
+                            vertical-align: middle !important;     
+                        }
+
+                        /* Última coluna sem borda direita */
+                        .mh-proforma-lines thead th:last-child,
+                        .mh-proforma-lines tbody td:last-child {
+                            border-right: none;
+                        }
+
+                        /* Células do corpo */
+                        .mh-proforma-lines tbody td {
+                            padding: 6px 6px;
+                            border-right: 1px solid #dddddd;
+                            border-top: 1px solid #dddddd;
+                            text-align: center;
+                            vertical-align: middle !important;      
+                        }
+
+                        /* Primeira coluna alinhada à esquerda */
+                        .mh-proforma-lines tbody td:first-child {
+                            text-align: left !important;
+                            padding-left: 8px;
+                        }
+                        </style>
+
+
+
+
+                        <!-- Tabela de Linhas -->
+                        <table class="mh-proforma-lines mt-4">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 22%;">PRODUTO</th>
+                                    <th class="text-center" style="width: 24%;">Nº DA SÉRIE</th>
+                                    <th class="text-center" style="width: 6%;">QTD</th>
+                                    <th class="text-center" style="width: 6%;">COMP.</th>
+                                    <th class="text-center" style="width: 6%;">LAR.</th>
+                                    <th class="text-center" style="width: 6%;">ESP.</th>
+                                    <th class="text-center" style="width: 6%;">ÁREA (m²)</th>
+                                    <th class="text-center" style="width: 8%;">PREÇO</th>
+                                    <th class="text-center" style="width: 4%;">DESC.</th>
+                                    <th class="text-center" style="width: 10%;">SUBTOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.order_line" t-as="line">
+                                    <tr>
+                                        <!-- PRODUTO -->
+                                        <td class="text-start">
+                                            <span t-field="line.name"/>
+                                        </td>
+
+                                        <!-- Nº DA SÉRIE / LOTE -->
+                                        <td class="text-start">
+                                            <t t-if="line.lot_id">
+                                                <span t-field="line.lot_id.name"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="color: #999;">-</span>
+                                            </t>
+                                        </td>
+
+                                        <!-- QTD -->
+                                        <td class="text-center">
+                                            <span t-field="line.product_uom_qty"/>
+                                        </td>
+
+                                        <!-- COMP. -->
+                                        <td class="text-center">
+                                            <t t-if="line.length">
+                                                <span t-esc="'%.3f' % line.length"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="color:#999;">-</span>
+                                            </t>
+                                        </td>
+
+                                        <!-- LAR. -->
+                                        <td class="text-center">
+                                            <t t-if="line.width">
+                                                <span t-esc="'%.3f' % line.width"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="color:#999;">-</span>
+                                            </t>
+                                        </td>
+
+                                        <!-- ESP. -->
+                                        <td class="text-center">
+                                            <t t-if="line.thickness">
+                                                <span t-esc="'%.3f' % line.thickness"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="color:#999;">-</span>
+                                            </t>
+                                        </td>
+
+                                        <!-- ÁREA (m²) – se tiver lógica pra isso -->
+                                        <td class="text-center">
+                                            <t t-if="line.length and line.width">
+                                                <span t-esc="'%.3f' % (line.length * line.width)"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="color:#999;">-</span>
+                                            </t>
+                                        </td>
+
+                                        <!-- PREÇO UNIT. -->
+                                        <td class="text-end">
+                                            <span t-field="line.price_unit" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+                                        </td>
+
+                                        <!-- DESC% -->
+                                        <td class="text-center">
+                                            <span t-esc="'%.1f' % (line.discount or 0)"/>%
+                                        </td>
+
+                                        <!-- SUBTOTAL -->
+                                        <td class="text-end">
+                                            <span t-field="line.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+
+                        <style>
+                        .mh-proforma-totals {
+                            font-size: 0.85em;
+                        }
+
+
+                        .mh-proforma-totals table,
+                        .mh-proforma-totals thead,
+                        .mh-proforma-totals tbody,
+                        .mh-proforma-totals tr,
+                        .mh-proforma-totals td {
+                            border: 0 !important;
+                            border-collapse: collapse !important;
+                            outline: none !important;
+                            box-shadow: none !important;
+                            background: transparent !important;
+                        }
+
+
+                        .mh-proforma-totals table {
+                            width: 100%;
+                            margin: 20px 0 0 0 !important;  
+                            padding: 0 !important;
+                        }
+
+
+                        .mh-proforma-totals tr {
+                            line-height: 1.1;  
+                        }
+
+                        .mh-proforma-totals td {
+                            padding: 2px 0 !important;   
+                        }
+
+
+                        .mh-proforma-totals .label {
+                            text-align: right;
+                            padding-right: 10px;
+                            color: #555;
+                            text-transform: uppercase;
+                            font-weight: 600;
+                        }
+
+
+                        .mh-proforma-totals .value {
+                            text-align: right;
+                        }
+
+
+                        .mh-proforma-totals table.table,
+                        .mh-proforma-totals table.table-sm {
+                            border: 0 !important;
+                            background: transparent !important;
+                        }
+                        </style>
+
+
+
+
+
+                        <!-- Totais -->
+                        <div class="row justify-content-end" style="margin-top: 20px;">
+                            <div class="col-4">
+                                <div class="mh-proforma-totals">
+                                    <table >
+
+                                        <!-- SUBTOTAL -->
+                                        <tr>
+                                            <td class="label text-start">SUBTOTAL</td>
+                                            <td class="value">
+                                                <span t-field="doc.amount_untaxed"
+                                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                            </td>
+                                        </tr>
+
+                                        <!-- DESCONTO (por enquanto fixo, sem campo global) -->
+                                        <tr>
+                                            <td class="label text-start">DESC.</td>
+                                            <td class="value">
+                                                0,00 MT
+                                            </td>
+                                        </tr>
+
+                                        <!-- SUBTOTAL - DESC. (igual ao subtotal, até ter desconto global real) -->
+                                        <tr>
+                                            <td class="label text-start">SUBTOTAL - DESC.</td>
+                                            <td class="value">
+                                                <span t-field="doc.amount_untaxed"
+                                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                            </td>
+                                        </tr>
+
+                                        <!-- IVA -->
+                                        <tr>
+                                            <td class="label text-start">IVA</td>
+                                            <td class="value">
+                                                <span t-field="doc.amount_tax"
+                                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                            </td>
+                                        </tr>
+
+                                        <!-- TOTAL FINAL -->
+                                        <tr >
+                                            <td class="label text-start">TOTAL</td>
+                                            <td class="value">
+                                                <span t-field="doc.amount_total"
+                                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

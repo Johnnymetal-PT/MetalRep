@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<!-- ==================== Builder Sidebar Option ==================== -->
+<t t-name="theme_alan.HomePageDemoOption">
+    <BuilderContext>
+        <BuilderRow label.translate="Open Demo Builder" preview="false">
+            <BuilderButton action="'setOpenHomePageDemo'" preview="false">
+                Open Home Page Demo Builder
+            </BuilderButton>
+        </BuilderRow>
+    </BuilderContext>
+</t>
+
+<!-- ==================== Main Wizard Dialog ==================== -->
+<t t-name="theme_alan.home_page_demo_wizard">
+    <Dialog size="'xl'" bodyClass="'as-hpd-dialog p-0'" footer="false">
+        <t t-set-slot="header" t-slot-scope="dialog">
+            <div class="d-flex align-items-center gap-2 flex-grow-1">
+                <div class="as-hpd-brand-icon d-flex align-items-center justify-content-center rounded" style="width: 28px; height: 28px; background: rgba(59, 130, 246, 0.15); color: #3b82f6;">
+                    <i class="fa fa-magic"/>
+                </div>
+                <h4 class="modal-title text-break mb-0" style="font-size: 16px; font-weight: 700; color: #1e293b;">
+                    Home Page Demo Builder
+                </h4>
+            </div>
+            <button type="button" class="btn-close" aria-label="Close" tabindex="-1" t-on-click="dialog.close"></button>
+        </t>
+
+        <!-- Full-screen Missing Records Warning (blocks step view) -->
+        <t t-if="state.missingRecords &amp;&amp; state.missingRecords.length > 0">
+            <div class="as-hpd-missing-screen d-flex flex-column align-items-center justify-content-center h-100 w-100 p-5 text-center bg-white">
+                <div class="as-hpd-missing-icon mb-4">
+                    <i class="fa fa-exclamation-triangle fa-5x text-warning"/>
+                </div>
+                <h3 class="fw-bold mb-2" style="color: #1e293b;">Database Setup Required</h3>
+                <p class="text-muted mx-auto mb-4" style="max-width: 540px; font-size: 14px;">
+                    To generate a demo home page, we require demo records to populate the dynamic snippets. The following dynamic modules have <strong>no records found</strong>:
+                </p>
+
+                <div class="d-flex justify-content-center flex-wrap gap-3 mb-4" style="max-width: 600px;">
+                    <t t-foreach="state.missingRecords" t-as="item" t-key="item">
+                        <div class="card p-3 d-flex flex-row align-items-center gap-3 border shadow-sm" style="min-width: 180px; border-radius: 12px; background: #fffbeb;">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background: rgba(245, 158, 11, 0.15); color: #d97706;">
+                                <i class="fa fa-ban fa-lg"/>
+                            </div>
+                            <div class="text-start">
+                                <div class="fw-bold text-dark" style="font-size: 13px;"><t t-esc="item"/></div>
+                                <div class="text-muted small" style="font-size: 11px;">0 Records</div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="alert alert-info border d-flex align-items-start gap-3 text-start mx-auto p-3 mb-5" style="max-width: 580px; border-radius: 10px;">
+                    <i class="fa fa-info-circle text-primary mt-1 fa-lg"/>
+                    <div>
+                        <strong class="text-dark">How to resolve:</strong>
+                        <p class="mb-0 text-muted small mt-1">
+                            Please navigate to the Odoo backend (Sales, Blog, or Website modules) and create at least one record (product, product category, blog post, or brand logo) before starting the demo builder.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="as-hpd-layout d-flex flex-column h-100">
+                <!-- Main Columns Container -->
+                <div class="d-flex flex-grow-1 overflow-hidden">
+                    <!-- ── LEFT: Step Sidebar ── -->
+                    <div class="as-hpd-sidebar d-flex flex-column">
+
+                        <!-- Step List -->
+                        <div class="as-hpd-step-list flex-grow-1 overflow-auto py-2">
+                            <t t-foreach="steps" t-as="s" t-key="s.id">
+                                <div class="as-hpd-step-item px-3 py-2 d-flex align-items-center gap-2 cursor-pointer"
+                                     t-att-class="{
+                                         'active': s_index === state.currentStep,
+                                         'done': s_index &lt; state.currentStep,
+                                         'skipped': this._data[s.id].skipped
+                                     }"
+                                     t-on-click="() => this.onStepClick(s_index)">
+                                    <div class="as-hpd-step-num" t-att-class="{'bg-danger-subtle text-danger border-danger-subtle': this._data[s.id].skipped}">
+                                        <t t-if="this._data[s.id].skipped">
+                                            <i class="fa fa-eye-slash"/>
+                                        </t>
+                                        <t t-elif="s_index &lt; state.currentStep">
+                                            <i class="fa fa-check"/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-esc="s.num"/>
+                                        </t>
+                                    </div>
+                                    <div class="as-hpd-step-label-wrap overflow-hidden">
+                                        <div class="as-hpd-step-label text-truncate" t-att-class="this._data[s.id].skipped ? 'text-muted text-decoration-line-through' : 'text-dark'" style="font-size:12px;">
+                                            <t t-esc="s.label"/>
+                                        </div>
+                                        <div class="as-hpd-step-badge text-truncate text-muted" style="font-size:10px; opacity:.7;">
+                                            <t t-if="this._data[s.id].skipped">
+                                                Skipped
+                                            </t>
+                                            <t t-else="">
+                                                <t t-esc="s.badge"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+
+                    <!-- ── MIDDLE: Content Panel ── -->
+                    <div class="as-hpd-content d-flex flex-column flex-grow-1 overflow-hidden">
+                        <!-- Step Header -->
+                        <div class="as-hpd-content-header px-4 py-3 border-bottom d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="as-hpd-content-icon">
+                                    <i t-att-class="'fa fa-lg ' + this.step.icon"/>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0 fw-bold"><t t-esc="this.step.label"/></h5>
+                                    <small class="text-muted"><t t-esc="this.step.info"/></small>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <t t-if="this.step.type === 'wb_static'">
+                                    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill fw-semibold"
+                                         style="font-size: 11px; background: linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(99,102,241,0.08) 100%); color: #16a34a; border: 1px solid rgba(34,197,94,0.25); white-space: nowrap;">
+                                        <i class="fa fa-check-circle" style="font-size: 12px; color: #16a34a;"/>
+                                        <span>Auto-configured</span>
+                                        <span style="color: #cbd5e1; font-weight: 300;">|</span>
+                                        <i class="fa fa-cube" style="font-size: 11px; color: #4f46e5;"/>
+                                        <span style="color: #4f46e5; letter-spacing: 0.3px;">Static</span>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill fw-semibold"
+                                         style="font-size: 11px; background: rgba(59,130,246,0.08); color: #2563eb; border: 1px solid rgba(59,130,246,0.25); white-space: nowrap;">
+                                        <i class="fa fa-refresh" style="font-size: 11px;"/>
+                                        <span>Dynamic Block</span>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Step Body -->
+                        <div class="as-hpd-content-body flex-grow-1 overflow-auto p-4">
+                            <!-- Skipped step banner -->
+                            <t t-if="state.skipped">
+                                <div class="alert alert-warning mb-4 p-3 rounded-3 border-warning d-flex align-items-start gap-3" style="background: rgba(245, 158, 11, 0.05); border-left: 4px solid #f59e0b;">
+                                    <i class="fa fa-eye-slash fa-lg text-warning mt-1"/>
+                                    <div>
+                                        <h6 class="mb-1 fw-bold text-warning">Section Skipped</h6>
+                                        <p class="mb-0 text-muted small">
+                                            This section is currently skipped and will <strong>not</strong> be included in the final home page.
+                                            You can configure and re-enable this section at any time by clicking <strong>Include</strong> in the footer.
+                                        </p>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <div t-att-style="state.skipped ? 'opacity: 0.4; pointer-events: none; user-select: none;' : ''">
+                                <!-- Missing records warning -->
+                                <t t-if="state.missingRecords.length > 0">
+                                    <div class="alert alert-warning mb-4 p-3 rounded-3" style="border-left: 4px solid #f59e0b; background: #fffbeb;">
+                                        <div class="d-flex align-items-center gap-2 text-warning fw-bold mb-2">
+                                            <i class="fa fa-exclamation-triangle fa-lg"/>
+                                            <span>No Records Found</span>
+                                        </div>
+                                        <p class="mb-2 text-muted small">
+                                            The following dynamic collections have <strong>no records</strong> in the database. Please create them first to display dynamic content:
+                                        </p>
+                                        <div class="d-flex flex-wrap gap-2 mb-2">
+                                            <t t-foreach="state.missingRecords" t-as="item" t-key="item">
+                                                <span class="badge px-3 py-1.5 rounded-pill" style="font-size: 11px; background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3);">
+                                                    <i class="fa fa-exclamation-circle me-1"/> <t t-esc="item"/>
+                                                </span>
+                                            </t>
+                                        </div>
+                                        <small class="text-muted mt-1 d-block">
+                                            <i class="fa fa-info-circle me-1"/> You can add records (Products, Categories, Blogs, Brands) in the backend.
+                                        </small>
+                                    </div>
+                                </t>
+
+                                <!-- Error -->
+                                <t t-if="state.error">
+                                    <div class="alert alert-danger d-flex align-items-center gap-2 mb-3">
+                                        <i class="fa fa-exclamation-circle fa-lg"/>
+                                        <span><t t-esc="state.error"/></span>
+                                    </div>
+                                </t>
+
+                                <!-- ── WB STATIC STEP ── -->
+                                <t t-if="this.step.type === 'wb_static'">
+                                    <div class="as-hpd-static-info">
+                                        <div class="as-hpd-info-card p-4 rounded-3 d-flex gap-4 align-items-start mb-4">
+                                            <div class="as-hpd-info-icon-large">
+                                                <i class="fa fa-info-circle text-primary"/>
+                                            </div>
+                                            <div>
+                                                <h6 class="fw-bold mb-2 text-dark"><t t-esc="this.step.snippetName"/></h6>
+                                                <p class="text-muted small mb-0">
+                                                    This layout will be placed automatically onto your new page. You don't need to specify extra configuration options.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+
+                                <!-- ── COMPOSITE STEP ── -->
+                                <t t-if="this.step.type === 'composite'">
+                                    <!-- Title Input -->
+                                    <div class="as-hpd-section mb-4">
+                                        <div class="as-hpd-section-header">
+                                            <div class="as-hpd-section-icon"><i class="fa fa-pencil"/></div>
+                                            <div>
+                                                <h6 class="mb-0 fw-bold">Section Title Heading</h6>
+                                                <small class="text-muted">Configure the header title displayed above the dynamic items.</small>
+                                            </div>
+                                        </div>
+                                        <div class="as-hpd-section-body">
+                                            <input type="text" class="form-control"
+                                                   t-att-value="state.titleText"
+                                                   t-on-input="onTitleInput"
+                                                   placeholder="e.g. Best Sellers"/>
+                                        </div>
+                                    </div>
+
+                                    <!-- Subtitle Input -->
+                                    <div class="as-hpd-section mb-4">
+                                        <div class="as-hpd-section-header">
+                                            <div class="as-hpd-section-icon"><i class="fa fa-align-left"/></div>
+                                            <div>
+                                                <h6 class="mb-0 fw-bold">Section Subtitle</h6>
+                                                <small class="text-muted">Optional short description shown below the title.</small>
+                                            </div>
+                                        </div>
+                                        <div class="as-hpd-section-body">
+                                            <input type="text" class="form-control"
+                                                   t-att-value="state.subtitleText"
+                                                   t-on-input="onSubtitleInput"
+                                                   placeholder="e.g. Find furniture that fits your lifestyle."/>
+                                        </div>
+                                    </div>
+
+                                    <!-- Reuse Shared Dynamic Fields -->
+                                    <t t-call="theme_alan.hpd_dynamic_fields"/>
+                                </t>
+
+                                <!-- ── PURE DYNAMIC ── -->
+                                <t t-if="this.step.type === 'dynamic'">
+                                    <t t-call="theme_alan.hpd_dynamic_fields"/>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── RIGHT: Snippet/Section Preview Panel ── -->
+                    <div class="as-hpd-preview-panel d-flex flex-column border-start bg-white">
+                        <!-- Preview Header -->
+                        <div class="as-hpd-preview-header px-4 py-3 border-bottom d-flex align-items-center gap-2">
+                            <h6 class="mb-0 fw-bold">Preview</h6>
+                        </div>
+                        <!-- Preview Image Body -->
+                        <div class="as-hpd-preview-body flex-grow-1 overflow-hidden p-4">
+                            <div class="as-hpd-preview-mockup d-flex flex-column h-100">
+                                <!-- Mockup Browser Header -->
+                                <div class="as-hpd-mockup-header d-flex align-items-center px-3 py-2 flex-shrink-0">
+                                    <div class="d-flex align-items-center gap-1.5">
+                                        <span class="as-hpd-dot red"></span>
+                                        <span class="as-hpd-dot yellow"></span>
+                                        <span class="as-hpd-dot green"></span>
+                                    </div>
+                                    <div class="as-hpd-mockup-url text-truncate px-3 py-0.5">
+                                        <i class="fa fa-lock text-success me-1"/> <t t-esc="this.currentHost"/>
+                                    </div>
+                                </div>
+                                <!-- Mockup Browser Content (Scrollable stack of all steps) -->
+                                <div class="as-hpd-mockup-scrollable-content flex-grow-1 overflow-auto position-relative bg-white" t-ref="mockupScrollContainer">
+                                    <t t-foreach="steps" t-as="s" t-key="s.id">
+                                        <div t-att-id="'preview_step_' + s_index"
+                                             class="as-hpd-preview-item position-relative border-bottom"
+                                             t-att-class="{
+                                                 'active': s_index === state.currentStep,
+                                                 'skipped': this._data[s.id].skipped
+                                             }">
+                                            <t t-if="s.previewImage">
+                                                <img t-att-src="s.previewImage" class="w-100 d-block" style="display:block;"/>
+
+                                            </t>
+                                            <t t-else="">
+                                                <div class="text-muted text-center py-4 bg-light">
+                                                    <i class="fa fa-image mb-1 text-muted" style="opacity: 0.4;"/>
+                                                    <p class="small mb-0"><t t-esc="s.label"/> Preview</p>
+                                                </div>
+                                            </t>
+                                            <!-- Skip Overlay -->
+                                            <t t-if="this._data[s.id].skipped">
+                                                <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-25" style="backdrop-filter: blur(1.5px);">
+                                                    <div class="bg-white border rounded-pill shadow px-3 py-1 d-flex align-items-center gap-2">
+                                                        <i class="fa fa-eye-slash text-danger"/>
+                                                        <span class="fw-bold text-danger" style="font-size: 11px;">Section Skipped</span>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                            <!-- Highlight Border / active outline overlay -->
+                                            <div class="as-hpd-active-overlay position-absolute top-0 start-0 w-100 h-100 pointer-events-none" />
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── FULL WIDTH BOTTOM FOOTER ── -->
+                <div class="as-hpd-global-footer border-top d-flex align-items-center justify-content-between px-4 py-3 bg-white">
+                    <!-- Left: Spacer/Placeholder to balance the footer -->
+                    <div class="as-hpd-footer-left-spacer" style="width: 80px; flex-shrink: 0;"/>
+
+                    <!-- Center: Full Width Progress Bar (Green) -->
+                    <div class="d-flex align-items-center gap-3 flex-grow-1 mx-5">
+                        <div class="progress flex-grow-1 as-hpd-progress-container">
+                            <div class="progress-bar bg-success" t-att-style="'width:' + progress + '%'" />
+                        </div>
+                        <span class="as-hpd-progress-percent">
+                            <t t-esc="progress"/>% Completed
+                        </span>
+                        <div class="as-hpd-step-count">
+                            Step <strong><t t-esc="state.currentStep + 1"/></strong> of <strong><t t-esc="steps.length"/></strong>
+                        </div>
+                    </div>
+
+                    <!-- Right: Actions (Skip, Back, Next / Generate) -->
+                    <div class="d-flex align-items-center gap-2">
+                        <!-- Skip Button -->
+                        <button class="as-hpd-btn-skip d-flex align-items-center gap-1"
+                                t-att-class="{'skipped-active': state.skipped}"
+                                t-att-disabled="state.saving"
+                                t-on-click="onSkip">
+                            <t t-if="state.skipped">
+                                <i class="fa fa-plus me-1"/> Include
+                            </t>
+                            <t t-else="">
+                                <i class="fa fa-eye-slash me-1"/> Skip
+                            </t>
+                        </button>
+
+                        <!-- Back Button -->
+                        <button class="as-hpd-btn-back d-flex align-items-center gap-1"
+                                t-att-disabled="state.currentStep === 0 or state.saving"
+                                t-on-click="onPrev">
+                            <i class="fa fa-arrow-left me-1"/> Back
+                        </button>
+
+                        <!-- Next / Generate Button -->
+                        <button class="btn"
+                                t-att-class="isLast ? 'as-hpd-btn-generate' : 'as-hpd-btn-next'"
+                                t-att-disabled="state.saving"
+                                t-on-click="onNext">
+                            <t t-if="state.saving">
+                                <i class="fa fa-spinner fa-spin me-1"/> Generating…
+                            </t>
+                            <t t-elif="isLast">
+                                <i class="fa fa-magic me-1"/> Generate Page
+                            </t>
+                            <t t-else="">
+                                Next <i class="fa fa-arrow-right ms-1"/>
+                            </t>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </t>
+
+
+        <!-- Hidden staging area — all static OWL templates rendered here for DOM cloning -->
+        <div class="d-none as-hpd-staging-area" t-ref="hpdStaging">
+            <div data-owl-template="theme_alan.slider_temp18"><t t-call="theme_alan.slider_temp18"/></div>
+            <div data-owl-template="theme_alan.title_8"><t t-call="theme_alan.title_8"/></div>
+            <div data-owl-template="theme_alan.feature_temp23"><t t-call="theme_alan.feature_temp23"/></div>
+            <div data-owl-template="theme_alan.feature_temp25"><t t-call="theme_alan.feature_temp25"/></div>
+            <div data-owl-template="theme_alan.feature_temp26"><t t-call="theme_alan.feature_temp26"/></div>
+            <div data-owl-template="theme_alan.feature_temp24"><t t-call="theme_alan.feature_temp24"/></div>
+        </div>
+
+    </Dialog>
+</t>
+
+<!-- ==================== Shared: Dynamic Config Fields ==================== -->
+<t t-name="theme_alan.hpd_dynamic_fields">
+    <!-- View Toggle -->
+    <t t-if="this.step.dynamicKey !== 'product_spotlight' and this.step.dynamicKey !== 'highlighted_product_grid'">
+        <div class="as-hpd-section mb-4">
+            <div class="as-hpd-section-header">
+                <div class="as-hpd-section-icon"><i class="fa fa-th"/></div>
+                <div>
+                    <h6 class="mb-0 fw-bold">Display Layout</h6>
+                    <small class="text-muted">Choose between a scrollable slider or a fixed grid.</small>
+                </div>
+            </div>
+            <div class="mt-3">
+                <div class="as-hpd-view-toggle d-flex gap-2">
+                    <button type="button"
+                            class="as-hpd-view-btn flex-fill"
+                            t-att-class="{'active': state.view === 'slider'}"
+                            t-on-click="() => this.setView('slider')">
+                        <i class="fa fa-arrows-h d-block mb-1 fa-lg"/>
+                        <span>Slider</span>
+                    </button>
+                    <button type="button"
+                            class="as-hpd-view-btn flex-fill"
+                            t-att-class="{'active': state.view === 'grid'}"
+                            t-on-click="() => this.setView('grid')">
+                        <i class="fa fa-th d-block mb-1 fa-lg"/>
+                        <span>Grid</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Product Quick Filter (only for product snippets) -->
+    <t t-if="this.step.dynamicKey === 'products'">
+
+        <div class="as-hpd-section mb-4">
+            <div class="as-hpd-section-header">
+                <div class="as-hpd-section-icon"><i class="fa fa-filter"/></div>
+                <div>
+                    <h6 class="mb-0 fw-bold">Quick Selection Filter</h6>
+                    <small class="text-muted">Auto-populate products by this criteria.</small>
+                </div>
+            </div>
+            <div class="mt-3">
+                <div class="as-hpd-filter-options d-flex flex-wrap gap-2">
+                    <t t-foreach="[
+                        {id:'best_seller', label:'Best Seller', icon:'fa-trophy'},
+                        {id:'latest_product', label:'New Arrival', icon:'fa-clock-o'},
+                        {id:'a_to_z', label:'A → Z', icon:'fa-sort-alpha-asc'},
+                        {id:'low_to_high', label:'Low → High Price', icon:'fa-sort-numeric-asc'},
+                        {id:'random', label:'Random', icon:'fa-random'}
+                    ]" t-as="opt" t-key="opt.id">
+                        <button type="button"
+                                class="as-hpd-filter-chip"
+                                t-att-class="{'active': state.filter === opt.id}"
+                                t-on-click="() => this.setFilter(opt.id)">
+                            <i t-att-class="'fa me-1 ' + opt.icon"/>
+                            <t t-esc="opt.label"/>
+                        </button>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Record Limit Slider -->
+    <div class="as-hpd-section mb-4">
+        <div class="as-hpd-section-header">
+            <div class="as-hpd-section-icon"><i class="fa fa-list-ol"/></div>
+            <div>
+                <h6 class="mb-0 fw-bold">Number of Items</h6>
+                <small class="text-muted">How many records to display.</small>
+            </div>
+        </div>
+        <div class="mt-3 d-flex align-items-center gap-3">
+            <div class="as-hpd-range-wrap flex-grow-1"
+                 t-att-style="'--fill-pct: ' + (((state.recordLimit - 1) / 19) * 100) + '%'">
+                <input type="range" class="as-hpd-range-input"
+                       min="1" max="20" step="1"
+                       t-att-value="state.recordLimit"
+                       t-on-input="onRecordLimitInput"/>
+            </div>
+            <div class="as-hpd-limit-badge">
+                <t t-esc="state.recordLimit"/>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manual Record Search -->
+    <div class="as-hpd-section">
+        <div class="as-hpd-section-header">
+            <div class="as-hpd-section-icon"><i class="fa fa-search"/></div>
+            <div>
+                <h6 class="mb-0 fw-bold">Manually Select Records <span class="as-hpd-optional-badge">Optional</span></h6>
+                <small class="text-muted">Leave empty to auto-load. Search to pin specific items.</small>
+            </div>
+        </div>
+        <div class="mt-3">
+            <div class="input-group">
+                <span class="input-group-text bg-white"><i class="fa fa-search text-muted"/></span>
+                <input type="text" id="as_hpd_search"
+                       class="form-control border-start-0"
+                       placeholder="Type to search and add…"/>
+            </div>
+
+            <!-- Chips -->
+            <t t-if="state.selectedRecords.length > 0">
+                <div class="as-hpd-chips d-flex flex-wrap gap-2 mt-3">
+                    <t t-foreach="state.selectedRecords" t-as="rec" t-key="rec.id">
+                        <span class="as-hpd-chip d-flex align-items-center gap-1">
+                            <t t-if="rec.image">
+                                <img t-att-src="rec.image" class="as-hpd-chip-img"/>
+                            </t>
+                            <span><t t-esc="rec.name"/></span>
+                            <button type="button" class="btn-close as-hpd-chip-remove"
+                                    t-on-click="() => this.removeRecord(rec)"/>
+                        </span>
+                    </t>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="as-hpd-auto-note d-flex align-items-center gap-2 mt-3 p-3 rounded-2">
+                    <i class="fa fa-info-circle text-primary"/>
+                    <small>Auto-loading <strong><t t-esc="state.recordLimit"/></strong> records based on the filter above.</small>
+                </div>
+            </t>
+        </div>
+    </div>
+</t>
+
+</templates>

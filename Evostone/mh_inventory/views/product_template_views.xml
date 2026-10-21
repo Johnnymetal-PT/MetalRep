@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend product template form view -->
+    <record id="product_template_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.custom.pricing</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Add custom pricing checkbox inside options -->
+            <div name="options" position="inside">
+                    <span class="d-inline-flex">
+                        <field name="use_custom_variant_pricing"/>
+                        <label for="use_custom_variant_pricing"/>
+                    </span>
+            </div>
+
+            <!-- Add Family, Business Segment and Classification fields -->
+            <xpath expr="//group[@name='group_general']" position="inside">
+                <field name="product_family_id" options="{'no_create': False, 'no_open': False}"/>
+                <field name="business_segment_id" options="{'no_create': False, 'no_open': False}"/>
+                <field name="product_classification"/>
+                <field name="density"
+                       invisible="not product_form or product_form == 'none'"
+                       placeholder="Default: 2700"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Product Template Form View -->
+    <record id="product_template_only_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.mh_inventory</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Configuration fields for variant prices -->
+            <xpath expr="//label[@for='list_price']" position="before">
+                <!-- Preço Manual toggle (ANTES do Preço de Venda) -->
+                <label for="use_manual_pricing" string="Preço Manual" invisible="use_custom_variant_pricing or (product_form and product_form != 'none')"/>
+                <div name="template_manual_pricing" invisible="use_custom_variant_pricing or (product_form and product_form != 'none')">
+                    <field name="use_manual_pricing" widget="boolean_toggle"/>
+                </div>
+            </xpath>
+
+            <xpath expr="//field[@name='list_price']/.." position="after">
+                <!-- Margin Management Fields -->
+                <label for="margin" string="Margem (%)" invisible="use_custom_variant_pricing or (product_form and product_form != 'none')"/>
+                <div name="template_margin" invisible="use_custom_variant_pricing or (product_form and product_form != 'none')">
+                    <field name="margin" class="oe_inline" widget="float"/>
+                    <span class="oe_inline">%</span>
+                </div>
+                <field name="margin_status" invisible="1"/>
+
+                <label for="margin_amount" string="Valor da Margem" invisible="use_custom_variant_pricing or (product_form and product_form != 'none')"/>
+                <div name="template_margin_mount" invisible="use_custom_variant_pricing or (product_form and product_form != 'none')">
+                    <field name="margin_amount" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                </div>
+
+            </xpath>
+
+            <!-- Esconder standard_price + div "per uom" quando produto tem forma fisica -->
+            <xpath expr="//label[@for='standard_price']" position="attributes">
+                <attribute name="invisible">product_form and product_form != 'none'</attribute>
+            </xpath>
+            <xpath expr="//div[@name='standard_price_uom']" position="attributes">
+                <attribute name="invisible">product_form and product_form != 'none'</attribute>
+            </xpath>
+
+            <!-- list_price readonly quando produto tem forma fisica -->
+            <xpath expr="//field[@name='list_price']" position="attributes">
+                <attribute name="readonly">product_form and product_form != 'none'</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='standard_price']/.." position="after">
+                <!-- PCMP -->
+                <label for="pcmp" string="PCMP" invisible="use_custom_variant_pricing or (product_form and product_form != 'none')"/>
+                <div name="template_pcmp" invisible="use_custom_variant_pricing or (product_form and product_form != 'none')">
+                    <field name="pcmp" class="oe_inline" widget="float" readonly="1"/>
+                </div>
+            </xpath>
+
+            
+        </field>
+    </record>
+
+    <!-- Esconder lot_valuated no formulário do product.template -->
+    <record id="product_template_hide_lot_valuated" model="ir.ui.view">
+        <field name="name">product.template.form.hide.lot_valuated</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="active" eval="False"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lot_valuated']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

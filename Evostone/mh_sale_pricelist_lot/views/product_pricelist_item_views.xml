@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend pricelist item form view to show lot group fields -->
+    <record id="product_pricelist_item_form_view_inherit_lot" model="ir.ui.view">
+        <field name="name">product.pricelist.item.form.inherit.lot</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+        <field name="arch" type="xml">
+
+            <!-- Add lot group fields after product_tmpl_id in the form -->
+            <xpath expr="//group[@name='pricelist_rule_method']//field[@name='product_tmpl_id']" position="after">
+                <field name="base_lot_group_id"
+                       invisible="display_applied_on != '4_base_lot_group'"
+                       required="display_applied_on == '4_base_lot_group'"
+                       options="{'no_create': True, 'no_create_edit': True}"
+                       help="Select the base lot group this rule applies to. All lots in this base group will get this pricing."/>
+                <field name="lot_price_group_id"
+                       invisible="display_applied_on != '5_lot_price_group'"
+                       required="display_applied_on == '5_lot_price_group'"
+                       options="{'no_create': True, 'no_create_edit': True}"
+                       help="Select the lot price group this rule applies to. Only lots with these specific dimensions will get this pricing."/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Extend pricelist item tree view to show lot group columns -->
+    <record id="product_pricelist_item_tree_view_inherit_lot" model="ir.ui.view">
+        <field name="name">product.pricelist.item.tree.inherit.lot</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_tree_view"/>
+        <field name="arch" type="xml">
+
+            <!-- Add lot group columns after 'name' field (which shows Applied On) -->
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="base_lot_group_id"
+                       optional="hide"
+                       string="Base Lot Group"/>
+                <field name="lot_price_group_id"
+                       optional="hide"
+                       string="Lot Price Group"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!--
+    Note: Help text for pricelist form view removed to avoid XPath complexity.
+    Users can refer to README.md and USAGE_EXAMPLES.md for documentation.
+    -->
+
+</odoo>

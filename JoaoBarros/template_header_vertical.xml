@@ -1,0 +1,40 @@
+<data inherit_id="website.layout" name="Template Header Vertical" active="False">
+    <xpath expr="//header//nav" position="replace">
+        <t t-call="website.navbar">
+            <t t-set="_navbar_classes" t-valuef="d-none d-lg-flex p-0"/>
+
+            <div id="o_main_nav" class="container d-flex align-items-center justify-content-between py-2" style="background-color:#504B43;">
+                <ul class="navbar-nav flex-row align-items-center gap-3 mb-0 flex-grow-1">
+                    <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                        <t t-call="website.submenu">
+                            <t t-set="item_class" t-valuef="nav-item"/>
+                            <t t-set="link_class" t-valuef="nav-link text-white px-0"/>
+                        </t>
+                    </t>
+                </ul>
+
+                <t t-call="website.placeholder_header_brand">
+                    <t t-set="_link_class" t-valuef="mx-auto text-white"/>
+                </t>
+
+                <div class="d-flex align-items-center gap-3 flex-grow-1 justify-content-end">
+                    <t t-call="website.placeholder_header_search_box">
+                        <t t-set="_layout" t-valuef="modal"/>
+                        <t t-set="_button_classes" t-valuef="text-white border-0 p-0 bg-transparent"/>
+                    </t>
+                    <t t-call="portal.placeholder_user_sign_in">
+                        <t t-set="_link_class" t-valuef="text-white p-0 border-0 bg-transparent"/>
+                    </t>
+                    <t t-call="portal.user_dropdown">
+                        <t t-set="_icon" t-value="true"/>
+                        <t t-set="_item_class" t-valuef="dropdown"/>
+                        <t t-set="_icon_class" t-valuef="fa-stack"/>
+                        <t t-set="_link_class" t-valuef="d-flex align-items-center text-white p-0 border-0 bg-transparent"/>
+                        <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-call="website.template_header_mobile"/>
+    </xpath>
+</data>

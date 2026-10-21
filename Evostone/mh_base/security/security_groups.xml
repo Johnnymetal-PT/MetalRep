@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Categoria para agrupar os grupos MHC -->
+    <record id="module_category_mhc" model="ir.module.category">
+        <field name="name">MHC</field>
+        <field name="description">Grupos de acesso do sistema MHC (Stone Trading)</field>
+        <field name="sequence">100</field>
+    </record>
+
+    <!-- Grupo Base: MHC User -->
+    <record id="group_mhc_user" model="res.groups">
+        <field name="name">MHC User</field>
+        <field name="category_id" ref="module_category_mhc"/>
+        <field name="comment">Acesso básico ao sistema MHC. Pode visualizar e criar registos básicos.</field>
+    </record>
+
+    <!-- Grupo Intermédio: MHC Manager (herda de User) -->
+    <record id="group_mhc_manager" model="res.groups">
+        <field name="name">MHC Manager</field>
+        <field name="category_id" ref="module_category_mhc"/>
+        <field name="implied_ids" eval="[(4, ref('group_mhc_user'))]"/>
+        <field name="comment">Gestor MHC. Pode gerir preços, aprovar documentos e configurar opções departamentais.</field>
+    </record>
+
+    <!-- Grupo Superior: MHC Admin (herda de Manager) -->
+    <record id="group_mhc_admin" model="res.groups">
+        <field name="name">MHC Admin</field>
+        <field name="category_id" ref="module_category_mhc"/>
+        <field name="implied_ids" eval="[(4, ref('group_mhc_manager'))]"/>
+        <field name="comment">Administrador MHC. Acesso total ao sistema, incluindo configurações avançadas e eliminação de registos.</field>
+    </record>
+
+    <!-- Grupo: Bloqueio Cancelamento de Vendas -->
+    <record id="group_block_sale_cancel" model="res.groups">
+        <field name="name">Bloqueio Cancelamento de Vendas</field>
+        <field name="category_id" ref="module_category_mhc"/>
+        <field name="comment">Utilizadores neste grupo NÃO podem cancelar cotações e pedidos de venda.</field>
+    </record>
+
+    <!-- Grupo: Bloqueio Cancelamento de Lançamentos Contabilísticos -->
+    <record id="group_block_account_cancel" model="res.groups">
+        <field name="name">Bloqueio Cancelamento Contabilístico</field>
+        <field name="category_id" ref="module_category_mhc"/>
+        <field name="comment">Utilizadores neste grupo NÃO podem cancelar lançamentos contabilísticos (faturas, notas de crédito, etc.).</field>
+    </record>
+
+    <!-- Grupo: Bloqueio Cancelamento de Pagamentos -->
+    <record id="group_block_payment_cancel" model="res.groups">
+        <field name="name">Bloqueio Cancelamento de Pagamentos</field>
+        <field name="category_id" ref="module_category_mhc"/>
+        <field name="comment">Utilizadores neste grupo NÃO podem cancelar pagamentos.</field>
+    </record>
+
+</odoo>

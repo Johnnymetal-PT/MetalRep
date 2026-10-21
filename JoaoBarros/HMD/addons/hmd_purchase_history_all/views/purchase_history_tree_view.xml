@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_purchase_history_tree_all_states" model="ir.ui.view">
+        <field name="name">purchase.history.tree.all.states</field>
+        <field name="model">purchase.order.line</field>
+        <field name="inherit_id" ref="purchase.purchase_history_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="replace">
+                <list create="false" default_order="order_id asc" action="action_open_order" type="object">
+                    <field name="currency_id" column_invisible="True"/>
+                    <field name="order_id" widget="many2one"/>
+                    <field name="date_approve"/>
+                    <field name="partner_id" string="Vendor"/>
+                    <field name="company_id" optional="show" groups="base.group_multi_company"/>
+                    <field name="product_uom_qty" string="Quantity"/>
+                    <field name="price_unit" widget="monetary"/>
+                    <field name="price_subtotal" widget="monetary" string="Total Untaxed"/>
+                    <field name="state" optional="hide"/>
+                </list>
+            </xpath>
+        </field>
+    </record>
+</odoo>

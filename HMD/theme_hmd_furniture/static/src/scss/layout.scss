@@ -1,0 +1,873 @@
+// Cabecalho, mega-menu e rodape — partilhados pelas 8 paginas do desenho.
+// Geometria de origem: Website_Design/Desktop/SVG/Home.svg
+//   barra de topo  1920x39   (Component_2_3)
+//   cabecalho      1920x345  aberto (Component_1_12), nav a y=47
+//   mega-menu      colunas a y=84, x=99/399/658/875/1020
+//   rodape         1920x672  a y=7375, fundo #222120
+
+// --- Barra de topo -------------------------------------------------------
+// Feedback Monica 18/09/2026, PDF "LOG IN LOGOUT BOTOES": a faixa perde os
+// atalhos PRIVATE / PROFESSIONAL da esquerda e passa a levar, encostado a
+// direita, o bloco de conta + carrinho + wishlist que antes vivia na coluna
+// da direita dentro de uma caixa cinzenta.
+.hmd-topbar {
+    // Deixa de ser altura fixa: o conteudo passou a ser o bloco de widgets,
+    // que e mais alto do que a linha de texto de 39px do XD. Fica como minimo
+    // para a faixa nao desaparecer quando nao ha nada para mostrar.
+    min-height: var(--hmd-topbar-h);
+    display: flex;
+    align-items: center;
+    // Empurra o unico filho para a direita. Era "gap: 1.5rem" entre os tres
+    // itens que a faixa tinha; agora tem um so.
+    justify-content: flex-end;
+    padding-inline: clamp(1rem, 3.2vw, 61px);
+    background: var(--hmd-white);
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-fs-micro);
+    // Bold, conforme o painel do XD da prancha com sessao iniciada (16/09).
+    // O peso nunca tinha sido definido e herdava o Regular do corpo.
+    font-weight: 700;
+    letter-spacing: var(--hmd-ls-tight);
+    line-height: 1.25;   // 15/12, do mesmo painel
+    text-transform: uppercase;
+    color: var(--hmd-ink);
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 3px; }
+}
+
+// --- Cabecalho -----------------------------------------------------------
+// O <header> do Odoo trata do comportamento fixo; aqui so tratamos do aspecto.
+.hmd-header {
+    position: relative;
+    z-index: 1030;
+}
+
+// Medido no XD (Home.svg):
+//   Rectangle_55  barra de topo  1920x39   fill="#fff"                 opaco
+//   Rectangle_56  cabecalho      1920x345  fill="#fff" opacity="0.2"   veu claro
+// Sem este veu o texto da navegacao desaparece sobre as imagens escuras.
+//
+// Decisao da Monica Hedderich (07/10/2026, #7875): fundo do menu
+// completamente transparente. O veu de 20% do XD sai. Efeito conhecido e
+// aceite: nas imagens escuras da pagina inicial o texto do menu le-se pior.
+.hmd-header__bar {
+    background: transparent;
+}
+
+// No XD (Home.svg) o wordmark NAO esta centrado: o bloco da direita e uma
+// coluna empilhada — widgets a y=40, wordmark a y=78, atalhos a y=180..250.
+.hmd-header__bar {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(1rem, 2vw, 2.5rem);
+    padding: 1.5rem var(--hmd-pad-x-nav) 0;
+    min-height: 0;
+}
+
+// Coluna esquerda do cabecalho: navegacao por cima, mega-menu por baixo
+.hmd-header__main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+// Navegacao primaria (Courier New 14px, y=47 no desenho)
+.hmd-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(0.75rem, 2.6vw, 50px);
+    font-family: var(--hmd-mono);
+    font-size: var(--hmd-fs-nav);
+    // XD: Courier New 14 / entrelinha 16 -> 16/14. Em razao e nao em px para
+    // acompanhar o tamanho quando ele encolhe abaixo dos 1920 do desenho.
+    line-height: 1.143;   // 16/14
+    letter-spacing: var(--hmd-ls-none);
+    text-transform: uppercase;
+
+    a { color: var(--hmd-ink); text-decoration: none; }
+    a:hover,
+    a[aria-current='page'],
+    .hmd-nav__item--active > a { font-weight: 700; }
+}
+
+// Wordmark "hmd furniture" — alinhado a direita, acima dos atalhos
+// Feedback Monica 18/09/2026, PDF "MENU LADO DIREITO": o wordmark
+// tipografico "hmd furniture" da-lugar ao logotipo da casa.
+//
+// As regras de tipografia que aqui estavam (peso, corpo, espacamento entre
+// letras, e os dois pesos de .hmd-brand__mark e .hmd-brand__word) deixaram de
+// ter objecto: ja nao ha texto para compor. O que fica e a caixa.
+//
+// O color continua a ser declarado porque o SVG pinta o traco com
+// currentColor — muda-se a tinta aqui e o logotipo acompanha.
+.hmd-brand {
+    align-self: flex-end;
+    display: block;
+    color: var(--hmd-ink-2);
+    text-decoration: none;
+
+    &__logo {
+        display: block;
+        // O logotipo e 138.91 x 54.93 no EPS, ou seja uma proporcao de 2.53:1.
+        // Na prancha ocupa cerca de 130px de largura a 1920 — fica fluido
+        // entre o mobile e esse valor, e a altura vem da proporcao.
+        width: clamp(78px, 6.8vw, 130px);
+        height: auto;
+    }
+}
+
+// Coluna direita: carrinho/wishlist/conta (widgets nativos do Odoo) +
+// atalhos PRODUCTS / MATERIALS / FABRICS / EN|PT (Courier 20px, x=1268)
+.hmd-header__aside {
+    flex: 0 0 auto;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+}
+
+.hmd-header__tools {
+    display: flex;
+    align-items: center;
+    // Os ~85px do XD eram para os tres itens espalhados na caixa cinzenta.
+    // Nas pranchas 2 e 3 do PDF "LOG IN LOGOUT BOTOES" o nome/login, o
+    // carrinho e o coracao estao encostados uns aos outros no canto.
+    gap: clamp(0.75rem, 1.2vw, 22px);
+
+    // A caixa cinzenta que o XD tinha por tras dos tres desaparece: nas
+    // pranchas novas os widgets assentam directamente na faixa branca.
+    background: transparent;
+    padding: 0.35rem 0;
+
+    // Os widgets do carrinho e da wishlist sao <li> do Odoo. Fora de uma lista
+    // o browser desenha-lhes na mesma o marcador — eram as bolinhas que
+    // apareciam entre os icones.
+    li { list-style: none; }
+
+    // O numero vem num <sup class="badge bg-primary">: capsula redonda e roxa.
+    // No desenho e so um algarismo pequeno, em expoente, na cor da tinta. O
+    // !important e para vencer as utilitarias .badge/.bg-* do Bootstrap, que
+    // ja trazem !important de origem.
+    .badge {
+        // O quadrado a volta do numero.
+        //
+        // O .badge do Bootstrap desenha uma capsula: tem padding, fundo
+        // (.bg-primary), raio de canto e variaveis proprias (--bs-badge-*).
+        // Tirar so o raio transformava a capsula num QUADRADO, que e o que se
+        // estava a ver — e nao a fazia desaparecer.
+        //
+        // Zeram-se as variaveis do componente E as propriedades finais: as
+        // variaveis para o Bootstrap nao voltar a compo-las, e as
+        // propriedades com !important porque as utilitarias .bg-* ja trazem
+        // !important de origem.
+        --bs-badge-padding-x: 0;
+        --bs-badge-padding-y: 0;
+        --bs-badge-border-radius: 0;
+        --bs-badge-font-size: inherit;
+        --bs-badge-font-weight: 700;
+
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: none !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+        color: var(--hmd-ink-2) !important;
+        min-width: 0;
+
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-micro);   // 12, como o painel do XD
+        font-weight: 700;
+        line-height: 1.25;                // 15/12
+    }
+
+    // O caixote do carrinho e o coracao. O Odoo poe-lhes tambem .fa-stack,
+    // que e uma classe pensada para empilhar dois icones um sobre o outro e
+    // que lhes fixa 2em de largura e de altura — sozinha, deixa a volta do
+    // glifo uma caixa vazia do dobro do tamanho.
+    .fa {
+        font-size: 1.15rem;
+        color: var(--hmd-ink-2);
+
+        &.fa-stack {
+            width: auto;
+            height: auto;
+            line-height: 1;
+            vertical-align: baseline;
+        }
+    }
+
+    // O numero em expoente sobre o icone, como no desenho.
+    .hmd-tool {
+        position: relative;
+        display: inline-flex;
+        align-items: flex-start;
+
+        .badge {
+            position: relative;
+            top: -0.35em;
+            margin-left: 0.1em;
+        }
+    }
+
+    // ATENCAO: esta zona NAO esta medida a partir de um SVG. A prancha em que
+    // ela aparece e a da versao COM sessao iniciada, que nao esta entre os 8
+    // ficheiros de Website_Design/ — o Home.svg e a versao sem sessao e no
+    // canto direito so tem o LOGIN e os atalhos. Os valores foram medidos
+    // sobre um screenshot, com o "PRODUCTS" (Courier 20, confirmado no SVG)
+    // como escala. Sao aproximacoes; quando a prancha aparecer, confere-se.
+    //
+    // O AV -33 do XD e em milesimos de em, logo -0.033em — o --hmd-ls-tight
+    // que o tema ja tinha medido noutras pecas.
+    //
+    // O nome ronda os 18px: o "12 Bold" do painel que a HMD mandou e dos
+    // NUMEROS, nao do nome.
+    font-family: var(--hmd-ui);
+    font-size: clamp(0.875rem, 0.94vw, 1.125rem);
+    font-weight: 400;
+    letter-spacing: var(--hmd-ls-tight);
+    line-height: 1.25;    // 15/12
+
+    .o_wsale_my_cart, .o_wsale_my_wish { position: relative; }
+}
+
+// O bloco de widgets dentro da barra de topo.
+//
+// Os tamanhos do bloco acima foram medidos para a caixa cinzenta do XD, que
+// ficava na coluna da direita. Nas pranchas 2 e 3 do PDF "LOG IN LOGOUT
+// BOTOES" estes itens vivem na faixa branca de topo e leem-se como o texto
+// que la estava: pequeno, Bold, em maiusculas.
+.hmd-topbar .hmd-header__tools {
+    font-size: var(--hmd-fs-micro);   // 12px, o corpo da faixa
+    font-weight: 700;
+    text-transform: uppercase;
+
+    // O nome do utilizador vem num <a class="nav-link"> do Bootstrap, que
+    // traz padding proprio e a cor de ligacao. Na faixa e texto simples.
+    .nav-link {
+        padding: 0;
+        color: inherit;
+        font: inherit;
+        letter-spacing: inherit;
+        text-transform: inherit;
+    }
+
+    // A seta do menu de conta, que na prancha e pequena e colada ao nome.
+    .dropdown-toggle::after { margin-left: 0.35em; vertical-align: middle; }
+
+    // O menu MY ACCOUNT / LOGOUT herdava as maiusculas e o Bold da faixa.
+    // Nas pranchas os dois itens estao em maiusculas mas sem o peso, e o
+    // menu tem de continuar legivel com nomes longos.
+    .dropdown-menu {
+        text-transform: uppercase;
+        font-weight: 400;
+        font-size: var(--hmd-fs-micro);
+        border-radius: 0;
+    }
+}
+
+// Feedback Monica 18/09/2026, PDF "MENU LADO DIREITO": a coluna de atalhos
+// deixa a Courier New maiuscula do XD e passa a "INTER BOLD 13PX", em
+// minusculas — e como a prancha anotada a mostra ("home products materials
+// fabrics"). O tamanho e fixo, nao fluido: ela deu um numero, nao um intervalo.
+.hmd-rail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0;
+    // Entrelinha do token da Inter. A anterior (1.15) vinha da metrica da
+    // Courier 20 do XD, que deixou de ser a fonte deste bloco.
+    line-height: var(--hmd-lh-ui);
+    font-family: var(--hmd-ui);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: var(--hmd-ls-none);
+    text-transform: lowercase;
+
+    a { color: var(--hmd-ink-2); text-decoration: none; }
+    // O hover era "font-weight: 700", que com a base ja a 700 nao dizia nada.
+    a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    // No XD o EN e o PT ficam em linhas separadas, alinhados a direita com
+    // os restantes atalhos (cf. Collection.pdf e Contact us.pdf).
+    .hmd-rail__lang {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0;
+
+        // Os codigos de idioma ficam em maiusculas: o template escreve-os com
+        // .upper() e na prancha anotada continuam "EN" e "PT", nao "en"/"pt".
+        // O lowercase do bloco apanhava-os.
+        text-transform: uppercase;
+
+        // E so o idioma ACTIVO e que vai a negrito. Na prancha o EN esta mais
+        // carregado do que o PT; com a base do bloco a 700 os dois ficavam
+        // iguais e perdia-se a indicacao de onde estamos.
+        a { font-weight: 400; }
+        .active { font-weight: 700; }
+    }
+}
+
+// Campo de pesquisa do cabecalho: linha simples com lupa a direita.
+.hmd-search {
+    margin-top: 0.4rem;
+    width: clamp(160px, 16vw, 300px);
+
+    .input-group { display: flex; align-items: center; gap: 0.4rem; }
+
+    input {
+        flex: 1;
+        min-width: 0;
+        border: 0;
+        border-bottom: 1px solid var(--hmd-ink-2);
+        border-radius: 0;
+        background: transparent;
+        padding: 0.15rem 0;
+        font-family: var(--hmd-ui);
+        font-size: var(--hmd-fs-micro);
+        color: var(--hmd-ink-2);
+        box-shadow: none;
+
+        &:focus { outline: none; box-shadow: none; border-bottom-width: 2px; }
+    }
+
+    // No desenho a lupa esta a seguir a linha, sem caixa nenhuma a volta.
+    .hmd-search__btn {
+        flex: 0 0 auto;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--hmd-ink-2);
+        box-shadow: none;
+
+        &:hover, &:focus { background: transparent; color: var(--hmd-ink); }
+    }
+
+    button {
+        background: none;
+        border: 0;
+        padding: 0;
+        color: var(--hmd-ink-2);
+        line-height: 1;
+    }
+}
+
+// --- Mega-menu de categorias --------------------------------------------
+// 5 colunas: MESAS / ESTOFO / ARRUMACAO / CAMAS / ILUMINACAO
+// No XD o mega-menu esta SEMPRE aberto — aparece expandido em todas as
+// paginas (Home, Collection, Contact us, Products). Nao e um menu de hover.
+// A classe .is-open fica suportada para o JS nao partir, mas nao e precisa.
+.hmd-megamenu {
+    display: block;
+    background: transparent;   // o veu ja vem da .hmd-header__bar
+    // No XD as colunas comecam em x=96 de 1920 (5%), alinhadas por baixo de
+    // "COLLECTION", e nao junto a margem.
+    padding: 1.9rem 0 1.25rem 5%;
+    background: transparent;
+}
+
+.hmd-megamenu__grid {
+    display: grid;
+    // Larguras do XD: as colunas comecam em x=96, 396, 655, 872 e 1017 de
+    // 1920 — nao sao iguais entre si.
+    grid-template-columns: 15.6% 13.5% 11.3% 7.6% auto;
+    gap: 0;
+    max-width: none;
+    font-family: var(--hmd-mono);
+    font-size: var(--hmd-fs-nav);
+    // XD: Courier New 14 / entrelinha 16, categoria a Bold e subcategorias a
+    // Regular. Nunca tinha sido definida, por isso herdava a do browser.
+    line-height: 1.143;   // 16/14
+    letter-spacing: var(--hmd-ls-none);
+    text-transform: uppercase;
+
+    // Feedback Monica 18/09/2026, PDF "AJUSTE ESPESSURA MENU PRINCIPAL":
+    // "Tentar dar mais bold as letras".
+    //
+    // A Courier New e fonte de sistema e so tem dois pesos, 400 e 700. Pôr a
+    // base a 700 engrossava, mas apagava a unica marca de "estou nesta
+    // pagina" que o mega-menu tem: a subcategoria activa, que e exactamente o
+    // que distingue pelo peso 700 (ver .hmd-megamenu__col mais abaixo).
+    //
+    // O contorno engrossa o traco sem gastar o peso, por isso os dois niveis
+    // continuam a distinguir-se. Em Firefox, que nao suporta
+    // -webkit-text-stroke, nada acontece e fica o comportamento actual —
+    // degrada para o que ja esta no ar, nao para algo partido.
+    a { -webkit-text-stroke: 0.25px currentColor; }
+}
+
+.hmd-megamenu__col {
+    display: flex;
+    flex-direction: column;
+    // Zero: no XD o que separa as linhas e a entrelinha de 16, e um gap por
+    // cima dela afastava as subcategorias mais do que o desenho.
+    gap: 0;
+
+    // Medido no Home.svg: as linhas da coluna estao de 16 em 16px, sem folga
+    // nenhuma sob a categoria. O margin-bottom que aqui estava acrescentava
+    // 3px que o desenho nao tem.
+    //
+    // E o negrito NAO e da categoria: no SVG a linha em falta neste bloco
+    // (y=44) e a "MESAS EXTENSIVEIS", que vive noutro elemento por ter peso
+    // 700. Ou seja, marca a subcategoria ATIVA. A categoria distingue-se pela
+    // indentacao das que estao por baixo dela, nao pelo peso.
+    > a:first-child { font-weight: 400; margin-bottom: 0; }
+
+    // ~26px a 1920 sobre Courier 14, ou seja cerca de tres caracteres. Em ch
+    // e nao em px para acompanhar o corpo quando ele encolhe.
+    > a:not(:first-child) { padding-left: 3ch; }
+
+    // A ativa vai a negrito, como no desenho. O aria-current e posto pelo
+    // Odoo na ligacao da pagina em que estamos.
+    > a[aria-current='page'] { font-weight: 700; }
+
+    a { color: var(--hmd-ink-2); text-decoration: none; }
+    // Negrito e nao sublinhado, por pedido da HMD. A Courier e monoespacada,
+    // portanto o negrito nao altera a largura e nada salta ao passar o rato.
+    a:hover { font-weight: 700; }
+}
+
+// Ao descer a pagina o cabecalho fica fixo (o Odoo poe .o_header_affixed e o
+// hmd_navigation.js poe .hmd-header--scrolled). Aberto e transparente, o
+// mega-menu ficava por cima do artigo — tarefa #8114, video da Monica de
+// 16/10/2026. No topo continua como no XD (sempre aberto, fundo transparente,
+// decisao da Monica de 07/10); ao descer recolhe e volta a abrir ao passar o
+// rato (ou o teclado) pela navegacao. O fundo continua transparente tambem
+// ao descer: a versao com fundo branco foi recusada pela Lara a 16/10.
+.hmd-header--scrolled {
+    .hmd-megamenu { display: none; }
+    .hmd-header__main:hover .hmd-megamenu,
+    .hmd-header__main:focus-within .hmd-megamenu { display: block; }
+}
+
+// --- Rodape --------------------------------------------------------------
+// Fundo e cor padrao so enquanto o editor nao escolheu outros (tarefa #8113).
+.hmd-footer:not(.o_cc) {
+    background: var(--hmd-ink-2);
+    color: var(--hmd-white);
+}
+.hmd-footer {
+    font-family: var(--hmd-ui);
+    font-size: var(--hmd-fs-meta);
+    padding: clamp(2.5rem, 7.65vw, 147px) var(--hmd-pad-x) clamp(2rem, 3vw, 58px);
+
+}
+
+// O rodape e renderizado dentro de ".o_colored_level .o_cc1", cujo seletor
+// ".o_colored_level .o_cc1 a:not(.btn)" pinta os links de #65435c (roxo) com
+// especificidade 0,3,1 — mais do que ".hmd-footer a" (0,1,1). Ganhamos com o
+// id do proprio rodape (1,1,1), sem recorrer a !important.
+#footer.hmd-footer {
+    a { color: var(--hmd-white); text-decoration: none; }
+    a:hover { color: var(--hmd-white); text-decoration: underline; text-underline-offset: 3px; }
+}
+
+.hmd-footer__intro {
+    max-width: 46ch;
+    text-transform: uppercase;
+    line-height: var(--hmd-lh-ui);
+    // No XD o paragrafo comeca a 147px do topo do rodape e a linha de baixo
+    // esta a 404px: o intervalo real entre os dois blocos e ~127px, nao 257
+    // (esse valor incluia a altura do proprio paragrafo). Com 13.4vw o vazio
+    // crescia sem controlo em ecras largos.
+    margin-bottom: clamp(2rem, 6.6vw, 127px);
+}
+
+.hmd-footer__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 0.9fr) minmax(0, 1.4fr);
+    gap: clamp(1.5rem, 3vw, 3rem);
+    text-transform: uppercase;
+    line-height: var(--hmd-lh-mono);
+}
+
+.hmd-footer__col { display: flex; flex-direction: column; gap: 0.1rem; }
+
+.hmd-newsletter {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.4rem;
+    border-bottom: 1px solid var(--hmd-white);
+    padding-bottom: 0.35rem;
+
+    input {
+        flex: 1;
+        min-width: 0;
+        background: transparent;
+        border: 0;
+        color: var(--hmd-white);
+        font-family: inherit;
+        font-size: inherit;
+        padding: 0;
+
+        &::placeholder { color: var(--hmd-white-49); }
+        &:focus { outline: none; }
+    }
+
+    button {
+        background: transparent;
+        border: 0;
+        color: var(--hmd-white);
+        font-family: inherit;
+        font-size: inherit;
+        text-transform: uppercase;
+        cursor: pointer;
+        padding: 0;
+    }
+}
+
+// --- Mobile (desenho de 393px) ------------------------------------------
+// Website_Design/Mobile/*.svg e Untitled.pdf
+// Cabecalho em DUAS linhas:
+//   1) conta / carrinho / wishlist  +  pesquisa
+//   2) wordmark "hmd furniture" a esquerda,  "MENU" a direita
+// Os atalhos PRODUCTS/MATERIALS/FABRICS e o selector EN|PT nao existem no
+// cabecalho mobile do desenho — vivem no painel de categorias.
+@media (max-width: 991.98px) {
+    .hmd-header__bar {
+        align-items: center;
+        padding-top: 0.75rem;
+    }
+
+    .hmd-nav { display: none; }
+    .hmd-megamenu { display: none !important; }
+
+    .hmd-header__aside {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        width: 100%;
+        margin-left: 0;
+        column-gap: 0.75rem;
+        row-gap: 0.6rem;
+    }
+
+    // As duas linhas do desenho mobile eram:
+    //   1) conta / carrinho / wishlist  +  pesquisa
+    //   2) wordmark  +  MENU
+    //
+    // Com os widgets a subirem para a barra de topo (feedback Monica
+    // 18/09/2026), a linha 1 ficava so com a pesquisa e o cabecalho passava a
+    // ter tres linhas. Juntam-se as sobras numa so: wordmark, pesquisa e
+    // MENU. Continuam a ser duas faixas, como na prancha — o que mudou foi
+    // quem acompanha quem.
+    //
+    // O desenho mobile e de Agosto e nao foi revisto neste feedback, que e
+    // todo de ecra grande. Fica por confirmar com a Monica.
+    .hmd-topbar { padding-inline: 1.25rem; }
+
+    // .hmd-rail deixa de ser caixa: so a pesquisa fica visivel
+    .hmd-rail { display: contents; }
+    // A regra base e ".hmd-rail .hmd-rail__lang" (0,2,0); para a vencer aqui
+    // e preciso a mesma especificidade, nao basta a ordem no ficheiro.
+    .hmd-rail > a { display: none; }
+    .hmd-rail .hmd-rail__lang { display: none; }
+    .hmd-search { order: 2; margin-top: 0; margin-left: auto; width: clamp(110px, 38vw, 200px); }
+
+    // O font-size que aqui estava encolhia o wordmark tipografico; com o
+    // logotipo, quem manda na medida e a largura da imagem.
+    .hmd-brand { order: 1; align-self: center; }
+    .hmd-brand__logo { width: 84px; }
+    // O botao que abre o menu. Sem despir o <button>, o browser desenha-lhe a
+    // caixa cinzenta do sistema — que nao existe na prancha, onde "MENU" e
+    // texto como o resto do cabecalho. Le igual aos "Menu" de dentro do painel.
+    .hmd-burger {
+        // A seguir a pesquisa, na mesma linha. O margin-left:auto saiu: quem
+        // empurra o par para a direita e a pesquisa, e dois margens
+        // automaticas repartiam o espaco entre si em vez de encostarem.
+        order: 3;
+        margin-left: 0.75rem;
+        appearance: none;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        font-family: var(--hmd-mono);
+        font-size: 1rem;
+        letter-spacing: var(--hmd-ls-none);
+        text-transform: uppercase;
+        color: var(--hmd-ink-2);
+        cursor: pointer;
+    }
+
+    // Area de toque. A lupa (16x16), o carrinho e o coracao (~17x15) e o
+    // MENU (38x24) ficavam abaixo dos 44x44px que o dedo pede (medido a
+    // 393px, 04/10/2026). A area cresce num ::after invisivel e centrado,
+    // por isso o desenho e o alinhamento do cabecalho nao mudam. As duas
+    // linhas do cabecalho distam ~47px entre centros: as areas nao se tocam.
+    .hmd-search__btn,
+    .hmd-burger,
+    .hmd-header__tools .o_wsale_my_cart > a,
+    .hmd-header__tools .o_wsale_my_wish > a {
+        position: relative;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 44px;
+            height: 44px;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    // Os dois textos da faixa de topo (PROFESSIONAL LOGIN e o nome da conta)
+    // tem 15px de altura (medido na producao a 14/10/2026, #8114). A area de
+    // toque cresce num ::before invisivel — ::before e nao ::after, porque no
+    // dropdown o ::after e a seta. A faixa tem 39px: 15 + 2x15 = 45px.
+    .hmd-topbar__login,
+    .hmd-topbar .dropdown > .nav-link {
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: -15px -4px;
+        }
+    }
+
+    // O dropdown de conta do Odoo mostra o nome completo; a 393px isso
+    // empurra os widgets para fora do ecra.
+    .hmd-header__tools .dropdown .nav-link {
+        max-width: 34vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    // Menu aberto com o cabecalho fixo (#8114). Com scroll, o Odoo poe um
+    // transform no <header> para o animar, e um elemento position: fixed dentro
+    // de um pai com transform passa a medir-se pelo pai e nao pelo ecra: o
+    // painel (inset: 0) ficava com a altura do cabecalho — 84px, so com o botao
+    // MENU e uma barra de scroll. Enquanto o painel esta aberto tira-se o
+    // transform; ao fechar, o Odoo volta a poe-lo. Testado na producao a 390px.
+    header#top:has(.hmd-mobile-menu.is-open) { transform: none !important; }
+
+    // Painel de categorias em ecra inteiro
+    .hmd-mobile-menu {
+        position: fixed;
+        inset: 0;
+        z-index: 1040;
+        background: var(--hmd-white);
+        padding: 1.5rem 1.25rem;
+        overflow-y: auto;
+        transform: translateX(100%);
+        transition: transform 0.25s ease;
+
+        &.is-open { transform: translateX(0); }
+
+        .hmd-mobile-menu__list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.15rem;
+            font-family: var(--hmd-mono);
+            font-size: 1.25rem;
+            letter-spacing: var(--hmd-ls-none);
+            text-transform: uppercase;
+            margin-top: 2rem;
+        }
+
+        // O botao que abre o segundo nivel tem de ler como as ligacoes ao
+        // lado: nas pranchas nada o distingue visualmente de "Camas" ou
+        // "Iluminacao". Por isso despimos o <button> de tudo o que o browser
+        // lhe poe.
+        .hmd-mobile-menu__list a,
+        .hmd-mobile-menu__into {
+            color: var(--hmd-ink-2);
+            text-decoration: none;
+            appearance: none;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            font: inherit;
+            letter-spacing: inherit;
+            text-transform: inherit;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        // Os niveis ocupam o mesmo lugar; so um esta visivel.
+        .hmd-mobile-menu__level { display: none; }
+        .hmd-mobile-menu__level.is-active { display: block; }
+
+        // Os dois "Menu" do painel — fechar no nivel 1, voltar no nivel 2 —
+        // ocupam o mesmo lugar e tem de ler igual. Sem isto ficavam com o
+        // aspecto cinzento que o browser da a um <button> por defeito, que nao
+        // existe em lado nenhum da prancha.
+        .hmd-mobile-menu__close,
+        .hmd-mobile-menu__back {
+            appearance: none;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            font-family: var(--hmd-mono);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: var(--hmd-ls-none);
+            color: var(--hmd-ink-2);
+            cursor: pointer;
+        }
+
+        // A raiz repetida no topo do segundo nivel ("Mesas" dentro de Mesas).
+        .hmd-mobile-menu__root { font-weight: 500; }
+
+        // Submenu (nivel 2) tem de se distinguir da raiz (#8114). Os dois
+        // niveis eram iguais: "Menu" a voltar, a mesma lista e a mesma cor, e
+        // nada dizia que se tinha entrado num submenu.
+        // 1) o botao de voltar leva uma seta (o de fechar, no nivel 1, nao);
+        .hmd-mobile-menu__back::before { content: "\2190"; margin-right: 0.6rem; }
+
+        .hmd-mobile-menu__level:not([data-hmd-level="root"]) {
+            // 2) entra por um deslize curto em vez de trocar de repente;
+            animation: hmd-level-in 0.22s ease-out;
+
+            .hmd-mobile-menu__back {
+                display: block;
+                width: 100%;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+                text-align: left;
+            }
+
+            // 3) a categoria aberta serve de titulo (continua a ser ligacao
+            //    para a propria categoria) e as subcategorias ficam recuadas;
+            //    a lista da conta (HOME, LOGIN) fica de fora.
+            .hmd-mobile-menu__root {
+                font-family: var(--hmd-display);
+                font-size: 2rem;
+                font-weight: 400;
+                line-height: 1;
+                letter-spacing: var(--hmd-ls-display-sm);
+            }
+            .hmd-mobile-menu__list:not(.hmd-mobile-menu__list--account)
+                a:not(.hmd-mobile-menu__root) {
+                padding-left: 1rem;
+                border-left: 1px solid var(--hmd-ink-2);
+            }
+        }
+
+        // 4) fundo cinzento no submenu: sinal imediato de que mudou de nivel.
+        // O :has() so e suportado por browsers recentes; nos outros o submenu
+        // fica como estava (branco), sem perder nada do resto.
+        &:has(.hmd-mobile-menu__level.is-active:not([data-hmd-level="root"])) {
+            background: var(--hmd-grey);
+        }
+
+        .hmd-mobile-menu__list--account { margin-top: 2.5rem; font-size: 1rem; }
+
+        // O rodape dentro do painel, como nas duas pranchas. Fica mais
+        // discreto do que as ligacoes de navegacao, que sao o que ali importa.
+        .hmd-mobile-menu__foot {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--hmd-rule, rgba(0, 0, 0, 0.12));
+
+            .hmd-footer__grid { grid-template-columns: 1fr; gap: 1.5rem; }
+
+            // O rodape reaproveitado e o da pagina, que e branco sobre preto.
+            // No painel o fundo e branco: a newsletter ficava invisivel e as
+            // ligacoes caiam no roxo do Odoo.
+            a { color: var(--hmd-ink); }
+            .hmd-newsletter {
+                border-bottom-color: var(--hmd-ink);
+                input, button { color: var(--hmd-ink); }
+                input::placeholder { color: var(--hmd-ink-2); }
+            }
+        }
+    }
+
+    .hmd-footer__grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .hmd-footer__intro { margin-bottom: 2rem; }
+}
+
+@keyframes hmd-level-in {
+    from { opacity: 0; transform: translateX(24px); }
+    to { opacity: 1; transform: none; }
+}
+
+@media (min-width: 992px) {
+    .hmd-burger, .hmd-mobile-menu { display: none; }
+}
+
+// --- Cabecalho por cima da imagem: deixar passar os cliques -------------
+// Nas paginas com header_overlay (a pagina inicial) o cabecalho e
+// transparente, fixo e alto: o mega-menu esta sempre aberto e a ultima
+// coluna estica ate meio da pagina. Ficava por cima do titulo do hero e
+// apanhava os cliques; no editor, clicar no "MEL" seleccionava o menu e a
+// ferramenta de tipografia (T) mostrava e alterava o elemento errado
+// (medido a 08/10/2026 na producao: elementFromPoint no centro do titulo
+// devolvia .hmd-megamenu__col). Os blocos do cabecalho deixam passar os
+// cliques; so os elementos interactivos os recebem.
+.o_header_overlay {
+    header#top,
+    .hmd-header,
+    .hmd-header__bar,
+    .hmd-header__main,
+    .hmd-header__aside,
+    .hmd-megamenu,
+    .hmd-megamenu__col {
+        pointer-events: none;
+    }
+
+    header#top a,
+    header#top button,
+    header#top input,
+    header#top select,
+    header#top label,
+    header#top .dropdown-menu,
+    header#top .hmd-topbar,
+    header#top .hmd-search {
+        pointer-events: auto;
+    }
+}
+
+// Barra de cookies (#website_cookies_bar)
+//
+// Mónica 21/10/2026 (#8399): "COOKIE POLICY" e os botoes "Only essentials" /
+// "I agree" ainda apareciam a lilas. O Odoo pinta-os com .btn-link e
+// .btn-outline-primary, ambos de $primary (o roxo por defeito, ver nota em
+// shop.scss sobre a paleta 'hmd' que nao esta ativa). Fixam-se aqui no par
+// preto/branco do resto do site; o anel de foco passa a cinzento.
+#website_cookies_bar {
+    .o_cookies_bar_text_policy {
+        color: var(--hmd-ink-2);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+
+        &:hover, &:focus, &:focus-visible, &:active {
+            color: var(--hmd-black);
+            box-shadow: none;
+            outline: 1px solid var(--hmd-ink-2);
+            outline-offset: 2px;
+        }
+    }
+
+    .btn-outline-primary {
+        --bs-btn-color: var(--hmd-black);
+        --bs-btn-border-color: var(--hmd-black);
+        --bs-btn-hover-color: var(--hmd-white);
+        --bs-btn-hover-bg: var(--hmd-black);
+        --bs-btn-hover-border-color: var(--hmd-black);
+        --bs-btn-focus-shadow-rgb: 31, 28, 28;
+        --bs-btn-active-color: var(--hmd-white);
+        --bs-btn-active-bg: var(--hmd-black);
+        --bs-btn-active-border-color: var(--hmd-black);
+        font-family: var(--hmd-ui);
+
+        // O Odoo 18 pinta o botao com "color"/"border-color" diretos, sem
+        // passar pelas variaveis --bs-btn-* (medido em producao a 21/10).
+        color: var(--hmd-black);
+        border-color: var(--hmd-black);
+        background-color: transparent;
+
+        &:hover, &:focus, &:focus-visible, &:active {
+            color: var(--hmd-white);
+            border-color: var(--hmd-black);
+            background-color: var(--hmd-black);
+            box-shadow: none;
+        }
+    }
+}

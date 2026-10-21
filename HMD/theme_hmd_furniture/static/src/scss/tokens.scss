@@ -1,0 +1,90 @@
+// Tokens do desenho HMD — extraidos dos SVG do XD (Website_Design/).
+// Cores e tamanhos abaixo sao os valores literais do desenho; nao alterar
+// sem validar contra os ficheiros de origem.
+
+:root {
+    // --- Cores -----------------------------------------------------------
+    --hmd-ink:        #1F1C1C;  // texto corrente e navegacao
+    --hmd-ink-2:      #222120;  // fundo do rodape, mega-menu
+    --hmd-black:      #020202;  // precos e UI de e-commerce
+    --hmd-white:      #FFFFFF;
+    --hmd-grey:       #EDEDED;  // fundo de seccoes alternadas
+    --hmd-mauve:      #908383;  // fundo da seccao de destaque de produto
+    --hmd-red:        #F80000;  // destaque editorial ("SEND US YOUR IDEAS")
+    --hmd-gold:       #D9A32A;  // amostra de acabamento
+    --hmd-brown:      #624C1B;  // amostra de acabamento
+    --hmd-white-49:   rgba(255, 255, 255, 0.49);  // placeholder da newsletter
+
+    // --- Tipografia ------------------------------------------------------
+    --hmd-display: 'Prata', Georgia, 'Times New Roman', serif;
+    // Nome e preco dos artigos, na grelha e na pagina de produto (#7874).
+    // Segue o tipo de letra do "Titulo 6" do editor: no Odoo o nome do
+    // artigo na grelha ja e um <h6>. Por defeito e o dos titulos (Prata).
+    // Mudar o Titulo 6 no editor muda o nome e o preco em todos os artigos.
+    --hmd-product-font: #{$h6-font-family};
+    --hmd-mono:    'Courier New', Courier, monospace;
+    --hmd-ui:      'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+    // Escalas do desenho (desktop 1920px -> fluidas ate mobile 393px)
+    --hmd-fs-display:  clamp(2.5rem, 4.17vw, 5rem);      // 80px @1920
+    --hmd-fs-display-s:clamp(1.75rem, 2.81vw, 3.375rem); // 54px
+    --hmd-fs-title:    clamp(1.375rem, 1.72vw, 2.0625rem);// 33px
+    --hmd-fs-lead:     clamp(0.9375rem, 1.25vw, 1.5rem); // 24px
+    --hmd-fs-body:     clamp(0.875rem, 1.04vw, 1.25rem); // 20px
+    --hmd-fs-meta:     clamp(0.8125rem, 0.94vw, 1.125rem);// 18px
+    --hmd-fs-nav:      0.875rem;                          // 14px fixo
+    --hmd-fs-micro:    0.75rem;                           // 12px fixo
+
+    // Espacamento entre letras, medido em todos os SVG do XD.
+    // Nao existe UM valor positivo no desenho: sao nulos ou negativos.
+    // Eu tinha +0.08em e +0.18em, que engordavam o texto todo.
+    --hmd-ls-tight:      -0.033em;  // Courier 18, Inter 12
+    --hmd-ls-none:        0;        // Courier 14/20/24, Inter 18/20
+    // Vem do editor (Tema > Titulos > Espacamento entre letras, #7873); o
+    // valor por defeito e o do XD, -0.089em (Prata 80 e 89).
+    --hmd-ls-display:    #{if(o-website-value('headings-letter-spacing') != null, o-website-value('headings-letter-spacing') * 1em, -0.089em)};
+    --hmd-ls-display-sm: -0.024em;  // Prata 33
+
+    // Entrelinhamento, tambem medido no XD (media por fonte e tamanho):
+    //   Courier 14 -> 1.14   Courier 18 -> 1.11   Courier 20 -> 1.15
+    //   Inter 18   -> 1.17   Inter 20   -> 1.20   Prata 80   -> 1.00
+    --hmd-lh-mono: 1.12;
+    --hmd-lh-ui:   1.18;
+
+    // --- Metrica ---------------------------------------------------------
+    --hmd-topbar-h:  39px;
+    --hmd-header-h:  110px;    // cabecalho fechado (mega-menu recolhido)
+    --hmd-pad-x:     clamp(1.25rem, 10.8vw, 207px);  // margem editorial
+    --hmd-pad-x-nav: clamp(1.25rem, 1.3vw, 25px);    // margem do cabecalho
+    --hmd-maxw:      1920px;
+}
+
+// As fontes do Google sao carregadas por <link> no <head> (views/layout.xml):
+// um @import de CSS no meio de um bundle SCSS e invalido.
+
+body {
+    font-family: var(--hmd-ui);
+    color: var(--hmd-ink);
+    background: var(--hmd-white);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .hmd-display {
+    font-family: var(--hmd-display);
+    font-weight: 400;
+    letter-spacing: var(--hmd-ls-display);
+    color: var(--hmd-ink-2);
+}
+
+// Entrelinhamento dos titulos: vem do editor (Tema > Titulos > Altura da
+// linha, geral e por nivel), #7873. O valor por defeito e o do XD, 1.00
+// (primary_variables.scss). Antes estava fixo aqui e o editor nao fazia nada.
+h1, .hmd-display { line-height: $headings-line-height; }
+h2 { line-height: $h2-line-height; }
+h3 { line-height: $h3-line-height; }
+
+.hmd-mono  { font-family: var(--hmd-mono); letter-spacing: var(--hmd-ls-tight);
+             line-height: var(--hmd-lh-mono); }
+.hmd-meta  { font-family: var(--hmd-ui); font-size: var(--hmd-fs-micro);
+             letter-spacing: var(--hmd-ls-tight); text-transform: uppercase; }
+.hmd-shell { max-width: var(--hmd-maxw); margin-inline: auto; }

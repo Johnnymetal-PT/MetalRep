@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="one_page_checkout_payment">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Quick Checkout</t>
+            <t t-set="no_footer" t-value="True"/>
+            <t t-set="show_navigation_button"
+               t-value="True if show_navigation_button is None else show_navigation_button"/>
+            <t t-set="expand_order_summary" t-value="not show_navigation_button"/>
+            <t t-set="show_mobile_cart_summary"
+               t-value="True if show_mobile_cart_summary is None else show_mobile_cart_summary"/>
+            <t t-set="body_classname" t-value="'o_website_sale_checkout'"/>
+
+            <!--Show Breadcrumb on the page-->
+            <t t-set="show_wizard_checkout" t-value="False"/>
+
+            <div id="wrap" class="d-flex flex-column flex-grow-1">
+                <div class="oe_website_sale o_website_sale_checkout_container container d-flex flex-column flex-grow-1 py-lg-2">
+                    <div t-attf-class="row #{not show_wizard_checkout and 'mt32'} mb32">
+                        <div t-if="show_wizard_checkout" class="col-12">
+                            <t t-call="website_sale.wizard_checkout"/>
+                        </div>
+
+                        <!--Address & Delivery Methods-->
+                        <div id="onepage_section1"
+                             t-attf-class="oe_clear_stucture oe_cart col-12 #{'col-lg-4' if website_sale_order and website_sale_order.website_order_line else ''}">
+                            <div id="shop_checkout" class="mb-4">
+                                <t t-if="order._has_deliverable_products()">
+                                    <div class="mb-4">
+                                        <t t-call="website_sale.delivery_form">
+                                            <t t-set="selected_dm_id" t-value="order.carrier_id.id"/>
+                                        </t>
+                                    </div>
+                                    <div class="mb-4">
+                                        <t t-call="website_sale.delivery_address_list">
+                                            <t t-set="addresses" t-value="delivery_addresses"/>
+                                        </t>
+                                        <a t-if="len(delivery_addresses) > 2" role="button" id="loadMore" href="#"
+                                           class="btn btn-outline-primary btn-sm" type="delivery" title="Load More"
+                                           aria-label="Load More">
+                                            <i class="oi oi-plus me-2"/>Load More
+                                        </a>
+                                    </div>
+                                </t>
+                                <div class="mb-4">
+                                    <t t-call="website_sale.billing_address_list">
+                                        <t t-set="addresses" t-value="billing_addresses"/>
+                                    </t>
+                                    <a t-if="len(billing_addresses) > 2" role="button" id="loadMore" href="#"
+                                       class="btn btn-outline-primary btn-sm" type="billing" title="Load More"
+                                       aria-label="Load More">
+                                        <i class="oi oi-plus me-2"/>Load More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Payment Providers & Extra Step Info-->
+                        <div id="onepage_section2"
+                             t-attf-class="oe_clear_stucture oe_cart col-12 #{'col-lg-4' if website_sale_order and website_sale_order.website_order_line else ''}">
+                            <div class="col-12" t-if="errors">
+                                <t t-set="hide_payment_button" t-value="True"/>
+                                <t t-foreach="errors" t-as="error">
+                                    <div class="alert alert-danger" t-if="error" role="alert">
+                                        <h4>
+                                            <t t-out="error[0]"/>
+                                        </h4>
+                                        <t t-out="error[1]"/>
+                                    </div>
+                                </t>
+                            </div>
+                            <div class="oe_structure clearfix" id="oe_structure_website_sale_payment_1"/>
+
+                            <div t-if="not errors and website_sale_order.amount_total"
+                                 name="website_sale_non_free_cart">
+                                <div id="payment_method" class="o_not_editable mb-3">
+                                    <t t-call="payment.form"/>
+                                </div>
+                                <t t-if="not (payment_methods_sudo or tokens_sudo)" t-set="hide_payment_button"
+                                   t-value="True"/>
+                            </div>
+                            <h4 t-else="" class="mb-3">
+                                Confirm order
+                            </h4>
+
+                            <h4 class="mb-3">Extra info</h4>
+                            <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
+                                <div class="container">
+                                    <form action="/website/form/shop.sale.order" method="post"
+                                          enctype="multipart/form-data"
+                                          class="o_mark_required s_website_form_no_recaptcha" data-mark="*"
+                                          data-force_action="shop.sale.order" data-model_name="sale.order"
+                                          data-success-mode="redirect" data-success-page="/shop/payment"
+                                          hide-change-model="true" id="extra_info_form">
+                                        <!-- Create a hidden input field with name "csrf_token" and value from request.csrf_token() -->
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <div class="s_website_form_rows s_col_no_bgcolor row">
+                                            <span id="s_website_form_result"/>
+                                            <div class="s_website_form_field col-12 pb-2 mb-0" data-type="char"
+                                                 data-name="Field">
+                                                <div class="s_col_no_resize s_col_no_bgcolor">
+                                                    <label class="s_website_form_label col-form-label col-sm-auto"
+                                                           style="width: 200px" for="sale1">
+                                                        <span class="s_website_form_label_content">Your Reference</span>
+                                                    </label>
+                                                    <div class="col-sm">
+                                                        <input id="sale1" type="text"
+                                                               class="s_website_form_input form-control"
+                                                               name="client_order_ref"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="s_website_form_field s_website_form_custom col-12 pb-2 mb-0"
+                                                 data-type="text" data-name="Field">
+                                                <div class="s_col_no_resize s_col_no_bgcolor">
+                                                    <label class="s_website_form_label col-form-label col-sm-auto"
+                                                           style="width: 200px" for="sale2">
+                                                        <span class="s_website_form_label_content">Give us your
+                                                            feedback
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm">
+                                                        <textarea id="sale2" class="s_website_form_input form-control"
+                                                                  name="Give us your feedback"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="s_website_form_field s_website_form_custom col-12 pb-2 mb-0"
+                                                 data-type="binary" data-name="Field">
+                                                <div class="s_col_no_resize s_col_no_bgcolor">
+                                                    <label class="s_website_form_label col-form-label col-sm-auto"
+                                                           style="width: 200px" for="sale3">
+                                                        <span class="s_website_form_label_content">Upload a document
+                                                        </span>
+                                                    </label>
+                                                    <div class="col-sm">
+                                                        <input id="sale3" type="file"
+                                                               class="s_website_form_input form-control"
+                                                               name="a_document"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div id="onepage_section3"
+                             t-attf-class="oe_clear_stucture oe_cart col-12 #{'col-lg-4' if website_sale_order and website_sale_order.website_order_line else ''}">
+                            <div class="o_total_card card sticky-lg-top o_wsale_sticky_object mb-3 mb-lg-0">
+                                <div class="card-body p-lg-4 pt-lg-3">
+                                    <div class="d-none d-lg-block">
+                                        <t t-call="website_sale.cart_summary_content"/>
+                                        <t t-call="website_sale.total">
+                                            <t t-set="_cart_total_classes" t-valuef="border-top pt-2"/>
+                                        </t>
+                                    </div>
+                                    <div t-if="show_navigation_button" class="o_cta_navigation_container px-0">
+                                        <t t-call="website_sale.navigation_buttons"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Order Summary | Bottom of page and Offcanvas -->
+                    <t t-if="not show_shorter_cart_summary and show_mobile_cart_summary">
+                        <div class="o_mobile_summary d-lg-none sticky-bottom mt-auto bg-body">
+                            <button class="btn btn-light d-flex justify-content-between align-items-center gap-2 w-100 mb-2"
+                                    data-bs-toggle="offcanvas" href="#o_cart_summary_offcanvas"
+                                    aria-controls="o_cart_summary_offcanvas">
+                                Order
+                                <span id="amount_total_summary" class="monetary_field ms-auto"
+                                      t-field="website_sale_order.amount_total"
+                                      t-options='{"widget": "monetary", "display_currency": website_sale_order.currency_id}'/>
+                                <span class="o_cart_item_count badge ms-1 top-0 bg-primary"
+                                      t-out="str(website_sale_order.cart_quantity)"/>
+                                <i class="fa fa-angle-right ms-2" role="img"/>
+                            </button>
+                            <t t-if="show_navigation_button" t-call="website_sale.navigation_buttons"/>
+                        </div>
+                        <div id="o_cart_summary_offcanvas" class="offcanvas offcanvas-end" tabindex="-1"
+                             aria-labelledby="o_cart_summary_offcanvas">
+                            <div class="offcanvas-body">
+                                <t t-call="website_sale.cart_summary_content"/>
+                            </div>
+                            <div class="offcanvas-footer p-3">
+                                <a href="/shop/cart" class="btn btn-link w-100">
+                                    Coupon, Gift card, Promo-code?
+                                </a>
+                                <t t-call="website_sale.total">
+                                    <t t-set="hide_promotions" t-value="True"/>
+                                    <t t-set="_cart_total_classes" t-valuef="border-top px-3 pt-2 mx-n3"/>
+                                </t>
+                                <button class="btn btn-light w-100" type="button" data-bs-dismiss="offcanvas"
+                                        aria-label="Close">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- This is the drag-and-drop area for website building blocs at the end of each
+                     checkout page. The templates created in the database to store blocs are hooked
+                     using XPath on the `oe_struture` element ID. Therefore, we can't use dynamic
+                     IDs (like with t-att-id) and each template needs to define a div element. -->
+                <t t-out="oe_structure"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="address_card_inherit" inherit_id="portal.address_card">
+        <xpath expr="//span[@t-if='is_user_address']" position="replace">
+            <span t-if="is_user_address" t-att-class="badge_classes">Main</span>
+        </xpath>
+        <xpath expr="//span[@t-elif=&quot;contact.type=='delivery'&quot;]" position="replace">
+            <span t-elif="contact.type=='delivery'" t-att-class="badge_classes">Delivery</span>
+        </xpath>
+        <xpath expr="//span[@t-elif=&quot;contact.type=='invoice'&quot;]" position="replace">
+            <span t-elif="contact.type=='invoice'" t-att-class="badge_classes">Billing</span>
+        </xpath>
+    </template>
+</odoo>

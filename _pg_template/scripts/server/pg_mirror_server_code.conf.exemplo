@@ -1,0 +1,106 @@
+# Configuração do pg_mirror_server_code.sh — espelho do código vivo de um servidor.
+#
+# Copiar para ~/pg_mirror.conf no servidor do cliente e editar. É um ficheiro shell:
+# é carregado com `.`, pelo que a sintaxe é a do bash.
+#
+# Os valores abaixo são os do givachoice, que foi o projeto de onde este mecanismo veio.
+# Servem de exemplo real; substituir pelos do servidor em causa.
+
+# --- obrigatório -------------------------------------------------------------
+
+# Repositório para onde o espelho é publicado. Tipicamente por SSH com deploy key.
+# A deploy key precisa de "Allow write access" -- sem isso o push falha e o script diz-o.
+PG_REMOTO="git@github.com:parametroglobaladmin/givachoice.git"
+
+# Árvores de addons a espelhar: uma por linha, "nome|caminho|branch".
+#
+# O nome é só para o repositório local do espelho e para a mensagem de commit. A branch é
+# onde o código aparece no repositório -- usar o prefixo `live/` mantém-nas agrupadas e
+# distingue-as das branches de trabalho.
+PG_ARVORES="
+producao | /ProgGest/Odoo/Pglobal/addons       | live/producao
+testes   | /ProgGest/Odoo_Teste/Pglobal/addons | live/testes
+"
+
+# --- opcional ----------------------------------------------------------------
+
+# Onde vivem os repositórios do espelho. NUNCA dentro das árvores espelhadas: o servidor
+# não deve ficar com .git no meio do código em produção.
+PG_MIRROR_DIR="$HOME/mirrors"
+
+# Autor dos commits do espelho. Vale a pena ser distinto de qualquer pessoa real, para
+# que o histórico diga de imediato que aquilo foi a máquina e não alguém.
+PG_AUTOR_NOME="pg mirror"
+PG_AUTOR_EMAIL="it.odoo@parametro.pt"
+
+# Raízes do core/Enterprise a vigiar: uma por linha, "instancia|caminho".
+#
+# Destas NÃO se espelha tudo -- só o que estiver ALTERADO. O core do Odoo passa de 1 GB e
+# espelhá-lo não compensa; o que compensa é saber que alguém lhe tocou e ver o quê.
+# Deixar vazio ou comentado desliga esta parte.
+PG_RAIZES_CORE="
+producao | /ProgGest/Odoo/Server
+producao | /ProgGest/Odoo/Enterprise
+testes   | /ProgGest/Odoo_Teste/Server
+testes   | /ProgGest/Odoo_Teste/Enterprise
+"
+
+# Branch onde os desvios ao core são publicados.
+PG_RAMO_CORE="live/core-modificado"
+
+# Acima deste número de ficheiros alterados numa raiz do core, regista-se a ocorrência e
+# NÃO se copia: um upgrade ou reinstalação mexe em milhares de ficheiros de uma vez, e
+# isso é ruído, não desvio.
+PG_TETO_DESVIO=200
+
+# --- objectos da base de dados (pg_export_db_objects.sh) ----------------------
+#
+# O mesmo ficheiro serve os dois scripts, de propósito: o `PG_REMOTO` é o mesmo, e dois
+# ficheiros de configuração com o mesmo remoto são um sítio a mais para divergirem.
+#
+# Instâncias a exportar: uma por linha, "nome|raiz|base_de_dados".
+#
+# A `raiz` é a pasta onde vivem o `odoo.conf`, o `Server/odoo-bin` e o virtualenv --
+# o script corre pelo shell do próprio Odoo e por isso NÃO precisa de credenciais novas.
+# Deixar vazio ou comentado desliga esta parte.
+PG_INSTANCIAS="
+producao | /ProgGest/Odoo       | GIVACHOICE
+testes   | /ProgGest/Odoo_Teste | GIVA19
+"
+
+# Branch onde os objectos da base de dados são publicados.
+PG_RAMO_OBJECTOS="live/objectos-bd"
+
+# Caminhos dentro da raiz de cada instância. Os defaults abaixo servem a instalação
+# típica; mudar só se a tua for diferente.
+#PG_ODOO_BIN_REL="Server/odoo-bin"
+#PG_ODOO_CONF_REL="odoo.conf"
+
+# Interpretador. Por omissão é descoberto (`python-venv/bin/python3.*`, depois
+# `venv/bin/python3`, depois o `python3` do sistema), precisamente para não obrigar a
+# editar este ficheiro a cada upgrade de Python. Definir só se a descoberta falhar.
+#PG_PYTHON_REL="python-venv/bin/python3.12"
+
+# --- notas de operação -------------------------------------------------------
+#
+# Sem CONFIRMA=1 o script inspeciona e não escreve nada. Correr assim primeiro.
+#
+# A varredura do core é cara: um `git status` sobre o core do Odoo percorre 47 mil
+# ficheiros. A 2026-08-06 isso gerou uma suspeita de lentidão do servidor reportada pelo
+# cliente. Por isso o cron habitual são dois:
+#
+#   # addons, frequente e leve
+#   */15 * * * *  CONFIRMA=1 PG_SEM_CORE=1 bash ~/pg_mirror_server_code.sh >> ~/mirrors/espelho.log 2>&1
+#
+#   # core, uma vez por dia, fora de horas
+#   30 3 * * *    CONFIRMA=1 bash ~/pg_mirror_server_code.sh >> ~/mirrors/espelho_core.log 2>&1
+#
+# Do lado de cá, confirmar que o espelho corresponde ao que está instalado:
+#
+#   py .pg_framework/scripts/pg_compare_client_addons.py \
+#      --project-key <key> --purpose production --ref origin/live/producao --serie <serie>
+#
+# Os objectos da base de dados mudam à mão, pelo que uma vez por dia chega:
+#
+#   # objectos da base de dados
+#   0 4 * * *     CONFIRMA=1 bash ~/pg_export_db_objects.sh >> ~/mirrors/objectos.log 2>&1

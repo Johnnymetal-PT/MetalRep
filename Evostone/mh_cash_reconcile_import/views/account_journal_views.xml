@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =====================================================
+         EXTENSÃO DO FORMULÁRIO DE DIÁRIO (CAIXA)
+         ===================================================== -->
+
+    <record id="view_account_journal_form_inherit_cash_reconcile" model="ir.ui.view">
+        <field name="name">account.journal.form.inherit.cash.reconcile</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <!-- Adicionar smart buttons no button_box -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <!-- Smart button para movimentos não reconciliados -->
+                <button name="action_view_unreconciled_cash"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-exchange"
+                        invisible="type != 'cash'">
+                    <field name="unreconciled_cash_count" widget="statinfo" string="Não Reconciliados"/>
+                </button>
+                <!-- Botão exportar Excel -->
+                <button name="action_export_unreconciled_cash"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-download"
+                        invisible="type != 'cash'">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Exportar Excel</span>
+                    </div>
+                </button>
+                <!-- Botão importar Excel -->
+                <button name="action_import_cash_statement"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-upload"
+                        invisible="type != 'cash'">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Importar Excel</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- =====================================================
+         MENU DE ACESSO DIRECTO
+         ===================================================== -->
+
+    <!-- Menu item para acesso directo à exportação -->
+    <record id="menu_cash_export" model="ir.ui.menu">
+        <field name="name">Exportar Caixa</field>
+        <field name="parent_id" ref="account.menu_finance_reports"/>
+        <field name="action" ref="action_cash_export_wizard"/>
+        <field name="sequence">100</field>
+    </record>
+
+    <!-- Menu item para acesso directo à importação -->
+    <record id="menu_cash_import" model="ir.ui.menu">
+        <field name="name">Importar Extracto Caixa</field>
+        <field name="parent_id" ref="account.menu_finance_entries"/>
+        <field name="action" ref="action_cash_import_wizard"/>
+        <field name="sequence">100</field>
+    </record>
+
+</odoo>

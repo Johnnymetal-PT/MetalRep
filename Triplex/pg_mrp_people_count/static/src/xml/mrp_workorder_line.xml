@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Tempo gasto e número de pessoas em cada linha de operação, ao lado do nome do
+         centro de trabalho. A âncora é o `<span>` do nome da operação, que é o primeiro
+         filho do `<li>` no template original. -->
+    <t t-inherit="mrp_workorder.WorkOrder" t-inherit-mode="extension">
+        <xpath expr="//span[contains(@class, 'flex-grow-1')]" position="inside">
+            <span t-if="pgTimeAndPeople" class="pg_wo_line_effort d-block"
+                  t-esc="pgTimeAndPeople"/>
+        </xpath>
+    </t>
+
+</templates>

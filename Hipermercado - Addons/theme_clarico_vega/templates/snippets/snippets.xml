@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="snippets" inherit_id="website_sale.snippets" name="e-commerce snippets">
+        <xpath expr="//snippets[@id='snippet_groups']" position="inside">
+            <t snippet-group="theme" t-snippet="website.s_snippet_group" string="Theme Clarico Vega"
+               t-thumbnail="/theme_clarico_vega/static/src/img/snippets/theme-snippet.jpg"/>
+        </xpath>
+        <xpath expr="//t[@t-snippet='website_sale.s_dynamic_snippet_category_list']" position="after">
+            <t t-snippet="theme_clarico_vega.s_dynamic_snippet_category" string="Category Slider"
+               label="Dynamic Content" group="theme"/>
+            <t t-snippet="theme_clarico_vega.s_dynamic_snippet_brands" string="Brand Slider" label="Dynamic Content"
+               group="theme"/>
+            <t t-snippet="theme_clarico_vega.s_title_2_ept" string="Title" group="theme">
+                <keywords>Title, Title Style 2</keywords>
+            </t>
+            <t t-snippet="theme_clarico_vega.promocode_ept" string="Promo code" group="theme">
+                <keywords>Promocode, Discount</keywords>
+            </t>
+            <t t-snippet="theme_clarico_vega.slider_style_2" string="Slider Style 2" group="theme">
+                <keywords>Sliders, Slider style 2</keywords>
+            </t>
+            <t t-snippet="theme_clarico_vega.product_builder_banner" string="Product Builder with Banner"
+               group="theme"/>
+            <t t-snippet="theme_clarico_vega.dynamic_multi_columns_category" string="Multi Columns with Category"
+               group="theme"/>
+            <t t-snippet="theme_clarico_vega.dynamic_multi_columns_brand" string="Multi Columns with Brand"
+               group="theme"/>
+            <t t-snippet="theme_clarico_vega.product_brand_style_3" string="Brand Builder with Banner"
+               group="theme"/>
+            <t t-snippet="theme_clarico_vega.product_banner_with_descriotion" string="Product Banner with Description"
+               group="theme"/>
+            <t t-snippet="theme_clarico_vega.product_banner_with_description_1" string="Product Banner with Description"
+               group="theme"/>
+            <t t-snippet="theme_clarico_vega.brand_banner_with_description" string="Brand Banner with Description"
+               group="theme"/>
+            <t t-snippet="theme_clarico_vega.dynamic_product_style_9" string="Multi Columns Product Style 9"
+               group="theme"/>
+            <t t-snippet="theme_clarico_vega.full_slider_style_1" string="Full Slider Style 1" group="theme">
+                <keywords>Sliders, Full screen 1</keywords>
+            </t>
+            <t t-snippet="theme_clarico_vega.service_highlights_snippet" string="Service Highlights" group="theme">
+                <keywords>Service</keywords>
+            </t>
+            <t t-snippet="theme_clarico_vega.sale_text_slider" string="Text Slider" group="theme">
+                <keywords>Text Slider, Sale</keywords>
+            </t>
+            <t t-snippet="theme_clarico_vega.offer_text_static_snippet" string="Offer Text Static Snippet" group="theme">
+                <keywords>Offer Text Snippet, Offer</keywords>
+            </t>
+            <t t-snippet="theme_clarico_vega.image_comparison" string="Image Comparison" group="theme">
+                <keywords>Compare, Image Compare, Comparison</keywords>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

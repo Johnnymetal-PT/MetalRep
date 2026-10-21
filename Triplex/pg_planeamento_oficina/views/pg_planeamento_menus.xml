@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+        id="menu_pg_planeamento_root"
+        name="Planeamento Oficina"
+        groups="group_planeamento_manager"
+        sequence="65"/>
+
+    <menuitem
+        id="menu_pg_planeamento_painel"
+        name="Painel de Encomendas"
+        parent="menu_pg_planeamento_root"
+        action="action_pg_planeamento_line"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_pg_planeamento_fornecedores"
+        name="Fornecedores Pendentes"
+        parent="menu_pg_planeamento_root"
+        action="action_pg_planeamento_fornecedores"
+        sequence="20"/>
+
+    <menuitem
+        id="menu_pg_planeamento_semanal"
+        name="Planeamento Semanal"
+        parent="menu_pg_planeamento_root"
+        action="action_pg_planeamento_semanal"
+        sequence="30"/>
+
+</odoo>

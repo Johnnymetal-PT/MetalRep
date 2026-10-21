@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Main wrapper for Stickers de Placas report -->
+        <record id="view_report_stickers" model="ir.ui.view">
+            <field name="name">Stickers de Placas Report - Main Wrapper</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stickers</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stickers">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-if="doc and doc.lot_id and doc.lot_id.price_group_id">
+                            <t t-call="web.basic_layout">
+                                <style>
+                                    .barcode-custom-size {
+                                        width: 5% !important;
+                                        height: 5%;
+                                    }
+                                    .border-less {
+                                        border-collapse: collapse;
+                                        border: none;
+                                    }
+                                    .border-less td {
+                                        border: none;
+                                    }
+                                </style>
+
+                                <br/>
+                                <div class="col-12" style="text-align: center; font-size:7pt;">
+                                    <t t-esc="doc.lot_id.name"/>
+                                </div>
+
+                                <div class="col-12" style="text-align: center;">
+                                    <table class="border-white" width="100%" style="border-collapse: collapse; border: 1px solid white;">
+                                        <tr>
+                                            <td width="70%" style="border: 1px solid white; text-align: center;">
+                                                <!-- Usa sticker_logo da empresa, ou fallback para imagem estática -->
+                                                <t t-if="doc.lot_id.company_id and doc.lot_id.company_id.sticker_logo">
+                                                    <img class="img-fluid" width="90%" t-att-src="image_data_uri(doc.lot_id.company_id.sticker_logo)"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <img class="img-fluid" width="90%" src="/mh_stone_reports/static/img/stone_trading_logo.png"/>
+                                                </t>
+                                            </td>
+                                            <td style="border: 1px solid white;">
+                                                <div t-field="doc.lot_id.name" t-options="{'widget': 'barcode', 'humanreadable': 0, 'width': 250, 'height': 40}"/>
+                                            </td>
+                                            <td style="border: 1px solid white;">
+                                                <t t-esc="doc.lot_id.code"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="col-12" style="text-align: center; font-size:7pt;">
+                                    <t t-esc="doc.lot_id.price_group_id.description"/>
+                                </div>
+                                <p style="page-break-after: always;"/>
+                            </t>
+                        </t>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <!-- Document template for Stickers report -->
+        <record id="view_report_stickers_document" model="ir.ui.view">
+            <field name="name">Stickers de Placas Report - Document Template</field>
+            <field name="type">qweb</field>
+            <field name="key">mh_stone_reports.report_stickers_document</field>
+            <field name="arch" type="xml">
+                <t t-name="mh_stone_reports.report_stickers_document">
+                    <div class="page">
+                        <!-- Cabeçalho vazio - conteúdo está no wrapper -->
+                    </div>
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

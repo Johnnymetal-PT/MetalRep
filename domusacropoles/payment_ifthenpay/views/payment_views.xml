@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="provider_form_ifthenpay" model="ir.ui.view">
+        <field name="name">provider.form.ifthenpay</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment_portugal.provider_form_portugal" />
+        <field name="arch" type="xml">
+            <field name="pt_pay_method" position="attributes">
+                <attribute
+                    name="required"
+                >provider == 'ifthenpay' and state != 'disable'</attribute>
+            </field>
+
+            <field name="pt_pay_method" position="after">
+                <field
+                    name="ifthenpay_entity"
+                    invisible="provider != 'ifthenpay'"
+                    required="pt_pay_method == 'mb' and provider == 'ifthenpay' and state != 'disabled'"
+                />
+                <field
+                    name="ifthenpay_subentity"
+                    invisible="provider != 'ifthenpay'"
+                    required="pt_pay_method == 'mb' and provider == 'ifthenpay' and state != 'disabled'"
+                />
+                <field
+                    name="ifthenpay_backoffice_key"
+                    password="True"
+                    invisible="provider != 'ifthenpay'"
+                    required="pt_pay_method == 'mb' and provider == 'ifthenpay' and state != 'disabled'"
+                />
+                <label
+                    for="ifthenpay_antiphishing_key"
+                    invisible="provider != 'ifthenpay'"
+                />
+                <div class="o_row" invisible="provider != 'ifthenpay'">
+                    <field
+                        name="ifthenpay_antiphishing_key"
+                        placeholder="1234-abcd-1a2b"
+                        required="provider == 'ifthenpay' and state != 'disabled'"
+                    />
+                    <button
+                        invisible="ifthenpay_antiphishing_key"
+                        icon="fa-key"
+                        name="action_generate_ifthenpay_antiphishing_key"
+                        type="object"
+                        string="Generate Anti-Phishing key"
+                    />
+                </div>
+                <field
+                    name="ifthenpay_mbway_key"
+                    invisible="provider != 'ifthenpay' or pt_pay_method != 'mbway'"
+                    required="pt_pay_method == 'mbway' and provider == 'ifthenpay' and state != 'disabled'"
+                />
+                <field
+                    name="ifthenpay_mbway_description"
+                    invisible="provider != 'ifthenpay' or pt_pay_method != 'mbway'"
+                    required="pt_pay_method == 'mbway' and provider == 'ifthenpay' and state != 'disabled'"
+                    placeholder="Ex: Nome da Empresa"
+                />
+                <field name="pt_callback_url" invisible="provider != 'ifthenpay'" />
+            </field>
+        </field>
+    </record>
+</odoo>

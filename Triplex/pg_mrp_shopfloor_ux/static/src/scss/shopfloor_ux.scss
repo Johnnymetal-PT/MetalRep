@@ -1,0 +1,261 @@
+// Acessibilidade e legibilidade do Chão de Fábrica em tablet.
+//
+// Público-alvo: operadores de oficina, alguns com pouca prática de tecnologia, a usar
+// tablet de pé e por vezes com as mãos sujas. As três regras que orientam este ficheiro:
+//   1. nada de comandos representados só por um ícone — texto sempre;
+//   2. alvo de toque nunca abaixo de 48 px, e 56 px nas acções principais;
+//   3. contraste e tamanho de letra acima do que o backend usa por omissão.
+//
+// Tudo é CSS. Não se altera um único template do Enterprise, de propósito: o
+// `mrp_workorder` é código Odoo proprietário e cada patch a templates dele é dívida a
+// pagar no próximo upgrade. Os selectores abaixo são internos do Enterprise e podem
+// mudar de versão — se algum dia o ecrã voltar ao aspecto original depois de um upgrade,
+// é aqui que se procura.
+
+// Medidas num sítio só, para se afinarem sem caçar valores pelo ficheiro.
+$pg-sf-toque-minimo: 48px;
+$pg-sf-toque-principal: 56px;
+$pg-sf-tecla-pin: 72px;
+$pg-sf-zona-tempo: 64px;
+
+.o_mrp_display {
+
+    // ---------------------------------------------------------------- Operadores
+    // O acesso aos operadores era um botão só com o ícone `oi-panel-right`, pequeno e sem
+    // qualquer etiqueta — a queixa concreta do cliente. Passa a ser um botão com texto.
+    //
+    // A etiqueta vem de `content` em CSS, o que significa que NÃO é traduzível. É uma
+    // troca deliberada: a alternativa era herdar o template do Enterprise para lhe meter
+    // um `<span>`, e não vale o risco por uma palavra numa base que é toda em português.
+    button[name="employeePanelButton"] {
+        // O botão original traz `fa-flip-horizontal`, que aplica `scaleX(-1)` ao elemento
+        // inteiro para virar o ícone. Isso espelhava também a etiqueta, que saía escrita
+        // ao contrário. Anula-se o espelho aqui e repõe-se só no ícone, que é o `::before`
+        // gerado pela classe `oi-panel-right`.
+        transform: none !important;
+        min-height: $pg-sf-toque-principal;
+        padding: 0 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+        border: 2px solid currentColor;
+
+        &::before {
+            display: inline-block;
+            transform: scaleX(-1);
+        }
+
+        &::after {
+            content: "Operadores";
+        }
+
+        &.active {
+            background-color: var(--o-color-primary, #714b67);
+            color: #fff;
+        }
+    }
+
+    // ------------------------------------------------------------ Painel lateral
+    .o_mrp_employees_panel {
+
+        .list-group-item {
+            min-height: 72px;
+            font-size: 1.05rem;
+        }
+
+        .o_avatar_connected {
+            width: 48px;
+            height: 48px;
+        }
+
+        > button {
+            min-height: 64px;
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+    }
+
+    // ------------------------------------------- Centro de trabalho selecionado
+    // Os separadores de centro de trabalho já vêm com cor própria do Enterprise, atribuída
+    // por `o_workcenter_item_color_{{id % 11}}` (`control_panel.xml:14`), a partir da
+    // paleta `$o-colors`. Nesta base: CORTE 1, COSTURA 2, ESPUMA 3, EMBALAGEM 4, ESTOFO 5.
+    //
+    // O que faltava era distinguir o **selecionado**: todos os separadores tinham o mesmo
+    // peso visual. Aqui o activo passa a ter moldura, sublinhado grosso e letra maior.
+    .o_control_panel .btn.active,
+    .o_search_panel .btn.active,
+    .nav-link.active {
+        font-size: 1.1rem;
+        font-weight: 700;
+        border-bottom: 4px solid var(--o-color-primary, #714b67);
+        box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.12);
+    }
+
+    // ------------------------------------------------------------------- Cartões
+    .o_mrp_display_record {
+
+        // Mais respiro entre cartões: com o dedo, cartões encostados levam a toques
+        // errados no cartão vizinho.
+        margin-bottom: 1rem !important;
+
+        .card-title {
+            font-size: 1.3rem;
+            line-height: 1.35;
+        }
+
+        .card-header {
+            font-size: 1.1rem;
+        }
+
+        // ------------------------------------------- Zona de iniciar/parar tempo
+        // Descoberta importante: não existe botão de cronómetro. O comando é o
+        // **cabeçalho inteiro do cartão** — `t-on-click="onClickHeader"` em
+        // `mrp_display_record.xml:8`, que chama `startWorking()`. O Enterprise só lhe põe
+        // `cursor-pointer`, o que num tablet não se vê: não há cursor.
+        //
+        // Daqui em diante o cabeçalho comporta-se visualmente como um botão grande.
+        .card-header.cursor-pointer {
+            min-height: $pg-sf-zona-tempo;
+            // A cor é dada por centro de trabalho mais abaixo; aqui fica só a espessura,
+            // com um cinzento neutro para os cartões sem centro (ordens de fabrico).
+            border-left: 6px solid rgba(0, 0, 0, 0.15);
+            background-color: rgba(0, 0, 0, 0.03);
+            transition: background-color 0.1s ease-in-out;
+
+            // Retorno visível ao toque: sem isto o operador não sabe se o toque pegou.
+            &:active {
+                background-color: rgba(0, 0, 0, 0.12);
+            }
+
+            // Sinal de que aquilo se toca, na coluna do cronómetro e por baixo dele.
+            //
+            // O `margin-left: auto` da primeira versão não fazia nada: o cabeçalho é um
+            // contexto de bloco, não um flex, e o ícone acabava encostado à esquerda. É
+            // `display: block` com `text-align: right` que o leva para a coluna do tempo.
+            //
+            // Ancorar o ícone ao próprio cronómetro (`position: absolute` relativa à caixa
+            // do tempo) daria um alinhamento mais justo, mas essa caixa só existe quando
+            // `record.state !== 'ready'` (`mrp_display_record.xml:95`) — ou seja,
+            // desapareceria exactamente nas operações que ainda não arrancaram, que são
+            // aquelas em que o botão de iniciar mais importa.
+            &::after {
+                font-family: "FontAwesome";
+                content: "\f04b"; // fa-play
+                display: block;
+                text-align: right;
+                margin-top: 0.35rem;
+                font-size: 1.75rem;
+                line-height: 1;
+                opacity: 0.55;
+            }
+        }
+
+        // ------------------------------------------------ A contar vs. parado
+        // A primeira tentativa usava `:has()` a procurar o cronómetro, e nunca casou: o
+        // cronómetro é um `<span>` SEM classe nenhuma (`mrp.MrpTimer` em
+        // `community/addons/mrp/static/src/widgets/timer.xml`).
+        //
+        // O estado já existia numa classe do próprio cartão: o getter `cssClass`
+        // (`mrp_display_record.js:149-155`) devolve `o_active` quando o operador da sessão
+        // está entre os que estão a trabalhar naquela ordem. É esse o sinal certo, e
+        // dispensa o `:has()`.
+        &.o_active .card-header.cursor-pointer {
+            background-color: rgba(40, 167, 69, 0.14);
+            box-shadow: inset 0 0 0 2px rgba(40, 167, 69, 0.45);
+
+            &::after {
+                content: "\f04c"; // fa-pause
+                opacity: 1;
+                color: #1e7e34;
+            }
+        }
+
+        // O tempo a decorrer é a informação que o operador procura à distância de um braço.
+        // O selector é o `<div class="bg-light rounded p-1">` que envolve o cronómetro em
+        // `mrp_display_record.xml:95` — é o único ponto de agarre, já que o `<span>` do
+        // tempo não tem classe. Fica preso a `.card-header .card-title` para não apanhar
+        // outros elementos com as mesmas utilitárias do Bootstrap.
+        .card-header .card-title .bg-light.rounded.p-1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums; // dígitos de largura fixa: não "salta"
+            letter-spacing: 0.05rem;
+            padding: 0.25rem 0.6rem !important;
+        }
+
+        &.o_active .card-header .card-title .bg-light.rounded.p-1 {
+            background-color: #1e7e34 !important;
+            color: #fff;
+        }
+
+        // O Enterprise usa `btn-sm` no "Registrar produção". Num tablet isso fica abaixo
+        // de qualquer alvo de toque razoável. O `!important` é para vencer as utilitárias
+        // do Bootstrap, que têm a mesma especificidade e ganham por ordem de carregamento.
+        .btn {
+            min-height: $pg-sf-toque-minimo;
+            font-size: 1.05rem !important;
+            padding-inline: 1rem !important;
+        }
+
+        .card-footer .btn-primary {
+            min-height: $pg-sf-toque-principal;
+            font-weight: 600;
+        }
+
+        // O menu de três pontos é o único comando que fica só com ícone, porque é
+        // secundário — mas ao menos com área de toque decente.
+        .btn.fa-ellipsis-v {
+            min-width: $pg-sf-toque-principal;
+            min-height: $pg-sf-toque-principal;
+            font-size: 1.3rem !important;
+        }
+    }
+}
+
+// ------------------------------------------- Cor do centro de trabalho no cartão
+// As classes `pg_wc_N` são postas no cartão pelo patch em
+// `js/mrp_display_record_workcenter_class.js`, com o índice `id % 11` — o mesmo cálculo que
+// o Enterprise usa nos separadores.
+//
+// As cores saem da mesma lista `$o-colors` e com o mesmo desfasamento de índice que o
+// Enterprise usa em `control_panel.scss:40-43` (`o_workcenter_item_color_#{$size - 1}` →
+// `nth($o-colors, $size)`). Assim a cor do cartão e a do separador coincidem por
+// construção, em vez de serem duas listas a ter de ser mantidas em sincronia.
+//
+// Nesta base: CORTE 1, COSTURA 2, ESPUMA 3, EMBALAGEM 4, ESTOFO 5.
+@for $indice from 1 through length($o-colors) {
+    .o_mrp_display .o_mrp_display_record.pg_wc_#{$indice - 1} {
+
+        // Só a barra à esquerda do cabeçalho. Houve também uma faixa no rodapé, para o
+        // cartão se identificar quando o cabeçalho saía do ecrã, mas com a barra lateral
+        // e o separador do topo já coloridos era informação a mais — dois sinais bastam.
+        .card-header.cursor-pointer {
+            border-left-color: nth($o-colors, $indice);
+        }
+    }
+}
+
+// ------------------------------------------------------------------ Teclado do PIN
+// O diálogo do PIN é desenhado fora de `.o_mrp_display` (os diálogos do Odoo montam num
+// portal no fim do body), por isso esta regra não pode ficar dentro do bloco acima.
+//
+// `.popup .popup-numpad` é a estrutura do `mrp_workorder/components/pin_popup.xml`. O
+// nome `popup-numpad` é genérico e o Ponto de Venda usa nomes parecidos — nesta base o
+// `point_of_sale` está desinstalado (verificado a 28/07/2026), pelo que não há colisão.
+// Se o PdV vier a ser instalado, confirmar que este teclado não afecta o dele.
+.popup .popup-numpad {
+
+    button {
+        min-width: $pg-sf-tecla-pin;
+        min-height: $pg-sf-tecla-pin;
+        font-size: 1.6rem;
+        font-weight: 600;
+    }
+}
+
+.popup .popup-input .highlight {
+    font-size: 1.8rem;
+    letter-spacing: 0.35rem;
+}

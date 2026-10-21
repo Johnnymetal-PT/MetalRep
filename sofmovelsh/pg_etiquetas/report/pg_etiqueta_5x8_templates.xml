@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--
+    Etiqueta 5x8: grelha de 2 colunas por 5 linhas em A4, cada cartão com 110 x 65 mm.
+    Desenho da V17, com o preço anterior riscado acrescentado (tarefa 6570).
+
+    A grelha percorre `docs` por índice porque cada etiqueta é um movimento de stock
+    repetido tantas vezes quantas as unidades recebidas — ver `_pg_label_move_ids_por_tipo`.
+-->
+<template id="report_pg_etiqueta_5x8">
+    <t t-call="web.basic_layout">
+        <t t-call="pg_etiquetas.etiqueta_5x8_estilo"/>
+        <t t-set="colunas" t-value="2"/>
+        <t t-set="linhas" t-value="5"/>
+        <t t-set="por_pagina" t-value="colunas * linhas"/>
+        <t t-set="total" t-value="len(docs)"/>
+
+        <div class="page">
+            <t t-foreach="range((total + por_pagina - 1) // por_pagina)" t-as="pagina">
+                <table class="pg_etiqueta_5x8_grelha">
+                    <tbody>
+                        <t t-foreach="range(linhas)" t-as="linha">
+                            <tr>
+                                <t t-foreach="range(colunas)" t-as="coluna">
+                                    <t t-set="indice"
+                                       t-value="pagina * por_pagina + linha * colunas + coluna"/>
+                                    <td>
+                                        <t t-if="indice &lt; total">
+                                            <t t-set="move" t-value="docs[indice]"/>
+                                            <t t-set="product" t-value="move.product_id"/>
+                                            <t t-set="tecido"
+                                               t-value="'x_studio_tecido' in move._fields and move.x_studio_tecido or ''"/>
+                                            <t t-call="pg_etiquetas.etiqueta_5x8_cartao"/>
+                                        </t>
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <div class="pg_etiqueta_5x8_quebra"/>
+            </t>
+        </div>
+    </t>
+</template>
+
+<template id="etiqueta_5x8_cartao">
+    <t t-set="pricelist" t-value="pricelist or product._pg_label_pricelist()"/>
+    <t t-set="moeda" t-value="pricelist.currency_id or product.currency_id"/>
+    <t t-set="precos" t-value="product._pg_label_prices(pricelist)"/>
+    <t t-set="preco" t-value="precos[0]"/>
+    <t t-set="preco_anterior" t-value="precos[1]"/>
+    <t t-set="referencia" t-value="product._pg_label_reference()"/>
+    <t t-set="valores_variante" t-value="product._pg_label_variant_values()"/>
+
+    <div class="pg_etiqueta_5x8">
+        <div class="pg_etiqueta_5x8_topo">
+            <div class="pg_etiqueta_5x8_nome">
+                <t t-out="product.name"/>
+            </div>
+            <div class="pg_etiqueta_5x8_logo">
+                <img t-att-src="product._pg_label_logo_url()" alt=""/>
+            </div>
+        </div>
+
+        <div t-if="referencia" class="pg_etiqueta_5x8_referencia">
+            <t t-out="referencia"/>
+        </div>
+
+        <div t-if="product.description_sale" class="pg_etiqueta_5x8_descricao">
+            <t t-out="product.description_sale"/>
+        </div>
+
+        <div t-if="valores_variante" class="pg_etiqueta_5x8_variantes">
+            <t t-foreach="valores_variante" t-as="valor" t-key="valor.id">
+                <t t-out="(valor.attribute_id.name or '') + ': ' + (valor.name or '')"/>
+                <t t-if="not valor_last">, </t>
+            </t>
+        </div>
+
+        <div t-if="tecido" class="pg_etiqueta_5x8_tecido">
+            <t t-out="tecido"/>
+        </div>
+
+        <div class="pg_etiqueta_5x8_precos">
+            <span t-if="preco_anterior" class="pg_etiqueta_5x8_preco_anterior"
+                  t-out="preco_anterior"
+                  t-options="{'widget': 'monetary', 'display_currency': moeda}"/>
+            <strong class="pg_etiqueta_5x8_preco" t-out="preco"
+                    t-options="{'widget': 'monetary', 'display_currency': moeda}"/>
+        </div>
+    </div>
+</template>
+
+<template id="etiqueta_5x8_estilo">
+    <style>
+        .pg_etiqueta_5x8_grelha {
+            width: 100%; border-collapse: separate; border-spacing: 10mm 5mm; margin: 0;
+        }
+        .pg_etiqueta_5x8_grelha td {
+            width: 50%; vertical-align: top; padding: 0; border: none;
+        }
+        .pg_etiqueta_5x8 {
+            width: 110mm; height: 65mm; padding: 4mm; border: 1px solid #000;
+            box-sizing: border-box; font-family: sans-serif; position: relative;
+        }
+        .pg_etiqueta_5x8_topo {
+            display: flex; align-items: flex-start; justify-content: space-between; gap: 2mm;
+        }
+        .pg_etiqueta_5x8_nome {
+            font-weight: 900; font-size: 24px; line-height: 1.1;
+            flex: 1 1 auto; min-width: 0; word-break: break-word;
+        }
+        .pg_etiqueta_5x8_logo { flex: 0 0 42px; text-align: right; }
+        .pg_etiqueta_5x8_logo img { height: 47px; width: 42px; object-fit: contain; display: block; margin-left: auto; }
+        .pg_etiqueta_5x8_referencia { font-size: 18px; font-weight: 900; margin-top: 2px; }
+        .pg_etiqueta_5x8_descricao {
+            font-size: 16px; margin-top: 6px; line-height: 1.25; word-break: break-word;
+        }
+        .pg_etiqueta_5x8_variantes { font-size: 14px; margin-top: 6px; line-height: 1.2; }
+        .pg_etiqueta_5x8_tecido { font-size: 14px; margin-top: 8px; word-break: break-word; }
+        /* Preço no canto inferior direito, fora do fluxo, para não empurrar o texto. */
+        .pg_etiqueta_5x8_precos {
+            position: absolute; right: 3mm; bottom: 3mm; text-align: right;
+        }
+        .pg_etiqueta_5x8_preco_anterior {
+            display: block; font-size: 20px; color: #444;
+            text-decoration: line-through; text-decoration-thickness: 2px;
+        }
+        .pg_etiqueta_5x8_preco { font-size: 40px; font-weight: 800; line-height: 1; }
+        /*
+            As casas dos cêntimos vêm menores do widget monetário; numa etiqueta de
+            loja isso lê-se mal a um metro de distância.
+        */
+        .pg_etiqueta_5x8 .oe_currency_value,
+        .pg_etiqueta_5x8 .oe_currency_value .oe_subunit {
+            font-size: 1em !important; vertical-align: baseline !important;
+        }
+        .pg_etiqueta_5x8_quebra { page-break-after: always; }
+    </style>
+</template>
+
+</odoo>

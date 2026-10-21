@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =====================================================
+         STONE STOCK - TREE VIEW
+         ===================================================== -->
+
+    <record id="view_stone_stock_tree" model="ir.ui.view">
+        <field name="name">stone.stock.tree</field>
+        <field name="model">stone.stock</field>
+        <field name="arch" type="xml">
+            <list string="Stock de Pedras" create="false" edit="false" delete="false"
+                  decoration-success="state == 'available'"
+                  decoration-warning="state == 'reserved'"
+                  decoration-muted="state == 'no_stock'">
+                <field name="product_id"/>
+                <field name="base_lot_name" string="Lote"/>
+                <field name="name" string="S/N"/>
+                <field name="code" string="Código" optional="show"/>
+                <field name="description" string="Descrição" optional="show"/>
+                <field name="state" string="Estado"
+                       widget="badge"
+                       decoration-success="state == 'available'"
+                       decoration-warning="state == 'reserved'"
+                       decoration-danger="state == 'no_stock'"/>
+                <field name="product_form" string="Forma"/>
+                <field name="length" string="Comp." optional="show"/>
+                <field name="width" string="Larg." optional="show"/>
+                <field name="thickness" string="Esp." optional="hide"/>
+                <field name="area" string="Área (m²)" optional="show"/>
+                <field name="volume" string="Vol. (m³)" optional="hide"/>
+                <field name="qty_available" string="Disponível" sum="Total Disponível"/>
+                <field name="qty_reserved" string="Reservado" sum="Total Reservado" optional="show"/>
+                <field name="peso" string="Peso (kg)" sum="Peso Total" optional="show"/>
+                <field name="location_id" optional="show"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="pcmp" string="PCMP" widget="monetary" readonly="1" optional="hide"/>
+                <field name="list_price" string="Preço" widget="monetary" optional="hide"/>
+                <field name="margin" string="Margem %" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- =====================================================
+         STONE STOCK - FORM VIEW
+         ===================================================== -->
+
+    <record id="view_stone_stock_form" model="ir.ui.view">
+        <field name="name">stone.stock.form</field>
+        <field name="model">stone.stock</field>
+        <field name="arch" type="xml">
+            <form string="Detalhe da Pedra" create="false" edit="false" delete="false">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_traceability" type="object"
+                                class="oe_stat_button" icon="oi-arrow-up"
+                                invisible="not lot_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Rastreabilidade</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="description" placeholder="Descrição"/>
+                        </h1>
+                        <h3>
+                            <field name="base_lot_name"/> - S/N: <field name="name"/>
+                        </h3>
+                    </div>
+
+                    <group>
+                        <group string="Identificação">
+                            <field name="product_id"/>
+                            <field name="lot_id" string="Lote (S/N)"/>
+                            <field name="product_form"/>
+                            <field name="state" widget="badge"
+                                   decoration-success="state == 'available'"
+                                   decoration-warning="state == 'reserved'"
+                                   decoration-danger="state == 'no_stock'"/>
+                        </group>
+                        <group string="Localização">
+                            <field name="location_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Dimensões">
+                            <field name="length" string="Comprimento (m)"/>
+                            <field name="width" string="Largura (m)"/>
+                            <field name="thickness" string="Espessura (m)"/>
+                            <field name="area" string="Área (m²)"/>
+                            <field name="volume" string="Volume (m³)"/>
+                        </group>
+                        <group string="Quantidades">
+                            <field name="qty_available" string="Disponível"/>
+                            <field name="qty_reserved" string="Reservado"/>
+                            <field name="unit_qty" string="Total"/>
+                            <field name="peso" string="Peso (kg)"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Preços">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="pcmp" widget="monetary" readonly="1"/>
+                            <field name="margin"/>
+                            <field name="list_price" widget="monetary"/>
+                        </group>
+                        <group string="Grupos">
+                            <field name="price_group_id"/>
+                            <field name="base_lot_group_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- =====================================================
+         STONE STOCK - SEARCH VIEW
+         ===================================================== -->
+
+    <record id="view_stone_stock_search" model="ir.ui.view">
+        <field name="name">stone.stock.search</field>
+        <field name="model">stone.stock</field>
+        <field name="arch" type="xml">
+            <search string="Pesquisar Pedras">
+                <field name="product_id"/>
+                <field name="base_lot_name" string="Lote"/>
+                <field name="name" string="S/N"/>
+                <field name="description" string="Descrição"/>
+                <field name="location_id"/>
+
+                <filter name="filter_available" string="Disponível"
+                        domain="[('state', '=', 'available')]"/>
+                <filter name="filter_reserved" string="Reservado"
+                        domain="[('state', '=', 'reserved')]"/>
+                <filter name="filter_no_stock" string="Sem Stock"
+                        domain="[('state', '=', 'no_stock')]"/>
+
+                <separator/>
+
+                <filter name="filter_blocks" string="Blocos"
+                        domain="[('product_form', '=', 'block')]"/>
+                <filter name="filter_slabs" string="Placas"
+                        domain="[('product_form', '=', 'slab')]"/>
+                <filter name="filter_strips" string="Bandas"
+                        domain="[('product_form', '=', 'strip')]"/>
+                <filter name="filter_tiles" string="Ladrilhos"
+                        domain="[('product_form', '=', 'tiles')]"/>
+
+                <separator/>
+
+                <group expand="0" string="Agrupar Por">
+                    <filter name="group_product" string="Produto"
+                            context="{'group_by': 'product_id'}"/>
+                    <filter name="group_lot" string="Lote"
+                            context="{'group_by': 'base_lot_name'}"/>
+                    <filter name="group_state" string="Estado"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_form" string="Forma"
+                            context="{'group_by': 'product_form'}"/>
+                    <filter name="group_location" string="Localização"
+                            context="{'group_by': 'location_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- =====================================================
+         STONE STOCK - PIVOT VIEW
+         ===================================================== -->
+
+    <record id="view_stone_stock_pivot" model="ir.ui.view">
+        <field name="name">stone.stock.pivot</field>
+        <field name="model">stone.stock</field>
+        <field name="arch" type="xml">
+            <pivot string="Análise de Stock de Pedras">
+                <field name="product_id" type="row"/>
+                <field name="product_form" type="col"/>
+                <field name="qty_available" type="measure"/>
+                <field name="area" type="measure"/>
+                <field name="peso" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- =====================================================
+         STONE STOCK - GRAPH VIEW
+         ===================================================== -->
+
+    <record id="view_stone_stock_graph" model="ir.ui.view">
+        <field name="name">stone.stock.graph</field>
+        <field name="model">stone.stock</field>
+        <field name="arch" type="xml">
+            <graph string="Stock de Pedras" type="bar">
+                <field name="product_form"/>
+                <field name="qty_available" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- =====================================================
+         STONE STOCK - ACTION
+         ===================================================== -->
+
+    <record id="action_stone_stock" model="ir.actions.act_window">
+        <field name="name">Stock de Pedras</field>
+        <field name="res_model">stone.stock</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_stone_stock_search"/>
+        <field name="context">{'search_default_filter_available': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Nenhuma pedra em stock
+            </p>
+            <p>
+                Esta vista mostra todas as pedras (blocos, placas, bandas, ladrilhos) em stock,
+                com informações de dimensões, quantidades e preços.
+            </p>
+        </field>
+    </record>
+
+    <!-- =====================================================
+         MENU
+         ===================================================== -->
+
+    <menuitem
+        id="menu_stone_stock"
+        name="Stock de Pedras"
+        parent="stock.menu_stock_inventory_control"
+        action="action_stone_stock"
+        sequence="5"/>
+
+</odoo>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="provider_form_portugal" model="ir.ui.view">
+        <field name="name">acquirer.form.portugal</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page
+                    string="Synchronization"
+                    name="pt_sync"
+                    invisible="provider not in ['ifthenpay', 'easypay', 'eupago']"
+                >
+                    <group>
+                        <group name="pt_sync">
+                            <field name="pt_last_sync" />
+                        </group>
+                        <group>
+                            <button
+                                type="object"
+                                class="btn btn-primary"
+                                name="action_get_payments"
+                                string="Sync. Payments"
+                            />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//page[@name='credentials']" position="inside">
+                <group
+                    name="portugal"
+                    invisible="provider not in ['ifthenpay', 'easypay', 'eupago']"
+                >
+                    <field name="pt_pay_method" string="Payment Method" />
+                </group>
+            </xpath>
+
+            <xpath expr="//group[@name='availability']" position="inside">
+                <field name="provider" invisible="1" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

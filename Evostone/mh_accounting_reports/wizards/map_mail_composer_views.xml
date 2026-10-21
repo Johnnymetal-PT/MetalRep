@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_map_mail_composer_form" model="ir.ui.view">
+        <field name="name">mh.map.mail.composer.form</field>
+        <field name="model">mh.map.mail.composer</field>
+        <field name="arch" type="xml">
+            <form string="Enviar por E-mail">
+                <field name="map_kind" invisible="1"/>
+                <field name="partner_id" invisible="1"/>
+                <group>
+                    <field name="recipient_ids" widget="many2many_tags"
+                           options="{'no_create': True}"/>
+                    <field name="cc_partner_ids" widget="many2many_tags"
+                           options="{'no_create': True}"/>
+                    <field name="cc_preview" readonly="1"/>
+                    <field name="subject"/>
+                </group>
+                <field name="body"/>
+                <field name="attachment_ids" widget="many2many_binary"/>
+                <footer>
+                    <button name="action_send" type="object" string="Enviar"
+                            class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

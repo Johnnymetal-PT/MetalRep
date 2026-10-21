@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="pg_mrp_shopfloor_cards.BinaryPreviewDialog">
+        <Dialog title="props.title || ''" size="'xl'">
+            <div t-if="props.mode === 'pdf'" class="o_pg_shopfloor_dialog_body">
+                <iframe class="o_pg_shopfloor_pdf_iframe" t-att-src="props.src"/>
+            </div>
+            <div t-else="" class="o_pg_shopfloor_dialog_body">
+                <div class="o_pg_shopfloor_zoom_toolbar d-flex gap-2 justify-content-end mb-2">
+                    <button class="btn btn-secondary btn-sm" type="button" t-on-click="zoomOut" title="Zoom out">
+                        <i class="fa fa-search-minus"/>
+                    </button>
+                    <button class="btn btn-secondary btn-sm" type="button" t-on-click="zoomIn" title="Zoom in">
+                        <i class="fa fa-search-plus"/>
+                    </button>
+                    <button class="btn btn-secondary btn-sm" type="button" t-on-click="resetZoom">
+                        100%
+                    </button>
+                    <span class="o_pg_shopfloor_zoom_label badge text-bg-light" t-esc="zoomLabel"/>
+                </div>
+                <div class="o_pg_shopfloor_image_wrap" t-on-wheel="onWheel">
+                    <img class="o_pg_shopfloor_preview_image" t-att-src="props.src" t-att-style="imageStyle"/>
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-secondary" type="button" t-on-click="props.close">Close</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

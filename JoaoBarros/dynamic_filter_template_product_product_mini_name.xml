@@ -1,0 +1,114 @@
+<t name="Image with name" t-name="website_sale.dynamic_filter_template_product_product_mini_name">
+  <!-- Build a list of product templates to render -->
+  <t t-set="_seen_template_ids" t-value="set()"/>
+  <t t-set="_template_entries" t-value="[]"/>
+  <t t-set="_debug_rows" t-value="[]"/>
+  <t t-set="_tmpl_model" t-value="request.env['product.template']"/>
+  <t t-foreach="records" t-as="data">
+    <t t-set="record" t-value="data.get('_record') or data.get('record')"/>
+    <t t-set="tmpl" t-value="False"/>
+    <t t-if="record and record._name == 'product.template'">
+      <t t-set="tmpl" t-value="record"/>
+    </t>
+    <t t-elif="record and record._name == 'product.product'">
+      <t t-set="tmpl" t-value="record.product_tmpl_id"/>
+    </t>
+    <t t-if="not tmpl">
+      <t t-set="tmpl_id" t-value="data.get('product_tmpl_id') or data.get('product_template_id') or data.get('template_id') or (data.get('id') if data.get('model') in (None, 'product.template') else False)"/>
+      <t t-if="tmpl_id">
+        <t t-set="tmpl" t-value="_tmpl_model.browse(tmpl_id)"/>
+      </t>
+    </t>
+    <t t-if="tmpl">
+      <t t-set="tmpl" t-value="tmpl.exists()[:1]"/>
+    </t>
+    <t t-set="raw_keys" t-value="', '.join(sorted(data.keys())) if isinstance(data, dict) else ''"/>
+    <t t-set="source_model" t-value="(record and record._name) or data.get('model') or data.get('_name') or ''"/>
+    <t t-set="source_id" t-value="(record and getattr(record, 'id', False)) or data.get('id') or data.get('res_id') or data.get('record_id') or data.get('product_id') or data.get('product_tmpl_id') or False"/>
+    <t t-set="already_seen" t-value="bool(tmpl and tmpl.id in _seen_template_ids)"/>
+    <t t-set="_debug_rows" t-value="_debug_rows + [{
+      'index': loop.index0,
+      'source_model': source_model or '',
+      'source_id': source_id or False,
+      'template_id': tmpl and tmpl.id or False,
+      'template_model': tmpl and tmpl._name or '',
+      'template_name': tmpl and (tmpl.display_name or tmpl.name) or '',
+      'raw_keys': raw_keys,
+      'added': bool(tmpl) and not already_seen
+    }]"/>
+    <t t-log="'[dynamic_snippet][product_mini_name] data=%s resolved_template=%s added=%s' % (data, tmpl.ids if tmpl else None, (tmpl and not already_seen))"/>
+    <t t-if="tmpl and not already_seen">
+      <t t-set="_template_entries" t-value="_template_entries + [{
+        'tmpl': tmpl,
+        'data': data,
+        'record': record,
+        'source_model': source_model,
+        'source_id': source_id,
+        'raw_keys': raw_keys
+      }]"/>
+      <t t-set="_seen_template_ids" t-value="_seen_template_ids | {tmpl.id}"/>
+    </t>
+    <t t-elif="tmpl">
+      <t t-log="'[dynamic_snippet][product_mini_name] skip duplicate template id=%s' % tmpl.id"/>
+    </t>
+  </t>
+
+  <div class="dyn-snippet-debug-records d-none">
+    <t t-foreach="_debug_rows" t-as="row">
+      <div class="dyn-snippet-debug-record"
+           t-att-data-index="row['index']"
+           t-att-data-source-model="row.get('source_model') or ''"
+           t-att-data-source-id="row.get('source_id') or ''"
+           t-att-data-template-id="row.get('template_id') or ''"
+           t-att-data-template-model="row.get('template_model') or ''"
+           t-att-data-template-name="row.get('template_name') or ''"
+           t-att-data-raw-keys="row.get('raw_keys') or ''"
+           t-att-data-added="'1' if row.get('added') else '0'"/>
+    </t>
+  </div>
+
+  <t t-foreach="_template_entries" t-as="entry" data-thumb="/website_sale/static/src/img/snippets_options/product_image_with_name.svg">
+    <t t-set="tmpl" t-value="entry['tmpl']"/>
+    <t t-set="raw_data" t-value="entry['data']"/>
+    <t t-set="source_record" t-value="entry.get('record')"/>
+    <t t-set="source_model" t-value="entry.get('source_model') or (source_record and source_record._name) or raw_data.get('model') or raw_data.get('_name') or ''"/>
+    <t t-set="source_id" t-value="entry.get('source_id') or (source_record and getattr(source_record, 'id', False)) or raw_data.get('id') or raw_data.get('res_id') or raw_data.get('record_id') or raw_data.get('product_id') or raw_data.get('product_tmpl_id') or False"/>
+    <t t-set="raw_keys" t-value="entry.get('raw_keys') or (', '.join(sorted(raw_data.keys())) if isinstance(raw_data, dict) else '')"/>
+
+    <div class="card h-100 border-0 w-100 rounded-0 bg-transparent o_dynamic_product_hovered"
+         t-att-data-url="tmpl.website_url"
+         style="padding-bottom: 128px;"
+         t-att-data-dyn-entry-index="loop.index0"
+         t-att-data-dyn-template-id="tmpl.id"
+         t-att-data-dyn-template-model="tmpl._name"
+         t-att-data-dyn-template-name="tmpl.display_name or tmpl.name"
+         t-att-data-dyn-source-model="source_model or ''"
+         t-att-data-dyn-source-id="source_id or ''"
+         t-att-data-dyn-raw-keys="raw_keys or ''">
+
+      <div t-if="is_sample" class="h5 o_ribbon_right bg-primary text-uppercase">Sample</div>
+
+      <a class="o_carousel_product_img_link overflow-hidden" t-att-href="tmpl.website_url">
+        <!-- Use the template image; fallback works for both models -->
+        <img class="card-img-top h-auto o_img_product_square o_img_product_cover rounded" loading="lazy" t-att-src="'/web/image/%s/%s/image_512' % (tmpl._name, tmpl.id)" t-att-alt="tmpl.display_name or tmpl.name" style="height: 100%; width: 100%; object-fit: contain; object-position: center; background-color: #f2f0ec;"/>
+      </a>
+
+      <!-- Subcategory Name (join all names, ordered by sequence) -->
+      <div class="text-center text-muted" style="font-size: 12px; margin-top: 15px;">
+        <t t-set="cats" t-value="tmpl.public_categ_ids.sorted('sequence')"/>
+        <t t-esc="' / '.join(cats.mapped('name')) if cats else ''"/>
+      </div>
+
+      <!-- Product Name (template) -->
+      <div class="h6 text-center" style="font-size: 24px; padding-top: 4px;" t-field="tmpl.x_studio_nome_produto_website"/>
+
+      <!-- Rating (from template) -->
+      <div class="text-center">
+        <t t-if="is_view_active('website_sale.product_comment')" t-call="portal_rating.rating_widget_stars_static">
+          <t t-set="rating_avg" t-value="getattr(tmpl, 'rating_avg', 0.0)"/>
+          <t t-set="rating_count" t-value="getattr(tmpl, 'rating_count', 0)"/>
+        </t>
+      </div>
+    </div>
+  </t>
+</t>

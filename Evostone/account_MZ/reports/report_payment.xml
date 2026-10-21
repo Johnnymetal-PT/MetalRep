@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_payment_receipt_document" model="ir.ui.view">
+        <field name="name">report_payment_receipt_document</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_payment_receipt_document">
+<t t-call="web.html_container">
+<t t-foreach="docs" t-as="doc">
+<t t-call="web.external_layout">
+<style> table,td{ border: 2px solid black; font-size: 11pt } </style>
+
+
+   
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+        <tr style="height:65.75pt;">
+            <td style=" border: none; outline: none; solid black; text-align:center; font-size:10px; border: none; vertical-align:center;">
+                <br/>
+                <img src="/account_MZ/static/description/emblema.png" alt="Descrição da Imagem" width="90" height="90"/>
+            </td>
+            <td style="border: none; outline: none; solid black; text-align:center; font-size:12pt; background-color:#d9e1f2; ">
+
+República de Moçambique
+
+
+                <br/>
+Autoridade Tributária de Moçambique
+
+                <br/>
+DIRECÇÃO GERAL DE IMPOSTOS
+
+            </td>
+            <td style="Border: 1px solid black ; text-align:center; font-size:12pt; background-color:#d9e1f2;">
+
+
+DECLARAÇÃO ANUAL DE INFORMAÇÃO CONTABILÍSTICA E FISCAL
+
+                <br/>
+(Arts. 98 do CIRPS e Art. 106 do CIRPC)
+
+            </td>
+            <td style="solid black; text-align: center; font-size:12pt; background-color:#d9e1f2;" width="150px; ">
+                <br/>
+                <br/>
+M/20 
+
+                <br/>
+                <br/>
+            </td>
+        </tr>
+    </table>
+    <table cellpadding="0" cellspacing="0" style="width: 800pt; border-collapse: collapse;">
+        <!-- <tbody> -->
+        <tr style="font-size: 13px">
+            <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#d9e1f2;">
+                <p style="margin-top:0pt; margin-bottom:0pt; font-size:14px; width: 70%">
+                    <b>1 - NOME / DESIGNAÇÃO SOCIAL DO SUJEITO PASSIVO</b>
+                </p>
+            </td>
+            <td colspan="23" style="width:40%; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#d9e1f2;">
+                <p style="margin-top:0pt; margin-bottom:0pt; font-size:12pt; text-align:center;">
+                    <span style="font-size:14px;">
+2 -- NUIT - Numero Unico de
+
+                        <br/>
+Identificação Tributação
+
+                    </span>
+                </p>
+            </td>
+        </tr>
+        <!-- </tbody> -->
+    </table>
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+        <tbody>
+            <tr style="height: 32px">
+                <td style="solid black; text-align:leght; font-size:14px;padding-left: 5px; width:60%">
+                    <span t-field="doc.company_id.name"/> 
+                </td>
+                <td style="solid black; text-align:center; font-size:14px;padding-left: 5px">
+                    <span t-field="doc.company_id.vat"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" style="width: 800pt; border-collapse: collapse;">
+        <!--<tbody>-->
+            <!-- Linha do título -->
+            <tr style="background-color:#d9e1f2; height:28px;">
+                <td colspan="2" style="border-right:1px solid black; padding-left:5px; font-weight:bold;">
+        3 - TIPO DE ACTIVIDADE ECONÓMICA EXERCIDA / DISTICOS COMERCIAIS USADOS
+      </td>
+                <td style="width:70pt; text-align:center; font-size:10px;">
+        Área Fiscal<br/>
+         <span t-field="doc.areaFiscal"/> 
+      </td>
+            </tr>
+            <!-- Linha da Actividade Principal -->
+            <tr style="height:24px;">
+                <td colspan="3" style="padding:5px;">
+                    <b>Actividade Principal:</b>
+                    <span t-field="doc.cae_main"/> 
+                </td>
+            </tr>
+            <!-- Linha das Outras Actividades -->
+            <tr style="height:24px;">
+                <td colspan="3" style="padding:5px;">
+                    <b>Outras Actividades</b> 
+                    <!-- <span t-field="doc.caes_ids.nome"/>  -->
+                    <span t-esc="', '.join(doc.caes_ids.mapped('nome'))"/>
+                </td>
+            </tr>
+            <!-- Linha dos Dísticos Comerciais -->
+            <tr style="height:24px;">
+                <td colspan="3" style="padding:5px;">
+                    <b>Dísticos Comerciais usados (se existirem):</b>
+                    <!--<div style="border-bottom:1px solid black; height:16px; margin-top:2px;"/>-->
+                                        <span t-field="doc.company_id.name"/> 
+
+                </td>
+            </tr>
+        <!--</tbody>-->
+    </table>
+    
+      <table cellpadding="0" cellspacing="0" style="width: 800pt;">
+        <tbody>
+
+            <tr style="background-color:#d9e1f2; height:28px;">
+                <td colspan="2" style="border-right:1px solid black; padding-left:5px; font-weight:bold;">
+         4 - ENDEREÇO DA RESIDÊNCIA / SEDE DA EMPRESA (em Moçambique):
+      </td>
+              
+            </tr>
+
+            <tr style="height:24px;">
+                <td colspan="3" style="padding:5px;">
+                   Rua / Avenida, etc: <strong t-field="doc.company_id.street"/>  <span style="padding-left: 13px">nº <span/> </span> <span style="padding-left: 16px"> andar    </span> <span style="padding-left: 18px">  Localidade_____________</span><br/>
+                   <span style="font-size: 9px"> No caso de não existir nome da rua →  </span> <span> Bairro  ____________________________________  </span> Quarteirão  ___________________ <span>Célula _______________  </span><span>nº casa _____________  </span><br/>
+                 <span style="padding-left: 1px">Código Postal:<strong><span t-field="doc.company_id.zip"/></strong>  </span>  <span style="padding-left: 13px"/>  <span style="padding-left: 13px"> Distrito:  <span/> </span>  <span style="padding-left: 13px">  Província:  <strong t-field="doc.company_id.state_id"/></span><span style="padding-left: 13px">  Telefone: <strong t-field="doc.company_id.phone"/></span> <br/>
+                 <span style="padding-left: 1px"> Fax: ______________________</span>                   <span style="padding-left: 13px"> Telef. Móvel: <strong t-field="doc.company_id.mobile"/></span>     <span style="padding-left: 13px"> E-mail: <strong t-field="doc.company_id.email"/></span>
+
+                </td>
+            </tr>
+            
+            <tr>
+                <td style="padding:6px; border:1px solid #000; border-bottom:none;">                   
+                <strong>Local onde se encontram os registos contabilísticos</strong> 
+                
+              
+                  <br/>
+                    <!-- <span style="display:inline-block; vertical-align:middle; width:14px; height:14px; border:1px solid #000; margin-right:6px;"/> Na Sede da Empresa -->
+        <span style="display:inline-block; vertical-align:middle; width:14px; height:14px; border:1px solid #000; margin-right:6px; text-align:center; line-height:14px;">✔</span>
+Na Sede da Empresa
+
+  
+          <br/>
+            
+           Ocorrem alterações nos dados constantes do quadro relativamente à última declaração entregue?  
+               <span style="display:inline-block; vertical-align:middle; width:14px; height:14px; border:1px solid #000; margin:0 6px 0 12px;"/> Sim
+        
+                <span style="display:inline-block; vertical-align:middle; width:14px; height:14px; border:1px solid #000; margin:0 6px 0 12px;"/> Não
+        
+                </td>
+            </tr>
+            <!-- Linha das Outras Actividades -->
+         
+        </tbody>
+        
+        
+    </table>
+
+
+    <!-- <table cellpadding="0" cellspacing="0" style="width: 800pt; border-collapse: collapse;">
+
+        <tr style="font-size: 13px">
+            <td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#d9e1f2;">
+                <p style="margin-top:0pt; margin-bottom:0pt; font-size:14px; padding:6px; width: 70%">
+                    <b>5 - TIPO DE DECLARAÇÃO</b>
+                </p>
+            </td>
+            <td colspan="23" style="width:40%; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#d9e1f2;">
+                <p style="margin-top:0pt; margin-bottom:0pt; font-size:12pt; text-align:left; padding:6px; ">
+                    <span style="font-size:14px;">
+                        <b>6 - EXERCICIO / PERIODO DE TRIBUTAÇÃO</b>
+                    </span>
+                </p>
+            </td>
+        </tr>
+         
+         
+    </table> -->
+
+
+<!-- ##################### -->
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse; border-spacing:0; margin:0; padding:0; font-family:Arial, sans-serif; font-size:13px;">
+  <tbody>
+    <!-- Cabeçalho Azul -->
+    <tr style="background-color:#dbe5f1; font-weight:bold;">
+      <td style="border:1px solid #000; width:50%; text-align:left; padding:4px;">5 - TIPO DE DECLARAÇÃO</td>
+      <td style="border:1px solid #000; width:50%; text-align:left; padding:4px;">6 - EXERCÍCIO / PERÍODO DE TRIBUTAÇÃO</td>
+    </tr>
+
+    <!-- Corpo Cinza (sem espaço entre as duas tabelas) -->
+    <tr style="background-color:#f2f2f2; vertical-align:top;">
+      <!-- Coluna Esquerda -->
+      <td style="border:1px solid #000; text-align:left; padding:6px;">
+        <!-- <div style="margin-bottom:4px;">
+          <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle; margin-right:6px;"></span>
+          1ª Declaração do exercício
+        </div> -->
+
+      <div>
+        <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle; margin-right:6px; text-align:center; line-height:14px;">✔</span>
+        <span t-field="doc.tipo_declaracao"/>
+       </div>
+
+       <div style="margin-bottom:4px;">
+    <span/>
+    <br/><br/>
+    <span style="padding-left:120px;">Data de cessação</span>
+</div>
+
+<div>
+    <span style="padding-left:110px;">_____/_____/_____</span>
+
+    <!-- <span style="display:inline-block; position:relative; font-family:monospace; padding-left:120px;">
+
+        <span style="display:inline-block; width:40px; border-bottom:1px solid #000; height:16px; position:relative; margin-right:4px;">
+            <span t-esc="doc.data_cessao.strftime('%d')"
+                  style="position:absolute; left:0; top:-2px;">
+            </span>
+        </span>
+   <span style="padding:0 4px;">/</span>
+        <span style="display:inline-block; width:40px; border-bottom:1px solid #000; height:16px; position:relative; margin-right:4px;">
+            <span t-esc="doc.data_cessao.strftime('%m')"
+                  style="position:absolute; left:0; top:-2px;">
+            </span>
+        </span>
+     <span style="padding:0 4px;">/</span>
+        <span style="display:inline-block; width:60px; border-bottom:1px solid #000; height:16px; position:relative;">
+            <span t-esc="doc.data_cessao.strftime('%Y')"
+                  style="position:absolute; left:0; top:-2px;">
+            </span>
+        </span> 
+
+    </span> -->
+</div>
+
+
+
+          <!-- <span style="padding-left:150px;"><span t-field="doc.data_cessao"/></span> -->
+        <!-- </div> -->
+      </td>
+
+      <!-- Coluna Direita -->
+      <td style="border:1px solid #000; text-align:left; padding:6px;">
+        <div style="margin-bottom:4px;">
+          <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle; margin-right:6px;">✔</span>
+          Ano Civil 
+          <span style="padding-left:140px;">Exercício / Ano</span><br/>
+           <span style="padding-left:270px" t-esc="int(doc.ano)"/>
+        </div>
+        <div style="margin-bottom:4px;">
+          <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle; margin-right:6px;"/>
+          Outro 
+          <span style="padding-left:100px;">De ______ a ___________</span>
+        </div>
+        <div style="margin-left:24px; margin-bottom:4px;">
+          No caso do período de tributação ser diferente do ano civil
+        </div>
+        <div style="margin-bottom:4px;">
+          <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle; margin-right:6px;"/>
+          Ano Completo
+        </div>
+        <div>
+          <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle; margin-right:6px;"/>
+          Período de transição 
+          <span style="padding-left:80px;">______/______/______</span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- #################### -->
+
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse; border-spacing:0; margin:0; padding:0;">
+      
+
+    
+  <tr>
+    <!-- Cabeçalho azul claro -->
+    <td colspan="2" style="background-color:#b7cce2; text-align:center; font-weight:bold; border:1px solid #000; padding:6px;">
+      7 - TIPO DE ENTIDADE / ANEXOS QUE ACOMPANHAM ESTA DECLARAÇÃO
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" style="border:1px solid #000; padding:10px; text-align:left;">
+      <!-- Tabela interna centralizada -->
+      <table cellpadding="0" cellspacing="0" style="width:650pt; border-collapse:collapse; font-family:Arial, sans-serif; font-size:12px; margin:0 auto;">
+        <tr>
+          <th style="border:1px solid #000; text-align:center; background-color:#f2f2f2; width:90%; padding:5px;"/>
+          <th style="border:1px solid #000; text-align:center; background-color:#f2f2f2; width:10%;">Anexos</th>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000; padding:6px;">
+            Sujeitos passivos que exercem a título principal actividade de natureza comercial, industrial ou agrícola, com contabilidade organizadora (art. 108 do CIRPC)
+          </td>
+          <!-- <td style="border:1px solid #000; text-align:center;">
+            <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; background:#d9d9d9; vertical-align:middle;"/> A
+          </td> -->
+          <td style="border:1px solid #000; text-align:center;">
+          <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; background:#d9d9d9; vertical-align:middle; text-align:center; line-height:14px;">✔</span>
+          A
+        </td>
+
+        </tr>
+        <tr>
+          <td style="border:1px solid #000; padding:6px;">
+            Sujeitos passivos que exercem a título principal actividade de natureza comercial, industrial ou agrícola, do regime simplificado de escrituração (nº 2 do art. 108 e art. 109 do CIRPC)
+          </td>
+          <td style="border:1px solid #000; text-align:center;">
+            <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle;"/> B
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000; padding:6px;">
+            Entidades residentes que não exercem a título principal de natureza comercial, industrial ou agrícola (art. 49 e nº 2 do art. 10 do CIRPC)
+          </td>
+          <td style="border:1px solid #000; text-align:center;">
+            <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle;"/> C
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000; padding:6px;">
+            Entidades não residentes sem estabelecimento estável (art. 52 do CIRPC)
+          </td>
+          <td style="border:1px solid #000; text-align:center;">
+            <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle;"/> D
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000; padding:6px;">
+            Sujeitos passivos de IRPS com contabilidade organizada (art. 101 e 104 do CIRPC)
+          </td>
+          <td style="border:1px solid #000; text-align:center;">
+            <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle;"/> E
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000; padding:6px;">
+            Entidades sujeitas ao regime de transparência fiscal (art. 6 do CIRPC) - Imputação de rendimentos aos sócios
+          </td>
+          <td style="border:1px solid #000; text-align:center;">
+            <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle;"/> F
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000; padding:6px;">
+            Discriminação de rendimentos com vários regimes de tributação no IRPS ou no IRPC
+          </td>
+          <td style="border:1px solid #000; text-align:center;">
+            <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle;"/> G
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000; padding:6px;">
+            Rendimentos pagos (art. 108 do CIRPS e art. 114 do CIRPC)
+          </td>
+          <td style="border:1px solid #000; text-align:center;">
+            <span style="display:inline-block; width:14px; height:14px; border:1px solid #000; vertical-align:middle;"/> H
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  
+            <tr style="height:28px;">
+            <td colspan="6" style="padding-left:6px; font-weight:bold; background-color:#b7cce2;">8 - OBSERVAÇÃO</td>
+        </tr>
+          <tr style="height:28px;">
+            <td colspan="6" style="padding-left:6px; font-weight:bold;"/>
+        </tr>
+        
+          <tr style="height:28px;">
+            <td colspan="6" style="padding-left:6px; font-weight:bold;"/>
+        </tr>
+        
+   
+</table>
+
+      <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+  <tr style="font-size:12px; height:23px;">
+    <td colspan="23" style="width:559.74pt; border:1pt solid #000; background-color:#9CC6E4; padding:2px 4px; vertical-align:middle;">
+      <b style="font-size:13px;">9 - AUTENTICAÇÃO DO SUJEITO PASSIVO</b>
+    </td>
+    <td colspan="23" style="width:40%; border:1pt solid #000; background-color:#9CC6E4; padding:2px 4px; vertical-align:middle;">
+      <b style="font-size:13px;">10 - USO EXCLUSIVO DOS SERVIÇOS</b>
+    </td>
+  </tr>
+</table>
+
+    
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    <table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+        <tbody>
+            <tr style="height: 25px">
+                <td style="solid black; text-align:leght; font-size:14px;padding-left: 5px; width:60%">
+                    <span/> A presente declaração corresponde a verdade e nao omite qualquer informação pedida
+               
+                    <br/>
+                    <span/> 
+                    <span style="padding-left: 175px">Data _______/__________/_________</span>
+              
+                    <br/>
+                    <span/> Nome: _________________________________________
+                    <br/>
+                                        <span/> ASS: _________________________________________
+
+                    <br/>
+                                         <span/> Qualidade do _________________________________________
+
+                    <br/>
+                                             <span/>repreentante e NUIT _________________________________________
+
+                 
+                    <br/>
+               
+<span style="text-align:center; padding-left:230px;">
+    <b><u>Tecnico de Contas</u></b>
+</span>
+
+
+
+
+ <span/> 
+
+                 
+                    <br/>
+                    <span/> Nome: _________________________________________
+                      <br/>
+                    <span/> NUIT: _________________________________________
+                    <br/>
+                                        <span/> ASS: _________________________________________
+
+                    <br/>
+                                             <span/>Nº de inscrição DNIA _________________________________________
+
+                 
+                    <br/>
+          
+
+                </td>
+                <td style="solid black; text-align:leght; font-size:14px;padding-left: 5px">
+                    
+                    
+<!-- Primeiro par -->
+<span style="display:inline-block;">
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+</span>
+
+<!-- Espaço entre os pares -->
+<span style="display:inline-block; width:10px;"/>
+
+<!-- Segundo par -->
+<span style="display:inline-block;">
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+</span>
+
+
+<!-- Espaço entre os pares -->
+<span style="display:inline-block; width:6px;"/>
+
+<!-- Segundo par -->
+<span style="display:inline-block;">
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+</span>
+<span style="display:inline-block;">
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+</span>
+
+<span style="display:inline-block; width:6px;"/>
+    <span style="display:inline-block;">
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+</span>
+<span style="display:inline-block; width:6px;"/>
+
+  <span style="display:inline-block;">
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+</span>
+ <span style="display:inline-block;">
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+</span>
+
+
+
+<br/>
+                    
+ <span/> N.º de Entrada    <span style="display:inline-block; padding-left: 10px">
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+        <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+
+    <span style="display:inline-block; width:16px; height:16px; border:1px solid #000; vertical-align:middle;"/>
+                    <span style="padding-left: 20px">___________________________</span>
+
+</span>
+                    
+                    <br/>
+                    <span/>Nome do Func.__________________________________________
+                
+                    <br/>
+                      <span/> Ass:<br/>__________________________________________________________ 
+                  
+                    <br/>
+                    <span/>INSERÇÃO DE DADOS
+                  
+                    <br/>   
+                      <span/> 
+                    <span style="padding-left: 80px">Nome do Func. ______________________________________ </span>
+                
+                    <br/>   
+                    
+                      
+                      <span style=""/>Data _______/________/___________ 
+                    <span style="padding-left: 30px">Ass. _________________ </span>
+
+                    
+                    </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</t>
+</t>
+</t> 
+</t>
+        </field>
+    </record>
+
+</odoo>

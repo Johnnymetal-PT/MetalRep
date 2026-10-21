@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Views de Adiantamento comentadas - campos não existem mais no modelo -->
+        <!--
+        <record id="view_move_form_inherit_advance" model="ir.ui.view">
+            <field name="name">account.move.form.inherit.advance</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="inside">
+                    <field name="advance_payment_ids" invisible="1"/>
+                    <field name="advance_payment_count" invisible="1"/>
+                    <field name="advance_payment_total" invisible="1"/>
+                    <field name="has_available_advances" invisible="1"/>
+                    <field name="advance_transfer_move_ids" invisible="1"/>
+                    <field name="advance_application" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//header/button[@name='action_post']" position="after">
+                    <button name="action_apply_advance_payment"
+                            type="object"
+                            string="Aplicar Adiantamento"
+                            class="btn-primary"
+                            invisible="state != 'posted' or payment_state in ('in_payment','paid') or not has_available_advances or move_type not in ('out_invoice', 'in_invoice')"
+                            groups="account.group_account_invoice"/>
+                </xpath>
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_advance_payments"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-money"
+                            invisible="advance_payment_count == 0 or move_type not in ('out_invoice', 'in_invoice')"
+                            groups="account.group_account_readonly">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="advance_payment_count" widget="integer"/>
+                            </span>
+                            <span class="o_stat_text">Adiantamento(s)</span>
+                        </div>
+                    </button>
+
+                    <button name="action_view_advance_transfers"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-exchange"
+                            invisible="not advance_transfer_move_ids or move_type not in ('out_invoice', 'in_invoice')"
+                            groups="account.group_account_readonly">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text">Transferências</span>
+                        </div>
+                    </button>
+                </xpath>
+
+                <xpath expr="//page[@id='other_tab']//group[@id='other_tab_group']" position="inside">
+                    <group string="Adiantamentos Aplicados"
+                           name="advance_payments_group"
+                           invisible="advance_payment_count == 0 or move_type not in ('out_invoice', 'in_invoice')">
+                        <field name="advance_payment_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_move_form_advance_application" model="ir.ui.view">
+            ...
+        </record>
+
+        <record id="view_invoice_tree_with_advances" model="ir.ui.view">
+            ...
+        </record>
+        -->
+
+        <!-- Bloquear edição do `name` (número do lançamento) na UI -->
+        <record id="view_move_form_name_readonly" model="ir.ui.view">
+            <field name="name">account.move.form.name.readonly</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <!-- Targeta o campo `name` VISÍVEL (o que tem options placeholder) -->
+                <xpath expr="//field[@name='name'][@options]" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="force_save">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Wizard Form View -->
+    <record id="mh_pcmp_year_transition_view_form" model="ir.ui.view">
+        <field name="name">mh.pcmp.year.transition.form</field>
+        <field name="model">mh.pcmp.year.transition</field>
+        <field name="arch" type="xml">
+            <form string="Transição de Ano Fiscal PCMP">
+                <group>
+                    <group string="Período">
+                        <field name="from_year"/>
+                        <field name="to_year"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group string="Opções">
+                        <field name="include_zero_stock"/>
+                        <field name="overwrite_existing"/>
+                    </group>
+                </group>
+                <group>
+                    <div class="alert alert-info" role="alert">
+                        <strong>Produtos a processar:</strong>
+                        <field name="products_count" nolabel="1" class="oe_inline"/>
+                    </div>
+                </group>
+                <footer>
+                    <button name="action_preview" type="object"
+                            string="Ver Produtos" class="btn-secondary"/>
+                    <button name="action_execute_transition" type="object"
+                            string="Executar Transição" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard Action -->
+    <record id="mh_pcmp_year_transition_action" model="ir.actions.act_window">
+        <field name="name">Transição de Ano Fiscal</field>
+        <field name="res_model">mh.pcmp.year.transition</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="mh_pcmp_transition_menu"
+              name="Transição de Ano"
+              parent="menu_pcmp_management_root"
+              action="mh_pcmp_year_transition_action"
+              sequence="20"
+              active="False"/>
+
+</odoo>

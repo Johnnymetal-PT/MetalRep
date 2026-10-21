@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- =============== B2B Application Form Page ===============  -->
+    <template id="application_form_template" name="B2B Application Form">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section>
+                    <div class="container">
+                        <h2 class="text-center">B2B Application Form</h2>
+                        <p class="text-center">Apply for business access to our wholesale platform</p>
+                    </div>
+                </section>
+                <section class="s_text_block pt32 pb32 as-b2b-signup" data-snippet="s_text_block">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="card shadow-lg">
+                                    <div class="card-body p-lg-5">
+                                        <form action="/web/b2b_signup/submit" method="post"
+                                              enctype="multipart/form-data" class="o_mark_required" data-mark="*">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <input type="hidden" name="redirect" value="/web/b2b_signup/thank-you"/>
+                                            <!-- Business Owner Information -->
+                                            <h3 class="mb-4">Business Owner Information</h3>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3 s_website_form_field" data-type="char">
+                                                     <label for="first_name" class="form-label">
+                                                        First Name <span class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="text" class="form-control s_website_form_input"
+                                                        id="first_name" name="first_name"
+                                                        required="1" placeholder="Enter first name"/>
+                                                </div>
+                                                <div class="col-md-6 mb-3 s_website_form_field" data-type="char">
+                                                    <label for="last_name" class="form-label">Last Name <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control s_website_form_input" id="last_name"
+                                                           name="last_name" required="1" placeholder="Enter last name" />
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3 s_website_form_field" data-type="tel">
+                                                    <label for="phone" class="form-label">Phone<span class="text-danger">*</span></label>
+                                                    <input type="tel" class="form-control s_website_form_input" id="phone" name="phone" required="1" placeholder="Enter phone number" pattern="[0-9]{10}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+                                                </div>
+                                                <div class="col-md-6 mb-3 s_website_form_field" data-type="email">
+                                                    <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
+                                                    <input type="email" class="form-control s_website_form_input" id="email"
+                                                           name="email" required="1" placeholder="Enter email address" />
+                                                </div>
+                                            </div>
+
+                                            <hr class="my-4"/>
+
+                                            <!-- Business Information -->
+                                            <h3 class="mb-4">Business Information</h3>
+                                            <div class="mb-3 s_website_form_field" data-type="char">
+                                                <label for="business_name" class="form-label">Legal Business Name<span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control s_website_form_input" id="business_name"
+                                                       name="business_name" required="1" placeholder="Enter business name"/>
+                                            </div>
+                                            <div class="mb-3 s_website_form_field" data-type="char">
+                                                <label for="business_number" class="form-label">Business Number<span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control s_website_form_input" id="business_number"
+                                                       name="business_number" placeholder="SC123456"/>
+                                                <small class="form-text text-muted">Tax ID or Business Registration Number Format - e.g. SC123456</small>
+                                            </div>
+                                            <div class="mb-3 s_website_form_field" data-type="checkbox">
+                                                <label class="form-label">
+                                                    Type of Business <span class="text-danger">*</span>
+                                                </label>
+
+                                                <div>
+                                                    <t t-foreach="business_types" t-as="bt">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input s_website_form_input"
+                                                                type="checkbox"
+                                                                name="business_type"
+                                                                t-att-id="'bt_%s' % bt.id"
+                                                                t-att-value="bt.name"
+                                                                t-att-checked="'checked' if bt_first else None"/>
+
+                                                            <label class="form-check-label"
+                                                                t-att-for="'bt_%s' % bt.id">
+                                                                <t t-esc="bt.name"/>
+                                                            </label>
+                                                        </div>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                            <div class="mb-4">
+                                                <h3 class="mb-4">Billing Address</h3>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="street" class="form-label">Address Line 1 <span class="text-danger">*</span></label>
+                                                        <input type="text" name="street" id="street" class="form-control" placeholder="Address Line 1" required="1"/>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="street2" class="form-label">Address Line 2</label>
+                                                        <input type="text" name="street2" id="street2" class="form-control" placeholder="Address Line 2"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="state_id" class="form-label">State <span class="text-danger">*</span></label>
+                                                        <select name="state_id" id="state_id" class="form-select" required="1" disabled="disabled">
+                                                            <option value="">Select Country First</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="city" class="form-label">City <span class="text-danger">*</span></label>
+                                                        <input type="text" name="city" id="city" class="form-control" placeholder="City" required="1"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="country_id" class="form-label">Country <span class="text-danger">*</span></label>
+                                                        <select name="country_id" id="country_id" class="form-select" required="1">
+                                                            <option value="">Select Country</option>
+                                                            <t t-foreach="countries" t-as="country">
+                                                                <option t-att-value="country.id"
+                                                                        t-att-selected="'selected' if country.id == (application.partner_id.country_id.id if application and application.partner_id else False) else None">
+                                                                    <t t-esc="country.name"/>
+                                                                </option>
+                                                            </t>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="zip" class="form-label">ZIP / Postal Code <span class="text-danger">*</span></label>
+                                                        <input type="text" name="zip" id="zip" class="form-control" placeholder="ZIP / Postal Code" required="1"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="mb-4">Other Information</h3>
+                                            <div class="mb-3 s_website_form_field" data-type="binary">
+                                                <section class="b2b_document_upload_section">
+                                                    <label for="document_attachment" class="form-label">Upload Business Documents<span class="text-danger">*</span></label>
+                                                    <input type="file" class="form-control s_website_form_input" id="document_attachment"
+                                                        name="document_attachment" accept=".pdf,.jpg,.jpeg,.png" required="1"/>
+                                                    <small class="form-text text-muted">Accepted formats: PDF, JPG, JPEG, PNG (Max 10MB)</small>
+                                                </section>
+                                            </div>
+
+                                            <div class="mb-3 s_website_form_field" data-type="text">
+                                                <label for="notes" class="form-label">Additional Notes</label>
+                                                <textarea class="form-control s_website_form_input" id="notes" name="notes"
+                                                          rows="4" placeholder="Any additional information you'd like to share..."></textarea>
+                                            </div>
+
+                                            <hr class="my-4"/>
+                                            <div class="mb-4 s_website_form_field" data-type="checkbox">
+                                                <label class="form-label fw-bold mb-3">Terms and Conditions</label>
+
+                                                <div class="border rounded p-3 mb-3"
+                                                    style="max-height: 300px; overflow-y: auto; background-color: #f8f9fa;">
+                                                    <t t-if="terms_and_conditions">
+                                                        <t t-raw="terms_and_conditions"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <p class="text-muted">No terms and conditions have been configured yet.</p>
+                                                    </t>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input s_website_form_input" type="checkbox"
+                                                        id="terms_accepted" name="terms_accepted" required="1" value="1"/>
+                                                    <label class="form-check-label" for="terms_accepted">
+                                                        I have read and agree to the Terms and Conditions <span class="text-danger">*</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="text-center s_website_form_send">
+                                                <button type="submit" class="btn btn-primary btn-lg px-5 s_website_form_send">
+                                                    Submit
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- =============== Thank You Page ===============  -->
+    <template id="application_thank_you_template" name="Application Thank You">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_text_block pt96 pb96">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2 text-center">
+                                <i class="fa fa-check-circle fa-5x text-success mb-4"/>
+                                <h1 class="mb-4">Thank You!</h1>
+                                <p class="lead mb-4">
+                                    Your B2B application has been successfully submitted.
+                                </p>
+                                <div class="alert alert-info">
+                                    <strong>Application Number:</strong> <t t-esc="application.name"/>
+                                </div>
+                                <p class="mb-4">
+                                    We have received your application and will review it shortly.
+                                    You will receive an email at <strong t-esc="application.email"/>
+                                    with the status of your application.
+                                </p>
+                                <a href="/" class="btn btn-primary btn-lg">Return to Homepage</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- =============== Error Page ===============  -->
+    <template id="application_error_template" name="Application Error">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_text_block pt96 pb96">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2 text-center">
+                                <i class="fa fa-exclamation-triangle fa-5x text-danger mb-4"/>
+                                <h1 class="mb-4">
+                                    <t t-if="error_title">
+                                        <t t-esc="error_title"/>
+                                    </t>
+                                    <t t-else="">
+                                        Oops! Something went wrong
+                                    </t>
+                                </h1>
+                                <p class="lead mb-4">
+                                    <t t-if="error_title == 'Duplicate Application'">
+                                        It looks like you've already submitted an application with this email address.
+                                    </t>
+                                    <t t-elif="error_title == 'Account Already Exists'">
+                                        An account with this email address is already registered in our system.
+                                    </t>
+                                    <t t-else="">
+                                        We encountered an error while processing your application.
+                                    </t>
+                                </p>
+                                <div class="alert alert-danger">
+                                    <t t-esc="error_message"/>
+                                </div>
+                                <p class="mb-4">
+                                    <t t-if="error_title == 'Account Already Exists'">
+                                        Please use the login page to access your account.
+                                    </t>
+                                    <t t-else="">
+                                        Please try again or contact our support team if the problem persists.
+                                    </t>
+                                </p>
+                                <div class="btn-group-lg">
+                                    <t t-if="error_title == 'Account Already Exists'">
+                                        <a href="/web/login" class="btn btn-primary btn-lg mr-2">
+                                            <i class="fa fa-sign-in mr-2"/>Login to Your Account
+                                        </a>
+                                        <a href="/web/reset_password" class="btn btn-secondary btn-lg">
+                                            <i class="fa fa-key mr-2"/>Reset Password
+                                        </a>
+                                    </t>
+                                    <t t-else="">
+                                        <a href="/web/b2b_signup" class="btn btn-primary btn-lg mr-2">
+                                            <i class="fa fa-refresh mr-2"/>Try Again
+                                        </a>
+                                        <a href="/contactus" class="btn btn-secondary btn-lg">
+                                            <i class="fa fa-envelope mr-2"/>Contact Support
+                                        </a>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

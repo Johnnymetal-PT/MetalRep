@@ -1,0 +1,217 @@
+# Extracted: 01_ROI_KickOff_Mindmap.docx
+
+ROI Kick-Off - Mindmap / Guia de Entrevista
+
+ODOO IMPLEMENTATION
+
+Guia estruturado para alinhar stakeholders, fatores de sucesso, riscos, âmbito e próximos passos antes dos workshops de implementação Odoo.
+
+Cliente / Projeto
+
+Odoo Implementation
+
+Data
+
+02 de junho de 2026
+
+Versão
+
+1.0
+
+Preparado por Parâmetro Global
+
+1. INTRODUÇÃO — Contextualizar o Projeto
+
+Objetivo: alinhar todos os stakeholders nos princípios da metodologia e no âmbito do projeto antes de avançar para os workshops.
+
+Campo
+
+O que registar
+
+Objetivo principal do projeto
+
+Ex: substituir SAP legacy, centralizar operações, automatizar faturação
+
+Motivação do CEO / sponsor
+
+Por que agora? Pressão competitiva, crescimento, ineficiência atual?
+
+Riscos identificados (pré-projeto)
+
+Resistência à mudança, dependência de TI, prazos apertados, dados sujos
+
+Âmbito preliminar (apps)
+
+Quais módulos Odoo estão em discussão? Sales, Inventory, Finance, MFG...
+
+Budget expectation
+
+Tem budget aprovado? Qual a ordem de grandeza esperada?
+
+2. STAKEHOLDERS — Mapear Decisores e Utilizadores-Chave
+
+Mapa de decisores, key users e disponibilidade prevista para o projeto.
+
+Nome
+
+Cargo
+
+Papel no Projeto
+
+Disponibilidade
+
+CEO / Sponsor
+
+SPoC (Single Point of Contact)
+
+Key User — Financeiro
+
+Key User — Operacional
+
+Key User — Logística / MFG
+
+IT / Técnico interno
+
+3. FATORES DE SUCESSO — O que define o projeto como bem-sucedido?
+
+Perguntar diretamente ao CEO e ao SPoC: 'Daqui a 12 meses, o que terá de ser verdade para considerarem este projeto um sucesso?'
+
+Fator de Sucesso
+
+Notas / Prioridade
+
+Entrar em produção dentro do prazo
+
+Manter o orçamento acordado
+
+Adoção pelos utilizadores finais
+
+Eliminar processos manuais (Excel, papel)
+
+Integração com sistemas externos
+
+Outro (a definir):
+
+4. RISCOS — Identificar ameaças ao projeto
+
+Identificação das principais ameaças ao projeto, impacto estimado e ações de mitigação.
+
+Risco
+
+Impacto (A/M/B)
+
+Mitigação
+
+Resistência à mudança por parte dos utilizadores
+
+A
+
+Envolver key users desde o início; demos precoces
+
+SPoC sem disponibilidade suficiente
+
+A
+
+Negociar dedicação mínima de 30-50% do seu tempo
+
+Dados históricos sujos ou incompletos
+
+M
+
+Importar apenas dados mestre; histórico numa 2ª fase
+
+Pedidos de desenvolvimento excessivos
+
+A
+
+Estabelecer regra: 0 dev antes de Go-Live salvo must-have
+
+Prazo irrealista
+
+M
+
+Renegociar no kick-off; ser transparente sobre timelines
+
+Risco específico (a preencher):
+
+5. ÂMBITO & FASEAMENTO — Decidir o que entra na Fase 1
+
+Regra de ouro: na Fase 1, incluir apenas o que é absolutamente necessário para operar o negócio. O resto vai para a Fase 2+.
+
+App / Módulo
+
+Fase 1 (Must Have)
+
+Fase 2+ (Nice to Have)
+
+Observações
+
+Vendas / CRM
+
+☐ Sim   ☐ Não
+
+☐ Sim   ☐ Não
+
+Compras
+
+☐ Sim   ☐ Não
+
+☐ Sim   ☐ Não
+
+Inventário / Stock
+
+☐ Sim   ☐ Não
+
+☐ Sim   ☐ Não
+
+Faturação / Contabilidade
+
+☐ Sim   ☐ Não
+
+☐ Sim   ☐ Não
+
+Fabrico (MFG)
+
+☐ Sim   ☐ Não
+
+☐ Sim   ☐ Não
+
+Website / eCommerce
+
+☐ Sim   ☐ Não
+
+☐ Sim   ☐ Não
+
+Recursos Humanos
+
+☐ Sim   ☐ Não
+
+☐ Sim   ☐ Não
+
+Helpdesk
+
+☐ Sim   ☐ Não
+
+☐ Sim   ☐ Não
+
+Outro:
+
+☐ Sim   ☐ Não
+
+☐ Sim   ☐ Não
+
+6. PRÓXIMOS PASSOS — Acordo de metodologia
+
+Acordo de metodologia e preparação operacional antes do próximo encontro.
+
+Confirmar data e formato dos workshops por departamento (1 session = 1 dept.)
+
+O SPoC prepara: screenshots do sistema atual, exemplos de documentos, lista de relatórios necessários
+
+Project Leader envia: acesso ao ambiente de demonstração Odoo + agenda dos workshops
+
+SPoC começa formação em odoo.com/learn antes do próximo encontro
+
+Peer-review agendado com App Expert após workshops (antes de apresentar proposta)
+
+Nota metodológica: O cliente define os seus objetivos de negócio (o quê e o porquê). O Project Leader decide como os satisfazer com o produto standard. Evitar prometer funcionalidades custom nesta fase.

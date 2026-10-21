@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="sh_account_invoice_form_view" model="ir.ui.view">
+<field name="name">sh.account.invoice.form.view</field>
+<field name="model">account.move</field>
+<field name="inherit_id" ref="account.view_move_form" />
+<field name="arch" type="xml">
+
+<!-- Adding fields to the tree view inside the invoice line -->
+<xpath expr="//field[@name='invoice_line_ids']/tree" position="inside">
+<field name="sh_discount_price_unit" groups="sh_multi_discount.group_account_multi_discount_security" optional="show"/>
+<field name="sh_multi_discount" groups="sh_multi_discount.group_account_multi_discount_security" optional="show"/>
+<field name="sh_discount_amount" groups="sh_multi_discount.group_account_multi_discount_security" optional="show"/>
+<field name="sh_discounted_total_amount" groups="sh_multi_discount.group_account_multi_discount_security" optional="show"/>
+<field name="dis_bool" invisible="1"/>
+</xpath>
+
+<!-- Setting attributes for discount fields -->
+<xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='discount']" position="attributes">
+<attribute name="readonly">dis_bool == False</attribute>
+<attribute name="force_save">dis_bool == False</attribute>
+</xpath>
+
+<!-- Adding 'Show Multi Discount In PDF Report' field after invoice date -->
+<xpath expr="//field[@name='invoice_date']" position="after">
+<field name="sh_show_multi_disc" groups="sh_multi_discount.group_account_multi_discount_security" />
+</xpath>
+
+</field>
+</record>
+</odoo>

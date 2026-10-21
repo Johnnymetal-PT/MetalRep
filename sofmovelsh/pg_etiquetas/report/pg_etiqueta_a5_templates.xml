@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--
+    Etiqueta A5, uma por página, com o desenho da V17: caixa com moldura, nome do
+    artigo e logótipo em cima, referência, descrição, valores de variante, e o preço
+    grande em baixo à direita. O que é novo é o preço anterior riscado por cima do
+    preço a cobrar (tarefa 6570).
+
+    O corpo está num template só, chamado pelos três relatórios (artigo, variante e
+    recepção), porque na V17 eram três cópias do mesmo QWeb em Studio e qualquer
+    correcção tinha de ser feita três vezes.
+-->
+<template id="etiqueta_a5_corpo">
+    <t t-set="pricelist" t-value="pricelist or product._pg_label_pricelist()"/>
+    <t t-set="moeda" t-value="pricelist.currency_id or product.currency_id"/>
+    <t t-set="precos" t-value="product._pg_label_prices(pricelist)"/>
+    <t t-set="preco" t-value="precos[0]"/>
+    <t t-set="preco_anterior" t-value="precos[1]"/>
+    <t t-set="referencia" t-value="product._pg_label_reference()"/>
+    <t t-set="valores_variante" t-value="product._pg_label_variant_values()"/>
+
+    <div class="pg_etiqueta_a5">
+        <div class="pg_etiqueta_a5_topo">
+            <div class="pg_etiqueta_a5_nome">
+                <strong t-out="product.name"/>
+            </div>
+            <div class="pg_etiqueta_a5_logo">
+                <img t-att-src="product._pg_label_logo_url()" alt=""/>
+            </div>
+        </div>
+
+        <div t-if="referencia" class="pg_etiqueta_a5_referencia">
+            <strong t-out="referencia"/>
+        </div>
+
+        <div t-if="product.description_sale" class="pg_etiqueta_a5_descricao">
+            <span t-out="product.description_sale"/>
+        </div>
+
+        <div t-if="valores_variante" class="pg_etiqueta_a5_variantes">
+            <t t-foreach="valores_variante" t-as="valor" t-key="valor.id">
+                <t t-out="(valor.attribute_id.name or '') + ': ' + (valor.name or '')"/>
+                <t t-if="not valor_last">, </t>
+            </t>
+        </div>
+
+        <div t-if="tecido" class="pg_etiqueta_a5_tecido">
+            <span t-out="tecido"/>
+        </div>
+
+        <div class="pg_etiqueta_a5_precos">
+            <div t-if="preco_anterior" class="pg_etiqueta_a5_preco_anterior">
+                <span t-out="preco_anterior"
+                      t-options="{'widget': 'monetary', 'display_currency': moeda}"/>
+            </div>
+            <div class="pg_etiqueta_a5_preco">
+                <strong t-out="preco"
+                        t-options="{'widget': 'monetary', 'display_currency': moeda}"/>
+            </div>
+        </div>
+    </div>
+</template>
+
+<!-- Impressão a partir do artigo -->
+<template id="report_pg_etiqueta_a5_template">
+    <t t-call="web.basic_layout">
+        <t t-call="pg_etiquetas.etiqueta_a5_estilo"/>
+        <t t-foreach="docs" t-as="product">
+            <div class="page">
+                <t t-set="tecido" t-value="''"/>
+                <t t-call="pg_etiquetas.etiqueta_a5_corpo"/>
+            </div>
+        </t>
+    </t>
+</template>
+
+<!-- Impressão a partir da variante -->
+<template id="report_pg_etiqueta_a5_variant">
+    <t t-call="web.basic_layout">
+        <t t-call="pg_etiquetas.etiqueta_a5_estilo"/>
+        <t t-foreach="docs" t-as="product">
+            <div class="page">
+                <t t-set="tecido" t-value="''"/>
+                <t t-call="pg_etiquetas.etiqueta_a5_corpo"/>
+            </div>
+        </t>
+    </t>
+</template>
+
+<!--
+    Impressão a partir da recepção. Aqui o documento é o movimento de stock, e é
+    dele que vem o tecido — o mesmo artigo pode entrar com tecidos diferentes em
+    recepções diferentes, e é por isso que esta etiqueta não se imprime do artigo.
+-->
+<template id="report_pg_etiqueta_a5_move">
+    <t t-call="web.basic_layout">
+        <t t-call="pg_etiquetas.etiqueta_a5_estilo"/>
+        <t t-foreach="docs" t-as="move">
+            <div class="page">
+                <t t-set="product" t-value="move.product_id"/>
+                <t t-set="tecido"
+                   t-value="'x_studio_tecido' in move._fields and move.x_studio_tecido or ''"/>
+                <t t-call="pg_etiquetas.etiqueta_a5_corpo"/>
+            </div>
+        </t>
+    </t>
+</template>
+
+<!--
+    Estilo à parte do conteúdo. Na V17 estava em atributos `style` espalhados pelo
+    QWeb, o que tornava impossível mexer no desenho sem mexer nos dados. As medidas
+    são as mesmas: 148 x 210 mm, que é o A5 de pé.
+-->
+<template id="etiqueta_a5_estilo">
+    <style>
+        .pg_etiqueta_a5 {
+            width: 148mm; height: 210mm; margin: auto; box-sizing: border-box;
+            border: 2px solid #000; padding: 5mm; background-color: #fff;
+            display: flex; flex-direction: column; font-family: sans-serif;
+        }
+        .pg_etiqueta_a5_topo {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            width: 100%; gap: 4mm;
+        }
+        .pg_etiqueta_a5_nome { font-size: 40px; line-height: 1.1; flex: 1 1 auto; word-break: break-word; }
+        .pg_etiqueta_a5_logo { flex: 0 0 80px; text-align: right; }
+        .pg_etiqueta_a5_logo img { height: 90px; width: 80px; object-fit: contain; }
+        .pg_etiqueta_a5_referencia { font-size: 36px; margin-top: 25px; }
+        .pg_etiqueta_a5_descricao { font-size: 26px; margin-top: 5px; }
+        .pg_etiqueta_a5_variantes { font-size: 24px; margin-top: 10px; line-height: 1.2; }
+        .pg_etiqueta_a5_tecido { font-size: 22px; margin-top: 10px; }
+        /* O preço encosta ao fundo: é o que a loja procura primeiro na etiqueta. */
+        .pg_etiqueta_a5_precos { margin-top: auto; text-align: right; }
+        .pg_etiqueta_a5_preco_anterior {
+            font-size: 40px; color: #444; text-decoration: line-through;
+            text-decoration-thickness: 3px; margin-bottom: 4px;
+        }
+        .pg_etiqueta_a5_preco { font-size: 86px; font-weight: bold; line-height: 1; }
+    </style>
+</template>
+
+</odoo>

@@ -1,0 +1,517 @@
+<t t-name="website.sobre-nos">
+    <t t-call="website.layout">
+                <style>
+/* --- Newsletter: collapsed -&gt; button, expanded -&gt; wizard card --- */
+.newsletter_wizard_wrap{
+  display:flex;
+  justify-content:flex-end; /* keep aligned to the right column */
+}
+
+.newsletter_wizard_btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 20px;
+  border-radius:12px;
+  background:#fff;
+  color:#111;
+  border:1px solid rgba(255,255,255,.25);
+  font-weight:600;
+  cursor:pointer;
+}
+
+.newsletter_wizard_panel{
+  display:none;             /* hidden until button click */
+  width: min(520px, 100%);
+}
+
+.newsletter_wizard_panel.is-open{
+  display:block;
+}
+
+/* Card */
+.newsletter_wizard_card{
+  position:relative;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px;
+  padding: 22px 22px 78px;
+  backdrop-filter: blur(6px);
+}
+
+/* Close button */
+.newsletter_wizard_close{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.35);
+  color:#fff;
+  cursor:pointer;
+}
+
+/* Reuse wizard look but adapted to dark bg */
+.newsletter_wizard_card .o_form_wizard_q{
+  display:none;
+  opacity:0;
+  transform: translateY(8px);
+  transition: opacity .28s ease, transform .28s ease;
+}
+.newsletter_wizard_card .o_form_wizard_q.is-active{display:block}
+.newsletter_wizard_card .o_form_wizard_q.is-active.is-visible{
+  opacity:1;
+  transform: translateY(0);
+}
+
+.newsletter_wizard_card .o_form_wizard_title{
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 14px;
+  color:#fff;
+}
+
+/* Inputs */
+.newsletter_wizard_card .form-control,
+.newsletter_wizard_card textarea,
+.newsletter_wizard_card select{
+  border:none!important;
+  border-bottom:1px solid rgba(255,255,255,.35)!important;
+  border-radius:0!important;
+  padding:10px 0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  font-size:16px;
+  color:#fff;
+}
+.newsletter_wizard_card .form-control::placeholder{color:rgba(255,255,255,.6)}
+.newsletter_wizard_card .form-control:focus,
+.newsletter_wizard_card textarea:focus,
+.newsletter_wizard_card select:focus{
+  outline:none!important;
+  box-shadow:none!important;
+  border-bottom-color:rgba(255,255,255,.8)!important;
+}
+
+/* Hide built-in labels */
+.newsletter_wizard_card .s_website_form_label,
+.newsletter_wizard_card .s_website_form_field &gt; label{display:none!important}
+
+/* Hide default submit row until last step (NO !important) */
+.newsletter_wizard_card .s_website_form_submit{display:none}
+
+/* Nav inside card */
+.newsletter_wizard_card .o_form_wizard_nav{
+  position:absolute;
+  right:16px;
+  bottom:16px;
+  z-index:10;
+  display:flex;
+  gap:10px;
+}
+
+.newsletter_wizard_card .o_form_wizard_btn{
+  width:40px;height:40px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  background:#fff;color:#111;
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;user-select:none
+}
+.newsletter_wizard_card .o_form_wizard_btn.is-disabled{opacity:.35;cursor:not-allowed}
+.newsletter_wizard_card .o_form_wizard_ok{
+  padding:8px 14px;
+  width:auto;
+  min-width:96px;
+  height:40px;
+  font-size:14px;
+}
+
+.newsletter_wizard_close{
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () =&gt; {
+  // Find newsletter forms in this page (mailing.contact)
+  const forms = Array.from(document.querySelectorAll('form[data-model_name="mailing.contact"]'));
+  if (!forms.length) return;
+
+  const getLabelText = (fieldEl) =&gt; {
+    const labelContent = fieldEl.querySelector('.s_website_form_label_content');
+    if (labelContent &amp;&amp; labelContent.textContent.trim()) return labelContent.textContent.trim();
+    const label = fieldEl.querySelector('label');
+    if (label &amp;&amp; label.textContent.trim()) return label.textContent.replace(/\*/g, '').trim();
+    return (fieldEl.getAttribute('data-translated-name') || fieldEl.getAttribute('data-name') || 'Pergunta').trim();
+  };
+
+  const focusFirstField = (stepEl) =&gt; {
+    const field = stepEl.querySelector('input:not([type="hidden"]), textarea, select');
+    if (field) field.focus({ preventScroll: true });
+  };
+
+  const safeSubmit = (form) =&gt; {
+    // Prefer Odoo's handler (usually bound to this button)
+    const odooSend = form.querySelector('a.s_website_form_send, button.s_website_form_send, input.s_website_form_send');
+    if (odooSend) return odooSend.click();
+
+    // Fallbacks
+    if (typeof form.requestSubmit === 'function') return form.requestSubmit();
+    const realSubmit = form.querySelector('button[type="submit"], input[type="submit"]');
+    if (realSubmit) return realSubmit.click();
+
+    form.submit();
+  };
+
+  forms.forEach((form) =&gt; {
+    // prevent double init
+    if (form.dataset.newsletterWizardInit === '1') return;
+    form.dataset.newsletterWizardInit = '1';
+
+    const rows = form.querySelector('.s_website_form_rows');
+    if (!rows) return;
+
+    // Create button + panel wrapper near the form
+    const host = form.closest('.s_website_form') || form.parentElement;
+    if (!host) return;
+
+    // ✅ IMPORTANT: capture the success message BEFORE moving the form
+    const endMsg = form.closest('.s_website_form')?.querySelector('.s_website_form_end_message');
+
+    // Hide the form initially (we'll put it in a panel)
+    form.style.display = 'none';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'newsletter_wizard_wrap';
+
+    const openBtn = document.createElement('button');
+    openBtn.type = 'button';
+    openBtn.className = 'newsletter_wizard_btn';
+    openBtn.textContent = 'Subscrever';
+
+    const panel = document.createElement('div');
+    panel.className = 'newsletter_wizard_panel';
+
+    const card = document.createElement('div');
+    card.className = 'newsletter_wizard_card';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'newsletter_wizard_close';
+    closeBtn.setAttribute('aria-label', 'Fechar');
+    closeBtn.textContent = '✕';
+
+    panel.appendChild(card);
+    wrap.appendChild(openBtn);
+    wrap.appendChild(panel);
+
+    // insert wrapper before the form host content
+    host.insertBefore(wrap, host.firstChild);
+
+    // Move the form into the card
+    card.appendChild(closeBtn);
+    card.appendChild(form);
+
+    // ✅ Move the success message into the same card too
+    if (endMsg) card.appendChild(endMsg);
+
+    form.style.display = ''; // visible inside panel (panel still hidden)
+
+    // Build steps (only from visible fields, excluding hidden list_ids)
+    const fieldEls = Array.from(rows.children).filter(el =&gt;
+      el.classList.contains('s_website_form_field') &amp;&amp;
+      !el.classList.contains('s_website_form_field_hidden')
+    );
+
+    if (fieldEls.length &lt;= 1) {
+      // If only one field, just show form normally on open
+      openBtn.addEventListener('click', () =&gt; {
+        panel.classList.add('is-open');
+        openBtn.style.display = 'none';
+      });
+      closeBtn.addEventListener('click', () =&gt; {
+        panel.classList.remove('is-open');
+        openBtn.style.display = '';
+      });
+      return;
+    }
+
+    // Wrap each field into a step
+    const steps = fieldEls.map((fieldEl, idx) =&gt; {
+      const step = document.createElement('div');
+      step.className = 'o_form_wizard_q';
+      step.dataset.stepIndex = String(idx);
+
+      const title = document.createElement('div');
+      title.className = 'o_form_wizard_title';
+      title.textContent = getLabelText(fieldEl);
+
+      step.appendChild(title);
+      step.appendChild(fieldEl);
+
+      rows.insertBefore(step, rows.firstChild);
+      return step;
+    }).sort((a,b) =&gt; parseInt(a.dataset.stepIndex,10) - parseInt(b.dataset.stepIndex,10));
+
+    const submitRow = rows.querySelector('.s_website_form_submit') || form.querySelector('.s_website_form_submit');
+
+    // Add nav
+    const nav = document.createElement('div');
+    nav.className = 'o_form_wizard_nav';
+    nav.innerHTML = `
+      <button type="button" class="o_form_wizard_btn js_prev" aria-label="Anterior">↑</button>
+      <button type="button" class="o_form_wizard_btn js_next" aria-label="Seguinte">↓</button>
+    `;
+    card.appendChild(nav);
+
+    let current = 0;
+
+    const isStepAnswered = (stepEl) =&gt; {
+      const fields = stepEl.querySelectorAll('input, select, textarea');
+      if (!fields.length) return true;
+
+      const checkboxes = stepEl.querySelectorAll('input[type="checkbox"]');
+      if (checkboxes.length) return Array.from(checkboxes).some(c =&gt; c.checked);
+
+      const field = fields[0];
+      if (typeof field.checkValidity === 'function') return field.checkValidity();
+      return (field.value || '').trim().length &gt; 0;
+    };
+
+    const renderNav = () =&gt; {
+      const prevBtn = nav.querySelector('.js_prev');
+      const nextBtn = nav.querySelector('.js_next');
+
+      prevBtn.classList.toggle('is-disabled', current === 0);
+
+      const isLast = current === (steps.length - 1);
+
+      // show/hide default Odoo submit row only on last step
+      if (submitRow) submitRow.style.display = isLast ? 'block' : 'none';
+
+      nextBtn.textContent = isLast ? 'Submeter' : '↓';
+      nextBtn.classList.toggle('o_form_wizard_ok', isLast);
+    };
+
+    const renderStep = (initial=false) =&gt; {
+      steps.forEach((s,i) =&gt; {
+        s.classList.toggle('is-active', i === current);
+        if (i !== current) s.classList.remove('is-visible');
+      });
+
+      if (initial) setTimeout(() =&gt; steps[current].classList.add('is-visible'), 0);
+      else steps[current].classList.add('is-visible');
+
+      focusFirstField(steps[current]);
+      renderNav();
+    };
+
+    const goNext = () =&gt; {
+      const stepEl = steps[current];
+      if (!isStepAnswered(stepEl)) {
+        const firstField = stepEl.querySelector('input, textarea, select');
+        if (firstField &amp;&amp; typeof firstField.reportValidity === 'function') firstField.reportValidity();
+        return;
+      }
+
+      const isLast = current === (steps.length - 1);
+      if (!isLast) {
+        const old = current;
+        current += 1;
+        steps[old].classList.remove('is-visible');
+        setTimeout(() =&gt; {
+          steps.forEach((s,i) =&gt; s.classList.toggle('is-active', i === current));
+          void steps[current].offsetWidth;
+          steps[current].classList.add('is-visible');
+          focusFirstField(steps[current]);
+          renderNav();
+        }, 160);
+        return;
+      }
+
+      safeSubmit(form);
+    };
+
+    const goPrev = () =&gt; {
+      if (current === 0) return;
+      const old = current;
+      current -= 1;
+      steps[old].classList.remove('is-visible');
+      setTimeout(() =&gt; {
+        steps.forEach((s,i) =&gt; s.classList.toggle('is-active', i === current));
+        void steps[current].offsetWidth;
+        steps[current].classList.add('is-visible');
+        focusFirstField(steps[current]);
+        renderNav();
+      }, 160);
+    };
+
+    nav.querySelector('.js_next').addEventListener('click', goNext);
+    nav.querySelector('.js_prev').addEventListener('click', goPrev);
+
+    form.addEventListener('keydown', (e) =&gt; {
+      if (e.key !== 'Enter') return;
+      const activeStep = steps[current];
+      if (activeStep &amp;&amp; activeStep.querySelector('textarea:focus')) return;
+      e.preventDefault();
+      goNext();
+    });
+
+    // Open/close behavior
+    openBtn.addEventListener('click', () =&gt; {
+      panel.classList.add('is-open');
+      openBtn.style.display = 'none'; // hide after click
+      current = 0;
+      renderStep(true);
+    });
+
+    const closePanel = () =&gt; {
+      panel.classList.remove('is-open');
+      openBtn.style.display = ''; // show button again
+    };
+
+    closeBtn.addEventListener('click', (e) =&gt; {
+      e.preventDefault();
+      e.stopPropagation();
+      closePanel();
+    });
+
+    // Init in closed state
+    renderStep(true);
+  });
+});
+</script>
+        <div id="wrap" class="oe_structure oe_empty">
+    <section class="s_text_block pt40 o_colored_level pb48 o_animate o_anim_fade_in" data-snippet="s_text_block" data-name="Texto">
+        <div class="s_allow_columns container">
+            <h2 style="text-align: center;"><strong>SOBRE NÓS</strong></h2>
+        </div>
+    </section><section class="s_title pt64 parallax s_parallax_is_fixed o_cc o_cc5 o_colored_level pb72 o_half_screen_height o_animate o_anim_fade_in" data-vcss="001" data-scroll-background-ratio="1" data-snippet="s_title" data-name="Título">
+        <span class="s_parallax_bg oe_img_bg o_bg_img_center o_bg_img_origin_border_box" style="background-position: 50% 24.9054%; background-image: url(&quot;/web/image/20030-48acce08/65bef1b1-c33e-46ec-bca7-24f1406672bf.webp&quot;);" data-mimetype="image/webp" data-original-id="20029" data-original-src="/web/image/20029-48acce08/65bef1b1-c33e-46ec-bca7-24f1406672bf.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1920" data-quality="100" data-attachment-id="20029"/>
+        <div class="o_we_bg_filter bg-black-50"/>
+        <div class="s_allow_columns container">
+            <h2 class="display-3-fs" style="text-align: center;">
+        <b>&amp;nbsp;</b>
+    <br/></h2>
+        </div>
+    </section><section class="s_image_text_box o_colored_level pt104 pb104 o_animate o_anim_fade_in" data-snippet="s_image_text_box" data-name="Image Text Box" style="background-color: rgb(242, 239, 233);">
+        
+        <div class="container">
+            <div class="row o_grid_mode" data-row-count="10" style="column-gap: 24px;">
+                <div class="o_grid_item o_grid_item_image g-col-lg-6 g-height-10 col-lg-6 o_colored_level o_animate o_anim_fade_in o_visible" style="grid-area: 1 / 1 / 11 / 7; z-index: 1; --grid-item-padding-y: 0px; --grid-item-padding-x: 0px; order: 2; animation-name: dummy;">
+                    <img src="/web/image/33843-cadf5831/unnamed.jpg" alt="" data-attachment-id="27246" class="img img-fluid order-lg-0 o_we_custom_image o_animate_on_hover rounded" data-shape-colors=";;;;" data-hover-effect="overlay" data-hover-effect-color="#00000040" data-hover-effect-intensity="20" data-format-mimetype="image/jpeg" data-original-id="27246" data-original-src="/web/image/27246-0b4d722e/unnamed.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="683" data-mimetype="image/svg+xml" loading="lazy"/>
+                </div>
+                <div class="o_grid_item o_cc g-height-10 rounded order-lg-0 o_colored_level g-col-lg-5 col-lg-5 o_cc2 o_animate o_anim_fade_in o_visible o_anim_from_right" style="grid-area: 1 / 8 / 11 / 13; z-index: 2; --grid-item-padding-y: 140px; --grid-item-padding-x: 48px; order: 1; background-color: rgb(242, 239, 233); animation-name: dummy;">
+                    <h3>
+O Alfaiate D’Interiores integra o <strong>Grupo EPOCA</strong>, fundado pela família Rocha em <strong>1947</strong>&amp;nbsp;e reconhecido pela excelência no design, fabrico e personalização de mobiliário de alta qualidade.</h3><p class="mb-0"><br/></p>
+                </div>
+            </div>
+        </div>
+    </section><section class="s_text_block pt64 o_colored_level s_custom_snippet pb0 o_animate o_anim_fade_in" data-snippet="s_text_block" data-name="Personalizar Texto">
+        <div class="s_allow_columns container"><h2 style="text-align: center;">Design que nasce do talento dos nossos artesãos</h2><h3 style="text-align: center;"><br/></h3></div>
+    </section>
+    <section class="s_text_block o_colored_level pb24 pt0 o_animate o_anim_fade_in" data-snippet="s_text_block" data-name="Texto">
+        <div class="s_allow_columns container"><div><span class="h5-fs">Somos uma referência em <strong>design de interiores e mobiliário sob medida</strong>, reconhecidos pela excelência em Portugal.&amp;nbsp;Com uma equipa multidisciplinar e altamente qualificada, combinamos criatividade, funcionalidade e sofisticação para criar espaços únicos, personalizados e intemporais.</span></div><div><br/></div><div><span class="h5-fs">Desde a conceção até à produção e instalação, cada projeto reflete a nossa paixão pelo detalhe, a excelência dos materiais e a busca incessante pelo equilíbrio entre estética e conforto. Atuamos em residências privadas e&amp;nbsp;projetos comerciais, sempre com o objetivo de superar as expectativas de clientes nacionais e internacionais.</span></div><div><br/></div><div><span class="h5-fs">O&amp;nbsp;<strong>Alfaiate D’Interiores</strong>&amp;nbsp;integra o&amp;nbsp;<strong>Grupo EPOCA,</strong> de propriedade e gestão familiar desde 1947, reconhecido pela excelência no design e produção de mobiliário.&amp;nbsp;O&amp;nbsp;Grupo EPOCA atua no setor de FF&amp;amp;E, conceção e fabrico de soluções de mobiliário de luxo para o setor hoteleiro através da <strong>EPOCA - Projects &amp;amp; Hospitality.&amp;nbsp;</strong>Ao longo de décadas, a família deu seguimento à visão inicial, expandindo o Grupo para o setor imobiliário com a <strong>EPOCA Properties</strong> e para o <span class="h5-fs">produção de vinho e azeite prestigiados através</span>&amp;nbsp;da <strong>Quinta d’Ervedosa</strong>, no coração do Douro.</span></div><div><br/></div><div><span class="h5-fs">Em todos os seus projetos, mantém uma abordagem consistente de qualidade, elegância e funcionalidade, criando experiências únicas e marcantes que refletem o compromisso com o <strong>detalhe</strong>, a <strong>sofisticação</strong> e a <strong>tradição portuguesa</strong>.&amp;nbsp;</span>
+
+</div></div>
+    </section><section class="s_image_punchy o_cc o_cc2 o_colored_level pt48 pb0 o_animate o_anim_fade_in" data-snippet="s_image_punchy" data-name="Punchy Image">
+        <div class="container">
+            <div class="row o_grid_mode" data-row-count="11">
+                <div class="o_grid_item o_grid_item_image g-height-11 g-col-lg-12 col-lg-12 o_colored_level" style="grid-area: 1 / 1 / 12 / 13; z-index: 1">
+                    <img src="/web/image/24153-5afa885e/beac0a94-f62a-4de6-bdc4-a671b4e1efcc.jpg" alt="" data-attachment-id="24084" class="figure-img img-fluid img o_we_custom_image rounded o_animate_on_hover" data-format-mimetype="image/webp" data-original-id="24084" data-original-src="/web/image/24084-7221c167/beac0a94-f62a-4de6-bdc4-a671b4e1efcc.jpg" data-mimetype-before-conversion="image/jpeg" data-resize-width="1270" data-mimetype="image/svg+xml" data-quality="100" data-hover-effect-intensity="20" data-hover-effect-color="#00000040" data-hover-effect="overlay" data-shape-colors=";;;;" loading="lazy"/>
+                </div>
+                
+            </div>
+        </div>
+    </section><section class="s_text_block pt64 o_colored_level pb104 o_animate o_anim_fade_in" data-snippet="s_text_block" data-name="Texto">
+        <div class="s_allow_columns container">
+            <h3 style="text-align: center;"><span style="font-size: 33px;">A elegância começa&amp;nbsp;no detalhe.</span><br/></h3>
+        </div>
+    </section><section class="s_image_text_box o_colored_level pt0 pb0 o_animate o_anim_fade_in" data-snippet="s_image_text_box" data-name="Image Text Box" style="background-color: rgb(242, 239, 233);">
+        
+        <div class="container">
+            <div class="row o_grid_mode" data-row-count="10" style="column-gap: 24px;">
+                
+                
+            <div class="o_grid_item o_cc o_cc2 rounded o_colored_level g-col-lg-5 g-height-4 col-lg-5 o_animate o_anim_fade_in o_anim_from_left" style="z-index: 2; --grid-item-padding-x: 48px; grid-area: 1 / 1 / 5 / 6; --grid-item-padding-y: 40px; background-color: rgb(242, 239, 233);">
+                    <h3><br/></h3><h3>Tal como um alfaiate domina tecidos e cortes, os nossos artesãos dominam formas, materiais e acabamentos.</h3><p class="mb-0"><br/></p><p class="mb-0"><br/></p><p class="mb-0">Cada peça é elaborada com tempo e atenção, evitando padrões massificados e celebrando a singularidade do trabalho manual. É esta dedicação que garante que cada espaço conte uma história própria, combinando tradição, inovação e sustentabilidade.</p>
+                </div><div class="o_grid_item o_grid_item_image g-height-10 o_colored_level rounded g-col-lg-5 col-lg-5 o_animate o_anim_fade_in o_anim_from_right" style="--grid-item-padding-y: 0px; --grid-item-padding-x: 0px; z-index: 1; --box-border-bottom-left-radius: 0px; --box-border-bottom-right-radius: 0px; --box-border-top-right-radius: 0px; --box-border-top-left-radius: 0px; grid-area: 1 / 8 / 11 / 13;">
+                    <div data-oe-expression="//player.vimeo.com/video/1121896915?autoplay=1&amp;muted=1&amp;autopause=0&amp;controls=0&amp;loop=1" class="order-lg-0 media_iframe_video"/>
+                </div></div>
+        </div>
+    </section><section class="s_image_text_box o_colored_level pb0 pt72 o_animate o_anim_fade_in" data-snippet="s_image_text_box" data-name="Image Text Box" style="background-color: rgb(255, 255, 255);">
+        
+        <div class="container">
+            <div class="row o_grid_mode" data-row-count="9" style="column-gap: 24px;">
+                
+                
+            <div class="o_grid_item o_grid_item_image rounded o_colored_level o_grid_item_image_contain g-col-lg-5 col-lg-5 g-height-9 o_animate o_anim_fade_in o_anim_from_left" style="--grid-item-padding-y: 0px; --grid-item-padding-x: 0px; z-index: 1; --box-border-bottom-left-radius: 0px; --box-border-bottom-right-radius: 0px; --box-border-top-right-radius: 0px; --box-border-top-left-radius: 0px; grid-area: 1 / 1 / 10 / 6;">
+                    <img src="/web/image/24140-fd2c7be7/Artboard%201%20copy%202.webp" alt="" data-attachment-id="24139" class="order-lg-0 img img-fluid o_we_custom_image" data-format-mimetype="image/webp" data-original-id="24139" data-original-src="/web/image/24139-da8520df/Artboard%201%20copy%202.png" data-mimetype-before-conversion="image/png" data-resize-width="690" data-mimetype="image/webp" loading="lazy"/>
+                </div><div class="o_grid_item o_cc o_cc2 rounded g-height-4 o_colored_level g-col-lg-7 col-lg-7 o_animate o_anim_fade_in o_anim_from_right" style="z-index: 2; --grid-item-padding-x: 48px; --grid-item-padding-y: 40px; grid-area: 1 / 6 / 5 / 13;">
+                    <h3 style="text-align: left;"><br/></h3><h3 style="text-align: left;"><span style="font-size: 2.8125rem;">Peças únicas, personalizadas à sua medida</span></h3><p class="mb-0"><br/></p><p style="text-align: left;"><br/></p><p style="text-align: left;"><span class="h5-fs">No Alfaiate D’Interiores, cada projeto é feito sob medida, permitindo ajustar materiais, cores, texturas e detalhes ao estilo de vida de cada cliente. Cada escolha é pensada para criar equilíbrio, funcionalidade e beleza, resultando em ambientes que inspiram e acolhem.</span></p><p style="text-align: left;"><span class="h5-fs">A empresa do Grupo EPOCA oferece soluções exclusivas de design de interiores em Portugal, criando ambientes sofisticados com mobiliário de luxo que refletem classe e elegância.&amp;nbsp;</span></p>
+                </div></div>
+        </div>
+    </section><section class="s_text_block o_colored_level pb0 pt72 o_animate o_anim_fade_in" data-snippet="s_text_block" data-name="Texto">
+        <div class="s_allow_columns container">
+            <h3 style="text-align: center;">
+<span class="h3-fs">No Alfaiate D’Interiores, transformamos casas em espaços exclusivos, onde a precisão da alfaiataria encontra a criatividade do design de interiores, criando experiências únicas e sofisticadas.&amp;nbsp;</span></h3>
+        </div>
+    </section><section class="s_text_block pb40 o_colored_level pt72 o_animate o_anim_fade_in" data-snippet="s_text_block" data-name="Texto">
+        <div class="s_allow_columns container">
+            <p style="text-align: center;"><a class="btn-lg btn btn-custom" href="/projeto-de-decoracao" style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); border-width: 1.11111px; border-color: rgb(0, 0, 0); border-style: solid; ">Começar projeto</a></p><p><br/></p>
+        </div>
+    </section><section class="s_newsletter_block s_newsletter_list o_colored_level pb16 pt48 o_cc o_cc5 s_custom_snippet o_animate o_anim_fade_in" data-list-id="20" data-snippet="s_newsletter_block" style="background-color: rgb(15, 18, 18);" data-name="Personalizar Newsletter Block (2)">
+                            <div class="container">
+                        <div class="row">
+                            <div class="o_colored_level col-lg-6">
+                                <h2 class="h4-fs">Subscreva a nossa newsletter</h2>
+                                <p class="text-muted">
+                    <span class="o_small-fs">Receba todas as novidades, promoções&amp;nbsp;e atualizações de produtos do Alfaiate D'Interiores, diretamente no seu e-mail.</span></p></div><div class="col-lg-6 o_colored_level">
+                                <section class="s_website_form pt16 pb16" data-vcss="001" data-snippet="s_website_form" data-name="Formulário">
+        <div class="container-fluid">
+            <form action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-pre-fill="true" data-model_name="mailing.contact" data-success-mode="message" data-success-page="/contactus-thank-you">
+                <div class="s_website_form_rows row s_col_no_bgcolor">
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required" data-type="char" data-translated-name="O Seu Nome"><label class="s_website_form_label d-none" style="width: 200px" for="ogh6ccy3lvv"><span class="s_website_form_label_content">O Seu Nome</span><span class="s_website_form_mark">   *</span></label><input class="form-control s_website_form_input" type="text" name="name" required="" value="" placeholder="Nome" id="ogh6ccy3lvv" data-fill-with="name"/></div><div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required" data-type="email" data-translated-name="Email"><label class="s_website_form_label d-none" style="width: 200px" for="o87r18op1p9k"><span class="s_website_form_label_content">Email</span><span class="s_website_form_mark">   *</span></label><input class="form-control s_website_form_input" type="email" name="email" required="" value="" placeholder="Email" id="o87r18op1p9k" data-fill-with="email"/></div><div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_model_required s_website_form_field_hidden" data-type="many2many" data-translated-name="Inscrever-se a"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="op8zb2wc3krl"><span class="s_website_form_label_content">Inscrever-se a</span><span class="s_website_form_mark">   *</span></label><div class="col-sm"><div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="list_ids" data-display="horizontal"><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl0" name="list_ids" value="30" required="" data-fill-with="undefined"/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl0">EPOCA - EN (3723)</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl1" name="list_ids" value="29" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl1">Black Week | Alfaiate</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl2" name="list_ids" value="28" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl2">Lojas Alfaiate</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl3" name="list_ids" value="27" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl3">Contactos Essência do Vinho 2025</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl4" name="list_ids" value="26" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl4">Marketing - TESTES</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl5" name="list_ids" value="25" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl5">Interihotel 2025</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl6" name="list_ids" value="24" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl6">Alma Gardens</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl7" name="list_ids" value="23" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl7">EPOCA - PT</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl8" name="list_ids" value="22" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl8">EPOCA Associais Laurel - PT</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl9" name="list_ids" value="21" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl9">EPOCA FR</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl10" name="list_ids" value="20" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl10">EPOCA- inscrições newsletter SITE</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl11" name="list_ids" value="19" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl11">Catálogo Alfaiate D'Interiores</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl12" name="list_ids" value="17" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl12">Meta EPOCA - UK</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl13" name="list_ids" value="16" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl13">Campanhas Meta EPOCA- Arábia</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl14" name="list_ids" value="15" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl14">Alfaiate D'Interiores Website</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl15" name="list_ids" value="14" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl15">Epoca Group Website</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl16" name="list_ids" value="13" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl16">Quinta D'Ervedosa Website</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl17" name="list_ids" value="12" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl17">Epoca Properties Website</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl18" name="list_ids" value="11" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl18">Epoca Properties - Leads Novo Projeto - PT</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl19" name="list_ids" value="10" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl19">Epoca Properties - Leads Molhe 479 - FR</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl20" name="list_ids" value="9" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl20">Epoca Properties - Leads Flow - PT</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl21" name="list_ids" value="8" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl21">EPOCA Feiras - EN</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl22" name="list_ids" value="7" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl22">EPOCA Administração - EN</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl23" name="list_ids" value="6" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl23">EPOCA Top Hotel - EN</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl24" name="list_ids" value="5" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl24">EPOCA - EN</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl25" name="list_ids" value="4" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl25">Epoca Properties - Leads Lux One - PT</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl26" name="list_ids" value="3" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl26">Epoca Properties - Leads Molhe 479 - EN</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl27" name="list_ids" value="2" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl27">Epoca Properties - Leads Molhe 479 - PT</label></div></div><div class="checkbox col-12 col-lg-4 col-md-6"><div class="form-check"><input type="checkbox" class="s_website_form_input form-check-input" id="op8zb2wc3krl28" name="list_ids" checked="checked" value="1" required=""/><label class="form-check-label s_website_form_check_label" for="op8zb2wc3krl28">Newsletter</label></div></div></div></div></div></div><div class="mb-0 py-2 col-12 s_website_form_submit text-end s_website_form_no_submit_label" data-name="Submit Button">
+                        <div style="width: 200px;" class="s_website_form_label"><br/></div>
+                        <span id="s_website_form_result"/>
+                        <a href="#" role="button" class="btn btn-secondary s_website_form_send" style="display:none;">Subscrever</a>
+                    </div>
+                </div>
+            </form><div class="s_website_form_end_message d-none">
+  <div class="oe_structure">
+    <section class="s_text_block o_colored_level rounded px-5 text-center" data-snippet="s_text_block">
+      <img src="/web/image/40308" alt="" class="mb-3 img img-fluid o_we_custom_image" style="width: 50% !important;" loading="lazy"/>
+      <h1 class="fw-bolder">Obrigado por preencher o formulário.</h1>
+      <p class="lead mb-0">
+        Recebemos a sua submissão com sucesso e entraremos em contacto o mais breve possível.
+        Até lá sinta-se à vontade para explorar o nosso website!
+      </p>
+    </section>
+  </div>
+</div>
+
+        </div>
+    </section><h2 class="h4-fs"><br/></h2></div>
+                            
+                        </div>
+                            </div>
+                </section>
+    
+    
+    
+</div>
+    </t>
+</t>

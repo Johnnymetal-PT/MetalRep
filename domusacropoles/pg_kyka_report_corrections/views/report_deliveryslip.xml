@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Tarefa 8195 (GT GT.2026/00021 e 00022): a guia tem três blocos, Loading, Unloading e,
+        à direita, a morada do cabeçalho, que deve ser a de faturação.
+
+        O ptplus_stock põe no cabeçalho o parceiro "nominal", que sem encomenda ligada é o
+        próprio contacto de entrega (GT 21: BOULOGNE), pelo que repetia a morada do
+        Unloading.
+
+        Aqui o cabeçalho passa a mostrar a morada de faturação:
+          1. `partner_invoice_id` da encomenda, quando a guia a tem ligada;
+          2. senão, o contacto pai do parceiro nominal;
+          3. senão, o próprio parceiro nominal.
+        Não toca no Unloading, no parceiro nominal, nos totais nem nos campos certificados.
+    -->
+    <template id="pg_report_delivery_document_billing_address"
+              inherit_id="ptplus_stock.report_delivery_document"
+              priority="99">
+        <xpath expr="//div[@name='partner_address']/div" position="attributes">
+            <attribute name="t-out">o.sudo().sale_id.partner_invoice_id or partner.parent_id or partner</attribute>
+        </xpath>
+    </template>
+</odoo>

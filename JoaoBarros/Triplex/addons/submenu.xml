@@ -1,0 +1,451 @@
+<t name="Submenu" t-name="website.submenu">
+    <t t-set="show_dropdown" t-value="(submenu.is_mega_menu and submenu.is_visible) or submenu.child_id.filtered(lambda menu: menu.is_visible)"/>
+    <li t-if="submenu.is_visible and not (submenu.child_id or submenu.is_mega_menu)" t-attf-class="#{item_class or ''}" role="presentation">
+        <a t-att-href="submenu._clean_url()" t-attf-class="#{link_class or ''} #{submenu._is_active() and 'active'}" role="menuitem" t-ignore="true" t-att-target="'_blank' if submenu.new_window else None">
+            <span t-field="submenu.name"/>
+        </a>
+    </li>
+
+    <li t-elif="show_dropdown and not is_mobile" t-attf-class="#{item_class or ''} dropdown #{submenu.is_mega_menu and 'position-static'}" role="presentation">
+        <a t-attf-class="#{link_class or ''} dropdown-toggle #{submenu.is_mega_menu and 'o_mega_menu_toggle'} #{submenu._is_active() and 'active'} #{dropdown_toggler_classes}" data-bs-toggle="dropdown" href="#" t-att-data-bs-display="'static' if submenu.is_mega_menu else None" role="menuitem">
+            <span t-field="submenu.name"/>
+        </a>
+
+        <div t-if="submenu.is_mega_menu" class="dropdown-menu o_mega_menu custom-mega-menu w-100 p-0" style="border-top: 1px solid #766F63;" role="menu">
+            <div class="container-fluid px-0 py-4">
+            <div class="row submenu" style="--gutter-x: 0px;">
+                <t t-set="categories" t-value="request.env['product.public.category'].sudo().search([])"/>
+<!-- Section parents you want to display -->
+<t t-set="parent_labels" t-value="['LIVING ROOM', 'DINING ROOM', 'BEDROOM']"/>
+
+<!-- Model helper + dynamic publish filter (v17 uses is_published) -->
+<t t-set="Category" t-value="request.env['product.public.category'].sudo()"/>
+<t t-set="has_is_published" t-value="'is_published' in Category._fields"/>
+<t t-set="pub_domain" t-value="has_is_published and [('is_published','=',True)] or []"/>
+
+<t t-foreach="parent_labels" t-as="label">
+    <!-- Find top-level parent by name (case-insensitive), limit 1 -->
+    <t t-set="parent" t-value="Category.search([('parent_id','=',False), ('name','ilike', label)] + pub_domain, limit=1)"/>
+
+    <t t-if="parent">
+        <!-- Fetch its children -->
+        <t t-set="children" t-value="Category.search([('parent_id','=',parent.id)] + pub_domain, order='sequence, name')"/>
+
+        <div class="col-2">
+            <h5 class="section-title mb-3"><t t-esc="label"/></h5>
+            <ul class="list-unstyled">
+                <t t-foreach="children" t-as="cat">
+                    <li>
+                        <a t-att-href="'/shop/category/%s' % slug(cat)" class="category-link d-block py-1" t-att-data-img="'/web/image/product.public.category/%s/image_1920' % cat.id">
+                            <t t-esc="cat.name"/>
+                        </a>
+                    </li>
+                </t>
+            </ul>
+        </div>
+    </t>
+</t>
+
+
+<!-- Replace this preview column -->
+<div class="col-3">
+    <div class="preview-wrapper position-absolute w-100 h-auto">
+        <img id="hover-preview" src="/web/image/product.public.category/6/image_1920" class="img-fluid rounded shadow-sm" alt="preview" loading="lazy"/>
+    </div>
+</div>
+
+            </div>
+            <div class="mt-3 mb-4">
+                <a href="/shop" class="all-products-link">ALL PRODUCTS</a>
+            </div>
+            </div>
+        </div>
+
+        <!-- Fallback for non-mega menu cases -->
+        <div t-if="submenu.is_mega_menu" t-elif="False" class="dropdown-menu o_mega_menu" t-field="submenu.mega_menu_content" role="menuitem"/>
+        <ul t-else="" class="dropdown-menu" role="menu">
+            <t t-foreach="submenu.child_id" t-as="submenu">
+                <t t-call="website.submenu">
+                    <t t-set="item_class" t-value="None"/>
+                    <t t-set="link_class" t-valuef="dropdown-item"/>
+                </t>
+            </t>
+        </ul>
+    </li>
+    <li t-elif="show_dropdown and is_mobile" t-attf-class="#{item_class or ''} mobile-products-accordion" role="presentation">
+        <div class="mobile-products-toggle">
+            <span t-field="submenu.name"/>
+        </div>
+        <t t-set="parent_labels" t-value="['LIVING ROOM', 'DINING ROOM', 'BEDROOM']"/>
+        <t t-set="Category" t-value="request.env['product.public.category'].sudo()"/>
+        <t t-set="has_is_published" t-value="'is_published' in Category._fields"/>
+        <t t-set="pub_domain" t-value="has_is_published and [('is_published','=',True)] or []"/>
+        <t t-set="parent_data" t-value="[]"/>
+
+        <t t-foreach="parent_labels" t-as="label">
+            <t t-set="parent" t-value="Category.search([('parent_id','=',False), ('name','ilike', label)] + pub_domain, limit=1)"/>
+            <t t-if="parent">
+                <t t-set="children" t-value="Category.search([('parent_id','=',parent.id)] + pub_domain, order='sequence, name')"/>
+                <t t-set="parent_data" t-value="parent_data + [{'parent': parent, 'children': children}]"/>
+            </t>
+        </t>
+
+        <div t-if="parent_data" t-attf-id="mobileCategoryAccordion-#{submenu.id}" class="accordion mobile-category-accordion mt-2">
+            <t t-foreach="parent_data" t-as="info" t-foreach-index="idx">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" t-att-id="'heading-%s-%s' % (submenu.id, info['parent'].id)">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" t-att-data-bs-target="'#collapse-%s-%s' % (submenu.id, info['parent'].id)" aria-expanded="false" t-att-aria-controls="'collapse-%s-%s' % (submenu.id, info['parent'].id)">
+                            <t t-esc="info['parent'].name"/>
+                        </button>
+                    </h2>
+                    <div class="accordion-collapse collapse" t-att-id="'collapse-%s-%s' % (submenu.id, info['parent'].id)" t-att-aria-labelledby="'heading-%s-%s' % (submenu.id, info['parent'].id)" t-att-data-bs-parent="'#mobileCategoryAccordion-%s' % submenu.id">
+                        <div class="accordion-body p-0">
+                            <ul class="list-unstyled mb-0">
+                                <t t-foreach="info['children']" t-as="cat">
+                                    <li>
+                                        <a t-att-href="'/shop/category/%s' % slug(cat)" class="mobile-subcategory-link d-block py-2">
+                                            <t t-esc="cat.name"/>
+                                        </a>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </li>
+    <!-- Style -->
+<style>
+    .custom-mega-menu {
+        background-color: #514c44 !important;
+        width: 100%;
+        max-height: none !important;
+        overflow: visible !important;
+        padding-left: 125px !important;
+        padding-right: 125px !important;
+    }
+    .custom-mega-menu h5 {
+        font-weight: 400;
+        font-size: 14px;
+        color: #c4bdb0;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        font-family: Open Sans;
+        padding-top:25px;
+    }
+    .custom-mega-menu a {
+        font-weight: 300;
+        font-size: 14px;
+        color: #f0eae2 !important;
+        transition: all 0.2s ease;
+        display: inline-block;
+        font-family: Open Sans;
+        
+    }
+    .custom-mega-menu a:hover {
+        font-weight: 500;
+        color: #c4bdb0;
+        text-decoration: none;
+        
+    }
+    .all-products-link {
+        font-size: 12px;
+        color: #c4bdb0; !important;
+        text-decoration: underline;
+        padding-top: 50px;
+        padding-bottom: 5px;
+    }
+    .all-products-link:hover {
+        #color: #c4bdb0;
+        border-color: #d2b48c;
+    }
+    
+.preview-wrapper {
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* NEW: white card behind transparent images */
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.12);
+}
+
+#hover-preview {
+    max-height: 260px;
+    object-fit: contain;
+    transition: opacity 0.3s ease-in-out;
+
+    /* NEW: a little breathing room inside the white card */
+    padding: 12px;
+    border-radius: 10px; /* keeps corners consistent */
+    background: transparent; /* keep the wrapper’s white visible */
+}
+
+    .o_mega_menu {
+        border-left: 0 !important;
+        border-right: 0 !important;
+        border-bottom: 0 !important;
+    }
+/* Make the mega menu a positioning context */
+.custom-mega-menu {
+    position: relative;
+}
+
+/* Keep content clear of the floating preview (tune as needed) */
+    .custom-mega-menu .row.submenu {
+        padding-right: 420px; /* ≈ preview width + breathing room */
+    }
+
+/* Lock the preview 125px from the right */
+.preview-wrapper {
+    right: 125px;           /* required */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 360px;           /* set a stable card width */
+    max-width: 40vw;        /* avoid overflow on narrower screens */
+    z-index: 2;
+
+    /* card look (kept from your styles) */
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.12);
+    padding: 0;             /* wrapper padding not needed */
+}
+
+/* Image inside the card */
+#hover-preview {
+    width: 100%;
+    height: auto;
+    max-height: 260px;
+    object-fit: contain;
+    transition: opacity 0.3s ease-in-out;
+    padding: 12px;          /* inner breathing room */
+    border-radius: 10px;    /* keep corners consistent */
+    background: transparent;
+}
+
+/* Optional responsiveness: soften the reserved space and card size on smaller desktops */
+@media (max-width: 1400px) {
+    .custom-mega-menu .row.submenu { padding-right: 340px; }
+    .preview-wrapper { width: 300px; }
+}
+@media (max-width: 1200px) {
+    .custom-mega-menu .row.submenu { padding-right: 280px; }
+    .preview-wrapper { width: 260px; }
+}
+
+/* Mobile overrides */
+@media (max-width: 991.98px) {
+    .custom-mega-menu {
+        padding: 1.5rem !important;
+        border-radius: 0;
+    }
+
+    .mobile-products-accordion {
+        padding: 1.5rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        margin-top: 0 !important;
+    }
+
+    .mobile-products-toggle {
+        font-family: "Open Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #f0eae2;
+        margin-bottom: 0.75rem;
+    }
+
+    .mobile-category-accordion .accordion-item {
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .mobile-category-accordion .accordion-button {
+        background-color: transparent;
+        color: #f0eae2;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 0.75rem 0;
+        box-shadow: none;
+    }
+
+    .mobile-category-accordion .accordion-button::after {
+        filter: invert(87%) sepia(9%) saturate(181%) hue-rotate(333deg) brightness(96%) contrast(89%);
+    }
+
+    .mobile-category-accordion .accordion-button:not(.collapsed) {
+        color: #c4bdb0;
+        background-color: transparent;
+    }
+
+    .mobile-category-accordion .accordion-body {
+        padding: 0.5rem 0 1rem;
+    }
+
+    .mobile-category-accordion .accordion-collapse {
+        transform-origin: top;
+        height: auto !important;
+    }
+
+    .mobile-category-accordion .collapsing {
+        height: auto !important;
+    }
+
+    .mobile-category-accordion .mobile-subcategory-link {
+        color: #f0eae2;
+        font-size: 14px;
+    }
+
+    .mobile-category-accordion .mobile-subcategory-link:hover {
+        color: #c4bdb0;
+        text-decoration: none;
+    }
+}
+</style>
+
+<!-- Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const docScrollEl = document.scrollingElement || document.documentElement;
+
+  // There can be multiple mega menus; support them all.
+  document.querySelectorAll('.custom-mega-menu').forEach(function (menu) {
+    const preview = menu.querySelector('#hover-preview');
+    if (preview) {
+      const defaultSrc = preview.getAttribute('src') || '';
+
+      // Event delegation: react when a .category-link inside this menu is hovered
+      menu.addEventListener('mouseover', function (ev) {
+        const link = ev.target.closest('.category-link');
+        if (!link || !menu.contains(link)) return;
+
+        const img = link.getAttribute('data-img');
+        if (!img) return;
+
+        // Preload to avoid flicker
+        const tmp = new Image();
+        tmp.onload = function () {
+          preview.style.opacity = 0;
+          setTimeout(function () {
+            preview.src = img;
+            preview.style.opacity = 1;
+          }, 120);
+        };
+        tmp.src = img;
+      });
+
+      // Optional: reset when leaving the menu
+      menu.addEventListener('mouseleave', function () {
+        if (defaultSrc) preview.src = defaultSrc;
+      });
+    }
+
+  });
+
+  const findScrollableContainer = function (element) {
+    let current = element;
+    while (current &amp;&amp; current !== document.body) {
+      if (current.classList &amp;&amp; current.classList.contains('offcanvas-body')) {
+        return current;
+      }
+
+      const styles = window.getComputedStyle(current);
+      const overflowY = styles.overflowY;
+      if (/(auto|scroll|overlay)/.test(overflowY)) {
+        return current;
+      }
+      current = current.parentElement;
+    }
+    return docScrollEl;
+  };
+
+  const adjustScroll = function (container, delta) {
+    if (Math.abs(delta) &lt; 1) {
+      return;
+    }
+
+    // When the accordion expands it can pull the anchor button upward. We only
+    // counter that upward motion so the menu opens toward the bottom without
+    // yanking the content to the top of the screen.
+    if (delta &gt;= 0) {
+      return;
+    }
+
+    const adjustment = -delta;
+    const target = container === document.body ? docScrollEl : container;
+    target.scrollTop += adjustment;
+  };
+
+  const maintainAnchorDuringTransition = function (collapseEl, headerWrapper) {
+    if (!headerWrapper) {
+      return;
+    }
+    const header = headerWrapper.querySelector('.accordion-button');
+    if (!header) {
+      return;
+    }
+
+    const scrollContainer = findScrollableContainer(headerWrapper);
+    const initialTop = header.getBoundingClientRect().top;
+    let rafId = null;
+    let active = true;
+
+    const step = function () {
+      if (!active) {
+        return;
+      }
+      const newTop = header.getBoundingClientRect().top;
+      adjustScroll(scrollContainer, newTop - initialTop);
+      rafId = window.requestAnimationFrame(step);
+    };
+
+    const stop = function () {
+      if (!active) {
+        return;
+      }
+      active = false;
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+      const finalTop = header.getBoundingClientRect().top;
+      adjustScroll(scrollContainer, finalTop - initialTop);
+      collapseEl.removeEventListener('shown.bs.collapse', stop);
+      collapseEl.removeEventListener('hidden.bs.collapse', stop);
+    };
+
+    rafId = window.requestAnimationFrame(step);
+    collapseEl.addEventListener('shown.bs.collapse', stop);
+    collapseEl.addEventListener('hidden.bs.collapse', stop);
+  };
+
+  document.querySelectorAll('.mobile-category-accordion').forEach(function (accordion) {
+    const firstCollapse = accordion.querySelector('.accordion-collapse');
+    const firstButton = accordion.querySelector('.accordion-button');
+    if (firstCollapse &amp;&amp; firstButton) {
+      firstCollapse.classList.add('show');
+      firstButton.classList.remove('collapsed');
+      firstButton.setAttribute('aria-expanded', 'true');
+    }
+
+    ['show.bs.collapse', 'hide.bs.collapse'].forEach(function (eventName) {
+      accordion.addEventListener(eventName, function (event) {
+        const collapseEl = event.target;
+        if (!collapseEl.classList.contains('accordion-collapse')) {
+          return;
+        }
+        maintainAnchorDuringTransition(collapseEl, collapseEl.previousElementSibling);
+      });
+    });
+  });
+});
+</script>
+
+
+</t>

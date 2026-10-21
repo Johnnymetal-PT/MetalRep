@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="s_product_highlighted_grid" name="Highlighted Product Grid">
+    <div class="container">
+            <div class="row g-0 as-sb-trending-section oe_website_sale ">
+
+                <!-- Highlighted Product (first record) -->
+                <div class="col-xl-5 col-lg-12">
+                    <t t-if="records">
+                        <t t-set="product" t-value="records[0]"/>
+                        <div t-att-class="'as-highlight-card h-100 ' + (configuration.get('grid_style') or '')">
+                            <t t-if="configuration.get('active_model') == 'Variants'">
+                                <t t-call="theme_alan.as_product_variants_base_slider"/>
+                            </t>
+                            <t t-else="">
+                                <t t-call="theme_alan.as_product_base_slider"/>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Other Products Grid -->
+                <div class="col-xl-7 col-lg-12">
+                    <div class="row g-0">
+                        <t t-foreach="records[1:]" t-as="product">
+                            <div class="col-lg-4 col-6">  <!-- 3 per row -->
+                                    <div t-att-class="'product-mini-card h-100 ' + (configuration.get('grid_style') or '')">
+                                    <t t-if="configuration.get('active_model') == 'Variants'">
+                                        <t t-call="theme_alan.as_product_variants_base_slider"/>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-call="theme_alan.as_product_base_slider"/>
+                                    </t>
+
+                                </div>
+                            </div>
+                        </t>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </template>
+</odoo>

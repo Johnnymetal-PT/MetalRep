@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_task_form_pg_prototipo" model="ir.ui.view">
+        <field name="name">project.task.form.pg.prototipo</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <!-- Junto ao projeto, que e de onde o artigo vem. A pessoa esta a
+                 trabalhar uma tarefa e quer chegar as especificacoes sem voltar
+                 ao projeto: a seta do campo abre a ficha do artigo num clique.
+
+                 O `view_task_form2` tem tres campos `project_id`: um no grupo
+                 principal e dois dentro de listas de subtarefas. O `position`
+                 sem xpath apanha o primeiro em ordem de documento, que e o do
+                 grupo — o unico onde isto faz sentido.
+
+                 Invisivel nas tarefas que nao sao de prototipos, para nao poluir
+                 o formulario de toda a gente com um campo que nao lhes diz nada. -->
+            <field name="project_id" position="after">
+                <field name="pg_artigo_prototipo" readonly="1"
+                       invisible="not pg_artigo_prototipo"/>
+            </field>
+        </field>
+    </record>
+</odoo>

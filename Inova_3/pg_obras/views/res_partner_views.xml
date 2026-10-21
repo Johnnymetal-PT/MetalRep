@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_partner_form_pg_obras" model="ir.ui.view">
+        <field name="name">res.partner.form.pg.obras</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="x_tem_projeto"/>
+                    <field name="x_localizacao_obra"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,364 @@
+/**
+* 2007-2020 PrestaShop
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@prestashop.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+* versions in the future. If you wish to customize PrestaShop for your
+* needs please refer to http://www.prestashop.com for more information.
+*
+*  @author    PrestaShop SA <contact@prestashop.com>
+*  @copyright 2007-2020 PrestaShop SA
+*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*  International Registered Trademark & Property of PrestaShop SA
+*
+* Don't forget to prefix your containers with your own identifier
+* to avoid any conflicts with others containers.
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+.fusion-services-title{
+  font-weight: 700;
+  color: #1e2024!important;
+  font-size: 18px;
+  margin-bottom: 15px;
+  display: block;
+}
+.services-list{
+  position: relative;
+}
+.fusion-row{
+  border: 1px solid #e6e9ef;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transform: translate3d(0, 0, 0);
+  margin-bottom: 16px;
+}.fusion-row:hover.active {
+  border-color: transparent;
+  box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.2);
+  transform: translate3d(0, -4px, 0);
+}
+
+.fusion-row-inner{
+  background: #fff;
+  min-height: 56px;
+  display: grid;
+  grid-template-columns: 20px auto auto;
+  grid-template-rows: 10px auto minmax(10px, auto);
+}
+.fusion-row-inner .itm-icon{
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  flex: 0 0 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.1s ease;
+}
+.fusion-row:not(.active) .fusion-row-inner .itm-icon{
+  opacity: .3;
+}
+.fusion-row-inner .itm-desc{
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding: 8px;
+}
+.fusion-row:not(.active) .fusion-row-inner .itm-desc{
+  opacity: .3;
+}
+.fusion-row-inner .itm-desc .itm-desc-sentence{
+  flex: 1 1 auto;
+  display: flex;
+  font-size: 16px;
+  color: black;
+  font-weight: 300;
+  align-items: center;
+  transition: opacity 0.1s ease;
+  line-height: 1.4;
+}
+.fusion-row-inner .itm-acts{
+  align-items: center;
+  display: flex;
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  margin-right: 40px;
+  margin-left: auto;
+}
+
+.status-icon .status-ok, .status-icon .status-fail{
+  display: none;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+.status-icon.ok .status-ok{
+  display: block;
+}
+.status-icon.fail .status-fail{
+  display: block;
+}
+
+
+.fusion-settings{
+
+}
+.param-row{
+  padding: 10px 0px;
+}
+.param-row .label{
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+}
+.param-row .fswitch{
+  float: right;
+}
+
+
+
+/*
+.btn.fsi-btn, .btn.fsi-btn.btn-info{
+  border-radius: 20px;
+  border: none;
+  padding: 9px 35px;
+}.btn.fsi-btn:hover, .btn.fsi-btn.btn-info:hover{
+  border: none;
+}
+
+.btn.fsi-btn-round{
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  padding: 0 0;
+  text-align: center;
+  line-height: 1;
+}.btn.fsi-btn-round i{
+  font-size: 15px;
+}
+
+
+.btn.fsi-btn.ajax-loader{
+  position: relative;
+}
+.btn.fsi-btn.ajax-loader:after{
+  top: calc(50% - 10px);
+  left: calc(50% - 10px);
+  width: 20px;
+  height: 20px;
+}
+
+
+.association-remove{
+  cursor: pointer;
+  padding: 3px 7px;
+  display: inline-block;
+}.association-remove i{
+  color: #de2c2c;
+  font-size: 21px;
+}
+
+.fsi-remove, .fsi-edit{
+  padding: 3px 7px;
+  display: none;
+  margin-right: 10px;
+}
+.fsi-remove i{
+  color: #de2c2c;
+  font-size: 21px;
+}
+.fsi-edit i{
+  color: #333;
+  font-size: 21px;
+}
+.fusion-row:hover.active .fsi-remove, .fusion-row:hover.active .fsi-edit{
+  display: block;
+}
+
+
+.fsi-switch{
+  margin: 0 3px;
+  width: auto;
+  height: auto;
+  line-height: 1;
+  width: 45px;
+  height: 20px;
+  border-radius: 20px;
+  background: #607d8b;
+  position: relative;
+}
+.fsi-switch input{
+  display: none !important;
+}
+.fsi-switch.on{
+  background: #00bcd4;
+}
+.fsi-switch:after{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  display: block;
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  -webkit-transition: left .3s ease-out;
+  -moz-transition: left .3s ease-out;
+  -o-transition: left .3s ease-out;
+  transition: left .3s ease-out;
+}
+.fsi-switch.on:after{
+  top: 5px;
+  left: 30px;
+}
+
+
+.fsi-pg-h{
+  margin-bottom: 30px;
+}
+.fsi-pg-h .acts{
+  text-align: right;
+}
+.fsi-pg-h .fsi-h3{
+  display: block;
+  font-size: 23px;
+  color: #333;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+
+.fsi-pg-int-cont{
+
+}
+.fsi-itm-var{
+  font-weight: 600;
+  display: inline-block;
+  margin: 0 8px;
+}
+
+.fusion-row-inner .itm-acts{
+  align-items: center;
+  display: flex;
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  margin-right: 40px;
+  margin-left: auto;
+}
+
+.column_association{
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.association_row{
+  text-align: left;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.association_row .actions{
+  margin-right: 0px;
+  opacity: 0;
+  visibility: hidden;
+}
+.association_row:hover .actions{
+  opacity: 1;
+  visibility: visible;
+}
+.bootstrap select.association-field{
+  text-align: center;
+  text-align-last: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: auto;
+  padding: 0px 10px;
+  border: none;
+  background: transparent;
+  color: #000;
+  font-size: 19px;
+  font-weight: 600;
+  position: relative;
+  line-height: 1.42857;
+  width: auto;
+  display: inline-block;
+}.bootstrap select.association-field{
+  border-bottom: 1px solid #000;
+}
+
+.association-field-label{
+  text-align: right;
+  height: auto;
+  padding: 0px 10px;
+  line-height: 1;
+  color: #333;
+  font-weight: 300;
+  font-size: 19px;
+  line-height: 1.42857;
+}
+.association_source{
+}
+.association_target{
+}
+
+.new-assoc-field{
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  color: #26b9d7;
+  font-size: 12px;
+  padding: 6px 30px;
+  border: solid 1px #26b9d7;
+  border-radius: 30px;
+  width: max-content;
+  margin: 17px auto 0;
+}
+.new-assoc-field i{
+  color: #26b9d7;
+  font-size: 15px;
+}
+
+
+
+@media (min-width: 720px){
+  .pl-float-wind.large {
+	    width: 100%;
+	    max-width: 90vw;
+	    min-height: 90vh;
+	    max-height: 90vh;
+	}
+}*/

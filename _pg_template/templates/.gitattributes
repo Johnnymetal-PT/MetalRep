@@ -1,0 +1,23 @@
+* text=auto
+*.py text eol=lf
+*.ps1 text eol=lf
+*.cmd text eol=lf
+*.xml text eol=lf
+*.csv text eol=lf
+*.js text eol=lf
+*.md text eol=lf
+# Ver a nota do .gitattributes do _pg_template: sem regra para .txt, os artefactos de
+# doc_templates/assets_extracted ficavam permanentemente "modified" (CRLF no checkout,
+# LF no ficheiro escrito).
+*.txt text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+.editorconfig text eol=lf
+
+# Anexos dos doc templates: bytes exactos, sem conversao nenhuma. O "text=auto"
+# acima converte fins de linha em anexos sem bytes nulos e desalinha-os do sha256
+# registado em doc_templates/MANIFEST.json. Ver a nota equivalente no
+# .gitattributes do _pg_template.
+doc_templates/assets/** -text

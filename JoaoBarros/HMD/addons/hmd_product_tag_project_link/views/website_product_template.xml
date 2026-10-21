@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="website_sale_product_tags_direct_project_link" inherit_id="website_sale.product_tags" priority="9999">
+        <xpath expr="//div[hasclass('o_product_tags')]" position="replace">
+            <div class="o_product_tags o_field_tags d-flex flex-wrap align-items-center gap-2">
+                <t t-foreach="all_product_tags" t-as="tag">
+                    <t t-if="tag.visible_on_ecommerce">
+                        <t t-set="project_url_raw" t-value="(tag.sudo().hmd_project_page_url or '').strip()"/>
+                        <t t-set="project_url" t-value="project_url_raw and (project_url_raw if project_url_raw.startswith('http://') or project_url_raw.startswith('https://') or project_url_raw.startswith('/') else '/' + project_url_raw) or ''"/>
+
+                        <t t-if="project_url">
+                            <a t-att-href="project_url" class="text-decoration-none d-inline-flex">
+                                <span t-if="tag.image"
+                                      class="order-0"
+                                      t-field="tag.image"
+                                      t-options="{'widget': 'image', 'class': 'o_product_tag_img rounded'}"
+                                />
+                                <span t-else="" class="position-relative order-1 py-1 px-2">
+                                    <span class="position-absolute top-0 start-0 w-100 h-100 rounded"
+                                          t-attf-style="background-color: #{tag.color}; opacity: .2;"
+                                    />
+                                    <span class="text-nowrap small"
+                                          t-attf-style="color: #{tag.color}"
+                                          t-field="tag.name"
+                                    />
+                                </span>
+                            </a>
+                        </t>
+                        <t t-else="">
+                            <span t-if="tag.image"
+                                  class="order-0"
+                                  t-field="tag.image"
+                                  t-options="{'widget': 'image', 'class': 'o_product_tag_img rounded'}"
+                            />
+                            <span t-else="" class="position-relative order-1 py-1 px-2">
+                                <span class="position-absolute top-0 start-0 w-100 h-100 rounded"
+                                      t-attf-style="background-color: #{tag.color}; opacity: .2;"
+                                />
+                                <span class="text-nowrap small"
+                                      t-attf-style="color: #{tag.color}"
+                                      t-field="tag.name"
+                                />
+                            </span>
+                        </t>
+                    </t>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>
+

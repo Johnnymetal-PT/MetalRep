@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8"/>
+<title>Plano de Projeto — HMD Interiors — Odoo 18 Enterprise</title>
+<style>
+  @page { size: A4; margin: 18mm 15mm; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 10pt;
+    color: #222;
+    margin: 0;
+    padding: 0;
+  }
+  h1 { font-size: 16pt; color: #1a5276; margin-bottom: 2px; }
+  h2 { font-size: 12pt; color: #1a5276; border-bottom: 2px solid #1a5276;
+        padding-bottom: 4px; margin-top: 22px; }
+  .meta { color: #555; font-size: 9pt; margin-bottom: 18px; }
+  .meta span { margin-right: 24px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  th { background: #2e4057; color: #fff; padding: 6px 8px; text-align: left; font-size: 9pt; }
+  td { padding: 5px 8px; border-bottom: 1px solid #e0e0e0; vertical-align: top; }
+  tr:hover { background: #f9f9f9; }
+  .milestone-header td { padding: 8px 12px; font-size: 10pt; }
+  .summary-box {
+    display: inline-block; background: #f0f4f8; border-left: 4px solid #1a5276;
+    padding: 8px 16px; margin: 6px 12px 6px 0; border-radius: 2px; font-size: 9pt;
+  }
+  .summary-box strong { display: block; font-size: 13pt; color: #1a5276; }
+  .timeline-wrap {
+    position: relative; height: 54px; background: #eee;
+    border-radius: 4px; margin: 12px 0 6px 0; overflow: hidden;
+  }
+  .axis { display:flex; justify-content:space-between; font-size:8pt; color:#888; margin-top:2px; }
+  .note { font-size: 8.5pt; color: #555; margin-top: 16px; border-top: 1px solid #ddd; padding-top: 8px; }
+  .footer { font-size: 8pt; color: #888; text-align: center; margin-top: 24px; }
+  @media print {
+    body { font-size: 9pt; }
+    h1 { font-size: 14pt; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Plano de Projeto — HMD Interiors</h1>
+<div class="meta">
+  <span><strong>Cliente:</strong> HMD INTERIORS — Edição Produção de Mobiliário Lda</span>
+  <span><strong>Projeto:</strong> Odoo 18 Enterprise — Implementação & Evolução</span><br/>
+  <span><strong>Período:</strong> 25 Maio 2026 → 15 Janeiro 2027</span>
+  <span><strong>Elaborado:</strong> 25/05/2026</span>
+  <span><strong>Gestor:</strong> João Barros — Parâmetro Global</span>
+</div>
+
+<h2>Resumo Executivo</h2>
+<p>O projeto HMD encontra-se em fase de evolução e estabilização, com 30+ módulos custom implementados
+nas áreas de CRM, Vendas, Compras, Produção, eCommerce e Qualidade.
+O presente plano organiza o trabalho restante em <strong>5 milestones</strong> até Janeiro de 2027,
+incluindo a migração para Odoo 19.</p>
+
+<div>
+  <div class="summary-box"><strong>37</strong> Tarefas planeadas</div>
+  <div class="summary-box"><strong>5</strong> Milestones</div>
+  <div class="summary-box"><strong>2026-05-25</strong> Início</div>
+  <div class="summary-box"><strong>2027-01-15</strong> Fecho</div>
+  <div class="summary-box"><strong>Quinta 10h–10h30</strong> PDS semanal</div>
+</div>
+
+<h2>Timeline de Milestones</h2>
+<div class="timeline-wrap">
+  
+        <div style="position:absolute;left:0.0%;width:8.9%;
+                    background:#1a5276;color:#fff;font-size:0.7em;
+                    padding:4px 2px;box-sizing:border-box;text-align:center;
+                    border-right:2px solid #fff;overflow:hidden;white-space:nowrap;">
+            M1<br/>
+            <small>2026-06-15</small>
+        </div>
+        <div style="position:absolute;left:8.9%;width:6.4%;
+                    background:#1e8449;color:#fff;font-size:0.7em;
+                    padding:4px 2px;box-sizing:border-box;text-align:center;
+                    border-right:2px solid #fff;overflow:hidden;white-space:nowrap;">
+            M2<br/>
+            <small>2026-06-30</small>
+        </div>
+        <div style="position:absolute;left:15.3%;width:39.1%;
+                    background:#7d6608;color:#fff;font-size:0.7em;
+                    padding:4px 2px;box-sizing:border-box;text-align:center;
+                    border-right:2px solid #fff;overflow:hidden;white-space:nowrap;">
+            M3<br/>
+            <small>2026-09-30</small>
+        </div>
+        <div style="position:absolute;left:54.5%;width:13.2%;
+                    background:#784212;color:#fff;font-size:0.7em;
+                    padding:4px 2px;box-sizing:border-box;text-align:center;
+                    border-right:2px solid #fff;overflow:hidden;white-space:nowrap;">
+            M4<br/>
+            <small>2026-10-31</small>
+        </div>
+        <div style="position:absolute;left:67.7%;width:32.3%;
+                    background:#512e5f;color:#fff;font-size:0.7em;
+                    padding:4px 2px;box-sizing:border-box;text-align:center;
+                    border-right:2px solid #fff;overflow:hidden;white-space:nowrap;">
+            M5<br/>
+            <small>2027-01-15</small>
+        </div>
+</div>
+<div class="axis">
+  <span>Mai 2026</span><span>Jun 2026</span><span>Set 2026</span>
+  <span>Out 2026</span><span>Nov 2026</span><span>Jan 2027</span>
+</div>
+
+<h2>Milestones e Tarefas</h2>
+<table>
+  <thead>
+    <tr>
+      <th style="width:36px">#</th>
+      <th>Tarefa</th>
+      <th style="width:90px;text-align:center">Início</th>
+      <th style="width:90px;text-align:center">Entrega</th>
+      <th style="width:70px;text-align:center">Prioridade</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        <tr class="milestone-header" style="background:#1a5276;color:#fff;">
+            <td colspan="4"><strong>M1 — Sprint Imediato</strong> — entrega: 2026-06-15</td>
+            <td style="text-align:center">11 tarefas</td>
+        </tr>
+        <tr style="background:#d6eaf8;font-size:0.85em;font-style:italic;">
+            <td colspan="5" style="padding:4px 12px;">Prioridades imediatas: reorganização de projetos, templates, WhatsApp, vídeos de formação.</td>
+        </tr>
+    
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5670</td>
+            <td>Reformular fases projeto HMD — 3 fases globais + fases tarefa + 4 templates</td>
+            <td style="text-align:center">2026-05-25</td>
+            <td style="text-align:center">2026-06-06</td>
+            <td style="text-align:center;color:#c0392b;font-weight:bold;">★ Urgente</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5671</td>
+            <td>Configurar Spreadsheet Calculator de transportes</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-13</td>
+            <td style="text-align:center;color:#c0392b;font-weight:bold;">★ Urgente</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5672</td>
+            <td>Reformular template QWeb recibo de adiantamento</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-13</td>
+            <td style="text-align:center;color:#c0392b;font-weight:bold;">★ Urgente</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5673</td>
+            <td>Gravar vídeo: fluxo pagamentos sem fatura (IRS / IVA / SS)</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-13</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5674</td>
+            <td>Levantar pré-requisitos WhatsApp Business (conta Meta + número dedicado)</td>
+            <td style="text-align:center">2026-05-25</td>
+            <td style="text-align:center">2026-06-15</td>
+            <td style="text-align:center;color:#c0392b;font-weight:bold;">★ Urgente</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5675</td>
+            <td>Cleanup contactos PHC vs Odoo — pedir extracção + script matching</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-15</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5680</td>
+            <td>Configurar custo/hora por colaborador (hr.employee.hourly_cost)</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-15</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5700</td>
+            <td>Aprovar instalação WhatsApp enterprise (custos Meta) — decisão cliente</td>
+            <td style="text-align:center">2026-05-25</td>
+            <td style="text-align:center">2026-06-15</td>
+            <td style="text-align:center;color:#c0392b;font-weight:bold;">★ Urgente</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5704</td>
+            <td>Sessões semanais HMD — Quinta 10h-10h30 (a partir 2026-05-28)</td>
+            <td style="text-align:center">2026-05-28</td>
+            <td style="text-align:center">2027-01-31</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5705</td>
+            <td>Vídeo HMD-specific: criação de projeto-template</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-20</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5706</td>
+            <td>Vídeo HMD-specific: fluxo QC espontâneo no terreno</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-20</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr class="milestone-header" style="background:#1e8449;color:#fff;">
+            <td colspan="4"><strong>M2 — Estabilização Comercial & QC</strong> — entrega: 2026-06-30</td>
+            <td style="text-align:center">13 tarefas</td>
+        </tr>
+        <tr style="background:#d5f5e3;font-size:0.85em;font-style:italic;">
+            <td colspan="5" style="padding:4px 12px;">Templates de cotação, painel QC, cash-flow, empréstimos, permissões contabilísticas.</td>
+        </tr>
+    
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5676</td>
+            <td>Confirmar acerto contratual O365 / alojamento com Cláudio</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5678</td>
+            <td>Verificar espelhamento item venda → tarefa projeto (1 SOL = 1 task)</td>
+            <td style="text-align:center">2026-06-15</td>
+            <td style="text-align:center">2026-06-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5679</td>
+            <td>Vista agregada tarefas entre projetos por etapa operacional</td>
+            <td style="text-align:center">2026-06-07</td>
+            <td style="text-align:center">2026-06-20</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5681</td>
+            <td>Templates de cotação por linha de produto (sale.order.template)</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5684</td>
+            <td>Botão IDU — impressão direta única para encomendas e faturas</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5685</td>
+            <td>Configurar painel QC com filtros guardados + kanban</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5686</td>
+            <td>Criar atalho mobile criação espontânea QC no terreno</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5689</td>
+            <td>Instalar account_loans + importar empréstimos históricos até 2026</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5690</td>
+            <td>Activar cash-flow 30/60/90 + previsão recebimentos/pagamentos</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5692</td>
+            <td>Configurar diário Custos Pessoal + fornecedores-entidade</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5693</td>
+            <td>Configurar permissões por diário contabilístico</td>
+            <td style="text-align:center">2026-06-15</td>
+            <td style="text-align:center">2026-06-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5694</td>
+            <td>Configurar contas cartão de crédito</td>
+            <td style="text-align:center">2026-06-15</td>
+            <td style="text-align:center">2026-06-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5699</td>
+            <td>Decisão go/no-go upgrade Odoo 18→19 — aprovação cliente</td>
+            <td style="text-align:center">2026-06-01</td>
+            <td style="text-align:center">2026-06-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr class="milestone-header" style="background:#7d6608;color:#fff;">
+            <td colspan="4"><strong>M3 — Funcionalidades Avançadas</strong> — entrega: 2026-09-30</td>
+            <td style="text-align:center">10 tarefas</td>
+        </tr>
+        <tr style="background:#fef9e7;font-size:0.85em;font-style:italic;">
+            <td colspan="5" style="padding:4px 12px;">WhatsApp ativo, documento intrastat, galeria QC, automações de pagamento, Marketing Automation.</td>
+        </tr>
+    
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5677</td>
+            <td>Auto-criação projeto ao qualificar lead CRM (custom leve)</td>
+            <td style="text-align:center">2026-07-01</td>
+            <td style="text-align:center">2026-09-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5682</td>
+            <td>Instalar módulo WhatsApp enterprise + configurar canal por SO</td>
+            <td style="text-align:center">2026-07-01</td>
+            <td style="text-align:center">2026-07-31</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5683</td>
+            <td>Documento exportação/intrastat anexo à fatura (HS Code + peso + cubicagem)</td>
+            <td style="text-align:center">2026-08-01</td>
+            <td style="text-align:center">2026-08-31</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5687</td>
+            <td>Vista gallery em quality.check (custom leve)</td>
+            <td style="text-align:center">2026-07-01</td>
+            <td style="text-align:center">2026-07-31</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5688</td>
+            <td>Painel encomendas fornecedor com QC associadas (smart button)</td>
+            <td style="text-align:center">2026-07-01</td>
+            <td style="text-align:center">2026-07-31</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5691</td>
+            <td>Relatório depósitos 40% (Advance Payment) — controlo de adiantamentos</td>
+            <td style="text-align:center">2026-07-01</td>
+            <td style="text-align:center">2026-07-31</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5695</td>
+            <td>Instalar hr_expense + configurar categorias por cartão</td>
+            <td style="text-align:center">2026-07-01</td>
+            <td style="text-align:center">2026-07-31</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5696</td>
+            <td>Alerta pagamento cliente → mudar estado SO automaticamente (server action)</td>
+            <td style="text-align:center">2026-08-01</td>
+            <td style="text-align:center">2026-08-31</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5697</td>
+            <td>Alertas pagamentos sem fatura impostos (cron / atividade recorrente)</td>
+            <td style="text-align:center">2026-07-01</td>
+            <td style="text-align:center">2026-07-31</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5698</td>
+            <td>Avaliar e ativar Marketing Automation + Email Marketing</td>
+            <td style="text-align:center">2026-09-01</td>
+            <td style="text-align:center">2026-09-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr class="milestone-header" style="background:#784212;color:#fff;">
+            <td colspan="4"><strong>M4 — Preparação Upgrade Odoo 19</strong> — entrega: 2026-10-31</td>
+            <td style="text-align:center">1 tarefa</td>
+        </tr>
+        <tr style="background:#fdebd0;font-size:0.85em;font-style:italic;">
+            <td colspan="5" style="padding:4px 12px;">Clone do tenant, testes de upgrade, identificação de módulos a refactorizar.</td>
+        </tr>
+    
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5701</td>
+            <td>Clone tenant HMD para ambiente de testes + correr upgrade v19</td>
+            <td style="text-align:center">2026-10-01</td>
+            <td style="text-align:center">2026-10-31</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr class="milestone-header" style="background:#512e5f;color:#fff;">
+            <td colspan="4"><strong>M5 — Upgrade Produção & Fecho de Projeto</strong> — entrega: 2027-01-15</td>
+            <td style="text-align:center">2 tarefas</td>
+        </tr>
+        <tr style="background:#f5eef8;font-size:0.85em;font-style:italic;">
+            <td colspan="5" style="padding:4px 12px;">Refactor de módulos custom, upgrade em produção, go-live Odoo 19, fecho formal do projeto.</td>
+        </tr>
+    
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5702</td>
+            <td>Refactor módulos custom para compatibilidade Odoo 19</td>
+            <td style="text-align:center">2026-11-01</td>
+            <td style="text-align:center">2026-11-30</td>
+            <td style="text-align:center;">Normal</td>
+        </tr>
+        <tr>
+            <td style="width:36px;color:#888;font-size:0.8em">5703</td>
+            <td>Upgrade produção Odoo 18→19 + go-live (janela Dez/Jan)</td>
+            <td style="text-align:center">2026-12-01</td>
+            <td style="text-align:center">2027-01-15</td>
+            <td style="text-align:center;color:#c0392b;font-weight:bold;">★ Urgente</td>
+        </tr>
+  </tbody>
+</table>
+
+<h2>Modelo de Acompanhamento</h2>
+<table>
+  <thead><tr><th>Mecanismo</th><th>Detalhe</th></tr></thead>
+  <tbody>
+    <tr><td>PDS Semanal</td><td>Sessão Quinta-feira 10h–10h30 a partir de 28/05/2026. Agenda enviada pelo cliente até Quarta 12h.</td></tr>
+    <tr><td>Plano de Acção</td><td>Tarefas visíveis e rastreáveis no Odoo interno PG (projecto "Odoo - HMD"). Estado actualizado semanalmente.</td></tr>
+    <tr><td>Formação & Procedimentos</td><td>Vídeos curtos HMD-specific alojados no chatter de cada tarefa-template. Prioridades: projecto-template, QC espontâneo, pagamentos sem fatura.</td></tr>
+    <tr><td>Migração Odoo 19</td><td>Decisão go/no-go até 30/06/2026. Upgrade em produção planeado para Dezembro 2026 / Janeiro 2027.</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <strong>Notas:</strong>
+  Tarefas marcadas ★ Urgente requerem acção imediata ou dependem de decisão do cliente.
+  O plano será revisto e actualizado em cada sessão semanal de quinta-feira.
+  Versão do Odoo: 18.0 Enterprise On-Premise.
+</div>
+
+<div class="footer">
+  Parâmetro Global — Consultoria Informática, S.A. &nbsp;|&nbsp;
+  joao.barros@parametro.global &nbsp;|&nbsp;
+  www.parametro.global &nbsp;|&nbsp;
+  Documento gerado em 25/05/2026
+</div>
+
+</body>
+</html>

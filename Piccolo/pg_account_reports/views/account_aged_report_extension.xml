@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Add Days Overdue column to Aged Receivable Report -->
+    <record id="pg_account_aged_receivable_days_overdue_column" model="account.report.column">
+        <field name="name">Days Overdue</field>
+        <field name="expression_label">days_overdue</field>
+        <field name="figure_type">integer</field>
+        <field name="sortable">True</field>
+    </record>
+
+    <record id="pg_account_aged_receivable_days_overdue_expr" model="account.report.expression">
+        <field name="label">days_overdue</field>
+        <field name="engine">custom</field>
+        <field name="formula">_report_custom_engine_aged_receivable</field>
+        <field name="subformula">days_overdue</field>
+        <field name="report_line_id" ref="account_reports.aged_receivable_line"/>
+    </record>
+
+    <record id="account_reports.aged_receivable_report" model="account.report">
+        <field name="column_ids" eval="[(4, ref('pg_account_aged_receivable_days_overdue_column'))]"/>
+    </record>
+
+    <!-- Add Days Overdue column to Aged Payable Report -->
+    <record id="pg_account_aged_payable_days_overdue_column" model="account.report.column">
+        <field name="name">Days Overdue</field>
+        <field name="expression_label">days_overdue</field>
+        <field name="figure_type">integer</field>
+        <field name="sortable">True</field>
+    </record>
+
+    <record id="pg_account_aged_payable_days_overdue_expr" model="account.report.expression">
+        <field name="label">days_overdue</field>
+        <field name="engine">custom</field>
+        <field name="formula">_report_custom_engine_aged_payable</field>
+        <field name="subformula">days_overdue</field>
+        <field name="report_line_id" ref="account_reports.aged_payable_line"/>
+    </record>
+
+    <record id="account_reports.aged_payable_report" model="account.report">
+        <field name="column_ids" eval="[(4, ref('pg_account_aged_payable_days_overdue_column'))]"/>
+    </record>
+
+</odoo>

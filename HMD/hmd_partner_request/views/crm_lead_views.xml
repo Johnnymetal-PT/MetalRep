@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="crm_lead_view_form_hmd_account_request" model="ir.ui.view">
+        <field name="name">crm.lead.form.hmd.account.request</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_hmd_approve_account" type="object"
+                        string="Aprovar pedido de conta" class="btn-primary"
+                        invisible="not hmd_is_account_request or hmd_account_state != 'pending'"
+                        confirm="Isto cria ou reutiliza o parceiro e envia-lhe o convite de acesso ao portal. Continuar?"/>
+                <button name="action_hmd_refuse_account" type="object"
+                        string="Recusar"
+                        invisible="not hmd_is_account_request or hmd_account_state != 'pending'"/>
+                <field name="hmd_account_state" widget="statusbar"
+                       invisible="not hmd_is_account_request"/>
+            </header>
+            <!-- Os campos do pedido ficam junto ao contacto, que e onde quem
+                 aprova esta a olhar. O NIF e o unico campo novo que o
+                 formulario preenche; o resto ja sao campos do lead.
+
+                 Ancora-se na etiqueta do endereco e nao no partner_name: esse
+                 campo aparece DUAS vezes na vista do CRM (uma no corpo, outra
+                 no separador "Extra Information") e a heranca agarraria a
+                 primeira por acaso. O label[@for='street'] e unico. -->
+            <xpath expr="//label[@for='street']" position="before">
+                <field name="hmd_vat" invisible="not hmd_is_account_request"/>
+                <field name="hmd_is_account_request" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Os filtros entram nas DUAS vistas de pesquisa: a HMD usa leads e
+         oportunidades ao mesmo tempo (12 e 233 na HMD_TESTE a 16/09/2026), e
+         um pedido do website nasce como lead ou como oportunidade conforme a
+         funcionalidade "Leads" esteja ligada.
+
+         Ancora-se em <search position="inside"> e nao num filtro com nome: a
+         primeira tentativa usou "type_lead", que nao existe em Odoo 18, e a
+         instalacao rebentou. O elemento raiz existe sempre. -->
+
+    <record id="crm_lead_view_search_hmd_leads" model="ir.ui.view">
+        <field name="name">crm.lead.search.hmd.account.request.leads</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_leads_filter"/>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <separator/>
+                <filter name="hmd_account_requests" string="Pedidos de conta"
+                        domain="[('hmd_is_account_request', '=', True)]"/>
+                <filter name="hmd_account_pending" string="Pedidos por tratar"
+                        domain="[('hmd_is_account_request', '=', True),
+                                 ('hmd_account_state', '=', 'pending')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="crm_lead_view_search_hmd_opportunities" model="ir.ui.view">
+        <field name="name">crm.lead.search.hmd.account.request.opportunities</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <separator/>
+                <filter name="hmd_account_requests" string="Pedidos de conta"
+                        domain="[('hmd_is_account_request', '=', True)]"/>
+                <filter name="hmd_account_pending" string="Pedidos por tratar"
+                        domain="[('hmd_is_account_request', '=', True),
+                                 ('hmd_account_state', '=', 'pending')]"/>
+            </search>
+        </field>
+    </record>
+
+</odoo>

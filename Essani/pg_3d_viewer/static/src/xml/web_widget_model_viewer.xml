@@ -1,0 +1,45 @@
+<templates id="template" xml:space="preserve" owl="1">
+    <t
+        t-name="pg_3d_viewer.ModelViewerField"
+        t-inherit="web.BinaryField"
+        t-inherit-mode="primary"
+    >
+        <xpath expr="." position="inside">
+            <t t-if="viewerUrl">
+                <div class="o_model_viewer_container o_field_image" style="background-color: #FFFFFF;">
+                    <t t-if="canRenderInModelViewer">
+                        <model-viewer
+                            t-att-src="viewerUrl"
+                            t-att-name="props.name"
+                            t-att-style="viewerStyle"
+                            t-att-border="props.readonly ? 0 : 1"
+                            alt="3D model"
+                            auto-rotate="1"
+                            camera-controls="1"
+                            t-on-error="onViewerError"
+                        >
+                            <div class="o_model_viewer_fullscreen text-center mt-2 mb-2 me-2">
+                                <button
+                                    type="button"
+                                    class="btn btn-link p-0 o_model_viewer_fullscreen_btn"
+                                    title="View fullscreen"
+                                    aria-label="Fullscreen"
+                                    t-on-click="onToggleFullscreen"
+                                >
+                                    <i class="fa fa-arrows-alt fa-2x" />
+                                </button>
+                            </div>
+                        </model-viewer>
+                    </t>
+                    <t t-else="">
+                        <div class="alert alert-warning m-2" role="alert">
+                            This preview supports only .glb/.gltf files. Uploaded file
+                            <t t-if="fileName">(<t t-esc="fileName" />)</t>
+                            can be stored but is not previewable in Model Viewer.
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+    </t>
+</templates>

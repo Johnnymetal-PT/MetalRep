@@ -1,0 +1,25 @@
+<odoo>
+    <menuitem id="menu_hiper_sync_root" name="Hiper Sync" sequence="80"/>
+
+    <record id="action_hiper_sync_vendors" model="ir.actions.act_window">
+        <field name="name">Suppliers</field>
+        <field name="res_model">hiper.sync.vendor</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_hiper_sync_runs" model="ir.actions.act_window">
+        <field name="name">Sync Runs</field>
+        <field name="res_model">hiper.sync.run</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_hiper_sync_category_maps" model="ir.actions.act_window">
+        <field name="name">Category Maps</field>
+        <field name="res_model">hiper.sync.category.map</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_hiper_sync_vendors" name="Suppliers" parent="menu_hiper_sync_root" action="action_hiper_sync_vendors"/>
+    <menuitem id="menu_hiper_sync_runs" name="Sync Runs" parent="menu_hiper_sync_root" action="action_hiper_sync_runs" sequence="20"/>
+    <menuitem id="menu_hiper_sync_category_maps" name="Category Maps" parent="menu_hiper_sync_root" action="action_hiper_sync_category_maps" sequence="30"/>
+</odoo>

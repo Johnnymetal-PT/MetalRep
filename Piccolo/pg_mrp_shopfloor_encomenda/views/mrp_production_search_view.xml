@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Search view partilhada da mrp.production (usada tambem pelo Shop
+         Floor). Renomeia 'Origem' para 'Nº de Encomenda' e coloca-o como
+         primeiro campo de pesquisa. -->
+    <record id="pg_view_mrp_production_filter_encomenda" model="ir.ui.view">
+        <field name="name">mrp.production.select.pg.encomenda</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="arch" type="xml">
+            <!-- Renomear o campo de pesquisa origin -->
+            <field name="origin" position="attributes">
+                <attribute name="string">Nº de Encomenda</attribute>
+            </field>
+            <!-- Mover origin para primeiro (antes do campo 'name') -->
+            <xpath expr="//field[@name='name']" position="before">
+                <xpath expr="//field[@name='origin']" position="move"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

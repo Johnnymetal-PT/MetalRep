@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_inherited_pgci_phc_api_integration" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherited.pgci.phc.api.integration</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='state'][last()]" position="before">
+                <button name="action_sync_to_phc" string="Tirar Guia PHC" type="object" invisible="picking_type_code != 'outgoing' or state != 'done' or is_phc_synced" data-hotkey="p"/>
+                <button name="action_force_sync_to_phc" string="Forçar Guia PHC" type="object" invisible="picking_type_code != 'outgoing' or state != 'done' or not is_phc_synced"/>
+            </xpath>
+            <xpath expr="//field[@name='date_done']" position="after">
+                <field name="is_phc_synced" widget="boolean_toggle" invisible="picking_type_code != 'outgoing'" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="x_studio_matricula" invisible="picking_type_code != 'outgoing'"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="PHC" invisible="picking_type_code != 'outgoing'">
+                    <group>
+                        <field name="phc_filename" invisible="1"/>
+                        <field name="phc_document" filename="phc_filename" options="{'accepted_file_extensions': '.pdf'}" readonly="1"/>
+                        <field name="phc_last_parameter" readonly="1"/>
+                        <field name="phc_last_response" readonly="1"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Retira o emblema "Powered by Odoo" do rodapé.
+
+        Decisão de 2026-09-25: um site de marca não faz publicidade gratuita ao
+        fornecedor da plataforma.
+
+        `FACTO OBSERVADO`, e é a razão de isto ser feito assim: desactivar a
+        vista `web.brand_promotion` põe **todo o site a HTTP 500**, incluindo o
+        ecrã de login e o portal. Foi testado a 2026-09-25 e revertido em
+        segundos. Aquela vista é o contentor que várias camadas invocam por
+        `t-call`, e uma chamada a um template inactivo rebenta o pedido inteiro.
+
+        Herdar dela e substituir o conteúdo por nada deixa o template
+        invocável — devolve vazio em vez de falhar. É a diferença entre tirar
+        o quadro da parede e deitar a parede abaixo.
+
+        A `website.brand_promotion` tem de continuar **inactiva**: ela procura
+        por xpath o nó que esta vista remove, e as duas activas ao mesmo tempo
+        dão erro de herança. É personalização da mensagem promocional, que
+        também não queremos.
+    -->
+
+    <template id="sem_publicidade_fornecedor" inherit_id="web.brand_promotion"
+              name="Lusosofá — sem publicidade ao fornecedor">
+        <xpath expr="//div[hasclass('o_brand_promotion')]" position="replace">
+            <t/>
+        </xpath>
+    </template>
+
+</odoo>

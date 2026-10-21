@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="theme_alan.ProductVariantDialog">
+        <Dialog size="'md'" title.translate="Product Variants" footer="false">
+            <div class="as-variant-dialog-content">
+                <div t-if="state.loading" class="text-center p-4">
+                    <i class="fa fa-spinner fa-spin fa-2x"></i>
+                    <p class="mt-2 text-muted">Loading variants...</p>
+                </div>
+                <div t-else="" class="row g-3">
+                    <t t-if="state.variants.length">
+                        <t t-foreach="state.variants" t-as="v" t-key="v.id">
+                            <div class="col-6 col-md-4">
+                                <div class="as-variant-card border p-2 text-center h-100 cursor-pointer"
+                                     t-on-click="() => this.onVariantClick(v.url)">
+                                    <div class="as-variant-img-wrapper mb-2">
+                                        <img t-att-src="v.image" class="img-fluid" style="height: 120px; object-fit: contain;"/>
+                                    </div>
+                                    <div class="as-variant-info">
+                                        <h6 class="text-truncate mb-1" t-att-title="v.name" t-out="v.name"/>
+                                        <div class="as-variant-price">
+                                            <span class="fw-bold" t-out="v.price"/>
+                                            <del t-if="v.has_discount" class="text-muted small ms-1" t-out="v.list_price"/>
+                                        </div>
+                                        <div t-if="v.has_discount" class="text-danger small fw-bold mt-1">
+                                            (<t t-out="v.discount_percent"/>%)
+                                        </div>
+                                        <div t-if="!v.in_stock" class="text-danger small mt-1">
+                                            Out of Stock
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div class="col-12 text-center p-4">
+                            <p class="text-muted">No variants found for this product.</p>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </Dialog>
+    </t>
+</templates>

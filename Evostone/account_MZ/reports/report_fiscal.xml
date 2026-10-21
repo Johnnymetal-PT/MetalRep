@@ -1,0 +1,1108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="modelo_m11_template" model="ir.ui.view">
+        <field name="name">modelo_m11_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.modelo_m11_template">
+<t t-call="web.html_container">
+<t t-foreach="docs" t-as="doc">
+<t t-call="web.external_layout">
+
+    <style> table,td{ border: 2px solid black; font-size: 13px } 
+    
+      <!-- table {
+    border-collapse: collapse;
+  }
+  td, th {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+  }
+  .vertical-text {
+    writing-mode: vertical-rl; 
+    transform: rotate(180deg);  
+    white-space: nowrap;
+  } -->
+    
+    </style>
+
+
+
+
+
+<!-- <table class="t2" style="float: right; font-size: 12px; width:700pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="80%"> -->
+
+
+ 
+                        <!-- <table class="t2" style="float: right; font-size: 12px;" width="80%">
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;"> -->
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+
+<tr style="height:65.75pt;">
+<td style=" border: none; outline: none; solid black; text-align:center; font-size:10px; border: none; vertical-align:center; background-color:#b6e8ae;">
+<br/>
+<img src="/account_MZ/static/description/emblema.png" alt="Descrição da Imagem" width="80px" height="80px"/>
+</td>
+<td style="border: none; outline: none; solid black; text-align:center; font-size:12px; background-color:#b6e8ae;">
+<br/>
+
+República de Moçambique
+<br/>
+
+<b>Ministério da Economia e Finanças</b>
+<br/>
+
+DIRECÇÃO GERAL DE IMPOSTOS
+</td>
+<td style="Border: 1px solid black ; text-align:center; background-color:#b6e8ae;">
+<br/>
+<br/>
+<span style="font-size: 13px">DECLARAÇÃO A ENTIDADE PATRIONAL</span>
+<br/>
+<span style="font-size: 11px"><b>(art.54 do CIRPS)</b></span>
+<br/>
+</td>
+<td style="solid black; text-align: center; background-color:#b6e8ae; font-size:13px;" width="200px;">
+
+
+<br/>
+ 
+
+<span style="font-size: 14px"><b>M/11</b></span>
+<br/>
+<span style="font-size: 14px">IRPS
+</span>
+<br/>
+</td>
+</tr>
+</table>
+<table style="width:700pt; border-collapse:collapse; border:1px solid white; background-color:white;">
+<!-- <table class="t2" style="float: right; font-size: 12px;width:700pt; border-collapse:collapse; border:1px solid white; background-color:white;" cellpadding="0" cellspacing="0" width="80%"> -->
+
+  <tr>
+    <td style="font-size:10pt; text-align:center; vertical-align:middle; width:100%;                 padding:4px 8px;                 border-left:none; border-right:none; border-top:1px solid white; border-bottom:1px solid white;                background-color:white;">
+      <span>ANTES DE PREENCHER LEIA, POR FAVOR, AS INSTRUÇÕES NO VERSO DESTE DOCUMENTO</span>
+    </td>
+  </tr>
+</table>
+
+
+
+
+
+
+ <!-- <table class="t2" style="float: right; font-size: 12px; width:700pt; border-collapse:collapse; border:none;" cellpadding="0" cellspacing="0" width="80%"> -->
+
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse; border:none;">
+<tr style="height:10px;">
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:left; background-color:#b6e8ae; font-size: 13px">
+  <p style="margin-top:0pt; margin-bottom:0pt; font-size:12px;">
+    <b>1 – Tipo de declaração</b>
+  </p>
+</td>
+
+</tr>
+
+</table>
+
+
+
+
+
+
+
+   <!-- <table class="t2" style="float: right;  width:700pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="80%"> -->
+                  
+                    
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse; border:1px solid black; font-size:13px;">
+  <!-- Linha de cabeçalho com checkboxes -->
+  <tr style="height:30px;">
+    <td style="border:1px solid black; border-bottom:none; padding:5px; width:20%; vertical-align:middle;">
+      <label><input type="checkbox"/> 1 - Declaração</label>
+    </td>
+    <td style="border:1px solid black; border-right:none; border-bottom:none; padding:5px; width:20%; vertical-align:middle;">
+      <label><input type="checkbox"/> De alterações</label>
+    </td>
+    <td style="border:1px solid black; border-left:none; border-bottom:none; padding:5px; width:60%; vertical-align:middle; text-align:right;">
+      <span>Quadros alterados</span>
+      <input type="checkbox" style="transform: scale(1.5); margin-left:10px;"/>
+      <input type="checkbox" style="transform: scale(1.5); margin-left:10px;"/>
+      <input type="checkbox" style="transform: scale(1.5); margin-left:10px;"/>
+      <input type="checkbox" style="transform: scale(1.5); margin-left:10px;"/>
+      <input type="checkbox" style="transform: scale(1.5); margin-left:10px;"/>
+    </td>
+  </tr>
+
+  <!-- Linha de observações/descrição -->
+  <tr style="height:auto;">
+    <td colspan="3" style="border-top:none; border-left:1px solid black; border-right:1px solid black; border-bottom:1px solid black; padding:5px; vertical-align:top; text-align:left; font-size: 11px">
+      Uma declaração de as activaçõess e o Quadro 2 devem ser sempre preenchidos desse quadro. Os quadros devem ser assinados e corresponder às informações assinaladas.
+    </td>
+  </tr>
+</table>
+
+
+   <!-- <table class="t2" style="float: right;  width:700pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="80%"> -->
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+<tr style="height:15px; font-size: 13px">
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 0pt 1pt 1.5pt; vertical-align:middle; text-align:left; background-color:#b6e8ae;">
+  <p style="margin-top:0pt; margin-bottom:0pt; font-size:12px;">
+    <b>2 – Nome completo do titular de rendimento de trabalho dependente</b>
+  </p>
+</td>
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 0pt; vertical-align:middle; text-align:left; background-color:#b6e8ae;">
+  <p style="margin-top:0pt; margin-bottom:0pt; font-size:12px; padding-left: 8px">
+    <b>NUIT - N° Único de identificação Tributária</b>
+  </p>
+</td>
+</tr>
+
+</table>
+
+             <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+   
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+  <tr style="height:12px; font-size: 13px">
+    <td style="width:610.74pt; border-style:solid; border-width:1.5pt 0 1pt 1.5pt; border-right:none; vertical-align:middle; text-align:left; padding-left: 13px">
+      <p style="margin-top:0pt; margin-bottom:0pt; font-size:12px;">
+        <span t-field="doc.employee_id"/>
+      </p>
+    </td>
+    <td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 0; border-left:none; vertical-align:middle; text-align:left; padding-left: 270px">
+      <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px;">
+        Nuit: <span/><b><span t-field="doc.employee_id.nuit"/></b><br/>
+        Área Fiscal
+        <br/><br/>
+        <span>
+          <input type="checkbox" style="transform: scale(1.5);"/>
+          <input type="checkbox" style="transform: scale(1.5);"/>
+          <input type="checkbox" style="transform: scale(1.5);"/>
+          <input type="checkbox" style="transform: scale(1.5);"/>
+          <input type="checkbox" style="transform: scale(1.5);"/>
+        </span>
+      </p>
+    </td>
+  </tr>
+</table>
+
+
+     
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;  background-color:#b6e8ae;">
+<tr style="height:15px;">
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:left; background-color:#b6e8ae;">
+  <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px;">
+    <b>3- Endereço da Residência</b>
+  </p>
+</td>
+
+</tr>
+
+</table>
+
+
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse; background-color:#b6e8ae;" cellpadding="0" cellspacing="0" width="70%"> -->
+
+
+ <table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse; font-size:12px; background-color:#b6e8ae;">
+  
+  <!-- Linha de espaçamento -->
+  <tr style="height:5.8pt; font-size: 13px">
+    <td colspan="4" style="border:none;"/>
+  </tr>
+
+  <!-- Linha 1: Rua, Nr, Andar, Localidade -->
+  <tr style="height:20.8pt;">
+    <td style="padding-left:5px; border:none; vertical-align:middle;">
+      Rua / Avenida, etc:
+      <span t-field="doc.employee_id.private_street"/>
+      <!-- <span t-field="doc.partner_id.private_street"/> -->
+
+    </td>
+
+    <td style="border:none; vertical-align:middle;">
+      Número: <span/>
+    </td>
+
+    <td style="border:none; vertical-align:middle;">
+      Andar: <span t-field="doc.employee_id.private_street2"/>
+    </td>
+
+    <td style="border:none; vertical-align:middle;">
+      Localidade: 
+    </td> 
+  </tr>
+
+  <!-- Linha 2: Bairro, Quarteirão, Célula, Nr Casa -->
+  <tr style="height:20.8pt; font-size: 13px">
+    <td style="padding-left:5px; border:none; vertical-align:middle;">
+      Bairro:
+      
+    </td>
+
+    <td style="border:none; vertical-align:middle;">
+      Quarteirão:
+    </td>
+
+    <td style="border:none; vertical-align:middle;">
+      Célula:
+    </td>
+
+    <td style="border:none; vertical-align:middle;">
+      Nr casa:
+    </td>
+  </tr>
+
+  <!-- Linha 3: Código Postal, Caixa Postal, Distrito, Província -->
+  <tr style="height:20.8pt; font-size: 13px">
+    <td style="padding-left:5px; border:none; vertical-align:middle;">
+      Código Postal: <span t-field="doc.employee_id.private_zip"/>
+    </td>
+
+    <td style="border:none; vertical-align:middle;">
+      Caixa Postal:
+    </td>
+
+    <td style="border:none; vertical-align:middle;">
+      Distrito:
+      <span t-field="doc.employee_id.place_of_birth"/>
+    </td>
+
+    <td style="border:none; vertical-align:middle;">
+      Província:
+      <span t-field="doc.employee_id.private_city"/>
+    </td>
+  </tr>
+
+  <!-- Linha 4: Telefone, Fax, E-mail -->
+  <tr style="height:20.8pt; font-size: 13px">
+    <td style="padding-left:5px; border:none; vertical-align:middle;">
+      Telefone:
+      <span t-field="doc.employee_id.mobile_phone"/>
+    </td>
+
+    <td style="border:none; vertical-align:middle;">
+      Fax:
+    </td>
+
+    <td colspan="2" style="border:none; vertical-align:middle;">
+      E-mail:
+      <span t-field="doc.employee_id.private_email"/>
+    </td>
+  </tr>
+
+</table>
+
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+
+ 
+  <table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+<tr style="height:15px; font-size: 13px">
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:left; background-color:#b6e8ae;">
+  <p style="margin-top:0pt; margin-bottom:0pt; font-size:12px;">
+    <b>4 - Estado Civil</b>
+  </p>
+</td>
+
+</tr>
+
+</table>
+
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+<tr style="height:45px; font-size: 13px">
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:left;">
+  <p style="margin-top:0pt; margin-bottom:0pt; font-size:12px;">
+ <span style="padding-left: 140px">  <input type="checkbox" style="transform: scale(1.5);"/> Casado e não separado</span>
+
+ <span style="padding-left: 370px">  <input type="checkbox" style="transform: scale(1.5);"/> Outros</span>
+ 
+  </p>
+</td>
+
+</tr>
+
+</table>
+
+
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+<tr style="height:15px; font-size: 13px">
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:left; background-color:#b6e8ae;">
+  <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px;">
+    <b>5 - Nome e NUIT do Cônjuges</b>
+  </p>
+</td>
+</tr>
+</table>
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+<tr style="height:15px;">
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:left;">
+  <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px;">
+    <br/>
+   
+                 </p>
+
+</td>
+
+</tr>
+
+</table>
+
+
+
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+
+
+
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+<tr style="height:15px;">
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:left; background-color:#b6e8ae;">
+  <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px;">
+     <b>6 - Relação dos dependentes</b>
+  </p>
+</td>
+</tr>
+</table>
+
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+<tr style="height:15px;">
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:center;">
+    <b>Nome</b>
+</td>
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:center;">
+    <b>Data de nascimento</b>
+</td>
+
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:center;">
+    <b>B.I, CP, P, NUIT</b>
+</td>
+
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:center;">
+    <b>N° de Documentos</b>
+</td> 
+
+</tr>
+            <t t-foreach="docs.dependente" t-as="line">
+
+<tr style="height:15px; font-size: 13px">
+    <td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align: center;">
+   <span t-field="line.dependente"/> <b/>
+</td>
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align: center;">
+   <span t-field="line.data_de_nascimento"/> <b/>
+</td>
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:center;">
+   <span t-field="line.tipodocumento"/> <b/>
+</td>
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:center;">
+   <span t-field="line.numero_do_documento"/> <b/>
+</td>
+
+</tr>
+</t>
+</table>
+
+
+
+
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+<tr style="height:30px;">
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:left;">
+  <p style="margin-top:0pt; margin-bottom:0pt; font-size:12px;">
+    <b> BI - Bilhete de Identidade, CP- Cédula Pessoal, P - Passaporte, NUIT - Número único de Identificação Tributária </b> <span style="padding-left: 10px"> Total de dependentes |____|</span> <span> No caso do número de dependentes execeder 7 a continuação será letra em anexo </span>
+  </p>
+</td>
+</tr>
+</table>
+
+
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+<tr style="height:15px;">
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:left; background-color:#b6e8ae;">
+  <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px;">
+    <b>      7 - Titularidade dos rendimentos (preencher só no caso de casado e não separado judicialmente de pessoas e bens)
+</b>
+  </p>
+</td>
+</tr>
+
+
+</table>
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse; font-family:Arial;">
+
+  <!-- Linha com as opções (sem bordas nas tds) -->
+<tr style="height:60px; text-align:center; vertical-align:middle;">
+  <td style="width:33%; border:none; text-align:center; vertical-align:middle;">
+    <input type="checkbox" style="transform: scale(1.5); vertical-align:middle; margin-right:5px;"/>
+    <span style="font-size:12px;">O declarante é o único titular de rendimentos</span>
+  </td>
+
+  <td style="width:33%; border:none; text-align:center; vertical-align:middle;">
+    <input type="checkbox" style="transform: scale(1.5); vertical-align:middle; margin-right:5px;"/>
+    <span style="font-size:12px;">Ambos os cônjuges são titulares de rendimentos mas um deles aufere 95% ou mais do rendimento englobado</span>
+  </td>
+
+  <td style="width:34%; border:none; text-align:center; vertical-align:middle;">
+    <input type="checkbox" style="transform: scale(1.5); vertical-align:middle; margin-right:5px;"/>
+    <span style="font-size:12px;">Ambos os cônjuges são titulares de rendimentos e nenhum aufere 95% ou mais do rendimento englobado</span>
+  </td>
+</tr>
+
+</table>
+
+
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+<tr style="height:15px;">
+<td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align:left; background-color:#b6e8ae;">
+  <p style="margin-top:0pt; margin-bottom:0pt; font-size:13px;">
+    <b>8 - Observações </b>
+  </p>
+</td>
+</tr>
+
+
+</table>
+
+
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+<tr style="height:15px;">
+    <td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align: center;">
+    <b/>
+</td>
+</tr>
+<tr style="height:15px;">
+    <td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align: center;">
+    <b/>
+</td>
+</tr>
+<tr style="height:15px;">
+    <td style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:middle; text-align: left; font-size: 13px">
+    <b>(*) No periodo transitorio que vigorará até à publicação de normas especificas sobre inscrição de contribuintes não será exigida
+a indicação do NUIT - Número Único de Identificação Tributária.</b>
+</td>
+</tr>
+</table>
+
+
+   <!-- <table class="t2" style="float: right;  width:600pt; border-collapse:collapse;" cellpadding="0" cellspacing="0" width="70%"> -->
+
+<table cellpadding="0" cellspacing="0" style="width:700pt; border-collapse:collapse;">
+      <tbody>
+        <tr style="border: none; height:15px;">
+          <td style="font-size: 12px; padding-left: 5px; border: none; background-color:#b6e8ae; vertical-align: middle;">
+            <b>9 - AUTENTICAÇÃO DO DECLARANTE</b>
+          </td>
+          <td colspan="2" style="font-size: 12px; text-align:center; border: none; background-color:#b6e8ae; vertical-align: middle;">
+            <b>10- A PREENCHER PELA ENTIDADE PATRONAL</b>
+          </td>
+        </tr> 
+        <tr style="border: none; height:30.8pt;">
+          <td style="width:200pt;">
+            <p style="font-size:11px; padding-left: 5px;">A presente declaração corresponde a verdade e não corre qualquer informação pedida</p>
+            <p style="font-size:11px; padding-left: 5px;">Data:____/__/__</p><br/>
+            <!-- <p style="font-size:11px; padding-left: 5px;">Nome:________</p> -->
+            <p style="font-size:11px; padding-left: 5px;">Ass:________</p>
+            <!-- <p style="font-size:11px; padding-left: 5px;">Qualidade(Gerente, Procurador, etc):________</p> -->
+          </td>
+          <td style="width:200pt;">
+            <p style="font-size:11px; padding-left: 5px; text-align: center">Nome / Designação sociedade patrional</p>
+            <p style="font-size:11px; padding-left: 5px; text-align: center">__________________</p>
+            <p style="font-size:11px; padding-left: 5px; text-align: center">NUIT da entidade patronal  |__|___|____|</p>
+            <p style="font-size:11px; padding-left: 5px; text-align: center">Vencimento mensal do empregado:  ___________________ MT</p>
+                        <p style="font-size:11px; padding-left: 5px; text-align: center">Percentagem aplicável de retenção na fonte: _______________ %</p>
+
+            <p style="font-size:11px; padding-left: 5px; text-align: center">Local: ___________  Data __/___/20</p>
+
+            <p style="font-size:11px; padding-left: 5px; text-align: center">Ass:__________</p>
+          </td>
+         
+        </tr>
+      </tbody>
+    </table>
+   
+
+</t>
+</t>
+</t>
+</t>
+        </field>
+    </record>
+
+    <record id="modelo_m20_template" model="ir.ui.view">
+        <field name="name">modelo_m20_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.modelo_m20_template">
+<t t-call="web.html_container">
+<t t-foreach="docs" t-as="doc">
+<t t-call="web.external_layout">
+
+
+
+<style> table,td{ border: 2px solid black; font-size: 11pt } </style>
+
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+<tr style="height:65.75pt;">
+<td style=" border: none; outline: none; solid black; text-align:center; font-size:10px; border: none; vertical-align:center;">
+<br/>
+<img src="/account_MZ/static/description/emblema.png" alt="Descrição da Imagem" width="90" height="90"/>
+</td>
+<td style="border: none; outline: none; solid black; text-align:center; font-size:12pt; background-color:#9CC6E4; ">
+<br/>
+República de Moçambique
+<br/>
+<br/>
+Ministério da Economia e Finanças
+<br/>
+Autoridade Tributária de Moçambique
+<br/>
+DIRECÇÃO GERAL DE IMPOSTOS
+</td>
+<td style="Border: 1px solid black ; text-align:center; font-size:12pt; background-color:#9CC6E4;">
+<br/>
+<br/>
+DECLARAÇÃO ANUAL DE INFORMAÇÃO CONTABILÍSTICA E FISCAL
+<br/>
+Rendimentos Pagos (Art. 44 Reg. do CIRPS e Art.45 Reg. Do CIRPC)
+</td>
+<td style="solid black; text-align: center; font-size:12pt; background-color:#9CC6E4;" width="150px; ">
+<br/>
+<br/>
+M/20 H
+<br/>
+<br/>
+</td>
+</tr>
+</table>
+
+<table cellpadding="0" cellspacing="0" style="width: 800pt; border-collapse: collapse; height: 59px;">
+<!-- <tbody> -->
+<tr style="height: 57.5px; font-size: 13px">
+<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#9CC6E4;">
+<p style="margin-top:0pt; margin-bottom:0pt; font-size:14px; width: 70%">
+<b>1 - NOME / DESIGNAÇÃO SOCIAL DO SUJEITO PASSIVO</b>
+</p>
+</td>
+<td colspan="23" style="width:40%; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#9CC6E4;">
+<p style="margin-top:0pt; margin-bottom:0pt; font-size:12pt; text-align:center;">
+<span style="font-size:14px;">
+2 - Numero Unico de identificacao
+<br/>
+Tributaria (NUIT)
+</span>
+</p>
+</td>
+</tr>
+<!-- </tbody> -->
+</table>
+
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+<tbody>
+<tr style="height: 32px">
+<td style="solid black; text-align:leght; font-size:14px;padding-left: 5px; width:60%">
+<span t-field="doc.company.name"/>
+</td>
+<td style="solid black; text-align:leght; font-size:14px;padding-left: 5px">
+<span t-field="doc.nuit"/>
+</td>
+</tr>
+<tr style="height: 32px">
+<td style="solid black; text-align:leght; font-size:14px;padding-left: 5px; width:60%"/>
+<td style="solid black; text-align:leght; font-size:14px;padding-left: 5px"/>
+</tr>
+<tr style="height: 32px">
+<td style="solid black; text-align:leght; font-size:14px;padding-left: 5px; width:60%"/>
+<td style="solid black; text-align:leght;padding-left: 5px; font-size: 13pt; background-color:#9CC6E4;"> 3 - Exercício / Ano </td>
+</tr>
+<tr style="height: 32px">
+<td style="solid black; text-align:leght; font-size:14px;padding-left: 5px; width:60%"/>
+<td style="solid black; text-align:leght; font-size:14px;padding-left: 5px; width:60%">
+<span t-field="doc.ano"/>
+</td>
+</tr>
+</tbody>
+</table>
+
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+<tbody>
+<tr>
+<td colspan="23" style="width:559.74pt; border-style:solid; vertical-align:top; background-color:#9CC6E4;">
+<p style="margin-top:0pt; margin-bottom:0pt; font-size:14px;">
+<b> 4 - TIPO DE RENDIMENTOS / RETENÇÕES PRATICADAS</b>
+</p>
+</td>
+</tr>
+<tr>
+<td colspan="23" style="width:559.74pt; border-style:solid; border-width:1.5pt 2.12pt 1pt 1.5pt; vertical-align:top; background-color:#9CC6E4; padding-left: 150px">
+<p style="margin-top:0pt; margin-bottom:0pt; font-size:14px;">
+<b>Tipo de rendimento</b>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+<tbody>
+<tr style="height:25.75pt;">
+<td style="solid black; text-align: left; font-size:12pt; border: none; outline: none; padding-left: 5px">
+<b/>
+</td>
+<td style="solid black; text-align: center; font-size: 12pt; border: none; outline: none; padding-left: 760px; width: 150%; padding-top: 10px;">
+<b>(Valores em meticais, sem centavos)</b>
+</td>
+</tr>
+</tbody>
+</table>
+
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+<tbody>
+<tr style="height:25.75pt; font-size: 14px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b> Trabalho dependnte</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 801 </b>
+</td>
+<td style="solid black; text-align: right; font-size:12pt;padding-left: 5px;">
+<span t-field="doc.totalirps"/>
+
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b> Rendimentos profissionais</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 802 </b>
+</td>
+<td style="solid black; text-align: center; font-size:12pt;padding-left: 5px;">
+<b/>
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b> Rendimentos empresarias</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 16px; width: 5%;">
+<b> 803 </b>
+</td>
+<td style="solid black; text-align: center; font-size:12pt; padding-left: 5px; width: 30%;">
+<b/>
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b> Rendimentos de Capitais</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 804 </b>
+</td>
+<td style="solid black; text-align: center; font-size:12pt;padding-left: 5px;">
+<b/>
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b> Rendimentos prediais</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 805 </b>
+</td>
+<td style="solid black; text-align: center; font-size:12pt;padding-left: 5px;">
+<b/>
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b> Ganhos em numerário de jogos e similares</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 806 </b>
+</td>
+<td style="solid black; text-align: center; font-size:12pt;padding-left: 5px;">
+<b/>
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b>Actividade intelectual ou industrial/prestação de informações (alínea a) nº 1 art. 67 do CIRPC)</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 807 </b>
+</td>
+<td style="solid black; text-align: center; font-size:12pt;padding-left: 5px;">
+<b/>
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b>Derivados do uso ou da concessão do uso de equipamento diverso (alínea b) nº 1 art. 67 do CIRPC)</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 808 </b>
+</td>
+<td style="solid black; text-align: center; font-size:12pt;padding-left: 5px;">
+<b/>
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b>Aplicação de capitais e rendimentos prediais (alínea c) nº 1 art. 67 do CIRPC)</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 809 </b>
+</td>
+<td style="solid black; text-align: center; font-size:12pt;padding-left: 5px;">
+<b/>
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b>Rendimentos membros de órgãos estatutários de pessoas colectivas (alínea d) nº 1 art. 67 do CIRPC)</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 810 </b>
+</td>
+<td style="solid black; text-align: center; font-size:12pt;padding-left: 5px;">
+<b/>
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b>Ganhos de jogos e similares (alínea e) nº 1 art. 67 do CIRPC)</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 811 </b>
+</td>
+<td style="solid black; text-align: center; font-size:12pt;padding-left: 5px;">
+<b/>
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b>Actividades profissionais de espectáculos e desportistas (alínea f) nº 1 art. 67 do CIRPC)</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 812 </b>
+</td>
+<td style="solid black; text-align: center; font-size:12pt;padding-left: 5px;">
+<b/>
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px;">
+<b>Comissões intermed. de contratos ou prestações de serviços (alínea g) nº 1 art. 67 do CIRPC)</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 813 </b>
+</td>
+<td style="solid black; text-align: center; font-size:12pt;padding-left: 5px;">
+<b/>
+</td>
+</tr>
+<tr style="height:25.75pt; font-size: 12px">
+<!-- <td style="solid black; text-align: left; padding-left: 5px; padding-left: 5px; width: 5%;"> -->
+<!--   <b>7.1 </b> -->
+<!-- </td> -->
+<td style="solid black; text-align: left; padding-left: 5px; font-size: 14px">
+<b>TOTAL</b>
+</td>
+<td style="solid black; text-align: left; padding-left: 15px">
+<b> 814 </b>
+</td>
+<td style="solid black; text-align: right; font-size:12pt;padding-left: 5px;">
+<!-- <t t-esc="abs(doc.totalirps)"/> -->
+<span t-field="doc.totalirps"/>
+<b/>
+</td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-before: always;"/>
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+<tbody>
+<tr>
+<td colspan="23" style="width:559.74pt; border-style:solid; vertical-align:top; background-color:#9CC6E4;">
+<p style="margin-top:0pt; margin-bottom:0pt; font-size:14px;">
+<b> 5 – TITULARES DOS RENDIMENTOS COM NATUREZA DE PAGAMENTO POR CONTA DO IMPOSTO DEVIDO A FINAL
+</b>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+   
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+  <tr style="height:26px; text-align:center; vertical-align:middle; font-size: 14px">
+    <td colspan="23" style="width:559.74pt; border-style:solid; vertical-align:middle; text-align:center; padding-left:5px;">
+      <b>1. NUIT</b>
+    </td>
+    <td colspan="23" style="width:559.74pt; border-style:solid; vertical-align:middle; text-align:center; padding-left:5px;">
+      <b>2. VALORES RETIDOS</b>
+    </td>
+    <td colspan="23" style="width:559.74pt; border-style:solid; vertical-align:middle; text-align:center; padding-left:5px;">
+      <b>3. CATEGORIA</b>
+    </td>
+    <td colspan="23" style="width:559.74pt; border-style:solid; vertical-align:middle; text-align:center; padding-left:5px;">
+      <b>4. VALOR RENDIMENTO</b>
+    </td>
+  </tr>
+
+ <t t-set="total_rendimento" t-value="0"/>
+
+<t t-foreach="doc.line_ids" t-as="line">
+  <tr style="height:26px; text-align:center; vertical-align:middle; font-size: 14px">
+    <td colspan="23" style="width:559.74pt; border-style:solid; text-align:center; padding-left:5px;">
+      <b><span t-field="line.nuit"/></b>
+    </td>
+    <td colspan="23" style="width:559.74pt; border-style:solid; text-align:right; padding-left:5px;">
+      <b><span t-field="line.irps"/></b>
+    </td>
+    <td colspan="23" style="width:559.74pt; border-style:solid; text-align:center; padding-left:5px;">
+      <b><span t-field="line.categoria"/></b>
+    </td>
+    <td colspan="23" style="width:559.74pt; border-style:solid; text-align:right; padding-left:5px;">
+      <b><span t-field="line.rendimento"/></b>
+      <t t-set="total_rendimento" t-value="total_rendimento + (line.rendimento or 0)"/>
+    </td>
+  </tr>
+</t>
+
+<!-- Linha do total -->
+<tr style="height:26px; text-align:right; vertical-align:middle; font-size: 14px">
+  <td colspan="23" style="width:559.74pt; border-style:solid; text-align:center; padding-right:10px;">
+    <!-- <b>Total</b> -->
+  </td>
+   <td colspan="23" style="width:559.74pt; border-style:solid; text-align:right; padding-right:10px;">
+    <b/>
+  </td>
+   <td colspan="23" style="width:559.74pt; border-style:solid; text-align:right; padding-right:10px;">
+    <b/>
+  </td>
+  <td colspan="23" style="width:559.74pt; border-style:solid; text-align:right; padding-left:5px;">
+<!-- <b><span t-esc="'{:,.2f}'.format(total_rendimento or 0)"/></b> -->
+  </td>
+</tr>
+
+  </table>
+
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+<tbody>
+<tr>
+<td colspan="23" style="width:559.74pt; border-style:solid; vertical-align:top; background-color:#9CC6E4;">
+<p style="margin-top:0pt; margin-bottom:0pt; font-size:14px;">
+<b> 8 – OBSERVAÇÕES / INFORMAÇÕES COMPLEMENTARES
+</b>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+   
+<table cellpadding="0" cellspacing="0" style="width:800pt; border-collapse:collapse;">
+
+  <tr style="height:26px; text-align:center; vertical-align:middle;">
+    <td style="width:559.74pt; border-style:solid; vertical-align:middle; text-align:center; padding-left:5px;">
+      <b> </b>
+    </td>
+   
+  </tr>
+
+  <tr style="height:26px; text-align:center; vertical-align:middle;">
+    <td style="width:559.74pt; border-style:solid; vertical-align:middle; text-align:center; padding-left:5px;">
+      <b> </b>
+    </td>
+    
+  </tr>
+
+  <tr style="height:26px; text-align:center; vertical-align:middle;">
+    <td style="width:559.74pt; border-style:solid; vertical-align:middle; text-align:center; padding-left:5px;">
+      <b> </b>
+    </td>
+   
+  </tr>
+</table>
+
+</t>
+</t>
+</t> 
+</t>
+        </field>
+    </record>
+
+    <record id="report_modelo22_template" model="ir.ui.view">
+        <field name="name">report_modelo22_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_modelo22_template">
+<t t-call="web.html_container">
+<t t-call="account_MZ.report_sale_order_document"/>
+</t>
+</t>
+        </field>
+    </record>
+
+    <record id="report_modelo39_template" model="ir.ui.view">
+        <field name="name">report_modelo39_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_modelo39_template">
+            <t t-call="web.html_container">
+                <t t-call="account_MZ.report_purchaseorder_document"/>
+            </t>
+    </t>
+        </field>
+    </record>
+
+    <record id="report_modeloA_template" model="ir.ui.view">
+        <field name="name">report_modeloA_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_modeloA_template">
+            <t t-call="web.html_container">
+                <t t-call="account_MZ.report_invoice_document"/>
+            </t>
+    </t>
+        </field>
+    </record>
+
+    <record id="report_modelo_irps_template" model="ir.ui.view">
+        <field name="name">report_modelo_irps_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_modelo_irps_template">
+        <t t-call="web.html_container">
+            <t t-call="account_MZ.report_saleorder_pro_forma"/>
+        </t> 
+</t>
+        </field>
+    </record>
+
+    <record id="report_modelo_m11_template" model="ir.ui.view">
+        <field name="name">report_modelo_m11_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_modelo_m11_template">
+<t t-call="web.html_container">
+<t t-call="account_MZ.modelo_m11_template">
+</t>
+</t>
+</t>
+        </field>
+    </record>
+
+    <record id="report_modelo_m20_template" model="ir.ui.view">
+        <field name="name">report_modelo_m20_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_modelo_m20_template">
+<t t-call="web.html_container">
+<t t-call="account_MZ.modelo_m20_template"/>
+</t>
+</t>
+        </field>
+    </record>
+
+    <record id="report_modelo_M20_template" model="ir.ui.view">
+        <field name="name">report_modelo_M20_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_modelo_M20_template">
+<t t-call="web.html_container">
+<t t-call="account_MZ.report_payment_receipt_document"/>
+</t>
+</t>
+        </field>
+    </record>
+
+    <record id="report_modelo_modelo20A_template" model="ir.ui.view">
+        <field name="name">report_modelo_modelo20A_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_modelo_modelo20A_template">
+        <t t-call="web.html_container">
+            <t t-call="account_MZ.report_return_slip"/>
+        </t>
+</t>
+        </field>
+    </record>
+
+    <record id="report_modelo_modelo20G_template" model="ir.ui.view">
+        <field name="name">report_modelo_modelo20G_template</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+<t t-name="account_MZ.report_modelo_modelo20G_template">
+        <t t-call="web.html_container">
+            <t t-call="account_MZ.report_delivery_document"/>
+        </t>
+</t>
+        </field>
+    </record>
+
+</odoo>

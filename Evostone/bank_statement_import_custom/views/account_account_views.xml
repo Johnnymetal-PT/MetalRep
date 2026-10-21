@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_form_advance" model="ir.ui.view">
+        <field name="name">account.account.form.advance</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form"/>
+        <field name="arch" type="xml">
+            <!-- Adiciona um novo grupo dentro da página Accounting -->
+            <xpath expr="//page[@name='accounting']/group" position="after">
+                <group string="Configurações de Adiantamento">
+                    <group>
+                        <field name="is_advance_account"/>
+                        <field name="advance_type" 
+                               invisible="not is_advance_account" 
+                               required="is_advance_account"/>
+                    </group>
+                    <group/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pg_product_supplierinfo_tree_view_multi_discount" model="ir.ui.view">
+        <field name="name">product.supplierinfo.list.view.pg.multi.discount</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="purchase.product_supplierinfo_tree_view2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='discount']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='delay']" position="after">
+                <field name="sh_multi_discount" optional="show"/>
+                <field name="sh_discount_amount" optional="show"/>
+                <field name="sh_discount_price_unit" optional="show"/>
+                <field name="sh_discounted_total_amount" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,47 @@
+<data><xpath expr="//*[hasclass('oe_structure')][@id='oe_structure_website_sale_product_2']" position="replace"><div class="oe_structure oe_empty oe_structure_not_nearest mt16" id="oe_structure_website_sale_product_2" data-editor-message="COLOQUE OS BLOCOS DE CONSTRUÇÃO AQUI PARA DISPONIBILIZÁ-LOS EM TODOS OS PRODUTOS"><section class="s_title pt40 o_colored_level pb0" data-vcss="001" data-snippet="s_title" data-name="Título" style="background-image: none;">
+        <div class="container s_allow_columns" style="font-family: 'Cormorant Infant'; font-weight: 300 !important; padding-top: 60px;">
+            <p style="text-align: center;"><em><span style="font-size: 2.375rem;"><font style="color: rgb(81, 76, 68);">YOU MAY</font></span></em><span style="font-size: 2.375rem;"><font style="color: rgb(81, 76, 68);">&amp;nbsp;ALSO LIKE</font></span></p></div>
+    </section>
+    <t t-set="_product_template_filter" t-value="request.env.ref('pg_web_attach_pdf_view.dynamic_filter_product_template_only', raise_if_not_found=False)"/>
+    <section data-snippet="s_dynamic_snippet_products" class="s_dynamic_snippet_products s_dynamic pt32 pb32 o_colored_level s_product_product_mini_name o_dynamic_empty" data-name="Artigos" style="background-image: none;" data-product-category-id="all" data-number-of-records="16" t-att-data-filter-id="_product_template_filter.id if _product_template_filter else False" data-template-key="website_sale.dynamic_filter_template_product_product_mini_name" data-carousel-interval="5000">
+            <div class="o_not_editable container">
+                <div class="css_non_editable_mode_hidden">
+                    <div class="missing_option_warning alert alert-info rounded-0 fade show d-none d-print-none o_default_snippet_text">
+                        Your Dynamic Snippet will be displayed here... This message is displayed because you did not provided both a filter and a template to use.<br/>
+                    </div>
+                </div>
+                <div class="dynamic_snippet_template"/>
+            </div>
+        </section></div>
+        <div style="margin-left:-100px; margin-right:-100px;">
+            <!-- Resolve MAIN (root) public category for the product / page -->
+<t t-set="any_cat" t-value="category or (product.public_categ_ids and product.public_categ_ids.sorted('sequence')[0])"/>
+<t t-if="any_cat">
+    <!-- parent_path looks like '1/5/23/' → first token is the root id -->
+    <t t-set="root_id" t-value="int(any_cat.parent_path.split('/')[0]) if any_cat.parent_path else any_cat.id"/>
+    <t t-set="root_cat" t-value="request.env['product.public.category'].browse(root_id)"/>
+</t>
+<t t-if="not any_cat">
+    <!-- Fallback when no category context exists at all -->
+    <t t-set="root_cat" t-value="False"/>
+</t>
+
+<!-- Your Cover snippet (after 'you_may_also_like') -->
+<div class="oe_structure oe_empty oe_structure_not_nearest" id="oe_structure_website_sale_products_2" data-editor-message-default="true" data-editor-message="DRAG BUILDING BLOCKS HERE">
+
+  <section class="s_cover pt96 pb96 o_colored_level s_parallax_no_overflow_hidden o_full_screen_height oe_img_bg o_bg_img_center" data-scroll-background-ratio="0" data-snippet="s_cover" data-name="Cover" t-att-style="              (                root_cat and root_cat.id in [1, 2, 3]                and ('background-image: url(/web/image/product.public.category/' + str(root_cat.id) + '/image_1920); ')                or 'background-image: url(/web/image/23247-3fd9956c/Rectangle%20240.png); '              ) + 'position: relative; height: 750px !important; min-height: 750px !important; max-height: 750px !important;'            ">
+    <div style="position: absolute; top: 50%; right: 90px; transform: translateY(-50%); text-align: center; color: white; z-index: 5;">
+      <h1 style="font-weight: normal; margin-bottom: 1.5rem; padding-right:75px;">
+  <t t-if="root_cat and root_cat.name">
+    <t t-esc="root_cat.name"/>
+  </t>
+  <t t-else="">
+    ESSENCE<br/>COLLECTION
+  </t>
+</h1>
+      <a href="/contactus" class="btn btn-custom bg-o-color-3 flat" style="border-width: 1px; background-color: #f2f0ec; padding: 1rem 4rem; font-size: 1.2rem; color: #302D27; margin-right:75px; margin-bottom:60px;" title="">
+        Explore
+      </a>
+    </div>
+  </section></div>
+  </div></xpath></data>

@@ -1,0 +1,120 @@
+/* PG Website Animações — Essani V4.
+ *
+ * Tudo o que mexe está dentro de `prefers-reduced-motion: no-preference`: quem pediu ao
+ * sistema para reduzir o movimento vê o site exatamente como estava.
+ *
+ * Os valores de duração e distância estão aqui em cima para se afinarem num só sítio.
+ */
+:root {
+    --pg-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --pg-dur: 0.4s;
+    --pg-dur-img: 0.7s;
+    --pg-lift: -4px;
+    --pg-zoom: 1.05;
+    --pg-reveal-shift: 24px;
+    --pg-reveal-dur: 0.7s;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+    /* ------------------------------------------------------------------
+     * Botões: a cor entra da esquerda para a direita.
+     * Fica por cima da cor do botão, por isso funciona com qualquer cor da marca.
+     * ------------------------------------------------------------------ */
+    #wrapwrap .btn:not(.pg-no-anim) {
+        background-repeat: no-repeat;
+        background-position: left center;
+        transition:
+            background-size var(--pg-dur) var(--pg-ease),
+            color var(--pg-dur) var(--pg-ease),
+            border-color var(--pg-dur) var(--pg-ease),
+            box-shadow var(--pg-dur) var(--pg-ease),
+            transform 0.25s var(--pg-ease);
+    }
+
+    /* Botões cheios: uma película mais escura varre o botão. */
+    #wrapwrap .btn-primary:not(.pg-no-anim),
+    #wrapwrap .btn-secondary:not(.pg-no-anim) {
+        --pg-sweep: rgba(0, 0, 0, 0.22);
+        background-image: linear-gradient(var(--pg-sweep), var(--pg-sweep));
+        background-size: 0% 100%;
+    }
+    #wrapwrap .btn-primary:not(.pg-no-anim):hover,
+    #wrapwrap .btn-secondary:not(.pg-no-anim):hover,
+    #wrapwrap .btn-primary:not(.pg-no-anim):focus-visible,
+    #wrapwrap .btn-secondary:not(.pg-no-anim):focus-visible {
+        background-size: 100% 100%;
+        /* O Bootstrap pinta o fundo de imediato no hover; fica a cor de partida para
+           a varredura ser a única coisa a mudar. */
+        --bs-btn-hover-bg: var(--bs-btn-bg);
+        --bs-btn-hover-border-color: var(--bs-btn-border-color);
+        box-shadow: 0 0.35rem 0.9rem rgba(0, 0, 0, 0.15);
+    }
+
+    /* Botões de contorno: enchem-se com a cor da marca. */
+    #wrapwrap [class*="btn-outline-"]:not(.pg-no-anim) {
+        --pg-fill: var(--bs-btn-color);
+        background-image: linear-gradient(var(--pg-fill), var(--pg-fill));
+        background-size: 0% 100%;
+    }
+    #wrapwrap [class*="btn-outline-"]:not(.pg-no-anim):hover,
+    #wrapwrap [class*="btn-outline-"]:not(.pg-no-anim):focus-visible {
+        background-size: 100% 100%;
+        --bs-btn-hover-bg: transparent;
+    }
+
+    /* ------------------------------------------------------------------
+     * Cartões: sobem de leve; a imagem amplia.
+     * ------------------------------------------------------------------ */
+    #wrapwrap .card:not(.pg-no-anim) {
+        overflow: hidden;
+        transition:
+            transform var(--pg-dur) var(--pg-ease),
+            box-shadow var(--pg-dur) var(--pg-ease);
+    }
+    #wrapwrap .card:not(.pg-no-anim):hover {
+        transform: translateY(var(--pg-lift));
+        box-shadow: 0 0.9rem 1.8rem rgba(0, 0, 0, 0.12);
+    }
+
+    /* Imagens de cartões, categorias e produtos. As que já têm o efeito nativo do
+       editor (`o_animate_on_hover`) ficam de fora, para não se somarem. */
+    #wrapwrap .card:not(.pg-no-anim) .card-img-top,
+    #wrapwrap .s_ecomm_categories_showcase_block:not(.pg-no-anim) img,
+    #wrapwrap .oe_product:not(.pg-no-anim) .oe_product_image img {
+        transition: transform var(--pg-dur-img) var(--pg-ease);
+    }
+    #wrapwrap .card:not(.pg-no-anim):hover .card-img-top:not(.o_animate_on_hover),
+    #wrapwrap .s_ecomm_categories_showcase_block:not(.pg-no-anim):hover img:not(.o_animate_on_hover),
+    #wrapwrap .oe_product:not(.pg-no-anim):hover .oe_product_image img:not(.o_animate_on_hover) {
+        transform: scale(var(--pg-zoom));
+    }
+    /* Quem amplia precisa de um recorte, senão a imagem sai da caixa. */
+    #wrapwrap .s_ecomm_categories_showcase_block:not(.pg-no-anim),
+    #wrapwrap .oe_product:not(.pg-no-anim) .oe_product_image {
+        overflow: hidden;
+    }
+
+    /* ------------------------------------------------------------------
+     * Entrada ao fazer scroll. A classe `pg-reveal` é posta pelo script, e só nos
+     * elementos que ainda não estão à vista: se o script falhar, nada fica escondido.
+     * ------------------------------------------------------------------ */
+    #wrapwrap .pg-reveal {
+        opacity: 0;
+        transform: translateY(var(--pg-reveal-shift));
+        transition:
+            opacity var(--pg-reveal-dur) var(--pg-ease),
+            transform var(--pg-reveal-dur) var(--pg-ease);
+        transition-delay: var(--pg-delay, 0s);
+        will-change: opacity, transform;
+    }
+    #wrapwrap .pg-reveal.pg-in {
+        opacity: 1;
+        transform: none;
+        will-change: auto;
+    }
+    /* Um cartão que acabou de entrar volta a reagir ao rato sem esperar pelo atraso. */
+    #wrapwrap .card.pg-reveal.pg-in:hover {
+        transition-delay: 0s;
+    }
+}

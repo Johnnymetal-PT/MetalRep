@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_product_template_form_rfq_button" model="ir.ui.view">
+        <field name="name">product.template.form.rfq.button</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">
+                <button name="action_view_rfq_purchase_orders"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-shopping-cart"
+                        invisible="rfq_purchase_order_count == 0">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="rfq_purchase_order_count" widget="statinfo"/>
+                        </span>
+                        <span class="o_stat_text">RFQs</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_product_form_rfq_button" model="ir.ui.view">
+        <field name="name">product.product.form.rfq.button</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">
+                <button name="action_view_rfq_purchase_orders"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-shopping-cart"
+                        invisible="rfq_variant_purchase_order_count == 0">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="rfq_variant_purchase_order_count" widget="statinfo"/>
+                        </span>
+                        <span class="o_stat_text">RFQs</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Search View -->
+    <record id="view_stock_scrap_select_wizard_line_search" model="ir.ui.view">
+        <field name="name">stock.scrap.select.wizard.line.search</field>
+        <field name="model">stock.scrap.select.wizard.line</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Stock para Descarte">
+                <!-- Campos de busca -->
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="lot_id"/>
+                <field name="base_lot_name"/>
+                <field name="price_group_id"/>
+                <field name="length"/>
+                <field name="width"/>
+                <field name="thickness"/>
+
+                <!-- Filtros predefinidos -->
+                <filter string="Disponível"
+                        name="available"
+                        domain="[('available_qty', '>', 0)]"/>
+                <filter string="Sem Stock"
+                        name="unavailable"
+                        domain="[('available_qty', '=', 0)]"/>
+                <filter string="Reservado"
+                        name="reserved"
+                        domain="[('stock_state', '=', 'reserved')]"/>
+
+                <separator/>
+
+                <filter string="Blocos"
+                        name="form_block"
+                        domain="[('product_form', '=', 'block')]"/>
+                <filter string="Placas"
+                        name="form_slab"
+                        domain="[('product_form', '=', 'slab')]"/>
+                <filter string="Bandas"
+                        name="form_strip"
+                        domain="[('product_form', '=', 'strip')]"/>
+                <filter string="Ladrilhos"
+                        name="form_tiles"
+                        domain="[('product_form', '=', 'tiles')]"/>
+
+                <separator/>
+
+                <filter string="Com Lote"
+                        name="with_lot"
+                        domain="[('lot_id', '!=', False)]"/>
+                <filter string="Sem Lote"
+                        name="without_lot"
+                        domain="[('lot_id', '=', False)]"/>
+
+                <!-- Agrupamentos -->
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Produto"
+                            name="group_product"
+                            context="{'group_by': 'product_id'}"/>
+                    <filter string="Localização"
+                            name="group_location"
+                            context="{'group_by': 'location_id'}"/>
+                    <filter string="SN"
+                            name="group_lot"
+                            context="{'group_by': 'lot_id'}"/>
+                    <filter string="Grupo de Lote"
+                            name="group_base_lot"
+                            context="{'group_by': 'base_lot_name'}"/>
+                    <filter string="Grupo Dimensões"
+                            name="group_price"
+                            context="{'group_by': 'price_group_id'}"/>
+                    <filter string="Forma do Produto"
+                            name="group_form"
+                            context="{'group_by': 'product_form'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_stock_scrap_select_wizard_line_list" model="ir.ui.view">
+        <field name="name">stock.scrap.select.wizard.line.list</field>
+        <field name="model">stock.scrap.select.wizard.line</field>
+        <field name="arch" type="xml">
+            <list string="Stock Disponível" create="false" delete="false" multi_edit="0" js_class="stock_scrap_list_no_check">
+                <field name="wizard_id" column_invisible="1"/>
+                <field name="quant_id" column_invisible="1"/>
+                <button name="action_apply_selection"
+                        type="object"
+                        string="Selecionar"
+                        icon="fa-check"
+                        class="btn-primary"/>
+                <field name="product_id" readonly="1"/>
+                <field name="lot_id" readonly="1"/>
+                <field name="location_id" readonly="1"/>
+                <field name="stock_state" widget="badge"
+                       decoration-warning="stock_state == 'reserved'"
+                       decoration-success="stock_state == 'available'"
+                       decoration-danger="stock_state == 'unavailable'"
+                       optional="show"/>
+                <field name="units_on_hand" string="Uni. Em Mão" readonly="1"/>
+                <field name="units_qty" string="Uni. Disponível" readonly="1"/>
+                <field name="on_hand_qty" string="Em Mão" readonly="1" sum="Total Em Mão"/>
+                <field name="length" string="Comprimento" readonly="1" optional="show"/>
+                <field name="width" string="Largura" readonly="1" optional="show"/>
+                <field name="thickness" string="Espessura" readonly="1" optional="hide"/>
+                <field name="available_qty" string="Disponível" readonly="1" sum="Total Disponível"/>
+                <field name="product_uom" string="Unidade" readonly="1"/>
+                <field name="list_price" string="Preço" readonly="1" optional="show"/>
+                <field name="product_form" column_invisible="1"/>
+                <field name="base_lot_name" column_invisible="1"/>
+                <field name="price_group_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_stock_scrap_select_wizard_line_form" model="ir.ui.view">
+        <field name="name">stock.scrap.select.wizard.line.form</field>
+        <field name="model">stock.scrap.select.wizard.line</field>
+        <field name="arch" type="xml">
+            <form string="Detalhes do Stock">
+                <sheet>
+                    <group>
+                        <group string="Produto">
+                            <field name="product_id" readonly="1"/>
+                            <field name="product_form" readonly="1"/>
+                            <field name="location_id" readonly="1"/>
+                            <field name="lot_id" readonly="1"/>
+                            <field name="stock_state" readonly="1"/>
+                        </group>
+                        <group string="Agrupamento">
+                            <field name="base_lot_name" readonly="1"/>
+                            <field name="price_group_id" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Dimensões">
+                            <field name="length" readonly="1"/>
+                            <field name="width" readonly="1"/>
+                            <field name="thickness" readonly="1"/>
+                        </group>
+                        <group string="Quantidades">
+                            <field name="units_on_hand" readonly="1"/>
+                            <field name="units_qty" readonly="1"/>
+                            <field name="on_hand_qty" readonly="1"/>
+                            <field name="available_qty" readonly="1"/>
+                            <field name="product_uom" readonly="1"/>
+                            <field name="list_price" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_apply_selection"
+                            type="object"
+                            string="Selecionar Este Stock"
+                            class="btn-primary"/>
+                    <button string="Fechar"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action para abrir as linhas do wizard diretamente -->
+    <record id="action_stock_scrap_select_wizard_lines" model="ir.actions.act_window">
+        <field name="name">Selecionar Stock para Descarte</field>
+        <field name="res_model">stock.scrap.select.wizard.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_stock_scrap_select_wizard_line_search"/>
+        <field name="target">new</field>
+        <field name="context">{
+            'search_default_available': 1,
+            'dialog_size': 'extra-large',
+        }</field>
+    </record>
+</odoo>
